@@ -1,0 +1,333 @@
+﻿分类,生态,信息源,定位与选择理由,采集入口,链接,优先级,启用
+学术界,,ACL · 官方论文入口,计算语言学会议的论文原文入口。选择理由：ACL官方论文索引，关注压缩后任务质量、长上下文与蒸馏。,ACL · 官方论文入口,https://aclanthology.org/venues/acl/,P1,True
+学术界,,CVPR · 官方论文入口,备用信息源，具体覆盖范围与入选理由尚待补充。,CVPR · 官方论文入口,https://cvpr.thecvf.com/Conferences/2026,P2,True
+学术界,,CoRL · 官方论文入口,备用信息源，具体覆盖范围与入选理由尚待补充。,CoRL · 官方论文入口,https://www.corl.org/,P2,True
+学术界,,EMNLP · 官方论文入口,自然语言处理经验方法会议的论文入口。选择理由：EMNLP官方论文索引，补充任务级压缩效果及失效场景。,EMNLP · 官方论文入口,https://aclanthology.org/venues/emnlp/,P1,True
+学术界,,EuroSys,计算机系统会议的论文入口。选择理由：欧洲系统会议入口，补充推理服务和缓存系统研究。,EuroSys,https://www.eurosys.org,P1,True
+学术界,,Hugging Face · 论文发现,Hugging Face 的论文发现社区，聚合论文与讨论。选择理由：社区论文发现入口，可补充遗漏；所有结论回到作者原文。,Hugging Face · 论文发现,https://huggingface.co/papers,P1,True
+学术界,,ICLR · 国际学习表征大会,聚焦表示学习与深度学习的年度学术会议。重点追踪大模型量化、剪枝、蒸馏和 KV Cache 压缩，通过官方论文与原文评审入口理解压缩机制及其适用边界。,ICLR · 官方论文入口,https://iclr.cc/virtual/2026/papers.html,P0,True
+学术界,,ICML · 国际机器学习大会,面向机器学习理论、算法与应用的年度学术会议。重点追踪压缩算法、误差分析与效率评测，从官方论文入口核对方法假设、对照基线和质量—成本权衡。,ICML · 官方论文入口,https://icml.cc/virtual/2026/papers.html,P0,True
+学术界,,MLSys,机器学习与计算系统交叉会议的论文入口。选择理由：机器学习系统会议总入口，与压缩算子、服务性能和软硬件协同高度相关。,MLSys · 论文与会议,https://mlsys.org/,P0,True
+学术界,,MLSys,机器学习与计算系统交叉会议的论文入口。选择理由：机器学习系统会议总入口，与压缩算子、服务性能和软硬件协同高度相关。,MLSys（原SysML）,https://mlsys.org/Conferences/2025,P2,True
+学术界,,NeurIPS · 神经信息处理系统大会,面向机器学习与人工智能的年度学术会议，官方论文集按届次归档。重点追踪量化、剪枝、蒸馏与低秩压缩的原始研究，用于复核技术创新、实验条件和精度代价。,NeurIPS · 官方论文入口,https://papers.nips.cc/,P0,True
+学术界,,OSDI / SOSP,操作系统及系统设计会议的论文归档入口。选择理由：OSDI 2026原始系统论文与会议材料，有助于拆分压缩收益和调度收益。,OSDI 2025,https://www.usenix.org/conference/osdi25/technical-sessions,P2,True
+学术界,,OSDI / SOSP,操作系统及系统设计会议的论文归档入口。选择理由：OSDI 2026原始系统论文与会议材料，有助于拆分压缩收益和调度收益。,OSDI 2026,https://www.usenix.org/conference/osdi26,P1,True
+学术界,,OSDI / SOSP,操作系统及系统设计会议的论文归档入口。选择理由：OSDI 2026原始系统论文与会议材料，有助于拆分压缩收益和调度收益。,OSDI/SOSP,https://www.usenix.org/osdi,P2,True
+学术界,,OpenReview · 论文评审与版本,公开论文、评审和版本记录平台。选择理由：原始投稿、修订和审稿证据入口，用于追踪方法的质量与争议。,OpenReview · 论文评审与版本,https://openreview.net/,P0,True
+学术界,,USENIX ATC,USENIX 年度技术会议的系统研究论文入口。选择理由：USENIX ATC官方入口，补充部署、资源管理与系统实现证据。,USENIX ATC,https://www.usenix.org/conferences/atc,P1,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,arXiv · 机器学习新提交,https://arxiv.org/list/cs.LG/recent,P0,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,arXiv · 语言模型新提交,https://arxiv.org/list/cs.CL/recent,P0,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,arXiv · 系统与分布式新提交,https://arxiv.org/list/cs.DC/recent,P0,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,arXiv,https://arxiv.org,P2,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,RealToxicityPrompts,https://arxiv.org/abs/2009.11468,P2,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,TruthfulQA,https://arxiv.org/abs/2109.07958,P2,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,HH-RLHF,https://arxiv.org/abs/2204.05856,P2,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,ToolBench,https://arxiv.org/abs/2305.16291,P2,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,WebArena,https://arxiv.org/abs/2307.14769,P2,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,PRM Paper (OpenAI),https://arxiv.org/abs/2308.03263,P2,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,AgentBench,https://arxiv.org/abs/2308.03688,P2,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,Sarathi,https://arxiv.org/abs/2308.16381,P2,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,vAttention,https://arxiv.org/abs/2310.11702,P2,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,Lookahead Decoding,https://arxiv.org/abs/2310.15123,P2,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,Medusa,https://arxiv.org/abs/2401.10774,P2,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,EAGLE,https://arxiv.org/abs/2401.15077,P2,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,LongMem,https://arxiv.org/abs/2402.09523,P2,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,ChatQA / RULER / Needle,https://arxiv.org/abs/2403.00024,P2,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,InfoBatch,https://arxiv.org/abs/2404.09502,P2,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,LongRoPE,https://arxiv.org/abs/2405.11129,P2,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,MCTS + LLM Survey,https://arxiv.org/abs/2501.11223,P2,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,arXiv cs.AI recent,https://arxiv.org/list/cs.AI/recent,P1,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,arXiv cs.CV recent,https://arxiv.org/list/cs.CV/recent,P1,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,arXiv cs.AI RSS,https://export.arxiv.org/rss/cs.AI,P2,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,arXiv cs.CL RSS,https://export.arxiv.org/rss/cs.CL,P2,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,arXiv cs.CV RSS,https://export.arxiv.org/rss/cs.CV,P2,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,arXiv cs.DC RSS,https://export.arxiv.org/rss/cs.DC,P2,True
+学术界,,arXiv,研究者发布论文预印本的平台，按学科提供新提交与修订记录。用于追踪量化、剪枝、蒸馏、低秩分解，以及语言模型和 KV Cache 压缩的原始研究。,arXiv cs.LG RSS,https://export.arxiv.org/rss/cs.LG,P2,True
+热点资讯,,AI Safety Fundamentals,备用信息源，具体覆盖范围与入选理由尚待补充。,AI Safety Fundamentals,https://aisafetyfundamentals.com,P2,True
+热点资讯,,AI科技媒体,备用信息源，具体覆盖范围与入选理由尚待补充。,AI科技媒体,https://www.aitom.com,P2,True
+热点资讯,,AdversarialML Wiki,备用信息源，具体覆盖范围与入选理由尚待补充。,AdversarialML Wiki,https://adversarialml.com,P2,True
+热点资讯,,Anthropic 安全研究,备用信息源，具体覆盖范围与入选理由尚待补充。,Anthropic 安全研究,https://www.anthropic.com/research,P2,True
+热点资讯,,B站AI技术区,备用信息源，具体覆盖范围与入选理由尚待补充。,B站AI技术区,https://www.bilibili.com/v/popular/history?tab=科技,P2,True
+热点资讯,,CCS,备用信息源，具体覆盖范围与入选理由尚待补充。,CCS,https://www.sigsac.org/ccs,P2,True
+热点资讯,,GitHub Trending AI,GitHub 热门仓库发现入口，反映社区关注度而非技术质量排名。选择理由：GitHub趋势页发现目录外的新压缩实现；热度不等于正确性或发布日期。,GitHub Trending AI,https://github.com/trending/python?since=daily,P1,True
+热点资讯,,Hacker News,科技与工程社区的新闻讨论平台。选择理由：Hacker News发现新压缩工具与工程问题，社区观点只作为线索。,Hacker News,https://news.ycombinator.com,P1,True
+热点资讯,,IEEE S&P,备用信息源，具体覆盖范围与入选理由尚待补充。,IEEE S&P,https://www.ieee-security.org,P2,True
+热点资讯,,Import AI · 研究趋势周刊,以人工智能研究及其影响为主题的周刊。选择理由：研究周报补充跨团队趋势线索，保留与推理压缩直接相关项并回溯原文。,Import AI · 研究趋势周刊,https://importai.substack.com/,P1,True
+热点资讯,,LessWrong / 对齐论坛,备用信息源，具体覆盖范围与入选理由尚待补充。,LessWrong / 对齐论坛,https://www.lesswrong.com,P2,True
+热点资讯,,Lobsters AI,技术社区的人工智能相关讨论入口。选择理由：Lobsters AI提供工程社区补充发现，减少对单个媒体或榜单的依赖。,Lobsters AI,https://lobste.rs/t/ai,P1,True
+热点资讯,,ModelScope博客,备用信息源，具体覆盖范围与入选理由尚待补充。,ModelScope博客,https://modelscope.cn/blogs,P2,True
+热点资讯,,NDSS,备用信息源，具体覆盖范围与入选理由尚待补充。,NDSS,https://www.ndss-symposium.org,P2,True
+热点资讯,,OpenAI 安全博客,备用信息源，具体覆盖范围与入选理由尚待补充。,OpenAI 安全博客,https://openai.com/security,P2,True
+热点资讯,,Reddit r/MachineLearning,备用信息源，具体覆盖范围与入选理由尚待补充。,Reddit r/MachineLearning,https://www.reddit.com/r/MachineLearning,P2,True
+热点资讯,,TechCrunch AI · 产业快讯,科技新闻媒体的人工智能栏目，报道模型、芯片、创业公司与产业事件。选择理由：补充芯片、模型部署与商业成本动向；不把产品新闻当压缩效果证据。,TechCrunch AI · 产业快讯,https://techcrunch.com/category/artificial-intelligence/,P1,True
+热点资讯,,The Batch · AI周刊,DeepLearning.AI 的人工智能资讯周刊，汇总研究和产业新闻。选择理由：周度行业摘要用于发现遗漏，仅保留模型效率与推理压缩相关内容。,The Batch · AI周刊,https://www.deeplearning.ai/the-batch/,P1,True
+热点资讯,,The Gradient,备用信息源，具体覆盖范围与入选理由尚待补充。,The Gradient,https://thegradient.pub,P2,True
+热点资讯,,USENIX Security,备用信息源，具体覆盖范围与入选理由尚待补充。,USENIX Security,https://www.usenix.org/security,P2,True
+热点资讯,,VentureBeat AI,备用信息源，具体覆盖范围与入选理由尚待补充。,VentureBeat AI,https://venturebeat.com/category/ai,P2,True
+热点资讯,,X @_akhaliq,备用信息源，具体覆盖范围与入选理由尚待补充。,X @_akhaliq,https://x.com/_akhaliq,P2,True
+热点资讯,,X @swyx,备用信息源，具体覆盖范围与入选理由尚待补充。,X @swyx,https://x.com/swyx,P2,True
+热点资讯,,a16z AI,备用信息源，具体覆盖范围与入选理由尚待补充。,a16z AI,https://a16z.com/ai,P2,True
+热点资讯,,中国信通院AI安全,备用信息源，具体覆盖范围与入选理由尚待补充。,中国信通院AI安全,https://www.caict.ac.cn,P2,True
+热点资讯,,云栖社区,备用信息源，具体覆盖范围与入选理由尚待补充。,云栖社区,https://yq.aliyun.com,P2,True
+热点资讯,,字节安全研究,备用信息源，具体覆盖范围与入选理由尚待补充。,字节安全研究,https://security.bytedance.com,P2,True
+热点资讯,,思否,备用信息源，具体覆盖范围与入选理由尚待补充。,思否,https://segmentfault.com/t/ai,P2,True
+热点资讯,,机器之心 · 中文技术资讯,中文人工智能技术媒体，面向论文、模型和产业技术进展。选择理由：中文技术资讯补充论文与国内部署线索，原始论文和官方实现承担证据。,机器之心 · 中文技术资讯,https://www.jiqizhixin.com/,P1,True
+热点资讯,,甲子光年,备用信息源，具体覆盖范围与入选理由尚待补充。,甲子光年,https://www.jiaziguangnian.com,P2,True
+热点资讯,,知乎AI专栏,备用信息源，具体覆盖范围与入选理由尚待补充。,知乎AI专栏,https://www.zhihu.com/topic/AI,P2,True
+热点资讯,,稀土掘金,备用信息源，具体覆盖范围与入选理由尚待补充。,稀土掘金,https://juejin.cn/ai,P2,True
+热点资讯,,网络安全审查办公室,备用信息源，具体覆盖范围与入选理由尚待补充。,网络安全审查办公室,https://www.cac.gov.cn,P2,True
+热点资讯,,腾讯安全云鼎实验室,备用信息源，具体覆盖范围与入选理由尚待补充。,腾讯安全云鼎实验室,https://cloud.tencent.com/developer/column/109604,P2,True
+热点资讯,,量子位,中文人工智能科技媒体，提供研究发布及产业动态的发现线索。选择理由：量子位补充国内模型和昇腾生态线索，优先回到发布机构的原始材料。,量子位,https://www.qbitai.com,P1,True
+产业界,general,AI Incident Database,备用信息源，具体覆盖范围与入选理由尚待补充。,AI Incident Database,https://incidentdatabase.ai,P2,True
+产业界,general,AI Studio,备用信息源，具体覆盖范围与入选理由尚待补充。,AI Studio,https://aistudio.baidu.com,P2,True
+产业界,general,AIOS Foundation,备用信息源，具体覆盖范围与入选理由尚待补充。,AIOS Foundation,https://www.aios.foundation,P2,True
+产业界,general,AMD ROCm,AMD GPU 计算软件栈的官方平台资料入口。选择理由：ROCm当前官方博客，补充Quark量化和跨硬件实现，避免只看CUDA路径。,AMD ROCm,https://rocm.blogs.amd.com,P0,True
+产业界,general,AMD ROCm Blog,备用信息源，具体覆盖范围与入选理由尚待补充。,AMD ROCm Blog,https://community.amd.com/t5/rocm/ct-p/amd-rocm,P2,True
+产业界,general,AWQ,激活感知权重量化方法的实现入口。选择理由：AWQ作者团队官方实现，是权重量化的可追溯基线。,AWQ,https://github.com/mit-han-lab/llm-awq,P0,True
+产业界,general,AWS ML Blog,备用信息源，具体覆盖范围与入选理由尚待补充。,AWS ML Blog,https://aws.amazon.com/blogs/machine-learning,P2,True
+产业界,general,AWS re:Invent,备用信息源，具体覆盖范围与入选理由尚待补充。,AWS re:Invent,https://reinvent.awsevents.com,P2,True
+产业界,general,AgentOps,备用信息源，具体覆盖范围与入选理由尚待补充。,AgentOps,https://www.agentops.ai,P2,True
+产业界,general,Agents SDK,备用信息源，具体覆盖范围与入选理由尚待补充。,Agents SDK,https://github.com/openai/openai-agents,P2,True
+产业界,general,Anthropic Computer Use,备用信息源，具体覆盖范围与入选理由尚待补充。,Anthropic Computer Use,https://docs.anthropic.com/en/docs/agents-and-tools/computer-use,P2,True
+产业界,general,Anthropic Skills,备用信息源，具体覆盖范围与入选理由尚待补充。,Anthropic Skills,https://docs.anthropic.com/en/docs/agents-and-tools,P2,True
+产业界,general,Anthropic · Blog,备用信息源，具体覆盖范围与入选理由尚待补充。,Anthropic · Blog,https://www.anthropic.com/news,P2,True
+产业界,general,Anthropic · Docs,备用信息源，具体覆盖范围与入选理由尚待补充。,Anthropic · Docs,https://docs.anthropic.com,P2,True
+产业界,general,Anyscale,备用信息源，具体覆盖范围与入选理由尚待补充。,Anyscale,https://www.anyscale.com,P2,True
+产业界,general,Apache Pekko,备用信息源，具体覆盖范围与入选理由尚待补充。,Apache Pekko,https://pekko.apache.org,P2,True
+产业界,general,Argo Workflows,备用信息源，具体覆盖范围与入选理由尚待补充。,Argo Workflows,https://argoproj.github.io/argo-workflows,P2,True
+产业界,general,Arize AI,备用信息源，具体覆盖范围与入选理由尚待补充。,Arize AI,https://arize.com,P2,True
+产业界,general,Artificial Analysis,备用信息源，具体覆盖范围与入选理由尚待补充。,Artificial Analysis,https://artificialanalysis.ai,P2,True
+产业界,general,AutoGPT · 官方博客,备用信息源，具体覆盖范围与入选理由尚待补充。,AutoGPT · 官方博客,https://agpt.co/blog/,P2,True
+产业界,general,AutoGen Docs,备用信息源，具体覆盖范围与入选理由尚待补充。,AutoGen Docs,https://microsoft.github.io/autogen,P2,True
+产业界,general,Axolotl,备用信息源，具体覆盖范围与入选理由尚待补充。,Axolotl,https://github.com/axolotl-ai-cloud/axolotl,P2,True
+产业界,general,Azure ML Blog,备用信息源，具体覆盖范围与入选理由尚待补充。,Azure ML Blog,https://azure.microsoft.com/en-us/blog/machine-learning,P2,True
+产业界,general,BFCL,备用信息源，具体覆盖范围与入选理由尚待补充。,BFCL,https://github.com/google-research/google-research/tree/master/bfcl,P2,True
+产业界,general,Baseten,备用信息源，具体覆盖范围与入选理由尚待补充。,Baseten,https://www.baseten.co,P2,True
+产业界,general,Bedrock,备用信息源，具体覆盖范围与入选理由尚待补充。,Bedrock,https://aws.amazon.com/bedrock,P2,True
+产业界,general,BoundaryML,备用信息源，具体覆盖范围与入选理由尚待补充。,BoundaryML,https://boundaryml.com,P2,True
+产业界,general,Braintrust,备用信息源，具体覆盖范围与入选理由尚待补充。,Braintrust,https://www.braintrust.dev,P2,True
+产业界,general,Browser Use,备用信息源，具体覆盖范围与入选理由尚待补充。,Browser Use,https://browser-use.com,P2,True
+产业界,general,ByteDance Engineering,备用信息源，具体覆盖范围与入选理由尚待补充。,ByteDance Engineering,https://github.com/bytedance,P2,True
+产业界,general,CAMEL,备用信息源，具体覆盖范围与入选理由尚待补充。,CAMEL,https://github.com/camel-ai/camel,P2,True
+产业界,general,CAMEL,备用信息源，具体覆盖范围与入选理由尚待补充。,CAMEL,https://camel-ai.github.io,P2,True
+产业界,ascend,CANN · 发布与兼容性,CANN 官方版本发布管理仓库，提供软件包、算子子包与驱动配套及废弃接口说明。选择它来确认新算子究竟在哪个版本可用，以及适配升级所需条件。,CANN · 版本配套与发布说明,https://gitcode.com/cann/release-management,P0,True
+产业界,general,CUTLASS,NVIDIA 矩阵乘等运算的 CUDA 模板库。选择理由：CUTLASS官方算子实现，用于核对低精度和稀疏计算的硬件实现条件。,CUTLASS,https://github.com/nvidia/cutlass,P1,True
+产业界,general,CacheBlend,备用信息源，具体覆盖范围与入选理由尚待补充。,CacheBlend,https://github.com/hao-ai-lab/CacheBlend,P2,True
+产业界,general,Cerebras,备用信息源，具体覆盖范围与入选理由尚待补充。,Cerebras,https://www.cerebras.net/blog,P2,True
+产业界,general,Cloud AI Blog,备用信息源，具体覆盖范围与入选理由尚待补充。,Cloud AI Blog,https://cloud.google.com/blog/products/ai-machine-learning,P2,True
+产业界,general,Cloudflare Blog,备用信息源，具体覆盖范围与入选理由尚待补充。,Cloudflare Blog,https://blog.cloudflare.com,P2,True
+产业界,general,Codeforces,备用信息源，具体覆盖范围与入选理由尚待补充。,Codeforces,https://codeforces.com,P2,True
+产业界,general,Cognition AI,备用信息源，具体覆盖范围与入选理由尚待补充。,Cognition AI,https://www.cognition.ai,P2,True
+产业界,general,Cohere · Blog,备用信息源，具体覆盖范围与入选理由尚待补充。,Cohere · Blog,https://cohere.com/blog,P2,True
+产业界,general,ColossalAI,备用信息源，具体覆盖范围与入选理由尚待补充。,ColossalAI,https://github.com/hpcaitech/ColossalAI,P2,True
+产业界,general,Core ML,Apple 模型部署与推理框架的官方入口。选择理由：Apple机器学习官方文档入口，补充端侧压缩部署与模型格式的约束。,Core ML,https://developer.apple.com/machine-learning,P1,True
+产业界,general,CrewAI Blog,备用信息源，具体覆盖范围与入选理由尚待补充。,CrewAI Blog,https://www.crewai.io,P2,True
+产业界,general,Dagster,备用信息源，具体覆盖范围与入选理由尚待补充。,Dagster,https://dagster.io,P2,True
+产业界,general,Dapr,备用信息源，具体覆盖范围与入选理由尚待补充。,Dapr,https://dapr.io,P2,True
+产业界,general,Databricks Blog,备用信息源，具体覆盖范围与入选理由尚待补充。,Databricks Blog,https://www.databricks.com/blog,P2,True
+产业界,general,Daytona,备用信息源，具体覆盖范围与入选理由尚待补充。,Daytona,https://daytona.io,P2,True
+产业界,general,DeepEP,备用信息源，具体覆盖范围与入选理由尚待补充。,DeepEP,https://github.com/deepseek-ai/DeepEP,P2,True
+产业界,general,DeepGEMM,低精度矩阵乘内核的开源实现项目。选择理由：DeepGEMM官方代码及相关适配线索，关注低精度GEMM和昇腾移植边界。,DeepGEMM,https://github.com/deepseek-ai/DeepGEMM,P0,True
+产业界,general,DeepSeek,DeepSeek 模型及技术发布的官方入口。选择理由：DeepSeek官方代码组织，重点识别MLA、低精度算子及模型结构压缩相关发布。,DeepSeek,https://github.com/deepseek-ai,P0,True
+产业界,general,DeepSeek · Official,备用信息源，具体覆盖范围与入选理由尚待补充。,DeepSeek · Official,https://www.deepseek.com,P2,True
+产业界,general,DeepSpeed,深度学习训练与推理优化工具的开源项目。选择理由：DeepSpeed官方实现覆盖推理内存与压缩邻接能力，筛选推理相关变更。,DeepSpeed,https://github.com/deepspeedai/DeepSpeed,P1,True
+产业界,general,Dify,备用信息源，具体覆盖范围与入选理由尚待补充。,Dify,https://dify.ai/blog,P2,True
+产业界,general,DistServe,备用信息源，具体覆盖范围与入选理由尚待补充。,DistServe,https://github.com/facebookresearch/DistServe,P2,True
+产业界,general,E2B,备用信息源，具体覆盖范围与入选理由尚待补充。,E2B,https://e2b.dev,P2,True
+产业界,general,ERNIE,备用信息源，具体覆盖范围与入选理由尚待补充。,ERNIE,https://cloud.baidu.com/product/wenxin.html,P2,True
+产业界,general,Epoch AI,备用信息源，具体覆盖范围与入选理由尚待补充。,Epoch AI,https://epochai.org,P2,True
+产业界,general,ExLlamaV2,面向量化大模型的推理实现项目。选择理由：ExLlamaV2量化推理实现，可对照低比特格式与解码性能约束。,ExLlamaV2,https://github.com/turboderp-org/exllamav2,P1,True
+产业界,general,Fiddler AI,备用信息源，具体覆盖范围与入选理由尚待补充。,Fiddler AI,https://fiddler.ai,P2,True
+产业界,general,Firecracker,备用信息源，具体覆盖范围与入选理由尚待补充。,Firecracker,https://firecracker-microvm.io,P2,True
+产业界,general,Fireworks AI · 推理动态,Fireworks AI 的官方模型服务与推理技术博客。选择理由：推理服务提供商的一手工程案例，关注低精度、缓存与成本；数值需完整配置。,Fireworks AI · 推理动态,https://fireworks.ai/blog,P1,True
+产业界,general,FlashAttention,高效注意力计算方法的实现入口。选择理由：FlashAttention官方算子实现是KV压缩和稀疏注意力落地的重要性能基线。,FlashAttention,https://github.com/Dao-AILab/flash-attention,P0,True
+产业界,general,FlashAttention Blog,备用信息源，具体覆盖范围与入选理由尚待补充。,FlashAttention Blog,https://flashattention.ai,P2,True
+产业界,general,FlashInfer,大模型推理注意力等算子的开源内核项目。选择理由：FlashInfer官方入口与发布文章，关注低精度、分页KV及注意力算子。,FlashInfer,https://flashinfer.ai,P0,True
+产业界,general,GAIA Benchmark,备用信息源，具体覆盖范围与入选理由尚待补充。,GAIA Benchmark,https://huggingface.co/datasets/gaia-benchmark/GAIA,P2,True
+产业界,general,GPQA Diamond,备用信息源，具体覆盖范围与入选理由尚待补充。,GPQA Diamond,https://github.com/openai/evals,P2,True
+产业界,general,GPTQ,训练后权重量化方法的实现入口。选择理由：GPTQ作者团队官方实现，保留经典量化基线，不冒充本期新方法。,GPTQ,https://github.com/IST-DASLab/gptq,P0,True
+产业界,general,GTC (NVIDIA),备用信息源，具体覆盖范围与入选理由尚待补充。,GTC (NVIDIA),https://www.nvidia.com/gtc,P2,True
+产业界,general,Gemini API,备用信息源，具体覆盖范围与入选理由尚待补充。,Gemini API,https://ai.google.dev,P2,True
+产业界,general,Glean,备用信息源，具体覆盖范围与入选理由尚待补充。,Glean,https://www.glean.com,P2,True
+产业界,general,Google A2A,备用信息源，具体覆盖范围与入选理由尚待补充。,Google A2A,https://cloud.google.com/blog/products/application-development/agent-to-agent-a2a-protocol,P2,True
+产业界,general,Google Cloud Next,备用信息源，具体覆盖范围与入选理由尚待补充。,Google Cloud Next,https://cloud.google.com/events,P2,True
+产业界,general,Google Research,Google 研究团队的官方研究发布入口。选择理由：Google Research第一方研究入口，筛选量化、蒸馏、稀疏与高效架构论文。,Google Research,https://research.google,P1,True
+产业界,general,Grafana Labs,备用信息源，具体覆盖范围与入选理由尚待补充。,Grafana Labs,https://grafana.com/blog,P2,True
+产业界,general,Grafana Tempo,备用信息源，具体覆盖范围与入选理由尚待补充。,Grafana Tempo,https://grafana.com/docs/tempo,P2,True
+产业界,general,GraphRAG,备用信息源，具体覆盖范围与入选理由尚待补充。,GraphRAG,https://github.com/microsoft/graphrag,P2,True
+产业界,general,Graphiti,备用信息源，具体覆盖范围与入选理由尚待补充。,Graphiti,https://github.com/frameworksai/graphiti,P2,True
+产业界,general,Gremlin,备用信息源，具体覆盖范围与入选理由尚待补充。,Gremlin,https://www.gremlin.com,P2,True
+产业界,general,Gretel AI,备用信息源，具体覆盖范围与入选理由尚待补充。,Gretel AI,https://gretel.ai,P2,True
+产业界,general,Groq,备用信息源，具体覆盖范围与入选理由尚待补充。,Groq,https://groq.com/blog,P2,True
+产业界,general,Harvey AI,备用信息源，具体覆盖范围与入选理由尚待补充。,Harvey AI,https://www.harvey.ai,P2,True
+产业界,general,Helicone,备用信息源，具体覆盖范围与入选理由尚待补充。,Helicone,https://www.helicone.ai,P2,True
+产业界,general,HippoRAG,备用信息源，具体覆盖范围与入选理由尚待补充。,HippoRAG,https://github.com/michael-wzhu/HippoRAG,P2,True
+产业界,general,Honeycomb,备用信息源，具体覆盖范围与入选理由尚待补充。,Honeycomb,https://www.honeycomb.io/blog,P2,True
+产业界,general,Hugging Face Open LLM Leaderboard (legacy endpoint),备用信息源，具体覆盖范围与入选理由尚待补充。,Hugging Face Open LLM Leaderboard (legacy endpoint),https://huggingface.co/spaces/open-llm-leaderboard,P2,True
+产业界,general,HuggingFace Datasets,备用信息源，具体覆盖范围与入选理由尚待补充。,HuggingFace Datasets,https://huggingface.co/datasets,P2,True
+产业界,general,HuggingFace Open LLM Leaderboard,备用信息源，具体覆盖范围与入选理由尚待补充。,HuggingFace Open LLM Leaderboard,https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard,P2,True
+产业界,general,HumanEval / MBPP,备用信息源，具体覆盖范围与入选理由尚待补充。,HumanEval / MBPP,https://github.com/openai/human-eval,P2,True
+产业界,general,HumanLoop,备用信息源，具体覆盖范围与入选理由尚待补充。,HumanLoop,https://humanloop.com,P2,True
+产业界,general,Inferentia,备用信息源，具体覆盖范围与入选理由尚待补充。,Inferentia,https://aws.amazon.com/machine-learning/inferentia,P2,True
+产业界,general,InfiniGen,备用信息源，具体覆盖范围与入选理由尚待补充。,InfiniGen,https://github.com/InfiniAI/InfiniGen,P2,True
+产业界,general,Intel Gaudi Blog,备用信息源，具体覆盖范围与入选理由尚待补充。,Intel Gaudi Blog,https://habana.ai/blog,P2,True
+产业界,general,Istio,备用信息源，具体覆盖范围与入选理由尚待补充。,Istio,https://istio.io,P2,True
+产业界,general,Jaeger,备用信息源，具体覆盖范围与入选理由尚待补充。,Jaeger,https://www.jaegertracing.io,P2,True
+产业界,general,Kafka / Redpanda,备用信息源，具体覆盖范围与入选理由尚待补充。,Kafka / Redpanda,https://redpanda.com,P2,True
+产业界,general,KubeRay,备用信息源，具体覆盖范围与入选理由尚待补充。,KubeRay,https://github.com/ray-project/kuberay,P2,True
+产业界,general,Kubeflow,备用信息源，具体覆盖范围与入选理由尚待补充。,Kubeflow,https://www.kubeflow.org,P2,True
+产业界,general,Kubernetes,备用信息源，具体覆盖范围与入选理由尚待补充。,Kubernetes,https://kubernetes.io,P2,True
+产业界,general,Kuzu,备用信息源，具体覆盖范围与入选理由尚待补充。,Kuzu,https://kuzudb.com,P2,True
+产业界,general,LLM-Perf,备用信息源，具体覆盖范围与入选理由尚待补充。,LLM-Perf,https://llmperf.com,P2,True
+产业界,general,LMCache,大模型推理的 KV 缓存管理与复用项目。选择理由：可达的LMCache官方仓库，覆盖KV复用和分层存储；不把卸载等同有损压缩。,LMCache,https://github.com/LMCache/LMCache,P0,True
+产业界,general,LMCache,备用信息源，具体覆盖范围与入选理由尚待补充。,LMCache,https://github.com/hao-ai-lab/LMCache,P2,True
+产业界,general,LMSYS Arena,备用信息源，具体覆盖范围与入选理由尚待补充。,LMSYS Arena,https://lmarena.ai,P2,True
+产业界,general,LangChain Blog,备用信息源，具体覆盖范围与入选理由尚待补充。,LangChain Blog,https://blog.langchain.dev,P2,True
+产业界,general,LangGraph,备用信息源，具体覆盖范围与入选理由尚待补充。,LangGraph,https://langchain-ai.github.io/langgraph,P2,True
+产业界,general,LangMem,备用信息源，具体覆盖范围与入选理由尚待补充。,LangMem,https://github.com/langchain-ai/langmem,P2,True
+产业界,general,LangSmith,备用信息源，具体覆盖范围与入选理由尚待补充。,LangSmith,https://www.langchain.com/langsmith,P2,True
+产业界,general,LangSmith Case Studies,备用信息源，具体覆盖范围与入选理由尚待补充。,LangSmith Case Studies,https://docs.smith.langchain.com,P2,True
+产业界,general,Langfuse,备用信息源，具体覆盖范围与入选理由尚待补充。,Langfuse,https://langfuse.com/docs,P2,True
+产业界,general,Latent Space,备用信息源，具体覆盖范围与入选理由尚待补充。,Latent Space,https://www.latent.space,P2,True
+产业界,general,Letta,备用信息源，具体覆盖范围与入选理由尚待补充。,Letta,https://www.letta.com,P2,True
+产业界,general,LightSeq,备用信息源，具体覆盖范围与入选理由尚待补充。,LightSeq,https://github.com/bytedance/lightseq,P2,True
+产业界,general,LiveBench,备用信息源，具体覆盖范围与入选理由尚待补充。,LiveBench,https://livepaperhub.github.io,P2,True
+产业界,general,LlamaIndex Blog,备用信息源，具体覆盖范围与入选理由尚待补充。,LlamaIndex Blog,https://blog.llamaindex.ai,P2,True
+产业界,general,LongBench,长上下文语言模型任务的评测项目。选择理由：LongBench官方数据与评测实现，用于复核长上下文压缩的任务质量边界。,LongBench,https://github.com/THUDM/LongBench,P1,True
+产业界,general,MCP Protocol,备用信息源，具体覆盖范围与入选理由尚待补充。,MCP Protocol,https://modelcontextprotocol.io,P2,True
+产业界,general,MLPerf Inference,MLCommons 的推理基准与公开结果入口。可按模型、质量门槛和负载设置查阅数据中心测试规则与结果，并通过总入口跟踪新的结果发布。,MLPerf · 推理基准,https://mlcommons.org/benchmarks/inference-datacenter/,P0,True
+产业界,general,MLPerf Inference,MLCommons 的推理基准与公开结果入口。可按模型、质量门槛和负载设置查阅数据中心测试规则与结果，并通过总入口跟踪新的结果发布。,MLPerf Inference,https://mlcommons.org/inference,P1,True
+产业界,general,Mastra,备用信息源，具体覆盖范围与入选理由尚待补充。,Mastra,https://github.com/mastra-ai/mastra,P2,True
+产业界,general,Megatron-LM,备用信息源，具体覆盖范围与入选理由尚待补充。,Megatron-LM,https://github.com/NVIDIA/Megatron-LM,P2,True
+产业界,general,Mem0,备用信息源，具体覆盖范围与入选理由尚待补充。,Mem0,https://mem0.ai,P2,True
+产业界,general,MemGPT,备用信息源，具体覆盖范围与入选理由尚待补充。,MemGPT,https://memgpt.ai,P2,True
+产业界,general,Menlo Ventures AI,备用信息源，具体覆盖范围与入选理由尚待补充。,Menlo Ventures AI,https://menlovc.com/ai,P2,True
+产业界,general,Meta AI,Meta 人工智能研究与模型发布的官方入口。选择理由：Meta官方研究入口，补充低精度、蒸馏和开放模型压缩的一手材料。,Meta AI,https://ai.meta.com/research,P1,True
+产业界,general,Meta Engineering,备用信息源，具体覆盖范围与入选理由尚待补充。,Meta Engineering,https://engineering.fb.com,P2,True
+产业界,general,MetaGPT,备用信息源，具体覆盖范围与入选理由尚待补充。,MetaGPT,https://github.com/geekan/MetaGPT,P2,True
+产业界,general,Microsoft Copilot Studio,备用信息源，具体覆盖范围与入选理由尚待补充。,Microsoft Copilot Studio,https://www.microsoft.com/en-us/microsoft-copilot/microsoft-copilot-studio,P2,True
+产业界,general,Microsoft Semantic Kernel,备用信息源，具体覆盖范围与入选理由尚待补充。,Microsoft Semantic Kernel,https://github.com/microsoft/semantic-kernel,P2,True
+产业界,general,Milvus,备用信息源，具体覆盖范围与入选理由尚待补充。,Milvus,https://milvus.io,P2,True
+产业界,general,MindSpore,备用信息源，具体覆盖范围与入选理由尚待补充。,MindSpore,https://gitee.com/mindspore,P2,True
+产业界,general,MindSpore,开源深度学习框架的官方实现与生态入口。选择理由：MindSpore官方入口，补充昇腾模型压缩、编译与算子生态信息。,MindSpore,https://www.mindspore.cn,P0,True
+产业界,general,Mistral · API Docs,备用信息源，具体覆盖范围与入选理由尚待补充。,Mistral · API Docs,https://docs.mistral.ai,P2,True
+产业界,general,Mistral · Official,Mistral 的模型与产品发布官方入口。选择理由：Mistral官方模型发布，补充小模型与高效架构的第一方描述。,Mistral · Official,https://mistral.ai/news,P1,True
+产业界,general,Modal,备用信息源，具体覆盖范围与入选理由尚待补充。,Modal,https://docs.modal.com,P2,True
+产业界,general,Modal Sandbox,备用信息源，具体覆盖范围与入选理由尚待补充。,Modal Sandbox,https://modal.com,P2,True
+产业界,general,Mooncake,面向大模型服务的 KV 缓存与数据传输系统项目。选择理由：可达的Mooncake官方仓库，补充KV传输、存储与推理服务的系统约束。,Mooncake,https://github.com/kvcache-ai/Mooncake,P0,True
+产业界,general,Mooncake,备用信息源，具体覆盖范围与入选理由尚待补充。,Mooncake,https://github.com/MoonshotAI/Mooncake,P2,True
+产业界,general,NATS,备用信息源，具体覆盖范围与入选理由尚待补充。,NATS,https://nats.io,P2,True
+产业界,general,NCCL,备用信息源，具体覆盖范围与入选理由尚待补充。,NCCL,https://github.com/NVIDIA/nccl,P2,True
+产业界,general,NCNN,面向移动端的神经网络推理框架。选择理由：NCNN官方移动端推理实现，补充低精度与端侧算子约束。,NCNN,https://github.com/Tencent/ncnn,P1,True
+产业界,general,NVIDIA Nsight,备用信息源，具体覆盖范围与入选理由尚待补充。,NVIDIA Nsight,https://developer.nvidia.com/nsight,P2,True
+产业界,general,NVIDIA · 技术博客,NVIDIA 官方开发者技术博客，介绍硬件、软件栈及实现方案。选择理由：NVIDIA官方技术材料，重点跟踪低精度、结构稀疏和推理内核的配置边界。,NVIDIA · 技术博客,https://developer.nvidia.com/blog/,P0,True
+产业界,general,NVSHMEM,备用信息源，具体覆盖范围与入选理由尚待补充。,NVSHMEM,https://developer.nvidia.com/nvshmem,P2,True
+产业界,general,Neo4j,备用信息源，具体覆盖范围与入选理由尚待补充。,Neo4j,https://neo4j.com,P2,True
+产业界,general,Netflix TechBlog,备用信息源，具体覆盖范围与入选理由尚待补充。,Netflix TechBlog,https://netflixtechblog.com,P2,True
+产业界,general,OAuth for Agents,备用信息源，具体覆盖范围与入选理由尚待补充。,OAuth for Agents,https://auth0.com,P2,True
+产业界,general,OpenAI Agents SDK,备用信息源，具体覆盖范围与入选理由尚待补充。,OpenAI Agents SDK,https://platform.openai.com/docs/guides/agents-sdk,P2,True
+产业界,general,OpenAI Computer Use,备用信息源，具体覆盖范围与入选理由尚待补充。,OpenAI Computer Use,https://platform.openai.com/docs/guides/tools-computer-use,P2,True
+产业界,general,OpenAI Function Calling,备用信息源，具体覆盖范围与入选理由尚待补充。,OpenAI Function Calling,https://platform.openai.com/docs/guides/function-calling,P2,True
+产业界,general,OpenAI Status,备用信息源，具体覆盖范围与入选理由尚待补充。,OpenAI Status,https://status.openai.com,P2,True
+产业界,general,OpenAI o1 Research,备用信息源，具体覆盖范围与入选理由尚待补充。,OpenAI o1 Research,https://openai.com/index/learning-to-reason-with-llms,P2,True
+产业界,general,OpenAI · Blog,备用信息源，具体覆盖范围与入选理由尚待补充。,OpenAI · Blog,https://openai.com/blog,P2,True
+产业界,general,OpenRLHF,备用信息源，具体覆盖范围与入选理由尚待补充。,OpenRLHF,https://github.com/OpenRLHF/OpenRLHF,P2,True
+产业界,general,OpenRouter Rankings,备用信息源，具体覆盖范围与入选理由尚待补充。,OpenRouter Rankings,https://openrouter.ai/rankings,P2,True
+产业界,general,OpenTelemetry,备用信息源，具体覆盖范围与入选理由尚待补充。,OpenTelemetry,https://opentelemetry.io,P2,True
+产业界,general,Orleans,备用信息源，具体覆盖范围与入选理由尚待补充。,Orleans,https://microsoft.github.io/orleans,P2,True
+产业界,general,PRM Math Benchmark,备用信息源，具体覆盖范围与入选理由尚待补充。,PRM Math Benchmark,https://github.com/PRM9000/PRM-benchmark,P2,True
+产业界,general,Paddle Inference,备用信息源，具体覆盖范围与入选理由尚待补充。,Paddle Inference,https://github.com/PaddlePaddle/Paddle,P2,True
+产业界,general,Patronus AI,备用信息源，具体覆盖范围与入选理由尚待补充。,Patronus AI,https://www.patronus.ai,P2,True
+产业界,general,Perfetto,备用信息源，具体覆盖范围与入选理由尚待补充。,Perfetto,https://perfetto.dev,P2,True
+产业界,general,Platform Docs,备用信息源，具体覆盖范围与入选理由尚待补充。,Platform Docs,https://platform.openai.com/docs,P2,True
+产业界,general,Prefect,备用信息源，具体覆盖范围与入选理由尚待补充。,Prefect,https://www.prefect.io,P2,True
+产业界,general,PyTorch Profiler,备用信息源，具体覆盖范围与入选理由尚待补充。,PyTorch Profiler,https://pytorch.org/tutorials/recipes/recipes/profiler_recipe.html,P2,True
+产业界,general,PyTorch · 低精度与部署,PyTorch 官方技术博客，提供框架、编译与部署更新。选择理由：PyTorch官方低精度与部署动态，可发现量化、稀疏和编译的新实现。,PyTorch · 低精度与部署,https://pytorch.org/blog/,P0,True
+产业界,general,Qdrant,备用信息源，具体覆盖范围与入选理由尚待补充。,Qdrant,https://qdrant.tech,P2,True
+产业界,general,RDMA Core,备用信息源，具体覆盖范围与入选理由尚待补充。,RDMA Core,https://github.com/linux-rdma/rdma-core,P2,True
+产业界,general,Ray,备用信息源，具体覆盖范围与入选理由尚待补充。,Ray,https://www.ray.io,P2,True
+产业界,general,Redis Streams,备用信息源，具体覆盖范围与入选理由尚待补充。,Redis Streams,https://redis.io/docs/data-streams,P2,True
+产业界,general,SGLang,开源大模型推理运行时，提供工程实现、博客和版本记录。选择理由：SGLang官方发布入口，追踪量化、缓存、稀疏注意力和服务支持变化。,SGLang · 发布动态,https://github.com/sgl-project/sglang/releases,P0,True
+产业界,general,SGLang,开源大模型推理运行时，提供工程实现、博客和版本记录。选择理由：SGLang官方发布入口，追踪量化、缓存、稀疏注意力和服务支持变化。,SGLang · 工程博客,https://blog.sglang.ai/,P2,True
+产业界,general,SGLang,开源大模型推理运行时，提供工程实现、博客和版本记录。选择理由：SGLang官方发布入口，追踪量化、缓存、稀疏注意力和服务支持变化。,SGLang,https://github.com/sgl-project/sglang,P2,True
+产业界,general,SWE-Bench Verified,备用信息源，具体覆盖范围与入选理由尚待补充。,SWE-Bench Verified,https://github.com/princeton-nlp/SWE-bench,P2,True
+产业界,general,SambaNova,备用信息源，具体覆盖范围与入选理由尚待补充。,SambaNova,https://sambanova.ai/blog,P2,True
+产业界,general,Scale AI,备用信息源，具体覆盖范围与入选理由尚待补充。,Scale AI,https://scale.com,P2,True
+产业界,general,SemiAnalysis,备用信息源，具体覆盖范围与入选理由尚待补充。,SemiAnalysis,https://semianalysis.com,P2,True
+产业界,general,Sentry,备用信息源，具体覆盖范围与入选理由尚待补充。,Sentry,https://sentry.io/blog,P2,True
+产业界,general,Sequoia AI,备用信息源，具体覆盖范围与入选理由尚待补充。,Sequoia AI,https://www.sequoiacap.com/ai,P2,True
+产业界,general,ServiceNow AI,备用信息源，具体覆盖范围与入选理由尚待补充。,ServiceNow AI,https://www.servicenow.com/products/ai.html,P2,True
+产业界,general,Snorkel AI,备用信息源，具体覆盖范围与入选理由尚待补充。,Snorkel AI,https://snorkel.ai,P2,True
+产业界,general,Swarm,备用信息源，具体覆盖范围与入选理由尚待补充。,Swarm,https://github.com/openai/swarm,P2,True
+产业界,general,TAU Bench,备用信息源，具体覆盖范围与入选理由尚待补充。,TAU Bench,https://github.com/tau-bench/tau-bench,P2,True
+产业界,general,TPU,备用信息源，具体覆盖范围与入选理由尚待补充。,TPU,https://cloud.google.com/tpu,P2,True
+产业界,general,TRL (HuggingFace),备用信息源，具体覆盖范围与入选理由尚待补充。,TRL (HuggingFace),https://github.com/huggingface/trl,P2,True
+产业界,general,TRLX (Transformer RL),备用信息源，具体覆盖范围与入选理由尚待补充。,TRLX (Transformer RL),https://github.com/CarperAI/trlx,P2,True
+产业界,general,TRT-LLM Blog,备用信息源，具体覆盖范围与入选理由尚待补充。,TRT-LLM Blog,https://developer.nvidia.com/blog/category/tensorrt,P2,True
+产业界,general,TVM / MLC-LLM,模型编译与跨平台部署项目的实现入口。选择理由：实际URL是Apache TVM，关注编译与低精度部署；不据此宣称覆盖全部MLC-LLM。,TVM / MLC-LLM,https://tvm.apache.org,P1,True
+产业界,general,Temporal,备用信息源，具体覆盖范围与入选理由尚待补充。,Temporal,https://temporal.io,P2,True
+产业界,general,Tengine,备用信息源，具体覆盖范围与入选理由尚待补充。,Tengine,https://github.com/OAID/Tengine,P2,True
+产业界,general,TensorRT-LLM,NVIDIA 大语言模型推理库，提供代码、支持文档和版本记录。用于对照低精度与 KV 优化的实现进展，并核对配置要求、硬件限制和版本变更。,TensorRT-LLM · 发布动态,https://github.com/NVIDIA/TensorRT-LLM/releases,P0,True
+产业界,general,TensorRT-LLM,NVIDIA 大语言模型推理库，提供代码、支持文档和版本记录。用于对照低精度与 KV 优化的实现进展，并核对配置要求、硬件限制和版本变更。,TensorRT-LLM,https://github.com/NVIDIA/TensorRT-LLM,P2,True
+产业界,general,TensorRT-LLM,NVIDIA 大语言模型推理库，提供代码、支持文档和版本记录。用于对照低精度与 KV 优化的实现进展，并核对配置要求、硬件限制和版本变更。,TensorRT-LLM,https://nvidia.github.io/TensorRT-LLM/,P1,True
+产业界,general,Tenstorrent,备用信息源，具体覆盖范围与入选理由尚待补充。,Tenstorrent,https://tenstorrent.com/blog,P2,True
+产业界,general,ThunderKittens,备用信息源，具体覆盖范围与入选理由尚待补充。,ThunderKittens,https://github.com/HazyResearch/ThunderKittens,P2,True
+产业界,general,Together AI · 推理工程,Together AI 的官方技术博客，介绍模型服务与推理工程。选择理由：一手推理工程材料，补充模型压缩和服务落地的实际限制。,Together AI · 推理工程,https://www.together.ai/blog,P1,True
+产业界,general,Triton,备用信息源，具体覆盖范围与入选理由尚待补充。,Triton,https://developer.nvidia.com/triton-inference-server,P2,True
+产业界,general,Triton Language,GPU 编程语言及编译器项目的官方实现入口。选择理由：Triton语言与编译入口，跟踪压缩算子实现条件；不是Triton推理服务器。,Triton Language,https://triton-lang.org,P1,True
+产业界,general,TruLens,备用信息源，具体覆盖范围与入选理由尚待补充。,TruLens,https://trulens.org,P2,True
+产业界,general,UCX,备用信息源，具体覆盖范围与入选理由尚待补充。,UCX,https://www.openucx.org,P2,True
+产业界,general,UI-TARS Desktop,备用信息源，具体覆盖范围与入选理由尚待补充。,UI-TARS Desktop,https://github.com/bytedance/UI-TARS-desktop,P2,True
+产业界,general,Uber Engineering,备用信息源，具体覆盖范围与入选理由尚待补充。,Uber Engineering,https://eng.uber.com,P2,True
+产业界,general,UiPath AI,备用信息源，具体覆盖范围与入选理由尚待补充。,UiPath AI,https://www.uipath.com/product/ai,P2,True
+产业界,general,Verifiable Credentials,备用信息源，具体覆盖范围与入选理由尚待补充。,Verifiable Credentials,https://www.w3.org/TR/vc-data-model,P2,True
+产业界,general,Voyager,备用信息源，具体覆盖范围与入选理由尚待补充。,Voyager,https://github.com/MineDojo/Voyager,P2,True
+产业界,general,Weaviate,备用信息源，具体覆盖范围与入选理由尚待补充。,Weaviate,https://weaviate.io,P2,True
+产业界,general,WebVoyager / OSWorld,备用信息源，具体覆盖范围与入选理由尚待补充。,WebVoyager / OSWorld,https://github.com/websurfer-models/Amazon-WebVoyager,P2,True
+产业界,general,Weights & Biases,备用信息源，具体覆盖范围与入选理由尚待补充。,Weights & Biases,https://wandb.ai/site/articles,P2,True
+产业界,general,Weights & Biases Prompts,备用信息源，具体覆盖范围与入选理由尚待补充。,Weights & Biases Prompts,https://wandb.ai/site/prompts,P2,True
+产业界,general,WhyLabs,备用信息源，具体覆盖范围与入选理由尚待补充。,WhyLabs,https://whylabs.ai,P2,True
+产业界,general,Zapier AI,备用信息源，具体覆盖范围与入选理由尚待补充。,Zapier AI,https://zapier.com/ai,P2,True
+产业界,general,Zep,备用信息源，具体覆盖范围与入选理由尚待补充。,Zep,https://www.zep.com,P2,True
+产业界,general,distilabel,备用信息源，具体覆盖范围与入选理由尚待补充。,distilabel,https://github.com/argmaxinc/distilabel,P2,True
+产业界,general,eBPF AI Observability,备用信息源，具体覆盖范围与入选理由尚待补充。,eBPF AI Observability,https://ebpf.io,P2,True
+产业界,general,gVisor,备用信息源，具体覆盖范围与入选理由尚待补充。,gVisor,https://gvisor.dev,P2,True
+产业界,general,incident.io,备用信息源，具体覆盖范围与入选理由尚待补充。,incident.io,https://incident.io/blog,P2,True
+产业界,general,llama.cpp,面向本地部署的大模型推理项目，提供低比特权重、KV 精度和多后端实现。官方仓库用于核对代码，GGUF 讨论用于发现格式与执行问题；性能结论仍需结合测试配置核对。,llama.cpp,https://github.com/ggml-org/llama.cpp,P0,True
+产业界,general,llama.cpp,面向本地部署的大模型推理项目，提供低比特权重、KV 精度和多后端实现。官方仓库用于核对代码，GGUF 讨论用于发现格式与执行问题；性能结论仍需结合测试配置核对。,llama.cpp discussions,https://github.com/ggerganov/llama.cpp/discussions,P2,True
+产业界,general,llama.cpp,面向本地部署的大模型推理项目，提供低比特权重、KV 精度和多后端实现。官方仓库用于核对代码，GGUF 讨论用于发现格式与执行问题；性能结论仍需结合测试配置核对。,GGUF (llama.cpp),https://github.com/ggerganov/llama.cpp/discussions/categories/quantization,P1,True
+产业界,general,llama.cpp,面向本地部署的大模型推理项目，提供低比特权重、KV 精度和多后端实现。官方仓库用于核对代码，GGUF 讨论用于发现格式与执行问题；性能结论仍需结合测试配置核对。,llama.cpp releases,https://github.com/ggerganov/llama.cpp/releases,P1,True
+产业界,general,llama.cpp,面向本地部署的大模型推理项目，提供低比特权重、KV 精度和多后端实现。官方仓库用于核对代码，GGUF 讨论用于发现格式与执行问题；性能结论仍需结合测试配置核对。,GPTQ / ExLlamaV2,https://github.com/ggerganov/llama.cpp/tags,P2,True
+产业界,general,llm-d,备用信息源，具体覆盖范围与入选理由尚待补充。,llm-d,https://github.com/DefiniteSoftware/llm-d,P2,True
+产业界,ascend,msModelSlim · 昇腾模型压缩,昇腾官方模型压缩工具，负责生成可部署的低精度权重与缓存。选择它来跟踪量化算法、精度调优、模型适配及导出格式，连接压缩研究与 MindIE / vLLM-Ascend 部署。,msModelSlim · 官方仓库,https://gitcode.com/Ascend/msmodelslim/tree/master,P0,True
+产业界,ascend,msModelSlim · 昇腾模型压缩,昇腾官方模型压缩工具，负责生成可部署的低精度权重与缓存。选择它来跟踪量化算法、精度调优、模型适配及导出格式，连接压缩研究与 MindIE / vLLM-Ascend 部署。,msModelSlim · 算法总览,https://msmodelslim.readthedocs.io/zh-cn/latest/zh/knowledge_base/quantization_algorithms/,P0,True
+产业界,ascend,msModelSlim · 昇腾模型压缩,昇腾官方模型压缩工具，负责生成可部署的低精度权重与缓存。选择它来跟踪量化算法、精度调优、模型适配及导出格式，连接压缩研究与 MindIE / vLLM-Ascend 部署。,msModelSlim · 模型支持矩阵,https://msmodelslim.readthedocs.io/zh-cn/latest/zh/knowledge_base/model/,P0,True
+产业界,ascend,msModelSlim · 昇腾模型压缩,昇腾官方模型压缩工具，负责生成可部署的低精度权重与缓存。选择它来跟踪量化算法、精度调优、模型适配及导出格式，连接压缩研究与 MindIE / vLLM-Ascend 部署。,msModelSlim · 版本说明,https://msmodelslim.readthedocs.io/zh-cn/latest/zh/release_notes/release_notes/,P0,True
+产业界,ascend,ops-transformer · 昇腾 Transformer 算子,CANN 官方 Transformer 算子库，覆盖 Attention、MoE 与通算融合。选择它来追踪量化/稀疏算子的实际接口、硬件支持和主干变化；主干新特性须再核对发布标签及 CANN 配套。,ops-transformer · 官方算子库,https://gitcode.com/cann/ops-transformer,P0,True
+产业界,ascend,ops-transformer · 昇腾 Transformer 算子,CANN 官方 Transformer 算子库，覆盖 Attention、MoE 与通算融合。选择它来追踪量化/稀疏算子的实际接口、硬件支持和主干变化；主干新特性须再核对发布标签及 CANN 配套。,ops-transformer · 量化 Attention,https://gitcode.com/cann/ops-transformer/tree/master/attention/quant_flash_attn,P0,True
+产业界,ascend,ops-transformer · 昇腾 Transformer 算子,CANN 官方 Transformer 算子库，覆盖 Attention、MoE 与通算融合。选择它来追踪量化/稀疏算子的实际接口、硬件支持和主干变化；主干新特性须再核对发布标签及 CANN 配套。,ops-transformer · v9.1.1 标签,https://gitcode.com/cann/ops-transformer/tags/v9.1.1,P0,True
+产业界,general,paperlists repository (legacy discovery),备用信息源，具体覆盖范围与入选理由尚待补充。,paperlists repository (legacy discovery),https://github.com/papercopilot/paperlists,P2,True
+产业界,general,pgvector,备用信息源，具体覆盖范围与入选理由尚待补充。,pgvector,https://github.com/pgvector/pgvector,P2,True
+产业界,general,vLLM,开源大模型推理服务项目，提供代码、文档和版本记录。用于跟踪量化、KV 缓存与稀疏计算的实现变化，并通过支持矩阵核对具体硬件和配置。,vLLM · 量化支持文档,https://docs.vllm.ai/en/latest/features/quantization/,P0,True
+产业界,general,vLLM,开源大模型推理服务项目，提供代码、文档和版本记录。用于跟踪量化、KV 缓存与稀疏计算的实现变化，并通过支持矩阵核对具体硬件和配置。,vLLM · 发布动态,https://github.com/vllm-project/vllm/releases,P0,True
+产业界,general,vLLM,开源大模型推理服务项目，提供代码、文档和版本记录。用于跟踪量化、KV 缓存与稀疏计算的实现变化，并通过支持矩阵核对具体硬件和配置。,vLLM Blog,https://docs.vllm.ai/en/latest/latest,P2,True
+产业界,general,vLLM,开源大模型推理服务项目，提供代码、文档和版本记录。用于跟踪量化、KV 缓存与稀疏计算的实现变化，并通过支持矩阵核对具体硬件和配置。,vLLM,https://github.com/vllm-project/vllm,P2,True
+产业界,general,vLLM,开源大模型推理服务项目，提供代码、文档和版本记录。用于跟踪量化、KV 缓存与稀疏计算的实现变化，并通过支持矩阵核对具体硬件和配置。,PagedAttention,https://vllm.ai,P0,True
+产业界,ascend,vLLM-Ascend · 昇腾推理适配,vLLM 社区维护的昇腾 NPU 适配插件。重点选择它来追踪低比特量化、KV 缓存、Attention 算子和模型部署在昇腾上的版本支持与限制；与通用 vLLM 分开核对。,vLLM-Ascend · 版本发布,https://github.com/vllm-project/vllm-ascend/releases,P0,True
+产业界,ascend,vLLM-Ascend · 昇腾推理适配,vLLM 社区维护的昇腾 NPU 适配插件。重点选择它来追踪低比特量化、KV 缓存、Attention 算子和模型部署在昇腾上的版本支持与限制；与通用 vLLM 分开核对。,vLLM-Ascend · 版本说明,https://docs.vllm.ai/projects/ascend/en/latest/user_guide/release_notes.html,P0,True
+产业界,ascend,vLLM-Ascend · 昇腾推理适配,vLLM 社区维护的昇腾 NPU 适配插件。重点选择它来追踪低比特量化、KV 缓存、Attention 算子和模型部署在昇腾上的版本支持与限制；与通用 vLLM 分开核对。,vLLM-Ascend · 官方代码,https://github.com/vllm-project/vllm-ascend,P0,True
+产业界,general,verl,备用信息源，具体覆盖范围与入选理由尚待补充。,verl,https://github.com/volcengine/verl,P2,True
+产业界,general,wasmCloud,备用信息源，具体覆盖范围与入选理由尚待补充。,wasmCloud,https://wasmcloud.com,P2,True
+产业界,general,华为云盘古,备用信息源，具体覆盖范围与入选理由尚待补充。,华为云盘古,https://www.huaweicloud.com/product/pangu.html,P2,True
+产业界,general,华为海思AI算力,备用信息源，具体覆盖范围与入选理由尚待补充。,华为海思AI算力,https://www.hisilicon.com,P2,True
+产业界,ascend,昇腾 MindIE · 实现与适配,昇腾推理服务工具链的官方实现与适配资料入口。选择理由：MindIE-LLM官方实现，直接关联昇腾推理压缩的适配与部署。,昇腾 MindIE · 实现与适配,https://github.com/Ascend/MindIE-LLM,P0,True
+产业界,ascend,昇腾社区 · 平台与官方动态,昇腾官方开发者社区，提供平台资料与开发动态。选择理由：昇腾官方平台入口，优先识别算子、精度和部署兼容约束。,昇腾社区 · 平台与官方动态,https://www.hiascend.com/,P0,True
+产业界,general,智谱AI（THUDM）,备用信息源，具体覆盖范围与入选理由尚待补充。,智谱AI（THUDM）,https://github.com/THUDM,P2,True
+产业界,general,火山引擎,备用信息源，具体覆盖范围与入选理由尚待补充。,火山引擎,https://www.volcengine.com,P2,True
+产业界,general,百度智能云Agent,备用信息源，具体覆盖范围与入选理由尚待补充。,百度智能云Agent,https://cloud.baidu.com/product/agente.html,P2,True
+产业界,general,腾讯云混元,备用信息源，具体覆盖范围与入选理由尚待补充。,腾讯云混元,https://cloud.tencent.com/product/hunyuan,P2,True
+产业界,general,苹果 · ML Blog,Apple 机器学习研究的官方技术博客。选择理由：Apple ML第一方研究入口，补充端侧量化、蒸馏和结构压缩经验。,苹果 · ML Blog,https://machinelearning.apple.com,P1,True
+产业界,general,豆包大模型,备用信息源，具体覆盖范围与入选理由尚待补充。,豆包大模型,https://www.volcengine.com/product/doubao,P2,True
+产业界,general,通义千问,通义千问模型及相关技术的官方发布入口。选择理由：Qwen官方代码组织，追踪量化模型、架构与工具的版本及配置证据。,通义千问,https://github.com/QwenLM,P0,True
+产业界,general,阿里云PAI,备用信息源，具体覆盖范围与入选理由尚待补充。,阿里云PAI,https://help.aliyun.com/zh/pai,P2,True
+产业界,general,阿里云百炼,备用信息源，具体覆盖范围与入选理由尚待补充。,阿里云百炼,https://bailian.console.aliyun.com,P2,True

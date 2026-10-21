@@ -1,0 +1,136 @@
+{
+  "definition": {
+    "description": "CCN public homepage section registry; persistent editorial metadata",
+    "fields": {
+      "accent": {
+        "projection": "default",
+        "required": false,
+        "role": "value",
+        "source": null,
+        "type": "string"
+      },
+      "id": {
+        "projection": "default",
+        "required": true,
+        "role": "key",
+        "source": null,
+        "type": "string"
+      },
+      "position": {
+        "projection": "default",
+        "required": true,
+        "role": "value",
+        "source": null,
+        "type": "integer"
+      },
+      "status": {
+        "projection": "default",
+        "required": true,
+        "role": "value",
+        "source": null,
+        "type": "string"
+      },
+      "summary": {
+        "projection": "default",
+        "required": true,
+        "role": "value",
+        "source": null,
+        "type": "string"
+      },
+      "title": {
+        "projection": "default",
+        "required": true,
+        "role": "value",
+        "source": null,
+        "type": "string"
+      }
+    },
+    "indexes": [],
+    "key_field": "id",
+    "required_fields": [
+      "id",
+      "position",
+      "status",
+      "summary",
+      "title"
+    ],
+    "schema": "mcpgit.table.v2"
+  },
+  "deleted_count": 0,
+  "diagnostics": [
+    "physical codec: json_rows/Sha256Prefix2",
+    "validated row Objects: 0",
+    "query access v1: selected=snapshot_query resident=false persistent_eligible=true reason=existing_snapshot_fallback exact_revision=9e34b7db1e85671cdece181381dcc5ce7fb61bf5 row_repository_reused=true"
+  ],
+  "dirty": false,
+  "limit": 20,
+  "matched_count": 4,
+  "offset": 0,
+  "path": "data/tables/ccn_home_sections",
+  "repo": "works",
+  "returned_count": 4,
+  "revision": "9e34b7db1e85671cdece181381dcc5ce7fb61bf5",
+  "row_count": 4,
+  "rows": [
+    {
+      "deleted": false,
+      "key": "jian",
+      "row": {
+        "accent": "#ffc783",
+        "id": "jian",
+        "position": 3,
+        "status": "planned",
+        "summary": "新的内容空间，正在筹备。",
+        "title": "极简"
+      },
+      "row_version": 1,
+      "text_match": null
+    },
+    {
+      "deleted": false,
+      "key": "wen",
+      "row": {
+        "accent": "#65e0c4",
+        "id": "wen",
+        "position": 2,
+        "status": "planned",
+        "summary": "新的内容空间，正在筹备。",
+        "title": "极稳"
+      },
+      "row_version": 1,
+      "text_match": null
+    },
+    {
+      "deleted": false,
+      "key": "you",
+      "row": {
+        "accent": "#ef9ad1",
+        "id": "you",
+        "position": 4,
+        "status": "planned",
+        "summary": "新的内容空间，正在筹备。",
+        "title": "极优"
+      },
+      "row_version": 1,
+      "text_match": null
+    },
+    {
+      "deleted": false,
+      "key": "zhi",
+      "row": {
+        "accent": "#9b8aff",
+        "id": "zhi",
+        "position": 1,
+        "status": "active",
+        "summary": "AI Infra 与 Agent，连接技术研究与工程实践。",
+        "title": "极智"
+      },
+      "row_version": 1,
+      "text_match": null
+    }
+  ],
+  "source_kind": "revision_tree",
+  "transaction_count": 1,
+  "truncated": false,
+  "worktree_id": null
+}

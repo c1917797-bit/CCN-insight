@@ -1,0 +1,143 @@
+{
+  "description": "Cloud Core benchmarks: typed rows, stable keys and explicit relationships; no whole-domain JSON blob. Persistent history.",
+  "fields": {
+    "benchmark_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "hardware": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "metric_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "model": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "observed_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "review_status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "scenario_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "unit": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "valid_until": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "value": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "number"
+    },
+    "version": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "workload": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "metric_id",
+      "name": "idx_metric_id"
+    },
+    {
+      "field": "scenario_id",
+      "name": "idx_scenario_id"
+    },
+    {
+      "field": "valid_until",
+      "name": "idx_valid_until"
+    },
+    {
+      "field": "review_status",
+      "name": "idx_review_status"
+    }
+  ],
+  "key_field": "benchmark_id",
+  "required_fields": [
+    "benchmark_id",
+    "business_id",
+    "hardware",
+    "metric_id",
+    "model",
+    "observed_at",
+    "review_status",
+    "scenario_id",
+    "source_id",
+    "unit",
+    "valid_until",
+    "value",
+    "version",
+    "workload"
+  ],
+  "schema": "mcpgit.table.v2"
+}

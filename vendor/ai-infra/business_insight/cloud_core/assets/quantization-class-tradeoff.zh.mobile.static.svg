@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 600" data-cycle="4" data-scene="tradeoff" data-style="quantization-teaching-film-v4" role="img" aria-labelledby="title desc">
+<title id="title">权重量化：逐步机制动画</title>
+<desc id="desc">合成教学数据，非模型实测。立体粒子表示数值，轨道和处理站逐步解释量化；数学坐标、公式和结果始终可读。</desc>
+<defs>
+ <linearGradient id="stage" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#183453"/><stop offset=".48" stop-color="#0c2038"/><stop offset="1" stop-color="#071527"/></linearGradient>
+ <radialGradient id="spot"><stop stop-color="#1c7d91" stop-opacity=".22"/><stop offset="1" stop-color="#122d45" stop-opacity="0"/></radialGradient>
+ <radialGradient id="orbCyan" cx=".28" cy=".22" r=".85"><stop stop-color="#fff"/><stop offset=".18" stop-color="#c1fff3"/><stop offset=".52" stop-color="#54decf"/><stop offset="1" stop-color="#17688c"/></radialGradient>
+ <radialGradient id="orbCoral" cx=".28" cy=".22" r=".85"><stop stop-color="#fff4de"/><stop offset=".22" stop-color="#ffd4a5"/><stop offset=".6" stop-color="#fa9b7d"/><stop offset="1" stop-color="#913a61"/></radialGradient>
+ <radialGradient id="orbBlue" cx=".28" cy=".22" r=".85"><stop stop-color="#fff"/><stop offset=".2" stop-color="#dae9ff"/><stop offset=".58" stop-color="#86acff"/><stop offset="1" stop-color="#3b509b"/></radialGradient>
+ <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#4f7d9b"/><stop offset=".15" stop-color="#284d6a"/><stop offset=".58" stop-color="#17314b"/><stop offset="1" stop-color="#0d2136"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#356c87" stop-opacity=".8"/><stop offset=".45" stop-color="#183d59" stop-opacity=".9"/><stop offset="1" stop-color="#132b42"/></linearGradient>
+ <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#80b5ff" stop-opacity=".1"/><stop offset="1" stop-color="#79ffe6" stop-opacity=".65"/></linearGradient>
+ <linearGradient id="densityFill" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#8cb7ff" stop-opacity=".5"/><stop offset="1" stop-color="#67eadf" stop-opacity=".02"/></linearGradient>
+ <linearGradient id="errorFill" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#80b5ff" stop-opacity=".05"/><stop offset="1" stop-color="#ffb08d" stop-opacity=".35"/></linearGradient>
+ <linearGradient id="bar" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#91ffe7"/><stop offset="1" stop-color="#206281"/></linearGradient>
+ <pattern id="clipHatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 0 V9" stroke="#c98c88" stroke-width="1"/></pattern>
+ <filter id="glow" x="-130%" y="-130%" width="360%" height="360%"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ </defs>
+<style>text{font-family:Arial,"Microsoft YaHei",sans-serif;font-variant-numeric:tabular-nums}path,line{stroke-linecap:round;stroke-linejoin:round}circle[fill="#fff"]{fill:#0d263d}.decoration{pointer-events:none}@media(prefers-reduced-motion:reduce){*{animation:none!important}}</style>
+<rect width="360" height="600" rx="16" fill="url(#stage)"/>
+<ellipse cx="190.8" cy="276.0" rx="208.79999999999998" ry="330.0" fill="url(#spot)" class="decoration"/>
+<path d="M117.0 312.0 L0.0 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M135.0 312.0 L51.42857142857142 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M153.0 312.0 L102.85714285714285 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M171.0 312.0 L154.28571428571428 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M189.0 312.0 L205.7142857142857 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M207.0 312.0 L257.14285714285717 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M225.0 312.0 L308.57142857142856 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M243.0 312.0 L360.0 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M18 372.0 L342 372.0" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<path d="M18 438.0 L342 438.0" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<path d="M18 522.0 L342 522.0" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<text x="20" y="42" font-size="28" fill="#eff8ff" font-weight="600" >4个短码，读回近似值</text>
+<text x="180" y="101" font-size="36" fill="#6ef3e2" font-weight="600" text-anchor="middle" id="tradeoff-payload" data-weight-count="4" data-original-bits="16" data-code-bits="2" data-before="64" data-after="8">64 bit → 8 bit</text>
+<text x="180" y="142" font-size="24" fill="#b5cce2" font-weight="400" text-anchor="middle" >4 × 16 bit → 4 × 2 bit</text>
+<text x="20" y="197" font-size="24" fill="#b5cce2" font-weight="400" >保存的4个编号</text>
+<g id="tradeoff-code-0" data-code="00" data-q="0" data-level="-1">
+<rect x="23" y="214" width="24" height="35" rx="5" fill="#204654" stroke="#6ef3e2" data-bit-sketch="int2" data-code-index="0" data-bit-index="0"/>
+<text x="35" y="241" font-size="26" fill="#6ef3e2" font-weight="400" text-anchor="middle" data-stored-bit="0">0</text>
+<rect x="53" y="214" width="24" height="35" rx="5" fill="#204654" stroke="#6ef3e2" data-bit-sketch="int2" data-code-index="0" data-bit-index="1"/>
+<text x="65" y="241" font-size="26" fill="#6ef3e2" font-weight="400" text-anchor="middle" data-stored-bit="0">0</text>
+</g>
+<path d="M50 266 L50 325" fill="none" stroke="#779eb5" stroke-width="2" />
+<path d="M45 319 L50 326 L55 319" fill="none" stroke="#6ef3e2" stroke-width="2" />
+<text x="50" y="366" font-size="28" fill="#eff8ff" font-weight="600" text-anchor="middle" id="tradeoff-restored-0" data-reconstructed="-1" data-code="00">-1</text>
+<g id="tradeoff-code-1" data-code="01" data-q="1" data-level="-0.5">
+<rect x="108" y="214" width="24" height="35" rx="5" fill="#204654" stroke="#6ef3e2" data-bit-sketch="int2" data-code-index="1" data-bit-index="0"/>
+<text x="120" y="241" font-size="26" fill="#6ef3e2" font-weight="400" text-anchor="middle" data-stored-bit="0">0</text>
+<rect x="138" y="214" width="24" height="35" rx="5" fill="#204654" stroke="#6ef3e2" data-bit-sketch="int2" data-code-index="1" data-bit-index="1"/>
+<text x="150" y="241" font-size="26" fill="#6ef3e2" font-weight="400" text-anchor="middle" data-stored-bit="1">1</text>
+</g>
+<path d="M135 266 L135 325" fill="none" stroke="#779eb5" stroke-width="2" />
+<path d="M130 319 L135 326 L140 319" fill="none" stroke="#6ef3e2" stroke-width="2" />
+<text x="135" y="366" font-size="28" fill="#eff8ff" font-weight="600" text-anchor="middle" id="tradeoff-restored-1" data-reconstructed="-0.5" data-code="01">-0.5</text>
+<g id="tradeoff-code-2" data-code="10" data-q="2" data-level="0">
+<rect x="193" y="214" width="24" height="35" rx="5" fill="#204654" stroke="#6ef3e2" data-bit-sketch="int2" data-code-index="2" data-bit-index="0"/>
+<text x="205" y="241" font-size="26" fill="#6ef3e2" font-weight="400" text-anchor="middle" data-stored-bit="1">1</text>
+<rect x="223" y="214" width="24" height="35" rx="5" fill="#204654" stroke="#6ef3e2" data-bit-sketch="int2" data-code-index="2" data-bit-index="1"/>
+<text x="235" y="241" font-size="26" fill="#6ef3e2" font-weight="400" text-anchor="middle" data-stored-bit="0">0</text>
+</g>
+<path d="M220 266 L220 325" fill="none" stroke="#779eb5" stroke-width="2" />
+<path d="M215 319 L220 326 L225 319" fill="none" stroke="#6ef3e2" stroke-width="2" />
+<text x="220" y="366" font-size="28" fill="#eff8ff" font-weight="600" text-anchor="middle" id="tradeoff-restored-2" data-reconstructed="0" data-code="10">0</text>
+<g id="tradeoff-code-3" data-code="11" data-q="3" data-level="0.5">
+<rect x="278" y="214" width="24" height="35" rx="5" fill="#204654" stroke="#6ef3e2" data-bit-sketch="int2" data-code-index="3" data-bit-index="0"/>
+<text x="290" y="241" font-size="26" fill="#6ef3e2" font-weight="400" text-anchor="middle" data-stored-bit="1">1</text>
+<rect x="308" y="214" width="24" height="35" rx="5" fill="#204654" stroke="#6ef3e2" data-bit-sketch="int2" data-code-index="3" data-bit-index="1"/>
+<text x="320" y="241" font-size="26" fill="#6ef3e2" font-weight="400" text-anchor="middle" data-stored-bit="1">1</text>
+</g>
+<path d="M305 266 L305 325" fill="none" stroke="#779eb5" stroke-width="2" />
+<path d="M300 319 L305 326 L310 319" fill="none" stroke="#6ef3e2" stroke-width="2" />
+<text x="305" y="366" font-size="28" fill="#eff8ff" font-weight="600" text-anchor="middle" id="tradeoff-restored-3" data-reconstructed="0.5" data-code="11">0.5</text>
+<text x="20" y="413" font-size="24" fill="#b5cce2" font-weight="400" >读回4个近似权重</text>
+<text x="20" y="465" font-size="26" fill="#eff8ff" font-weight="400" >个数没有减少，</text>
+<text x="20" y="505" font-size="26" fill="#eff8ff" font-weight="400" >但不再是原来的精细值。</text>
+<text x="20" y="563" font-size="24" fill="#b5cce2" font-weight="400" >共享尺度和零点另计</text>
+<text x="20" y="591" font-size="24" fill="#b5cce2" font-weight="400" >不代表实际运行会更快</text>
+</svg>

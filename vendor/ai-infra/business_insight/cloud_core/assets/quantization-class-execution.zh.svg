@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 440" data-cycle="12" data-scene="execution" data-style="quantization-teaching-film-v4" role="img" aria-labelledby="title desc">
+<title id="title">权重量化：逐步机制动画</title>
+<desc id="desc">合成教学数据，非模型实测。立体粒子表示数值，轨道和处理站逐步解释量化；数学坐标、公式和结果始终可读。</desc>
+<defs>
+ <linearGradient id="stage" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#183453"/><stop offset=".48" stop-color="#0c2038"/><stop offset="1" stop-color="#071527"/></linearGradient>
+ <radialGradient id="spot"><stop stop-color="#1c7d91" stop-opacity=".22"/><stop offset="1" stop-color="#122d45" stop-opacity="0"/></radialGradient>
+ <radialGradient id="orbCyan" cx=".28" cy=".22" r=".85"><stop stop-color="#fff"/><stop offset=".18" stop-color="#c1fff3"/><stop offset=".52" stop-color="#54decf"/><stop offset="1" stop-color="#17688c"/></radialGradient>
+ <radialGradient id="orbCoral" cx=".28" cy=".22" r=".85"><stop stop-color="#fff4de"/><stop offset=".22" stop-color="#ffd4a5"/><stop offset=".6" stop-color="#fa9b7d"/><stop offset="1" stop-color="#913a61"/></radialGradient>
+ <radialGradient id="orbBlue" cx=".28" cy=".22" r=".85"><stop stop-color="#fff"/><stop offset=".2" stop-color="#dae9ff"/><stop offset=".58" stop-color="#86acff"/><stop offset="1" stop-color="#3b509b"/></radialGradient>
+ <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#4f7d9b"/><stop offset=".15" stop-color="#284d6a"/><stop offset=".58" stop-color="#17314b"/><stop offset="1" stop-color="#0d2136"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#356c87" stop-opacity=".8"/><stop offset=".45" stop-color="#183d59" stop-opacity=".9"/><stop offset="1" stop-color="#132b42"/></linearGradient>
+ <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#80b5ff" stop-opacity=".1"/><stop offset="1" stop-color="#79ffe6" stop-opacity=".65"/></linearGradient>
+ <linearGradient id="densityFill" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#8cb7ff" stop-opacity=".5"/><stop offset="1" stop-color="#67eadf" stop-opacity=".02"/></linearGradient>
+ <linearGradient id="errorFill" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#80b5ff" stop-opacity=".05"/><stop offset="1" stop-color="#ffb08d" stop-opacity=".35"/></linearGradient>
+ <linearGradient id="bar" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#91ffe7"/><stop offset="1" stop-color="#206281"/></linearGradient>
+ <pattern id="clipHatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 0 V9" stroke="#c98c88" stroke-width="1"/></pattern>
+ <filter id="glow" x="-130%" y="-130%" width="360%" height="360%"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ </defs>
+<style>text{font-family:Arial,"Microsoft YaHei",sans-serif;font-variant-numeric:tabular-nums}path,line{stroke-linecap:round;stroke-linejoin:round}circle[fill="#fff"]{fill:#0d263d}.decoration{pointer-events:none}@media(prefers-reduced-motion:reduce){*{animation:none!important}}</style>
+<rect width="800" height="440" rx="16" fill="url(#stage)"/>
+<ellipse cx="424.0" cy="202.4" rx="463.99999999999994" ry="242.00000000000003" fill="url(#spot)" class="decoration"/>
+<path d="M260.0 228.8 L0.0 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M300.0 228.8 L114.28571428571428 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M340.0 228.8 L228.57142857142856 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M380.0 228.8 L342.85714285714283 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M420.0 228.8 L457.1428571428571 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M460.0 228.8 L571.4285714285714 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M500.0 228.8 L685.7142857142857 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M540.0 228.8 L800.0 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M18 272.8 L782 272.8" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<path d="M18 321.2 L782 321.2" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<path d="M18 382.8 L782 382.8" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<text x="40" y="160" font-size="24" fill="#b5cce2" font-weight="400" >4个2-bit码打成1字节</text>
+<path d="M32 231 H248 L235 245 H45 Z" fill="url(#metal)" stroke="#416780" stroke-width="1" class="decoration"/>
+<path d="M44 234 L236 234" fill="none" stroke="#6ea3bb" stroke-width="0.8" />
+<rect x="40" y="188" width="22" height="39" rx="5" fill="url(#glass)" stroke="#5892a9" data-packed-bit-index="0" data-packed-bit="0"/>
+<text x="51.0" y="216" font-size="22" fill="#6ef3e2" font-weight="400" text-anchor="middle" >0</text>
+<rect x="65" y="188" width="22" height="39" rx="5" fill="url(#glass)" stroke="#5892a9" data-packed-bit-index="1" data-packed-bit="0"/>
+<text x="76.0" y="216" font-size="22" fill="#6ef3e2" font-weight="400" text-anchor="middle" >0</text>
+<rect x="90" y="188" width="22" height="39" rx="5" fill="url(#glass)" stroke="#5892a9" data-packed-bit-index="2" data-packed-bit="0"/>
+<text x="101.0" y="216" font-size="22" fill="#6ef3e2" font-weight="400" text-anchor="middle" >0</text>
+<rect x="115" y="188" width="22" height="39" rx="5" fill="url(#glass)" stroke="#5892a9" data-packed-bit-index="3" data-packed-bit="1"/>
+<text x="126.0" y="216" font-size="22" fill="#6ef3e2" font-weight="400" text-anchor="middle" >1</text>
+<rect x="140" y="188" width="22" height="39" rx="5" fill="url(#glass)" stroke="#5892a9" data-packed-bit-index="4" data-packed-bit="1"/>
+<text x="151.0" y="216" font-size="22" fill="#6ef3e2" font-weight="400" text-anchor="middle" >1</text>
+<rect x="165" y="188" width="22" height="39" rx="5" fill="url(#glass)" stroke="#5892a9" data-packed-bit-index="5" data-packed-bit="0"/>
+<text x="176.0" y="216" font-size="22" fill="#6ef3e2" font-weight="400" text-anchor="middle" >0</text>
+<rect x="190" y="188" width="22" height="39" rx="5" fill="url(#glass)" stroke="#5892a9" data-packed-bit-index="6" data-packed-bit="1"/>
+<text x="201.0" y="216" font-size="22" fill="#6ef3e2" font-weight="400" text-anchor="middle" >1</text>
+<rect x="215" y="188" width="22" height="39" rx="5" fill="url(#glass)" stroke="#5892a9" data-packed-bit-index="7" data-packed-bit="1"/>
+<text x="226.0" y="216" font-size="22" fill="#6ef3e2" font-weight="400" text-anchor="middle" >1</text>
+<text x="63.5" y="265" font-size="24" fill="#6ef3e2" font-weight="400" text-anchor="middle" data-unpacked-code="0">0</text>
+<text x="113.5" y="265" font-size="24" fill="#6ef3e2" font-weight="400" text-anchor="middle" data-unpacked-code="1">1</text>
+<text x="163.5" y="265" font-size="24" fill="#6ef3e2" font-weight="400" text-anchor="middle" data-unpacked-code="2">2</text>
+<text x="213.5" y="265" font-size="24" fill="#6ef3e2" font-weight="400" text-anchor="middle" data-unpacked-code="3">3</text>
+<rect x="337" y="111" width="300" height="247" rx="20" fill="#030f20" />
+<style>@keyframes kernelEdge{0%,33.323%{stroke:#4c819e;stroke-width:2}33.333%,66.647%{stroke:#6ef3e2;stroke-width:3}66.657%,100%{stroke:#4c819e;stroke-width:2}}</style>
+<rect x="330" y="102" width="300" height="247" rx="18" fill="url(#glass)" stroke="#4c819e" id="fused-kernel" style="animation:kernelEdge 12s linear infinite"/>
+<text x="480.0" y="136" font-size="24" fill="#b5cce2" font-weight="400" text-anchor="middle" >核内示意</text>
+<text x="480.0" y="179" font-size="24" fill="#6ef3e2" font-weight="400" text-anchor="middle" data-kernel-stage="unpack">q=(0,1,2,3)</text>
+<text x="480.0" y="219" font-size="24" fill="#b5cce2" font-weight="400" text-anchor="middle" data-kernel-stage="parameters">s=0.5 · z=2</text>
+<text x="480.0" y="258" font-size="24" fill="#6ef3e2" font-weight="400" text-anchor="middle" data-kernel-stage="restore" data-restored-values="-1,-0.5,0,0.5">ŵ=(−1,−0.5,0,0.5)</text>
+<text x="480.0" y="307" font-size="28" fill="#eff8ff" font-weight="400" text-anchor="middle" data-kernel-stage="compute">Ŷ=ŴX</text>
+<path d="M244 211 L330 211" fill="none" stroke="#020e1d" stroke-width="7" />
+<path d="M244 208 L330 208" fill="none" stroke="#446a84" stroke-width="4" />
+<path d="M244 207 L330 207" fill="none" stroke="#96b9ce" stroke-width="0.75" />
+<path d="M480.0 37 L480.0 105" fill="none" stroke="#020e1d" stroke-width="7" />
+<path d="M480.0 34 L480.0 102" fill="none" stroke="#446a84" stroke-width="4" />
+<path d="M480.0 33 L480.0 101" fill="none" stroke="#96b9ce" stroke-width="0.75" />
+<text x="498.0" y="63" font-size="24" fill="#b5cce2" font-weight="400" >A16</text>
+<path d="M630 289 L752 289" fill="none" stroke="#020e1d" stroke-width="7" />
+<path d="M630 286 L752 286" fill="none" stroke="#446a84" stroke-width="4" />
+<path d="M630 285 L752 285" fill="none" stroke="#96b9ce" stroke-width="0.75" />
+<text x="705" y="254" font-size="24" fill="#b5cce2" font-weight="400" text-anchor="middle" >输出Ŷ</text>
+<style>@keyframes activation{0%{transform:translate(0,0)}33.3333%,38.6667%{transform:translate(0.0px,0px)}59.3333%{transform:translate(0.0px,116px)}66.6667%,72.0000%{transform:translate(0.0px,116px)}92.6667%{transform:translate(0.0px,238px)}100%{transform:translate(0.0px,238px)}}</style>
+<ellipse cx="482.0" cy="43.9" rx="7.800000000000001" ry="2.2800000000000002" fill="#020914" opacity=".48" style="animation:activation 12s cubic-bezier(.55,0,.2,1) infinite" class="decoration"/>
+<circle cx="480.0" cy="34" r="6" fill="url(#orbBlue)" stroke="#8fb6ff" stroke-width=".7" style="animation:activation 12s cubic-bezier(.55,0,.2,1) infinite" />
+<circle cx="478.32" cy="32.08" r="1.2000000000000002" fill="#fff" opacity=".78" style="animation:activation 12s cubic-bezier(.55,0,.2,1) infinite" class="decoration"/>
+<style>@keyframes decoded0{0%{transform:translate(0,0)}33.3333%,38.6667%{transform:translate(0px,0px)}59.3333%{transform:translate(78.0px,64px)}66.6667%,72.0000%{transform:translate(78.0px,64px)}92.6667%{transform:translate(404px,78px)}100%{transform:translate(404px,78px)}}</style>
+<ellipse cx="350" cy="213.775" rx="4.55" ry="1.33" fill="#020914" opacity=".48" style="animation:decoded0 12s cubic-bezier(.55,0,.2,1) infinite" class="decoration"/>
+<circle cx="348" cy="208" r="3.5" fill="url(#orbCyan)" stroke="#6ef3e2" stroke-width=".7" style="animation:decoded0 12s cubic-bezier(.55,0,.2,1) infinite" />
+<circle cx="347.02" cy="206.88" r="1" fill="#fff" opacity=".78" style="animation:decoded0 12s cubic-bezier(.55,0,.2,1) infinite" class="decoration"/>
+<style>@keyframes decoded1{0%{transform:translate(0,0)}33.3333%,38.6667%{transform:translate(0px,0px)}59.3333%{transform:translate(114.0px,64px)}66.6667%,72.0000%{transform:translate(114.0px,64px)}92.6667%{transform:translate(404px,78px)}100%{transform:translate(404px,78px)}}</style>
+<ellipse cx="350" cy="213.775" rx="4.55" ry="1.33" fill="#020914" opacity=".48" style="animation:decoded1 12s cubic-bezier(.55,0,.2,1) infinite" class="decoration"/>
+<circle cx="348" cy="208" r="3.5" fill="url(#orbCyan)" stroke="#6ef3e2" stroke-width=".7" style="animation:decoded1 12s cubic-bezier(.55,0,.2,1) infinite" />
+<circle cx="347.02" cy="206.88" r="1" fill="#fff" opacity=".78" style="animation:decoded1 12s cubic-bezier(.55,0,.2,1) infinite" class="decoration"/>
+<style>@keyframes decoded2{0%{transform:translate(0,0)}33.3333%,38.6667%{transform:translate(0px,0px)}59.3333%{transform:translate(150.0px,64px)}66.6667%,72.0000%{transform:translate(150.0px,64px)}92.6667%{transform:translate(404px,78px)}100%{transform:translate(404px,78px)}}</style>
+<ellipse cx="350" cy="213.775" rx="4.55" ry="1.33" fill="#020914" opacity=".48" style="animation:decoded2 12s cubic-bezier(.55,0,.2,1) infinite" class="decoration"/>
+<circle cx="348" cy="208" r="3.5" fill="url(#orbCyan)" stroke="#6ef3e2" stroke-width=".7" style="animation:decoded2 12s cubic-bezier(.55,0,.2,1) infinite" />
+<circle cx="347.02" cy="206.88" r="1" fill="#fff" opacity=".78" style="animation:decoded2 12s cubic-bezier(.55,0,.2,1) infinite" class="decoration"/>
+<style>@keyframes decoded3{0%{transform:translate(0,0)}33.3333%,38.6667%{transform:translate(0px,0px)}59.3333%{transform:translate(186.0px,64px)}66.6667%,72.0000%{transform:translate(186.0px,64px)}92.6667%{transform:translate(404px,78px)}100%{transform:translate(404px,78px)}}</style>
+<ellipse cx="350" cy="213.775" rx="4.55" ry="1.33" fill="#020914" opacity=".48" style="animation:decoded3 12s cubic-bezier(.55,0,.2,1) infinite" class="decoration"/>
+<circle cx="348" cy="208" r="3.5" fill="url(#orbCyan)" stroke="#6ef3e2" stroke-width=".7" style="animation:decoded3 12s cubic-bezier(.55,0,.2,1) infinite" />
+<circle cx="347.02" cy="206.88" r="1" fill="#fff" opacity=".78" style="animation:decoded3 12s cubic-bezier(.55,0,.2,1) infinite" class="decoration"/>
+<text x="20" y="392" font-size="22" fill="#b5cce2" font-weight="400" >s(q−z)还原近似权重；W2A16仅为教学示意。</text>
+<text x="20" y="424" font-size="20" fill="#b5cce2" font-weight="400" >按显示顺序从高位到低位打包；不声明硬件支持或加速。</text>
+<style>@keyframes packedPacket{0%{transform:translate(0,0)}0.0000%,5.3333%{transform:translate(0px,0px)}26.0000%{transform:translate(104px,0px)}33.3333%,38.6667%{transform:translate(104px,0px)}59.3333%{transform:translate(236.0px,64px)}66.6667%,72.0000%{transform:translate(236.0px,64px)}92.6667%{transform:translate(508px,78px)}100%{transform:translate(508px,78px)}}</style>
+<g style="animation:packedPacket 12s cubic-bezier(.55,0,.2,1) infinite" class="decoration">
+<ellipse cx="246" cy="227" rx="23" ry="5" fill="#010815" opacity=".55"/>
+<path d="M223 197 L262 197 L268 203 V218 L227 218 L221 212 Z" fill="url(#glass)" stroke="#8cebdc" stroke-width="1.2"/>
+<rect x="227.0" y="202" width="3.2" height="11" rx="1" fill="url(#orbCyan)" />
+<rect x="231.7" y="202" width="3.2" height="11" rx="1" fill="url(#orbCyan)" />
+<rect x="236.4" y="202" width="3.2" height="11" rx="1" fill="url(#orbCyan)" />
+<rect x="241.1" y="202" width="3.2" height="11" rx="1" fill="url(#orbCyan)" />
+<rect x="245.8" y="202" width="3.2" height="11" rx="1" fill="url(#orbCyan)" />
+<rect x="250.5" y="202" width="3.2" height="11" rx="1" fill="url(#orbCyan)" />
+<rect x="255.2" y="202" width="3.2" height="11" rx="1" fill="url(#orbCyan)" />
+<rect x="259.9" y="202" width="3.2" height="11" rx="1" fill="url(#orbCyan)" />
+</g>
+</svg>

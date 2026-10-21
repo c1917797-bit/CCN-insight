@@ -1,0 +1,83 @@
+{
+  "description": "Cloud Core modules: typed rows, stable keys and explicit relationships; no whole-domain JSON blob. Persistent history.",
+  "fields": {
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "logical_prefix": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "module_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "name_en": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "name_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "order": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "purpose": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "stage_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "order",
+      "name": "idx_order"
+    }
+  ],
+  "key_field": "module_id",
+  "required_fields": [
+    "business_id",
+    "logical_prefix",
+    "module_id",
+    "name_en",
+    "name_zh",
+    "order",
+    "purpose",
+    "stage_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

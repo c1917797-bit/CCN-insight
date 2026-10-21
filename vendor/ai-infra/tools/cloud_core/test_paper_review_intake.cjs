@@ -1,0 +1,23 @@
+'use strict';
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const reviewCode=fs.readFileSync('business_insight/cloud_core/paper-review.js','utf8');
+const sandbox={URL,Date,console,location:{href:'https://example.org/business_insight/cloud_core/index.html'}};vm.createContext(sandbox);vm.runInContext(reviewCode,sandbox);
+const intake={intake_id:'review-fixture',business_id:'cloud-core',topic_id:'cloud_core',source_id:'source-fixture',summary_id:'summary-fixture',review_period_id:'2026-10',publication_date:'2026-08-16',reviewed_at:'2026-10-16',relation_kind:'adjacent_research',position:1};
+for(const key of ['direction','selection_reason','next_step','applicability_boundary'])for(const locale of ['zh','en'])intake[key+'_'+locale]='Fixture';
+const source={source_id:'source-fixture',business_id:'cloud-core',source_kind:'paper',verification_status:'primary_full_text_reviewed',title:'Fixture paper',external_id:'2608.15533',canonical_url:'https://arxiv.org/abs/2608.15533'};
+const summary={summary_id:'summary-fixture',business_id:'cloud-core',topic_id:'cloud_core',source_id:'source-fixture',reviewed_at:'2026-10-16',review_status:'method_results_checked',observed_version:'v1',evidence_url:'https://arxiv.org/html/2608.15533v1',evidence_locator:'Table 4',one_sentence_zh:'Fixture',background_zh:'Fixture',innovation_zh:'Fixture',results_zh:'Fixture'};
+const event={business_id:'cloud-core',topic_id:'cloud_core',source_id:source.source_id,observed_version:'v1',publication_date:'2026-08-16',event_date:'2026-08-16',date_kind:'first_submission',date_precision:'day',status:'primary_text_checked',verified_at:'2026-10-16'};
+const validate=(i=intake,s=summary,r=source,events=[event])=>sandbox.LRIImportedPaperReview.validateReview(i,s,r,'2026-10',events);
+assert.throws(()=>validate(intake,summary,source,[]));assert.throws(()=>validate(intake,summary,source,[{...event,publication_date:'2026-10-16'}]));
+assert.equal(validate().intake.relation_kind,'adjacent_research');
+for(const patch of [{publication_date:'2026-10-17'},{publication_date:'2026-02-31'},{review_period_id:'2026-08'},{reviewed_at:'2026-09-30'},{summary_id:'missing'},{source_id:'missing'},{relation_kind:'weight_quantization'},{topic_id:'foreign'},{next_step_zh:''}])assert.throws(()=>validate({...intake,...patch}));
+for(const patch of [{review_status:'not_checked'},{reviewed_at:'2026-08-16'},{observed_version:''},{evidence_url:'https://arxiv.org/abs/2608.15533'},{results_zh:''}])assert.throws(()=>validate(intake,{...summary,...patch}));
+for(const patch of [{verification_status:'not_checked'},{source_kind:'news'},{canonical_url:'file:///private'}])assert.throws(()=>validate(intake,summary,{...source,...patch}));
+
+const v2={...summary,observed_version:'v2',evidence_url:'https://arxiv.org/html/2608.15533v2'};
+const revisionEvent={...event,observed_version:'v2',date_kind:'revision',event_date:'2026-09-01'};
+assert.equal(validate(intake,v2,source,[event,revisionEvent]).summary.observed_version,'v2');
+assert.throws(()=>validate(intake,v2,source,[event]));
+assert.throws(()=>validate(intake,v2,source,[{...revisionEvent,date_kind:'first_submission'}]));
+assert.throws(()=>validate(intake,v2,source,[event,{...revisionEvent,event_date:'2026-11-01'}]));
+console.log(JSON.stringify({pass:true,publication_and_version_dates_separate:true,missing_evidence_fails_closed:true}));

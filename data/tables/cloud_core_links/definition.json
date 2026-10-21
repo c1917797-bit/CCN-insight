@@ -1,0 +1,91 @@
+{
+  "description": "Cloud Core links: typed rows, stable keys and explicit relationships; no whole-domain JSON blob. Persistent history.",
+  "fields": {
+    "batch_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "from_document_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "link_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "link_kind": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "resolution_status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "target_name": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "to_document_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "from_document_id",
+      "name": "idx_from_document_id"
+    },
+    {
+      "field": "to_document_id",
+      "name": "idx_to_document_id"
+    },
+    {
+      "field": "resolution_status",
+      "name": "idx_resolution_status"
+    }
+  ],
+  "key_field": "link_id",
+  "required_fields": [
+    "batch_id",
+    "business_id",
+    "from_document_id",
+    "link_id",
+    "link_kind",
+    "resolution_status",
+    "target_name",
+    "to_document_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

@@ -1,0 +1,33 @@
+{
+  "schema": "lri.motion-scene-set/v2",
+  "scenes": [
+    {
+      "id": "quantization-principle-zh",
+      "source": "quantization-principle.zh.svg",
+      "duration_ms": 24000,
+      "poster_ms": 0,
+      "responsive": {
+        "mobile_strategy": "semantic-groups",
+        "detail_mode": "desktop-scroll"
+      },
+      "static_svg": "quantization-principle.zh.static.svg",
+      "semantic_steps": 6,
+      "claim_kind": "illustrative_arithmetic",
+      "authoring_source": "../../../tools/cloud_core/build_quantization_motion.py"
+    },
+    {
+      "id": "quantization-principle-en",
+      "source": "quantization-principle.en.svg",
+      "duration_ms": 24000,
+      "poster_ms": 0,
+      "responsive": {
+        "mobile_strategy": "semantic-groups",
+        "detail_mode": "desktop-scroll"
+      },
+      "static_svg": "quantization-principle.en.static.svg",
+      "semantic_steps": 6,
+      "claim_kind": "illustrative_arithmetic",
+      "authoring_source": "../../../tools/cloud_core/build_quantization_motion.py"
+    }
+  ]
+}

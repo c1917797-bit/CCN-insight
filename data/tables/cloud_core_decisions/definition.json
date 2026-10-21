@@ -1,0 +1,99 @@
+{
+  "description": "Cloud Core decisions: typed rows, stable keys and explicit relationships; no whole-domain JSON blob. Persistent history.",
+  "fields": {
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "decided_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "decision": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "decision_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "experiment_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "next_stage_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "rationale": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "reviewer_person_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "experiment_id",
+      "name": "idx_experiment_id"
+    },
+    {
+      "field": "status",
+      "name": "idx_status"
+    },
+    {
+      "field": "next_stage_id",
+      "name": "idx_next_stage_id"
+    }
+  ],
+  "key_field": "decision_id",
+  "required_fields": [
+    "business_id",
+    "decided_at",
+    "decision",
+    "decision_id",
+    "experiment_id",
+    "next_stage_id",
+    "rationale",
+    "reviewer_person_id",
+    "status"
+  ],
+  "schema": "mcpgit.table.v2"
+}

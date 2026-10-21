@@ -1,0 +1,1592 @@
+[
+  {
+    "path": ".gitignore",
+    "bytes": 84,
+    "sha256": "22f6d7f1309ab45d1b1f8d1933ebbbbd76cb42b524c2e50e16ea9f4c31d38e9b"
+  },
+  {
+    "path": "build.py",
+    "bytes": 6340,
+    "sha256": "556c8f025c9d13003b68b44f61890fd50471ddf92f898ae28b4045a3ac24917d"
+  },
+  {
+    "path": "home_design.py",
+    "bytes": 4851,
+    "sha256": "b3180ed2a30a8d491562d1d5d944ca58a7df70a41ab1d892d260771939e51f04"
+  },
+  {
+    "path": "README.md",
+    "bytes": 2204,
+    "sha256": "03bce8b8f1b9e8caa39900e94e470d9c41b9d22ad2950bd1ad14efcbcd1bf45b"
+  },
+  {
+    "path": ".github/workflows/build.yml",
+    "bytes": 455,
+    "sha256": "3fe8604f432482641613e47ba8b3b4450c8ef91f6689eef662c8b1e34c034712"
+  },
+  {
+    "path": "content/entries.json",
+    "bytes": 2906,
+    "sha256": "00894734c7cd86bc0a13a799cd0713f8953102dea61c715e9f9d1424c4f9b7d8"
+  },
+  {
+    "path": "content/sections.json",
+    "bytes": 3250,
+    "sha256": "f34a2cb6338ab986179e13ca876f9ebac0a70da6af3d6ec01bbffd757dfffeec"
+  },
+  {
+    "path": "data/directory/cloud_core_sources.json",
+    "bytes": 170573,
+    "sha256": "fc86bf6f92fff1a27b8fced51f5d78b1168e180d9e3cfc1a89920f6fe787df07"
+  },
+  {
+    "path": "data/directory/ic_channels.json",
+    "bytes": 447635,
+    "sha256": "e6003036d5dd7e702104ca9e77a23e8d75982abcf39197932f9e5a63c19496f9"
+  },
+  {
+    "path": "data/directory/ic_channel_families.json",
+    "bytes": 137731,
+    "sha256": "336b48bb3b44cd984afb7a5d51f9131272e9a508e673b8859ade5725de2bf812"
+  },
+  {
+    "path": "data/directory/ic_industry_source_scopes.json",
+    "bytes": 162291,
+    "sha256": "4255ac4ac4cc1aa5393dfdb0a145b00718b927456e3375bd541ab27ad30cb52f"
+  },
+  {
+    "path": "data/directory/ic_source_families.json",
+    "bytes": 181385,
+    "sha256": "09133742495e35a9e0ca345ea467f0b707895492c3286986fdddeeb1cab9b47c"
+  },
+  {
+    "path": "data/tables/cloud_core_benchmarks/definition.json",
+    "bytes": 2964,
+    "sha256": "cc588fb3be86329dc404fdf20d1a31febc6f2cf829936ed9ee8915b600c5f371"
+  },
+  {
+    "path": "data/tables/cloud_core_constraints/definition.json",
+    "bytes": 2121,
+    "sha256": "64ae6d7ddcf5799e7755f525df60c3bb036354a4a252a99fde6e056d1153aad8"
+  },
+  {
+    "path": "data/tables/cloud_core_constraints/rows-0000.jsonl",
+    "bytes": 3584,
+    "sha256": "8712d8987d4217203d65dff16d3d70cd05d35cd5f1451fc07a384a82c3b14caa"
+  },
+  {
+    "path": "data/tables/cloud_core_decisions/definition.json",
+    "bytes": 2093,
+    "sha256": "d4c890573ed798383ddd17ef218d027eba209cb859779ca9969ed3bf57dd2592"
+  },
+  {
+    "path": "data/tables/cloud_core_documents/definition.json",
+    "bytes": 2825,
+    "sha256": "0a1b1e8ce0b8853eb38cc44892976818800c1135ca8707159cee3b28f89136bc"
+  },
+  {
+    "path": "data/tables/cloud_core_documents/rows-0000.jsonl",
+    "bytes": 695952,
+    "sha256": "e8f91aa9e68a0056ef86ee3a4a9c2764dfeb32c425ea61ad410d68ac2840e34e"
+  },
+  {
+    "path": "data/tables/cloud_core_entity_refs/definition.json",
+    "bytes": 1777,
+    "sha256": "0188691b44925c4dda16cfb85e0a3feb218a4bef63de96a8555b42d2ab6a7fb3"
+  },
+  {
+    "path": "data/tables/cloud_core_entity_refs/rows-0000.jsonl",
+    "bytes": 2310,
+    "sha256": "b81a7d199fd5ab7e048d1468a1ed7d48f72f10401ca7aff25c4fda52e6fc6556"
+  },
+  {
+    "path": "data/tables/cloud_core_experiments/definition.json",
+    "bytes": 2417,
+    "sha256": "11df1262d06e5f2e6d410e08d306b569db4a3a004877b1a6dcee1b681606eae4"
+  },
+  {
+    "path": "data/tables/cloud_core_experiments/rows-0000.jsonl",
+    "bytes": 1223,
+    "sha256": "a4993b064219b846e7c60834cd54588beb60133c4f35f2432376c753ad0bf38e"
+  },
+  {
+    "path": "data/tables/cloud_core_flywheel_stages/definition.json",
+    "bytes": 2300,
+    "sha256": "f6205ea53c62f7ae40ea9049734d867b7ff3a4d876f92ebf47f1a48150c2161f"
+  },
+  {
+    "path": "data/tables/cloud_core_flywheel_stages/rows-0000.jsonl",
+    "bytes": 2645,
+    "sha256": "798a9e3b51cde0bf5d20241ef20ffee70710c2446e88b43af6572bf1d7922275"
+  },
+  {
+    "path": "data/tables/cloud_core_folders/definition.json",
+    "bytes": 1474,
+    "sha256": "452bc6dcbe750fe51550324c509f72af5dfe4e896b61a661e4bcad00c148f9c4"
+  },
+  {
+    "path": "data/tables/cloud_core_folders/rows-0000.jsonl",
+    "bytes": 3814,
+    "sha256": "e84096db4f71686a54692a575632da917082e594c7f6765d783f348da7d2d745"
+  },
+  {
+    "path": "data/tables/cloud_core_import_issues/definition.json",
+    "bytes": 1712,
+    "sha256": "a03ccb280b065604e90b0d994cdd043a5753d3941ab98605dd88ef8ed53fa1a0"
+  },
+  {
+    "path": "data/tables/cloud_core_import_issues/rows-0000.jsonl",
+    "bytes": 39084,
+    "sha256": "252d68a5470ff3d56282d89fec8d87aad545d02d548cca2eda08651520f946cb"
+  },
+  {
+    "path": "data/tables/cloud_core_import_issues/rows-0001.jsonl",
+    "bytes": 42500,
+    "sha256": "259c57116d1c7a723f28133dcb524692a9d2bb94c97fd50197854974b1cfcc1b"
+  },
+  {
+    "path": "data/tables/cloud_core_import_issues/rows-0002.jsonl",
+    "bytes": 42500,
+    "sha256": "d4ef9c863833ac59715320efd3b1203813ecfdc85b3d93247f486cff7f1232f9"
+  },
+  {
+    "path": "data/tables/cloud_core_import_issues/rows-0003.jsonl",
+    "bytes": 42500,
+    "sha256": "f24f8d66103ce87115aeab29fc064dac4ab04bfad0a7e755260dbb5f3ec83187"
+  },
+  {
+    "path": "data/tables/cloud_core_import_issues/rows-0004.jsonl",
+    "bytes": 42500,
+    "sha256": "78b39c698f361b8f97103afbc0369bd72224c4c9e017aced26c0c29eb90f30a4"
+  },
+  {
+    "path": "data/tables/cloud_core_import_issues/rows-0005.jsonl",
+    "bytes": 42500,
+    "sha256": "79b5538820f068ded60a2eb8e2bc50af279993037c6f1ecff89c7cb1aa6b5c7e"
+  },
+  {
+    "path": "data/tables/cloud_core_import_issues/rows-0006.jsonl",
+    "bytes": 42500,
+    "sha256": "ffc34a3971eadd612e346cf165653f191aae3409ba93137d9ea71bca179d1428"
+  },
+  {
+    "path": "data/tables/cloud_core_import_issues/rows-0007.jsonl",
+    "bytes": 42500,
+    "sha256": "f1213f78d1ceb559c557f823115cc2063f42d501a50abf6bfe4d08740d849264"
+  },
+  {
+    "path": "data/tables/cloud_core_import_issues/rows-0008.jsonl",
+    "bytes": 42500,
+    "sha256": "b3b5cce43afcd3ab7684fbc1fc12e8bf4bd995a0bcd6cc50985d5ae25767b5b3"
+  },
+  {
+    "path": "data/tables/cloud_core_import_issues/rows-0009.jsonl",
+    "bytes": 42500,
+    "sha256": "e2750d6bd97df3d94a2306e6626d0cd15ae7d7138bb284f474b03d7a2a7b42bb"
+  },
+  {
+    "path": "data/tables/cloud_core_import_issues/rows-0010.jsonl",
+    "bytes": 42500,
+    "sha256": "cc8ae6a9c3811949e90c99ccc9fee4c89f869b09cebfbb5f32b1a39deb6eaa9e"
+  },
+  {
+    "path": "data/tables/cloud_core_import_issues/rows-0011.jsonl",
+    "bytes": 42500,
+    "sha256": "2faad237ac6f5f8c2d89cf1d674eabdf8d0a4fcbc9af02d863091366354773cf"
+  },
+  {
+    "path": "data/tables/cloud_core_import_issues/rows-0012.jsonl",
+    "bytes": 42500,
+    "sha256": "7c53329e1b76e499f494ceb651afdf4e7b1221ac1848c67b50411e948316fd8e"
+  },
+  {
+    "path": "data/tables/cloud_core_import_issues/rows-0013.jsonl",
+    "bytes": 42500,
+    "sha256": "86eafb51a57a10c75749159d451ae80bc50de2ec04cb980c524bdf8791bf6489"
+  },
+  {
+    "path": "data/tables/cloud_core_import_issues/rows-0014.jsonl",
+    "bytes": 39950,
+    "sha256": "9f637c6f1639405ab98d9bcfd2314f9fd4b014cca9d1ad57a007f8588fdb5bb8"
+  },
+  {
+    "path": "data/tables/cloud_core_import_runs/definition.json",
+    "bytes": 2936,
+    "sha256": "dac0e39d511b3d40ff3cb4c6188fd64bae7201a9ef23ecbf5bbdfb10691a9bbb"
+  },
+  {
+    "path": "data/tables/cloud_core_import_runs/rows-0000.jsonl",
+    "bytes": 621,
+    "sha256": "5e9775a4ee9341e246567e81a67b39051055ba4887e0e90cd2e3bd863d10d8fc"
+  },
+  {
+    "path": "data/tables/cloud_core_links/definition.json",
+    "bytes": 1957,
+    "sha256": "c359a142eab4ef5cbdbcec2e36a2beb64a2f3a9bdcb6edc55bde299f12f85564"
+  },
+  {
+    "path": "data/tables/cloud_core_links/rows-0000.jsonl",
+    "bytes": 11588,
+    "sha256": "3fe9ed2fc1b2ae44a14f823553b8b9ec2782ca5fba9394b321e7681171cab895"
+  },
+  {
+    "path": "data/tables/cloud_core_measurements/definition.json",
+    "bytes": 2618,
+    "sha256": "5bd69a67b99de1fc66477aceda2a583b49b07fff4d04335fe91d258ecc0538a8"
+  },
+  {
+    "path": "data/tables/cloud_core_metrics/definition.json",
+    "bytes": 2419,
+    "sha256": "fb618f9db778b5fcdeadef6c9719d4b70f14b2ae57d8510095818f5fe7763ba7"
+  },
+  {
+    "path": "data/tables/cloud_core_metrics/rows-0000.jsonl",
+    "bytes": 4834,
+    "sha256": "9440755bfaf8135f205e39c45753b5c469766a6a9856001fe376503f60e21594"
+  },
+  {
+    "path": "data/tables/cloud_core_modules/definition.json",
+    "bytes": 1720,
+    "sha256": "98ec3868294b82322a48fa9ec566fa463fadb4f9454ad0a89c5e78b06c5c2e44"
+  },
+  {
+    "path": "data/tables/cloud_core_modules/rows-0000.jsonl",
+    "bytes": 1577,
+    "sha256": "aa8f85a9b910e111bbb8fa7ed1162b7ceab7417815b39006d58241f7faf94078"
+  },
+  {
+    "path": "data/tables/cloud_core_scenarios/definition.json",
+    "bytes": 1668,
+    "sha256": "75886e30d6379eb96ccf258587f41b62ff04b40def583dbd55206bced9d7867a"
+  },
+  {
+    "path": "data/tables/cloud_core_scenarios/rows-0000.jsonl",
+    "bytes": 1687,
+    "sha256": "ebcda17952f93a5f73224074814f1957ffe2fbf8f537722b3fb3b2692ccf9dfc"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/definition.json",
+    "bytes": 2936,
+    "sha256": "44d52a3193183a776cf27af762fd5149f2d51b8d3326876ce6cf3ba71bffa493"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0000.jsonl",
+    "bytes": 62469,
+    "sha256": "a17cdb665de8e42d49413d242de5b168f5987b3365109d0f94acb90cbef00075"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0001.jsonl",
+    "bytes": 62699,
+    "sha256": "06b928fc91f931c3bdb1346df437a31ed476bec6ec2978db6333377f5bd60ac4"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0002.jsonl",
+    "bytes": 63453,
+    "sha256": "76a2b2e2bbe5e9482035989f2ce3c4beb402bc9d8266af4039aaa2dd6bc4df12"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0003.jsonl",
+    "bytes": 62799,
+    "sha256": "d74f6a5cf8c81a045c3fdfb9a812c0c245b49a60d9152854b04beb4b5c647090"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0004.jsonl",
+    "bytes": 62559,
+    "sha256": "5261df19e8a42fd88896ef9b09fe81ad28c6a91501b43a4cf1018f809236c40d"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0005.jsonl",
+    "bytes": 63107,
+    "sha256": "0493a513cc3ae3eb9bf558e24e9d8cd68246f9a2ef740e6ecfac6473c5de8f9c"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0006.jsonl",
+    "bytes": 62999,
+    "sha256": "2d24d49a43a137d6c1397d3dd8576571f6fbd9daa848a4902e6502c06227d055"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0007.jsonl",
+    "bytes": 63095,
+    "sha256": "8d65a314db3ac442565b086ab1b13f58115f9c0609a2d1c410b0d8e4f7c7fce2"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0008.jsonl",
+    "bytes": 314831,
+    "sha256": "a28f48f3163ea28998d4c5ed36c40c41a5bb9bde0451be4377fa592828807d2c"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0009.jsonl",
+    "bytes": 312365,
+    "sha256": "a8c8300d76417dd778b19f0ad26a7751b555fa77ebeb6ca010d57a512878348e"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0010.jsonl",
+    "bytes": 314086,
+    "sha256": "bdbf9c546164ab1fafcafaae6678aa8b8fed86c65d1d552d924600822815a632"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0011.jsonl",
+    "bytes": 312609,
+    "sha256": "303de9388adc3335e822fb81f817ca2b74690440e010609b6013198a9a7a4214"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0012.jsonl",
+    "bytes": 314111,
+    "sha256": "9d759a01f5ef0174348c3fc3ced200e4327f9a81ec427d2a3125b6beec38f395"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0013.jsonl",
+    "bytes": 314151,
+    "sha256": "6c953e4207038878c91b95daa9a252cb47df1b3a749031dc93a5e529577c72c7"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0014.jsonl",
+    "bytes": 313317,
+    "sha256": "cc8ba339d7a4358299273badbaecf0fd75232d0c2c285973b80419ff39f03a7c"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0015.jsonl",
+    "bytes": 314030,
+    "sha256": "f45b61b1a7f9328a012a1ba5f3f19aee35af3a4f26a051700e6255b851fad626"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0016.jsonl",
+    "bytes": 312023,
+    "sha256": "a92624688b7230fba7f1ad074f4aff0871b29544411a2c3bdfe84d902c6aff6a"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0017.jsonl",
+    "bytes": 314373,
+    "sha256": "0076b11b09f6de09405671d1e8d69656b085b34af3e8667880d044c0c61d9c3e"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0018.jsonl",
+    "bytes": 313847,
+    "sha256": "5b85500d03a069100e3c3bfcbc54f36fb7821e4295cc0ff4c70e6f9b8ccf2098"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0019.jsonl",
+    "bytes": 314313,
+    "sha256": "2724705db07782edf2dc28683ed0eeea78eaeb72eea373721a26a4cac2b611a9"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0020.jsonl",
+    "bytes": 314371,
+    "sha256": "89ca65fa4cca043828410ab4827e30c726ae5364d4a650d72526cc13c4716ec8"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0021.jsonl",
+    "bytes": 315040,
+    "sha256": "246193efa3c8d47d795ff44d1c60bafa47089edf1ed4f034586c5556ecf0146a"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0022.jsonl",
+    "bytes": 313091,
+    "sha256": "0aba077474fe790519fbe6883cc9b101b0d09f03e9c54fde0e75172ca356050a"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0023.jsonl",
+    "bytes": 314367,
+    "sha256": "63a628862c956143670c7624f09b8061d41b28f2aaba327ad805ac1c3df7e35f"
+  },
+  {
+    "path": "data/tables/cloud_core_source_refs/rows-0024.jsonl",
+    "bytes": 313731,
+    "sha256": "c42e46fd882e6993ded69ea33a765c86d7977e47e2509286ac81f64abfe78405"
+  },
+  {
+    "path": "dist/app.js",
+    "bytes": 477,
+    "sha256": "c0fe03cb571b836678e63339fbd73bf2418fc89f96041f7316a82128e7607970"
+  },
+  {
+    "path": "dist/home.css",
+    "bytes": 7147,
+    "sha256": "7c9a5d7aef52debd4b06919a3a9f37223093ea78734c4f781d1a55a256885799"
+  },
+  {
+    "path": "dist/home.js",
+    "bytes": 353,
+    "sha256": "4bbdbd9065f5bb71ad8e58a44f4bfbd1235c30698c8126e9454215a79dce82a9"
+  },
+  {
+    "path": "dist/index.html",
+    "bytes": 5182,
+    "sha256": "ec9ab09a8bd24332fbf54118f4863f8688cf8c50e99a1a4f2d1cac21d2f61fdc"
+  },
+  {
+    "path": "dist/jian.html",
+    "bytes": 1804,
+    "sha256": "66921cc73f8eba698a9d08ff61746cdeedc4046f777f59d8a1864ef9967e3a77"
+  },
+  {
+    "path": "dist/sources.csv",
+    "bytes": 63956,
+    "sha256": "019db6668b7e4496886d63e3a9cc1e8c153bdd2945b54ef14b6c8acb055c4dcc"
+  },
+  {
+    "path": "dist/sources.html",
+    "bytes": 84453,
+    "sha256": "63ee7221930de042d9b56d3a9513c944114cf10b57bf0dcde76daf3c11fcf9ce"
+  },
+  {
+    "path": "dist/style.css",
+    "bytes": 7692,
+    "sha256": "09ca9c4751aad2386fc3bffe0d4a0e39f7e715ea25480b5535134a2bd1e4709d"
+  },
+  {
+    "path": "dist/wen.html",
+    "bytes": 1855,
+    "sha256": "02eee715c86030c52ebe650b9b4ee83d24b39af862e31c492b892c1827adc682"
+  },
+  {
+    "path": "dist/you.html",
+    "bytes": 1809,
+    "sha256": "5f87459595c94287687deeabfdc376d6f7966a7da791e93d1eb60b3c5d0c0b36"
+  },
+  {
+    "path": "dist/zhi.html",
+    "bytes": 991,
+    "sha256": "403366509f8b7d0562dfc79915a10e69c41f78b2f4b8204e064dd9f4f8b46865"
+  },
+  {
+    "path": "docs/import-audit.json",
+    "bytes": 2125,
+    "sha256": "7ef1be945c48e54a4f948d600bc729b7abb92214e20bddac7208ec179bbbc255"
+  },
+  {
+    "path": "docs/MIGRATION.md",
+    "bytes": 1890,
+    "sha256": "17d4eee47d5abfb785c362ce3bbe53f867a54f773a67e3db209aa08cd16fcc88"
+  },
+  {
+    "path": "docs/source-overrides.json",
+    "bytes": 342,
+    "sha256": "e2841433d003e98c848013f57dc8ba513d4a20fb887a3ab79e2f1fe66a975ca3"
+  },
+  {
+    "path": "scripts/build.py",
+    "bytes": 3861,
+    "sha256": "7b61ff543b1ec8d49ea7af8218fa501596b8e724360a917c00640f89f3ad19ba"
+  },
+  {
+    "path": "scripts/verify.py",
+    "bytes": 1665,
+    "sha256": "5c40c1a0c8eb4fb13c5c13f0912958b04e74e40ea2605588765af4dcdfb56f3d"
+  },
+  {
+    "path": "vendor/ai-infra/COPY-VERIFICATION.json",
+    "bytes": 456,
+    "sha256": "98caac3092b179127b6be28c8cf853443b60bea0b08dd2c30885a2cdc49dde25"
+  },
+  {
+    "path": "vendor/ai-infra/README.md",
+    "bytes": 1963,
+    "sha256": "e702afde23c8fea3ce73422cf78f0500b2e017d6e35ab45a7eb5b6e4e684f0f8"
+  },
+  {
+    "path": "vendor/ai-infra/SOURCE-MANIFEST.json",
+    "bytes": 25406,
+    "sha256": "431eb677237d44360074de9c97cd4a9225fe658d96d273ef2e48baa6a1fe2654"
+  },
+  {
+    "path": "vendor/ai-infra/verify_copy.py",
+    "bytes": 995,
+    "sha256": "dbc0be82b936824a5a3f6af9eec48218d171758ffb30d6edf416312bf056d450"
+  },
+  {
+    "path": "vendor/ai-infra/assets/domain-report-loader.js",
+    "bytes": 5648,
+    "sha256": "8f84585f7c5ffc254bcb6a58f251dd0e7f77d022d7cdbed1ad9de4a1a3718ebf"
+  },
+  {
+    "path": "vendor/ai-infra/assets/insight-executive.css",
+    "bytes": 448925,
+    "sha256": "4a755026164c9c6075d0702dc41847db797fd4175e6cf44f9ae05d06e5c62c71"
+  },
+  {
+    "path": "vendor/ai-infra/assets/lri-browser-translator.js",
+    "bytes": 5059,
+    "sha256": "8d7f8a4ee7dcef145b0393a97d4e6841c300bdec712f4fb209ca2e19f4c19c68"
+  },
+  {
+    "path": "vendor/ai-infra/assets/lri-domain-workbench.js",
+    "bytes": 23560,
+    "sha256": "0194fec9f897b6f7d248486dd8134fbb12fdf07221a6511bd98d0df500e57065"
+  },
+  {
+    "path": "vendor/ai-infra/assets/lri-evidence-source.js",
+    "bytes": 8642,
+    "sha256": "e8842e606d785d45282a88cd337b6d00dd2d7f92cd7370bbd9d0275038b30643"
+  },
+  {
+    "path": "vendor/ai-infra/assets/lri-motion-player.js",
+    "bytes": 9128,
+    "sha256": "9483894ac004194a4ea4390106d55c01672bc9535d155a8a430e042e2ceccac0"
+  },
+  {
+    "path": "vendor/ai-infra/assets/lri-motion-scene.js",
+    "bytes": 19642,
+    "sha256": "9f866ce6ac5b487f5ab555f352f61ab62b73123098d2d1c039a2c4098e5a47e0"
+  },
+  {
+    "path": "vendor/ai-infra/assets/lri-quantization-lesson.js",
+    "bytes": 19861,
+    "sha256": "c3a02f47f3a826b7ba270a6bfecda1a2a05129e9ffac883e25cdb81bf23c3e14"
+  },
+  {
+    "path": "vendor/ai-infra/assets/lri-reader-lane.js",
+    "bytes": 2884,
+    "sha256": "16753052cbeeb992a8e5eb97236e4b133a95d3c0942ee239c77d2c34c4416489"
+  },
+  {
+    "path": "vendor/ai-infra/assets/lri-reader-location.js",
+    "bytes": 1311,
+    "sha256": "a712a91cc6525ba6d3879fbdf74f69b0c0aa1183ef03bb985a42fd9c84cefcbe"
+  },
+  {
+    "path": "vendor/ai-infra/assets/lri-selected-language.js",
+    "bytes": 2908,
+    "sha256": "8f9dca65098590fd0f4d5713013adf9dbb6e6e145252469d0d98881a1ce2f4a1"
+  },
+  {
+    "path": "vendor/ai-infra/assets/lri-shell.config.json",
+    "bytes": 46230,
+    "sha256": "701d068272b42620023df0a97ebb2d9a919452b0d798fb95db8193e94ef884b4"
+  },
+  {
+    "path": "vendor/ai-infra/assets/lri-shell.js",
+    "bytes": 68376,
+    "sha256": "56f5755033e8cc1b7272ee33c0d2c4a0f68f6b29d20d44d67a6bc00fabdc9f80"
+  },
+  {
+    "path": "vendor/ai-infra/assets/lri-tablegit.js",
+    "bytes": 41658,
+    "sha256": "dc5f804bab385b87eb66aa0dfc18f8dbde383672842311ec86ffcfa7c564f6b3"
+  },
+  {
+    "path": "vendor/ai-infra/assets/lri-translation-core.js",
+    "bytes": 7199,
+    "sha256": "e540fbde5cc1d6cdc6ee6708080cf008ee11b66dafcf96dcffc5a74671792abd"
+  },
+  {
+    "path": "vendor/ai-infra/assets/lri-translation-runtime.js",
+    "bytes": 9026,
+    "sha256": "fea2bc7ef6259484cde74667c49d11832c69627e8f1c5eb155c1520c8b15ee8e"
+  },
+  {
+    "path": "vendor/ai-infra/assets/markdown-reader.css",
+    "bytes": 5898,
+    "sha256": "58f04b886acd8ce020fe73fb43ae65048521b6370082f7509d0050a606225fd9"
+  },
+  {
+    "path": "vendor/ai-infra/assets/markdown-reader.js",
+    "bytes": 5057,
+    "sha256": "b5000e1925fb5e739d739dbb251e9adebad19eb412d66089aa537e1c1879de1a"
+  },
+  {
+    "path": "vendor/ai-infra/assets/signal-modal.css",
+    "bytes": 17331,
+    "sha256": "9ffdcd14daddb468f0e59f5cafee0d8102dbb150e1988116d5879fd0f105f859"
+  },
+  {
+    "path": "vendor/ai-infra/assets/signal-modal.js",
+    "bytes": 11491,
+    "sha256": "a86f43ff72460ec2ee94382bcf50b270c52f20c82efcffde78ff7cfcd4b70468"
+  },
+  {
+    "path": "vendor/ai-infra/assets/signal-visual-grammar.js",
+    "bytes": 5917,
+    "sha256": "4b7f90330a049364286b0dba28e78304bb92a83ba725cab04f0417339384e964"
+  },
+  {
+    "path": "vendor/ai-infra/assets/signal-visual-primitives.js",
+    "bytes": 8576,
+    "sha256": "571feab73952b89b3c0ad720dcfcc37897eb5753dd2b6840811bd15fcf000dee"
+  },
+  {
+    "path": "vendor/ai-infra/assets/signal-visual-runtime.js",
+    "bytes": 2578,
+    "sha256": "4c202dd573b9d5517ddb243b65894b269e1a40da37522afeaa35b8a9453a5d1d"
+  },
+  {
+    "path": "vendor/ai-infra/assets/tablegit-topic-views.js",
+    "bytes": 23611,
+    "sha256": "32f496fd797b028d585f5726bcfb18f27015667c03d7dcbc752721d2f3784a0c"
+  },
+  {
+    "path": "vendor/ai-infra/assets/tablegit-topic-views.json",
+    "bytes": 13415,
+    "sha256": "f378441b9ddbf9274eda483af26047f288b31dd49824174dd8edc94ccb0a5cd4"
+  },
+  {
+    "path": "vendor/ai-infra/assets/techintel-visual.css",
+    "bytes": 5295,
+    "sha256": "fa6db766977e8982349603368c9fd864957832a51a0c06be65ee1e468f641570"
+  },
+  {
+    "path": "vendor/ai-infra/assets/theory-modal.css",
+    "bytes": 9182,
+    "sha256": "df12cedd637b7604174f94eaf25ec9fffe3246acbb05d0aaaeae6c145cc6d1ec"
+  },
+  {
+    "path": "vendor/ai-infra/assets/theory-modal.js",
+    "bytes": 4470,
+    "sha256": "fccf4f3edd9498694c2aae76c6898e642d752fab50b6a7372f2b04f924f85b09"
+  },
+  {
+    "path": "vendor/ai-infra/assets/topic-i18n-runtime.js",
+    "bytes": 29049,
+    "sha256": "1ca838609d199485d339f28bbc9c872eb23bd686067f6aa6d3834ffb79520aff"
+  },
+  {
+    "path": "vendor/ai-infra/assets/workbench-menu-ux.js",
+    "bytes": 4763,
+    "sha256": "c891768b31b56300c74afcc2b58c1d29116eaece35354f48e84d2d87132794d7"
+  },
+  {
+    "path": "vendor/ai-infra/assets/vendor/hls.min.js",
+    "bytes": 413952,
+    "sha256": "484054e8cd03d3f6d1781fb7f402bdc318d8a4c527f933a95c624e27cc9a9470"
+  },
+  {
+    "path": "vendor/ai-infra/assets/vendor/marked.umd.js",
+    "bytes": 42921,
+    "sha256": "2dc4769dfde29f51c7aca1a539c6407c789c8ea644cf8b7d01ded28a9c1d800b"
+  },
+  {
+    "path": "vendor/ai-infra/assets/vendor/purify.min.js",
+    "bytes": 28438,
+    "sha256": "dbabb5b205a333ec49c8c09e7fca30ef66df0523bb8bc0fa9ea843841f111dbd"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/index.html",
+    "bytes": 20139,
+    "sha256": "09b028355c804f92ea2e77b1feae50247ea1e1c2ddbb6375c43b4eba15ee015a"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/archive.html",
+    "bytes": 6255,
+    "sha256": "933a02edd2e934d086e024d88e08e8fc22641ea82e0f8bbd5375c7c9c9da2dc6"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/cloud-core.js",
+    "bytes": 14266,
+    "sha256": "2dddefdf10b632b03759ef2c696ad4a80954a4bf8a9cb4d53fad974ae31ce7be"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/compression.js",
+    "bytes": 271674,
+    "sha256": "c62785872781407eea32296aa615bd95871d5867918abf164dda2c53e5c86486"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/COMPRESSION_TOPICS.md",
+    "bytes": 2715,
+    "sha256": "10660bfc6b2b8e0385992041ae8f4f46e71a0bb12ec2c4efd1fde56bf4934d24"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/current-synthesis.js",
+    "bytes": 34571,
+    "sha256": "1676aebc4c5c3199612c8e9ba97c422eab225365e2900f92e1b38191b0ed82ad"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/foundation-player.js",
+    "bytes": 12540,
+    "sha256": "cc8ea02a63fc8b13e3731ad7e47b38e9e3b61e8362c5a653ac81ead24f7dba1f"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/foundation-scenes.js",
+    "bytes": 25967,
+    "sha256": "f412464244085de5dbc726bc3a4debcfdc4b3af46453862aa6e17d46c48e808a"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/foundations-entry.js",
+    "bytes": 98328,
+    "sha256": "cf736350f9d9615da0322e377c2d60ec9914ecf3ee624f495fa6e86f506048b4"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/foundations.html",
+    "bytes": 2144,
+    "sha256": "9e26b86e6e26342f73570656b328321d5e352d520bbd3d234aaaf18ab0fe12ce"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/foundations.js",
+    "bytes": 13606,
+    "sha256": "1aa6cb4a62f76013fb3dc785915cc22d10735503e139d1568bd9a95af2a616cf"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/index.html",
+    "bytes": 39867,
+    "sha256": "53580ad2f6c014868ef37d39e429b38cca16dcc59fc64ba37d39318bd0e52111"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/industry-updates.js",
+    "bytes": 9564,
+    "sha256": "1652575395b6d8367874d097221e066c1c8594edde731b26ac1a16240249b4cc"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/monthly-routes.js",
+    "bytes": 37336,
+    "sha256": "2b199a2dba9acaa83bb1a6a5be158ac7dfe0a6f41fdb04df403c348ac8c131ff"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/monthly.html",
+    "bytes": 31546,
+    "sha256": "9395d322dfc15e38b2c9e381fa23d8c3d57486b0761b2f0622a202011579e130"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/paper-review.js",
+    "bytes": 22440,
+    "sha256": "140a2a580890bfd5aa45a01238eab9b72cfddd33073d382ce68493665bbcc68a"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/reader-bootstrap.js",
+    "bytes": 15223,
+    "sha256": "26a5f7170281287a80b3d9b6a40945dc2b89a8249334a76ea0c0191bfc226d8d"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/reader-entry.js",
+    "bytes": 563289,
+    "sha256": "ae8f0382e757353dc6dadebd926b6a4672e7819775ec84bd167e3605380c911e"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/reader-ui-cache.js",
+    "bytes": 2129,
+    "sha256": "c59360a290f651f168eba5735bb46a8cc2cde9cf625ee751aefc7667519c2a43"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/research-visuals.js",
+    "bytes": 5215,
+    "sha256": "add6743b9556f97a355bafec9ae8e99e2c859a781ec4569ecea98da2703ff4a2"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/route-evidence.js",
+    "bytes": 2988,
+    "sha256": "e4cb9ad7b5fad97eefd41d8b62070d4fcdc332d0197e76148914e8e56f859195"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/source-directory.js",
+    "bytes": 5893,
+    "sha256": "1d2aa9c173fc653156bafec3698db7a8f8330cca36c71b2789b9cf03a1eb3995"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/topic-dossier.js",
+    "bytes": 5444,
+    "sha256": "38d44ca3eeb464c1a10caf782628c0a9d91924792ae0cfa9f3120b8df96f7f17"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/topic-entry.js",
+    "bytes": 503461,
+    "sha256": "07737607ac4d3d045b65bfd741b4a9112cba32db57da243bdd2d98d0b451354d"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/topic.html",
+    "bytes": 30837,
+    "sha256": "d0a707d1b84a95634db36b908686402ba5dd3a34816215309b5a37837dabe282"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-concept.en.mobile.static.svg",
+    "bytes": 8822,
+    "sha256": "107684c29be62f72e6d25429d020ad59d2228c0bcb503dd238d5e6cd1ae59284"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-concept.en.mobile.svg",
+    "bytes": 9941,
+    "sha256": "7cef79b092295490dd603f1727ba1fb32bb7e6550b4bd51d654812cc384525a2"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-concept.en.static.svg",
+    "bytes": 8665,
+    "sha256": "429dee50587d83edfd6988f54a4e9e68d980fb1ae30b0350c26535c8cc543955"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-concept.en.svg",
+    "bytes": 9776,
+    "sha256": "998da63dcbe4c35d61bb509602a25c400d59d6af535eb9566aaf0299a4f8a25c"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-concept.zh.mobile.static.svg",
+    "bytes": 8813,
+    "sha256": "523e397cb8df884569b979e04a68b72be6649147f1868010118147d81895930a"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-concept.zh.mobile.svg",
+    "bytes": 9932,
+    "sha256": "bb297d24e5991daf52420d931d2cd8368ceb60872884215a3d68b0b288928879"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-concept.zh.static.svg",
+    "bytes": 8609,
+    "sha256": "26247848578986344fd87358f9f70414b039d3e589c7fb4c4917e9b6b257e01b"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-concept.zh.svg",
+    "bytes": 9720,
+    "sha256": "dd129b7b69539e84f12d08920deddeb46b7a230cecd070af4e405effca92677d"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-error.en.mobile.static.svg",
+    "bytes": 8362,
+    "sha256": "5d7454e51f681267639c86b064aeb12569ec6dab61dd5bb612722dacc48c9ff7"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-error.en.mobile.svg",
+    "bytes": 9591,
+    "sha256": "9c06de15481eb65779675010bce6ee96873c73e49c2d21d81d26dbdb4eeecc0d"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-error.en.static.svg",
+    "bytes": 8366,
+    "sha256": "5a62ee64f4dca610cc6668a67bdcc8489b2eb0ae61cfe64e270388abe409a844"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-error.en.svg",
+    "bytes": 9595,
+    "sha256": "7416ad12d86529c3f6b63ea03fd41fbe36cf44e93fec9d4dc0e64f46ed1d6fe7"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-error.zh.mobile.static.svg",
+    "bytes": 8325,
+    "sha256": "e7e6adafec7344d703fac640c7ed92f190ffa5bcd161e16278b12f32e70943a9"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-error.zh.mobile.svg",
+    "bytes": 9554,
+    "sha256": "18edb05496b0d22f8a3b53c590b692cccd5150f020aeee370f7074b2172fb09e"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-error.zh.static.svg",
+    "bytes": 8329,
+    "sha256": "93e92204c1490136524e89aac3b652b4ca015e0c1e46e0686f0b813728e67dfc"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-error.zh.svg",
+    "bytes": 9558,
+    "sha256": "55f684d9fdbccddc17f6102003e3b020ca407bb54b4716219dfc5d501c48d73b"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-execution.en.mobile.static.svg",
+    "bytes": 11425,
+    "sha256": "c7870871437c40cd97dc41d872fe2e5b242da82657876f3264c7e5fad443b6e9"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-execution.en.mobile.svg",
+    "bytes": 14476,
+    "sha256": "ad925b35393e29fae28f49d9c0d12e5774632eb9039d4f99d6bbc85edc6e8b03"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-execution.en.static.svg",
+    "bytes": 11549,
+    "sha256": "ca94748e01eb2a076fa08b9d7f14c794c8f80dade561562973085db09cf645d1"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-execution.en.svg",
+    "bytes": 14600,
+    "sha256": "e7b228d041504f4173557f48d64af6f76f62ef8215de8f559c257b3b76cb65b9"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-execution.zh.mobile.static.svg",
+    "bytes": 11387,
+    "sha256": "d677aba2561434303b88cf141821833225d5861089fdec6fbef17f7566ed9a43"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-execution.zh.mobile.svg",
+    "bytes": 14438,
+    "sha256": "a9beecf1e328415f3d41cf0cdc389592e0b0ef7630225332d5a6f0192182f479"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-execution.zh.static.svg",
+    "bytes": 11491,
+    "sha256": "b7243cf1c6df8b76274c1e36611b07aea2efca807beecabcc7277aaa3926b145"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-execution.zh.svg",
+    "bytes": 14542,
+    "sha256": "56c762aac04e6b6a42addec754ab73e595fe4016d17c5c4ec59fb7d4db8c2e25"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-formula.en.mobile.static.svg",
+    "bytes": 11625,
+    "sha256": "92ce67098ad887c6e99ba6b69b8fc2b0b2c9c3b52b0b15d47f02addd833414d3"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-formula.en.mobile.svg",
+    "bytes": 19427,
+    "sha256": "026887fa5c3f4e0095df41dbbd4d9f60951f2be9e93b791bd440747ddfc29e06"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-formula.en.static.svg",
+    "bytes": 11576,
+    "sha256": "3921f68ea0f6f5f6ec67c50fdcf4f3d7ec87becb122ef782c198b20acc0289a8"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-formula.en.svg",
+    "bytes": 19365,
+    "sha256": "1991db5363a7f4113f0be909d582b119bc19313332e28903447eea3b665e882e"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-formula.zh.mobile.static.svg",
+    "bytes": 11593,
+    "sha256": "1a48fc6f5826fa906adeac53fc48cadc1e9e16fa6f1cf274d698dbe96f65b2a7"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-formula.zh.mobile.svg",
+    "bytes": 19395,
+    "sha256": "c0d2c71efb7883cc28d2168886b65cb8ac221ed349674ab671ce63b0f43b143c"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-formula.zh.static.svg",
+    "bytes": 11544,
+    "sha256": "6b6c302d224cffaa6e04943bc1fdbc8103a25fd50ba7aeeb97014b689e0c84c0"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-formula.zh.svg",
+    "bytes": 19333,
+    "sha256": "e9d341844343e6753497e9036cc93dfb592f0b49e3444b370a33042f0885bee0"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-groups.en.mobile.static.svg",
+    "bytes": 22585,
+    "sha256": "7697ea7ca1b884572bf0513d883dbf617928a1b437455b93387ade0c64084cc7"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-groups.en.mobile.svg",
+    "bytes": 37311,
+    "sha256": "521ddf67b591a3f16ecfc79a10df811d147ce85ea054765e5e8be8e5168d068b"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-groups.en.static.svg",
+    "bytes": 22668,
+    "sha256": "ad6d1330a94471a31b80b24b7d7a7a02184d8e0d2a78cf6d6ef27a241f33e924"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-groups.en.svg",
+    "bytes": 37366,
+    "sha256": "3334fd6327f9de8a13e3196e63ce025e20baed69de043954dd630182c48411be"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-groups.zh.mobile.static.svg",
+    "bytes": 22545,
+    "sha256": "f8ac760dbbf8e078562c665aa2169d1de5f7d15b86b917c05c2898fc6f0d69f3"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-groups.zh.mobile.svg",
+    "bytes": 37271,
+    "sha256": "5f109b122c16d003efdc53f9d17943139001a6f1de680927e1b1021352f56e34"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-groups.zh.static.svg",
+    "bytes": 22628,
+    "sha256": "96d1154efec0cb8ded04623cc9a5f9ab962d61d885833dadaff5eb68a558f571"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-groups.zh.svg",
+    "bytes": 37326,
+    "sha256": "bdf5a0ae85e1f5bf4655b8e2428747607ed24fee0d0d6a534598a498100166a5"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-idea.en.mobile.static.svg",
+    "bytes": 11769,
+    "sha256": "b48eb5ada299a9432165dabb1667b7ef2c76de0b166694a1c600a174110c02da"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-idea.en.mobile.svg",
+    "bytes": 14393,
+    "sha256": "d06ac8741439fee98d7bfdc64809503aabdbecff372dadf8b65bf64896acd417"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-idea.en.static.svg",
+    "bytes": 11598,
+    "sha256": "dfab293a23306e2cdc400a066b08e8c6f6a9057511b9dd6d89a6a784a4fdd253"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-idea.en.svg",
+    "bytes": 14220,
+    "sha256": "44c91057b55a6d81d3590cf435673804d1a31c978c2747fc3447c7a21077b738"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-idea.zh.mobile.static.svg",
+    "bytes": 11771,
+    "sha256": "8e22a11a6a73536b26bd378daaf50e8a27b8f7e9a153c4d97626282c9d7786e6"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-idea.zh.mobile.svg",
+    "bytes": 14395,
+    "sha256": "a1b4a6a3b8cc98715dfa67a2a21fd3c2b0191b9c0006783d3ac4a09877571c6b"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-idea.zh.static.svg",
+    "bytes": 11546,
+    "sha256": "8a203a9b1b9014b35528269a93d14ff0f63dfbc8d0d19672bc580d7a4d1b618e"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-idea.zh.svg",
+    "bytes": 14168,
+    "sha256": "3df59c555dec038fea654179f6e7d7def480546c89568e501d9fdd92fe95cf21"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-precision.en.mobile.static.svg",
+    "bytes": 7664,
+    "sha256": "23b744644aac9c591d7e8c116b087defef8ea21225a27044a01771dc575583da"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-precision.en.mobile.svg",
+    "bytes": 7664,
+    "sha256": "23b744644aac9c591d7e8c116b087defef8ea21225a27044a01771dc575583da"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-precision.en.static.svg",
+    "bytes": 7544,
+    "sha256": "c3cc5bbb2851257fbe0a05e17c0c55cef4c313ceb1674bd09a92c338922b1bbd"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-precision.en.svg",
+    "bytes": 7544,
+    "sha256": "c3cc5bbb2851257fbe0a05e17c0c55cef4c313ceb1674bd09a92c338922b1bbd"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-precision.zh.mobile.static.svg",
+    "bytes": 7637,
+    "sha256": "b0d4af5cd82dc20d080982f83039b900de101905953c6896c6fe43851554556c"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-precision.zh.mobile.svg",
+    "bytes": 7637,
+    "sha256": "b0d4af5cd82dc20d080982f83039b900de101905953c6896c6fe43851554556c"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-precision.zh.static.svg",
+    "bytes": 7502,
+    "sha256": "2b8808380dfa9dc2d6d9be5c2fc757810a6475c2d8934da0cefdf9f08d95f785"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-precision.zh.svg",
+    "bytes": 7502,
+    "sha256": "2b8808380dfa9dc2d6d9be5c2fc757810a6475c2d8934da0cefdf9f08d95f785"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-purpose.en.mobile.static.svg",
+    "bytes": 7926,
+    "sha256": "626f7f80d5afbd1c8c574ccf3a7b60f3f87d745a6466305ec59507108ec4019e"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-purpose.en.mobile.svg",
+    "bytes": 8318,
+    "sha256": "fd9177455085613fd6054d2dd5c86fd376f1542c6090ee0261b3dabe90f294f3"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-purpose.en.static.svg",
+    "bytes": 7644,
+    "sha256": "2be16a6b0a8bafdf5c01b4056627c4ba3953e7fbb2507a5641dc1b85923da41b"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-purpose.en.svg",
+    "bytes": 8038,
+    "sha256": "2b36ea2a45066f26e5c68280b8aaafefca5e3c63ac4e284b07d0f20e95417b74"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-purpose.zh.mobile.static.svg",
+    "bytes": 7829,
+    "sha256": "ce3a7b6ad791644fa7948e47c16972d22a6c79e58bd127a0c75d6dda15d862ab"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-purpose.zh.mobile.svg",
+    "bytes": 8221,
+    "sha256": "aefcb7c2e42c30d3db52d9d365d15629dda2c316a6f39b982de1435e812db76c"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-purpose.zh.static.svg",
+    "bytes": 7594,
+    "sha256": "ee0e11985664fbda246b8ad27b26ecf4af4bcaae7b3d34202b5bba034b575067"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-purpose.zh.svg",
+    "bytes": 7988,
+    "sha256": "0a26ccfb5640d1ee5478990f9d37720540cdbe2b3908a4d35d38b5b2fc15e3f2"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-scenes.json",
+    "bytes": 9620,
+    "sha256": "7bfd84cca1a6ab2420ca85524fa78555da070eb576a5184226c750c93b8fa82b"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-tradeoff.en.mobile.static.svg",
+    "bytes": 9220,
+    "sha256": "d47e7000f2401926cbe992a03d42d5ae19b7d96a64c2bcb303224470ad80e1b3"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-tradeoff.en.mobile.svg",
+    "bytes": 9220,
+    "sha256": "d47e7000f2401926cbe992a03d42d5ae19b7d96a64c2bcb303224470ad80e1b3"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-tradeoff.en.static.svg",
+    "bytes": 9147,
+    "sha256": "b31327a23d0341561e423b026b9b290c3d73872dbdf0f880a7cbb4bbe3c36d23"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-tradeoff.en.svg",
+    "bytes": 9147,
+    "sha256": "b31327a23d0341561e423b026b9b290c3d73872dbdf0f880a7cbb4bbe3c36d23"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-tradeoff.zh.mobile.static.svg",
+    "bytes": 9203,
+    "sha256": "180581e8c6db640a3e50f57231d8522e9dcecfd7c0a5a02f0bfeda5d999cea76"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-tradeoff.zh.mobile.svg",
+    "bytes": 9203,
+    "sha256": "180581e8c6db640a3e50f57231d8522e9dcecfd7c0a5a02f0bfeda5d999cea76"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-tradeoff.zh.static.svg",
+    "bytes": 9085,
+    "sha256": "10404cdcdffef80caee05c3558a8b0943a6922718d8836093d71018cee6df4d7"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-tradeoff.zh.svg",
+    "bytes": 9085,
+    "sha256": "10404cdcdffef80caee05c3558a8b0943a6922718d8836093d71018cee6df4d7"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-worked.en.mobile.static.svg",
+    "bytes": 9787,
+    "sha256": "40956741e2ff2f86bbf0661d30e05e0829101ede63bc32f8b04cd69b5c60a67b"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-worked.en.mobile.svg",
+    "bytes": 13669,
+    "sha256": "526facd2423312ed7a4815ce8c82e36c213f9e41d9289c3221612d5568911777"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-worked.en.static.svg",
+    "bytes": 9655,
+    "sha256": "b43960caed56abbe392c9c94bb12cec5dab02e83ab4585cdde5da8692d0d6af4"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-worked.en.svg",
+    "bytes": 13537,
+    "sha256": "550dcef942743d198a5d98e9eea370c1abdbd1e58c42b338a4c85c3db67899b7"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-worked.zh.mobile.static.svg",
+    "bytes": 9764,
+    "sha256": "0ed5a637ff0e62d7aa13b638c3cd1cc9ddc088643ad2a9d78ddc06ce0ec74162"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-worked.zh.mobile.svg",
+    "bytes": 13646,
+    "sha256": "60e0aed72c5baf197dbae925fbefc0c150140f1040728680a4caf5bbbad8f234"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-worked.zh.static.svg",
+    "bytes": 9594,
+    "sha256": "03e177989edf9fc03b863c8f985742a7c0928f8a01691abb1c3df705f5323fac"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-class-worked.zh.svg",
+    "bytes": 13476,
+    "sha256": "adf42305e1fdcee85b1d30d5c4132d060781790f876a93253d7079b588089a00"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-motion-scenes.json",
+    "bytes": 1034,
+    "sha256": "79672e031bd54e31f594f1bc1947b3867df7246b3ea4c499eb67dbc68fdcec60"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-principle.en.mobile.static.svg",
+    "bytes": 4505,
+    "sha256": "fc7aacc5a3ced241bf123bb2a9e7284461108154ea3205c971721eb0e8a7a959"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-principle.en.static.svg",
+    "bytes": 7786,
+    "sha256": "3468eefc99de66720902c1802434ca359f7a838b158ace10aa849f25467cc7ce"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-principle.en.svg",
+    "bytes": 9523,
+    "sha256": "40355378ff391defccae919d33f32ba90ae4ffc6df7db12e4149d4d99b72c51a"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-principle.zh.mobile.static.svg",
+    "bytes": 4545,
+    "sha256": "4313aa036762b24035b5cd126dba0216fb63e1c646c7f6740b094f328b475c82"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-principle.zh.static.svg",
+    "bytes": 7849,
+    "sha256": "8d85de3a3d899e7d80c817a308d6c3cfc679ddcfe8f89f113ee82ced42bfbb34"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/assets/quantization-principle.zh.svg",
+    "bytes": 9586,
+    "sha256": "5fab8927fd2225d69b8aea1787d3f91381bd804bc63369dfc196ca210fd898a1"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/data/focus-ui.en.json",
+    "bytes": 52216,
+    "sha256": "f0210f735d252c91baa14a32ce0b881c04c7a62fce4cb297eeda9c9a6d056575"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/data/focus-ui.zh.json",
+    "bytes": 48197,
+    "sha256": "9b605679ec188703bef69a1faadaa18b307e48ec494b57dea830e49522c30f38"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/data/foundations-ui.en.json",
+    "bytes": 4773,
+    "sha256": "09c6708a393c2612987bfbec83f60be73fcee5a1913eec060e9269204ed5e9c4"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/data/foundations-ui.zh.json",
+    "bytes": 4649,
+    "sha256": "643fd9721822a174a5c91829cff0f1e0ff96dd4710effc79d9c285b53a30a441"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/data/ui.en.json",
+    "bytes": 4327,
+    "sha256": "11fe10fb03614ded7a351687f0125db3985628fa1c1913c7c0c86ea44cf7f1cb"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/data/ui.zh.json",
+    "bytes": 3858,
+    "sha256": "1c400969abf96cf9ae5c3a9258b900aa474ecded45132326b7b311cde80e54aa"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/runtime/compression-topics.css",
+    "bytes": 3486,
+    "sha256": "7c3d3728e309d46fffe6ad3804cfc2b1a6f1d602a5cd2c38627c4437a9cf4446"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/runtime/insight.css",
+    "bytes": 252379,
+    "sha256": "67b968957ac39bf9819aa1ad991668c0d6fa351cc3b48c85b998020e32eaae42"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/runtime/lri-browser-translator.js",
+    "bytes": 5059,
+    "sha256": "8d7f8a4ee7dcef145b0393a97d4e6841c300bdec712f4fb209ca2e19f4c19c68"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/runtime/lri-shell.config.json",
+    "bytes": 41835,
+    "sha256": "c1c8cd9b02456092771731ecaa9005d8b2cf8cfdd36ce25b6a45072b2509d378"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/runtime/lri-shell.js",
+    "bytes": 68376,
+    "sha256": "56f5755033e8cc1b7272ee33c0d2c4a0f68f6b29d20d44d67a6bc00fabdc9f80"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/runtime/lri-translation-core.js",
+    "bytes": 7199,
+    "sha256": "e540fbde5cc1d6cdc6ee6708080cf008ee11b66dafcf96dcffc5a74671792abd"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/runtime/lri-translation-runtime.js",
+    "bytes": 9026,
+    "sha256": "fea2bc7ef6259484cde74667c49d11832c69627e8f1c5eb155c1520c8b15ee8e"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/runtime/mcp-table-read.js",
+    "bytes": 33695,
+    "sha256": "2959360f6a1fdca202f46864bd0c3338cd8aaf6a6710ef003392c616c21c098b"
+  },
+  {
+    "path": "vendor/ai-infra/business_insight/cloud_core/runtime/tablegit.js",
+    "bytes": 42755,
+    "sha256": "40e6543878966f3dd99d1b8882b306a8ddd49fe719f30330db732478c399fbdd"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/build_migration.py",
+    "bytes": 12347,
+    "sha256": "eda799da37bbe4f6b47add8c88fdf6d13843d03a3bdd18230d45aa844e408aeb"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/build_quantization_class.py",
+    "bytes": 37870,
+    "sha256": "9dad559394d994844a69a63ef38db4bb987ee4002c8555bca5d7f446f90cfa48"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/build_quantization_motion.py",
+    "bytes": 5998,
+    "sha256": "3ed3a4a32b97fea3a9ad713b046a8235eb002b3910eff7f5f355e6d65a632fce"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/build_reader_entry.py",
+    "bytes": 4373,
+    "sha256": "a21de4030ac95d3cf529ab1d247012abe9be533ec71312991ab14dcb566dd907"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/bundle_runtime.cjs",
+    "bytes": 1417,
+    "sha256": "1c5a0a589e97c8ca07aa4b50d934aef184617c367aaf2eb62fbf4e60561b745b"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/check_committed_dossiers.cjs",
+    "bytes": 2377,
+    "sha256": "75a7672e55a4564f4258bd0f8487608b08700ee62bd9ca340ec5164be10bded7"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/collection_schema.py",
+    "bytes": 2377,
+    "sha256": "ed3627f103921282e9425701c05e59afe146140747eef1f29c2ba3a6f8328825"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/compression_schema.py",
+    "bytes": 52049,
+    "sha256": "8f43c5858fe56e6b8e0db36eb423807cb72f7116d808667cdbcdba85befb8e45"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/emit_batch.py",
+    "bytes": 4484,
+    "sha256": "fce7f6dc37a763281b886d038a809963afb89cda0a1a73ab398846258517cab5"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/govern_sources.py",
+    "bytes": 3350,
+    "sha256": "9628ce2134229460744bd08b0ea6d2a398a7be44adcc5ea168e0e95f8e1ed4ab"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/lineage_schema.py",
+    "bytes": 3894,
+    "sha256": "f110cbdd2e1863e325508175e162d48296b24b60205cdcb82f0ec1bced01069b"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/model.py",
+    "bytes": 15260,
+    "sha256": "83334df93379a0e47934a6578a86774cdc5d00b8157930c5e908397b4de53970"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/monthly_schema.py",
+    "bytes": 2386,
+    "sha256": "a30be8dabd19c023e02f3420293d49a6869a5b9c25c9377ae31c0832e45ee0c2"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/prepare_sources.py",
+    "bytes": 3915,
+    "sha256": "ca9e0143a0ab9f655ab21d68b731581c1b0eb117717f01884f93a8cf11aad541"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/reader_ui_cache_template.js",
+    "bytes": 1454,
+    "sha256": "068e761dd77cb30003bd0f687702c1a1bdc4c1454e5451ce1536ad10f1d1f0f8"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/research_workbench_schema.py",
+    "bytes": 41350,
+    "sha256": "04c5f5403f05290a3c7308b39694d0ccf8c1df1e8ff0cc8426602acae060c097"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/SOURCE_PIPELINE.md",
+    "bytes": 4192,
+    "sha256": "a9041cd71c9f00c33dad229dba741fb416415ebf634c455c319952231dbecedc"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/source_pipeline.py",
+    "bytes": 47834,
+    "sha256": "406a9cfcdd1c6bac3cdc25d56a507beef024a9c1a83e7b92c257d4e44fd7b88f"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/source_pipeline_schema.py",
+    "bytes": 2731,
+    "sha256": "f3c86262b9e4cd9e065ed577522eb2fe68759c130d947e194078586101c21066"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_compression_foundations.cjs",
+    "bytes": 3414,
+    "sha256": "d2dce46181349ab1a643de9c71dafdd7c4941571eeffb846a36427a628c3ea66"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_compression_reader_contracts.cjs",
+    "bytes": 5134,
+    "sha256": "1caf532f746e97d7a356431efddfffdd285c3142a3c4c155d123cad1151e4f13"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_current_synthesis_lifecycle.cjs",
+    "bytes": 4880,
+    "sha256": "3488a3bf38f8b0c3b8501339b2a03ea8ee99d0959a2e6d7e88c23457bbc22c50"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_current_topic_entry.cjs",
+    "bytes": 3625,
+    "sha256": "3fb05ecaed55320f382a57ed993309c7f2ad526ef3cc9dfb8a0208feff039e20"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_current_update_relevance.cjs",
+    "bytes": 6375,
+    "sha256": "ae095140c8c3cedc8a1d73e88096f5ed1a012fceef20af3c1f79514f44ee7276"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_foundation_lessons.cjs",
+    "bytes": 7125,
+    "sha256": "2e6b6c428f788fb405d866932128092ca186422a66664082708b8b55f0ca9247"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_foundation_lessons_offline.py",
+    "bytes": 8551,
+    "sha256": "b6f35c7a95e931d4fe316c27c5067b1d093ddbeddfe4b89f2cf39434cbd954ed"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_industry_ecosystems.cjs",
+    "bytes": 5065,
+    "sha256": "9a2eb57aa26f7bc997c2978e16953977fac4c0b0f1b6a86f6429104c0ccce0a3"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_industry_updates.cjs",
+    "bytes": 5151,
+    "sha256": "b30b218c05b1aa8b63538f074f5029afe01d1f4267d86d9ccfeaf9e0cc5a9a97"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_paper_review_anchor.cjs",
+    "bytes": 3233,
+    "sha256": "1940e14afca69f4304425f5d322ad01f2d041b077754701f2be39116fb858cc3"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_paper_review_intake.cjs",
+    "bytes": 3397,
+    "sha256": "74774cf406e311f4b58c537a24e3fc09801bcf46ef119c270f32ed7b0956132a"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_quantization_film_timeline.py",
+    "bytes": 3553,
+    "sha256": "bb37d706b283025e8c40183326a23d1b7624f3caf1253bd6c3793dc2df06bfd5"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_quantization_scene_math.py",
+    "bytes": 6543,
+    "sha256": "544b6c9e61e85620779cc3bae8fe2311e6ff86de515b525c11900bb19d2ef8af"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_reader_bootstrap.cjs",
+    "bytes": 5761,
+    "sha256": "360e41698077a72b0b66df5ba460fe95caaafdb7f341f653b4a0384f47657d66"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_reader_first_open.cjs",
+    "bytes": 4811,
+    "sha256": "0b015177b830bf79fed97c8b2937ed2663860130b5af304097dc7d4f09200da6"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_reader_performance.cjs",
+    "bytes": 5016,
+    "sha256": "07e9b0dad60a734a6e88145ef64e86d782eadc81db27a51c9069154e94bdd064"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_reader_relation_recovery.cjs",
+    "bytes": 3048,
+    "sha256": "7681aab71cfe5874859625165e5253c9b5eb33f73e9f5b93588fb962e7e3fcbb"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_reader_ui_cache.cjs",
+    "bytes": 2318,
+    "sha256": "efe6c0cbf8d25b862e9262b4ce1248b4efa7c3a2556cd06309d632945aafac98"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_report_organization.cjs",
+    "bytes": 3207,
+    "sha256": "02ec9e7b81b08d79891981dc17cc2b4a1e72ac3d0a5e7156ef32a33cbd62877d"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_report_reader.cjs",
+    "bytes": 6312,
+    "sha256": "8933d72d234ef809d8db00dabcb515844605fab7afa39b669de16232e81b71c6"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_research_priorities.cjs",
+    "bytes": 4334,
+    "sha256": "f65a01ac4e665e60faaae70813c6255a05ef5f599b2d05b87b7aa5de922c4c4b"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_research_visuals.cjs",
+    "bytes": 2010,
+    "sha256": "57f6bbc6388df743f1da8c9202e68f65d0254826242def699adcf6d6ea2af5fa"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_route_evidence.cjs",
+    "bytes": 3176,
+    "sha256": "5d39e3d44da9359f05b10cef6752d5adef41a09ab07771d645a31f147c69c3de"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_semantic_reader.cjs",
+    "bytes": 4734,
+    "sha256": "27e410d9a8593dcbfd3d86389286ea7af01c5164f94ca6822009563bd2577594"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_source_category_reader.cjs",
+    "bytes": 4496,
+    "sha256": "65b766afbd95a8381b322f0c14d28a4bf53228ae2d8620559de3965f35a9b1c6"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_source_first_content.cjs",
+    "bytes": 3279,
+    "sha256": "8238a8c4a4b29a8d25d7fbd8e62cba966413a593ee8b8a9534e28e20ce535b54"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_source_pipeline.py",
+    "bytes": 11514,
+    "sha256": "4a3b567ec4924546862f0f5431a7349b88e7bb912f575a24651ed3ce76869a79"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_source_pipeline_reader.cjs",
+    "bytes": 3652,
+    "sha256": "5cbda78a80410f5303b730dd992f48a4963a1f13b9d9f48330d09b6a9cc3a3bb"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_topic_continuous_reader.cjs",
+    "bytes": 4536,
+    "sha256": "0b04e832f7bcd9e137e0b003ad28ddf43b3f41b99c19edb3b4b71976628caac9"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_topic_supplement.cjs",
+    "bytes": 2880,
+    "sha256": "6c8531f057912dbf39969350b8d011a3707ba90571a2cadf9831a2adc155b2e7"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/test_weight_topic_structure.cjs",
+    "bytes": 3225,
+    "sha256": "8e642fe039fe33e8375e7af9261b1d698ccfc99884c0250ab7a27b8576d247c2"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/validate_collection.py",
+    "bytes": 18823,
+    "sha256": "e24788bf3ed08d16b3f2de7305b1fba8a1abbb9874097d324330b3fd5d465757"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/validate_compression.py",
+    "bytes": 11643,
+    "sha256": "0670bd9769232e40694808415625a1d58938d108b159e0cf73d856ba1fe9d96d"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/validate_lineage.py",
+    "bytes": 19462,
+    "sha256": "c4a10e51fa57ddbec09c685b57e5948e5fae723bccd7da9c9a0482cf767ce4aa"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/validate_monthly.py",
+    "bytes": 25957,
+    "sha256": "b1d39074fbe799db981ca9101f50ca882cee223f4d2193d7b34db6728d59ccae"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/validate_pyramid.py",
+    "bytes": 39681,
+    "sha256": "ffa60078ae3f692cdfc522ceae05b49efa9cbdadd866bc26acf352e4e481bd08"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/validate_research_workbench.py",
+    "bytes": 45785,
+    "sha256": "fe6ee701c3993f0d307ee6cb8731a7f169e5b5cd3e39af40f6cc2904cf17dabd"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/validate_topic_dossier_ui.py",
+    "bytes": 10985,
+    "sha256": "da447be3dbd6521fab0fc62d7753406b1d75245801500c22add5fad043e7f2f9"
+  },
+  {
+    "path": "vendor/ai-infra/tools/cloud_core/validate_ui.py",
+    "bytes": 1361,
+    "sha256": "45a2cf923f2e4a598ac53e3c1839a2df865123b795a4512e21b1baa771b81d0e"
+  }
+]

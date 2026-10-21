@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 440" data-cycle="4" data-scene="purpose" data-style="quantization-teaching-film-v4" role="img" aria-labelledby="title desc">
+<title id="title">权重量化：逐步机制动画</title>
+<desc id="desc">合成教学数据，非模型实测。立体粒子表示数值，轨道和处理站逐步解释量化；数学坐标、公式和结果始终可读。</desc>
+<defs>
+ <linearGradient id="stage" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#183453"/><stop offset=".48" stop-color="#0c2038"/><stop offset="1" stop-color="#071527"/></linearGradient>
+ <radialGradient id="spot"><stop stop-color="#1c7d91" stop-opacity=".22"/><stop offset="1" stop-color="#122d45" stop-opacity="0"/></radialGradient>
+ <radialGradient id="orbCyan" cx=".28" cy=".22" r=".85"><stop stop-color="#fff"/><stop offset=".18" stop-color="#c1fff3"/><stop offset=".52" stop-color="#54decf"/><stop offset="1" stop-color="#17688c"/></radialGradient>
+ <radialGradient id="orbCoral" cx=".28" cy=".22" r=".85"><stop stop-color="#fff4de"/><stop offset=".22" stop-color="#ffd4a5"/><stop offset=".6" stop-color="#fa9b7d"/><stop offset="1" stop-color="#913a61"/></radialGradient>
+ <radialGradient id="orbBlue" cx=".28" cy=".22" r=".85"><stop stop-color="#fff"/><stop offset=".2" stop-color="#dae9ff"/><stop offset=".58" stop-color="#86acff"/><stop offset="1" stop-color="#3b509b"/></radialGradient>
+ <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#4f7d9b"/><stop offset=".15" stop-color="#284d6a"/><stop offset=".58" stop-color="#17314b"/><stop offset="1" stop-color="#0d2136"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#356c87" stop-opacity=".8"/><stop offset=".45" stop-color="#183d59" stop-opacity=".9"/><stop offset="1" stop-color="#132b42"/></linearGradient>
+ <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#80b5ff" stop-opacity=".1"/><stop offset="1" stop-color="#79ffe6" stop-opacity=".65"/></linearGradient>
+ <linearGradient id="densityFill" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#8cb7ff" stop-opacity=".5"/><stop offset="1" stop-color="#67eadf" stop-opacity=".02"/></linearGradient>
+ <linearGradient id="errorFill" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#80b5ff" stop-opacity=".05"/><stop offset="1" stop-color="#ffb08d" stop-opacity=".35"/></linearGradient>
+ <linearGradient id="bar" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#91ffe7"/><stop offset="1" stop-color="#206281"/></linearGradient>
+ <pattern id="clipHatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 0 V9" stroke="#c98c88" stroke-width="1"/></pattern>
+ <filter id="glow" x="-130%" y="-130%" width="360%" height="360%"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ </defs>
+<style>text{font-family:Arial,"Microsoft YaHei",sans-serif;font-variant-numeric:tabular-nums}path,line{stroke-linecap:round;stroke-linejoin:round}circle[fill="#fff"]{fill:#0d263d}.decoration{pointer-events:none}@media(prefers-reduced-motion:reduce){*{animation:none!important}}</style>
+<rect width="800" height="440" rx="16" fill="url(#stage)"/>
+<ellipse cx="424.0" cy="202.4" rx="463.99999999999994" ry="242.00000000000003" fill="url(#spot)" class="decoration"/>
+<path d="M260.0 228.8 L0.0 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M300.0 228.8 L114.28571428571428 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M340.0 228.8 L228.57142857142856 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M380.0 228.8 L342.85714285714283 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M420.0 228.8 L457.1428571428571 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M460.0 228.8 L571.4285714285714 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M500.0 228.8 L685.7142857142857 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M540.0 228.8 L800.0 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M18 272.8 L782 272.8" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<path d="M18 321.2 L782 321.2" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<path d="M18 382.8 L782 382.8" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<text x="32" y="48" font-size="32" fill="#eff8ff" font-weight="600" >为什么要压缩模型权重</text>
+<text x="32" y="90" font-size="24" fill="#b5cce2" font-weight="400" >权重需要存下来，推理时还要反复读取。</text>
+<rect x="142" y="141" width="160" height="90" rx="8" fill="#17354c" stroke="#709ab4" />
+<rect x="136" y="147" width="160" height="90" rx="8" fill="#17354c" stroke="#709ab4" />
+<rect x="130" y="153" width="160" height="90" rx="8" fill="#17354c" stroke="#709ab4" />
+<rect x="142.0" y="163.0" width="25.2" height="20.0" rx="2" fill="#83b6c5" />
+<rect x="169.2" y="163.0" width="25.2" height="20.0" rx="2" fill="#537d9a" />
+<rect x="196.4" y="163.0" width="25.2" height="20.0" rx="2" fill="#83b6c5" />
+<rect x="223.6" y="163.0" width="25.2" height="20.0" rx="2" fill="#537d9a" />
+<rect x="250.8" y="163.0" width="25.2" height="20.0" rx="2" fill="#83b6c5" />
+<rect x="142.0" y="187.0" width="25.2" height="20.0" rx="2" fill="#537d9a" />
+<rect x="169.2" y="187.0" width="25.2" height="20.0" rx="2" fill="#83b6c5" />
+<rect x="196.4" y="187.0" width="25.2" height="20.0" rx="2" fill="#537d9a" />
+<rect x="223.6" y="187.0" width="25.2" height="20.0" rx="2" fill="#83b6c5" />
+<rect x="250.8" y="187.0" width="25.2" height="20.0" rx="2" fill="#537d9a" />
+<rect x="142.0" y="211.0" width="25.2" height="20.0" rx="2" fill="#83b6c5" />
+<rect x="169.2" y="211.0" width="25.2" height="20.0" rx="2" fill="#537d9a" />
+<rect x="196.4" y="211.0" width="25.2" height="20.0" rx="2" fill="#83b6c5" />
+<rect x="223.6" y="211.0" width="25.2" height="20.0" rx="2" fill="#537d9a" />
+<rect x="250.8" y="211.0" width="25.2" height="20.0" rx="2" fill="#83b6c5" />
+<rect x="525" y="160" width="145" height="94" rx="10" fill="#071728" />
+<rect x="520" y="153" width="145" height="94" rx="10" fill="url(#glass)" stroke="#79adbf" />
+<rect x="530" y="165.0" width="125" height="7" rx="3" fill="#5b9fb0" />
+<rect x="530" y="190.33333333333334" width="125" height="7" rx="3" fill="#5b9fb0" />
+<rect x="530" y="215.66666666666666" width="125" height="7" rx="3" fill="#5b9fb0" />
+<path d="M308 198.0 H503" fill="none" stroke="#6ef3e2" stroke-width="2" />
+<path d="M495 192.0 L504 198.0 L495 204.0" fill="none" stroke="#6ef3e2" stroke-width="2" />
+<style>@keyframes purposeRead{0%{transform:translate(0,0)}0.0000%,16.0000%{transform:translate(0px,0.0px)}78.0000%{transform:translate(195px,0.0px)}100%{transform:translate(195px,0.0px)}}</style>
+<ellipse cx="310" cy="209.55" rx="9.1" ry="2.66" fill="#020914" opacity=".48" style="animation:purposeRead 4s cubic-bezier(.55,0,.2,1) infinite" class="decoration"/>
+<circle cx="308" cy="198.0" r="7" fill="url(#orbCyan)" stroke="#6ef3e2" stroke-width=".7" style="animation:purposeRead 4s cubic-bezier(.55,0,.2,1) infinite" id="purpose-reading-packet"/>
+<circle cx="306.04" cy="195.76" r="1.4000000000000001" fill="#fff" opacity=".78" style="animation:purposeRead 4s cubic-bezier(.55,0,.2,1) infinite" class="decoration"/>
+<text x="210.0" y="286" font-size="24" fill="#b5cce2" font-weight="400" text-anchor="middle" >模型权重</text>
+<text x="592.5" y="286" font-size="24" fill="#b5cce2" font-weight="400" text-anchor="middle" >存储容量与读取流量</text>
+<text x="400" y="362" font-size="34" fill="#6ef3e2" font-weight="600" text-anchor="middle" id="purpose-capacity" data-parameters="27000000000" data-bits-per-weight="16" data-weight-bytes="54000000000">270亿参数 × 16 bit ≈ 54 GB</text>
+<text x="32" y="415" font-size="20" fill="#b5cce2" font-weight="400" >十进制GB；仅权重数据，不含KV Cache、激活及运行缓冲。</text>
+</svg>

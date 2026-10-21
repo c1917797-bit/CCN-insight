@@ -1,0 +1,123 @@
+{
+  "description": "Cloud Core measurements: typed rows, stable keys and explicit relationships; no whole-domain JSON blob. Persistent history.",
+  "fields": {
+    "benchmark_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "evidence_source_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "experiment_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "measured_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "measurement_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "metric_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "percentile": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "review_status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "sample_count": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "unit": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "value": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "number"
+    }
+  },
+  "indexes": [
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "experiment_id",
+      "name": "idx_experiment_id"
+    },
+    {
+      "field": "metric_id",
+      "name": "idx_metric_id"
+    },
+    {
+      "field": "review_status",
+      "name": "idx_review_status"
+    }
+  ],
+  "key_field": "measurement_id",
+  "required_fields": [
+    "benchmark_id",
+    "business_id",
+    "evidence_source_id",
+    "experiment_id",
+    "measured_at",
+    "measurement_id",
+    "metric_id",
+    "percentile",
+    "review_status",
+    "sample_count",
+    "unit",
+    "value"
+  ],
+  "schema": "mcpgit.table.v2"
+}

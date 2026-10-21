@@ -1,0 +1,83 @@
+{
+  "description": "Cloud Core entity_refs: typed rows, stable keys and explicit relationships; no whole-domain JSON blob. Persistent history.",
+  "fields": {
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "entity_ref_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "relation_type": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "target_key": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "target_table": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "verification_status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "source_id",
+      "name": "idx_source_id"
+    },
+    {
+      "field": "target_table",
+      "name": "idx_target_table"
+    },
+    {
+      "field": "target_key",
+      "name": "idx_target_key"
+    }
+  ],
+  "key_field": "entity_ref_id",
+  "required_fields": [
+    "business_id",
+    "entity_ref_id",
+    "relation_type",
+    "source_id",
+    "target_key",
+    "target_table",
+    "verification_status"
+  ],
+  "schema": "mcpgit.table.v2"
+}

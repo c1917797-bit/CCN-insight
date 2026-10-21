@@ -1,0 +1,71 @@
+{
+  "description": "Cloud Core folders: typed rows, stable keys and explicit relationships; no whole-domain JSON blob. Persistent history.",
+  "fields": {
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "folder_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "logical_path": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "path"
+    },
+    "module_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "name": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "parent_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "module_id",
+      "name": "idx_module_id"
+    },
+    {
+      "field": "parent_id",
+      "name": "idx_parent_id"
+    }
+  ],
+  "key_field": "folder_id",
+  "required_fields": [
+    "business_id",
+    "folder_id",
+    "logical_path",
+    "module_id",
+    "name",
+    "parent_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

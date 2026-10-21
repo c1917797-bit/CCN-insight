@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 600" data-cycle="4" data-scene="purpose" data-style="quantization-teaching-film-v4" role="img" aria-labelledby="title desc">
+<title id="title">Weight quantization: a step-by-step teaching film</title>
+<desc id="desc">Synthetic teaching data, not model measurements. Volumetric particles travel through causal processing stations; mathematical axes, formulas and results remain readable.</desc>
+<defs>
+ <linearGradient id="stage" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#183453"/><stop offset=".48" stop-color="#0c2038"/><stop offset="1" stop-color="#071527"/></linearGradient>
+ <radialGradient id="spot"><stop stop-color="#1c7d91" stop-opacity=".22"/><stop offset="1" stop-color="#122d45" stop-opacity="0"/></radialGradient>
+ <radialGradient id="orbCyan" cx=".28" cy=".22" r=".85"><stop stop-color="#fff"/><stop offset=".18" stop-color="#c1fff3"/><stop offset=".52" stop-color="#54decf"/><stop offset="1" stop-color="#17688c"/></radialGradient>
+ <radialGradient id="orbCoral" cx=".28" cy=".22" r=".85"><stop stop-color="#fff4de"/><stop offset=".22" stop-color="#ffd4a5"/><stop offset=".6" stop-color="#fa9b7d"/><stop offset="1" stop-color="#913a61"/></radialGradient>
+ <radialGradient id="orbBlue" cx=".28" cy=".22" r=".85"><stop stop-color="#fff"/><stop offset=".2" stop-color="#dae9ff"/><stop offset=".58" stop-color="#86acff"/><stop offset="1" stop-color="#3b509b"/></radialGradient>
+ <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#4f7d9b"/><stop offset=".15" stop-color="#284d6a"/><stop offset=".58" stop-color="#17314b"/><stop offset="1" stop-color="#0d2136"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#356c87" stop-opacity=".8"/><stop offset=".45" stop-color="#183d59" stop-opacity=".9"/><stop offset="1" stop-color="#132b42"/></linearGradient>
+ <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#80b5ff" stop-opacity=".1"/><stop offset="1" stop-color="#79ffe6" stop-opacity=".65"/></linearGradient>
+ <linearGradient id="densityFill" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#8cb7ff" stop-opacity=".5"/><stop offset="1" stop-color="#67eadf" stop-opacity=".02"/></linearGradient>
+ <linearGradient id="errorFill" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#80b5ff" stop-opacity=".05"/><stop offset="1" stop-color="#ffb08d" stop-opacity=".35"/></linearGradient>
+ <linearGradient id="bar" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#91ffe7"/><stop offset="1" stop-color="#206281"/></linearGradient>
+ <pattern id="clipHatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 0 V9" stroke="#c98c88" stroke-width="1"/></pattern>
+ <filter id="glow" x="-130%" y="-130%" width="360%" height="360%"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ </defs>
+<style>text{font-family:Arial,"Microsoft YaHei",sans-serif;font-variant-numeric:tabular-nums}path,line{stroke-linecap:round;stroke-linejoin:round}circle[fill="#fff"]{fill:#0d263d}.decoration{pointer-events:none}@media(prefers-reduced-motion:reduce){*{animation:none!important}}</style>
+<rect width="360" height="600" rx="16" fill="url(#stage)"/>
+<ellipse cx="190.8" cy="276.0" rx="208.79999999999998" ry="330.0" fill="url(#spot)" class="decoration"/>
+<path d="M117.0 312.0 L0.0 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M135.0 312.0 L51.42857142857142 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M153.0 312.0 L102.85714285714285 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M171.0 312.0 L154.28571428571428 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M189.0 312.0 L205.7142857142857 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M207.0 312.0 L257.14285714285717 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M225.0 312.0 L308.57142857142856 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M243.0 312.0 L360.0 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M18 372.0 L342 372.0" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<path d="M18 438.0 L342 438.0" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<path d="M18 522.0 L342 522.0" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<text x="20" y="42" font-size="30" fill="#eff8ff" font-weight="600" >Why compress</text>
+<text x="20" y="79" font-size="30" fill="#eff8ff" font-weight="600" >model weights?</text>
+<text x="20" y="145" font-size="26" fill="#b5cce2" font-weight="400" >27B parameters × 16 bit</text>
+<text x="20" y="202" font-size="44" fill="#6ef3e2" font-weight="600" id="purpose-capacity" data-parameters="27000000000" data-bits-per-weight="16" data-weight-bytes="54000000000">≈ 54 GB</text>
+<text x="20" y="235" font-size="24" fill="#b5cce2" font-weight="400" >GB = 10⁹ bytes</text>
+<rect x="52" y="288" width="100" height="60" rx="8" fill="#17354c" stroke="#709ab4" />
+<rect x="46" y="294" width="100" height="60" rx="8" fill="#17354c" stroke="#709ab4" />
+<rect x="40" y="300" width="100" height="60" rx="8" fill="#17354c" stroke="#709ab4" />
+<rect x="52.0" y="310.0" width="13.2" height="10.0" rx="2" fill="#83b6c5" />
+<rect x="67.2" y="310.0" width="13.2" height="10.0" rx="2" fill="#537d9a" />
+<rect x="82.4" y="310.0" width="13.2" height="10.0" rx="2" fill="#83b6c5" />
+<rect x="97.6" y="310.0" width="13.2" height="10.0" rx="2" fill="#537d9a" />
+<rect x="112.8" y="310.0" width="13.2" height="10.0" rx="2" fill="#83b6c5" />
+<rect x="52.0" y="324.0" width="13.2" height="10.0" rx="2" fill="#537d9a" />
+<rect x="67.2" y="324.0" width="13.2" height="10.0" rx="2" fill="#83b6c5" />
+<rect x="82.4" y="324.0" width="13.2" height="10.0" rx="2" fill="#537d9a" />
+<rect x="97.6" y="324.0" width="13.2" height="10.0" rx="2" fill="#83b6c5" />
+<rect x="112.8" y="324.0" width="13.2" height="10.0" rx="2" fill="#537d9a" />
+<rect x="52.0" y="338.0" width="13.2" height="10.0" rx="2" fill="#83b6c5" />
+<rect x="67.2" y="338.0" width="13.2" height="10.0" rx="2" fill="#537d9a" />
+<rect x="82.4" y="338.0" width="13.2" height="10.0" rx="2" fill="#83b6c5" />
+<rect x="97.6" y="338.0" width="13.2" height="10.0" rx="2" fill="#537d9a" />
+<rect x="112.8" y="338.0" width="13.2" height="10.0" rx="2" fill="#83b6c5" />
+<rect x="230" y="307" width="95" height="64" rx="10" fill="#071728" />
+<rect x="225" y="300" width="95" height="64" rx="10" fill="url(#glass)" stroke="#79adbf" />
+<rect x="235" y="312.0" width="75" height="7" rx="3" fill="#5b9fb0" />
+<rect x="235" y="327.3333333333333" width="75" height="7" rx="3" fill="#5b9fb0" />
+<rect x="235" y="342.6666666666667" width="75" height="7" rx="3" fill="#5b9fb0" />
+<path d="M158 330.0 H208" fill="none" stroke="#6ef3e2" stroke-width="2" />
+<path d="M200 324.0 L209 330.0 L200 336.0" fill="none" stroke="#6ef3e2" stroke-width="2" />
+<style>@keyframes purposeRead{0%{transform:translate(0,0)}0.0000%,16.0000%{transform:translate(0px,0.0px)}78.0000%{transform:translate(50px,0.0px)}100%{transform:translate(50px,0.0px)}}</style>
+<ellipse cx="160" cy="341.55" rx="9.1" ry="2.66" fill="#020914" opacity=".48" style="animation:purposeRead 4s cubic-bezier(.55,0,.2,1) infinite" class="decoration"/>
+<circle cx="158" cy="330.0" r="7" fill="url(#orbCyan)" stroke="#6ef3e2" stroke-width=".7" style="animation:purposeRead 4s cubic-bezier(.55,0,.2,1) infinite" id="purpose-reading-packet"/>
+<circle cx="156.04" cy="327.76" r="1.4000000000000001" fill="#fff" opacity=".78" style="animation:purposeRead 4s cubic-bezier(.55,0,.2,1) infinite" class="decoration"/>
+<text x="90.0" y="397" font-size="24" fill="#b5cce2" font-weight="400" text-anchor="middle" >Weights</text>
+<text x="272.5" y="397" font-size="24" fill="#b5cce2" font-weight="400" text-anchor="middle" >Store / read</text>
+<text x="20" y="470" font-size="26" fill="#eff8ff" font-weight="400" >Weights occupy storage.</text>
+<text x="20" y="509" font-size="26" fill="#eff8ff" font-weight="400" >Inference reads them again.</text>
+<text x="20" y="563" font-size="24" fill="#b5cce2" font-weight="400" >Weight payload only</text>
+<text x="20" y="591" font-size="24" fill="#b5cce2" font-weight="400" >KV and other buffers excluded</text>
+</svg>

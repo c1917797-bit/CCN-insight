@@ -1,0 +1,409 @@
+{
+  "schema": "lri.tablegit-topic-views/v1",
+  "topics": {
+    "google_io_2026": {
+      "views": {
+        "overview": {
+          "title": {
+            "zh": "Google I/O 2026 全景工作台",
+            "en": "Google I/O 2026 Overview"
+          },
+          "description": {
+            "zh": "从会议主线、能力、资源和 P0 session 重建全景视图。",
+            "en": "A focused view of conference themes, capabilities, resources, and P0 sessions."
+          },
+          "collections": [
+            "thesis",
+            "overview_map",
+            "tracks",
+            "capability_matrix",
+            "resource_profiles",
+            "collaboration_directions",
+            "evidence_gaps",
+            "risks",
+            "next_steps",
+            "p0_sessions"
+          ],
+          "mode": "briefing"
+        },
+        "ai_edge_gemma": {
+          "title": {
+            "zh": "Google AI Edge 与 Gemma",
+            "en": "Google AI Edge and Gemma"
+          },
+          "description": {
+            "zh": "端侧 AI session 的官方概述、来源清单和证据边界。",
+            "en": "Official overview, source manifest, and evidence boundary for the edge-AI session."
+          },
+          "collections": [
+            "p0_sessions",
+            "p0_source_manifests"
+          ],
+          "match": {
+            "slug": "ai_edge_gemma"
+          },
+          "mode": "briefing"
+        },
+        "p0_sources": {
+          "title": {
+            "zh": "P0 事实源仪表盘",
+            "en": "P0 Source Dashboard"
+          },
+          "description": {
+            "zh": "P0 session、抓取状态与 canonical 来源清单。",
+            "en": "P0 sessions, acquisition status, and canonical source manifests."
+          },
+          "collections": [
+            "p0_fetch_summary",
+            "p0_sessions",
+            "p0_source_manifests"
+          ],
+          "search": true,
+          "mode": "inventory"
+        }
+      }
+    },
+    "waic_2026": {
+      "views": {
+        "insight_briefing": {
+          "title": {
+            "zh": "WAIC 2026 洞察汇报",
+            "en": "WAIC 2026 Insight Briefing"
+          },
+          "description": {
+            "zh": "管理判断、议题、证据边界与下一步行动。",
+            "en": "Management judgments, issues, evidence boundaries, and next actions."
+          },
+          "collections": [
+            "thesis",
+            "overview_map",
+            "issue_analysis__p0",
+            "issue_analysis__issues",
+            "evidence_gaps",
+            "risks",
+            "next_steps"
+          ],
+          "objects": [
+            "issue_analysis__coverage",
+            "evidence_coverage__method",
+            "evidence_coverage__scope"
+          ],
+          "mode": "briefing"
+        },
+        "insight_deck": {
+          "title": {
+            "zh": "WAIC 2026 洞察演示",
+            "en": "WAIC 2026 Insight Deck"
+          },
+          "description": {
+            "zh": "由同一修订的 TableGit 判断与行动条目生成的演示视图。",
+            "en": "A presentation view generated from judgments and actions at the same TableGit revision."
+          },
+          "collections": [
+            "thesis",
+            "overview_map",
+            "issue_analysis__p0",
+            "issue_analysis__issues",
+            "risks",
+            "next_steps"
+          ],
+          "mode": "collection_deck"
+        },
+        "issue_analysis": {
+          "title": {
+            "zh": "WAIC 2026 议题分析",
+            "en": "WAIC 2026 Issue Analysis"
+          },
+          "description": {
+            "zh": "P0 议题、完整议题集与覆盖边界。",
+            "en": "P0 issues, the full issue set, and coverage boundaries."
+          },
+          "collections": [
+            "issue_analysis__p0",
+            "issue_analysis__issues",
+            "evidence_coverage__primary_topic_counts",
+            "evidence_coverage__hypothesis_audit"
+          ],
+          "objects": [
+            "issue_analysis__coverage",
+            "evidence_coverage__scope",
+            "evidence_coverage__method"
+          ],
+          "mode": "issue_board",
+          "primary_collection": "issue_analysis__p0"
+        },
+        "p0_deep_dives": {
+          "title": {
+            "zh": "WAIC 2026 P0 内容深挖",
+            "en": "WAIC 2026 P0 Deep Dives"
+          },
+          "description": {
+            "zh": "P0 论文、证据状态与待升级缺口。",
+            "en": "P0 papers, evidence status, and remaining upgrade gaps."
+          },
+          "collections": [
+            "p0_deep_dives__papers",
+            "maintenance_status__full_text_upgrade_queue",
+            "evidence_coverage__hypothesis_audit"
+          ],
+          "objects": [
+            "p0_deep_dives__evidence_status",
+            "maintenance_status__full_text_reviewed",
+            "maintenance_status__not_full_text_reviewed"
+          ],
+          "search": true,
+          "mode": "inventory"
+        },
+        "paper_inventory": {
+          "title": {
+            "zh": "WAICA 2026 主会论文名录",
+            "en": "WAICA 2026 Main-Conference Paper Inventory"
+          },
+          "description": {
+            "zh": "论文名录和 canonical Content 链接；支持即时筛选。",
+            "en": "Paper inventory with canonical Content links and instant filtering."
+          },
+          "collections": [
+            "paper_inventory__papers"
+          ],
+          "objects": [
+            "paper_inventory__metadata"
+          ],
+          "search": true,
+          "mode": "inventory"
+        },
+        "system_chains": {
+          "title": {
+            "zh": "WAIC 2026 系统链",
+            "en": "WAIC 2026 System Chains"
+          },
+          "description": {
+            "zh": "用 P0 议题、深挖论文和证据边界重建跨议题系统链。",
+            "en": "Cross-issue system chains reconstructed from P0 issues, deep-dive papers, and evidence boundaries."
+          },
+          "collections": [
+            "thesis",
+            "issue_analysis__p0",
+            "p0_deep_dives__papers",
+            "evidence_coverage__hypothesis_audit"
+          ],
+          "objects": [
+            "p0_deep_dives__evidence_status",
+            "evidence_coverage__method"
+          ],
+          "mode": "briefing"
+        }
+      }
+    },
+    "ai_security": {
+      "views": {
+        "ecosystem_review": {
+          "title": {
+            "zh": "AI Security 全球与俄罗斯资源",
+            "en": "AI Security Global and Russian Resources"
+          },
+          "description": {
+            "zh": "资源、机构、平台能力和关系图的聚焦视图。",
+            "en": "A focused view of resources, organizations, platform capabilities, and graph relations."
+          },
+          "collections": [
+            "resource_inventory__resources",
+            "company_inventory__companies",
+            "platform_capabilities__capabilities",
+            "platform_capabilities__platform_assertions",
+            "resource_graph__nodes",
+            "resource_graph__edges"
+          ],
+          "objects": [
+            "resource_inventory__summary",
+            "resource_inventory__policy",
+            "company_inventory__selection_policy",
+            "resource_graph__next_action"
+          ],
+          "search": true,
+          "mode": "graph_map",
+          "node_collection": "resource_graph__nodes",
+          "edge_collection": "resource_graph__edges"
+        },
+        "insight_briefing": {
+          "title": {
+            "zh": "AI Security 证据驱动汇报",
+            "en": "AI Security Evidence-Driven Briefing"
+          },
+          "description": {
+            "zh": "主张、报告结构、证据和决策闸门。",
+            "en": "Claims, report structure, evidence, and decision gates."
+          },
+          "collections": [
+            "thesis",
+            "claims",
+            "claims__claims",
+            "report_outline__pages",
+            "decision_gates",
+            "evidence_gaps",
+            "evidence_sources"
+          ],
+          "objects": [
+            "report",
+            "presentation_v9",
+            "evidence_system_v3"
+          ],
+          "mode": "briefing"
+        },
+        "insight_deck": {
+          "title": {
+            "zh": "AI Security 洞察演示",
+            "en": "AI Security Insight Deck"
+          },
+          "description": {
+            "zh": "由 TableGit 报告大纲、主张和证据生成的演示视图。",
+            "en": "A presentation view generated from the TableGit report outline, claims, and evidence."
+          },
+          "collections": [
+            "report_outline__pages",
+            "claims",
+            "decision_gates",
+            "evidence_sources"
+          ],
+          "objects": [
+            "presentation_v9"
+          ],
+          "mode": "outline_deck",
+          "primary_collection": "report_outline__pages"
+        },
+        "report_outline": {
+          "title": {
+            "zh": "AI Security 汇报大纲",
+            "en": "AI Security Report Outline"
+          },
+          "description": {
+            "zh": "报告页序、受众、原则和发布状态。",
+            "en": "Report sequence, audience, principles, and release status."
+          },
+          "collections": [
+            "report_outline__pages"
+          ],
+          "objects": [
+            "report_outline",
+            "report_outline__audience",
+            "report_outline__principle",
+            "report_outline__slide_count",
+            "report_outline__status",
+            "report_outline__version"
+          ],
+          "mode": "outline",
+          "primary_collection": "report_outline__pages"
+        },
+        "technical_review": {
+          "title": {
+            "zh": "AI Security 技术与评测",
+            "en": "AI Security Technology and Evaluation"
+          },
+          "description": {
+            "zh": "攻击面、控制栈、信任边界、评测与 MCP 风险。",
+            "en": "Attack surfaces, control stack, trust boundaries, evaluation, and MCP risks."
+          },
+          "collections": [
+            "attack_surface",
+            "control_stack",
+            "trust_boundaries",
+            "frameworks",
+            "benchmarks",
+            "evaluation_metrics",
+            "experiment_suites",
+            "mcp_risks",
+            "threat_library__threats",
+            "threat_control_map__mappings",
+            "mcp_threat_matrix__risks"
+          ],
+          "objects": [
+            "execution_invariants__risk_profiles",
+            "mcp_threat_matrix__source"
+          ],
+          "mode": "briefing"
+        }
+      }
+    },
+    "exo_local_ai_cluster": {
+      "views": {
+        "technical_review": {
+          "title": {
+            "zh": "exo 本地分布式 AI 集群技术研究",
+            "en": "exo Local Distributed AI Cluster Technical Review"
+          },
+          "description": {
+            "zh": "架构、放置决策、版本演化、复现和验证闸门。",
+            "en": "Architecture, placement decisions, version evolution, reproducibility, and verification gates."
+          },
+          "collections": [
+            "overview_map",
+            "claims",
+            "capability_matrix",
+            "adoption_lanes",
+            "placement_decision_trace",
+            "community_signals",
+            "evolution_timeline",
+            "verification_gates",
+            "evidence_sources",
+            "evidence_gaps",
+            "risks"
+          ],
+          "objects": [
+            "reproducibility_protocol",
+            "release_boundary",
+            "scope"
+          ],
+          "mode": "briefing"
+        },
+        "insight_briefing": {
+          "title": {
+            "zh": "exo 管理洞察汇报",
+            "en": "exo Management Insight Briefing"
+          },
+          "description": {
+            "zh": "领导决策、管理汇报、证据边界和下一步。",
+            "en": "Leadership decisions, management briefing, evidence boundaries, and next actions."
+          },
+          "collections": [
+            "thesis",
+            "claims",
+            "resource_profiles",
+            "evidence_gaps",
+            "risks",
+            "next_steps"
+          ],
+          "objects": [
+            "leadership_decision_brief",
+            "management_briefing",
+            "content_first_brief",
+            "evidence_quality_summary"
+          ],
+          "mode": "briefing"
+        },
+        "insight_deck": {
+          "title": {
+            "zh": "exo 技术洞察演示",
+            "en": "exo Technical Insight Deck"
+          },
+          "description": {
+            "zh": "由 TableGit 决策、时间线和验证条目生成的演示视图。",
+            "en": "A presentation view generated from TableGit decisions, timelines, and validation records."
+          },
+          "collections": [
+            "thesis",
+            "claims",
+            "evolution_timeline",
+            "placement_decision_trace",
+            "verification_gates",
+            "next_steps"
+          ],
+          "objects": [
+            "leadership_decision_brief",
+            "management_briefing"
+          ],
+          "mode": "collection_deck"
+        }
+      }
+    }
+  }
+}

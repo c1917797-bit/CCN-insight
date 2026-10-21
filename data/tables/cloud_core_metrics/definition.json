@@ -1,0 +1,115 @@
+{
+  "description": "Cloud Core metrics: typed rows, stable keys and explicit relationships; no whole-domain JSON blob. Persistent history.",
+  "fields": {
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "direction": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "measurement_contract": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "metric_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "name": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "origin": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "review_status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "scenario_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_document_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "target_rule": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "unit": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "scenario_id",
+      "name": "idx_scenario_id"
+    },
+    {
+      "field": "direction",
+      "name": "idx_direction"
+    },
+    {
+      "field": "review_status",
+      "name": "idx_review_status"
+    }
+  ],
+  "key_field": "metric_id",
+  "required_fields": [
+    "business_id",
+    "direction",
+    "measurement_contract",
+    "metric_id",
+    "name",
+    "origin",
+    "review_status",
+    "scenario_id",
+    "source_document_id",
+    "target_rule",
+    "unit"
+  ],
+  "schema": "mcpgit.table.v2"
+}

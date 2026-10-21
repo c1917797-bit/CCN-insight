@@ -1,0 +1,83 @@
+{
+  "description": "Cloud Core import_issues: typed rows, stable keys and explicit relationships; no whole-domain JSON blob. Persistent history.",
+  "fields": {
+    "batch_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "description": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "issue_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "issue_type": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "subject_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "batch_id",
+      "name": "idx_batch_id"
+    },
+    {
+      "field": "issue_type",
+      "name": "idx_issue_type"
+    },
+    {
+      "field": "status",
+      "name": "idx_status"
+    }
+  ],
+  "key_field": "issue_id",
+  "required_fields": [
+    "batch_id",
+    "business_id",
+    "description",
+    "issue_id",
+    "issue_type",
+    "status",
+    "subject_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

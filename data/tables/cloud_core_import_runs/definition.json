@@ -1,0 +1,135 @@
+{
+  "description": "Cloud Core import_runs: typed rows, stable keys and explicit relationships; no whole-domain JSON blob. Persistent history.",
+  "fields": {
+    "batch_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "completed_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "document_count": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "excluded_content_count": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "excluded_name_count": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "payload_audit": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "reference_count": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "retained_local_count": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "scanned_notes": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "source_count": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "source_policy": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "started_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "status",
+      "name": "idx_status"
+    },
+    {
+      "field": "completed_at",
+      "name": "idx_completed_at"
+    }
+  ],
+  "key_field": "batch_id",
+  "required_fields": [
+    "batch_id",
+    "business_id",
+    "completed_at",
+    "document_count",
+    "excluded_content_count",
+    "excluded_name_count",
+    "payload_audit",
+    "reference_count",
+    "retained_local_count",
+    "scanned_notes",
+    "source_count",
+    "source_policy",
+    "started_at",
+    "status"
+  ],
+  "schema": "mcpgit.table.v2"
+}

@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 600" data-cycle="28" data-scene="formula" data-style="quantization-teaching-film-v4" role="img" aria-labelledby="title desc">
+<title id="title">权重量化：逐步机制动画</title>
+<desc id="desc">合成教学数据，非模型实测。立体粒子表示数值，轨道和处理站逐步解释量化；数学坐标、公式和结果始终可读。</desc>
+<defs>
+ <linearGradient id="stage" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#183453"/><stop offset=".48" stop-color="#0c2038"/><stop offset="1" stop-color="#071527"/></linearGradient>
+ <radialGradient id="spot"><stop stop-color="#1c7d91" stop-opacity=".22"/><stop offset="1" stop-color="#122d45" stop-opacity="0"/></radialGradient>
+ <radialGradient id="orbCyan" cx=".28" cy=".22" r=".85"><stop stop-color="#fff"/><stop offset=".18" stop-color="#c1fff3"/><stop offset=".52" stop-color="#54decf"/><stop offset="1" stop-color="#17688c"/></radialGradient>
+ <radialGradient id="orbCoral" cx=".28" cy=".22" r=".85"><stop stop-color="#fff4de"/><stop offset=".22" stop-color="#ffd4a5"/><stop offset=".6" stop-color="#fa9b7d"/><stop offset="1" stop-color="#913a61"/></radialGradient>
+ <radialGradient id="orbBlue" cx=".28" cy=".22" r=".85"><stop stop-color="#fff"/><stop offset=".2" stop-color="#dae9ff"/><stop offset=".58" stop-color="#86acff"/><stop offset="1" stop-color="#3b509b"/></radialGradient>
+ <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#4f7d9b"/><stop offset=".15" stop-color="#284d6a"/><stop offset=".58" stop-color="#17314b"/><stop offset="1" stop-color="#0d2136"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#356c87" stop-opacity=".8"/><stop offset=".45" stop-color="#183d59" stop-opacity=".9"/><stop offset="1" stop-color="#132b42"/></linearGradient>
+ <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#80b5ff" stop-opacity=".1"/><stop offset="1" stop-color="#79ffe6" stop-opacity=".65"/></linearGradient>
+ <linearGradient id="densityFill" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#8cb7ff" stop-opacity=".5"/><stop offset="1" stop-color="#67eadf" stop-opacity=".02"/></linearGradient>
+ <linearGradient id="errorFill" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#80b5ff" stop-opacity=".05"/><stop offset="1" stop-color="#ffb08d" stop-opacity=".35"/></linearGradient>
+ <linearGradient id="bar" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#91ffe7"/><stop offset="1" stop-color="#206281"/></linearGradient>
+ <pattern id="clipHatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 0 V9" stroke="#c98c88" stroke-width="1"/></pattern>
+ <filter id="glow" x="-130%" y="-130%" width="360%" height="360%"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ </defs>
+<style>text{font-family:Arial,"Microsoft YaHei",sans-serif;font-variant-numeric:tabular-nums}path,line{stroke-linecap:round;stroke-linejoin:round}circle[fill="#fff"]{fill:#0d263d}.decoration{pointer-events:none}@media(prefers-reduced-motion:reduce){*{animation:none!important}}</style>
+<rect width="360" height="600" rx="16" fill="url(#stage)"/>
+<ellipse cx="190.8" cy="276.0" rx="208.79999999999998" ry="330.0" fill="url(#spot)" class="decoration"/>
+<path d="M117.0 312.0 L0.0 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M135.0 312.0 L51.42857142857142 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M153.0 312.0 L102.85714285714285 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M171.0 312.0 L154.28571428571428 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M189.0 312.0 L205.7142857142857 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M207.0 312.0 L257.14285714285717 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M225.0 312.0 L308.57142857142856 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M243.0 312.0 L360.0 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M18 372.0 L342 372.0" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<path d="M18 438.0 L342 438.0" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<path d="M18 522.0 L342 522.0" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<text x="20" y="43" font-size="24" fill="#eff8ff" font-weight="600" >q = clip(round(w/s)+z)</text>
+<text x="20" y="82" font-size="26" fill="#6ef3e2" font-weight="400" >ŵ = s(q−z)</text>
+<path d="M78 168 L180 168" fill="none" stroke="#020e1d" stroke-width="7" />
+<path d="M78 165 L180 165" fill="none" stroke="#446a84" stroke-width="4" />
+<path d="M78 164 L180 164" fill="none" stroke="#96b9ce" stroke-width="0.75" />
+<path d="M180 168 L282 168" fill="none" stroke="#020e1d" stroke-width="7" />
+<path d="M180 165 L282 165" fill="none" stroke="#446a84" stroke-width="4" />
+<path d="M180 164 L282 164" fill="none" stroke="#96b9ce" stroke-width="0.75" />
+<path d="M282 168 L282 285" fill="none" stroke="#020e1d" stroke-width="7" />
+<path d="M282 165 L282 282" fill="none" stroke="#446a84" stroke-width="4" />
+<path d="M282 164 L282 281" fill="none" stroke="#96b9ce" stroke-width="0.75" />
+<path d="M282 285 L282 402" fill="none" stroke="#020e1d" stroke-width="7" />
+<path d="M282 282 L282 399" fill="none" stroke="#446a84" stroke-width="4" />
+<path d="M282 281 L282 398" fill="none" stroke="#96b9ce" stroke-width="0.75" />
+<path d="M282 402 L180 402" fill="none" stroke="#020e1d" stroke-width="7" />
+<path d="M282 399 L180 399" fill="none" stroke="#446a84" stroke-width="4" />
+<path d="M282 398 L180 398" fill="none" stroke="#96b9ce" stroke-width="0.75" />
+<path d="M180 402 L78 402" fill="none" stroke="#020e1d" stroke-width="7" />
+<path d="M180 399 L78 399" fill="none" stroke="#446a84" stroke-width="4" />
+<path d="M180 398 L78 398" fill="none" stroke="#96b9ce" stroke-width="0.75" />
+<path d="M43 182 H113 L100 195 H56 Z" fill="url(#metal)" stroke="#416780" stroke-width="1" class="decoration"/>
+<path d="M55 185 L101 185" fill="none" stroke="#6ea3bb" stroke-width="0.8" />
+<circle cx="78" cy="165" r="25" fill="#fff" stroke="#365b77" stroke-width="2.5" />
+<path d="M48 165 A30 30 0 0 1 78 135" fill="none" stroke="#4b6c85" stroke-width="1.5" />
+<text x="78" y="117" font-size="24" fill="#b5cce2" font-weight="600" text-anchor="middle" >原值</text>
+<text x="78" y="173" font-size="24" fill="#eff8ff" font-weight="400" text-anchor="middle" data-formula-stage="0" data-value="0.4">0.4</text>
+<ellipse cx="78" cy="197" rx="30" ry="9.9" fill="none" stroke="#31526c"  class="decoration"/>
+<path d="M145 182 H215 L202 195 H158 Z" fill="url(#metal)" stroke="#416780" stroke-width="1" class="decoration"/>
+<path d="M157 185 L203 185" fill="none" stroke="#6ea3bb" stroke-width="0.8" />
+<circle cx="180" cy="165" r="25" fill="#fff" stroke="#365b77" stroke-width="2.5" />
+<path d="M150 165 A30 30 0 0 1 180 135" fill="none" stroke="#4b6c85" stroke-width="1.5" />
+<text x="180" y="117" font-size="24" fill="#b5cce2" font-weight="600" text-anchor="middle" >缩放</text>
+<text x="180" y="173" font-size="24" fill="#eff8ff" font-weight="400" text-anchor="middle" data-formula-stage="1" data-value="0.8">0.8</text>
+<ellipse cx="180" cy="197" rx="30" ry="9.9" fill="none" stroke="#31526c"  class="decoration"/>
+<path d="M247 182 H317 L304 195 H260 Z" fill="url(#metal)" stroke="#416780" stroke-width="1" class="decoration"/>
+<path d="M259 185 L305 185" fill="none" stroke="#6ea3bb" stroke-width="0.8" />
+<circle cx="282" cy="165" r="25" fill="#fff" stroke="#365b77" stroke-width="2.5" />
+<path d="M252 165 A30 30 0 0 1 282 135" fill="none" stroke="#4b6c85" stroke-width="1.5" />
+<text x="282" y="117" font-size="24" fill="#b5cce2" font-weight="600" text-anchor="middle" >舍入</text>
+<text x="282" y="173" font-size="24" fill="#eff8ff" font-weight="400" text-anchor="middle" data-formula-stage="2" data-value="1">1</text>
+<ellipse cx="282" cy="197" rx="30" ry="9.9" fill="none" stroke="#31526c"  class="decoration"/>
+<path d="M247 299 H317 L304 312 H260 Z" fill="url(#metal)" stroke="#416780" stroke-width="1" class="decoration"/>
+<path d="M259 302 L305 302" fill="none" stroke="#6ea3bb" stroke-width="0.8" />
+<circle cx="282" cy="282" r="25" fill="#fff" stroke="#365b77" stroke-width="2.5" />
+<path d="M252 282 A30 30 0 0 1 282 252" fill="none" stroke="#4b6c85" stroke-width="1.5" />
+<text x="282" y="234" font-size="24" fill="#b5cce2" font-weight="600" text-anchor="middle" >平移</text>
+<text x="282" y="290" font-size="24" fill="#eff8ff" font-weight="400" text-anchor="middle" data-formula-stage="3" data-value="3">3</text>
+<ellipse cx="282" cy="314" rx="30" ry="9.9" fill="none" stroke="#31526c"  class="decoration"/>
+<path d="M247 416 H317 L304 429 H260 Z" fill="url(#metal)" stroke="#416780" stroke-width="1" class="decoration"/>
+<path d="M259 419 L305 419" fill="none" stroke="#6ea3bb" stroke-width="0.8" />
+<circle cx="282" cy="399" r="25" fill="#fff" stroke="#365b77" stroke-width="2.5" />
+<path d="M252 399 A30 30 0 0 1 282 369" fill="none" stroke="#4b6c85" stroke-width="1.5" />
+<text x="282" y="351" font-size="24" fill="#b5cce2" font-weight="600" text-anchor="middle" >裁剪</text>
+<text x="282" y="407" font-size="24" fill="#eff8ff" font-weight="400" text-anchor="middle" data-formula-stage="4" data-value="3">3</text>
+<ellipse cx="282" cy="431" rx="30" ry="9.9" fill="none" stroke="#31526c"  class="decoration"/>
+<path d="M145 416 H215 L202 429 H158 Z" fill="url(#metal)" stroke="#416780" stroke-width="1" class="decoration"/>
+<path d="M157 419 L203 419" fill="none" stroke="#6ea3bb" stroke-width="0.8" />
+<circle cx="180" cy="399" r="25" fill="#fff" stroke="#365b77" stroke-width="2.5" />
+<path d="M150 399 A30 30 0 0 1 180 369" fill="none" stroke="#4b6c85" stroke-width="1.5" />
+<text x="180" y="351" font-size="24" fill="#b5cce2" font-weight="600" text-anchor="middle" >还原</text>
+<text x="180" y="407" font-size="24" fill="#eff8ff" font-weight="400" text-anchor="middle" data-formula-stage="5" data-value="0.5">0.5</text>
+<ellipse cx="180" cy="431" rx="30" ry="9.9" fill="none" stroke="#31526c"  class="decoration"/>
+<path d="M43 416 H113 L100 429 H56 Z" fill="url(#metal)" stroke="#416780" stroke-width="1" class="decoration"/>
+<path d="M55 419 L101 419" fill="none" stroke="#6ea3bb" stroke-width="0.8" />
+<circle cx="78" cy="399" r="25" fill="#fff" stroke="#365b77" stroke-width="2.5" />
+<path d="M48 399 A30 30 0 0 1 78 369" fill="none" stroke="#4b6c85" stroke-width="1.5" />
+<text x="78" y="351" font-size="24" fill="#b5cce2" font-weight="600" text-anchor="middle" >结果</text>
+<text x="78" y="407" font-size="24" fill="#eff8ff" font-weight="400" text-anchor="middle" data-formula-stage="6" data-value="0.5">0.5</text>
+<ellipse cx="78" cy="431" rx="30" ry="9.9" fill="none" stroke="#31526c"  class="decoration"/>
+<ellipse cx="80" cy="380.55" rx="9.1" ry="2.66" fill="#020914" opacity=".48"  class="decoration"/>
+<circle cx="78" cy="369" r="7" fill="url(#orbCyan)" stroke="#6ef3e2" stroke-width=".7"  />
+<circle cx="76.04" cy="366.76" r="1.4000000000000001" fill="#fff" opacity=".78"  class="decoration"/>
+<text x="20" y="465" font-size="24" fill="#b5cce2" font-weight="400" >s=0.5 · z=2</text>
+<text x="20" y="497" font-size="24" fill="#b5cce2" font-weight="400" >q ∈ [0,3]</text>
+<text x="20" y="529" font-size="24" fill="#ffb08d" font-weight="400" >无裁剪：|e| ≤ s/2</text>
+<text x="20" y="584" font-size="24" fill="#b5cce2" font-weight="400" >教学示意 · 非模型实测</text>
+</svg>

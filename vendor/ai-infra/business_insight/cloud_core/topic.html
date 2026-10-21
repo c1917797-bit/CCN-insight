@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script data-lri-reader-bootstrap>
+(() => {
+ 'use strict';
+ // Preserve an initial deep link through asynchronous layout only until the reader acts.
+ const initialNavigation={hash:location.hash,canceled:false};globalThis.LRICloudInitialNavigation=initialNavigation;
+ const cancelInitialNavigation=()=>{initialNavigation.canceled=true;};
+ for(const event of ['wheel','touchstart','pointerdown'])addEventListener(event,cancelInitialNavigation,{passive:true,once:true});
+ addEventListener('keydown',event=>{if(['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' '].includes(event.key))cancelInitialNavigation();});
+
+ // First-paint reader. It fetches authorized TableGit rows; no facts are built into this file.
+ const params=new URLSearchParams(location.search),topic=params.get('topic'),period=params.get('month')||new Date().toISOString().slice(0,7),scope=params.get('scope');
+ const topicPage=location.pathname.endsWith('/topic.html'),monthly=location.pathname.endsWith('/monthly.html');
+ const match=/^#view-(sources|topics|updates|home|reports)/.exec(location.hash),view=topicPage?'topics':monthly?'updates':match?.[1]||(location.hash==='#analysis-focus'?'home':location.hash==='#supplementary-paper-reviews'?'updates':'sources');
+ const en=document.documentElement.lang.startsWith('en'),pick=(r,k)=>r[k+(en?'_en':'_zh')]||r[k+'_zh']||r[k]||'',eq=(field,value)=>({field,op:'eq',value});
+ const common=[eq('business_id','cloud-core'),eq('topic_id','cloud_core')];
+ const table=(name,filters=[])=>({name,table:'ic_'+name,filters:[...common,...filters]});
+ let plan;
+ if(view==='sources')plan=[table('source_families',[eq('ui_group','hotspot')]),table('channels',[eq('ui_group','hotspot'),{field:'priority',op:'in',value:['P0','P1']}]),{...table('channel_families'),limit:400,select:['business_id','topic_id','membership_id','channel_id','family_id','position']}];
+ else if(view==='topics')plan=topic?[table('compression_topic_sections',[eq('compression_topic_id',topic),{field:'section_kind',op:'in',value:['problem','mechanism','boundary']}])]:[table('compression_topics'),table('compression_topic_concepts')];
+ else if(view==='updates')plan=[table('paper_summary_events',[eq('period_id',period)]),table('paper_summaries')];
+ else plan=[table('insight_reports',[eq('period_id',period),eq('status','published')])];
+ const ensure=(test,message)=>{if(!test)throw Error(message);};
+ async function call(name,args){
+  const response=await fetch('/mcp',{method:'POST',credentials:'same-origin',priority:'high',headers:{'content-type':'application/json',accept:'application/json, text/event-stream','MCP-Protocol-Version':'2026-07-28','Mcp-Method':'tools/call','Mcp-Name':name},body:JSON.stringify({jsonrpc:'2.0',id:name==='skill_get'?8701:8702,method:'tools/call',params:{name,arguments:args,_meta:{'io.modelcontextprotocol/protocolVersion':'2026-07-28','io.modelcontextprotocol/clientCapabilities':{}}}}),signal:AbortSignal.timeout(15000)});
+  ensure(response.ok,'First-content permission/request failed');const envelope=await response.json();ensure(!envelope.error,'First-content request rejected');const r=envelope.result,v=r?.structuredContent??JSON.parse(r?.content?.find(c=>c.type==='text')?.text||'null');ensure(v&&!r.isError&&!v.error&&v.outcome!=='failed','First-content authority unavailable');return v;
+ }
+ // The server enforces the pinned compiled read contract and permission on every native read.
+ // Live discovery is shared with the complete reader; it is not a second permission grant.
+ // Independent bounded native table reads start together; the resolved revisions must agree.
+ let sourceBindings;
+ async function sourceRelation(){
+  const nonce=crypto.randomUUID().replace(/-/g,'');
+  sourceBindings=plan.map((p,i)=>({alias:'first_'+nonce+i,repo:'works',path:'data/tables/'+p.table,include_deleted:false,source_query:{filters:p.filters,...(p.name==='channels'?{select:['business_id','topic_id','channel_id','priority','enabled']}:p.select?{select:p.select}:{})}}));
+  const [f,c,m]=sourceBindings.map(b=>b.alias);
+  const sql=`SELECT f.key,f.row_version,f.row_json FROM ${f} f JOIN ${m} m ON json_extract(m.row_json,'$.family_id')=json_extract(f.row_json,'$.family_id') JOIN ${c} c ON json_extract(c.row_json,'$.channel_id')=json_extract(m.row_json,'$.channel_id') WHERE json_extract(c.row_json,'$.enabled')=1 GROUP BY f.key ORDER BY MIN(CASE json_extract(c.row_json,'$.priority') WHEN 'P0' THEN 0 ELSE 1 END),MIN(json_extract(m.row_json,'$.position')),f.key LIMIT 20`;
+  return call('skill_run_read',{skill_id:'table.query',skill_version:'2.3.0',operation:'table_relation_query',arguments:{bindings:sourceBindings,sql,limits:{max_source_rows:500,max_source_bytes:524288,max_result_rows:20,max_result_bytes:65536},wall_time_ms:2000}});
+ }
+ function decodeSources(value){
+  const r=value.result;ensure(value.skill_id==='table.query'&&value.skill_version==='2.3.0'&&value.operation==='table_relation_query'&&value.outcome==='executed'&&r&&!r.truncated&&Array.isArray(r.bindings)&&r.bindings.length===3&&Array.isArray(r.rows)&&r.rows.length<=20&&JSON.stringify(r.columns)===JSON.stringify(['key','row_version','row_json'])&&Number.isSafeInteger(r.output_bytes)&&r.output_bytes<=65536,'Invalid first-source relation');
+  const revision=r.bindings[0]?.revision;ensure(/^[a-f0-9]{40}$/.test(revision||''),'Missing first-source revision');
+  const aliases=new Set();for(const b of r.bindings){const requested=sourceBindings.find(x=>x.alias===b.alias);ensure(requested&&!aliases.has(b.alias)&&b.repo===requested.repo&&b.path===requested.path&&b.revision===revision&&b.include_deleted===false&&requested.source_query.filters.every(f=>b.source_query?.filters?.some(v=>v.field===f.field&&v.op===f.op&&JSON.stringify(v.value)===JSON.stringify(f.value))),'First-source binding mismatch');aliases.add(b.alias);}
+  const seen=new Set(),rows=r.rows.map(tuple=>{ensure(Array.isArray(tuple)&&tuple.length===3&&tuple[0].type==='text'&&tuple[1].type==='integer'&&Number.isSafeInteger(tuple[1].value)&&tuple[1].value>0&&tuple[2].type==='text','Invalid first-source row');const row=JSON.parse(tuple[2].value);ensure(row.family_id===tuple[0].value&&!seen.has(row.family_id)&&row.business_id==='cloud-core'&&row.topic_id==='cloud_core'&&row.ui_group==='hotspot'&&!row.deleted,'First-source row outside scope');seen.add(row.family_id);return row;});
+  return {revision,groups:{source_families:rows},view,period,scope,topic};
+ }
+ const requests=view==='sources'?[sourceRelation()]:plan.map(spec=>call('skill_run_read',{skill_id:'table.query',skill_version:'2.3.0',operation:'table_query',arguments:{repo:'works',path:'data/tables/'+spec.table,filters:spec.filters,limit:spec.limit||100,offset:0,...(spec.select?{select:spec.select}:{})}}));
+ for(const request of requests)request.catch(()=>{});
+ const discover=()=>call('skill_get',{skill_id:'table.query',operation:'table_query'}).then(v=>{
+  const s=v.skill?.summary;ensure(s?.skill_id==='table.query'&&s.skill_version==='2.3.0'&&v.skill.operations.some(op=>op.name==='table_query'&&op.access_lane==='read'),'First-content contract changed');return s.skill_version;
+ });
+ const permission=Promise.all(requests).then(discover,discover);permission.catch(()=>{});globalThis.LRICloudLiveContract=permission;
+ globalThis.LRICloudFirstRead=Promise.all(requests).then(values=>{
+  if(view==='sources')return decodeSources(values[0]);
+  const revision=values[0]?.result?.revision;ensure(/^[a-f0-9]{40}$/.test(revision||''),'Missing first-content revision');
+  const groups={},seen=new Set();let total=0;
+  for(let i=0;i<plan.length;i++){
+   const spec=plan[i],value=values[i],result=value.result;
+   ensure(value.skill_id==='table.query'&&value.skill_version==='2.3.0'&&value.operation==='table_query'&&value.outcome==='executed'&&result&&result.repo==='works'&&result.path==='data/tables/'+spec.table&&result.revision===revision&&!result.truncated&&Array.isArray(result.rows)&&result.rows.length<=(spec.limit||100),'Invalid or mixed first-content envelope');
+   total+=result.rows.length;ensure(total<=500,'First-content row budget exceeded');groups[spec.name]=[];
+   for(const row of result.rows){const record=row.row,key=spec.name+'__'+row.key;ensure(row.key&&!row.deleted&&Number.isSafeInteger(row.row_version)&&row.row_version>0&&record&&!record.deleted&&!seen.has(key)&&spec.filters.every(f=>f.op==='in'?f.value.includes(record[f.field]):record[f.field]===f.value),'First-content row outside scope');seen.add(key);groups[spec.name].push(record);}
+  }
+  return {revision,groups,view,period,scope,topic};
+ });globalThis.LRICloudFirstRead.catch(()=>{});
+ // Give the small live first-content requests priority over the complete workbench bundle.
+ function loadWorkbench(){const placeholder=document.querySelector('script[data-lri-reader]');if(!placeholder){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',loadWorkbench,{once:true});return;}const script=document.createElement('script');script.src=placeholder.dataset.lriReader;script.defer=true;placeholder.replaceWith(script);}
+ globalThis.LRICloudFirstRead.finally(loadWorkbench).catch(()=>{});
+ let mounted=false,retired=false,root,paintObserver,assetCacheStarted=false;
+ globalThis.LRICloudFirstRetire=()=>{retired=true;const finalParagraph=document.querySelector(view==='sources'?'#channel-cards article p':view==='topics'?(topic?'.direction-lead':'#scientific-map p'):view==='updates'?'#monthly-route-report article p':'#insight-deck-content .analysis-report-card p, #insight-deck-archive .analysis-report-card p');if(finalParagraph)finalParagraph.setAttribute('elementtiming','cloud-core-native-first');root?.remove();if(mounted&&!assetCacheStarted&&'serviceWorker' in navigator){assetCacheStarted=true;navigator.serviceWorker.register('reader-ui-cache.js',{scope:'./',updateViaCache:'none'}).then(r=>r.update()).catch(()=>{});}};
+ function node(tag,text,cls){const n=document.createElement(tag);if(text)n.textContent=text;if(cls)n.className=cls;return n;}
+ function link(text,url){const a=node('a',text);const target=new URL(url,location.href);ensure(['https:','http:'].includes(target.protocol),'Unsafe first-content URL');a.href=target.href;if(target.origin!==location.origin){a.target='_blank';a.rel='noopener noreferrer';}return a;}
+ function mount(model){
+  if(retired||mounted)return;const nav=document.querySelector('.wb-view-tabs');if(!nav)return false;
+  const g=model.groups;root=node('section','','section');root.id='first-readable-content';root.dataset.readingLayer=['home','reports'].includes(view)?'analysis':'facts';root.dataset.revision=model.revision;
+  root.append(node('h2',en?'Read now':view==='sources'?'信息来源':view==='topics'?(topic?'研究问题与技术原理':'技术地图'):view==='updates'?'本期论文摘要':'本期洞察报告'));
+  const grid=node('div','','grid');root.append(grid);let count=0;
+  const card=(heading,paragraphs,url)=>{const article=node('article','','card');article.append(url?link(heading,url):node('h3',heading));for(const text of paragraphs.filter(Boolean)){const paragraph=node('p',text);if(count===0&&!article.querySelector?.('p'))paragraph.setAttribute('elementtiming','cloud-core-native-first');article.append(paragraph);}grid.append(article);count++;};
+  if(view==='sources'){for(const f of g.source_families)card(pick(f,'title'),[pick(f,'summary')]);}
+  else if(view==='topics'&&!topic){const topics=g.compression_topics.filter(t=>t.catalog_kind==='matrix').sort((a,b)=>a.position-b.position);for(const t of topics){const c=g.compression_topic_concepts.find(c=>c.compression_topic_id===t.compression_topic_id);ensure(c?.claim_kind==='editorial_definition'&&c.source_url&&c.reviewed_at,'Unbound topic concept');const url=new URL('topic.html',location.href);url.searchParams.set('topic',t.compression_topic_id);if(params.has('month'))url.searchParams.set('month',period);if(scope)url.searchParams.set('scope',scope);card(pick(t,'title'),[pick(c,'summary')],url.href);}}
+  else if(view==='topics'){ensure(g.compression_topic_sections.length===3,'Incomplete first research sections');for(const kind of ['problem','mechanism','boundary']){const section=g.compression_topic_sections.find(s=>s.section_kind===kind);ensure(section&&section.claim_kind==='literature_synthesis'&&section.reviewed_at&&section.evidence_url&&section.section_id===topic+'__'+kind,'Unreviewed first research section');card(pick(section,'heading'),[pick(section,'body')],section.evidence_url);}}
+  else if(view==='updates'){const events=new Map(g.paper_summary_events.map(e=>[e.summary_id,e]));for(const s of g.paper_summaries.filter(s=>events.has(s.summary_id)).slice(0,6)){const e=events.get(s.summary_id);ensure(e.source_id===s.source_id&&e.observed_version===s.observed_version&&['primary_abstract_checked','method_results_checked'].includes(s.review_status)&&s.evidence_url&&s.one_sentence_zh,'Unreviewed current paper');card((en?'Reviewed paper · ':'论文原文 · ')+new URL(s.evidence_url).pathname.split('/').at(-1),[pick(s,'one_sentence'),pick(s,'results')],s.evidence_url);}}
+  else{for(const r of g.insight_reports)card(pick(r,'title'),[pick(r,'summary')],'index.html'+location.search+'#view-home');for(const r of (g.ascend_route_assessments||[]).sort((a,b)=>a.position-b.position).slice(0,3)){ensure(r.claim_status==='analyst_recommendation','Unsupported first-content recommendation');card(pick(r,'title'),[pick(r,'rationale'),pick(r,'recommendation')]);}}
+  if(!count)return true;
+  for(const panel of document.querySelectorAll('[data-view-panel]'))panel.hidden=panel.dataset.viewPanel!==view;
+  const elementTiming=typeof PerformanceObserver!=='undefined'&&PerformanceObserver.supportedEntryTypes?.includes('element');
+  if(elementTiming){paintObserver=new PerformanceObserver(list=>{const entry=list.getEntries().find(e=>e.identifier==='cloud-core-native-first'&&e.renderTime>0);if(entry){performance.mark('cloud-core-first-readable-paint',{startTime:entry.renderTime});paintObserver.disconnect();}});paintObserver.observe({type:'element',buffered:true});setTimeout(()=>paintObserver.disconnect(),5000);}
+  nav.after(root);mounted=true;const monitor=new MutationObserver(()=>{if(retired){monitor.disconnect();return;}const target=document.querySelector(view==='sources'?'#channel-cards article':view==='topics'?(topic?'[data-dossier-ready="true"]':'#scientific-map a'):view==='updates'?'#monthly-route-report article':'#insight-deck-content .analysis-report-card, #insight-deck-archive .analysis-report-card');if(target){globalThis.LRICloudFirstRetire();monitor.disconnect();}});monitor.observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['data-dossier-ready']});performance.mark('cloud-core-first-readable-content');if(!elementTiming)requestAnimationFrame(()=>requestAnimationFrame(()=>performance.mark('cloud-core-first-readable-paint-fallback')));return true;
+ }
+ globalThis.LRICloudFirstRead.then(model=>{if(mount(model)!==false)return;const observer=new MutationObserver(()=>{if(mount(model)!==false)observer.disconnect();});observer.observe(document.documentElement,{childList:true,subtree:true});}).catch(()=>globalThis.LRICloudFirstRetire());
+ addEventListener('hashchange',()=>globalThis.LRICloudFirstRetire(),{once:true});
+})();
+</script>
+<title>推理压缩专题 · 云核 · LRI</title>
+<link rel="stylesheet" href="../../assets/insight-executive.css?v=lri-content-contract-v11-compression-foundations">
+<meta name="lri-page-i18n" content="data/focus-ui.{lang}.json?v=reader-content-v180-paper-review">
+<meta name="lri-page-translation" content="ui">
+<meta name="lri-shell-version" content="lri-shell-v18-cloud-report-navigation">
+<script type="module" src="../../assets/lri-shell.js?v=lri-shell-v18-cloud-report-navigation"></script>
+<script type="application/lri-reader" data-lri-reader="topic-entry.js?v=reader-content-d1140db05b204943"></script>
+</head>
+<body data-lri-section-visibility="visible" data-lri-shell="auto" data-lri-content-kind="topic" data-topic-id="cloud_core" data-compression-topic="true">
+<main class="wrap compression-research-workbench">
+
+<header class="wb-header">
+<h1 id="topic-title">云核 · 推理压缩洞察</h1>
+<section class="wb-research-scope"><p data-i18n-key="research_scope">我的研究范围</p><p id="topic-summary"></p><p data-i18n-key="research_scope_help">研究推理压缩的原理、适用条件及昇腾部署潜力，实际收益以目标平台测试为准。</p></section>
+<div class="wb-runtime"><p id="runtime-status" class="meta" role="status" aria-live="polite">正在连接 TableGit…</p><button class="btn" id="reload" type="button" data-i18n-key="refresh_snapshot">刷新页面数据</button></div>
+</header>
+<nav class="wb-view-tabs" aria-label="洞察视图" data-i18n-aria-label="view_navigation">
+<a href="#view-sources" data-view="sources" aria-current="page" data-i18n-key="view_sources">信息来源</a>
+<a href="#view-topics" data-view="topics" data-i18n-key="view_topics">技术地图</a>
+<a href="#view-updates" data-view="updates" data-i18n-key="view_updates">本期动态</a>
+<a href="#view-home" data-view="home" data-i18n-key="view_home">分析与结论</a>
+<a href="#view-reports" data-view="reports" data-i18n-key="view_reports">洞察归档</a>
+</nav>
+<aside id="view-purpose" class="wb-view-purpose" aria-live="polite"></aside>
+<p id="reading-context" class="reader-note" role="status" aria-live="polite"></p>
+<details id="reading-controls" class="wb-reading-controls"><summary data-i18n-key="switch_reading_scope">切换月份与研究范围</summary><div class="wb-filters" aria-label="阅读范围" data-i18n-aria-label="reading_filters">
+<div><label for="period-filter" data-i18n-key="period">月份</label><select id="period-filter" data-dependent disabled></select></div>
+<div><label for="scope-filter" data-i18n-key="scope">采集范围</label><select id="scope-filter" data-dependent disabled></select></div>
+<div><label for="object-filter" data-i18n-key="object">对象</label><select id="object-filter" data-dependent disabled></select></div>
+</div></details>
+<div id="judgment-basis" data-section-label="研究依据" data-section-label-en="Research basis" data-section-number="01" data-section-collapsible="true">
+
+<div data-view-panel="sources" id="view-sources">
+<div class="section" id="channels-panel" data-section-label="信息来源" data-section-label-en="Information sources" data-section-level="3" data-section-number="1.1" data-reading-layer="facts"><h3 data-i18n-key="view_sources">信息来源</h3><p data-i18n-key="sources_help">热点资讯帮助发现值得关注的变化，产业资料展示实现与部署进展，学术来源提供研究论文。点击信源名称可访问原站。</p>
+<div class="wb-domain-tabs" role="tablist" aria-label="来源类别" data-i18n-aria-label="source_domains"><button type="button" role="tab" aria-selected="true" data-domain="hotspot" data-i18n-key="domain_hotspot">热点资讯</button><button type="button" role="tab" aria-selected="false" data-domain="industry" data-i18n-key="domain_industry">产业界</button><button type="button" role="tab" aria-selected="false" data-domain="academic" data-i18n-key="domain_academic">学术界</button></div>
+<details class="wb-source-policy"><summary data-i18n-key="source_selection_policy">信源选择与审阅说明</summary><p data-i18n-key="collection_discovery_boundary">采集列表用于发现候选资料，技术内容经原文核对后再纳入分析。标题相关或页面标注日期，仅作为筛选线索。</p>
+
+<p data-i18n-key="source_priority_help">优先选择与推理压缩相关、提供一手资料且持续更新的来源。</p>
+<p id="source-subject-overview" class="reader-note"></p></details>
+<div class="wb-filters"><div><label for="channel-category" data-i18n-key="source_subcategory">信源子类</label><select id="channel-category"><option value="" data-i18n-key="source_category_all">全部子类</option></select></div><div><label for="channel-priority" data-i18n-key="source_display">显示范围</label><select id="channel-priority"><option value="important" data-i18n-key="source_important">核心信源（默认）</option><option value="all" data-i18n-key="source_all">全部信源（含备用）</option></select></div><div><label for="channel-query" data-i18n-key="source_search">搜索信源、网站或分类</label><input id="channel-query" type="search" autocomplete="off"></div></div>
+<p id="channel-status" class="meta" role="status"></p><div id="channel-cards" class="wb-reading-list"></div>
+
+<div class="actions"><button class="btn" type="button" id="channel-prev" data-dependent disabled data-i18n-key="previous">上一页</button><button class="btn" type="button" id="channel-next" data-dependent disabled data-i18n-key="next">下一页</button></div>
+<details class="wb-collection-audit"><summary data-i18n-key="collection_health_details">本轮采集状态</summary><div id="collection-summary" class="reader-note" role="status" aria-live="polite"></div></details>
+<details id="source-collection-details"><summary>本轮信息筛选</summary><p data-i18n-key="source_scan_help">这里保留已审阅样本的筛选记录；上方采集列表覆盖更广，两者的资料数量和审阅深度有所不同。</p><div id="source-scan-cards" class="wb-reading-list"></div>
+</details>
+<p class="wb-next"><a href="#view-topics" data-i18n-key="next_topics">进入技术地图 →</a></p>
+</div>
+</div>
+<div data-view-panel="topics" id="view-topics" hidden>
+<div class="section" id="map" data-section-label="技术地图" data-section-label-en="Technology map" data-section-level="3" data-section-number="1.2" data-reading-layer="analysis">
+<h3 data-i18n-key="view_topics">技术地图</h3><p data-i18n-key="topics_help">每个交叉格对应一个研究专题，介绍背景、原理、技术路线与代表文献。相关月度进展见“本期动态”。</p>
+<div id="scientific-map"></div>
+<div id="direction-detail" class="direction-topic" hidden aria-live="polite"></div>
+<details id="representative-routes"><summary>代表技术路线</summary><p data-i18n-key="lineage_help">按技术方向查看代表工作的演进。论文首投日期保留原始时间；各路线的关系和引用版本可进一步查看。</p>
+<div id="lineage-cards" class="wb-reading-list"></div>
+</details>
+</div>
+<div class="section" id="knowledge" data-section-label="技术参考" data-section-label-en="Technical references"><details id="technique-disclosure"><summary>相关技术参考</summary><div id="technique-cards" class="wb-reading-list"></div></details></div>
+
+<p class="wb-next"><a href="#view-updates" data-i18n-key="next_updates">查看相关本期动态 →</a></p>
+</div>
+<div data-view-panel="updates" id="view-updates" hidden>
+<div class="section" id="monthly" data-section-outline="false" data-section-label="本期动态" data-section-label-en="Current updates" data-section-level="3" data-section-number="1.3" data-reading-layer="facts">
+<h3 data-i18n-key="view_updates">本期动态</h3><p data-i18n-key="updates_help">按技术方向查看本月进展：各项工作解决什么问题、采用什么方法、取得什么结果，以及对后续研究有何启示。</p>
+
+<button class="btn" type="button" id="scope-retry" data-dependent hidden disabled data-i18n-key="retry">重试</button>
+<details id="monthly-direction-filter"><summary data-i18n-key="paper_directions_filter">按技术方向筛选</summary><div id="monthly-directions"></div></details>
+<p id="selection-title" class="wb-selection-title"></p><p id="selection-status" class="meta" role="status"></p>
+<section id="monthly-route-report" class="monthly-route-report" aria-live="polite"></section>
+<details id="current-paper-index"><summary data-i18n-key="monthly_paper_index">逐篇摘要与待审阅候选</summary>
+<h3 data-i18n-key="monthly_evidence">本期论文与技术进展</h3><p id="evidence-status" role="status" aria-live="polite"></p><p id="paper-summary-status" class="meta" role="status" aria-live="polite"></p><div id="evidence-cards" class="wb-reading-list"></div>
+<div class="actions"><button class="btn" type="button" id="evidence-prev" data-dependent data-pagination="prev" disabled data-i18n-key="previous">上一页</button><button class="btn" type="button" id="evidence-next" data-dependent data-pagination="next" disabled data-i18n-key="next">下一页</button><button class="btn" type="button" id="evidence-retry" data-dependent hidden disabled data-i18n-key="retry">重试</button></div>
+</details>
+<details id="current-source-readings"><summary>已整理的来源详读</summary><div id="update-finding-cards" class="wb-reading-list"></div>
+</details>
+<details id="scope-disclosure"><summary>采集范围与统计口径</summary><p id="monthly-status" class="reader-note" role="status" aria-live="polite"></p><div id="scope-detail"></div></details>
+<p class="wb-next"><a href="#view-home" data-i18n-key="next_insights">阅读本期洞察报告 →</a></p>
+</div>
+</div>
+
+</div>
+<div data-view-panel="home" id="view-home" hidden>
+<div class="section wb-home" id="insight-overview" data-section-label="分析与结论" data-section-label-en="Analysis and conclusions" data-section-number="02" data-reading-layer="analysis">
+<p class="eyebrow" id="home-period"></p><h2 id="home-judgement"></h2>
+<div id="analysis-facts" class="wb-analysis-facts" data-reading-layer="facts" aria-live="polite"></div>
+<details id="overview-context" class="wb-overview-context"><summary data-i18n-key="collection_update_details">采集范围与更新状态</summary><div id="insight-observation"></div><div class="wb-home-meta"><div id="insight-boundary"></div><div id="insight-freshness"></div></div></details>
+<article id="cell-review" class="card" data-reading-layer="analysis" hidden></article>
+<h3 data-i18n-key="worth_reading">重点分析与启示</h3><div id="finding-cards" class="wb-reading-list"></div>
+
+<p class="meta" data-i18n-key="reading_cadence">每周查看本期动态，沿技术地图深入相关专题；每月阅读洞察报告，比较技术选择，并回看归档中的判断变化。</p>
+</div>
+<div class="section" id="ascend" data-section-label="昇腾研究建议" data-section-label-en="Research suggestions for Ascend"><h3 data-i18n-key="ascend">01 · 昇腾部署建议</h3><p data-i18n-key="ascend_help">结合业务瓶颈与技术地图比较方案，明确研究优先级、适用条件和需要验证的问题。</p><div id="ascend-cards" class="wb-reading-list"></div><p class="wb-next"><a href="#view-reports" data-i18n-key="next_archive">查看洞察归档 →</a></p></div>
+</div>
+<div data-view-panel="reports" id="view-reports" hidden>
+<div class="section" id="reports" data-section-label="洞察归档" data-section-label-en="Insight archive" data-section-number="03"><h2 data-i18n-key="view_reports">洞察归档</h2><p data-i18n-key="reports_help">查看已保存的报告与原始专题资料；尚未形成报告的月份保留资料状态。</p><div id="report-list"></div></div>
+<div class="section" id="evidence" data-section-label="原始专题资料" data-section-label-en="Original topic documents"><details id="source-panel"><summary>技术地图与追踪笔记</summary><button class="btn" type="button" id="load-documents" data-dependent disabled data-i18n-key="load_documents">加载相关资料</button><p id="document-status" role="status">展开后自动加载相关笔记目录，选择一篇再读取正文。</p><div id="document-list"></div></details><article class="card markdown-report" id="document-detail" hidden></article></div>
+<div class="section" id="validation" data-section-label="后续建议" data-section-label-en="Follow-up suggestions"><h3 data-i18n-key="validation">后续建议</h3><p data-i18n-key="validation_help">这里汇总仍需验证的问题及后续研究建议，附有建议实验和评估方法。</p><details id="task-disclosure"><summary>建议课题与评估口径</summary><div id="task-cards" class="grid"></div><p id="measurement-status" class="reader-note"></p><details id="benchmark-disclosure"><summary>展开公平对比口径</summary><div id="benchmark-contract"></div></details></details><details id="flywheel-disclosure"><summary>洞察积累与复核流程</summary><p id="flywheel-path" class="reader-note"></p><ol id="flywheel-rules"></ol></details></div>
+<div class="section" id="appendix"><h2 data-i18n-key="appendix">附录</h2>
+<details><summary data-i18n-key="funnel_help">从信息收集到技术判断</summary><ol class="actions"><li><a id="funnel-sources-link" href="#channels-panel" data-i18n-key="funnel_sources">信息源</a></li><li><a href="#map" data-i18n-key="funnel_relevance">相关性全景</a></li><li><a href="#monthly" data-i18n-key="funnel_technology">子技术积累</a></li><li><a href="#ascend" data-i18n-key="funnel_value">昇腾价值</a></li><li><a href="#insight-overview" data-i18n-key="funnel_report">综合判断</a></li></ol></details>
+<div id="legacy"><details id="legacy-panel"><summary>全量统计与历史模板</summary><p data-i18n-key="legacy_boundary">仅在月初与月末的统计范围一致时计算新增和增速。缺少可比记录的指标留空。</p><button class="btn" type="button" id="load-legacy" data-dependent disabled data-i18n-key="load_legacy">刷新统计</button><p id="legacy-status" role="status">展开后读取所选月份的已登记统计；缺少可比快照时说明缺口。</p><div id="legacy-table" class="table-wrap" hidden><table><thead><tr><th data-i18n-key="cell">技术方向</th><th data-i18n-key="start_count">月初</th><th data-i18n-key="end_count">月末</th><th data-i18n-key="new_count">新增</th><th data-i18n-key="growth">增速</th><th data-i18n-key="accepted">顶会录用</th><th data-i18n-key="github">GitHub新增</th><th data-i18n-key="stars">综合星级</th><th data-i18n-key="change">变化 / 核验</th></tr></thead><tbody id="monthly-rows"></tbody></table></div></details></div>
+<div id="governance"><details id="governance-disclosure"><summary>整理口径与待复核事项</summary><div id="review-notes"></div><p data-i18n-key="privacy">密码与敏感配置不导入；原Obsidian保持只读。</p><a class="btn" href="archive.html" data-i18n-key="archive">完整资料库与迁移治理</a></details></div></div>
+</div>
+<footer class="footer"><p data-i18n-key="footer">云核 · 推理压缩</p></footer>
+</main></body></html>
+
+
+

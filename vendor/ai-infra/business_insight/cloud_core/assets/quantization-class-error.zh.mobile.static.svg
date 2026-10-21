@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 600" data-cycle="12" data-scene="error" data-style="quantization-teaching-film-v4" role="img" aria-labelledby="title desc">
+<title id="title">权重量化：逐步机制动画</title>
+<desc id="desc">合成教学数据，非模型实测。立体粒子表示数值，轨道和处理站逐步解释量化；数学坐标、公式和结果始终可读。</desc>
+<defs>
+ <linearGradient id="stage" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#183453"/><stop offset=".48" stop-color="#0c2038"/><stop offset="1" stop-color="#071527"/></linearGradient>
+ <radialGradient id="spot"><stop stop-color="#1c7d91" stop-opacity=".22"/><stop offset="1" stop-color="#122d45" stop-opacity="0"/></radialGradient>
+ <radialGradient id="orbCyan" cx=".28" cy=".22" r=".85"><stop stop-color="#fff"/><stop offset=".18" stop-color="#c1fff3"/><stop offset=".52" stop-color="#54decf"/><stop offset="1" stop-color="#17688c"/></radialGradient>
+ <radialGradient id="orbCoral" cx=".28" cy=".22" r=".85"><stop stop-color="#fff4de"/><stop offset=".22" stop-color="#ffd4a5"/><stop offset=".6" stop-color="#fa9b7d"/><stop offset="1" stop-color="#913a61"/></radialGradient>
+ <radialGradient id="orbBlue" cx=".28" cy=".22" r=".85"><stop stop-color="#fff"/><stop offset=".2" stop-color="#dae9ff"/><stop offset=".58" stop-color="#86acff"/><stop offset="1" stop-color="#3b509b"/></radialGradient>
+ <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#4f7d9b"/><stop offset=".15" stop-color="#284d6a"/><stop offset=".58" stop-color="#17314b"/><stop offset="1" stop-color="#0d2136"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#356c87" stop-opacity=".8"/><stop offset=".45" stop-color="#183d59" stop-opacity=".9"/><stop offset="1" stop-color="#132b42"/></linearGradient>
+ <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#80b5ff" stop-opacity=".1"/><stop offset="1" stop-color="#79ffe6" stop-opacity=".65"/></linearGradient>
+ <linearGradient id="densityFill" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#8cb7ff" stop-opacity=".5"/><stop offset="1" stop-color="#67eadf" stop-opacity=".02"/></linearGradient>
+ <linearGradient id="errorFill" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#80b5ff" stop-opacity=".05"/><stop offset="1" stop-color="#ffb08d" stop-opacity=".35"/></linearGradient>
+ <linearGradient id="bar" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#91ffe7"/><stop offset="1" stop-color="#206281"/></linearGradient>
+ <pattern id="clipHatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 0 V9" stroke="#c98c88" stroke-width="1"/></pattern>
+ <filter id="glow" x="-130%" y="-130%" width="360%" height="360%"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ </defs>
+<style>text{font-family:Arial,"Microsoft YaHei",sans-serif;font-variant-numeric:tabular-nums}path,line{stroke-linecap:round;stroke-linejoin:round}circle[fill="#fff"]{fill:#0d263d}.decoration{pointer-events:none}@media(prefers-reduced-motion:reduce){*{animation:none!important}}</style>
+<rect width="360" height="600" rx="16" fill="url(#stage)"/>
+<ellipse cx="190.8" cy="276.0" rx="208.79999999999998" ry="330.0" fill="url(#spot)" class="decoration"/>
+<path d="M117.0 312.0 L0.0 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M135.0 312.0 L51.42857142857142 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M153.0 312.0 L102.85714285714285 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M171.0 312.0 L154.28571428571428 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M189.0 312.0 L205.7142857142857 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M207.0 312.0 L257.14285714285717 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M225.0 312.0 L308.57142857142856 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M243.0 312.0 L360.0 596" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M18 372.0 L342 372.0" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<path d="M18 438.0 L342 438.0" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<path d="M18 522.0 L342 522.0" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<path d="M24 33 L50 33" fill="none" stroke="#8fb6ff" stroke-width="3" />
+<text x="60" y="41" font-size="24" fill="#8fb6ff" font-weight="400" >y=0.4x</text>
+<path d="M24 76 L50 76" fill="none" stroke="#6ef3e2" stroke-width="3" />
+<text x="60" y="84" font-size="24" fill="#6ef3e2" font-weight="400" >ŷ=0.5x</text>
+<path d="M64 458.0 L320 458.0" fill="none" stroke="#284761" stroke-width="1" />
+<text x="50" y="465.0" font-size="24" fill="#b5cce2" font-weight="400" text-anchor="end" >0</text>
+<path d="M64 401.09090909090907 L320 401.09090909090907" fill="none" stroke="#284761" stroke-width="1" />
+<text x="50" y="408.09090909090907" font-size="24" fill="#b5cce2" font-weight="400" text-anchor="end" >1</text>
+<path d="M64 344.1818181818182 L320 344.1818181818182" fill="none" stroke="#284761" stroke-width="1" />
+<text x="50" y="351.1818181818182" font-size="24" fill="#b5cce2" font-weight="400" text-anchor="end" >2</text>
+<path d="M64 287.27272727272725 L320 287.27272727272725" fill="none" stroke="#284761" stroke-width="1" />
+<text x="50" y="294.27272727272725" font-size="24" fill="#b5cce2" font-weight="400" text-anchor="end" >3</text>
+<path d="M64 230.36363636363635 L320 230.36363636363635" fill="none" stroke="#284761" stroke-width="1" />
+<text x="50" y="237.36363636363635" font-size="24" fill="#b5cce2" font-weight="400" text-anchor="end" >4</text>
+<path d="M64 173.45454545454544 L320 173.45454545454544" fill="none" stroke="#284761" stroke-width="1" />
+<text x="50" y="180.45454545454544" font-size="24" fill="#b5cce2" font-weight="400" text-anchor="end" >5</text>
+<path d="M64 461 L320 461" fill="none" stroke="#020e1d" stroke-width="7" />
+<path d="M64 458 L320 458" fill="none" stroke="#446a84" stroke-width="4" />
+<path d="M64 457 L320 457" fill="none" stroke="#96b9ce" stroke-width="0.75" />
+<path d="M64 145 L64 458" fill="none" stroke="#8eacc2" stroke-width="1.5" />
+<path d="M64.0 458.0 L320.0 230.36363636363635 L320.0 173.45454545454544 Z" fill="url(#errorFill)"/>
+<path d="M64.0 458.0 L320.0 230.36363636363635" fill="none" stroke="#8fb6ff" stroke-width="3" />
+<ellipse cx="322.0" cy="243.56363636363633" rx="10.4" ry="3.04" fill="#020914" opacity=".48"  class="decoration"/>
+<circle cx="320.0" cy="230.36363636363635" r="8" fill="url(#orbBlue)" stroke="#8fb6ff" stroke-width=".7"  />
+<circle cx="317.76" cy="227.80363636363634" r="1.6" fill="#fff" opacity=".78"  class="decoration"/>
+<text x="308" y="258.3636363636364" font-size="24" fill="#8fb6ff" font-weight="400" text-anchor="end" >4.0</text>
+<path d="M64.0 458.0 L320.0 173.45454545454544" fill="none" stroke="#6ef3e2" stroke-width="3" />
+<ellipse cx="322.0" cy="186.65454545454543" rx="10.4" ry="3.04" fill="#020914" opacity=".48"  class="decoration"/>
+<circle cx="320.0" cy="173.45454545454544" r="8" fill="url(#orbCyan)" stroke="#6ef3e2" stroke-width=".7"  />
+<circle cx="317.76" cy="170.89454545454544" r="1.6" fill="#fff" opacity=".78"  class="decoration"/>
+<text x="308" y="157.45454545454544" font-size="24" fill="#6ef3e2" font-weight="400" text-anchor="end" >5.0</text>
+<path d="M320 230.36363636363635 L320 173.45454545454544" fill="none" stroke="#ffb08d" stroke-width="3" />
+<path d="M315 230.36363636363635 H325 M315 173.45454545454544 H325" fill="none" stroke="#ffb08d" stroke-width="2" />
+<text x="64" y="490" font-size="24" fill="#b5cce2" font-weight="400" >0</text>
+<text x="320" y="490" font-size="24" fill="#b5cce2" font-weight="400" text-anchor="end" >x=10</text>
+<path d="M320 145 L320 458" fill="none" stroke="#6dbad8" stroke-width="1.2" stroke-dasharray="4 6" />
+<g id="error-case" data-input="10" data-original-weight="0.4" data-reconstructed-weight="0.5" data-original-output="4" data-reconstructed-output="5" data-output-error="1"/>
+<text x="20" y="550" font-size="24" fill="#b5cce2" font-weight="400" >Δy=1 ≠ 1%质量损失</text>
+<text x="20" y="584" font-size="24" fill="#b5cce2" font-weight="400" >教学示意 · 非模型实测</text>
+</svg>

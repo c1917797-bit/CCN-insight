@@ -1,0 +1,109 @@
+{
+  "definition": {
+    "description": "Public direct destinations; section_id references ccn_home_sections.id",
+    "fields": {
+      "id": {
+        "projection": "default",
+        "required": true,
+        "role": "key",
+        "source": null,
+        "type": "string"
+      },
+      "position": {
+        "projection": "default",
+        "required": true,
+        "role": "value",
+        "source": null,
+        "type": "integer"
+      },
+      "section_id": {
+        "projection": "default",
+        "required": true,
+        "role": "value",
+        "source": null,
+        "type": "string"
+      },
+      "summary": {
+        "projection": "default",
+        "required": true,
+        "role": "value",
+        "source": null,
+        "type": "string"
+      },
+      "title": {
+        "projection": "default",
+        "required": true,
+        "role": "value",
+        "source": null,
+        "type": "string"
+      },
+      "url": {
+        "projection": "default",
+        "required": true,
+        "role": "value",
+        "source": null,
+        "type": "string"
+      }
+    },
+    "indexes": [],
+    "key_field": "id",
+    "required_fields": [
+      "id",
+      "position",
+      "section_id",
+      "summary",
+      "title",
+      "url"
+    ],
+    "schema": "mcpgit.table.v2"
+  },
+  "deleted_count": 0,
+  "diagnostics": [
+    "physical codec: json_rows/Sha256Prefix2",
+    "validated row Objects: 0",
+    "query access v1: selected=snapshot_query resident=false persistent_eligible=true reason=existing_snapshot_fallback exact_revision=9e34b7db1e85671cdece181381dcc5ce7fb61bf5 row_repository_reused=true"
+  ],
+  "dirty": false,
+  "limit": 20,
+  "matched_count": 2,
+  "offset": 0,
+  "path": "data/tables/ccn_home_entries",
+  "repo": "works",
+  "returned_count": 2,
+  "revision": "9e34b7db1e85671cdece181381dcc5ce7fb61bf5",
+  "row_count": 2,
+  "rows": [
+    {
+      "deleted": false,
+      "key": "agent",
+      "row": {
+        "id": "agent",
+        "position": 2,
+        "section_id": "zhi",
+        "summary": "智能体编排 · 调度机制 · 分析洞察",
+        "title": "Agent",
+        "url": "https://cloud-core-agent-scheduling-preview.sunshinepmy.chatgpt.site/business_insight/cloud_core/agent_orchestration/#analysis"
+      },
+      "row_version": 1,
+      "text_match": null
+    },
+    {
+      "deleted": false,
+      "key": "ai-infra",
+      "row": {
+        "id": "ai-infra",
+        "position": 1,
+        "section_id": "zhi",
+        "summary": "推理压缩 · 技术地图 · 专题洞察",
+        "title": "AI Infra",
+        "url": "https://c1b3ie6ayp-sworks-lrigit-tpc.ru.yxsbase.win/business_insight/cloud_core/index.html?month=2026-10&scope=ic-2026-10-public-20261007-v1#view-sources"
+      },
+      "row_version": 1,
+      "text_match": null
+    }
+  ],
+  "source_kind": "revision_tree",
+  "transaction_count": 1,
+  "truncated": false,
+  "worktree_id": null
+}

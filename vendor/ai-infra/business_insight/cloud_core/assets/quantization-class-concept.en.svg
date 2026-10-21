@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 440" data-cycle="4" data-scene="concept" data-style="quantization-teaching-film-v4" role="img" aria-labelledby="title desc">
+<title id="title">Weight quantization: a step-by-step teaching film</title>
+<desc id="desc">Synthetic teaching data, not model measurements. Volumetric particles travel through causal processing stations; mathematical axes, formulas and results remain readable.</desc>
+<defs>
+ <linearGradient id="stage" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#183453"/><stop offset=".48" stop-color="#0c2038"/><stop offset="1" stop-color="#071527"/></linearGradient>
+ <radialGradient id="spot"><stop stop-color="#1c7d91" stop-opacity=".22"/><stop offset="1" stop-color="#122d45" stop-opacity="0"/></radialGradient>
+ <radialGradient id="orbCyan" cx=".28" cy=".22" r=".85"><stop stop-color="#fff"/><stop offset=".18" stop-color="#c1fff3"/><stop offset=".52" stop-color="#54decf"/><stop offset="1" stop-color="#17688c"/></radialGradient>
+ <radialGradient id="orbCoral" cx=".28" cy=".22" r=".85"><stop stop-color="#fff4de"/><stop offset=".22" stop-color="#ffd4a5"/><stop offset=".6" stop-color="#fa9b7d"/><stop offset="1" stop-color="#913a61"/></radialGradient>
+ <radialGradient id="orbBlue" cx=".28" cy=".22" r=".85"><stop stop-color="#fff"/><stop offset=".2" stop-color="#dae9ff"/><stop offset=".58" stop-color="#86acff"/><stop offset="1" stop-color="#3b509b"/></radialGradient>
+ <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#4f7d9b"/><stop offset=".15" stop-color="#284d6a"/><stop offset=".58" stop-color="#17314b"/><stop offset="1" stop-color="#0d2136"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#356c87" stop-opacity=".8"/><stop offset=".45" stop-color="#183d59" stop-opacity=".9"/><stop offset="1" stop-color="#132b42"/></linearGradient>
+ <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#80b5ff" stop-opacity=".1"/><stop offset="1" stop-color="#79ffe6" stop-opacity=".65"/></linearGradient>
+ <linearGradient id="densityFill" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#8cb7ff" stop-opacity=".5"/><stop offset="1" stop-color="#67eadf" stop-opacity=".02"/></linearGradient>
+ <linearGradient id="errorFill" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#80b5ff" stop-opacity=".05"/><stop offset="1" stop-color="#ffb08d" stop-opacity=".35"/></linearGradient>
+ <linearGradient id="bar" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#91ffe7"/><stop offset="1" stop-color="#206281"/></linearGradient>
+ <pattern id="clipHatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 0 V9" stroke="#c98c88" stroke-width="1"/></pattern>
+ <filter id="glow" x="-130%" y="-130%" width="360%" height="360%"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ </defs>
+<style>text{font-family:Arial,"Microsoft YaHei",sans-serif;font-variant-numeric:tabular-nums}path,line{stroke-linecap:round;stroke-linejoin:round}circle[fill="#fff"]{fill:#0d263d}.decoration{pointer-events:none}@media(prefers-reduced-motion:reduce){*{animation:none!important}}</style>
+<rect width="800" height="440" rx="16" fill="url(#stage)"/>
+<ellipse cx="424.0" cy="202.4" rx="463.99999999999994" ry="242.00000000000003" fill="url(#spot)" class="decoration"/>
+<path d="M260.0 228.8 L0.0 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M300.0 228.8 L114.28571428571428 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M340.0 228.8 L228.57142857142856 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M380.0 228.8 L342.85714285714283 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M420.0 228.8 L457.1428571428571 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M460.0 228.8 L571.4285714285714 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M500.0 228.8 L685.7142857142857 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M540.0 228.8 L800.0 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M18 272.8 L782 272.8" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<path d="M18 321.2 L782 321.2" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<path d="M18 382.8 L782 382.8" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<text x="32" y="48" font-size="30" fill="#eff8ff" font-weight="600" >Quantization keeps the count, but approximates the values</text>
+<text x="32" y="91" font-size="24" fill="#b5cce2" font-weight="400" >A 2-bit example allows only −1, −0.5, 0 and 0.5.</text>
+<text x="32" y="117" font-size="22" fill="#b5cce2" font-weight="400" >Original weights</text>
+<text x="110" y="159" font-size="30" fill="#8fb6ff" font-weight="600" text-anchor="middle" >-0.9</text>
+<circle cx="110" cy="190" r="11" fill="#fff" stroke="#8fb6ff" stroke-width="2.5" id="concept-original-0" data-input="-0.9"/>
+<path d="M110 205 L110 246" fill="none" stroke="#6c9ab5" stroke-width="2" stroke-dasharray="4 6" />
+<path d="M105 240 L110 247 L115 240" fill="none" stroke="#6ef3e2" stroke-width="2" />
+<circle cx="110" cy="265" r="11" fill="#fff" stroke="#6ef3e2" stroke-width="2.5" id="concept-level-0" data-level="-1" data-code="00"/>
+<text x="110" y="316" font-size="30" fill="#6ef3e2" font-weight="600" text-anchor="middle" >-1</text>
+<style>@keyframes conceptWeight0{0%,6%{transform:translate(0,0)}23%{transform:translate(0,75px)}100%{transform:translate(0,75px)}}</style>
+<ellipse cx="110" cy="203" rx="12" ry="3.5" fill="#030c1b" opacity=".45" style="animation:conceptWeight0 4s cubic-bezier(.55,0,.2,1) infinite"/>
+<circle cx="110" cy="190" r="9" fill="url(#orbCyan)" stroke="url(#orbCyan)" stroke-width="1" style="animation:conceptWeight0 4s cubic-bezier(.55,0,.2,1) infinite" id="concept-moving-0" data-input="-0.9" data-reconstructed="-1" data-q="0"/>
+<text x="300" y="159" font-size="30" fill="#8fb6ff" font-weight="600" text-anchor="middle" >-0.6</text>
+<circle cx="300" cy="190" r="11" fill="#fff" stroke="#8fb6ff" stroke-width="2.5" id="concept-original-1" data-input="-0.6"/>
+<path d="M300 205 L300 246" fill="none" stroke="#6c9ab5" stroke-width="2" stroke-dasharray="4 6" />
+<path d="M295 240 L300 247 L305 240" fill="none" stroke="#6ef3e2" stroke-width="2" />
+<circle cx="300" cy="265" r="11" fill="#fff" stroke="#6ef3e2" stroke-width="2.5" id="concept-level-1" data-level="-0.5" data-code="01"/>
+<text x="300" y="316" font-size="30" fill="#6ef3e2" font-weight="600" text-anchor="middle" >-0.5</text>
+<style>@keyframes conceptWeight1{0%,26%{transform:translate(0,0)}43%{transform:translate(0,75px)}100%{transform:translate(0,75px)}}</style>
+<ellipse cx="300" cy="203" rx="12" ry="3.5" fill="#030c1b" opacity=".45" style="animation:conceptWeight1 4s cubic-bezier(.55,0,.2,1) infinite"/>
+<circle cx="300" cy="190" r="9" fill="url(#orbCyan)" stroke="url(#orbCyan)" stroke-width="1" style="animation:conceptWeight1 4s cubic-bezier(.55,0,.2,1) infinite" id="concept-moving-1" data-input="-0.6" data-reconstructed="-0.5" data-q="1"/>
+<text x="490" y="159" font-size="30" fill="#6ef3e2" font-weight="600" text-anchor="middle" >0.2</text>
+<circle cx="490" cy="190" r="11" fill="#fff" stroke="#6ef3e2" stroke-width="2.5" id="concept-original-2" data-input="0.2"/>
+<path d="M490 205 L490 246" fill="none" stroke="#6c9ab5" stroke-width="2" stroke-dasharray="4 6" />
+<path d="M485 240 L490 247 L495 240" fill="none" stroke="#6ef3e2" stroke-width="2" />
+<circle cx="490" cy="265" r="11" fill="#fff" stroke="#6ef3e2" stroke-width="2.5" id="concept-level-2" data-level="0" data-code="10"/>
+<text x="490" y="316" font-size="30" fill="#6ef3e2" font-weight="600" text-anchor="middle" >0</text>
+<style>@keyframes conceptWeight2{0%,46%{transform:translate(0,0)}63%{transform:translate(0,75px)}100%{transform:translate(0,75px)}}</style>
+<ellipse cx="490" cy="203" rx="12" ry="3.5" fill="#030c1b" opacity=".45" style="animation:conceptWeight2 4s cubic-bezier(.55,0,.2,1) infinite"/>
+<circle cx="490" cy="190" r="9" fill="url(#orbCyan)" stroke="url(#orbCyan)" stroke-width="1" style="animation:conceptWeight2 4s cubic-bezier(.55,0,.2,1) infinite" id="concept-moving-2" data-input="0.2" data-reconstructed="0" data-q="2"/>
+<text x="680" y="159" font-size="30" fill="#6ef3e2" font-weight="600" text-anchor="middle" >0.4</text>
+<circle cx="680" cy="190" r="11" fill="#fff" stroke="#6ef3e2" stroke-width="2.5" id="concept-original-3" data-input="0.4"/>
+<path d="M680 205 L680 246" fill="none" stroke="#6c9ab5" stroke-width="2" stroke-dasharray="4 6" />
+<path d="M675 240 L680 247 L685 240" fill="none" stroke="#6ef3e2" stroke-width="2" />
+<circle cx="680" cy="265" r="11" fill="#fff" stroke="#6ef3e2" stroke-width="2.5" id="concept-level-3" data-level="0.5" data-code="11"/>
+<text x="680" y="316" font-size="30" fill="#6ef3e2" font-weight="600" text-anchor="middle" >0.5</text>
+<style>@keyframes conceptWeight3{0%,66%{transform:translate(0,0)}83%{transform:translate(0,75px)}100%{transform:translate(0,75px)}}</style>
+<ellipse cx="680" cy="203" rx="12" ry="3.5" fill="#030c1b" opacity=".45" style="animation:conceptWeight3 4s cubic-bezier(.55,0,.2,1) infinite"/>
+<circle cx="680" cy="190" r="9" fill="url(#orbCyan)" stroke="url(#orbCyan)" stroke-width="1" style="animation:conceptWeight3 4s cubic-bezier(.55,0,.2,1) infinite" id="concept-moving-3" data-input="0.4" data-reconstructed="0.5" data-q="3"/>
+<text x="400" y="379" font-size="30" fill="#eff8ff" font-weight="600" text-anchor="middle" >Four weights → four approximations</text>
+<text x="32" y="421" font-size="20" fill="#b5cce2" font-weight="400" >Each value takes its nearest level; teaching data, not model measurements.</text>
+</svg>

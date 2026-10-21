@@ -1,0 +1,79 @@
+{
+  "description": "Cloud Core scenarios: typed rows, stable keys and explicit relationships; no whole-domain JSON blob. Persistent history.",
+  "fields": {
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "description": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "name": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "origin": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "review_status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "scenario_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "source_document_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "review_status",
+      "name": "idx_review_status"
+    },
+    {
+      "field": "origin",
+      "name": "idx_origin"
+    }
+  ],
+  "key_field": "scenario_id",
+  "required_fields": [
+    "business_id",
+    "description",
+    "name",
+    "origin",
+    "review_status",
+    "scenario_id",
+    "source_document_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

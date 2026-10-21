@@ -1,0 +1,96 @@
+{
+  "tables": [
+    {
+      "name": "cloud_core_benchmarks",
+      "rows": 0,
+      "key_field": "benchmark_id"
+    },
+    {
+      "name": "cloud_core_constraints",
+      "rows": 9,
+      "key_field": "constraint_id"
+    },
+    {
+      "name": "cloud_core_decisions",
+      "rows": 0,
+      "key_field": "decision_id"
+    },
+    {
+      "name": "cloud_core_documents",
+      "rows": 61,
+      "key_field": "document_id"
+    },
+    {
+      "name": "cloud_core_entity_refs",
+      "rows": 7,
+      "key_field": "entity_ref_id"
+    },
+    {
+      "name": "cloud_core_experiments",
+      "rows": 3,
+      "key_field": "experiment_id"
+    },
+    {
+      "name": "cloud_core_flywheel_stages",
+      "rows": 7,
+      "key_field": "stage_id"
+    },
+    {
+      "name": "cloud_core_folders",
+      "rows": 15,
+      "key_field": "folder_id"
+    },
+    {
+      "name": "cloud_core_import_issues",
+      "rows": 1494,
+      "key_field": "issue_id"
+    },
+    {
+      "name": "cloud_core_import_runs",
+      "rows": 1,
+      "key_field": "batch_id"
+    },
+    {
+      "name": "cloud_core_links",
+      "rows": 33,
+      "key_field": "link_id"
+    },
+    {
+      "name": "cloud_core_measurements",
+      "rows": 0,
+      "key_field": "measurement_id"
+    },
+    {
+      "name": "cloud_core_metrics",
+      "rows": 11,
+      "key_field": "metric_id"
+    },
+    {
+      "name": "cloud_core_modules",
+      "rows": 6,
+      "key_field": "module_id"
+    },
+    {
+      "name": "cloud_core_scenarios",
+      "rows": 6,
+      "key_field": "scenario_id"
+    },
+    {
+      "name": "cloud_core_source_refs",
+      "rows": 9300,
+      "key_field": "reference_id"
+    }
+  ],
+  "total_rows": 10953,
+  "findings": [
+    {
+      "location": "cloud_core_documents/note-10206278c968a46bee32714c/body",
+      "kind": "local_reference"
+    },
+    {
+      "location": "cloud_core_documents/note-c1b3b5747f0887513a55351b/body",
+      "kind": "local_reference"
+    }
+  ],
+  "note": "Pattern checks are not proof that all content is suitable for public release."
+}
