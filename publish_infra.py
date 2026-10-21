@@ -43,3 +43,28 @@ def integrate(root):
     body+='</div></section><section class="prose"><a href="'+original+'#view-topics">原站完整内容与演示 ↗</a></section>'
     template=re.sub(r'<main id="main">.*?</main>','<main id="main">'+body+'</main>',template,flags=re.S).replace('<title>模型量化','<title>推理压缩')
     (target/'compression.html').write_text(template,encoding='utf-8')
+    # All six peer roots use the same overview template and entry depth.
+    branches=[
+        ('evaluation','性能评测','先建立可比较的性能基线，再定位计算、访存、通信或排队瓶颈。',['evaluation-1']),
+        ('hardware','硬件加速','围绕容量、带宽、计算和隔离能力，判断硬件供给与资源复用是否匹配业务。',['hardware-1','hardware-2']),
+        ('compression','推理压缩','以质量为约束，通过更紧凑的数值表示或模型结构降低部署成本。',['compression-quantization','compression-small']),
+        ('iteration','迭代算法加速','复用已有结果、跳过低价值计算，或减少昂贵的串行执行。',['iteration-1','iteration-2','iteration-3']),
+        ('operators','算子定制加速','将算法收益落实到计算与通信内核，减少搬运、启动和同步成本。',['operators-1','operators-2']),
+        ('scheduling','组合调度加速','协调模型、请求和设备，在业务时延约束下提高资源利用率。',['scheduling-1','scheduling-2','scheduling-3','scheduling-4'])]
+    map_file=target/'index.html'
+    map_html=map_file.read_text(encoding='utf-8')
+    for key,title,intro,children in branches:
+        overview='<a class="back" href="index.html#'+key+'">← 根技术地图</a><p class="eyebrow">AI INFRA / 根技术</p><h1>'+title+'</h1><p class="lead">'+intro+'</p><section class="verdict"><span class="tag">研究路径</span><h2>从具体瓶颈进入，沿技术路线验证收益。</h2></section><section class="prose"><h2>二级技术</h2><div class="grid">'
+        for child in children:
+            child_html=(target/(child+'.html')).read_text(encoding='utf-8')
+            name=re.search(r'<h1>(.*?)</h1>',child_html,re.S).group(1)
+            description=re.search(r'<p class="lead">(.*?)</p>',child_html,re.S).group(1)
+            overview+='<a class="card" href="'+child+'.html"><h3>'+name+'</h3><p>'+description+'</p><span class="more">进入研究专题 →</span></a>'
+        overview+='</div></section><section class="prose"><h2>如何开展研究</h2><p>先确认业务瓶颈，再比较机制与实现条件。对照原始依据选择候选技术，用相同模型、负载和质量指标验证实际收益。</p><a href="methods.html">查看研究方法 →</a></section>'
+        if key=='compression':
+            overview+=body[body.index('<section class="prose"><h2>按压缩对象'):]
+        page=re.sub(r'<main id="main">.*?</main>','<main id="main">'+overview+'</main>',template,flags=re.S)
+        page=re.sub(r'<title>.*?</title>','<title>'+title+' · AI Infra 根技术</title>',page)
+        (target/(key+'.html')).write_text(page,encoding='utf-8')
+        map_html=map_html.replace('<h2>'+title+'</h2>','<h2><a class="root-entry" href="'+key+'.html">'+title+'</a></h2>')
+    map_file.write_text(map_html,encoding='utf-8')
