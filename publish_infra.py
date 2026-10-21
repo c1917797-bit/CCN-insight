@@ -65,6 +65,8 @@ def integrate(root):
             overview+=body[body.index('<section class="prose"><h2>按压缩对象'):]
         page=re.sub(r'<main id="main">.*?</main>','<main id="main">'+overview+'</main>',template,flags=re.S)
         page=re.sub(r'<title>.*?</title>','<title>'+title+' · AI Infra 根技术</title>',page)
+        page=page.replace('class="active" href="index.html#compression"','class="" href="index.html#compression"')
+        page=page.replace('class="" href="index.html#'+key+'"','class="active" href="index.html#'+key+'"')
         (target/(key+'.html')).write_text(page,encoding='utf-8')
         map_html=map_html.replace('<h2>'+title+'</h2>','<h2><a class="root-entry" href="'+key+'.html">'+title+'</a></h2>')
     map_file.write_text(map_html,encoding='utf-8')
