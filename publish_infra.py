@@ -72,3 +72,5 @@ def integrate(root):
         (target/(key+'.html')).write_text(page,encoding='utf-8')
         map_html=map_html.replace('<h2>'+title+'</h2>','<h2><a class="root-entry" href="'+key+'.html">'+title+'</a></h2>')
     map_file.write_text(map_html,encoding='utf-8')
+    from compression_site import build as build_compression
+    build_compression(root)
