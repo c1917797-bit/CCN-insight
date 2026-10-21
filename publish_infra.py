@@ -62,6 +62,8 @@ def integrate(root):
             overview+='<a class="card" href="'+child+'.html"><h3>'+name+'</h3><p>'+description+'</p><span class="more">进入研究专题 →</span></a>'
         overview+='</div></section><section class="prose"><h2>如何开展研究</h2><p>先确认业务瓶颈，再比较机制与实现条件。对照原始依据选择候选技术，用相同模型、负载和质量指标验证实际收益。</p><a href="methods.html">查看研究方法 →</a></section>'
         if key=='compression':
+            # Detailed topics below already provide direct entry points.
+            overview=re.sub(r'<section class="prose"><h2>二级技术</h2>.*?</section>', '', overview, flags=re.S)
             overview+=body[body.index('<section class="prose"><h2>按压缩对象'):]
         page=re.sub(r'<main id="main">.*?</main>','<main id="main">'+overview+'</main>',template,flags=re.S)
         page=re.sub(r'<title>.*?</title>','<title>'+title+' · AI Infra 根技术</title>',page)
