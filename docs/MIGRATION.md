@@ -6,6 +6,9 @@ CCN 首页此前在 Sites 托管环境构建发布，AI Infra 页面由 LRIGIT �
 
 ## 已纳入
 
+- 2026-10-21 后续同步：CCN 正式站根技术地图、14 个二级技术节点、16 个原压缩专题快照、研究方法页与正式导航。源码位于 `research/ai-infra/` 和 `publish_infra.py`。
+- 主仓库现为本 GitHub 仓库；Sites 用作发布镜像，尚未配置自动同步。
+
 - CCN 四大板块首页生成器、样式、动画及两张首页内容表快照。
 - AI Infra 源码快照，原始版本记录在 vendor/ai-infra/SOURCE-MANIFEST.json；部分入口和导航文件另行更新，详见 source-overrides.json。原始 COPY-VERIFICATION.json 只描述当时复制，不能代表更新后的全树。
 - 16 张已有业务表，共 10,953 条导出记录。保留 imported_unverified 等状态，它们不是 10,953 条已核验洞察。

@@ -9,6 +9,8 @@ def render(root):
     assert packs[0]['revision']==packs[1]['revision'] and all(not p['truncated'] for p in packs)
     sections=sorted([r['row'] for r in packs[0]['rows'] if not r['deleted']],key=lambda r:r['position'])
     entries=sorted([r['row'] for r in packs[1]['rows'] if not r['deleted']],key=lambda r:r['position'])
+    # Formal CCN deployment override; retain the imported TableGit snapshot unchanged.
+    entries=[dict(x, url='https://ccn-insight-four.sunshinepmy.chatgpt.site/ai-infra/', summary='根技术地图 · 研究专题 · 推理压缩') if x['id']=='ai-infra' else x for x in entries]
     assert all(x['section_id'] in {s['id'] for s in sections} and x['url'].startswith('https://') for x in entries)
     links=''.join(f'<a class="direct" href="{e(x["url"],quote=True)}"><span><b>{e(x["title"])}</b><small>{e(x["summary"])}</small></span><i>↗</i></a>' for x in entries)
     cards=''

@@ -26,3 +26,5 @@ for i,(k,n,num,c) in enumerate(parts):
  (p/(k+'.html')).write_text(shell(n,body).replace('href="zhi.html"','href="index.html#zhi"'),encoding='utf-8')
 from home_design import render
 render(Path(__file__).parent)
+from publish_infra import integrate
+integrate(Path(__file__).parent)

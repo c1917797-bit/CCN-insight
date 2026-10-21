@@ -2,6 +2,8 @@
 
 极智、极稳、极简、极优的独立内容仓库。首页源码、内容快照与 AI Infra 迁移资料均在此维护。
 
+**本仓库是 CCN 网站的主仓库。** 正式站：https://ccn-insight-four.sunshinepmy.chatgpt.site/ 。Sites 仅承担发布镜像与托管，当前为人工同步，不是自动部署。维护流程见 [发布说明](docs/PUBLISHING.md)。
+
 ## 快速运行
 
 需要 Python 3.10 或以上，不需要安装额外依赖。
@@ -29,9 +31,9 @@ python -m http.server 8781 --directory dist
 
 ## 当前独立程度
 
-**首页和信息源表格能够独立运行。AI Infra 原应用尚未完成独立部署。**
+**首页、信息源表格、AI Infra 根技术地图与静态研究专题能够独立运行。旧 AI Infra 动态应用尚未完成整体迁移。**
 
-首页的 AI Infra 和 Agent 入口仍指向现有网站。AI Infra 源码需要原有兼容数据接口，不能直接把它当作已经完成迁移的静态站。没有复制服务端 LRIGIT 程序、账号凭据和完整报告附件。详见 [迁移状态](docs/MIGRATION.md)。
+首页 AI Infra 入口指向本站 `/ai-infra/`。根技术源码在 `research/ai-infra/`，通过 `publish_infra.py` 生成正式页；其月度内容与 Agent 入口仍指向原网站。`vendor/ai-infra/` 中旧应用需要兼容数据接口。没有复制服务端 LRIGIT 程序、账号凭据和完整报告附件。详见 [迁移状态](docs/MIGRATION.md)。
 
 ## 如何维护
 
