@@ -6,7 +6,7 @@
 
 统一维护入口为 scripts/maintain_compression.py，读取层为 compression_store.py。内容修改只进入 data/compression/，随后 scripts/stage_compression.py 校验并生成两个站点的待发布静态模块。不得直接编辑生成视图；不得回写旧 TableGit 或以为生成两站文件等于线上已更新。编辑台本机服务不提供发布接口。详见 docs/COMPRESSION-SOURCE.md。
 
-2026-10-22 用户明确授权将本批统一维护源推送 GitHub；该授权不包含网站发布。未经用户另行确认，不得更新两个公开站点。推理压缩唯一可编辑源为 data/compression/tables/*/rows.jsonl；research/ai-infra/imported 和 data/directory 是生成视图。先阅读 docs/TABLEGIT-MIGRATION.md。此条优先于下方一般的推送发布流程。
+2026-10-22 用户明确授权将本批统一维护源推送 GitHub；随后用户明确授权两个公开网站发布更新。发布仍需逐站记录版本与验收结果。推理压缩唯一可编辑源为 data/compression/tables/*/rows.jsonl；research/ai-infra/imported 和 data/directory 是生成视图。先阅读 docs/TABLEGIT-MIGRATION.md。此条优先于下方一般的推送发布流程。
 
 ## 用户目标
 
