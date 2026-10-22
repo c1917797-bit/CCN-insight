@@ -1,0 +1,68 @@
+{
+  "date": "2026-10-22",
+  "status": "prepared_not_published",
+  "source_commit": "7932dc1071ae4ff4fc297c23e09eff8e658670b3",
+  "content_version": "compression-d33884c90c78ecce6b9b",
+  "original_workspace_topic": "03e355d1-f45b-47b6-beeb-89abec98659a",
+  "original_workspace_revision": "daf4ad28abf85f60297311a82a6b6e87450668f9",
+  "checks": [
+    {
+      "command": [
+        "sh",
+        "scripts/validate-repo-style.sh"
+      ],
+      "exit_code": 0,
+      "output": "=== LRI Insight Repository Style Validation ===\n  [OK] page composition audit: 607 pages, weak=0\n  [OK] style coverage audit: 1675 classes, meaningful_missing=0\n  [OK] 607 HTML pages use the shared stylesheet\n  [OK] no inline styles or legacy style patches\nPASS: LRI Insight style baseline is valid\n"
+    },
+    {
+      "command": [
+        "python3",
+        "tools/site_shell/validate_lri_shell.py"
+      ],
+      "exit_code": 0,
+      "output": "{\n  \"pass\": true,\n  \"html_pages\": 607,\n  \"shell_coverage\": 607,\n  \"formal_workbenches\": 23,\n  \"formal_locale_pairs\": 23,\n  \"locale_pair_gaps\": [],\n  \"formal_translation_levels\": {\n    \"content\": 15,\n    \"ui\": 8,\n    \"source\": 0\n  }\n}\n"
+    },
+    {
+      "command": [
+        "node",
+        "academic_resources/scripts/test_lri_tablegit_provider.mjs"
+      ],
+      "exit_code": 0,
+      "output": "{\"pass\":true,\"configuredTables\":65,\"hostedRows\":2,\"retryAttempts\":3,\"worksFallbackCapability\":false}\n"
+    },
+    {
+      "command": [
+        "python3",
+        "tools/topic_workbench/validate_topic_workflow.py"
+      ],
+      "exit_code": 0,
+      "output": "{\n  \"pass\": true,\n  \"errors\": []\n}\n"
+    },
+    {
+      "command": [
+        "python3",
+        "tools/topic_workbench/validate_topic_ui_data_separation.py"
+      ],
+      "exit_code": 0,
+      "output": ": 1329,\n      \"research_domains/frontier_ai_minds\": 1389,\n      \"research_domains/t72_main_gun_analysis\": 1335,\n      \"topics/lri_research\": 5605,\n      \"conference_insights\": 11056,\n      \"conference_insights/google_io_2026\": 1322,\n      \"conference_insights/waic_2026\": 1323\n    },\n    \"workbench_bytes\": {\n      \"academic_resources\": 2699,\n      \"intent_recognition\": 11153,\n      \"security_governance\": 18332,\n      \"ai\": 10141,\n      \"regional_resources\": 10175,\n      \"games_archive\": 10147,\n      \"research_domains/information_retrieval/russian_semantic_search\": 4750,\n      \"research_domains/magnetoelectric_storage\": 5888,\n      \"knowledge_base\": 10160,\n      \"research_domains/code_agent\": 10912,\n      \"research_domains/exo_local_ai_cluster\": 6628,\n      \"research_domains/huawei_tau_scaling\": 4603,\n      \"research_domains/harmonyos_runtime_validation\": 4778,\n      \"research_domains/ai_security\": 8702,\n      \"research_domains/frontier_ai_minds\": 11797,\n      \"research_domains/t72_main_gun_analysis\": 10574,\n      \"topics/lri_research\": 10595,\n      \"conference_insights\": 11512,\n      \"conference_insights/google_io_2026\": 5914,\n      \"conference_insights/waic_2026\": 4991\n    }\n  }\n}\n"
+    }
+  ],
+  "full_validation": {
+    "status": "blocked_environment",
+    "exception": "RuntimeError: LRI TableGit repository is required; set LRI_TABLEGIT_REPO or run inside the MCPGit instance",
+    "native_http_read": {
+      "status": "authorization_failed",
+      "identity": "guest",
+      "required_inputs": [
+        "basic_username",
+        "basic_verify"
+      ]
+    }
+  },
+  "production_content_updated": false,
+  "notes": [
+    "Preparation and checks ran on a temporary copy. Files are applied only after full validation passes.",
+    "No validation rule or runtime revision fence was removed.",
+    "No Basic Verify, access token or other credential is included in these artifacts."
+  ]
+}
