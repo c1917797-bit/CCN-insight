@@ -1,0 +1,199 @@
+{
+  "description": "Maintained research discovery channels; source category, attention priority, portal verification and actual scan are independent.",
+  "fields": {
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "cadence": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "channel_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "channel_role": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "discovery_rule_en": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "discovery_rule_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "enabled": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "boolean"
+    },
+    "focus_en": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "focus_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "ordinal": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "priority": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "retention_policy": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "scan_status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_authority": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "title_en": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "title_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "ui_group": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "updated_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "verification_scope": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "source_id",
+      "name": "idx_source_id"
+    },
+    {
+      "field": "ui_group",
+      "name": "idx_ui_group"
+    },
+    {
+      "field": "scan_status",
+      "name": "idx_scan_status"
+    },
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    }
+  ],
+  "key_field": "channel_id",
+  "required_fields": [
+    "business_id",
+    "cadence",
+    "channel_id",
+    "channel_role",
+    "discovery_rule_en",
+    "discovery_rule_zh",
+    "enabled",
+    "focus_en",
+    "focus_zh",
+    "ordinal",
+    "priority",
+    "retention_policy",
+    "scan_status",
+    "source_authority",
+    "source_id",
+    "title_en",
+    "title_zh",
+    "topic_id",
+    "ui_group",
+    "updated_at",
+    "verification_scope"
+  ],
+  "schema": "mcpgit.table.v2"
+}

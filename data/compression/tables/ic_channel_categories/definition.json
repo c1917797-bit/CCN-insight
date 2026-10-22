@@ -1,0 +1,95 @@
+{
+  "description": "Many-to-many source-channel classification with explicit historical provenance.",
+  "fields": {
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "category_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "channel_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "membership_basis": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "membership_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "provenance_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "updated_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "channel_id",
+      "name": "idx_channel_id"
+    },
+    {
+      "field": "category_id",
+      "name": "idx_category_id"
+    },
+    {
+      "field": "provenance_id",
+      "name": "idx_provenance_id"
+    },
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    }
+  ],
+  "key_field": "membership_id",
+  "required_fields": [
+    "business_id",
+    "category_id",
+    "channel_id",
+    "membership_basis",
+    "membership_id",
+    "provenance_id",
+    "topic_id",
+    "updated_at"
+  ],
+  "schema": "mcpgit.table.v2"
+}

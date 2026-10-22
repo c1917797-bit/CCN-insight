@@ -1,0 +1,115 @@
+{
+  "description": "Evidence-backed explicit extension/generalization or labeled analyst comparison, never inferred ancestry.",
+  "fields": {
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "from_node_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "lineage_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "relation_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "relation_kind": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "relation_note_en": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "relation_note_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "source_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "to_node_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    },
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "lineage_id",
+      "name": "idx_lineage_id"
+    },
+    {
+      "field": "from_node_id",
+      "name": "idx_from_node_id"
+    },
+    {
+      "field": "to_node_id",
+      "name": "idx_to_node_id"
+    },
+    {
+      "field": "source_id",
+      "name": "idx_source_id"
+    }
+  ],
+  "key_field": "relation_id",
+  "required_fields": [
+    "business_id",
+    "from_node_id",
+    "lineage_id",
+    "relation_id",
+    "relation_kind",
+    "relation_note_en",
+    "relation_note_zh",
+    "source_id",
+    "to_node_id",
+    "topic_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

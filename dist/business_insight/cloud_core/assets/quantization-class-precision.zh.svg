@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 440" data-cycle="4" data-scene="precision" data-style="quantization-teaching-film-v4" role="img" aria-labelledby="title desc">
+<title id="title">权重量化：逐步机制动画</title>
+<desc id="desc">合成教学数据，非模型实测。立体粒子表示数值，轨道和处理站逐步解释量化；数学坐标、公式和结果始终可读。</desc>
+<defs>
+ <linearGradient id="stage" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#183453"/><stop offset=".48" stop-color="#0c2038"/><stop offset="1" stop-color="#071527"/></linearGradient>
+ <radialGradient id="spot"><stop stop-color="#1c7d91" stop-opacity=".22"/><stop offset="1" stop-color="#122d45" stop-opacity="0"/></radialGradient>
+ <radialGradient id="orbCyan" cx=".28" cy=".22" r=".85"><stop stop-color="#fff"/><stop offset=".18" stop-color="#c1fff3"/><stop offset=".52" stop-color="#54decf"/><stop offset="1" stop-color="#17688c"/></radialGradient>
+ <radialGradient id="orbCoral" cx=".28" cy=".22" r=".85"><stop stop-color="#fff4de"/><stop offset=".22" stop-color="#ffd4a5"/><stop offset=".6" stop-color="#fa9b7d"/><stop offset="1" stop-color="#913a61"/></radialGradient>
+ <radialGradient id="orbBlue" cx=".28" cy=".22" r=".85"><stop stop-color="#fff"/><stop offset=".2" stop-color="#dae9ff"/><stop offset=".58" stop-color="#86acff"/><stop offset="1" stop-color="#3b509b"/></radialGradient>
+ <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#4f7d9b"/><stop offset=".15" stop-color="#284d6a"/><stop offset=".58" stop-color="#17314b"/><stop offset="1" stop-color="#0d2136"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#356c87" stop-opacity=".8"/><stop offset=".45" stop-color="#183d59" stop-opacity=".9"/><stop offset="1" stop-color="#132b42"/></linearGradient>
+ <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#80b5ff" stop-opacity=".1"/><stop offset="1" stop-color="#79ffe6" stop-opacity=".65"/></linearGradient>
+ <linearGradient id="densityFill" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#8cb7ff" stop-opacity=".5"/><stop offset="1" stop-color="#67eadf" stop-opacity=".02"/></linearGradient>
+ <linearGradient id="errorFill" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#80b5ff" stop-opacity=".05"/><stop offset="1" stop-color="#ffb08d" stop-opacity=".35"/></linearGradient>
+ <linearGradient id="bar" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#91ffe7"/><stop offset="1" stop-color="#206281"/></linearGradient>
+ <pattern id="clipHatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 0 V9" stroke="#c98c88" stroke-width="1"/></pattern>
+ <filter id="glow" x="-130%" y="-130%" width="360%" height="360%"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ </defs>
+<style>text{font-family:Arial,"Microsoft YaHei",sans-serif;font-variant-numeric:tabular-nums}path,line{stroke-linecap:round;stroke-linejoin:round}circle[fill="#fff"]{fill:#0d263d}.decoration{pointer-events:none}@media(prefers-reduced-motion:reduce){*{animation:none!important}}</style>
+<rect width="800" height="440" rx="16" fill="url(#stage)"/>
+<ellipse cx="424.0" cy="202.4" rx="463.99999999999994" ry="242.00000000000003" fill="url(#spot)" class="decoration"/>
+<path d="M260.0 228.8 L0.0 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M300.0 228.8 L114.28571428571428 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M340.0 228.8 L228.57142857142856 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M380.0 228.8 L342.85714285714283 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M420.0 228.8 L457.1428571428571 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M460.0 228.8 L571.4285714285714 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M500.0 228.8 L685.7142857142857 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M540.0 228.8 L800.0 436" fill="none" stroke="#203b53" stroke-width="0.65" />
+<path d="M18 272.8 L782 272.8" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<path d="M18 321.2 L782 321.2" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<path d="M18 382.8 L782 382.8" fill="none" stroke="#1d384f" stroke-width="0.6" />
+<text x="32" y="48" font-size="32" fill="#eff8ff" font-weight="600" >先看懂数值格式：bit是存储长度</text>
+<text x="32" y="94" font-size="24" fill="#b5cce2" font-weight="400" >同样保存一个权重，表示长度可以不同。</text>
+<text x="32" y="158" font-size="28" fill="#eff8ff" font-weight="400" >16 bit</text>
+<rect x="200" y="132" width="20" height="35" rx="3" fill="#24455f" stroke="#81adc2" data-precision-width="16" data-bit-index="0"/>
+<rect x="227" y="132" width="20" height="35" rx="3" fill="#24455f" stroke="#81adc2" data-precision-width="16" data-bit-index="1"/>
+<rect x="254" y="132" width="20" height="35" rx="3" fill="#24455f" stroke="#81adc2" data-precision-width="16" data-bit-index="2"/>
+<rect x="281" y="132" width="20" height="35" rx="3" fill="#24455f" stroke="#81adc2" data-precision-width="16" data-bit-index="3"/>
+<rect x="308" y="132" width="20" height="35" rx="3" fill="#24455f" stroke="#81adc2" data-precision-width="16" data-bit-index="4"/>
+<rect x="335" y="132" width="20" height="35" rx="3" fill="#24455f" stroke="#81adc2" data-precision-width="16" data-bit-index="5"/>
+<rect x="362" y="132" width="20" height="35" rx="3" fill="#24455f" stroke="#81adc2" data-precision-width="16" data-bit-index="6"/>
+<rect x="389" y="132" width="20" height="35" rx="3" fill="#24455f" stroke="#81adc2" data-precision-width="16" data-bit-index="7"/>
+<rect x="416" y="132" width="20" height="35" rx="3" fill="#24455f" stroke="#81adc2" data-precision-width="16" data-bit-index="8"/>
+<rect x="443" y="132" width="20" height="35" rx="3" fill="#24455f" stroke="#81adc2" data-precision-width="16" data-bit-index="9"/>
+<rect x="470" y="132" width="20" height="35" rx="3" fill="#24455f" stroke="#81adc2" data-precision-width="16" data-bit-index="10"/>
+<rect x="497" y="132" width="20" height="35" rx="3" fill="#24455f" stroke="#81adc2" data-precision-width="16" data-bit-index="11"/>
+<rect x="524" y="132" width="20" height="35" rx="3" fill="#24455f" stroke="#81adc2" data-precision-width="16" data-bit-index="12"/>
+<rect x="551" y="132" width="20" height="35" rx="3" fill="#24455f" stroke="#81adc2" data-precision-width="16" data-bit-index="13"/>
+<rect x="578" y="132" width="20" height="35" rx="3" fill="#24455f" stroke="#81adc2" data-precision-width="16" data-bit-index="14"/>
+<rect x="605" y="132" width="20" height="35" rx="3" fill="#24455f" stroke="#81adc2" data-precision-width="16" data-bit-index="15"/>
+<text x="32" y="258" font-size="28" fill="#eff8ff" font-weight="400" >2 bit</text>
+<rect x="200" y="227" width="66" height="43" rx="7" fill="#205264" stroke="#6ef3e2" data-precision-width="2" data-bit-index="0"/>
+<rect x="281" y="227" width="66" height="43" rx="7" fill="#205264" stroke="#6ef3e2" data-precision-width="2" data-bit-index="1"/>
+<text x="400" y="343" font-size="34" fill="#6ef3e2" font-weight="600" text-anchor="middle" id="precision-code-count" data-bits="2" data-code-count="4">2 bit → 2² = 4种短码</text>
+<text x="32" y="409" font-size="24" fill="#b5cce2" font-weight="400" >bit不是小数位数；码怎样对应权重，下一幕看映射。</text>
+</svg>

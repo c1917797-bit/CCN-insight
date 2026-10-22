@@ -1,0 +1,102 @@
+{
+  "description": "One semantic workbench entity per row. Rows are grouped by topic_id and collection_key; page-sized snapshots, rendered HTML, and large content bodies are forbidden.",
+  "fields": {
+    "collection_key": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "collection_shape": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "item_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "item_key": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "locale_status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "ordinal": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "payload_en": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "json"
+    },
+    "payload_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "json"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "updated_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    },
+    {
+      "field": "collection_key",
+      "name": "idx_collection_key"
+    },
+    {
+      "field": "locale_status",
+      "name": "idx_locale_status"
+    }
+  ],
+  "key_field": "item_id",
+  "required_fields": [
+    "collection_key",
+    "collection_shape",
+    "item_id",
+    "item_key",
+    "locale_status",
+    "ordinal",
+    "payload_zh",
+    "topic_id",
+    "updated_at"
+  ],
+  "schema": "mcpgit.table.v2"
+}

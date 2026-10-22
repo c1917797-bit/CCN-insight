@@ -1,0 +1,102 @@
+{
+  "checked_on": "2026-10-22",
+  "scope": "Rendered topic text after asynchronous sources/industry completed; normalized whitespace",
+  "topics": [
+    {
+      "id": "activations-distillation",
+      "equal": true,
+      "original": 6405,
+      "local": 6405
+    },
+    {
+      "id": "activations-factorization",
+      "equal": true,
+      "original": 6284,
+      "local": 6284
+    },
+    {
+      "id": "activations-merging",
+      "equal": true,
+      "original": 3476,
+      "local": 3476
+    },
+    {
+      "id": "activations-precision",
+      "equal": true,
+      "original": 11200,
+      "local": 11200
+    },
+    {
+      "id": "activations-selection",
+      "equal": true,
+      "original": 6086,
+      "local": 6086
+    },
+    {
+      "id": "kv_cache-compact_architecture",
+      "equal": true,
+      "original": 4738,
+      "local": 4738
+    },
+    {
+      "id": "kv_cache-distillation",
+      "equal": true,
+      "original": 5575,
+      "local": 5575
+    },
+    {
+      "id": "kv_cache-factorization",
+      "equal": true,
+      "original": 6430,
+      "local": 6430
+    },
+    {
+      "id": "kv_cache-kv_eviction",
+      "equal": true,
+      "original": 5595,
+      "local": 5595
+    },
+    {
+      "id": "kv_cache-precision",
+      "equal": true,
+      "original": 11017,
+      "local": 11017
+    },
+    {
+      "id": "kv_cache-selection",
+      "equal": true,
+      "original": 5125,
+      "local": 5125
+    },
+    {
+      "id": "kv_cache-sharing",
+      "equal": true,
+      "original": 4038,
+      "local": 4038
+    },
+    {
+      "id": "parameters-distillation",
+      "equal": true,
+      "original": 4934,
+      "local": 4934
+    },
+    {
+      "id": "parameters-factorization",
+      "equal": true,
+      "original": 6700,
+      "local": 6700
+    },
+    {
+      "id": "parameters-precision",
+      "equal": true,
+      "original": 10123,
+      "local": 10123
+    },
+    {
+      "id": "parameters-selection",
+      "equal": true,
+      "original": 6747,
+      "local": 6747
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "description": "月度采集期；2026-06来自空白模板，不是已采集或当前月份的趋势结论。",
+  "fields": {
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "counting_rule": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "markdown"
+    },
+    "month": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "period_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "review_status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "reviewer_role": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_document_id": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_name": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "title_en": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "title_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    },
+    {
+      "field": "month",
+      "name": "idx_month"
+    },
+    {
+      "field": "source_status",
+      "name": "idx_source_status"
+    },
+    {
+      "field": "source_document_id",
+      "name": "idx_source_document_id"
+    }
+  ],
+  "key_field": "period_id",
+  "required_fields": [
+    "business_id",
+    "counting_rule",
+    "month",
+    "period_id",
+    "review_status",
+    "reviewer_role",
+    "source_name",
+    "source_status",
+    "title_en",
+    "title_zh",
+    "topic_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

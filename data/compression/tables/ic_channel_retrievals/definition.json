@@ -1,0 +1,183 @@
+{
+  "description": "One source-channel attempt in a run, with truthful acquisition outcome and counts.",
+  "fields": {
+    "boundary_en": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "boundary_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "candidate_count": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "channel_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "checked_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "dated_count": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "failure_code": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "http_status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "method": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "position": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "received_count": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "retrieval_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "run_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "undated_count": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    }
+  },
+  "indexes": [
+    {
+      "field": "retrieval_id",
+      "name": "idx_retrieval_id"
+    },
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    },
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "run_id",
+      "name": "idx_run_id"
+    },
+    {
+      "field": "channel_id",
+      "name": "idx_channel_id"
+    },
+    {
+      "field": "source_id",
+      "name": "idx_source_id"
+    },
+    {
+      "field": "status",
+      "name": "idx_status"
+    }
+  ],
+  "key_field": "retrieval_id",
+  "required_fields": [
+    "boundary_en",
+    "boundary_zh",
+    "business_id",
+    "candidate_count",
+    "channel_id",
+    "checked_at",
+    "dated_count",
+    "failure_code",
+    "http_status",
+    "method",
+    "position",
+    "received_count",
+    "retrieval_id",
+    "run_id",
+    "source_id",
+    "status",
+    "topic_id",
+    "undated_count"
+  ],
+  "schema": "mcpgit.table.v2"
+}

@@ -1,0 +1,71 @@
+{
+  "description": "Persistent normalized research authority; analyst claims and proposed validation remain distinct from measured outcomes.",
+  "fields": {
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "compression_topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "link_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "relation_kind": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "signal_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    },
+    {
+      "field": "signal_id",
+      "name": "idx_signal_id"
+    },
+    {
+      "field": "compression_topic_id",
+      "name": "idx_compression_topic_id"
+    }
+  ],
+  "key_field": "link_id",
+  "required_fields": [
+    "business_id",
+    "compression_topic_id",
+    "link_id",
+    "relation_kind",
+    "signal_id",
+    "topic_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

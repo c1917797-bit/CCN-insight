@@ -1,0 +1,91 @@
+{
+  "description": "Language-neutral typed references from one topic workbench item to shared Resource, Capability, ResourceCapability, Content, or Challenge identities.",
+  "fields": {
+    "entity_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "entity_kind": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "item_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "ordinal": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "ref_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "relation_role": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "updated_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    },
+    {
+      "field": "item_id",
+      "name": "idx_item_id"
+    },
+    {
+      "field": "entity_kind",
+      "name": "idx_entity_kind"
+    },
+    {
+      "field": "entity_id",
+      "name": "idx_entity_id"
+    }
+  ],
+  "key_field": "ref_id",
+  "required_fields": [
+    "entity_id",
+    "entity_kind",
+    "item_id",
+    "ordinal",
+    "ref_id",
+    "relation_role",
+    "topic_id",
+    "updated_at"
+  ],
+  "schema": "mcpgit.table.v2"
+}

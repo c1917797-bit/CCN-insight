@@ -1,0 +1,194 @@
+{
+  "description": "月度细格实测记录；缺测使用null，不得把未知记为0。月初末快照、去重与来源范围一致后才计算增速。",
+  "fields": {
+    "acceptance_rate": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "number"
+    },
+    "accepted_count": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "cell_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "github_added_count": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "growth_rate": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "number"
+    },
+    "month": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "month_end_count": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "month_start_count": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "monthly_added_count": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "observation_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "period_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "review_note": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "markdown"
+    },
+    "source_document_id": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_name": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_revision": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_url": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "stars_score": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "trend_change": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    },
+    {
+      "field": "period_id",
+      "name": "idx_period_id"
+    },
+    {
+      "field": "month",
+      "name": "idx_month"
+    },
+    {
+      "field": "cell_id",
+      "name": "idx_cell_id"
+    },
+    {
+      "field": "status",
+      "name": "idx_status"
+    },
+    {
+      "field": "source_document_id",
+      "name": "idx_source_document_id"
+    }
+  ],
+  "key_field": "observation_id",
+  "required_fields": [
+    "business_id",
+    "cell_id",
+    "month",
+    "observation_id",
+    "period_id",
+    "source_name",
+    "status",
+    "topic_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

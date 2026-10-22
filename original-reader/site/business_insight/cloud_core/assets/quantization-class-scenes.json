@@ -1,0 +1,266 @@
+{
+  "schema": "lri.motion-scene-set/v2",
+  "scenes": [
+    {
+      "id": "quantization-class-purpose.zh",
+      "source": "quantization-class-purpose.zh.svg",
+      "duration_ms": 4000,
+      "poster_ms": 0,
+      "responsive": {
+        "mobile_strategy": "separate-semantic-layout",
+        "detail_mode": "desktop-scroll"
+      },
+      "static_svg": "quantization-class-purpose.zh.static.svg",
+      "authoring_source": "../../../tools/cloud_core/build_quantization_class.py",
+      "claim_kind": "illustrative_mechanism"
+    },
+    {
+      "id": "quantization-class-purpose.en",
+      "source": "quantization-class-purpose.en.svg",
+      "duration_ms": 4000,
+      "poster_ms": 0,
+      "responsive": {
+        "mobile_strategy": "separate-semantic-layout",
+        "detail_mode": "desktop-scroll"
+      },
+      "static_svg": "quantization-class-purpose.en.static.svg",
+      "authoring_source": "../../../tools/cloud_core/build_quantization_class.py",
+      "claim_kind": "illustrative_mechanism"
+    },
+    {
+      "id": "quantization-class-precision.zh",
+      "source": "quantization-class-precision.zh.svg",
+      "duration_ms": 4000,
+      "poster_ms": 0,
+      "responsive": {
+        "mobile_strategy": "separate-semantic-layout",
+        "detail_mode": "desktop-scroll"
+      },
+      "static_svg": "quantization-class-precision.zh.static.svg",
+      "authoring_source": "../../../tools/cloud_core/build_quantization_class.py",
+      "claim_kind": "illustrative_mechanism"
+    },
+    {
+      "id": "quantization-class-precision.en",
+      "source": "quantization-class-precision.en.svg",
+      "duration_ms": 4000,
+      "poster_ms": 0,
+      "responsive": {
+        "mobile_strategy": "separate-semantic-layout",
+        "detail_mode": "desktop-scroll"
+      },
+      "static_svg": "quantization-class-precision.en.static.svg",
+      "authoring_source": "../../../tools/cloud_core/build_quantization_class.py",
+      "claim_kind": "illustrative_mechanism"
+    },
+    {
+      "id": "quantization-class-concept.zh",
+      "source": "quantization-class-concept.zh.svg",
+      "duration_ms": 4000,
+      "poster_ms": 0,
+      "responsive": {
+        "mobile_strategy": "separate-semantic-layout",
+        "detail_mode": "desktop-scroll"
+      },
+      "static_svg": "quantization-class-concept.zh.static.svg",
+      "authoring_source": "../../../tools/cloud_core/build_quantization_class.py",
+      "claim_kind": "illustrative_mechanism"
+    },
+    {
+      "id": "quantization-class-concept.en",
+      "source": "quantization-class-concept.en.svg",
+      "duration_ms": 4000,
+      "poster_ms": 0,
+      "responsive": {
+        "mobile_strategy": "separate-semantic-layout",
+        "detail_mode": "desktop-scroll"
+      },
+      "static_svg": "quantization-class-concept.en.static.svg",
+      "authoring_source": "../../../tools/cloud_core/build_quantization_class.py",
+      "claim_kind": "illustrative_mechanism"
+    },
+    {
+      "id": "quantization-class-tradeoff.zh",
+      "source": "quantization-class-tradeoff.zh.svg",
+      "duration_ms": 4000,
+      "poster_ms": 0,
+      "responsive": {
+        "mobile_strategy": "separate-semantic-layout",
+        "detail_mode": "desktop-scroll"
+      },
+      "static_svg": "quantization-class-tradeoff.zh.static.svg",
+      "authoring_source": "../../../tools/cloud_core/build_quantization_class.py",
+      "claim_kind": "illustrative_mechanism"
+    },
+    {
+      "id": "quantization-class-tradeoff.en",
+      "source": "quantization-class-tradeoff.en.svg",
+      "duration_ms": 4000,
+      "poster_ms": 0,
+      "responsive": {
+        "mobile_strategy": "separate-semantic-layout",
+        "detail_mode": "desktop-scroll"
+      },
+      "static_svg": "quantization-class-tradeoff.en.static.svg",
+      "authoring_source": "../../../tools/cloud_core/build_quantization_class.py",
+      "claim_kind": "illustrative_mechanism"
+    },
+    {
+      "id": "quantization-class-idea.zh",
+      "source": "quantization-class-idea.zh.svg",
+      "duration_ms": 20000,
+      "poster_ms": 0,
+      "responsive": {
+        "mobile_strategy": "separate-semantic-layout",
+        "detail_mode": "desktop-scroll"
+      },
+      "static_svg": "quantization-class-idea.zh.static.svg",
+      "authoring_source": "../../../tools/cloud_core/build_quantization_class.py",
+      "claim_kind": "illustrative_mechanism"
+    },
+    {
+      "id": "quantization-class-idea.en",
+      "source": "quantization-class-idea.en.svg",
+      "duration_ms": 20000,
+      "poster_ms": 0,
+      "responsive": {
+        "mobile_strategy": "separate-semantic-layout",
+        "detail_mode": "desktop-scroll"
+      },
+      "static_svg": "quantization-class-idea.en.static.svg",
+      "authoring_source": "../../../tools/cloud_core/build_quantization_class.py",
+      "claim_kind": "illustrative_mechanism"
+    },
+    {
+      "id": "quantization-class-formula.zh",
+      "source": "quantization-class-formula.zh.svg",
+      "duration_ms": 28000,
+      "poster_ms": 0,
+      "responsive": {
+        "mobile_strategy": "separate-semantic-layout",
+        "detail_mode": "desktop-scroll"
+      },
+      "static_svg": "quantization-class-formula.zh.static.svg",
+      "authoring_source": "../../../tools/cloud_core/build_quantization_class.py",
+      "claim_kind": "illustrative_mechanism"
+    },
+    {
+      "id": "quantization-class-formula.en",
+      "source": "quantization-class-formula.en.svg",
+      "duration_ms": 28000,
+      "poster_ms": 0,
+      "responsive": {
+        "mobile_strategy": "separate-semantic-layout",
+        "detail_mode": "desktop-scroll"
+      },
+      "static_svg": "quantization-class-formula.en.static.svg",
+      "authoring_source": "../../../tools/cloud_core/build_quantization_class.py",
+      "claim_kind": "illustrative_mechanism"
+    },
+    {
+      "id": "quantization-class-worked.zh",
+      "source": "quantization-class-worked.zh.svg",
+      "duration_ms": 24000,
+      "poster_ms": 0,
+      "responsive": {
+        "mobile_strategy": "separate-semantic-layout",
+        "detail_mode": "desktop-scroll"
+      },
+      "static_svg": "quantization-class-worked.zh.static.svg",
+      "authoring_source": "../../../tools/cloud_core/build_quantization_class.py",
+      "claim_kind": "illustrative_mechanism"
+    },
+    {
+      "id": "quantization-class-worked.en",
+      "source": "quantization-class-worked.en.svg",
+      "duration_ms": 24000,
+      "poster_ms": 0,
+      "responsive": {
+        "mobile_strategy": "separate-semantic-layout",
+        "detail_mode": "desktop-scroll"
+      },
+      "static_svg": "quantization-class-worked.en.static.svg",
+      "authoring_source": "../../../tools/cloud_core/build_quantization_class.py",
+      "claim_kind": "illustrative_mechanism"
+    },
+    {
+      "id": "quantization-class-error.zh",
+      "source": "quantization-class-error.zh.svg",
+      "duration_ms": 12000,
+      "poster_ms": 0,
+      "responsive": {
+        "mobile_strategy": "separate-semantic-layout",
+        "detail_mode": "desktop-scroll"
+      },
+      "static_svg": "quantization-class-error.zh.static.svg",
+      "authoring_source": "../../../tools/cloud_core/build_quantization_class.py",
+      "claim_kind": "illustrative_mechanism"
+    },
+    {
+      "id": "quantization-class-error.en",
+      "source": "quantization-class-error.en.svg",
+      "duration_ms": 12000,
+      "poster_ms": 0,
+      "responsive": {
+        "mobile_strategy": "separate-semantic-layout",
+        "detail_mode": "desktop-scroll"
+      },
+      "static_svg": "quantization-class-error.en.static.svg",
+      "authoring_source": "../../../tools/cloud_core/build_quantization_class.py",
+      "claim_kind": "illustrative_mechanism"
+    },
+    {
+      "id": "quantization-class-groups.zh",
+      "source": "quantization-class-groups.zh.svg",
+      "duration_ms": 16000,
+      "poster_ms": 0,
+      "responsive": {
+        "mobile_strategy": "separate-semantic-layout",
+        "detail_mode": "desktop-scroll"
+      },
+      "static_svg": "quantization-class-groups.zh.static.svg",
+      "authoring_source": "../../../tools/cloud_core/build_quantization_class.py",
+      "claim_kind": "illustrative_mechanism"
+    },
+    {
+      "id": "quantization-class-groups.en",
+      "source": "quantization-class-groups.en.svg",
+      "duration_ms": 16000,
+      "poster_ms": 0,
+      "responsive": {
+        "mobile_strategy": "separate-semantic-layout",
+        "detail_mode": "desktop-scroll"
+      },
+      "static_svg": "quantization-class-groups.en.static.svg",
+      "authoring_source": "../../../tools/cloud_core/build_quantization_class.py",
+      "claim_kind": "illustrative_mechanism"
+    },
+    {
+      "id": "quantization-class-execution.zh",
+      "source": "quantization-class-execution.zh.svg",
+      "duration_ms": 12000,
+      "poster_ms": 0,
+      "responsive": {
+        "mobile_strategy": "separate-semantic-layout",
+        "detail_mode": "desktop-scroll"
+      },
+      "static_svg": "quantization-class-execution.zh.static.svg",
+      "authoring_source": "../../../tools/cloud_core/build_quantization_class.py",
+      "claim_kind": "illustrative_mechanism"
+    },
+    {
+      "id": "quantization-class-execution.en",
+      "source": "quantization-class-execution.en.svg",
+      "duration_ms": 12000,
+      "poster_ms": 0,
+      "responsive": {
+        "mobile_strategy": "separate-semantic-layout",
+        "detail_mode": "desktop-scroll"
+      },
+      "static_svg": "quantization-class-execution.en.static.svg",
+      "authoring_source": "../../../tools/cloud_core/build_quantization_class.py",
+      "claim_kind": "illustrative_mechanism"
+    }
+  ]
+}
+

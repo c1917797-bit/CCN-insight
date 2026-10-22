@@ -1,0 +1,79 @@
+{
+  "description": "Explicit membership of a current finding in a collected scope, backed by a canonical event and a scope-cell evidence association.",
+  "fields": {
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "evidence_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "finding_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "link_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "scope_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "finding_id",
+      "name": "idx_finding_id"
+    },
+    {
+      "field": "scope_id",
+      "name": "idx_scope_id"
+    },
+    {
+      "field": "evidence_id",
+      "name": "idx_evidence_id"
+    },
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    }
+  ],
+  "key_field": "link_id",
+  "required_fields": [
+    "business_id",
+    "evidence_id",
+    "finding_id",
+    "link_id",
+    "scope_id",
+    "topic_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

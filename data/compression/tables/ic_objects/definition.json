@@ -1,0 +1,126 @@
+{
+  "description": "推理压缩对象词典：四个主对象、三个扩展对象；对象用于导航，不宣称所有机制互斥。",
+  "fields": {
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "code": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "description": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "markdown"
+    },
+    "name_en": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "name_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "object_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "position": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "scope": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_document_id": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_name": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    },
+    {
+      "field": "scope",
+      "name": "idx_scope"
+    },
+    {
+      "field": "code",
+      "name": "idx_code"
+    },
+    {
+      "field": "source_document_id",
+      "name": "idx_source_document_id"
+    }
+  ],
+  "key_field": "object_id",
+  "required_fields": [
+    "business_id",
+    "code",
+    "description",
+    "name_en",
+    "name_zh",
+    "object_id",
+    "position",
+    "scope",
+    "source_name",
+    "status",
+    "topic_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

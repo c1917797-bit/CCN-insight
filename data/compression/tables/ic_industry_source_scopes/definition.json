@@ -1,0 +1,91 @@
+{
+  "description": "Persistent industry source subjects assigned to one primary reading ecosystem; other-vendor and cross-platform references do not imply hardware portability.",
+  "fields": {
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "classification_basis": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "ecosystem_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "family_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "reason_en": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "reason_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "reviewed_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "topic_id",
+      "name": "by_topic"
+    },
+    {
+      "field": "ecosystem_id",
+      "name": "by_ecosystem"
+    }
+  ],
+  "key_field": "family_id",
+  "required_fields": [
+    "business_id",
+    "classification_basis",
+    "ecosystem_id",
+    "family_id",
+    "reason_en",
+    "reason_zh",
+    "reviewed_at",
+    "source_id",
+    "topic_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

@@ -2,7 +2,9 @@ from pathlib import Path
 import json,re
 from html import escape
 root=Path(__file__).resolve().parents[1]; src=root/'research/ai-infra/imported'; out=root/'dist/ai-infra'
-def rows(name): return [x['row'] for x in json.loads((src/(name+'.json')).read_text(encoding='utf-8'))['rows']]
+import sys
+sys.path.insert(0,str(root))
+from compression_store import rows
 topics=rows('ic_compression_topics'); cards=rows('ic_compression_topic_cards'); refs=rows('ic_compression_topic_card_refs')
 sources={r['source_id'] for r in rows('compression_sources')}
 for ref in refs: assert ref['source_id'] in sources, ref['source_id']

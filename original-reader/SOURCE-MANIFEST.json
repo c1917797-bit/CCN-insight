@@ -1,0 +1,818 @@
+{
+  "source_repo": "works",
+  "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+  "copied_on": "2026-10-22",
+  "files": [
+    {
+      "path": "assets/lri-browser-translator.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 5059
+    },
+    {
+      "path": "assets/lri-motion-player.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 8947
+    },
+    {
+      "path": "assets/lri-evidence-source.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 8642
+    },
+    {
+      "path": "assets/lri-domain-workbench.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 22723
+    },
+    {
+      "path": "assets/lri-motion-scene.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 19428
+    },
+    {
+      "path": "assets/insight-executive.css",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 448841
+    },
+    {
+      "path": "assets/domain-report-loader.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 5641
+    },
+    {
+      "path": "assets/lri-selected-language.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 2908
+    },
+    {
+      "path": "assets/lri-reader-lane.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 2884
+    },
+    {
+      "path": "assets/lri-reader-location.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 1311
+    },
+    {
+      "path": "assets/lri-quantization-lesson.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 19657
+    },
+    {
+      "path": "assets/lri-shell.config.json",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 42082
+    },
+    {
+      "path": "assets/lri-selected-language.md",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 3030
+    },
+    {
+      "path": "assets/lri-translation-core.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 7195
+    },
+    {
+      "path": "assets/markdown-reader.css",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 5898
+    },
+    {
+      "path": "assets/markdown-reader.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 5004
+    },
+    {
+      "path": "assets/lri-translation-runtime.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 9026
+    },
+    {
+      "path": "assets/lri-shell.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 67280
+    },
+    {
+      "path": "assets/lri-tablegit.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 41658
+    },
+    {
+      "path": "assets/signal-modal.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 11168
+    },
+    {
+      "path": "assets/signal-visual-runtime.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 2578
+    },
+    {
+      "path": "assets/signal-visual-primitives.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 8574
+    },
+    {
+      "path": "assets/signal-visual-grammar.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 5651
+    },
+    {
+      "path": "assets/signal-modal.css",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 17330
+    },
+    {
+      "path": "assets/tablegit-topic-views.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 23439
+    },
+    {
+      "path": "assets/theory-modal.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 4381
+    },
+    {
+      "path": "assets/theory-modal.css",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 9182
+    },
+    {
+      "path": "assets/techintel-visual.css",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 5295
+    },
+    {
+      "path": "assets/vendor/README.md",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 335
+    },
+    {
+      "path": "assets/tablegit-topic-views.json",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 12635
+    },
+    {
+      "path": "assets/topic-i18n-runtime.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 29033
+    },
+    {
+      "path": "assets/vendor/marked.umd.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 42921
+    },
+    {
+      "path": "business_insight/cloud_core/COMPRESSION_TOPICS.md",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 1415
+    },
+    {
+      "path": "assets/workbench-menu-ux.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 4698
+    },
+    {
+      "path": "business_insight/cloud_core/archive.html",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 5261
+    },
+    {
+      "path": "assets/vendor/purify.min.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 28438
+    },
+    {
+      "path": "assets/vendor/hls.min.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 413949
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-concept.en.mobile.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 8822
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-concept.en.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 9770
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-concept.en.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 8659
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-concept.zh.mobile.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 9679
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-concept.zh.mobile.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 8560
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-concept.en.mobile.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 9941
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-concept.zh.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 9466
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-error.en.mobile.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 9586
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-error.en.mobile.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 8357
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-error.en.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 9590
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-error.en.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 8361
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-concept.zh.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 8355
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-error.zh.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 8176
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-error.zh.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 9405
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-execution.en.mobile.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 14465
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-error.zh.mobile.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 9401
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-error.zh.mobile.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 8172
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-execution.en.mobile.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 11414
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-execution.zh.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 14307
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-execution.zh.mobile.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 11204
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-execution.zh.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 11256
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-execution.zh.mobile.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 14255
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-execution.en.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 14587
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-formula.en.mobile.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 11616
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-execution.en.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 11536
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-formula.en.mobile.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 19418
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-formula.en.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 11566
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-formula.en.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 19355
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-formula.zh.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 11358
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-formula.zh.mobile.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 11408
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-formula.zh.mobile.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 19210
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-formula.zh.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 19147
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-groups.en.mobile.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 22576
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-groups.en.mobile.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 37302
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-groups.en.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 37357
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-groups.zh.mobile.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 22348
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-groups.en.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 22659
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-groups.zh.mobile.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 37074
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-groups.zh.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 22431
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-groups.zh.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 37129
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-idea.zh.mobile.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 11515
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-idea.en.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 14211
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-idea.en.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 11589
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-idea.en.mobile.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 11758
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-idea.en.mobile.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 14382
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-idea.zh.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 13866
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-idea.zh.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 11244
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-precision.en.mobile.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 7663
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-idea.zh.mobile.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 14139
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-precision.en.mobile.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 7663
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-precision.en.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 7541
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-precision.en.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 7541
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-precision.zh.mobile.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 7404
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-precision.zh.mobile.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 7404
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-precision.zh.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 7265
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-precision.zh.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 7265
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-purpose.en.mobile.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 7921
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-purpose.en.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 7641
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-purpose.en.mobile.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 8313
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-purpose.en.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 8035
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-purpose.zh.mobile.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 7588
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-purpose.zh.mobile.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 7980
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-purpose.zh.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 7339
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-purpose.zh.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 7733
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-scenes.json",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 9620
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-tradeoff.en.mobile.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 9214
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-tradeoff.en.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 9141
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-tradeoff.en.mobile.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 9214
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-tradeoff.en.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 9141
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-tradeoff.zh.mobile.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 8957
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-tradeoff.zh.mobile.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 8957
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-tradeoff.zh.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 8833
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-worked.en.mobile.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 9769
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-tradeoff.zh.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 8833
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-worked.en.mobile.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 13651
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-worked.en.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 9643
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-worked.en.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 13525
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-worked.zh.mobile.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 9548
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-worked.zh.mobile.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 13430
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-worked.zh.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 9344
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-motion-scenes.json",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 1034
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-principle.en.mobile.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 4481
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-class-worked.zh.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 13226
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-principle.en.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 7738
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-principle.zh.mobile.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 4315
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-principle.en.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 9475
+    },
+    {
+      "path": "business_insight/cloud_core/cloud-core.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 14261
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-principle.zh.static.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 7495
+    },
+    {
+      "path": "business_insight/cloud_core/assets/quantization-principle.zh.svg",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 9232
+    },
+    {
+      "path": "business_insight/cloud_core/compression.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 262494
+    },
+    {
+      "path": "business_insight/cloud_core/current-synthesis.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 34487
+    },
+    {
+      "path": "business_insight/cloud_core/data/ui.zh.json",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 2436
+    },
+    {
+      "path": "business_insight/cloud_core/data/focus-ui.en.json",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 52121
+    },
+    {
+      "path": "business_insight/cloud_core/data/foundations-ui.zh.json",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 3236
+    },
+    {
+      "path": "business_insight/cloud_core/data/ui.en.json",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 4319
+    },
+    {
+      "path": "business_insight/cloud_core/data/foundations-ui.en.json",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 4754
+    },
+    {
+      "path": "business_insight/cloud_core/foundation-scenes.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 25878
+    },
+    {
+      "path": "business_insight/cloud_core/data/focus-ui.zh.json",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 32274
+    },
+    {
+      "path": "business_insight/cloud_core/foundation-player.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 12533
+    },
+    {
+      "path": "business_insight/cloud_core/industry-updates.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 9564
+    },
+    {
+      "path": "business_insight/cloud_core/foundations.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 13598
+    },
+    {
+      "path": "business_insight/cloud_core/foundations.html",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 1948
+    },
+    {
+      "path": "business_insight/cloud_core/foundations-entry.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 96888
+    },
+    {
+      "path": "business_insight/cloud_core/index.html",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 37674
+    },
+    {
+      "path": "business_insight/cloud_core/monthly-routes.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 35227
+    },
+    {
+      "path": "business_insight/cloud_core/research-visuals.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 5211
+    },
+    {
+      "path": "business_insight/cloud_core/reader-ui-cache.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 2129
+    },
+    {
+      "path": "business_insight/cloud_core/reader-bootstrap.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 15155
+    },
+    {
+      "path": "business_insight/cloud_core/monthly.html",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 29035
+    },
+    {
+      "path": "business_insight/cloud_core/paper-review.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 22418
+    },
+    {
+      "path": "business_insight/cloud_core/reader-entry.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 535872
+    },
+    {
+      "path": "business_insight/cloud_core/route-evidence.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 2988
+    },
+    {
+      "path": "business_insight/cloud_core/runtime/lri-shell.config.json",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 37799
+    },
+    {
+      "path": "business_insight/cloud_core/runtime/lri-browser-translator.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 5059
+    },
+    {
+      "path": "business_insight/cloud_core/runtime/lri-shell.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 67547
+    },
+    {
+      "path": "business_insight/cloud_core/runtime/compression-topics.css",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 3486
+    },
+    {
+      "path": "business_insight/cloud_core/runtime/insight.css",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 252317
+    },
+    {
+      "path": "business_insight/cloud_core/runtime/lri-translation-core.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 7195
+    },
+    {
+      "path": "business_insight/cloud_core/source-directory.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 5893
+    },
+    {
+      "path": "business_insight/cloud_core/topic-dossier.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 5444
+    },
+    {
+      "path": "business_insight/cloud_core/runtime/lri-translation-runtime.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 9026
+    },
+    {
+      "path": "business_insight/cloud_core/runtime/tablegit.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 42755
+    },
+    {
+      "path": "business_insight/cloud_core/runtime/mcp-table-read.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 33695
+    },
+    {
+      "path": "business_insight/cloud_core/topic-entry.js",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 478175
+    },
+    {
+      "path": "business_insight/cloud_core/topic.html",
+      "revision": "f05a5be81551fdfc98065080d08414121c70eacc",
+      "characters": 28393
+    }
+  ],
+  "errors": []
+}

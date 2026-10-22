@@ -1,0 +1,155 @@
+{
+  "description": "Persistent normalized research authority; analyst claims and proposed validation remain distinct from measured outcomes.",
+  "fields": {
+    "assessment_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "decision_rule_en": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "decision_rule_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "design_en": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "design_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "hypothesis_en": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "hypothesis_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "metrics_en": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "metrics_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "period_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "probe_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "reviewed_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "scope_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    },
+    {
+      "field": "scope_id",
+      "name": "idx_scope_id"
+    },
+    {
+      "field": "assessment_id",
+      "name": "idx_assessment_id"
+    },
+    {
+      "field": "period_id",
+      "name": "idx_period_id"
+    }
+  ],
+  "key_field": "probe_id",
+  "required_fields": [
+    "assessment_id",
+    "business_id",
+    "decision_rule_en",
+    "decision_rule_zh",
+    "design_en",
+    "design_zh",
+    "hypothesis_en",
+    "hypothesis_zh",
+    "metrics_en",
+    "metrics_zh",
+    "period_id",
+    "probe_id",
+    "reviewed_at",
+    "scope_id",
+    "status",
+    "topic_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

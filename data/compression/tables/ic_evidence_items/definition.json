@@ -1,0 +1,146 @@
+{
+  "description": "One dated evidence event pointing to canonical URL-only source identity.",
+  "fields": {
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "date_kind": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "date_precision": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "event_date": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "evidence_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "observed_version": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "provenance_kind": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "publication_date": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_document_id": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_revision": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "verified_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    },
+    {
+      "field": "source_id",
+      "name": "idx_source_id"
+    },
+    {
+      "field": "event_date",
+      "name": "idx_event_date"
+    },
+    {
+      "field": "date_kind",
+      "name": "idx_date_kind"
+    },
+    {
+      "field": "status",
+      "name": "idx_status"
+    }
+  ],
+  "key_field": "evidence_id",
+  "required_fields": [
+    "business_id",
+    "date_kind",
+    "date_precision",
+    "event_date",
+    "evidence_id",
+    "observed_version",
+    "provenance_kind",
+    "publication_date",
+    "source_id",
+    "source_revision",
+    "status",
+    "topic_id",
+    "verified_at"
+  ],
+  "schema": "mcpgit.table.v2"
+}

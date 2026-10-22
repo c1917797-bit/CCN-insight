@@ -1,0 +1,78 @@
+{
+  "description": "Small governed singleton contracts used by topic workbenches, such as a security gate contract or technical model. Collections and content bodies do not belong here.",
+  "fields": {
+    "locale_status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "object_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "object_key": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "payload_en": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "json"
+    },
+    "payload_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "json"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "updated_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    },
+    {
+      "field": "object_key",
+      "name": "idx_object_key"
+    },
+    {
+      "field": "locale_status",
+      "name": "idx_locale_status"
+    }
+  ],
+  "key_field": "object_id",
+  "required_fields": [
+    "locale_status",
+    "object_id",
+    "object_key",
+    "payload_zh",
+    "topic_id",
+    "updated_at"
+  ],
+  "schema": "mcpgit.table.v2"
+}

@@ -1,0 +1,107 @@
+{
+  "description": "Persistent normalized compression topic sections; original URLs only; source reviews and editorial analysis explicitly separated.",
+  "fields": {
+    "body_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "claim_kind": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "compression_topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "evidence_url": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "heading_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "position": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "reviewed_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "section_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "section_kind": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "topic_id",
+      "name": "by_topic_id"
+    },
+    {
+      "field": "compression_topic_id",
+      "name": "by_compression_topic_id"
+    }
+  ],
+  "key_field": "section_id",
+  "required_fields": [
+    "body_zh",
+    "business_id",
+    "claim_kind",
+    "compression_topic_id",
+    "evidence_url",
+    "heading_zh",
+    "position",
+    "reviewed_at",
+    "section_id",
+    "section_kind",
+    "topic_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

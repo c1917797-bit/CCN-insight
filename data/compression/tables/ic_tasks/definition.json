@@ -1,0 +1,161 @@
+{
+  "description": "待验证的推理压缩课题；不预设性能阈值，先锁定业务基线、硬件和质量约束。",
+  "fields": {
+    "acceptance_rule": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "markdown"
+    },
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "hypothesis": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "markdown"
+    },
+    "metrics": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "markdown"
+    },
+    "owner_person_id": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "position": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "primary_cell_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_document_id": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_name": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "stage": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "task_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "title_en": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "title_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "validation_plan": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "markdown"
+    }
+  },
+  "indexes": [
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    },
+    {
+      "field": "primary_cell_id",
+      "name": "idx_primary_cell_id"
+    },
+    {
+      "field": "stage",
+      "name": "idx_stage"
+    },
+    {
+      "field": "status",
+      "name": "idx_status"
+    },
+    {
+      "field": "source_document_id",
+      "name": "idx_source_document_id"
+    }
+  ],
+  "key_field": "task_id",
+  "required_fields": [
+    "acceptance_rule",
+    "business_id",
+    "hypothesis",
+    "metrics",
+    "position",
+    "primary_cell_id",
+    "source_name",
+    "stage",
+    "status",
+    "task_id",
+    "title_en",
+    "title_zh",
+    "topic_id",
+    "validation_plan"
+  ],
+  "schema": "mcpgit.table.v2"
+}

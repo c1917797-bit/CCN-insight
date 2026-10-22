@@ -1,0 +1,87 @@
+{
+  "description": "Persistent first-party Ascend engineering intelligence; facts remain distinct from observations and local performance.",
+  "fields": {
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "change_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "compression_topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "link_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "relation_kind": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "update_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    },
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "change_id",
+      "name": "idx_change_id"
+    },
+    {
+      "field": "update_id",
+      "name": "idx_update_id"
+    },
+    {
+      "field": "compression_topic_id",
+      "name": "idx_compression_topic_id"
+    }
+  ],
+  "key_field": "link_id",
+  "required_fields": [
+    "business_id",
+    "change_id",
+    "compression_topic_id",
+    "link_id",
+    "relation_kind",
+    "topic_id",
+    "update_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

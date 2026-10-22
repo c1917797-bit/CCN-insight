@@ -1,0 +1,83 @@
+{
+  "description": "Compression technique references to canonical URL identities; checked scope is mechanism only, not performance.",
+  "fields": {
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "checked_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "checked_scope": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "reference_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "source_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "technique_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    },
+    {
+      "field": "technique_id",
+      "name": "idx_technique_id"
+    },
+    {
+      "field": "source_id",
+      "name": "idx_source_id"
+    }
+  ],
+  "key_field": "reference_id",
+  "required_fields": [
+    "business_id",
+    "checked_at",
+    "checked_scope",
+    "reference_id",
+    "source_id",
+    "technique_id",
+    "topic_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

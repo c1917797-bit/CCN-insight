@@ -1,0 +1,163 @@
+{
+  "description": "Listing-metadata relationship only: canonical source identity, date provenance and title screening.",
+  "fields": {
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "channel_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "date_kind": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "date_value": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "entry_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "locator": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "observed_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "position": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "retrieval_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "review_status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "run_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "selection_status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "entry_id",
+      "name": "idx_entry_id"
+    },
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    },
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "run_id",
+      "name": "idx_run_id"
+    },
+    {
+      "field": "retrieval_id",
+      "name": "idx_retrieval_id"
+    },
+    {
+      "field": "channel_id",
+      "name": "idx_channel_id"
+    },
+    {
+      "field": "source_id",
+      "name": "idx_source_id"
+    },
+    {
+      "field": "date_kind",
+      "name": "idx_date_kind"
+    },
+    {
+      "field": "review_status",
+      "name": "idx_review_status"
+    },
+    {
+      "field": "selection_status",
+      "name": "idx_selection_status"
+    }
+  ],
+  "key_field": "entry_id",
+  "required_fields": [
+    "business_id",
+    "channel_id",
+    "date_kind",
+    "date_value",
+    "entry_id",
+    "locator",
+    "observed_at",
+    "position",
+    "retrieval_id",
+    "review_status",
+    "run_id",
+    "selection_status",
+    "source_id",
+    "topic_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

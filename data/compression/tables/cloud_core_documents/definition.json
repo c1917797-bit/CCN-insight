@@ -1,0 +1,135 @@
+{
+  "description": "Cloud Core documents: typed rows, stable keys and explicit relationships; no whole-domain JSON blob. Persistent history.",
+  "fields": {
+    "batch_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "body": {
+      "projection": "deferred",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "markdown"
+    },
+    "body_sha256": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "document_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "document_kind": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "folder_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "logical_path": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "path"
+    },
+    "module_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "review_status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_date": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "title": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "module_id",
+      "name": "idx_module_id"
+    },
+    {
+      "field": "document_kind",
+      "name": "idx_document_kind"
+    },
+    {
+      "field": "review_status",
+      "name": "idx_review_status"
+    },
+    {
+      "field": "batch_id",
+      "name": "idx_batch_id"
+    }
+  ],
+  "key_field": "document_id",
+  "required_fields": [
+    "batch_id",
+    "body",
+    "body_sha256",
+    "business_id",
+    "document_id",
+    "document_kind",
+    "folder_id",
+    "logical_path",
+    "module_id",
+    "review_status",
+    "source_date",
+    "source_status",
+    "title"
+  ],
+  "schema": "mcpgit.table.v2"
+}

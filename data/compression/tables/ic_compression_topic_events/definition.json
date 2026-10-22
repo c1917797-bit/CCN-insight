@@ -1,0 +1,147 @@
+{
+  "description": "Persistent normalized compression topic events; original URLs only; source reviews and editorial analysis explicitly separated.",
+  "fields": {
+    "association_note": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "classification_basis": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "compression_topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "evidence_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "link_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "period_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "position": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "review_status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "reviewed_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "scope_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "scope_topic_key": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "topic_id",
+      "name": "by_topic_id"
+    },
+    {
+      "field": "scope_id",
+      "name": "by_scope_id"
+    },
+    {
+      "field": "scope_topic_key",
+      "name": "by_scope_topic_key"
+    },
+    {
+      "field": "period_id",
+      "name": "by_period_id"
+    },
+    {
+      "field": "evidence_id",
+      "name": "by_evidence_id"
+    },
+    {
+      "field": "compression_topic_id",
+      "name": "by_compression_topic_id"
+    }
+  ],
+  "key_field": "link_id",
+  "required_fields": [
+    "association_note",
+    "business_id",
+    "classification_basis",
+    "compression_topic_id",
+    "evidence_id",
+    "link_id",
+    "period_id",
+    "position",
+    "review_status",
+    "reviewed_at",
+    "scope_id",
+    "scope_topic_key",
+    "source_id",
+    "topic_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

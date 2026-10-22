@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 580" data-cycle="24" data-mobile-viewbox="0 0 360 1030" role="img" aria-labelledby="title desc">
+<title id="title">Six steps of weight quantization</title>
+<desc id="desc">Two illustrative cases: 0.26 rounds to 0.30; 0.96 clips to 0.70. Values remain visible; a red outline marks the current stage.</desc>
+<style><![CDATA[text{font-family:Arial,Microsoft YaHei,sans-serif}.accent{fill:#fff;stroke:#d7e2ee;stroke-width:2}]]></style>
+<g data-responsive="desktop">
+<rect width="860" height="580" fill="#f5f8fc"/>
+<text x="20" y="26" font-size="24" fill="#24364b">A: 0.26 → 0.30</text>
+<path d="M28 48 H832" stroke="#9bacc0" stroke-width="3"/>
+<path d="M269.2 48 H429.9999999999999" stroke="#087f8c" stroke-width="5"/>
+<text x="28.0" y="71" text-anchor="middle" font-size="22" fill="#526984">0.2</text>
+<text x="832.0" y="71" text-anchor="middle" font-size="22" fill="#526984">0.4</text>
+<circle cx="269.2" cy="48" r="7" fill="#fff" stroke="#b71c1c" stroke-width="3"/>
+<circle class="moving-ADesktop" cx="429.9999999999999" cy="48" r="9" fill="#087f8c"/>
+<text x="20" y="100" font-size="24" fill="#24364b">B: 0.96 → 0.70</text>
+<path d="M28 122 H832" stroke="#9bacc0" stroke-width="3"/>
+<path d="M799.8399999999999 122 H590.8" stroke="#087f8c" stroke-width="5"/>
+<text x="28.0" y="145" text-anchor="middle" font-size="22" fill="#526984">0.0</text>
+<text x="832.0" y="145" text-anchor="middle" font-size="22" fill="#526984">1.0</text>
+<circle cx="799.8399999999999" cy="122" r="7" fill="#fff" stroke="#b71c1c" stroke-width="3"/>
+<circle class="moving-BDesktop" cx="590.8" cy="122" r="9" fill="#087f8c"/>
+<g transform="translate(0 160)">
+<text x="18" y="28" font-size="20" fill="#24364b">s = 0.1 · z = 0 · q ∈ [−8, 7]</text>
+<text x="18" y="53" font-size="17" fill="#526984">Illustrative: A = 0.26, B = 0.96</text>
+<g id="desktop-step-1" data-stage="1">
+<rect class="accent" x="18" y="74" width="264" height="112" rx="12"/>
+<text x="31" y="102" font-size="18" font-weight="700" fill="#24364b">01 · Original weight</text>
+<text x="31" y="134" font-size="20" fill="#24364b">A: w = 0.26</text>
+<text x="31" y="161" font-size="20" fill="#24364b">B: w = 0.96</text>
+</g>
+<g id="desktop-step-2" data-stage="2">
+<rect class="accent" x="298" y="74" width="264" height="112" rx="12"/>
+<text x="311" y="102" font-size="18" font-weight="700" fill="#24364b">02 · Divide by scale</text>
+<text x="311" y="134" font-size="20" fill="#24364b">A: w/s = 2.6</text>
+<text x="311" y="161" font-size="20" fill="#24364b">B: w/s = 9.6</text>
+</g>
+<g id="desktop-step-3" data-stage="3">
+<rect class="accent" x="578" y="74" width="264" height="112" rx="12"/>
+<text x="591" y="102" font-size="18" font-weight="700" fill="#24364b">03 · Round to nearest</text>
+<text x="591" y="134" font-size="20" fill="#24364b">A: round(2.6) = 3</text>
+<text x="591" y="161" font-size="20" fill="#24364b">B: round(9.6) = 10</text>
+</g>
+<g id="desktop-step-4" data-stage="4">
+<rect class="accent" x="18" y="222" width="264" height="112" rx="12"/>
+<text x="31" y="250" font-size="18" font-weight="700" fill="#24364b">04 · Clip and store</text>
+<text x="31" y="282" font-size="20" fill="#24364b">A: q = 3</text>
+<text x="31" y="309" font-size="20" fill="#24364b">B: q = 7 (10 → 7)</text>
+</g>
+<g id="desktop-step-5" data-stage="5">
+<rect class="accent" x="298" y="222" width="264" height="112" rx="12"/>
+<text x="311" y="250" font-size="18" font-weight="700" fill="#24364b">05 · Reconstruct weight</text>
+<text x="311" y="282" font-size="20" fill="#24364b">A: ŵ = 0.30</text>
+<text x="311" y="309" font-size="20" fill="#24364b">B: ŵ = 0.70</text>
+</g>
+<g id="desktop-step-6" data-stage="6">
+<rect class="accent" x="578" y="222" width="264" height="112" rx="12"/>
+<text x="591" y="250" font-size="18" font-weight="700" fill="#24364b">06 · Weight error</text>
+<text x="591" y="282" font-size="20" fill="#24364b">A: e = +0.04</text>
+<text x="591" y="309" font-size="20" fill="#24364b">B: e = -0.26</text>
+</g>
+<text x="18" y="398" font-size="17" fill="#526984">e = ŵ − w · Not task-quality loss</text></g></g>
+<g data-responsive="mobile" display="none">
+<rect width="360" height="1030" fill="#f5f8fc"/>
+<text x="20" y="26" font-size="24" fill="#24364b">A: 0.26 → 0.30</text>
+<path d="M28 48 H332" stroke="#9bacc0" stroke-width="3"/>
+<path d="M119.2 48 H179.99999999999997" stroke="#087f8c" stroke-width="5"/>
+<text x="28.0" y="71" text-anchor="middle" font-size="22" fill="#526984">0.2</text>
+<text x="332.0" y="71" text-anchor="middle" font-size="22" fill="#526984">0.4</text>
+<circle cx="119.2" cy="48" r="7" fill="#fff" stroke="#b71c1c" stroke-width="3"/>
+<circle class="moving-AMobile" cx="179.99999999999997" cy="48" r="9" fill="#087f8c"/>
+<text x="20" y="100" font-size="24" fill="#24364b">B: 0.96 → 0.70</text>
+<path d="M28 122 H332" stroke="#9bacc0" stroke-width="3"/>
+<path d="M319.84 122 H240.79999999999998" stroke="#087f8c" stroke-width="5"/>
+<text x="28.0" y="145" text-anchor="middle" font-size="22" fill="#526984">0.0</text>
+<text x="332.0" y="145" text-anchor="middle" font-size="22" fill="#526984">1.0</text>
+<circle cx="319.84" cy="122" r="7" fill="#fff" stroke="#b71c1c" stroke-width="3"/>
+<circle class="moving-BMobile" cx="240.79999999999998" cy="122" r="9" fill="#087f8c"/>
+<g transform="translate(0 160)">
+<text x="18" y="28" font-size="20" fill="#24364b">s = 0.1 · z = 0 · q ∈ [−8, 7]</text>
+<text x="18" y="53" font-size="17" fill="#526984">Illustrative: A = 0.26, B = 0.96</text>
+<g id="mobile-step-1" data-stage="1">
+<rect class="accent" x="18" y="74" width="324" height="112" rx="12"/>
+<text x="31" y="102" font-size="24" font-weight="700" fill="#24364b">01 · Original weight</text>
+<text x="31" y="134" font-size="24" fill="#24364b">A: w = 0.26</text>
+<text x="31" y="161" font-size="24" fill="#24364b">B: w = 0.96</text>
+</g>
+<g id="mobile-step-2" data-stage="2">
+<rect class="accent" x="18" y="198" width="324" height="112" rx="12"/>
+<text x="31" y="226" font-size="24" font-weight="700" fill="#24364b">02 · Divide by scale</text>
+<text x="31" y="258" font-size="24" fill="#24364b">A: w/s = 2.6</text>
+<text x="31" y="285" font-size="24" fill="#24364b">B: w/s = 9.6</text>
+</g>
+<g id="mobile-step-3" data-stage="3">
+<rect class="accent" x="18" y="322" width="324" height="112" rx="12"/>
+<text x="31" y="350" font-size="24" font-weight="700" fill="#24364b">03 · Round to nearest</text>
+<text x="31" y="382" font-size="24" fill="#24364b">A: round(2.6) = 3</text>
+<text x="31" y="409" font-size="24" fill="#24364b">B: round(9.6) = 10</text>
+</g>
+<g id="mobile-step-4" data-stage="4">
+<rect class="accent" x="18" y="446" width="324" height="112" rx="12"/>
+<text x="31" y="474" font-size="24" font-weight="700" fill="#24364b">04 · Clip and store</text>
+<text x="31" y="506" font-size="24" fill="#24364b">A: q = 3</text>
+<text x="31" y="533" font-size="24" fill="#24364b">B: q = 7 (10 → 7)</text>
+</g>
+<g id="mobile-step-5" data-stage="5">
+<rect class="accent" x="18" y="570" width="324" height="112" rx="12"/>
+<text x="31" y="598" font-size="24" font-weight="700" fill="#24364b">05 · Reconstruct weight</text>
+<text x="31" y="630" font-size="24" fill="#24364b">A: ŵ = 0.30</text>
+<text x="31" y="657" font-size="24" fill="#24364b">B: ŵ = 0.70</text>
+</g>
+<g id="mobile-step-6" data-stage="6">
+<rect class="accent" x="18" y="694" width="324" height="112" rx="12"/>
+<text x="31" y="722" font-size="24" font-weight="700" fill="#24364b">06 · Weight error</text>
+<text x="31" y="754" font-size="24" fill="#24364b">A: e = +0.04</text>
+<text x="31" y="781" font-size="24" fill="#24364b">B: e = -0.26</text>
+</g>
+<text x="18" y="848" font-size="17" fill="#526984">e = ŵ − w · Not task-quality loss</text></g></g>
+</svg>

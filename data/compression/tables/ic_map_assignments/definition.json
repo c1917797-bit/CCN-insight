@@ -1,0 +1,111 @@
+{
+  "description": "Persistent, revisioned inference-compression research taxonomy: assignments. Editorial framework derived from cited surveys; mechanisms are composable.",
+  "fields": {
+    "assignment_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "basis": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "note": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "position": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "reviewed_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "subject_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "subject_kind": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "term_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "topic_id",
+      "name": "topic_id"
+    },
+    {
+      "field": "term_id",
+      "name": "term_id"
+    },
+    {
+      "field": "subject_id",
+      "name": "subject_id"
+    }
+  ],
+  "key_field": "assignment_id",
+  "required_fields": [
+    "assignment_id",
+    "basis",
+    "business_id",
+    "note",
+    "position",
+    "reviewed_at",
+    "status",
+    "subject_id",
+    "subject_kind",
+    "term_id",
+    "topic_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

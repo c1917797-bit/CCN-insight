@@ -1,0 +1,1066 @@
+{
+  "schema": "lri.shell.config/v1",
+  "version": "lri-shell-v18-cloud-report-navigation",
+  "default_locale": "zh",
+  "locales": {
+    "zh": {
+      "brand": "LRI Insight",
+      "top_role": "上 · 全局入口",
+      "left_role": "左 · 页面路径",
+      "right_role": "右 · 证据与状态",
+      "current": "当前页面",
+      "overview": "页面总览",
+      "evidence": "证据与来源",
+      "status": "页面状态",
+      "source_language": "正文语言",
+      "source_only": "仅源语言",
+      "bilingual": "中英双语",
+      "bilingual_content": "正文中英双语",
+      "bilingual_ui": "UI 双语 / 正文源语言",
+      "direct_view": "成品视图",
+      "direct_view_boundary": "本页是面向阅读或汇报的成品视图，不是可复用业务事实的权威存储；当前事实请回专题 Workbench / TableGit 复核。",
+      "direct_view_snapshot_source": "本页引用 topic-local 冻结投影作为成品视图素材；该快照不取代当前 TableGit 权威。",
+      "direct_view_verified": "证据核验",
+      "direct_view_editable_note": "本页包含临时可编辑块；修改只影响当前浏览器显示，不会写回 Git / TableGit。",
+      "direct_view_kinds": {
+        "direct-presentation": "演示 / Deck",
+        "direct-report": "深度报告",
+        "direct-summary": "一页摘要",
+        "direct-profile": "人物档案",
+        "direct-portal": "专题入口"
+      },
+      "open_path": "打开页面路径",
+      "open_evidence": "打开证据与状态",
+      "close_drawer": "关闭侧栏",
+      "path_drawer": "页面路径",
+      "evidence_drawer": "证据与状态",
+      "nav": [
+        {
+          "id": "home",
+          "label": "首页",
+          "path": "index.html"
+        },
+        {
+          "id": "trend-monthly",
+          "label": "技术趋势洞察月报",
+          "path": "technology_insight/index.html?view=current",
+          "kind": "shortcut"
+        },
+        {
+          "id": "domains",
+          "label": "研究专题",
+          "path": "research_domains/index.html"
+        },
+        {
+          "id": "business",
+          "label": "业务洞察",
+          "path": "business_insight/index.html"
+        },
+        {
+          "id": "academic",
+          "label": "学术资源",
+          "path": "academic_resources/index.html"
+        },
+        {
+          "id": "conference",
+          "label": "会议洞察",
+          "path": "conference_insights/index.html"
+        },
+        {
+          "id": "labs",
+          "label": "实验场",
+          "path": "labs/index.html"
+        }
+      ],
+      "workspace_pages": "工作区导航",
+      "on_this_page": "本页目录",
+      "context_nav": [
+        {
+          "id": "cloud-core-compression",
+          "prefix": "business_insight/cloud_core/",
+          "label": "云核 · 推理压缩",
+          "preserve_query": [
+            "month",
+            "scope"
+          ],
+          "section_navigation": "folded",
+          "section_label": "本页阅读目录",
+          "items": [
+            {
+              "id": "cloud-core-sources",
+              "label": "信息来源",
+              "path": "business_insight/cloud_core/index.html#view-sources"
+            },
+            {
+              "id": "cloud-core-topics",
+              "label": "技术地图",
+              "path": "business_insight/cloud_core/index.html#view-topics"
+            },
+            {
+              "id": "cloud-core-updates",
+              "label": "本期动态",
+              "path": "business_insight/cloud_core/index.html#view-updates"
+            },
+            {
+              "id": "cloud-core-home",
+              "label": "洞察报告",
+              "path": "business_insight/cloud_core/index.html#view-home"
+            },
+            {
+              "id": "cloud-core-reports",
+              "label": "洞察归档",
+              "path": "business_insight/cloud_core/index.html#view-reports"
+            }
+          ]
+        },
+        {
+          "id": "user-ai-assets",
+          "prefix": "research_domains/user_ai_assets/",
+          "label": "用户长期资产层",
+          "items": [
+            {
+              "id": "user-ai-assets-report",
+              "label": "洞察正文",
+              "path": "research_domains/user_ai_assets/index.html"
+            },
+            {
+              "id": "user-ai-assets-pptx",
+              "label": "PPTX 演示",
+              "path": "research_domains/user_ai_assets/presentation.html"
+            }
+          ]
+        },
+        {
+          "id": "spbu-method-review",
+          "prefix": "research_domains/spbu/",
+          "label": "SPbU 科研洞察",
+          "items": [
+            {
+              "id": "spbu-method-report",
+              "label": "洞察正文",
+              "path": "research_domains/spbu/index.html"
+            },
+            {
+              "id": "spbu-method-pptx",
+              "label": "PPTX 演示",
+              "path": "research_domains/spbu/presentation.html"
+            }
+          ]
+        },
+        {
+          "id": "wasm-insight-workspace",
+          "prefix": "research_domains/webassembly_2026/",
+          "label": "WASM 洞察报告",
+          "items": [
+            {
+              "id": "wasm-insight-report",
+              "label": "洞察正文",
+              "path": "research_domains/webassembly_2026/index.html"
+            },
+            {
+              "id": "wasm-pptx-presentation",
+              "label": "PPTX 演示",
+              "path": "research_domains/webassembly_2026/presentation.html"
+            }
+          ]
+        },
+        {
+          "id": "lrigit-self-study-workspace",
+          "prefix": "research_domains/lrigit/",
+          "label": "LRIGIT 自身研究",
+          "items": [
+            {
+              "id": "lrigit-self-report",
+              "label": "洞察正文",
+              "path": "research_domains/lrigit/index.html"
+            },
+            {
+              "id": "lrigit-self-brochure",
+              "label": "SVG 产品宣传册",
+              "path": "research_domains/lrigit/brochure.html"
+            },
+            {
+              "id": "lrigit-self-scenarios",
+              "label": "场景飞轮演示",
+              "path": "research_domains/lrigit/scenarios.html"
+            },
+            {
+              "id": "lrigit-self-architecture",
+              "label": "MCPGit 技术架构",
+              "path": "research_domains/lrigit/architecture.html"
+            },
+            {
+              "id": "lrigit-self-pptx",
+              "label": "PPTX 演示",
+              "path": "research_domains/lrigit/presentation.html"
+            }
+          ]
+        },
+        {
+          "id": "jev-insight-workspace",
+          "prefix": "research_domains/jev/",
+          "label": "Jev 洞察",
+          "items": [
+            {
+              "id": "jev-insight-report",
+              "label": "洞察正文",
+              "path": "research_domains/jev/index.html"
+            },
+            {
+              "id": "jev-pptx-summary",
+              "label": "PPTX 汇总",
+              "path": "academic_resources/presentation/index.html?subject_kind=document&subject=research_domains%2Fjev%2Findex.html"
+            }
+          ]
+        },
+        {
+          "id": "techintel-monthly-2026-09",
+          "prefix": "technology_insight/",
+          "label": "2026年9月技术趋势",
+          "items": [
+            {
+              "id": "techintel-monthly-report",
+              "label": "本月洞察报告",
+              "path": "technology_insight/index.html"
+            }
+          ]
+        },
+        {
+          "id": "techintel-workspace",
+          "prefix": "technology_trends/",
+          "label": "技术趋势洞察",
+          "items": [
+            {
+              "id": "techintel-home",
+              "label": "月报总览",
+              "path": "technology_insight/index.html"
+            },
+            {
+              "id": "techintel-ai-technology",
+              "label": "AI 技术趋势洞察",
+              "path": "technology_trends/index.html"
+            },
+            {
+              "id": "techintel-ai-computing",
+              "label": "AI 计算全栈趋势洞察",
+              "path": "ai_computing/index.html"
+            },
+            {
+              "id": "techintel-ct",
+              "label": "CT 技术趋势洞察",
+              "path": "research/ct-technology-trend-insight-2026/index.html"
+            },
+            {
+              "id": "techintel-software",
+              "label": "软件技术趋势洞察",
+              "path": "software/index.html"
+            },
+            {
+              "id": "techintel-terminal-hardware",
+              "label": "终端硬件技术趋势洞察",
+              "path": "terminal_hardware/index.html"
+            }
+          ]
+        },
+        {
+          "id": "techintel-workspace",
+          "prefix": "ai_computing/",
+          "label": "技术趋势洞察",
+          "items": [
+            {
+              "id": "techintel-home",
+              "label": "月报总览",
+              "path": "technology_insight/index.html"
+            },
+            {
+              "id": "techintel-ai-technology",
+              "label": "AI 技术趋势洞察",
+              "path": "technology_trends/index.html"
+            },
+            {
+              "id": "techintel-ai-computing",
+              "label": "AI 计算全栈趋势洞察",
+              "path": "ai_computing/index.html"
+            },
+            {
+              "id": "techintel-ct",
+              "label": "CT 技术趋势洞察",
+              "path": "research/ct-technology-trend-insight-2026/index.html"
+            },
+            {
+              "id": "techintel-software",
+              "label": "软件技术趋势洞察",
+              "path": "software/index.html"
+            },
+            {
+              "id": "techintel-terminal-hardware",
+              "label": "终端硬件技术趋势洞察",
+              "path": "terminal_hardware/index.html"
+            }
+          ]
+        },
+        {
+          "id": "techintel-workspace",
+          "prefix": "research/ct-technology-trend-insight-2026/",
+          "label": "技术趋势洞察",
+          "items": [
+            {
+              "id": "techintel-home",
+              "label": "月报总览",
+              "path": "technology_insight/index.html"
+            },
+            {
+              "id": "techintel-ai-technology",
+              "label": "AI 技术趋势洞察",
+              "path": "technology_trends/index.html"
+            },
+            {
+              "id": "techintel-ai-computing",
+              "label": "AI 计算全栈趋势洞察",
+              "path": "ai_computing/index.html"
+            },
+            {
+              "id": "techintel-ct",
+              "label": "CT 技术趋势洞察",
+              "path": "research/ct-technology-trend-insight-2026/index.html"
+            },
+            {
+              "id": "techintel-software",
+              "label": "软件技术趋势洞察",
+              "path": "software/index.html"
+            },
+            {
+              "id": "techintel-terminal-hardware",
+              "label": "终端硬件技术趋势洞察",
+              "path": "terminal_hardware/index.html"
+            }
+          ]
+        },
+        {
+          "id": "techintel-workspace",
+          "prefix": "software/",
+          "label": "技术趋势洞察",
+          "items": [
+            {
+              "id": "techintel-home",
+              "label": "月报总览",
+              "path": "technology_insight/index.html"
+            },
+            {
+              "id": "techintel-ai-technology",
+              "label": "AI 技术趋势洞察",
+              "path": "technology_trends/index.html"
+            },
+            {
+              "id": "techintel-ai-computing",
+              "label": "AI 计算全栈趋势洞察",
+              "path": "ai_computing/index.html"
+            },
+            {
+              "id": "techintel-ct",
+              "label": "CT 技术趋势洞察",
+              "path": "research/ct-technology-trend-insight-2026/index.html"
+            },
+            {
+              "id": "techintel-software",
+              "label": "软件技术趋势洞察",
+              "path": "software/index.html"
+            },
+            {
+              "id": "techintel-terminal-hardware",
+              "label": "终端硬件技术趋势洞察",
+              "path": "terminal_hardware/index.html"
+            }
+          ]
+        },
+        {
+          "id": "techintel-workspace",
+          "prefix": "terminal_hardware/",
+          "label": "技术趋势洞察",
+          "items": [
+            {
+              "id": "techintel-home",
+              "label": "月报总览",
+              "path": "technology_insight/index.html"
+            },
+            {
+              "id": "techintel-ai-technology",
+              "label": "AI 技术趋势洞察",
+              "path": "technology_trends/index.html"
+            },
+            {
+              "id": "techintel-ai-computing",
+              "label": "AI 计算全栈趋势洞察",
+              "path": "ai_computing/index.html"
+            },
+            {
+              "id": "techintel-ct",
+              "label": "CT 技术趋势洞察",
+              "path": "research/ct-technology-trend-insight-2026/index.html"
+            },
+            {
+              "id": "techintel-software",
+              "label": "软件技术趋势洞察",
+              "path": "software/index.html"
+            },
+            {
+              "id": "techintel-terminal-hardware",
+              "label": "终端硬件技术趋势洞察",
+              "path": "terminal_hardware/index.html"
+            }
+          ]
+        },
+        {
+          "prefix": "academic_resources/",
+          "label": "学术资源",
+          "items": [
+            {
+              "id": "academic-home",
+              "label": "学术资源首页",
+              "path": "academic_resources/index.html"
+            }
+          ],
+          "groups": [
+            {
+              "id": "resource-pool",
+              "label": "资源库",
+              "items": [
+                {
+                  "id": "resource-registry",
+                  "label": "资源总表",
+                  "path": "academic_resources/resource_registry/index.html"
+                },
+                {
+                  "id": "academic-workbench",
+                  "label": "高校资源工作台",
+                  "path": "academic_resources/workbench.html"
+                },
+                {
+                  "id": "resource-tech-match",
+                  "label": "长期技术方向/教授资源地图",
+                  "path": "academic_resources/resource_tech_match/index.html"
+                }
+              ]
+            },
+            {
+              "id": "challenge-matching",
+              "label": "技术难题匹配",
+              "featured": true,
+              "items": [
+                {
+                  "id": "challenge-library",
+                  "label": "难题库",
+                  "path": "academic_resources/challenge_matching/index.html?view=challenges"
+                },
+                {
+                  "id": "match-workbench",
+                  "label": "匹配工作台",
+                  "path": "academic_resources/challenge_matching/index.html?view=matches"
+                },
+                {
+                  "id": "candidate-experts",
+                  "label": "专家候选",
+                  "path": "academic_resources/challenge_matching/index.html?view=candidates"
+                },
+                {
+                  "id": "confirmed-matches",
+                  "label": "已确认匹配",
+                  "path": "academic_resources/challenge_matching/index.html?view=confirmed"
+                },
+                {
+                  "id": "matching-network",
+                  "label": "匹配网络",
+                  "path": "academic_resources/matching_network/index.html"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "force_refresh": "强制刷新",
+      "refreshing": "正在清理缓存并刷新"
+    },
+    "en": {
+      "brand": "LRI Insight",
+      "top_role": "Top · Global Workspaces",
+      "left_role": "Left · Page Path",
+      "right_role": "Right · Evidence & Status",
+      "current": "Current Page",
+      "overview": "Page Overview",
+      "evidence": "Evidence & Sources",
+      "status": "Page Status",
+      "source_language": "Content Language",
+      "source_only": "Source Language Only",
+      "bilingual": "Chinese / English",
+      "bilingual_content": "Bilingual Content",
+      "bilingual_ui": "Bilingual UI / Source-language Content",
+      "direct_view": "Direct View",
+      "direct_view_boundary": "This is a reader- or briefing-oriented finished view, not the reusable business-fact authority. Re-check current facts in the topic Workbench / TableGit.",
+      "direct_view_snapshot_source": "This view uses a topic-local frozen projection as presentation material; the snapshot does not replace current TableGit authority.",
+      "direct_view_verified": "Evidence verified",
+      "direct_view_editable_note": "Some blocks are temporarily editable in the browser. Changes affect only this browser view and are not written back to Git / TableGit.",
+      "direct_view_kinds": {
+        "direct-presentation": "Presentation / Deck",
+        "direct-report": "Deep Report",
+        "direct-summary": "One-page Summary",
+        "direct-profile": "Person Profile",
+        "direct-portal": "Topic Portal"
+      },
+      "open_path": "Open page path",
+      "open_evidence": "Open evidence and status",
+      "close_drawer": "Close panel",
+      "path_drawer": "Page Path",
+      "evidence_drawer": "Evidence & Status",
+      "nav": [
+        {
+          "id": "home",
+          "label": "Home",
+          "path": "index.html"
+        },
+        {
+          "id": "trend-monthly",
+          "label": "Technology Trend Insight Monthly",
+          "path": "technology_insight/index.html?view=current",
+          "kind": "shortcut"
+        },
+        {
+          "id": "domains",
+          "label": "Research Topics",
+          "path": "research_domains/index.html"
+        },
+        {
+          "id": "business",
+          "label": "Business Insights",
+          "path": "business_insight/index.html"
+        },
+        {
+          "id": "academic",
+          "label": "Academic Resources",
+          "path": "academic_resources/index.html"
+        },
+        {
+          "id": "conference",
+          "label": "Conference Insights",
+          "path": "conference_insights/index.html"
+        },
+        {
+          "id": "labs",
+          "label": "Labs",
+          "path": "labs/index.html"
+        }
+      ],
+      "workspace_pages": "Workspace Navigation",
+      "on_this_page": "On This Page",
+      "context_nav": [
+        {
+          "id": "cloud-core-compression",
+          "prefix": "business_insight/cloud_core/",
+          "label": "Cloud core · Inference compression",
+          "preserve_query": [
+            "month",
+            "scope"
+          ],
+          "section_navigation": "folded",
+          "section_label": "Reading contents",
+          "items": [
+            {
+              "id": "cloud-core-sources",
+              "label": "Information sources",
+              "path": "business_insight/cloud_core/index.html#view-sources"
+            },
+            {
+              "id": "cloud-core-topics",
+              "label": "Technology map",
+              "path": "business_insight/cloud_core/index.html#view-topics"
+            },
+            {
+              "id": "cloud-core-updates",
+              "label": "Current updates",
+              "path": "business_insight/cloud_core/index.html#view-updates"
+            },
+            {
+              "id": "cloud-core-home",
+              "label": "Insight report",
+              "path": "business_insight/cloud_core/index.html#view-home"
+            },
+            {
+              "id": "cloud-core-reports",
+              "label": "Insight archive",
+              "path": "business_insight/cloud_core/index.html#view-reports"
+            }
+          ]
+        },
+        {
+          "id": "user-ai-assets",
+          "prefix": "research_domains/user_ai_assets/",
+          "label": "User AI Assets",
+          "items": [
+            {
+              "id": "user-ai-assets-report",
+              "label": "Research Report",
+              "path": "research_domains/user_ai_assets/index.html"
+            },
+            {
+              "id": "user-ai-assets-pptx",
+              "label": "PPTX Presentation",
+              "path": "research_domains/user_ai_assets/presentation.html"
+            }
+          ]
+        },
+        {
+          "id": "spbu-method-review",
+          "prefix": "research_domains/spbu/",
+          "label": "SPbU Research Insight",
+          "items": [
+            {
+              "id": "spbu-method-report",
+              "label": "Insight Report",
+              "path": "research_domains/spbu/index.html"
+            },
+            {
+              "id": "spbu-method-pptx",
+              "label": "PPTX Presentation",
+              "path": "research_domains/spbu/presentation.html"
+            }
+          ]
+        },
+        {
+          "id": "wasm-insight-workspace",
+          "prefix": "research_domains/webassembly_2026/",
+          "label": "WASM Insight Report",
+          "items": [
+            {
+              "id": "wasm-insight-report",
+              "label": "Insight Report",
+              "path": "research_domains/webassembly_2026/index.html"
+            },
+            {
+              "id": "wasm-pptx-presentation",
+              "label": "PPTX Presentation",
+              "path": "research_domains/webassembly_2026/presentation.html"
+            }
+          ]
+        },
+        {
+          "id": "lrigit-self-study-workspace",
+          "prefix": "research_domains/lrigit/",
+          "label": "LRIGIT Self-study",
+          "items": [
+            {
+              "id": "lrigit-self-report",
+              "label": "Insight Report",
+              "path": "research_domains/lrigit/index.html"
+            },
+            {
+              "id": "lrigit-self-brochure",
+              "label": "SVG Product Brochure",
+              "path": "research_domains/lrigit/brochure.html"
+            },
+            {
+              "id": "lrigit-self-scenarios",
+              "label": "Scenario flywheel",
+              "path": "research_domains/lrigit/scenarios.html"
+            },
+            {
+              "id": "lrigit-self-architecture",
+              "label": "MCPGit architecture",
+              "path": "research_domains/lrigit/architecture.html"
+            },
+            {
+              "id": "lrigit-self-pptx",
+              "label": "PPTX Presentation",
+              "path": "research_domains/lrigit/presentation.html"
+            }
+          ]
+        },
+        {
+          "id": "jev-insight-workspace",
+          "prefix": "research_domains/jev/",
+          "label": "Jev Insight",
+          "items": [
+            {
+              "id": "jev-insight-report",
+              "label": "Insight Report",
+              "path": "research_domains/jev/index.html"
+            },
+            {
+              "id": "jev-pptx-summary",
+              "label": "PPTX Summary",
+              "path": "academic_resources/presentation/index.html?subject_kind=document&subject=research_domains%2Fjev%2Findex.html"
+            }
+          ]
+        },
+        {
+          "id": "techintel-monthly-2026-09",
+          "prefix": "technology_insight/",
+          "label": "September 2026 Technology Trends",
+          "items": [
+            {
+              "id": "techintel-monthly-report",
+              "label": "Monthly Insight Report",
+              "path": "technology_insight/index.html"
+            }
+          ]
+        },
+        {
+          "id": "techintel-workspace",
+          "prefix": "technology_trends/",
+          "label": "Technology Trend Insights",
+          "items": [
+            {
+              "id": "techintel-home",
+              "label": "Monthly Overview",
+              "path": "technology_insight/index.html"
+            },
+            {
+              "id": "techintel-ai-technology",
+              "label": "AI Technology Trend Insight",
+              "path": "technology_trends/index.html"
+            },
+            {
+              "id": "techintel-ai-computing",
+              "label": "AI Computing Full-Stack Trend Insight",
+              "path": "ai_computing/index.html"
+            },
+            {
+              "id": "techintel-ct",
+              "label": "CT Technology Trend Insight",
+              "path": "research/ct-technology-trend-insight-2026/index.html"
+            },
+            {
+              "id": "techintel-software",
+              "label": "Software Technology Trend Insight",
+              "path": "software/index.html"
+            },
+            {
+              "id": "techintel-terminal-hardware",
+              "label": "Terminal Hardware Technology Trend Insight",
+              "path": "terminal_hardware/index.html"
+            }
+          ]
+        },
+        {
+          "id": "techintel-workspace",
+          "prefix": "ai_computing/",
+          "label": "Technology Trend Insights",
+          "items": [
+            {
+              "id": "techintel-home",
+              "label": "Monthly Overview",
+              "path": "technology_insight/index.html"
+            },
+            {
+              "id": "techintel-ai-technology",
+              "label": "AI Technology Trend Insight",
+              "path": "technology_trends/index.html"
+            },
+            {
+              "id": "techintel-ai-computing",
+              "label": "AI Computing Full-Stack Trend Insight",
+              "path": "ai_computing/index.html"
+            },
+            {
+              "id": "techintel-ct",
+              "label": "CT Technology Trend Insight",
+              "path": "research/ct-technology-trend-insight-2026/index.html"
+            },
+            {
+              "id": "techintel-software",
+              "label": "Software Technology Trend Insight",
+              "path": "software/index.html"
+            },
+            {
+              "id": "techintel-terminal-hardware",
+              "label": "Terminal Hardware Technology Trend Insight",
+              "path": "terminal_hardware/index.html"
+            }
+          ]
+        },
+        {
+          "id": "techintel-workspace",
+          "prefix": "research/ct-technology-trend-insight-2026/",
+          "label": "Technology Trend Insights",
+          "items": [
+            {
+              "id": "techintel-home",
+              "label": "Monthly Overview",
+              "path": "technology_insight/index.html"
+            },
+            {
+              "id": "techintel-ai-technology",
+              "label": "AI Technology Trend Insight",
+              "path": "technology_trends/index.html"
+            },
+            {
+              "id": "techintel-ai-computing",
+              "label": "AI Computing Full-Stack Trend Insight",
+              "path": "ai_computing/index.html"
+            },
+            {
+              "id": "techintel-ct",
+              "label": "CT Technology Trend Insight",
+              "path": "research/ct-technology-trend-insight-2026/index.html"
+            },
+            {
+              "id": "techintel-software",
+              "label": "Software Technology Trend Insight",
+              "path": "software/index.html"
+            },
+            {
+              "id": "techintel-terminal-hardware",
+              "label": "Terminal Hardware Technology Trend Insight",
+              "path": "terminal_hardware/index.html"
+            }
+          ]
+        },
+        {
+          "id": "techintel-workspace",
+          "prefix": "software/",
+          "label": "Technology Trend Insights",
+          "items": [
+            {
+              "id": "techintel-home",
+              "label": "Monthly Overview",
+              "path": "technology_insight/index.html"
+            },
+            {
+              "id": "techintel-ai-technology",
+              "label": "AI Technology Trend Insight",
+              "path": "technology_trends/index.html"
+            },
+            {
+              "id": "techintel-ai-computing",
+              "label": "AI Computing Full-Stack Trend Insight",
+              "path": "ai_computing/index.html"
+            },
+            {
+              "id": "techintel-ct",
+              "label": "CT Technology Trend Insight",
+              "path": "research/ct-technology-trend-insight-2026/index.html"
+            },
+            {
+              "id": "techintel-software",
+              "label": "Software Technology Trend Insight",
+              "path": "software/index.html"
+            },
+            {
+              "id": "techintel-terminal-hardware",
+              "label": "Terminal Hardware Technology Trend Insight",
+              "path": "terminal_hardware/index.html"
+            }
+          ]
+        },
+        {
+          "id": "techintel-workspace",
+          "prefix": "terminal_hardware/",
+          "label": "Technology Trend Insights",
+          "items": [
+            {
+              "id": "techintel-home",
+              "label": "Monthly Overview",
+              "path": "technology_insight/index.html"
+            },
+            {
+              "id": "techintel-ai-technology",
+              "label": "AI Technology Trend Insight",
+              "path": "technology_trends/index.html"
+            },
+            {
+              "id": "techintel-ai-computing",
+              "label": "AI Computing Full-Stack Trend Insight",
+              "path": "ai_computing/index.html"
+            },
+            {
+              "id": "techintel-ct",
+              "label": "CT Technology Trend Insight",
+              "path": "research/ct-technology-trend-insight-2026/index.html"
+            },
+            {
+              "id": "techintel-software",
+              "label": "Software Technology Trend Insight",
+              "path": "software/index.html"
+            },
+            {
+              "id": "techintel-terminal-hardware",
+              "label": "Terminal Hardware Technology Trend Insight",
+              "path": "terminal_hardware/index.html"
+            }
+          ]
+        },
+        {
+          "prefix": "academic_resources/",
+          "label": "Academic Resources",
+          "items": [
+            {
+              "id": "academic-home",
+              "label": "Academic Resources Home",
+              "path": "academic_resources/index.html"
+            }
+          ],
+          "groups": [
+            {
+              "id": "resource-pool",
+              "label": "Resource Registry",
+              "items": [
+                {
+                  "id": "resource-registry",
+                  "label": "All Resources",
+                  "path": "academic_resources/resource_registry/index.html"
+                },
+                {
+                  "id": "academic-workbench",
+                  "label": "Academic Resource Workbench",
+                  "path": "academic_resources/workbench.html"
+                },
+                {
+                  "id": "resource-tech-match",
+                  "label": "Long-term Technology / Professor Resource Map",
+                  "path": "academic_resources/resource_tech_match/index.html"
+                }
+              ]
+            },
+            {
+              "id": "challenge-matching",
+              "label": "Technical Challenge Matching",
+              "featured": true,
+              "items": [
+                {
+                  "id": "challenge-library",
+                  "label": "Challenge Library",
+                  "path": "academic_resources/challenge_matching/index.html?view=challenges"
+                },
+                {
+                  "id": "match-workbench",
+                  "label": "Matching Workbench",
+                  "path": "academic_resources/challenge_matching/index.html?view=matches"
+                },
+                {
+                  "id": "candidate-experts",
+                  "label": "Expert Candidates",
+                  "path": "academic_resources/challenge_matching/index.html?view=candidates"
+                },
+                {
+                  "id": "confirmed-matches",
+                  "label": "Confirmed Matches",
+                  "path": "academic_resources/challenge_matching/index.html?view=confirmed"
+                },
+                {
+                  "id": "matching-network",
+                  "label": "Matching Network",
+                  "path": "academic_resources/matching_network/index.html"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "force_refresh": "Force refresh",
+      "refreshing": "Clearing cache and refreshing",
+      "section_titles": {
+        "八大趋势总表 · 强度、证据与本月变化": "Eight Trends · Strength, Evidence and Monthly Change",
+        "跨趋势技术对照 · 瓶颈 / 指标 / 路线 / 证据边界": "Cross-Trend Technical Comparison · Bottlenecks / Metrics / Routes / Evidence Boundaries",
+        "趋势景观 · 趋势强度 × 证据置信度": "Trend Landscape · Trend Strength × Evidence Confidence",
+        "仍未形成正式趋势的观察主题": "Watch Topics Not Yet Promoted to Formal Trends",
+        "关键含义 · 现在关注什么": "Key Implications · What to Watch Now",
+        "本月变化 · 认知 / 证据 / 覆盖": "This Month’s Change · Understanding / Evidence / Coverage",
+        "本月更新覆盖": "Monthly Refresh Coverage",
+        "证据质量 · 8 个主题统一口径": "Evidence Quality · Unified Criteria Across 8 Themes",
+        "AI 趋势总框架 · 从能力到真实边界": "AI Trend Framework · From Capability to Real-World Boundaries",
+        "0. 执行摘要": "0. Executive Summary",
+        "1. 技术概述": "1. Technology Overview",
+        "1.1 范围与证据口径": "1.1 Scope and Evidence Criteria",
+        "1.2 趋势汇总": "1.2 Trend Summary",
+        "2. 趋势汇总": "2. Trend Summary",
+        "2. 技术目标与关键趋势判断": "2. Technology Goals and Key Trend Judgments",
+        "3. 技术目标与关键趋势判断": "3. Technology Goals and Key Trend Judgments",
+        "3. 当前SOTA": "3. Current SOTA",
+        "3. 当前 SOTA": "3. Current SOTA",
+        "3.1 代表性成果": "3.1 Representative Results",
+        "3.2 代表性专利": "3.2 Representative Patents",
+        "3.3 SOTA综合研判": "3.3 Integrated SOTA Assessment",
+        "4. 当前 SOTA": "4. Current SOTA",
+        "4.1 代表性成果": "4.1 Representative Results",
+        "4.2 代表性专利": "4.2 Representative Patents",
+        "4. 技术生命周期、未来四年演进与技术价值（合并）": "4. Technology Lifecycle, Four-Year Evolution and Value",
+        "5. 技术生命周期、未来四年演进与技术价值": "5. Technology Lifecycle, Four-Year Evolution and Value",
+        "5. 战略结论与行动建议": "5. Strategic Conclusions and Actions",
+        "5.1 战略结论": "5.1 Strategic Conclusions",
+        "5.2 建议优先跟踪的指标": "5.2 Priority Metrics to Track",
+        "6. 结论": "6. Conclusion",
+        "7. 结论": "7. Conclusion",
+        "AI 计算全栈趋势洞察": "AI Computing Full-Stack Trend Insight",
+        "CT 技术趋势洞察": "CT Technology Trend Insight",
+        "核心结论": "Core Conclusions",
+        "Top趋势": "Top Trends",
+        "细分板块信息分析": "Segment Analysis",
+        "A1 基础｜无线/RAN": "A1 Foundation | Wireless / RAN",
+        "A2 基础｜数通/IP": "A2 Foundation | Data Communications / IP",
+        "A3 基础｜光通信/光网络": "A3 Foundation | Optical Communications / Optical Networks",
+        "A4 基础｜Core / Telco Cloud": "A4 Foundation | Core / Telco Cloud",
+        "A5 基础｜卫星/NTN": "A5 Foundation | Satellite / NTN",
+        "A6 基础｜终端/设备连接": "A6 Foundation | Terminal / Device Connectivity",
+        "B1 跨域｜网络智能化": "B1 Cross-Domain | Network Intelligence",
+        "B2 跨域｜算网融合": "B2 Cross-Domain | Compute-Network Convergence",
+        "B3 跨域｜通信安全与 Digital Trust": "B3 Cross-Domain | Communications Security & Digital Trust",
+        "C1 系统基础｜通信基础设施与网络系统": "C1 System Foundation | Communications Infrastructure & Network Systems",
+        "【俄罗斯相关】重点信号": "Russia-Related | Key Signals",
+        "跨域综合判断": "Cross-Domain Synthesis",
+        "展望": "Outlook",
+        "建议与策略": "Recommendations and Strategy",
+        "参考文献": "References",
+        "软件技术趋势洞察": "Software Technology Trend Insight",
+        "1. 过去两年背景：从 Copilot 到 Agent-native Software Stack": "1. Two-Year Context: From Copilot to an Agent-Native Software Stack",
+        "趋势1：OS 从“应用容器”升级为 Intelligence / Agent Orchestrator": "Trend 1: OS Evolves from App Container to Intelligence / Agent Orchestrator",
+        "趋势2：应用接口从 UI / Deep Link 上移为“类型化能力合同”": "Trend 2: App Interfaces Move from UI / Deep Link to Typed Capability Contracts",
+        "趋势3：数据库从 System of Record 向 Agent 的 System of Action 演进": "Trend 3: Databases Evolve from System of Record to Agent System of Action",
+        "趋势4：数据库形态继续融合——SQL、Vector、Lakehouse、Embedded、Serverless 的边界变薄": "Trend 4: Database Forms Converge Across SQL, Vector, Lakehouse, Embedded and Serverless",
+        "趋势5：Code Agent 从“写代码”进入并行委派的软件生产系统": "Trend 5: Code Agents Move from Coding to Parallel-Delegation Software Production",
+        "趋势6：编译器由人工规则系统扩展为“搜索 + AI Agent + 可学习优化器”": "Trend 6: Compilers Expand from Handwritten Rules to Search + AI Agents + Learnable Optimizers",
+        "趋势7：编程语言本身保持平稳演进，但“安全迁移、跨平台和 Agent 友好工具链”重要性上升": "Trend 7: Languages Evolve Steadily While Safe Migration, Cross-Platform and Agent-Friendly Toolchains Gain Importance",
+        "趋势8：公有云运行时从“无状态请求/容器”向“持久、可恢复、有状态 Agent”扩展": "Trend 8: Public-Cloud Runtimes Expand from Stateless Requests to Durable, Recoverable Stateful Agents",
+        "趋势9：云控制面正在变成 Agent 可操作且必须可治理的“机器 API”": "Trend 9: Cloud Control Planes Become Agent-Operable, Governed Machine APIs",
+        "6. 对鸿蒙与华为软件栈未来 3～5 年的技术战略建议": "6. Technology Strategy for HarmonyOS and Huawei Software Stack, Next 3–5 Years",
+        "建议1：把鸿蒙从“多设备 OS”升级为 **Personal Intelligence Runtime**": "Recommendation 1: Evolve HarmonyOS from Multi-Device OS to Personal Intelligence Runtime",
+        "建议2：定义鸿蒙 **App Capability Schema**，把应用从“页面生态”升级成“能力生态”": "Recommendation 2: Define an App Capability Schema and Shift from Page Ecosystem to Capability Ecosystem",
+        "建议3：建设 **Personal Context & Memory Fabric**，但坚持“数据默认不离开个人域”": "Recommendation 3: Build a Personal Context & Memory Fabric with Personal-Domain Data by Default",
+        "建议4：让 openGauss / GaussDB 演进成 **Agent-ready Data System**": "Recommendation 4: Evolve openGauss / GaussDB into an Agent-Ready Data System",
+        "建议5：把 Ark Compiler / 编译工具链升级为 **AI Optimization Loop**": "Recommendation 5: Upgrade Ark Compiler and Toolchains into an AI Optimization Loop",
+        "建议6：把 DevEco / CodeArts 打造成 **Agent Software Factory**，指标从“代码生成”切到“可交付”": "Recommendation 6: Build DevEco / CodeArts into an Agent Software Factory Focused on Deliverability",
+        "建议7：在华为云建设统一 **Durable Agent Runtime**": "Recommendation 7: Build a Unified Durable Agent Runtime on Huawei Cloud",
+        "建议8：让 Kubernetes/云控制面变成 **Agent-native，但默认最小权限**": "Recommendation 8: Make Kubernetes / Cloud Control Planes Agent-Native with Least Privilege by Default",
+        "建议9：建立一套跨鸿蒙、基础软件和公有云统一的 **Agent Reliability Benchmark**": "Recommendation 9: Establish a Unified Agent Reliability Benchmark Across HarmonyOS, Base Software and Public Cloud",
+        "终端硬件技术趋势洞察": "Terminal Hardware Technology Trend Insight",
+        "1. 过去两年背景：从“AI 手机”到“Personal AI Device”": "1. Two-Year Context: From AI Phone to Personal AI Device",
+        "趋势 1｜端侧 AI 从“能运行”进入“硬件—模型—OS 协同优化”": "Trend 1 | On-Device AI Moves into Hardware–Model–OS Co-Optimization",
+        "趋势 2｜终端形态从“屏幕设备”扩展为可穿戴、空间与具身入口": "Trend 2 | Device Forms Expand from Screens to Wearable, Spatial and Embodied Interfaces",
+        "趋势 3｜影像正在从“相机模组”升级为终端的主动感知系统": "Trend 3 | Imaging Evolves from Camera Module to Active Perception System",
+        "趋势 4｜电池、热与结构材料成为 AI 终端扩张的一阶约束": "Trend 4 | Battery, Thermals and Structural Materials Become First-Order AI Device Constraints",
+        "趋势 5｜显示从“输出屏”变成隐私、形态和空间交互的主动硬件": "Trend 5 | Displays Become Active Hardware for Privacy, Form Factor and Spatial Interaction",
+        "趋势 6｜连接技术从“网络接入”上移为 Personal AI 的设备协同底座": "Trend 6 | Connectivity Moves from Network Access to the Device-Cooperation Fabric for Personal AI",
+        "趋势 7｜健康与环境感知从“记录指标”转向连续解释和主动干预": "Trend 7 | Health and Environmental Sensing Moves from Logging to Continuous Interpretation and Intervention",
+        "趋势 8｜终端厂商争夺垂直整合控制点：芯片、关键部件、AI 运行时与生态接口": "Trend 8 | Device Vendors Compete for Vertical Control Points Across Chips, Components, AI Runtime and Ecosystem Interfaces",
+        "6. 对鸿蒙终端的未来 3～5 年技术战略建议": "6. Technology Strategy for HarmonyOS Devices, Next 3–5 Years",
+        "建议 1｜把鸿蒙从“多设备 OS”升级为 Personal AI Device Fabric": "Recommendation 1 | Evolve HarmonyOS from Multi-Device OS to Personal AI Device Fabric",
+        "建议 2｜建立面向 AI 的统一异构计算与能耗运行时": "Recommendation 2 | Build a Unified Heterogeneous Compute and Energy Runtime for AI",
+        "建议 3｜把“感知”提升为鸿蒙一级系统能力，而不是 Camera/Audio 单点 API": "Recommendation 3 | Make Perception a First-Class HarmonyOS System Capability",
+        "建议 4｜把电池、热与结构约束纳入 OS 调度闭环": "Recommendation 4 | Bring Battery, Thermal and Structural Constraints into the OS Scheduling Loop",
+        "建议 5｜抢占“新形态连续体验”而不是单独做一个眼镜 OS / 平板 OS": "Recommendation 5 | Prioritize Continuous Cross-Form-Factor Experience over Separate Device OS Silos",
+        "建议 6｜建立硬件级隐私与可感知权限模型": "Recommendation 6 | Establish Hardware-Level Privacy and Perceptible Permission Models",
+        "建议 7｜把 Wi‑Fi/UWB/蓝牙/蜂窝/NTN 统一成“设备协同网络”": "Recommendation 7 | Unify Wi-Fi, UWB, Bluetooth, Cellular and NTN into a Device-Cooperation Network",
+        "建议 8｜建立面向终端硬件的开放能力合同，缩短“新器件 → 新体验”的周期": "Recommendation 8 | Define Open Hardware Capability Contracts to Shorten the New-Component-to-New-Experience Cycle",
+        "本月关键技术事实": "Key Technical Facts of the Month",
+        "建议1：把鸿蒙从“多设备 OS”升级为 Personal Intelligence Runtime": "Recommendation 1: Evolve HarmonyOS from Multi-Device OS to Personal Intelligence Runtime",
+        "建议2：定义鸿蒙 App Capability Schema，把应用从“页面生态”升级成“能力生态”": "Recommendation 2: Define a HarmonyOS App Capability Schema and Shift from Page Ecosystem to Capability Ecosystem",
+        "建议3：建设 Personal Context & Memory Fabric，但坚持“数据默认不离开个人域”": "Recommendation 3: Build a Personal Context & Memory Fabric with Personal-Domain Data by Default",
+        "建议4：让 openGauss / GaussDB 演进成 Agent-ready Data System": "Recommendation 4: Evolve openGauss / GaussDB into an Agent-Ready Data System",
+        "建议5：把 Ark Compiler / 编译工具链升级为 AI Optimization Loop": "Recommendation 5: Upgrade Ark Compiler and Toolchains into an AI Optimization Loop",
+        "建议6：把 DevEco / CodeArts 打造成 Agent Software Factory，指标从“代码生成”切到“可交付”": "Recommendation 6: Build DevEco / CodeArts into an Agent Software Factory Focused on Deliverability",
+        "建议7：在华为云建设统一 Durable Agent Runtime": "Recommendation 7: Build a Unified Durable Agent Runtime on Huawei Cloud",
+        "建议8：让 Kubernetes/云控制面变成 Agent-native，但默认最小权限": "Recommendation 8: Make Kubernetes / Cloud Control Planes Agent-Native with Least Privilege by Default",
+        "建议9：建立一套跨鸿蒙、基础软件和公有云统一的 Agent Reliability Benchmark": "Recommendation 9: Establish a Unified Agent Reliability Benchmark Across HarmonyOS, Base Software and Public Cloud"
+      }
+    }
+  },
+  "style_version": "lri-content-contract-v11-compression-foundations"
+}
+

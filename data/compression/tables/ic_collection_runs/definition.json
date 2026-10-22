@@ -1,0 +1,159 @@
+{
+  "description": "Persistent bounded source acquisition run; completion is not primary-source review.",
+  "fields": {
+    "attempted_channels": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "candidate_entries": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "completed_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "cutoff_date": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "dated_entries": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "failed_channels": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "requested_channels": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "run_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "scope_note_en": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "scope_note_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "started_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "successful_channels": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "undated_entries": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    }
+  },
+  "indexes": [
+    {
+      "field": "run_id",
+      "name": "idx_run_id"
+    },
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    },
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "status",
+      "name": "idx_status"
+    },
+    {
+      "field": "cutoff_date",
+      "name": "idx_cutoff_date"
+    }
+  ],
+  "key_field": "run_id",
+  "required_fields": [
+    "attempted_channels",
+    "business_id",
+    "candidate_entries",
+    "completed_at",
+    "cutoff_date",
+    "dated_entries",
+    "failed_channels",
+    "requested_channels",
+    "run_id",
+    "scope_note_en",
+    "scope_note_zh",
+    "started_at",
+    "status",
+    "successful_channels",
+    "topic_id",
+    "undated_entries"
+  ],
+  "schema": "mcpgit.table.v2"
+}

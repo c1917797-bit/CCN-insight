@@ -1,0 +1,127 @@
+{
+  "description": "推理压缩特有的建议洞察飞轮：从业务负载瓶颈出发，经机制兼容、主来源、固定基线和质量约束净收益验证，由人决策采纳，再将回归反证反馈到瓶颈。",
+  "fields": {
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "entry_rule": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "markdown"
+    },
+    "exit_rule": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "markdown"
+    },
+    "name_en": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "name_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "next_stage_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "output_kind": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "position": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "source_document_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "stage_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    },
+    {
+      "field": "next_stage_id",
+      "name": "idx_next_stage_id"
+    },
+    {
+      "field": "status",
+      "name": "idx_status"
+    },
+    {
+      "field": "source_document_id",
+      "name": "idx_source_document_id"
+    }
+  ],
+  "key_field": "stage_id",
+  "required_fields": [
+    "business_id",
+    "entry_rule",
+    "exit_rule",
+    "name_en",
+    "name_zh",
+    "next_stage_id",
+    "output_kind",
+    "position",
+    "source_document_id",
+    "stage_id",
+    "status",
+    "topic_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

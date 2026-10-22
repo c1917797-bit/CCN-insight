@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<script src="local-content-adapter.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>云核资料库 · LRI</title>
+<link rel="stylesheet" href="runtime/insight.css?v=compression-pages-v23">
+<meta name="lri-page-i18n" content="data/ui.{lang}.json?v=cloud-core-governance-v1">
+<meta name="lri-page-translation" content="ui">
+<meta name="lri-shell-version" content="lri-shell-v18-cloud-report-navigation">
+<script src="runtime/mcp-table-read.js?v=compression-pages-v23"></script>
+<script src="runtime/tablegit.js?v=compression-pages-v23"></script>
+<script type="module" src="../../assets/lri-shell.js?v=lri-shell-v18-cloud-report-navigation"></script>
+<script type="module" src="cloud-core.js?v=compression-pages-v23"></script>
+<link rel="stylesheet" href="../../assets/insight-executive.css?v=lri-content-contract-v11-compression-foundations"></head>
+<body data-lri-shell="auto" data-lri-content-kind="report" data-topic-id="cloud_core" data-business-insight="cloud-core">
+<main class="wrap cloud-core-original-library">
+<p class="reader-note"><a class="btn" href="index.html" data-i18n-key="compression_back">← 推理压缩工作台</a></p>
+<p><a class="back" href="../index.html" data-i18n-key="back">← 业务洞察</a></p>
+<header class="hero">
+<p class="eyebrow" data-i18n-key="eyebrow">LRI · 业务洞察</p>
+<h1 id="topic-title">云核业务洞察</h1>
+<p class="lead" id="topic-summary">业务约束、证据、决策与验证的洞察空间。</p>
+<p data-i18n-key="boundary">导入的方案仍需核对；流程、指标和实验属于设计建议。原始资料保留中文。</p>
+<p id="runtime-status" role="status" aria-live="polite">加载中…</p>
+<button type="button" id="reload" data-i18n-key="refresh">刷新数据</button>
+</header>
+<p class="reader-note">原始资料库：保留迁移资料与业务方案。每周/月的推理压缩洞察请从上方工作台进入。</p>
+<nav aria-label="Cloud Core views">
+<a href="#overview" data-i18n-key="overview_title">业务模块</a> ·
+<a href="#flywheel" data-i18n-key="flywheel_title">云核洞察飞轮</a> ·
+<a href="#library" data-i18n-key="library_title">内部方案</a> ·
+<a href="#sources" data-i18n-key="sources_title">原始来源</a> ·
+<a href="#metrics" data-i18n-key="metrics_title">业务约束与指标</a> ·
+<a href="#experiments" data-i18n-key="experiments_title">验证与决策</a> ·
+<a href="#governance" data-i18n-key="governance_title">数据治理</a>
+</nav>
+<section class="section" id="overview" data-section-label="业务模块" data-section-label-en="Business modules">
+<h2 data-i18n-key="overview_title">业务模块</h2><div id="module-cards" class="grid"></div>
+</section>
+<section class="section" id="flywheel" data-section-label="云核洞察飞轮" data-section-label-en="Cloud Core flywheel">
+<h2 data-i18n-key="flywheel_title">云核洞察飞轮</h2><p data-i18n-key="flywheel_intro">查看各阶段的工作内容、产出和后续反馈。</p>
+<div id="stage-buttons"></div><article class="card" id="stage-detail"></article>
+</section>
+<section class="section" id="library" data-section-label="内部方案" data-section-label-en="Internal plans">
+<h2 data-i18n-key="library_title">内部方案</h2><p data-i18n-key="library_intro">收录研究方法、业务方案、课题规划与追踪笔记，点击可阅读原文。</p>
+<label for="module-filter" data-i18n-key="module_filter">模块</label><select id="module-filter"><option value="" data-i18n-key="all">全部</option></select>
+<button type="button" id="load-documents" data-i18n-key="load_documents">加载资料</button>
+<div id="document-cards" class="grid"></div><article id="document-detail" class="card" hidden></article>
+</section>
+<section class="section" id="sources" data-section-label="原始来源" data-section-label-en="Original sources">
+<h2 data-i18n-key="sources_title">原始来源</h2><p data-i18n-key="sources_intro">公开资料以原始链接和出处保存。链接尚未核验的条目会注明状态，论文与新闻全文不在本库保存。</p>
+<label for="source-kind" data-i18n-key="source_kind">类型</label><select id="source-kind"><option value="" data-i18n-key="all">全部</option><option value="paper" data-i18n-key="papers">论文</option><option value="web" data-i18n-key="web">新闻及其他网页</option></select>
+<button type="button" id="load-sources" data-i18n-key="load_sources">加载来源</button>
+<p id="source-page" role="status" aria-live="polite"></p><div id="source-cards" class="grid"></div>
+<button type="button" id="sources-prev" disabled data-i18n-key="previous">上一页</button><button type="button" id="sources-next" disabled data-i18n-key="next">下一页</button>
+<article id="source-detail" class="card" hidden></article>
+</section>
+<section class="section" id="metrics" data-section-label="业务约束与指标" data-section-label-en="Constraints and metrics">
+<h2 data-i18n-key="metrics_title">业务约束与指标</h2><p data-i18n-key="proposed_boundary">以下方案来自原始资料与补充设计，目标阈值和测量方法仍需业务评审。</p>
+<div id="constraint-cards" class="grid"></div><div id="metric-cards" class="grid"></div>
+</section>
+<section class="section" id="experiments" data-section-label="验证与决策" data-section-label-en="Validation and decisions">
+<h2 data-i18n-key="experiments_title">验证与决策</h2><div id="experiment-cards" class="grid"></div><p id="measurement-state"></p>
+</section>
+<section class="section" id="governance" data-section-label="数据治理" data-section-label-en="Data governance">
+<h2 data-i18n-key="governance_title">数据治理</h2><div id="governance-cards" class="grid"></div>
+<p data-i18n-key="privacy_boundary">敏感标记笔记整篇隔离，配置、聊天日志、工具和媒体未导入。标记命中可能是误报，需要本地复核；页面不展示被隔离内容或路径。</p>
+<p data-i18n-key="refresh_policy">核对原始链接时记录版本与日期，并保留历史依据。流程中的建议频率尚未配置为自动采集任务。</p>
+</section>
+<footer class="footer"><p data-i18n-key="footer">业务洞察 / 云核</p></footer>
+</main>
+</body></html>
+
+

@@ -1,0 +1,119 @@
+{
+  "description": "Bounded public metadata acquisition attempts, including retryable failures. No credentials, response bodies or research conclusions. Persistent history; audit/retry lifecycle remains explicit per run.",
+  "fields": {
+    "adapter": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "attempt": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "attempt_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "attempted_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "error_code": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "error_message": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "http_status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "next_retry_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "run_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "attempt_id",
+      "name": "idx_attempt_id"
+    },
+    {
+      "field": "source_id",
+      "name": "idx_source_id"
+    },
+    {
+      "field": "run_id",
+      "name": "idx_run_id"
+    },
+    {
+      "field": "status",
+      "name": "idx_status"
+    },
+    {
+      "field": "next_retry_at",
+      "name": "idx_next_retry_at"
+    }
+  ],
+  "key_field": "attempt_id",
+  "required_fields": [
+    "adapter",
+    "attempt",
+    "attempt_id",
+    "attempted_at",
+    "error_code",
+    "error_message",
+    "http_status",
+    "next_retry_at",
+    "run_id",
+    "source_id",
+    "status"
+  ],
+  "schema": "mcpgit.table.v2"
+}

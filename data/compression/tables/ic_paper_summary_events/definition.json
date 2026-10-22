@@ -1,0 +1,79 @@
+{
+  "description": "Persistent, versioned paper review; original public URLs only; no full-text or credentials. ic_paper_summary_events",
+  "fields": {
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "evidence_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "observed_version": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "period_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "summary_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "topic_id",
+      "name": "by_topic"
+    },
+    {
+      "field": "period_id",
+      "name": "by_period"
+    },
+    {
+      "field": "summary_id",
+      "name": "by_summary"
+    }
+  ],
+  "key_field": "evidence_id",
+  "required_fields": [
+    "business_id",
+    "evidence_id",
+    "observed_version",
+    "period_id",
+    "source_id",
+    "summary_id",
+    "topic_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

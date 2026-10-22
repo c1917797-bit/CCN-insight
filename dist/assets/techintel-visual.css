@@ -1,0 +1,53 @@
+:root{
+  --ti-font-sans:Arial,"Microsoft YaHei","PingFang SC","Segoe UI",sans-serif;
+  --ti-text:#17191c;
+  --ti-body:#30343a;
+  --ti-secondary:#4b5563;
+  --ti-muted:#667085;
+  --ti-faint:#7b8492;
+  --ti-link:#8d0000;
+  --ti-surface:#ffffff;
+  --ti-soft:#f4f5f6;
+  --ti-line:#d9dee7;
+}
+html{color-scheme:light}
+body.techintel-page{font-family:var(--ti-font-sans)!important;color:var(--ti-text)!important}
+.techintel-page h1,.techintel-page h2,.techintel-page h3,.techintel-page h4,.techintel-page strong,.techintel-page b{color:var(--ti-text)}
+.techintel-page p,.techintel-page li,.techintel-page td,.techintel-page dd{color:var(--ti-body)}
+.techintel-page small,.techintel-page .muted,.techintel-page .meta,.techintel-page .rev,.techintel-page .mode-note,.techintel-page .scope-note,.techintel-page .domain-meta,.techintel-page .mobile-row-meta,.techintel-page .landscape-foot,.techintel-page .encoding-note{color:var(--ti-muted)!important}
+.techintel-page a{color:var(--ti-link)}
+.techintel-page table{color:var(--ti-body);background:var(--ti-surface)}
+.techintel-page th{color:#3f4752!important}
+.techintel-page .section>h2,.techintel-page .section-head>span,.techintel-page .dossier-block>h4,.techintel-page .expert-block h4,.techintel-page .detail-body h4{color:#596271!important}
+.techintel-page .domain-card.unavailable,.techintel-page .domain-empty{color:var(--ti-secondary)!important}
+.techintel-page .domain-trend p,.techintel-page .action-row p,.techintel-page .counter-block p,.techintel-page .counter-block li{color:var(--ti-secondary)!important}
+.techintel-page .md-document{font-family:var(--ti-font-sans)!important;color:var(--ti-body)!important}
+.techintel-page .md-document p,.techintel-page .md-document li,.techintel-page .md-document td{color:var(--ti-body)!important}
+.techintel-page .md-document h1,.techintel-page .md-document h2,.techintel-page .md-document h3,.techintel-page .md-document h4{color:var(--ti-text)!important}
+.techintel-page .md-document blockquote{color:var(--ti-secondary)!important}
+.techintel-page .md-meta,.techintel-page .md-toc-title{color:var(--ti-muted)!important}
+.techintel-page .md-toc a{color:#4f5966!important}.techintel-page .md-toc a:hover,.techintel-page .md-toc a.is-active{color:var(--ti-link)!important}
+@media(max-width:700px){
+  .techintel-page{font-size:16px}
+  .techintel-page .md-document{font-size:16px;line-height:1.72}
+  .techintel-page .md-document table{font-size:13px}
+  .techintel-page .domain-trend p,.techintel-page .domain-empty,.techintel-page .action-row p{font-size:11px}
+}
+
+.ct-seed-banner{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 18px;background:#fff7e6;border-bottom:1px solid #e5d4ad;color:var(--ti-text);font-family:var(--ti-font-sans)}
+.ct-seed-banner b{font-size:10px;color:#7a4b00}.ct-seed-banner span{font-size:10px;color:var(--ti-secondary)}.ct-seed-banner a{font-size:10px;font-weight:700;color:var(--ti-link);text-decoration:none}@media(max-width:760px){.ct-seed-banner{grid-template-columns:1fr;gap:4px}}
+
+/* Functional metadata is readable content, not decorative chrome. */
+.techintel-page .metric span,.techintel-page .coverage-summary span,.techintel-page .coverage-card span,.techintel-page .coverage-card small,.techintel-page .hard-facts span,.techintel-page .implication span,.techintel-page .e-head,.techintel-page .prov,.techintel-page .timeline-ledger time,.techintel-page .score-components span,.techintel-page .cal-stat span,.techintel-page .trend-filter-state,.techintel-page .mobile-key-row small,.techintel-page .domain-trend>span,.techintel-page .status-box span,.techintel-page .expert-banner span,.techintel-page .expert-banner code{color:var(--ti-muted)!important}
+.techintel-page .timeline-ledger time,.techintel-page .prov,.techintel-page .domain-meta{font-size:10px!important}
+.techintel-page .metric span,.techintel-page .coverage-card span,.techintel-page .coverage-card small,.techintel-page .implication span,.techintel-page .cal-stat span,.techintel-page .status-box span{font-size:10px!important}
+.techintel-page .score-components span,.techintel-page .e-head,.techintel-page .trend-filter-state{font-size:9px!important}
+.techintel-page .evidence.support .stance,.techintel-page .stance-pill.support{color:#2f6d48!important}.techintel-page .evidence.qualify .stance,.techintel-page .stance-pill.qualify{color:#8a5900!important}.techintel-page .evidence.contradict .stance,.techintel-page .stance-pill.contradict{color:#9d0000!important}
+.techintel-page .evidence-summary span{color:var(--ti-secondary)!important}
+.techintel-page .trend-index button span,.techintel-page .hard-facts>article>span{color:var(--ti-faint)!important}
+
+/* Remaining report-state labels are functional metadata and must not use legacy light gray. */
+.techintel-page .delta-card span,.techintel-page .freshness-summary span,.techintel-page .audit-summary span,.techintel-page .history-state,.techintel-page .foot,.techintel-page .foot span,.techintel-page .freshness-strip span{color:var(--ti-muted)!important}
+.techintel-page .freshness-summary span,.techintel-page .history-state{font-size:10px!important}
+.techintel-page .delta-card span,.techintel-page .audit-summary span,.techintel-page .freshness-strip span{font-size:10px!important}
+

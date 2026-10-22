@@ -1,0 +1,199 @@
+{
+  "description": "Complete exact-revision audit of registered paper sources, not a count of relevant or reviewed papers. Stage counts conserve total_sources; duplicate_refs is orthogonal. Persistent history; audit/retry lifecycle remains explicit per run.",
+  "fields": {
+    "blocked_invalid": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "candidate_adjacent": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "candidate_direct": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "completed_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "duplicate_refs": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "excluded_manual": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "metadata_needed": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "needs_relevance_review": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "processed_sources": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "reconciliation_needed": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "retryable_failure": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "reviewed_unpublished": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "reviewed_visible": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "rule_version": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "run_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "source_revision": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "started_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "total_sources": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    }
+  },
+  "indexes": [
+    {
+      "field": "run_id",
+      "name": "idx_run_id"
+    },
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    },
+    {
+      "field": "completed_at",
+      "name": "idx_completed_at"
+    },
+    {
+      "field": "status",
+      "name": "idx_status"
+    }
+  ],
+  "key_field": "run_id",
+  "required_fields": [
+    "blocked_invalid",
+    "business_id",
+    "candidate_adjacent",
+    "candidate_direct",
+    "completed_at",
+    "duplicate_refs",
+    "excluded_manual",
+    "metadata_needed",
+    "needs_relevance_review",
+    "processed_sources",
+    "reconciliation_needed",
+    "retryable_failure",
+    "reviewed_unpublished",
+    "reviewed_visible",
+    "rule_version",
+    "run_id",
+    "source_revision",
+    "started_at",
+    "status",
+    "topic_id",
+    "total_sources"
+  ],
+  "schema": "mcpgit.table.v2"
+}

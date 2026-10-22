@@ -1,0 +1,127 @@
+{
+  "description": "Cloud Core sources: typed rows, stable keys and explicit relationships; no whole-domain JSON blob. Persistent history.",
+  "fields": {
+    "batch_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "canonical_url": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "external_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "last_checked_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "provider": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "source_kind": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "title": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "update_policy": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "verification_status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "canonical_url",
+      "name": "idx_canonical_url"
+    },
+    {
+      "field": "source_kind",
+      "name": "idx_source_kind"
+    },
+    {
+      "field": "provider",
+      "name": "idx_provider"
+    },
+    {
+      "field": "external_id",
+      "name": "idx_external_id"
+    },
+    {
+      "field": "verification_status",
+      "name": "idx_verification_status"
+    },
+    {
+      "field": "batch_id",
+      "name": "idx_batch_id"
+    }
+  ],
+  "key_field": "source_id",
+  "required_fields": [
+    "batch_id",
+    "business_id",
+    "canonical_url",
+    "external_id",
+    "last_checked_at",
+    "provider",
+    "source_id",
+    "source_kind",
+    "title",
+    "update_policy",
+    "verification_status"
+  ],
+  "schema": "mcpgit.table.v2"
+}

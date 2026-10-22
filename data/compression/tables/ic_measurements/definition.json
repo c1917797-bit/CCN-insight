@@ -1,0 +1,128 @@
+{
+  "description": "Compression-only actual measurements; unavailable values stay absent.",
+  "fields": {
+    "artifact_locator": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "benchmark_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "measured_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "measurement_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "metric_name": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_document_id": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "task_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "unit": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "value": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "number"
+    }
+  },
+  "indexes": [
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    },
+    {
+      "field": "task_id",
+      "name": "idx_task_id"
+    },
+    {
+      "field": "benchmark_id",
+      "name": "idx_benchmark_id"
+    },
+    {
+      "field": "metric_name",
+      "name": "idx_metric_name"
+    },
+    {
+      "field": "status",
+      "name": "idx_status"
+    }
+  ],
+  "key_field": "measurement_id",
+  "required_fields": [
+    "benchmark_id",
+    "business_id",
+    "measured_at",
+    "measurement_id",
+    "metric_name",
+    "status",
+    "task_id",
+    "topic_id",
+    "unit"
+  ],
+  "schema": "mcpgit.table.v2"
+}

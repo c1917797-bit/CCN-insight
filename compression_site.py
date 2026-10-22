@@ -4,8 +4,8 @@ import json,re,shutil
 from html import escape as e
 
 def build(root):
-    out=root/'dist'/'ai-infra'; src=root/'research'/'ai-infra'/'imported'
-    def rows(name): return [x['row'] for x in json.loads((src/(name+'.json')).read_text(encoding='utf-8'))['rows']]
+    out=root/'dist'/'ai-infra'
+    from compression_store import rows
     topics=sorted(rows('ic_compression_topics'),key=lambda x:x['position'])
     cards=rows('ic_compression_topic_cards'); refs=rows('ic_compression_topic_card_refs')
     routes=rows('ic_compression_research_routes'); frames=rows('ic_compression_research_frames')

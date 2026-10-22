@@ -1,0 +1,91 @@
+{
+  "description": "One governed profile per LRI topic workbench. UI labels remain in Works; mutable topic identity, status, scope, and bilingual reader copy live here.",
+  "fields": {
+    "last_verified": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "payload_en": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "json"
+    },
+    "payload_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "json"
+    },
+    "schema_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_boundary": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "source_revision": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "updated_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "status",
+      "name": "idx_status"
+    },
+    {
+      "field": "last_verified",
+      "name": "idx_last_verified"
+    }
+  ],
+  "key_field": "topic_id",
+  "required_fields": [
+    "last_verified",
+    "payload_en",
+    "payload_zh",
+    "schema_id",
+    "source_boundary",
+    "source_revision",
+    "status",
+    "topic_id",
+    "updated_at"
+  ],
+  "schema": "mcpgit.table.v2"
+}

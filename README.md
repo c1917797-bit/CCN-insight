@@ -1,5 +1,11 @@
 # CCN Insight
 
+原样迁移修正：默认推理压缩预览现使用原站完整界面，入口 `/business_insight/cloud_core/index.html#view-topics`。技术地图与16个专题正文已对照；之前重新排版的迁移页仅作辅助审阅。详见 [原样迁移说明](docs/ORIGINAL-READER-PARITY.md)。
+
+推理压缩统一维护入口：本机运行 `python scripts/maintain_compression.py --port 8785`，打开 http://127.0.0.1:8785/ 。只编辑一份内容，校验后生成两站待发布文件；当前未切换公开站。详见 [统一维护源](docs/COMPRESSION-SOURCE.md)。
+
+> 2026-10-22 本地待审阅变更：已补入推理压缩的 80 张 TableGit 表、63,810 条记录及 182 个校验附件。唯一维护源为 `data/compression/`。本地预览入口 `/ai-infra/compression-migration/`；尚未推送或发布，详见 [迁移说明](docs/TABLEGIT-MIGRATION.md)。
+
 极智、极稳、极简、极优的独立内容仓库。首页源码、内容快照与 AI Infra 迁移资料均在此维护。
 
 **本仓库是 CCN 网站的主仓库。** 正式站：https://ccn-insight-four.sunshinepmy.chatgpt.site/ 。Sites 仅承担发布镜像与托管，当前为人工同步，不是自动部署。维护流程见 [发布说明](docs/PUBLISHING.md)。

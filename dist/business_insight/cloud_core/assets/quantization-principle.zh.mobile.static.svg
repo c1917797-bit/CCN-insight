@@ -1,0 +1,61 @@
+<ns0:svg xmlns:ns0="http://www.w3.org/2000/svg" viewBox="0 0 360 1030" data-cycle="24" data-mobile-viewbox="0 0 360 1030" role="img" aria-labelledby="title desc">
+<ns0:title id="title">权重量化的六个步骤</ns0:title>
+<ns0:desc id="desc">两个教学例子：0.26舍入到0.30；0.96超出范围后裁剪到0.70。所有数字始终可见，红框按顺序指出正在演示的步骤。</ns0:desc>
+<ns0:style>text{font-family:Arial,Microsoft YaHei,sans-serif}.accent{fill:#fff;stroke:#d7e2ee;stroke-width:2}</ns0:style>
+<ns0:g data-responsive="mobile">
+<ns0:rect width="360" height="1030" fill="#f5f8fc" />
+<ns0:text x="20" y="26" font-size="24" fill="#24364b">A: 0.26 → 0.30</ns0:text>
+<ns0:path d="M28 48 H332" stroke="#9bacc0" stroke-width="3" />
+<ns0:path d="M119.2 48 H179.99999999999997" stroke="#087f8c" stroke-width="5" />
+<ns0:text x="28.0" y="71" text-anchor="middle" font-size="22" fill="#526984">0.2</ns0:text>
+<ns0:text x="332.0" y="71" text-anchor="middle" font-size="22" fill="#526984">0.4</ns0:text>
+<ns0:circle cx="119.2" cy="48" r="7" fill="#fff" stroke="#b71c1c" stroke-width="3" />
+<ns0:circle class="moving-AMobile" cx="179.99999999999997" cy="48" r="9" fill="#087f8c" />
+<ns0:text x="20" y="100" font-size="24" fill="#24364b">B: 0.96 → 0.70</ns0:text>
+<ns0:path d="M28 122 H332" stroke="#9bacc0" stroke-width="3" />
+<ns0:path d="M319.84 122 H240.79999999999998" stroke="#087f8c" stroke-width="5" />
+<ns0:text x="28.0" y="145" text-anchor="middle" font-size="22" fill="#526984">0.0</ns0:text>
+<ns0:text x="332.0" y="145" text-anchor="middle" font-size="22" fill="#526984">1.0</ns0:text>
+<ns0:circle cx="319.84" cy="122" r="7" fill="#fff" stroke="#b71c1c" stroke-width="3" />
+<ns0:circle class="moving-BMobile" cx="240.79999999999998" cy="122" r="9" fill="#087f8c" />
+<ns0:g transform="translate(0 160)">
+<ns0:text x="18" y="28" font-size="20" fill="#24364b">s = 0.1 · z = 0 · q ∈ [−8, 7]</ns0:text>
+<ns0:text x="18" y="53" font-size="17" fill="#526984">教学示例：A = 0.26，B = 0.96</ns0:text>
+<ns0:g id="mobile-step-1" data-stage="1">
+<ns0:rect class="accent" x="18" y="74" width="324" height="112" rx="12" />
+<ns0:text x="31" y="102" font-size="24" font-weight="700" fill="#24364b">01 · 原始权重</ns0:text>
+<ns0:text x="31" y="134" font-size="24" fill="#24364b">A: w = 0.26</ns0:text>
+<ns0:text x="31" y="161" font-size="24" fill="#24364b">B: w = 0.96</ns0:text>
+</ns0:g>
+<ns0:g id="mobile-step-2" data-stage="2">
+<ns0:rect class="accent" x="18" y="198" width="324" height="112" rx="12" />
+<ns0:text x="31" y="226" font-size="24" font-weight="700" fill="#24364b">02 · 除以尺度</ns0:text>
+<ns0:text x="31" y="258" font-size="24" fill="#24364b">A: w/s = 2.6</ns0:text>
+<ns0:text x="31" y="285" font-size="24" fill="#24364b">B: w/s = 9.6</ns0:text>
+</ns0:g>
+<ns0:g id="mobile-step-3" data-stage="3">
+<ns0:rect class="accent" x="18" y="322" width="324" height="112" rx="12" />
+<ns0:text x="31" y="350" font-size="24" font-weight="700" fill="#24364b">03 · 取最近整数</ns0:text>
+<ns0:text x="31" y="382" font-size="24" fill="#24364b">A: round(2.6) = 3</ns0:text>
+<ns0:text x="31" y="409" font-size="24" fill="#24364b">B: round(9.6) = 10</ns0:text>
+</ns0:g>
+<ns0:g id="mobile-step-4" data-stage="4">
+<ns0:rect class="accent" x="18" y="446" width="324" height="112" rx="12" />
+<ns0:text x="31" y="474" font-size="24" font-weight="700" fill="#24364b">04 · 裁剪并保存整数码</ns0:text>
+<ns0:text x="31" y="506" font-size="24" fill="#24364b">A: q = 3</ns0:text>
+<ns0:text x="31" y="533" font-size="24" fill="#24364b">B: q = 7 (10 → 7)</ns0:text>
+</ns0:g>
+<ns0:g id="mobile-step-5" data-stage="5">
+<ns0:rect class="accent" x="18" y="570" width="324" height="112" rx="12" />
+<ns0:text x="31" y="598" font-size="24" font-weight="700" fill="#24364b">05 · 反量化得到近似值</ns0:text>
+<ns0:text x="31" y="630" font-size="24" fill="#24364b">A: ŵ = 0.30</ns0:text>
+<ns0:text x="31" y="657" font-size="24" fill="#24364b">B: ŵ = 0.70</ns0:text>
+</ns0:g>
+<ns0:g id="mobile-step-6" data-stage="6">
+<ns0:rect class="accent" x="18" y="694" width="324" height="112" rx="12" />
+<ns0:text x="31" y="722" font-size="24" font-weight="700" fill="#24364b">06 · 计算权重误差</ns0:text>
+<ns0:text x="31" y="754" font-size="24" fill="#24364b">A: e = +0.04</ns0:text>
+<ns0:text x="31" y="781" font-size="24" fill="#24364b">B: e = -0.26</ns0:text>
+</ns0:g>
+<ns0:text x="18" y="848" font-size="17" fill="#526984">e = ŵ − w · 不代表业务精度损失</ns0:text></ns0:g></ns0:g>
+</ns0:svg>

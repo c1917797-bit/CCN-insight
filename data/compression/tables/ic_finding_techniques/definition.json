@@ -1,0 +1,67 @@
+{
+  "description": "Many-to-many curated findings linked to accumulated representative techniques.",
+  "fields": {
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "finding_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "link_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "technique_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "finding_id",
+      "name": "idx_finding_id"
+    },
+    {
+      "field": "technique_id",
+      "name": "idx_technique_id"
+    },
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    }
+  ],
+  "key_field": "link_id",
+  "required_fields": [
+    "business_id",
+    "finding_id",
+    "link_id",
+    "technique_id",
+    "topic_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

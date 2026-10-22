@@ -1,0 +1,111 @@
+{
+  "description": "Versioned insight report metadata, immutable asset references and one reviewed paper per row; no report body blob.",
+  "fields": {
+    "asset_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "binary_sha256": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "byte_count": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "content_sha256": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "format": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "period_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "public_path": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "report_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "scope_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "period_id",
+      "name": "by_period_id"
+    },
+    {
+      "field": "scope_id",
+      "name": "by_scope_id"
+    },
+    {
+      "field": "report_id",
+      "name": "by_report_id"
+    }
+  ],
+  "key_field": "asset_id",
+  "required_fields": [
+    "asset_id",
+    "binary_sha256",
+    "business_id",
+    "byte_count",
+    "content_sha256",
+    "format",
+    "period_id",
+    "public_path",
+    "report_id",
+    "scope_id",
+    "topic_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

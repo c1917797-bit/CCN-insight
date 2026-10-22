@@ -8,7 +8,9 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-subprocess.run([sys.executable, str(ROOT / 'build.py')], cwd=ROOT, check=True)
+if (ROOT / 'data/compression/manifest.json').exists():
+    subprocess.run([sys.executable, '-X', 'utf8', str(ROOT / 'scripts/materialize_compression.py')], cwd=ROOT, check=True)
+subprocess.run([sys.executable, '-X', 'utf8', str(ROOT / 'build.py')], cwd=ROOT, check=True)
 def rows(name):
     pack = json.loads((ROOT / 'data/directory' / (name + '.json')).read_text(encoding='utf-8'))
     return [x['row'] for x in pack['rows'] if not x.get('deleted')]
@@ -39,4 +41,12 @@ page = '''<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="vi
 page += f'<p>{len(families)} 个信息源主体 · {len(channels)} 个采集入口 · <a href="sources.csv" download>下载完整 CSV 表格</a></p>'
 page += '<input id="q" aria-label="搜索信息源" placeholder="搜索名称、分类或研究方向"><div class="scroll"><table><thead><tr><th>分类</th><th>信息源</th><th>定位与选择理由</th><th>入口链接</th></tr></thead><tbody>' + ''.join(body) + '</tbody></table></div><script>document.getElementById("q").addEventListener("input",e=>{const q=e.target.value.trim().toLowerCase();document.querySelectorAll("tbody tr").forEach(r=>r.hidden=!r.textContent.toLowerCase().includes(q))})</script></html>'
 (out / 'sources.html').write_text(page, encoding='utf-8')
+if (out / 'ai-infra').exists():
+    local_page=page.replace('href="index.html"','href="compression.html"')
+    (out / 'ai-infra/compression-sources.html').write_text(local_page,encoding='utf-8')
+    (out / 'ai-infra/sources.csv').write_bytes((out/'sources.csv').read_bytes())
 print(f'Built portal and source directory: {len(families)} families, {len(channels)} channels')
+if (ROOT / 'data/compression/manifest.json').exists():
+    subprocess.run([sys.executable, '-X', 'utf8', str(ROOT / 'compression_migration_preview.py')], cwd=ROOT, check=True)
+if (ROOT / 'original-reader/SOURCE-MANIFEST.json').exists():
+    subprocess.run([sys.executable, '-X', 'utf8', str(ROOT / 'scripts/build_original_reader.py')], cwd=ROOT, check=True)

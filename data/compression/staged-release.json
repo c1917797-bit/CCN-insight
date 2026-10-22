@@ -1,0 +1,12 @@
+{
+  "content_version": "compression-d33884c90c78ecce6b9b",
+  "status": "staged_not_published",
+  "renderer": "original-reader",
+  "entrypoint": "business_insight/cloud_core/index.html#view-topics",
+  "shared_file_count": 1972,
+  "targets": {
+    "ccn": "local-releases/compression-d33884c90c78ecce6b9b/original-reader/ccn",
+    "lrigit": "local-releases/compression-d33884c90c78ecce6b9b/original-reader/lrigit"
+  },
+  "online_sites_changed": false
+}

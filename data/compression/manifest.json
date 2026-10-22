@@ -1,0 +1,1948 @@
+{
+  "schema": "ccn.compression-migration.v1",
+  "exported_on": "2026-10-22",
+  "source_service": "https://lrigit-tpc.ru.yxsbase.win/mcp",
+  "source_repo": "works",
+  "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+  "tables": [
+    {
+      "name": "cloud_core_measurements",
+      "path": "data/tables/cloud_core_measurements",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 0,
+      "exported_rows": 0,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        }
+      ],
+      "rows_file": "data/compression/tables/cloud_core_measurements/rows.jsonl",
+      "import_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "key_field": "measurement_id"
+    },
+    {
+      "name": "ic_ascend_route_assessments",
+      "path": "data/tables/ic_ascend_route_assessments",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 6,
+      "exported_rows": 6,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_ascend_route_assessments/rows.jsonl",
+      "import_sha256": "cdcaabfda8bb85504979a14e6984017f5f656c88192f6a14d4326ce98ed177cc",
+      "key_field": "assessment_id"
+    },
+    {
+      "name": "cloud_core_documents",
+      "path": "data/tables/cloud_core_documents",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 61,
+      "exported_rows": 61,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        }
+      ],
+      "rows_file": "data/compression/tables/cloud_core_documents/rows.jsonl",
+      "import_sha256": "fbdc072f0b546fe1c4cb71a1940c85070c7bbb1bb2f69a538743f09a6a47a3ed",
+      "key_field": "document_id"
+    },
+    {
+      "name": "cloud_core_import_issues",
+      "path": "data/tables/cloud_core_import_issues",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 1494,
+      "exported_rows": 1494,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        }
+      ],
+      "rows_file": "data/compression/tables/cloud_core_import_issues/rows.jsonl",
+      "import_sha256": "c07d253ccf426999e02494a1dc0898d8fb19fe42b0a3bc075412f3ccc0523e80",
+      "key_field": "issue_id"
+    },
+    {
+      "name": "ic_cells",
+      "path": "data/tables/ic_cells",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 42,
+      "exported_rows": 42,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_cells/rows.jsonl",
+      "import_sha256": "351a368014a4afb0dc4f9a4b29a3c563c7e2c5a47edc8c2cf494556669555320",
+      "key_field": "cell_id"
+    },
+    {
+      "name": "ic_ascend_validation_probes",
+      "path": "data/tables/ic_ascend_validation_probes",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 6,
+      "exported_rows": 6,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_ascend_validation_probes/rows.jsonl",
+      "import_sha256": "56f7cd99fdd9fcabb96aa306577a63dad66400276e297cd2ead52a52826752e6",
+      "key_field": "probe_id"
+    },
+    {
+      "name": "ic_channel_checks",
+      "path": "data/tables/ic_channel_checks",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 353,
+      "exported_rows": 353,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_channel_checks/rows.jsonl",
+      "import_sha256": "0b33a105a65316aae2aa17b65ede7aa24912e0f7fc6437642b10fc440b8bdc2a",
+      "key_field": "check_id"
+    },
+    {
+      "name": "ic_channel_categories",
+      "path": "data/tables/ic_channel_categories",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 371,
+      "exported_rows": 371,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_channel_categories/rows.jsonl",
+      "import_sha256": "746bc8fc6b17693afa1b3a76259466d7bdc9bb477b06c298d186f92cc22a7c41",
+      "key_field": "membership_id"
+    },
+    {
+      "name": "ic_channel_families",
+      "path": "data/tables/ic_channel_families",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 332,
+      "exported_rows": 332,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_channel_families/rows.jsonl",
+      "import_sha256": "6ffc3c2816ba4952b53adf7322275ac05c328ed72cdda82b7099be667a1c2e11",
+      "key_field": "membership_id"
+    },
+    {
+      "name": "ic_channels",
+      "path": "data/tables/ic_channels",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 332,
+      "exported_rows": 332,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_channels/rows.jsonl",
+      "import_sha256": "eb60858245efce5b1a3886903ca607332f88eddff7a0fb77faad7cf2f30bd74a",
+      "key_field": "channel_id"
+    },
+    {
+      "name": "ic_channel_provenance",
+      "path": "data/tables/ic_channel_provenance",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 399,
+      "exported_rows": 399,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_channel_provenance/rows.jsonl",
+      "import_sha256": "d01ff79e12f810c8d9922fc5e8a9258753d080e64791a95962f90ea8e04e4961",
+      "key_field": "provenance_id"
+    },
+    {
+      "name": "ic_collection_runs",
+      "path": "data/tables/ic_collection_runs",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 2,
+      "exported_rows": 2,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_collection_runs/rows.jsonl",
+      "import_sha256": "e7d6380ce592ae1341e4d6e9be418aa3048007a339173b889249601e5a905905",
+      "key_field": "run_id"
+    },
+    {
+      "name": "ic_channel_retrievals",
+      "path": "data/tables/ic_channel_retrievals",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 642,
+      "exported_rows": 642,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_channel_retrievals/rows.jsonl",
+      "import_sha256": "08285321cfd912162556c4d0595f6694640fbc95aa300b58ea94fec6602b1bb9",
+      "key_field": "retrieval_id"
+    },
+    {
+      "name": "ic_compression_foundations",
+      "path": "data/tables/ic_compression_foundations",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 19,
+      "exported_rows": 19,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_compression_foundations/rows.jsonl",
+      "import_sha256": "80b22b16b3471269ae327635355fe7a765368a2cbafda7db86856645c11e7bd6",
+      "key_field": "foundation_id"
+    },
+    {
+      "name": "ic_compression_mechanism_steps",
+      "path": "data/tables/ic_compression_mechanism_steps",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 48,
+      "exported_rows": 48,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_compression_mechanism_steps/rows.jsonl",
+      "import_sha256": "6618f4c16f5f7a57cd33961bf84cb6cdc330a532751ee53284e9d2b4f434078e",
+      "key_field": "step_id"
+    },
+    {
+      "name": "ic_compression_research_frames",
+      "path": "data/tables/ic_compression_research_frames",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 12,
+      "exported_rows": 12,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_compression_research_frames/rows.jsonl",
+      "import_sha256": "87f1ac6836cc51ffa73eeb9054c3fcdac0cf028063968c54b4d846a6d592a6b0",
+      "key_field": "frame_id"
+    },
+    {
+      "name": "ic_compression_route_assessments",
+      "path": "data/tables/ic_compression_route_assessments",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 3,
+      "exported_rows": 3,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_compression_route_assessments/rows.jsonl",
+      "import_sha256": "2721edbf518cdcd3f669edb0b78993101f9a0be9c8d758941fdab46b1b504596",
+      "key_field": "assessment_id"
+    },
+    {
+      "name": "ic_compression_research_routes",
+      "path": "data/tables/ic_compression_research_routes",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 26,
+      "exported_rows": 26,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_compression_research_routes/rows.jsonl",
+      "import_sha256": "a141c32b317bf5a17a60d89bd38a627dddf94a390d297d50fde16c7e50492fed",
+      "key_field": "route_id"
+    },
+    {
+      "name": "ic_compression_topic_cards",
+      "path": "data/tables/ic_compression_topic_cards",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 145,
+      "exported_rows": 145,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_compression_topic_cards/rows.jsonl",
+      "import_sha256": "3380066df64a9a6b0d8adb957ae001a2b4c316ae7b3bbfd6df232ffd2f7847bc",
+      "key_field": "card_id"
+    },
+    {
+      "name": "ic_compression_topic_card_refs",
+      "path": "data/tables/ic_compression_topic_card_refs",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 287,
+      "exported_rows": 287,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_compression_topic_card_refs/rows.jsonl",
+      "import_sha256": "7237a5fd3ad8b51fc501c053c8602132ca418e8f43c7160e30bf676700592b2c",
+      "key_field": "reference_id"
+    },
+    {
+      "name": "ic_compression_topic_concepts",
+      "path": "data/tables/ic_compression_topic_concepts",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 12,
+      "exported_rows": 12,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_compression_topic_concepts/rows.jsonl",
+      "import_sha256": "099efa232832c07bf916ca203feb5330c9e204761fdb6dbfdd1c5be8e07c9814",
+      "key_field": "concept_id"
+    },
+    {
+      "name": "ic_compression_topic_sections",
+      "path": "data/tables/ic_compression_topic_sections",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 96,
+      "exported_rows": 96,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_compression_topic_sections/rows.jsonl",
+      "import_sha256": "96b21d5eb2690ffa72c9ac7bd7c24925e76ddfc6ab153e7457665ff2705f4ded",
+      "key_field": "section_id"
+    },
+    {
+      "name": "ic_compression_topic_events",
+      "path": "data/tables/ic_compression_topic_events",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 622,
+      "exported_rows": 622,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_compression_topic_events/rows.jsonl",
+      "import_sha256": "5efa61ff65f963a3ad4a62f58acbebe292737052eba901ebfe1e4dd6ff5f2f07",
+      "key_field": "link_id"
+    },
+    {
+      "name": "ic_compression_topics",
+      "path": "data/tables/ic_compression_topics",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 16,
+      "exported_rows": 16,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_compression_topics/rows.jsonl",
+      "import_sha256": "551d0a8e3d91730d251de6fc66bf81f025e3e222cf90761ad95dc6fc67f7ac6f",
+      "key_field": "compression_topic_id"
+    },
+    {
+      "name": "ic_current_signals",
+      "path": "data/tables/ic_current_signals",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 3,
+      "exported_rows": 3,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_current_signals/rows.jsonl",
+      "import_sha256": "bf7e5bc4e0055442610271048329f37a98ade59b91a20b53358c093200a20fde",
+      "key_field": "signal_id"
+    },
+    {
+      "name": "ic_evaluation_dimensions",
+      "path": "data/tables/ic_evaluation_dimensions",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 6,
+      "exported_rows": 6,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_evaluation_dimensions/rows.jsonl",
+      "import_sha256": "58003ad043d19869433a7114e0ebe54792788151c58331ff5633dd3756533995",
+      "key_field": "dimension_id"
+    },
+    {
+      "name": "ic_finding_cells",
+      "path": "data/tables/ic_finding_cells",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 42,
+      "exported_rows": 42,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_finding_cells/rows.jsonl",
+      "import_sha256": "bf0eaf14bcb6c7fe772141a1d2c78ec89957ec9a64d6d5ff2ac5018feaa2395d",
+      "key_field": "link_id"
+    },
+    {
+      "name": "ic_finding_evidence",
+      "path": "data/tables/ic_finding_evidence",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 40,
+      "exported_rows": 40,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_finding_evidence/rows.jsonl",
+      "import_sha256": "5c6f846bf19fdc21d9a7912ef7898cd6434b0d4ea7fb7303127401f8dc4bc4a4",
+      "key_field": "evidence_link_id"
+    },
+    {
+      "name": "ic_finding_keywords",
+      "path": "data/tables/ic_finding_keywords",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 100,
+      "exported_rows": 100,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_finding_keywords/rows.jsonl",
+      "import_sha256": "ef0689b2e5a979ea1ad7f811078200f5ff7c890d5e8b23a72d943f15e3954135",
+      "key_field": "keyword_id"
+    },
+    {
+      "name": "ic_finding_scopes",
+      "path": "data/tables/ic_finding_scopes",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 4,
+      "exported_rows": 4,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_finding_scopes/rows.jsonl",
+      "import_sha256": "12caf80357d2e60e8ececf25bd7dea5cd3a4bf694319e72436079baa7adfd4a7",
+      "key_field": "link_id"
+    },
+    {
+      "name": "ic_finding_techniques",
+      "path": "data/tables/ic_finding_techniques",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 20,
+      "exported_rows": 20,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_finding_techniques/rows.jsonl",
+      "import_sha256": "f68e3b6fef2703a4b1207be64b3c55b61eed6751727fde0d86c3f36c9fd56f9e",
+      "key_field": "link_id"
+    },
+    {
+      "name": "ic_findings",
+      "path": "data/tables/ic_findings",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 25,
+      "exported_rows": 25,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_findings/rows.jsonl",
+      "import_sha256": "e946958dffcc5cfe8607988483b94cfed5e3cebebf4f2f639606e4012c1449f5",
+      "key_field": "finding_id"
+    },
+    {
+      "name": "ic_flywheel_stages",
+      "path": "data/tables/ic_flywheel_stages",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 7,
+      "exported_rows": 7,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_flywheel_stages/rows.jsonl",
+      "import_sha256": "e7dd6aef9980e8dc51637e47f11ee21d5f6b19fff18d95f5141f24b1d665087d",
+      "key_field": "stage_id"
+    },
+    {
+      "name": "ic_foundation_lesson_steps",
+      "path": "data/tables/ic_foundation_lesson_steps",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 18,
+      "exported_rows": 18,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_foundation_lesson_steps/rows.jsonl",
+      "import_sha256": "2043513402b13ea63d3db4c61da1879adc3019728f88079d8e0eef3ef0480c6f",
+      "key_field": "step_id"
+    },
+    {
+      "name": "ic_collection_entries",
+      "path": "data/tables/ic_collection_entries",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 6860,
+      "exported_rows": 6860,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_collection_entries/rows.jsonl",
+      "import_sha256": "8979765b84282b6c2a0af563377598048e9bcb631634ea048ab0c5660f66b9ea",
+      "key_field": "entry_id"
+    },
+    {
+      "name": "ic_industry_change_topics",
+      "path": "data/tables/ic_industry_change_topics",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 30,
+      "exported_rows": 30,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_industry_change_topics/rows.jsonl",
+      "import_sha256": "f9d5472da608af5e4371410f7d6fe5476dd2a354c19a42e6f5a95bb458e91266",
+      "key_field": "link_id"
+    },
+    {
+      "name": "ic_foundation_lesson_values",
+      "path": "data/tables/ic_foundation_lesson_values",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 53,
+      "exported_rows": 53,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_foundation_lesson_values/rows.jsonl",
+      "import_sha256": "813e465a8103acf6cb5ddb0b77381ec0a8ac69ef06f1f997be9fbf2d52f346b0",
+      "key_field": "value_id"
+    },
+    {
+      "name": "ic_industry_topic_assessments",
+      "path": "data/tables/ic_industry_topic_assessments",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 30,
+      "exported_rows": 30,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_industry_topic_assessments/rows.jsonl",
+      "import_sha256": "b65b980d42bac4108eea507bed68eb7e03eacce05982452ff74a659f22dbfdd2",
+      "key_field": "link_id"
+    },
+    {
+      "name": "ic_industry_source_scopes",
+      "path": "data/tables/ic_industry_source_scopes",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 233,
+      "exported_rows": 233,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_industry_source_scopes/rows.jsonl",
+      "import_sha256": "b5915a890d8912f00bd7065244d49c41a06e01dd5766a32b0d2a45943bc0268d",
+      "key_field": "family_id"
+    },
+    {
+      "name": "ic_industry_update_changes",
+      "path": "data/tables/ic_industry_update_changes",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 25,
+      "exported_rows": 25,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_industry_update_changes/rows.jsonl",
+      "import_sha256": "61f648b438569799e85c1e20af8535c340a35ccf762b1e3db0e2d41b3441a8af",
+      "key_field": "change_id"
+    },
+    {
+      "name": "ic_industry_updates",
+      "path": "data/tables/ic_industry_updates",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 9,
+      "exported_rows": 9,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_industry_updates/rows.jsonl",
+      "import_sha256": "c776a23fa30a48a3610a69dd764619e4d5cdc916c1c1fa25e49ab54d6c8e4329",
+      "key_field": "update_id"
+    },
+    {
+      "name": "ic_insight_report_assets",
+      "path": "data/tables/ic_insight_report_assets",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 182,
+      "exported_rows": 182,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_insight_report_assets/rows.jsonl",
+      "import_sha256": "e427af821df19ec19a4c85bf140908bd23674b5ec4e6ab73d2a86d16cbbb1f13",
+      "key_field": "asset_id"
+    },
+    {
+      "name": "ic_insight_reports",
+      "path": "data/tables/ic_insight_reports",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 6,
+      "exported_rows": 6,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_insight_reports/rows.jsonl",
+      "import_sha256": "aeb1da7e94251f8c3771d1eba1e2f7eac525d40d4e76823ba4c936bd4484601c",
+      "key_field": "report_id"
+    },
+    {
+      "name": "ic_evidence_items",
+      "path": "data/tables/ic_evidence_items",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 5029,
+      "exported_rows": 5029,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_evidence_items/rows.jsonl",
+      "import_sha256": "664b2dbaacbdb2ebc9b75ef01148d7df235efbb4d160a2ce72e4eb9f2acaefb2",
+      "key_field": "evidence_id"
+    },
+    {
+      "name": "ic_insight_report_papers",
+      "path": "data/tables/ic_insight_report_papers",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 78,
+      "exported_rows": 78,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_insight_report_papers/rows.jsonl",
+      "import_sha256": "9db874f0d16fa35e76e67a169df02d43bc4ca7066359a4d38eff5599beeaf7e3",
+      "key_field": "paper_id"
+    },
+    {
+      "name": "ic_lineage_cells",
+      "path": "data/tables/ic_lineage_cells",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 20,
+      "exported_rows": 20,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_lineage_cells/rows.jsonl",
+      "import_sha256": "2f33497127f2f8be5d61f7ab999fd61fafffef06cdb005cfca0de40837763d90",
+      "key_field": "link_id"
+    },
+    {
+      "name": "ic_lineage_nodes",
+      "path": "data/tables/ic_lineage_nodes",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 25,
+      "exported_rows": 25,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_lineage_nodes/rows.jsonl",
+      "import_sha256": "7946cbd56d2849cf016249a50b8e8fe9f0c155e097aa9337bc7a8a1f9da759a5",
+      "key_field": "node_id"
+    },
+    {
+      "name": "ic_lineages",
+      "path": "data/tables/ic_lineages",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 9,
+      "exported_rows": 9,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_lineages/rows.jsonl",
+      "import_sha256": "57296615b4b7a0c851061f0ae7962bf2deeddb2ca0445324c110bc84e2e09f3a",
+      "key_field": "lineage_id"
+    },
+    {
+      "name": "ic_lineage_relations",
+      "path": "data/tables/ic_lineage_relations",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 14,
+      "exported_rows": 14,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_lineage_relations/rows.jsonl",
+      "import_sha256": "ed97a5b7472877c122529e2ed7a41cc33d62d1b9fb45b8253f4491840c192b9e",
+      "key_field": "relation_id"
+    },
+    {
+      "name": "ic_map_assignments",
+      "path": "data/tables/ic_map_assignments",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 184,
+      "exported_rows": 184,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_map_assignments/rows.jsonl",
+      "import_sha256": "a5be9be3f225dbb8cf26175eb17c7a2cf6918ba394da794480b25678691bb042",
+      "key_field": "assignment_id"
+    },
+    {
+      "name": "ic_methods",
+      "path": "data/tables/ic_methods",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 6,
+      "exported_rows": 6,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_methods/rows.jsonl",
+      "import_sha256": "ec9278120b9b54da5f287d1ecd93e52ef92c07831e209e863215d1e5c787ef98",
+      "key_field": "method_id"
+    },
+    {
+      "name": "ic_map_facets",
+      "path": "data/tables/ic_map_facets",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 5,
+      "exported_rows": 5,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_map_facets/rows.jsonl",
+      "import_sha256": "180a8c8eef420433fc4ec44779a8faf4eacac08ad62db639cd55061e64dd32e1",
+      "key_field": "facet_id"
+    },
+    {
+      "name": "ic_map_terms",
+      "path": "data/tables/ic_map_terms",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 23,
+      "exported_rows": 23,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_map_terms/rows.jsonl",
+      "import_sha256": "4e44deef1cb5d82bd5685c9289b1fe29cd876e6c60682a6c94d16e12dd01fba5",
+      "key_field": "term_id"
+    },
+    {
+      "name": "ic_monthly_route_evidence",
+      "path": "data/tables/ic_monthly_route_evidence",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 17,
+      "exported_rows": 17,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_monthly_route_evidence/rows.jsonl",
+      "import_sha256": "f72b7d0b318b1f89076c1036a5afec3a1404339ce4bcf7338df72e7ab12188e8",
+      "key_field": "ref_id"
+    },
+    {
+      "name": "ic_monthly_route_insights",
+      "path": "data/tables/ic_monthly_route_insights",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 6,
+      "exported_rows": 6,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_monthly_route_insights/rows.jsonl",
+      "import_sha256": "7e22cf4e0ff861f632c21cb4389057f010469d2e20db5cd4b94a3d1a7e1fcb35",
+      "key_field": "story_id"
+    },
+    {
+      "name": "ic_monthly_cell_reviews",
+      "path": "data/tables/ic_monthly_cell_reviews",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 630,
+      "exported_rows": 630,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_monthly_cell_reviews/rows.jsonl",
+      "import_sha256": "d72119af95af5a6fbbeaf17b63ebe8d79e80d8914cbacfe8e3975f0bb7efa669",
+      "key_field": "review_id"
+    },
+    {
+      "name": "ic_monthly_scopes",
+      "path": "data/tables/ic_monthly_scopes",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 15,
+      "exported_rows": 15,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_monthly_scopes/rows.jsonl",
+      "import_sha256": "ea625adf17e543343bb0189fb7930669dff875921780859574225ec77f166a8c",
+      "key_field": "scope_id"
+    },
+    {
+      "name": "ic_objects",
+      "path": "data/tables/ic_objects",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 7,
+      "exported_rows": 7,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_objects/rows.jsonl",
+      "import_sha256": "20498fd189593a061e453e7af0d8025e05323e38f22833aa75b3296e602d0442",
+      "key_field": "object_id"
+    },
+    {
+      "name": "ic_paper_summaries",
+      "path": "data/tables/ic_paper_summaries",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 38,
+      "exported_rows": 38,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_paper_summaries/rows.jsonl",
+      "import_sha256": "98af7e488d17893c082cd25a680791d5201fc68b11c77b88a70cbd7366e5def0",
+      "key_field": "summary_id"
+    },
+    {
+      "name": "ic_paper_review_intakes",
+      "path": "data/tables/ic_paper_review_intakes",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 4,
+      "exported_rows": 4,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_paper_review_intakes/rows.jsonl",
+      "import_sha256": "8e9a36503fbfdbf2452377a31c2135603016784c9193792bf91b659b854ad362",
+      "key_field": "intake_id"
+    },
+    {
+      "name": "ic_paper_summary_events",
+      "path": "data/tables/ic_paper_summary_events",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 38,
+      "exported_rows": 38,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_paper_summary_events/rows.jsonl",
+      "import_sha256": "6e0ad970f57d98c29b5e42d9d8c3a1381567bd1786ed2c2994094cffcfd5d729",
+      "key_field": "evidence_id"
+    },
+    {
+      "name": "ic_paper_summary_keywords",
+      "path": "data/tables/ic_paper_summary_keywords",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 153,
+      "exported_rows": 153,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_paper_summary_keywords/rows.jsonl",
+      "import_sha256": "56240bdff5e0e97efda570134a498863c0344d3edc2ab56934013a519a1e3492",
+      "key_field": "keyword_id"
+    },
+    {
+      "name": "ic_pipeline_runs",
+      "path": "data/tables/ic_pipeline_runs",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 2,
+      "exported_rows": 2,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_pipeline_runs/rows.jsonl",
+      "import_sha256": "7aea54ce55310a8837c5d7af67816906b4fe2c1f6d355fffd3e593497ffd02da",
+      "key_field": "run_id"
+    },
+    {
+      "name": "ic_placements",
+      "path": "data/tables/ic_placements",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 66,
+      "exported_rows": 66,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_placements/rows.jsonl",
+      "import_sha256": "317155ac55bbb234a8b5918920dd270cc525f585e10b4d63f48c8cd847ad351d",
+      "key_field": "placement_id"
+    },
+    {
+      "name": "ic_review_notes",
+      "path": "data/tables/ic_review_notes",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 6,
+      "exported_rows": 6,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_review_notes/rows.jsonl",
+      "import_sha256": "20deba5ef14df5b368efe8d03750dbe92b4985649cc6bec801101725c970dc94",
+      "key_field": "review_note_id"
+    },
+    {
+      "name": "ic_signal_topics",
+      "path": "data/tables/ic_signal_topics",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 4,
+      "exported_rows": 4,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_signal_topics/rows.jsonl",
+      "import_sha256": "6d934ddf340d1aeba4d0a2e9ae9d2f36b1a816ff109dfc0fec3876c6e77a083e",
+      "key_field": "link_id"
+    },
+    {
+      "name": "ic_source_acquisition_attempts",
+      "path": "data/tables/ic_source_acquisition_attempts",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 0,
+      "exported_rows": 0,
+      "filters": [],
+      "rows_file": "data/compression/tables/ic_source_acquisition_attempts/rows.jsonl",
+      "import_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "key_field": "attempt_id"
+    },
+    {
+      "name": "ic_source_categories",
+      "path": "data/tables/ic_source_categories",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 127,
+      "exported_rows": 127,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_source_categories/rows.jsonl",
+      "import_sha256": "5f705fe8b49b900e9c7112a0a23991dd1ee620786889f51286b9b29d83c8865a",
+      "key_field": "category_id"
+    },
+    {
+      "name": "ic_source_families",
+      "path": "data/tables/ic_source_families",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 282,
+      "exported_rows": 282,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_source_families/rows.jsonl",
+      "import_sha256": "a8f2a13e5894a5b28a30ba842e347a83d8153b2c214c42bce2086e68a276362a",
+      "key_field": "family_id"
+    },
+    {
+      "name": "ic_source_refs",
+      "path": "data/tables/ic_source_refs",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 29,
+      "exported_rows": 29,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_source_refs/rows.jsonl",
+      "import_sha256": "df7bfd38ce88f1e68a44e7fbe29ced0c91039e5dd1bc2713bf4aa48923682597",
+      "key_field": "reference_id"
+    },
+    {
+      "name": "ic_source_route_candidates",
+      "path": "data/tables/ic_source_route_candidates",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 525,
+      "exported_rows": 525,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_source_route_candidates/rows.jsonl",
+      "import_sha256": "1c9922418917e26ff35fd69a07f974818998e587a6611d7914e2606995305832",
+      "key_field": "match_id"
+    },
+    {
+      "name": "ic_source_scans",
+      "path": "data/tables/ic_source_scans",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 3,
+      "exported_rows": 3,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_source_scans/rows.jsonl",
+      "import_sha256": "bf71b237425eefd50676ca76d83cc9b6d56b99cbee12037732b47c1704bf638f",
+      "key_field": "scan_id"
+    },
+    {
+      "name": "ic_source_screenings",
+      "path": "data/tables/ic_source_screenings",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 18,
+      "exported_rows": 18,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_source_screenings/rows.jsonl",
+      "import_sha256": "fc198752f446ad310823636087b3353e65fc8c6412cc3c92b832c53a67fcc462",
+      "key_field": "screening_id"
+    },
+    {
+      "name": "ic_monthly_evidence_cells",
+      "path": "data/tables/ic_monthly_evidence_cells",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 5740,
+      "exported_rows": 5740,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_monthly_evidence_cells/rows.jsonl",
+      "import_sha256": "d4b63060b4819e33386b57e1f291b57bd15c5b0c03aecb083c7f47e3fb8d781e",
+      "key_field": "link_id"
+    },
+    {
+      "name": "ic_techniques",
+      "path": "data/tables/ic_techniques",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 32,
+      "exported_rows": 32,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_techniques/rows.jsonl",
+      "import_sha256": "5819971ed9f314bfddaec6ac79f94eb1b8b18b723f8d806689fa0396364d6ba6",
+      "key_field": "technique_id"
+    },
+    {
+      "name": "ic_tasks",
+      "path": "data/tables/ic_tasks",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 4,
+      "exported_rows": 4,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_tasks/rows.jsonl",
+      "import_sha256": "03b7ba2dab3c8a30838861940d660e239bb34dcadfe97ad28cc97cf6d539a3e8",
+      "key_field": "task_id"
+    },
+    {
+      "name": "ic_trend_periods",
+      "path": "data/tables/ic_trend_periods",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 10,
+      "exported_rows": 10,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_trend_periods/rows.jsonl",
+      "import_sha256": "2f515a8d87deb29a8e17ca66c55a1b8f4fe3d082996203821349ffa089f87a55",
+      "key_field": "period_id"
+    },
+    {
+      "name": "ic_trend_observations",
+      "path": "data/tables/ic_trend_observations",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 0,
+      "exported_rows": 0,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_trend_observations/rows.jsonl",
+      "import_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "key_field": "observation_id"
+    },
+    {
+      "name": "cloud_core_sources",
+      "path": "data/tables/cloud_core_sources",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 21543,
+      "exported_rows": 21543,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        }
+      ],
+      "rows_file": "data/compression/tables/cloud_core_sources/rows.jsonl",
+      "import_sha256": "a82b67091193e50dc3bddc1cb9a65ef46b3e7b726fd0cb94dccbb56b0120e599",
+      "key_field": "source_id"
+    },
+    {
+      "name": "ic_source_pipeline",
+      "path": "data/tables/ic_source_pipeline",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 16099,
+      "exported_rows": 16099,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_source_pipeline/rows.jsonl",
+      "import_sha256": "24177a8b759f79d42ceca288001e289ccd621306c7d7e657c151dbf58d7e03cb",
+      "key_field": "source_id"
+    },
+    {
+      "name": "cloud_core_constraints",
+      "path": "data/tables/cloud_core_constraints",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 9,
+      "exported_rows": 9,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        }
+      ],
+      "rows_file": "data/compression/tables/cloud_core_constraints/rows.jsonl",
+      "import_sha256": "3e123a214130f26b7ba1fd32b9d206ebcf8fa862b58c70f15ab43133e8309a2f",
+      "key_field": "constraint_id",
+      "purpose": "Original reader compatibility"
+    },
+    {
+      "name": "cloud_core_experiments",
+      "path": "data/tables/cloud_core_experiments",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 3,
+      "exported_rows": 3,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        }
+      ],
+      "rows_file": "data/compression/tables/cloud_core_experiments/rows.jsonl",
+      "import_sha256": "158d3783acaf76cab3c3e5a56baf238aac1d7ac73f501a4cf106fa0349dd2109",
+      "key_field": "experiment_id",
+      "purpose": "Original reader compatibility"
+    },
+    {
+      "name": "cloud_core_flywheel_stages",
+      "path": "data/tables/cloud_core_flywheel_stages",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 7,
+      "exported_rows": 7,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        }
+      ],
+      "rows_file": "data/compression/tables/cloud_core_flywheel_stages/rows.jsonl",
+      "import_sha256": "4612cf8c48bb8b873d5547850ed5dac13c01ea9dd285f086eb633f7bcbcb7fd9",
+      "key_field": "stage_id",
+      "purpose": "Original reader compatibility"
+    },
+    {
+      "name": "cloud_core_metrics",
+      "path": "data/tables/cloud_core_metrics",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 11,
+      "exported_rows": 11,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        }
+      ],
+      "rows_file": "data/compression/tables/cloud_core_metrics/rows.jsonl",
+      "import_sha256": "0e8a78179c65e6bca6eb50cf74c98c5a880c7df2570734868b0ea6685d07a692",
+      "key_field": "metric_id",
+      "purpose": "Original reader compatibility"
+    },
+    {
+      "name": "cloud_core_modules",
+      "path": "data/tables/cloud_core_modules",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 6,
+      "exported_rows": 6,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        }
+      ],
+      "rows_file": "data/compression/tables/cloud_core_modules/rows.jsonl",
+      "import_sha256": "9c6b19d0327a2d423e5706796e286815ea1ccbbe37104f21c0d64a875113cdd3",
+      "key_field": "module_id",
+      "purpose": "Original reader compatibility"
+    },
+    {
+      "name": "ic_decisions",
+      "path": "data/tables/ic_decisions",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 0,
+      "exported_rows": 0,
+      "filters": [
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        },
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_decisions/rows.jsonl",
+      "import_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "key_field": "decision_id",
+      "purpose": "Original reader compatibility"
+    },
+    {
+      "name": "ic_measurements",
+      "path": "data/tables/ic_measurements",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 0,
+      "exported_rows": 0,
+      "filters": [
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        },
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_measurements/rows.jsonl",
+      "import_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "key_field": "measurement_id",
+      "purpose": "Original reader compatibility"
+    },
+    {
+      "name": "topic_entity_refs",
+      "path": "data/tables/topic_entity_refs",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 991,
+      "exported_rows": 7,
+      "filters": [
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/topic_entity_refs/rows.jsonl",
+      "import_sha256": "96d2db90f3e708d3e2d0f3deae0c0e6017f9e6b88f2176545de2765595718fbb",
+      "key_field": "ref_id",
+      "purpose": "Original reader compatibility"
+    },
+    {
+      "name": "topic_workbench_items",
+      "path": "data/tables/topic_workbench_items",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 3546,
+      "exported_rows": 19,
+      "filters": [
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/topic_workbench_items/rows.jsonl",
+      "import_sha256": "3f04e20331d2d7b16fde0295eea51080cd5f438be12132a4e16ca8b9c201a96a",
+      "key_field": "item_id",
+      "purpose": "Original reader compatibility"
+    },
+    {
+      "name": "topic_workbench_objects",
+      "path": "data/tables/topic_workbench_objects",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 162,
+      "exported_rows": 0,
+      "filters": [
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/topic_workbench_objects/rows.jsonl",
+      "import_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "key_field": "object_id",
+      "purpose": "Original reader compatibility"
+    },
+    {
+      "name": "topic_workbench_profiles",
+      "path": "data/tables/topic_workbench_profiles",
+      "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
+      "source_row_count": 32,
+      "exported_rows": 1,
+      "filters": [
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/topic_workbench_profiles/rows.jsonl",
+      "import_sha256": "9c4701a8aee954244ee182833023274d6c0ec6e681b9d94734f7f87368a399fa",
+      "key_field": "topic_id",
+      "purpose": "Original reader compatibility"
+    }
+  ],
+  "errors": [],
+  "maintenance": "Edit only data/compression/tables/*/rows.jsonl; imported copies and views are generated."
+}

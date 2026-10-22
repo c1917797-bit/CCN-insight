@@ -1,0 +1,127 @@
+{
+  "description": "Persistent shared compression teaching numeric sample cells and scalar parameters; examples are illustrative, not business measurements",
+  "fields": {
+    "bit_pattern": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "column_index": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "example_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "label_en": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "label_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "method_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "numeric_value": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "number"
+    },
+    "position": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "role": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "row_index": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "value_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "topic_id",
+      "name": "by_topic"
+    },
+    {
+      "field": "method_id",
+      "name": "by_method"
+    },
+    {
+      "field": "example_id",
+      "name": "by_example"
+    }
+  ],
+  "key_field": "value_id",
+  "required_fields": [
+    "bit_pattern",
+    "business_id",
+    "column_index",
+    "example_id",
+    "label_en",
+    "label_zh",
+    "method_id",
+    "numeric_value",
+    "position",
+    "role",
+    "row_index",
+    "topic_id",
+    "value_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}

@@ -1,0 +1,167 @@
+{
+  "description": "Persistent editorial review intake: one reviewed paper to a review month and explicit research relevance, with original publication date preserved; not a publication-event table. Summary and source are referenced by stable IDs.",
+  "fields": {
+    "applicability_boundary_en": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "applicability_boundary_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "direction_en": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "direction_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "intake_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "next_step_en": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "next_step_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "position": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "publication_date": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "relation_kind": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "review_period_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "reviewed_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "selection_reason_en": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "selection_reason_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "source_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "summary_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "indexes": [
+    {
+      "field": "review_period_id",
+      "name": "by_review_period"
+    },
+    {
+      "field": "topic_id",
+      "name": "by_topic"
+    },
+    {
+      "field": "source_id",
+      "name": "by_source"
+    }
+  ],
+  "key_field": "intake_id",
+  "required_fields": [
+    "applicability_boundary_en",
+    "applicability_boundary_zh",
+    "business_id",
+    "direction_en",
+    "direction_zh",
+    "intake_id",
+    "next_step_en",
+    "next_step_zh",
+    "position",
+    "publication_date",
+    "relation_kind",
+    "review_period_id",
+    "reviewed_at",
+    "selection_reason_en",
+    "selection_reason_zh",
+    "source_id",
+    "summary_id",
+    "topic_id"
+  ],
+  "schema": "mcpgit.table.v2"
+}
