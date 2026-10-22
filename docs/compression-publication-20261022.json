@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-22",
+  "content_version": "compression-d33884c90c78ecce6b9b",
+  "source_repository": "https://github.com/c1917797-bit/CCN-insight",
+  "source_commit": "7932dc1071ae4ff4fc297c23e09eff8e658670b3",
+  "ccn": {
+    "status": "published",
+    "url": "https://ccn-insight-four.sunshinepmy.chatgpt.site",
+    "sites_source_commit": "4ba9ea98f4e405e0d57d7a9003d5bfae17b9e216",
+    "version": 12,
+    "version_id": "appgprj_6ad8b74cbb048191b7b6aaf46ad43a89~appgver_64ed92b0d0208191ade532b0eabb6a95",
+    "deployment_id": "appgdep_6ada5a49c41c81919eebd0395bb8c2da",
+    "verification": [
+      "public map loaded",
+      "weight quantization topic loaded",
+      "report reader loaded",
+      "local report cover image loaded"
+    ]
+  },
+  "lrigit": {
+    "status": "not_published",
+    "reason": "Existing full-repository style gate fails: inline style block and 34 meaningful_missing style classes in multiple modules. Temporary candidate normalized inline styles, but full gate still fails with the same 34 missing classes.",
+    "publication_topic": "3cf64128-7161-48df-a4bb-18b70b02347e",
+    "candidate_committed": false,
+    "failed_draft_topic": "4b408657-c60f-45b6-a3d8-0a5a2c23045a",
+    "draft_note": "Isolated failed preparation retained; not merged or published. Existing main content files unchanged."
+  }
+}
