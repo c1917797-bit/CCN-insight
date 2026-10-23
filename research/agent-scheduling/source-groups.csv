@@ -1,0 +1,12 @@
+category,id,title,description,position,legacy_anchor
+news,news-products,产品与市场资讯,发现Agent产品、服务与市场变化，再追溯原始发布。,1,
+news,news-engineering,架构与工程资讯,发现Agent基础设施与工程实践线索，再核对项目和论文。,2,
+academic,academic-preprints,预印本平台,发现新论文与修订版本；录用、评审状态另行核对。,1,
+academic,academic-systems,系统与性能会议,关注调度机制、服务系统、性能分析与系统实验。,2,
+academic,academic-ml,机器学习会议,关注学习辅助决策、Agent评测及影响调度的方法研究。,3,
+academic,academic-agents,多智能体会议,关注任务分配、协作与资源约束下的多Agent决策。,4,
+industry,industry-workflows,工作流运行时,关注任务依赖推进、等待、中断与故障恢复。,1,source-layer-0
+industry,industry-execution,分布式执行引擎,关注任务与实例分派、亲和及执行资源约束。,2,source-layer-1
+industry,industry-serving,模型推理服务,关注模型请求路由、实例队列、批处理及缓存配套。,3,source-layer-2
+industry,industry-cluster,集群资源调度,关注工作负载准入、设备放置与共享资源分配。,4,source-layer-3
+industry,industry-practice,跨层工程实践,补充跨执行层的部署经验与条件化性能观察。,5,source-layer-4

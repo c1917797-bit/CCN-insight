@@ -14,7 +14,7 @@
     const previous=category.value;
     category.replaceChildren();
     const option=(value,label)=>{const o=document.createElement('option');o.value=value;o.textContent=label;category.append(o);};
-    option('','全部子类');
+    option('','全部二级分类');
     const names=[...new Set(inDomain().map(c=>c.dataset.sourceCategory))];
     for(const name of names)option(name,name+' · '+inDomain().filter(c=>c.dataset.sourceCategory===name).length);
     category.value=names.includes(previous)?previous:'';
@@ -28,7 +28,12 @@
     all('[data-source-panel]').forEach(p=>p.hidden=p.dataset.sourcePanel!==domain);
     cards.forEach(c=>c.hidden=true);
     rows.slice(offsets[domain],offsets[domain]+size).forEach(c=>c.hidden=false);
-    all('[data-source-subcategory]').forEach(g=>g.hidden=![...g.querySelectorAll('.source-table-row')].some(c=>!c.hidden));
+    all('[data-source-subcategory]').forEach(g=>{
+      const count=[...g.querySelectorAll('.source-table-row')].filter(c=>!c.hidden).length;
+      g.hidden=count===0;
+      g.querySelector('[data-source-group-count]').textContent=count+' 个信息源';
+    });
+    all('[data-source-group-link]').forEach(a=>{if(a.dataset.sourceGroupLink===category.value)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current');});
     one('#channel-empty').hidden=rows.length>0;
     one('#channel-pagination').hidden=rows.length<=size;
     one('#channel-range').textContent=`${rows.length?offsets[domain]+1:0}–${Math.min(offsets[domain]+size,rows.length)} / ${rows.length}`;
@@ -55,8 +60,13 @@
       offsets[domain]=Math.floor(inDomain().filter(matches).indexOf(target)/20)*20;
       render();target.scrollIntoView({block:'start'});return;
     }
-    const layer=all('[data-source-subcategory]').find(g=>'#'+g.id===hash&&g.id);
-    if(layer){choose('industry');category.value=layer.dataset.sourceSubcategory;render();layer.scrollIntoView({block:'start'});return;}
+    const layer=all('[data-source-subcategory]').find(g=>'#'+g.id===hash||g.dataset.sourceLegacyAnchor&&'#'+g.dataset.sourceLegacyAnchor===hash);
+    if(layer){
+      choose(layer.closest('[data-source-panel]').dataset.sourcePanel);
+      category.value=layer.dataset.sourceSubcategory;
+      if(!inDomain().some(matches))priority.value='all';
+      render();layer.scrollIntoView({block:'start'});return;
+    }
     const legacy=hash==='#industry-sources-ascend'?'ascend':hash==='#industry-sources-general'?'general':null;
     if(legacy){choose('industry');ecosystem.value=legacy;render();one('#sources-industry').scrollIntoView({block:'start'});return;}
     const tab=tabs.find(t=>hash==='#sources-'+t.dataset.sourceTab);

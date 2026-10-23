@@ -8,7 +8,7 @@ def rows():
     return read('architecture-decisions.csv')
 
 def source_lens():
-    return '''<aside class="architect-lens"><span class="eyebrow">架构师的信源筛选</span><h3>每类来源，回答一个不同的问题</h3><div class="arch-three"><div><b>热点资讯 · 需求变化</b><p>发现新的任务形态、产品约束与成本压力；回到原始发布核对。</p></div><div><b>产业界 · 工程可用性</b><p>核对版本、接口、部署条件与限制；区分路线参考与昇腾可用能力。</p></div><div><b>学术界 · 方法与证据</b><p>读清决策变量、基线、负载和失效边界；再判断是否值得复现。</p></div></div><p class="arch-note">vLLM Ascend 是模型服务层的落地参照；元戎等分布式运行时回答任务执行问题。两者不能互相替代，也不单独代表完整 Agent 调度系统。</p></aside>'''
+    return '''<aside class="architect-lens"><span class="eyebrow">架构师的信源筛选</span><h3>每类来源，回答一个不同的问题</h3><div class="arch-three"><div><b>热点资讯 · 需求变化</b><p>发现新的任务形态、产品约束与成本压力；回到原始发布核对。</p></div><div><b>学术界 · 方法与证据</b><p>读清决策变量、基线、负载和失效边界；再判断是否值得复现。</p></div><div><b>业界 · 工程可用性</b><p>核对版本、接口、部署条件与限制；区分路线参考与昇腾可用能力。</p></div></div><p class="arch-note">vLLM Ascend 是模型服务层的落地参照；元戎等分布式运行时回答任务执行问题。两者不能互相替代，也不单独代表完整 Agent 调度系统。</p></aside>'''
 
 def architecture_overview():
     refs=''.join(f'<li><a href="{e(r["url"])}" target="_blank" rel="noopener noreferrer">{e(r["title"])} ↗</a><p>{e(r["fact"])}。</p><small>{e(r["limit"])}。核对 {r["checked"]}。</small></li>' for r in read('architecture-references.csv'))

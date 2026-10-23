@@ -3,8 +3,8 @@ from html import escape as e
 from decision_map import read, BASE
 
 CATEGORIES = [('news', '热点资讯', '发现产品与需求信号，再回到官方原文。'),
-              ('industry', '产业界', '按执行层比较工程实现，用昇腾标签筛选落地相关对象。'),
-              ('academic', '学术界', '从预印本发现新方法，用会议论文和原始实验核对依据。')]
+              ('academic', '学术界', '从预印本发现新方法，用会议论文和原始实验核对依据。'),
+              ('industry', '业界', '按执行层比较工程实现，用昇腾标签筛选落地相关对象。')]
 
 
 def registry():
