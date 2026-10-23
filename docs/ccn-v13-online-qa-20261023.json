@@ -1,0 +1,23 @@
+{
+  "url": "https://ccn-insight-four.sunshinepmy.chatgpt.site",
+  "version": 13,
+  "overview": {
+    "changes": 5,
+    "folds": 0,
+    "mechanisms": 9,
+    "methods": 20,
+    "records": 45,
+    "url": "https://ccn-insight-four.sunshinepmy.chatgpt.site/ai-infra/operators#routes"
+  },
+  "filter": {
+    "count": "1 / 45 条记录；硬件标签表示材料范围，适配情况请看原始条件。",
+    "visible": [
+      "Marlin：INT4存储与FP16矩阵执行的衔接 →"
+    ]
+  },
+  "deepLink": {
+    "target": "Marlin：INT4存储与FP16矩阵执行的衔接",
+    "top": 90.9609375,
+    "url": "https://ccn-insight-four.sunshinepmy.chatgpt.site/ai-infra/operators-layout-low-precision#record-layout-low-precision--marlin-primary-round2"
+  }
+}

@@ -6,6 +6,8 @@
 
 ## 已完成与入口
 
+- 推理压缩平台继续全范围改造：见 `docs/COMPRESSION-EXPERT-PLATFORM-20261023.md`。16专题有三项判断/两项具体对照；15份挑战矩阵；8条空缺路线与17条同源案例绑定补齐。当前209卡、482有效引用、36路线、198索引条目。新增/复核材料为指定章节，未全量全文审阅；旧论证不相干/重复引用已软删除重绑。三表类型筛选、地图知识状态与30案例快捷入口、动态事实直显、报告三选择/六论证/紧凑原文索引、六版归档、基础速查均接通。浏览器记录在 `docs/compression-platform-browser-qa-20261023.json`；桌面截图独立复核。报告旧二维grid和点击冒泡重置已修复。PPT文件未重制，未推送/发布/回写原站。内容版本 `compression-6c9aee3faaebb982df29`，读取修订 `1f67815ded0b9185a001daad3270625b6af28073`。新回归 `test_compression_depth.cjs` / `test_report_archive.cjs` / `test_foundations_quickref.cjs`；`refine_reader_copy.rebuild()`现同时重建基础课bundle。后续仍先核对实际服务8787是否运行。
+
 - 用户认为深色版不美观，本轮另做专题视觉修订：`topic-studio.css` 仅接入 `topic.html`，浅色阅读、紫蓝点缀、张量页首插画，取消正文与侧栏重复目录；权重页不再重复显示页首判断，并统一七章目录。KV 量化分镜明确标为 KIVI 示例，图示逐通道 K、逐 token V 与高精度 residual，未将 QJL 等路线拼接为一套流程。见 `docs/COMPRESSION-VISUAL-STUDIO-20261023.md`。仍仅本地、未推送或发布，视觉方向尚待用户反馈。
 - 追加五轮推理压缩专题打磨（不是算子页）：`docs/COMPRESSION-FIVE-ROUNDS-20261023.md`。当前190卡、443引用、179个可定位检索条目。四张案例/工程卡由指定原文补强；DeltaLog作为状态写回的关联边界进入紧凑架构，没有归为量化或新架构。
 - 论文盘点：16,148个按编号/链接去重的论文标识，含异常及尚未确认压缩相关记录；38篇有阅读摘要，61篇被专题引用（34含指定章节核对、27仅摘要）。这些来自不同维护记录，不是严格递减漏斗。不能说上万篇已吸收或全文读完。`scripts/audit_compression_inventory.py` 随reader构建输出公共汇总，完整本地审计见docs。
@@ -60,3 +62,8 @@ node scripts/test_expert_navigation.cjs
 13页本地结构更新完成，详见 docs/OPERATOR-PLATFORM-20261023.md。新增维护源 operator-research-structure.json、operator-judgment-log.json；派生索引 operator-evidence-index.json 只由构建生成。45条事实单源维护，20做法入口、27角色条目、五项真实编辑修订。各机制四主章，旧锚点保留为H3；生成仍是横向方法。浏览器13页、20做法实点、五判断回链、筛选/重置/刷新、390/1440排版已验收，记录 operator-platform-browser-qa-20261023.json。
 
 两项算子验证均PASS。完整构建已运行；门户和技术地图PASS。压缩兼容渲染新增challenges/industry两类已有卡片，曾通过209卡片/617引用校验；随后并行内容编辑使最新全站校验再次不一致（原阅读器content_version、parameters-factorization__dossier_2正文）。不得覆盖其他任务的维护源，也不得声称最新全站已验收。待并行编辑稳定后完整重建复核。未提交、未推送、未发布、未改变原站、未运行设备实验。
+
+## CCN v13 已发布（2026-10-23）
+用户明确授权发布。GitHub 内容提交 a7a2dfcb55876afa91dbbe921a2a74a08a5757c3，Sites v13 部署 succeeded。回执 deployment/ccn-publication.json；线上实测 docs/ccn-v13-online-qa-20261023.json。公开站九机制、20做法、45记录、五修订及 INT4/GPU 检索、原始记录直达已核实；原站保持不变。
+为避免干扰并行编辑，本次从 local-releases/ccn-public-20261023 隔离副本基于最新 origin/main 构建和推送，保留远端 Agent 提交。共享工作区的旧 HEAD 与未提交改动未重置；后续先比较远端和现有工作，勿以旧 HEAD 覆盖 main。
+
