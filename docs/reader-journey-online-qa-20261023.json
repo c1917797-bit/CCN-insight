@@ -1,0 +1,83 @@
+{
+  "siteVersion": 15,
+  "route": {
+    "current": "02低比特量化",
+    "top": 100.1015625,
+    "url": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/?month=2026-10#route-precision"
+  },
+  "topic": {
+    "outline": [
+      "01速览与证据",
+      "02研究背景",
+      "03基本原理",
+      "04关键挑战",
+      "05技术进展",
+      "06比较判断",
+      "07研究结论"
+    ],
+    "quickLinks": [
+      "先看比较判断",
+      "近期变化与核对范围",
+      "查位宽与格式",
+      "量化原理与动画"
+    ],
+    "subsections": [
+      "产业实现",
+      "学术路线",
+      "位宽与格式对照",
+      "机制与实验证据",
+      "近期材料与审阅范围"
+    ],
+    "url": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/topic.html?topic=parameters-precision&month=2026-10"
+  },
+  "awq": {
+    "tag": "ARTICLE",
+    "title": "AWQ：优先保护影响大的权重通道",
+    "top": 84.7578125
+  },
+  "updates": {
+    "url": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/?month=2026-10&scope=ic-2026-10-public-20261007-v1#view-updates",
+    "view": "updates",
+    "visible": true
+  },
+  "report": {
+    "choices": 3,
+    "url": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/?month=2026-10&scope=ic-2026-10-public-20261007-v1#view-home",
+    "view": "home",
+    "visible": true
+  },
+  "foundation": {
+    "returnHref": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/topic.html?topic=parameters-precision&month=2026-10#research-overview-basics",
+    "returned": {
+      "outline": [
+        "01速览与证据",
+        "02研究背景",
+        "03基本原理",
+        "04关键挑战",
+        "05技术进展",
+        "06比较判断",
+        "07研究结论"
+      ],
+      "top": 151.4453125,
+      "url": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/topic?topic=parameters-precision&month=2026-10#research-overview-basics"
+    }
+  },
+  "refresh": {
+    "chapterVisible": true,
+    "outline": [
+      "01速览与证据",
+      "02研究背景",
+      "03基本原理",
+      "04关键挑战",
+      "05技术进展",
+      "06比较判断",
+      "07研究结论"
+    ],
+    "url": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/topic?topic=parameters-precision&month=2026-10#research-overview-basics"
+  },
+  "limits": [
+    "Desktop journey verified; mobile viewport not measured.",
+    "During automated rapid navigation one shadow-root replacement and one CDP click timeout occurred; fresh state inspections and subsequent clicks succeeded.",
+    "No performance latency or device experiments measured."
+  ]
+}

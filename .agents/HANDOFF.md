@@ -76,3 +76,9 @@ node scripts/test_expert_navigation.cjs
 本轮已将新增报告布局和审阅记录合并入 GitHub main，整合提交 e6058b4。官方 Sites 状态确认并行发布的 v14 succeeded，版本源码 e7b46894c0e5bb568e4fd61d416e096eef24c2f5，故未重复部署。线上三张研究选择和三条原始文献标题均实测 display:block、宽度等于标题容器，记录 docs/ccn-v14-online-qa-20261023.json。回执区分独立验证的 GitHub 整合提交和实际 Sites 版本来源，不声称生成缓存标签逐字节相同。
 CCN-insight-site 保存未推送的镜像提交 4727fe9，远端已由并行流程推进到 e7b4689。保留本地提交，不强推或重置；后续请用官方 source helper 在干净目录打开当前源码，或按合并规则处理分歧。共享主工作区仍保留旧HEAD和并行未提交改动。原站未改动。
 
+
+## CCN v15 阅读链路已修复并发布
+
+用户要求修复点击与阅读主线。基于最新 main 的隔离 worktree `ccn-navigation-20261023` 完成；未重置旧 CCN-insight 工作目录。GitHub 内容提交 `1f2915f81f4adcd5a9c5d0e3e709d7551b084d5d`，Sites 源码 `bfd0f6f5ae023df05fe271f7e4407b5898202849`，v15 部署 `appgdep_6adbbe38ab9c8191a95e5d8dccf91c14` succeeded。
+
+主栏目跨页、HTML/clean URL识别、并排目录高亮、七章编号、整张方法卡片锚点、五类进展子目录与原理返回上下文已修复。首页AI Infra使用本站相对路径，总地图导航明确压缩范围。`scripts/test_reader_journey.cjs` 已加入CI。rebuild现统一刷新内联启动脚本及shell/CSS散列并以LF写入，勿运行旧日期化文案脚本覆盖现有内容。详见 `docs/READER-JOURNEY-REPAIR-20261023.md` 与 `docs/reader-journey-online-qa-20261023.json`。数据仍为209卡/482引用，PPT与原TableGit未改。移动视口和2秒目标未实测；本次自首页实点到课题、AWQ、动态、报告、原理返回和刷新。
