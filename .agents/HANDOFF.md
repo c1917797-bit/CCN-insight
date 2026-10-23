@@ -67,3 +67,8 @@ node scripts/test_expert_navigation.cjs
 用户明确授权发布。GitHub 内容提交 a7a2dfcb55876afa91dbbe921a2a74a08a5757c3，Sites v13 部署 succeeded。回执 deployment/ccn-publication.json；线上实测 docs/ccn-v13-online-qa-20261023.json。公开站九机制、20做法、45记录、五修订及 INT4/GPU 检索、原始记录直达已核实；原站保持不变。
 为避免干扰并行编辑，本次从 local-releases/ccn-public-20261023 隔离副本基于最新 origin/main 构建和推送，保留远端 Agent 提交。共享工作区的旧 HEAD 与未提交改动未重置；后续先比较远端和现有工作，勿以旧 HEAD 覆盖 main。
 
+
+## CCN v14 核验完成（2026-10-23）
+本轮已将新增报告布局和审阅记录合并入 GitHub main，整合提交 e6058b4。官方 Sites 状态确认并行发布的 v14 succeeded，版本源码 e7b46894c0e5bb568e4fd61d416e096eef24c2f5，故未重复部署。线上三张研究选择和三条原始文献标题均实测 display:block、宽度等于标题容器，记录 docs/ccn-v14-online-qa-20261023.json。回执区分独立验证的 GitHub 整合提交和实际 Sites 版本来源，不声称生成缓存标签逐字节相同。
+CCN-insight-site 保存未推送的镜像提交 4727fe9，远端已由并行流程推进到 e7b4689。保留本地提交，不强推或重置；后续请用官方 source helper 在干净目录打开当前源码，或按合并规则处理分歧。共享主工作区仍保留旧HEAD和并行未提交改动。原站未改动。
+
