@@ -1,0 +1,30 @@
+/* Semantic source rows; legacy card presentation deliberately does not apply. */
+.compression-sources .source-table-scroll{max-width:100%;overflow-x:auto;border:1px solid #dce5ec;border-radius:12px;background:#fff;scrollbar-color:#bccbd5 #f4f7f9;scroll-margin-top:100px}
+.compression-sources .source-table-scroll:focus-visible{outline:2px solid #267b88;outline-offset:3px}
+.compression-sources .source-table{width:100%;min-width:680px;table-layout:fixed;border-collapse:collapse;font-size:14px;line-height:1.75;margin:0}
+.source-table caption{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+.source-col-name{width:22%}.source-col-link{width:24%}.source-col-position{width:54%}
+.compression-sources .source-table th,.compression-sources .source-table td{text-align:left;vertical-align:top;padding:18px 20px;border:0;border-bottom:1px solid #e1e8ee;overflow-wrap:anywhere}
+.compression-sources .source-table thead th{background:#f0f5f8;color:#3e566a;font-size:13px;font-weight:650;padding:13px 20px;letter-spacing:.03em}
+.compression-sources .source-table tbody th{background:#fff;color:#18364c;font-weight:400}
+.compression-sources .source-table tbody tr:last-child>*{border-bottom:0}
+.compression-sources .source-table tbody tr:hover>*{background:#f8fbfc}
+.compression-sources .source-table tbody tr:target>*{background:#fff7e9;box-shadow:inset 0 2px #c99531,inset 0 -2px #c99531}
+.source-table-row{scroll-margin-top:100px}
+.source-table-name{display:block;font-size:16px;line-height:1.5;color:#18364c;font-weight:650}
+.source-table-badge{display:inline-block;margin-top:9px;padding:1px 7px;border:1px solid #dbe5e9;border-radius:5px;color:#607587;background:#f4f8fa;font-size:11px;font-weight:400}
+.compression-sources .source-table-link a{color:#126f7e;text-decoration:underline;text-decoration-color:#bad4db;text-underline-offset:3px;font-weight:550;font-size:14px}
+.compression-sources .source-table-link a:hover{color:#a32632;text-decoration-color:currentColor}
+.compression-sources .source-table-link small{display:block;margin-top:6px;font-size:11px;color:#7a8a98;font-weight:400}
+.compression-sources .source-table-position>p{font-size:14px;line-height:1.8;margin:0 0 8px;color:#344e62}
+.compression-sources .source-table-position>.source-table-focus{font-size:13px;color:#617587}
+.source-table-focus strong{font-weight:550;color:#466176}
+.compression-sources .source-table-details{border:0;background:transparent;border-radius:0;padding:0;margin:12px 0 0}
+.compression-sources .source-table-details>summary{font-size:12px;line-height:1.8;color:#286b78;min-height:28px;padding:0;cursor:pointer;font-weight:550}
+.compression-sources .source-table-details>p{font-size:13px;line-height:1.85;color:#526a7e;margin:12px 0}
+.compression-sources .source-table-details>.source-table-status{font-size:11px;color:#7a8b98}
+.compression-sources .source-table-details .source-research-links{margin:12px 0;font-size:11px}
+.compression-sources .source-table-details .source-research-links a{padding:2px 7px;font-size:11px}
+.compression-sources .source-table-details .channel-items,.compression-sources .source-table-details .source-family-entries{margin-top:12px;border:0;border-top:1px solid #e4ebef;border-radius:0;background:transparent;padding:10px 0 0}
+.compression-sources .source-table-details .channel-items summary,.compression-sources .source-table-details .source-family-entries summary{font-size:12px;padding:0;min-height:28px}
+@media(max-width:760px){.compression-sources .source-table th,.compression-sources .source-table td{padding:15px}.compression-sources .source-table thead th{padding:12px 15px}.source-table-name{font-size:15px}.compression-sources .source-table-link a{font-size:13px}.source-col-name{width:23%}.source-col-link{width:23%}.source-col-position{width:54%}}

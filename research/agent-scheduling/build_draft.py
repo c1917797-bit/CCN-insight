@@ -55,7 +55,7 @@ if __name__ == '__main__':
     folder.mkdir(parents=True, exist_ok=True)
     css_file = folder / 'draft.css'
     base_css = (HERE/'templates/base.css').read_text(encoding='utf-8')
-    styles = [HERE/name for name in ('map-styles.css','map-animation-styles.css','map-console-styles.css','direction-styles.css','pyramid-styles.css','literature-styles.css','source-styles.css','page-structure-styles.css','compression-source-styles.css','coffee-scene.css','team-strategy.css','report-redesign.css','architect-view.css')]
+    styles = [HERE/name for name in ('map-styles.css','map-animation-styles.css','map-console-styles.css','direction-styles.css','pyramid-styles.css','literature-styles.css','source-styles.css','page-structure-styles.css','compression-source-styles.css','coffee-scene.css','team-strategy.css','report-redesign.css','architect-view.css','source-table.css')]
     css_file.write_text(base_css+'\n'+'\n'.join(p.read_text(encoding='utf-8') for p in styles), encoding='utf-8')
     js_file=folder/'draft.js'
     marker='/* Source directory controls: progressive enhancement of the complete HTML registry. */'

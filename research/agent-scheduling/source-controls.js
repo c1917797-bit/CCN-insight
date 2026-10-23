@@ -3,7 +3,7 @@
   const root=document.querySelector('[data-source-directory]');
   if(!root)return;
   const one=s=>root.querySelector(s), all=s=>[...root.querySelectorAll(s)];
-  const cards=all('.channel-card'),tabs=all('[data-source-tab]');
+  const cards=all('.source-table-row'),tabs=all('[data-source-tab]');
   const category=one('#channel-category'),priority=one('#channel-priority'),query=one('#channel-query'),ecosystem=one('#channel-ecosystem');
   const offsets={news:0,industry:0,academic:0};
   let domain='news';
@@ -28,7 +28,7 @@
     all('[data-source-panel]').forEach(p=>p.hidden=p.dataset.sourcePanel!==domain);
     cards.forEach(c=>c.hidden=true);
     rows.slice(offsets[domain],offsets[domain]+size).forEach(c=>c.hidden=false);
-    all('[data-source-subcategory]').forEach(g=>g.hidden=![...g.querySelectorAll('.channel-card')].some(c=>!c.hidden));
+    all('[data-source-subcategory]').forEach(g=>g.hidden=![...g.querySelectorAll('.source-table-row')].some(c=>!c.hidden));
     one('#channel-empty').hidden=rows.length>0;
     one('#channel-pagination').hidden=rows.length<=size;
     one('#channel-range').textContent=`${rows.length?offsets[domain]+1:0}–${Math.min(offsets[domain]+size,rows.length)} / ${rows.length}`;
