@@ -34,3 +34,9 @@ acts,workflow,adaptive,上游协作边界,决定通信伙伴与通信拓扑，�
 dual-control-mas,sharing,quota,预算与验收参照,为整任务预算与有效完成率提供对照设计；没有提出资源公平分配算法。
 vllm-032,mapping,cost,服务入口工程实现,多API worker之间按负载分派连接；不等于模型选择或模型副本路由。
 ucm-081,mapping,cost,缓存正确性前提,缓存搬运与恢复正确性决定缓存亲和路由是否可用；维护修复本身不是新路由算法。
+temporal-queue-fairness,sharing,quota,官方机制基线,可将优先级加租户权重作为低成本基线；若任务长短差异大，需另记运行服务成本，避免派发次数公平掩盖资源占用偏斜。 文档描述的是分区内派发；本表测试和取舍为研究建议，没有执行实验。
+ray-node-affinity,mapping,placement,官方机制基线,把资源可行、当前空闲与状态可恢复分别建模；不要把soft亲和当作饱和回退。Actor迁移策略必须先验证状态恢复契约。 Ray任务局部性和Actor放置不是同一个机制；测试中不得将数据传输收益外推为会话迁移收益。
+yuanrong-session-affinity,mapping,cost,官方机制基线,先把sessionId、租约状态和可恢复上下文纳入候选筛选；只有恢复成本与一致性经过测量，才能研究过载下重绑阈值。 先核对部署版本与教程；持久化历史不自动覆盖调用栈或外部事务。
+temporal-go-150,workflow,list,版本接口依据,先分离任务等待拉取、已拉取待执行与实际执行耗时；只有poller覆盖是瓶颈时才验证按组自动扩缩，避免盲目增加下游在途量。 SDK发布说明确认能力存在；没有本地测量结果，poller数量不是Worker或GPU数量。
+ray-259-backpressure,sharing,quota,版本接口依据,给任务入口区分服务故障与可重试过载；拒绝、退避、截止时间及幂等键需联动，才能限制失败重试对系统的放大。 这是准入和运行时反馈的实现接口，不是资源扩容或GPU调度收益的证据。
+strands-box-preview,sharing,quota,准入约束,历史相关的调用额度决定工具调用是否可行；不作为资源公平或GPU排程性能的证据。

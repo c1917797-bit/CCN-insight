@@ -13,6 +13,18 @@ vllm,版本发布,https://github.com/vllm-project/vllm/releases,2026-10-13
 temporal,执行与恢复文档,https://docs.temporal.io/,2026-10-13
 kueue,准入与配额文档,https://kueue.sigs.k8s.io/,2026-10-13
 volcano,项目与调度文档,https://volcano.sh/,2026-10-13
-yuanrong,Agent会话与亲和性调度,https://docs.openyuanrong.org/zh-cn/latest/multi_language_function_programming_interface/advanced_tutorials/ai_agent_session.html,2026-10-14
+yuanrong,Agent会话与亲和性调度,https://docs.openyuanrong.org/zh-cn/latest/multi_language_function_programming_interface/advanced_tutorials/ai_agent_session.html,2026-10-23
 yuanrong,成组实例与放置策略,https://docs.openyuanrong.org/zh-cn/latest/multi_language_function_programming_interface/api/distributed_programming/Cpp/struct-Group.html,2026-10-14
 ucm,正式与预发布版本,https://github.com/ModelEngine-Group/unified-cache-management/releases,2026-10-23
+temporal,平台变更日志（Cloud / Server / SDK）,https://temporal.io/changelog,2026-10-23
+temporal,任务队列优先级与公平,https://docs.temporal.io/develop/task-queue-priority-fairness,2026-10-23
+temporal,服务端版本发布,https://github.com/temporalio/temporal/releases,2026-10-13
+ray,官方版本发布,https://github.com/ray-project/ray/releases,2026-10-23
+ray,任务与 Actor 调度机制,https://docs.ray.io/en/latest/ray-core/scheduling/index.html,2026-10-23
+langgraph,图运行时原理与文档,https://docs.langchain.com/oss/python/langgraph/overview,2026-10-23
+langgraph,Core / CLI / SDK 版本发布,https://github.com/langchain-ai/langgraph/releases,2026-10-23
+vllm,Semantic Router 独立子项目发布,https://github.com/vllm-project/semantic-router/releases,2026-10-23
+kubernetes,推理网关扩展版本发布,https://github.com/kubernetes-sigs/gateway-api-inference-extension/releases,2026-10-23
+arxiv,RSS / Atom 订阅说明,https://info.arxiv.org/help/rss.html,2026-10-23
+aws-strands,官方技术博客,https://strandsagents.com/blog/,2026-10-23
+aws-strands,Harness SDK 版本发布,https://github.com/strands-agents/harness-sdk/releases,2026-10-23

@@ -1,0 +1,8 @@
+id,channel_id,adapter,url,scope
+ray-releases,ray,github,https://api.github.com/repos/ray-project/ray/releases?per_page=40,最近40个发布项；非全历史
+langgraph-releases,langgraph,github,https://api.github.com/repos/langchain-ai/langgraph/releases?per_page=40,最近40个跨包发布项；需区分Core与SDK
+temporal-go,temporal,github,https://api.github.com/repos/temporalio/sdk-go/releases?per_page=40,Go SDK最近40个发布项；不代表全部Temporal产品
+vllm-releases,vllm,github,https://api.github.com/repos/vllm-project/vllm/releases?per_page=40,最近40个发布项；正文待人工审阅
+ascend-releases,ascend,github,https://api.github.com/repos/vllm-project/vllm-ascend/releases?per_page=40,最近40个发布项；RC与正式版分别标注
+ucm-releases,ucm,github,https://api.github.com/repos/ModelEngine-Group/unified-cache-management/releases?per_page=40,最近40个发布项；维护修复不等于新算法
+arxiv-systems,arxiv,atom,https://rss.arxiv.org/atom/cs.DC+cs.OS+cs.MA+cs.PF,当前订阅批次；不是任意时间范围的历史查询

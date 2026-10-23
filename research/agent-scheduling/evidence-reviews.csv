@@ -18,3 +18,9 @@ acts,2026-10-23,摘要与提交历史,摘要支持角色条件伙伴选择、集
 dual-control-mas,2026-10-23,摘要与提交历史,摘要明确同预算账本、13个有效比较单元及规划器未见工具schema的局限；未将负面结果泛化,不能推导所有多Agent系统都无效；本轮仅摘要核验，未检查完整轨迹与实现。
 vllm-032,2026-10-23,正式发布说明与发布日期,发布说明确认按负载分派API连接及32输入／1输出token的PR测试条件；未改写为模型副本路由,API worker不是模型副本；本轮未运行PR基准，也未验证昇腾适配。
 ucm-081,2026-10-23,正式发布说明与发布日期,发布说明确认FAWA块大小适配、DCP索引与共享内存清理修复；保留维护版本性质,维护版本不等于新的调度方法；本轮只核对release notes，尚未本地复现缺陷与修复。
+temporal-queue-fairness,2026-10-23,官方文档机制与限制定点核验；Task Queue Priority；Choosing between Priority/Fairness/both；Limitations of Fairness,在队列分区内先按优先级选层，再按fairness key权重选择虚拟队列，同一key内按FIFO；活动和子工作流可继承父级字段。 日期口径：文档未标发布日期；相关能力GA公告为2026-05-05，不能把核对日当成发布日,不保证全队列严格顺序、整任务完成时间公平或低优先级永不饥饿；未验证昇腾收益。
+ray-node-affinity,2026-10-23,官方文档机制与限制定点核验；Resources；NodeAffinitySchedulingStrategy；Locality-Aware Scheduling,资源要求先决定可行集；NodeAffinity的soft仅在目标不存在或不可行时允许换节点，目标存活且可行但暂忙时仍等待；默认任务局部性可优先于利用率。 日期口径：文档未标发布日期；2.59.0是页面版本标识而非本次机制发布日期,不能把soft=true解释为自动绕开热点，也不能把task局部性称为actor会话恢复能力。
+yuanrong-session-affinity,2026-10-23,官方教程会话机制与SDK语义定点核验；会话调度机制；弱亲和性与持久化；SDK使用说明,首次sessionId绑定instanceId，绑定有效时后续请求定向原实例；默认弱亲和TTL=0，租约释放后绑定可失效；不可用时新实例从分布式数据系统加载会话状态。 日期口径：页面最后更新为2026-07-09；该子页与文档首页版本不能混用,不证明运行中线程、GPU KV缓存或未完成外部调用能够零成本迁移；不能当成自动最优DAG调度。
+temporal-go-150,2026-10-23,官方发布说明与发布日期核验；Highlights / Added第3项；Changed / Task queue priority,发布说明新增server poller groups的autoscaling支持，按组覆盖并优先处理sticky backlog；同时移除task queue priority的experimental标记。 日期口径：官方GitHub API published_at=2026-10-15T21:03:14Z；不属于10月17—23日新增,不能把poller扩缩解释为GPU副本弹性或整任务优先级算法；文中没有宣称零配置获得时延改进。
+ray-259-backpressure,2026-10-23,官方发布说明与发布日期核验；PR未作代码级审计；Ray Serve / New Features / Configurable backpressure responses,每个deployment可配置BackpressureConfig；超过max_queued_requests后可返回429代替503，并可带Retry-After；默认行为保持不变。 日期口径：官方GitHub API published_at=2026-10-02T07:04:37Z；不属于10月17—23日新增,不是新的GPU批次排程算法，也不保证整个Agent工作流已具备幂等重试或完成时限。
+strands-box-preview,2026-10-23,InfoQ报道追溯AWS10月7日原始发布；机制和示例定点审阅,区分10月16日报道与10月7日原始事件；保留历史策略及平台限制,没有运行Box或复现其策略；未审计实现；没有调度性能实验

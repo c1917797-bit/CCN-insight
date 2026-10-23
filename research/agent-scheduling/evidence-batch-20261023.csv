@@ -1,0 +1,7 @@
+publication_id,label,decision_delta
+temporal-queue-fairness,工程机制 · 无明确发布日期,先分清派发次数公平与执行资源公平，再选择配额或服务成本策略。
+ray-node-affinity,工程机制 · 无明确发布日期,软亲和不自动避开繁忙节点；过载回退需要显式机制与可恢复状态。
+yuanrong-session-affinity,机制补读 · 页面更新于7月,把会话绑定、租约和恢复成本纳入映射依据，先验一致性再研究搬迁收益。
+temporal-go-150,10月版本 · 10月15日,先区分拉取覆盖不足与执行容量不足，避免用扩poller掩盖Worker饱和。
+ray-259-backpressure,10月版本 · 10月2日,让过载反馈进入任务级退避与截止时间控制，避免请求重试放大拥塞。
+strands-box-preview,热点追溯 · 官方首发10月7日,将授权拒绝与容量排队分开；工具调用不能因为可以重试就无限重试。

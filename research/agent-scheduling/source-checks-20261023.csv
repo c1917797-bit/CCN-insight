@@ -1,0 +1,20 @@
+channel_id,url,checked,check_type,result,boundary
+temporal,https://temporal.io/changelog,2026-10-23,变更入口核查,可读；按 Cloud、Server、SDK 分类，包含队列公平与 Worker 弹性条目。,本次所见相关条目在本周窗口外；未遍历所有 SDK 发布。
+temporal,https://docs.temporal.io/develop/task-queue-priority-fairness,2026-10-23,机制定点审阅,核对优先级、分区限制以及同优先级内的公平分发。,官方滚动文档；未实测，不能推导完成时间或 GPU 时间公平。
+ray,https://github.com/ray-project/ray/releases,2026-10-23,发布列表抽查,可读；包含10月21日 Ray 2.58.1 维护版本。,该条主要为 Ray Data 与镜像修复，不作为调度机制新增；未审查所有历史版本与 PR。
+ray,https://docs.ray.io/en/latest/ray-core/scheduling/index.html,2026-10-23,机制定点审阅,核对资源可行性、DEFAULT/SPREAD、节点亲和及任务局部性边界。,滚动文档当前标 Ray 2.59.0；局部性规则不可直接套用 Actor，未运行代码。
+langgraph,https://github.com/langchain-ai/langgraph/releases,2026-10-23,发布列表抽查,可读；Core、CLI、SDK、checkpoint 分包发布，不能把 CLI Latest 等同 Core 最新版。,只读发布列表与顶部条目；不声称所有包变更均已筛选。
+langgraph,https://docs.langchain.com/oss/python/langgraph/overview,2026-10-23,机制定点审阅,核对其为有状态 Agent 图编排运行时，提供持久化和中断等运行机制。,没有证明调度算法优越性；未核验全部运行时配置。
+yuanrong,https://docs.openyuanrong.org/zh-cn/latest/index.html,2026-10-23,目录入口核查,可读；首页有 v0.10.0 入口，提供会话、资源与亲和文档导航。,首页标识不等于发布内容核验；子页可能是较早内容。
+yuanrong,https://gitcode.com/openeuler/yuanrong/releases,2026-10-23,发布详情读取失败,请求超时，未取得发布详情。,不能确认发布日期、完整变更或认定本周发布。
+yuanrong,https://docs.openyuanrong.org/zh-cn/latest/multi_language_function_programming_interface/advanced_tutorials/ai_agent_session.html,2026-10-23,机制定点审阅,核对 sessionId 绑定、弱亲和失效、持久化状态恢复与等待唤醒。,子页标2026-07-09且页头v0.9.0，按该页语义引用；不等同v0.10.0完整机制。
+vllm,https://github.com/vllm-project/semantic-router/releases,2026-10-23,子项目入口核查,可读；Semantic Router 有独立版本列表。,模型选择属于独立子项目，不能视作 vLLM Core 副本路由能力或本周新增。
+kubernetes,https://github.com/kubernetes-sigs/gateway-api-inference-extension/releases,2026-10-23,子项目入口核查,可读；推理网关扩展有独立版本发布。,只核查入口及发布列表，不声称完整文档和全部版本语义已审阅。
+kubernetes,https://kubernetes-sigs.github.io/gateway-api-inference-extension/,2026-10-23,文档入口读取失败,工具未能取得文档页面。,使用可读的官方发布入口补充观察；不能把失败解释为没有更新。
+arxiv,https://info.arxiv.org/help/rss.html,2026-10-23,订阅能力核查,官方支持学科 RSS/Atom 与多类别组合，可用于发现首发和修订候选。,本轮未做全量论文扫描；订阅入口存在不等于网站已配置自动采集。
+infoq,https://www.infoq.com/agents/,2026-10-23,媒体主题列表抽查,可读；按新闻、演讲和文章区分内容，发现 Strands Box 与 Agent 运行时线索。,只抽查本月相关线索；媒体报道时间不等于产品发布时间。
+infoq,https://www.infoq.com/news/2026/10/aws-strands-agents/,2026-10-23,媒体线索追溯,10月16日报道 Strands Decider 与 Strands Box；本次仅追溯 Box 的工具约束机制。,不把模型性能宣传或不同产品混合成调度算法收益。
+infoq,https://aws.amazon.com/blogs/opensource/introducing-strands-box-ai-agent-sandboxes-powered-by-dogwood/,2026-10-23,原始发布定点审阅,原始事件为10月7日开发者预览；核对进程外策略执行、历史事件计数和时间窗内工具拒绝示例。,本周窗口外的补充依据；约束执行不是调度优化，macOS起步且直接目录授权不进入策略历史，未实测性能。
+aws-strands,https://strandsagents.com/latest/,2026-10-23,官方目录入口核查,可读；官网区分 Harness SDK、Box、Shell 等项目，包含图执行、中断、会话和工具执行文档。,本次读取目录与项目定位；未核验所有子项目功能或性能。
+aws-strands,https://github.com/strands-agents/harness-sdk/releases,2026-10-23,版本入口核查,旧 sdk-python 地址重定向至 harness-sdk；发布列表按 Python、TypeScript 与 Harness 分流。,版本列表不是单一组件版本；未核验所有改动，不能由顶部 Latest 推导 Box 状态。
+aws-strands,https://strandsagents.com/blog/,2026-10-23,官方博客入口核查,可读；作为 Agent 运行时与 Box 等子项目的持续说明入口。,具体事件须逐条核对原始日期、项目版本及适用范围。

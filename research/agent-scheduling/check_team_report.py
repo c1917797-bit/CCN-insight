@@ -12,7 +12,7 @@ home=next(p for p in pages if p.name=='index.html').read_text(encoding='utf-8')
 positions=[home.index(f'<section id="{k}"') for k in ('sources','map','updates','analysis','archive')]
 assert positions==sorted(positions)
 pubs,links,routes=model()
-assert len(pubs)==19 and len(links)==35
+assert len(pubs)==25 and len(links)==41
 week=read('weekly-selection.csv')
 assert len(week)==4 and len({r['publication_id'] for r in week})==4
 assert all('2026-10-17' <= pubs[r['publication_id']]['published'] <= '2026-10-23' for r in week)
@@ -37,4 +37,20 @@ for path in pages:
         pos=[text.index(f'<section id="{r["section_id"]}"') for r in rows]
         assert pos==sorted(pos)
     assert '架构编排 · 2026-10-23' in text and '动态证据截至 2026-10-23' in text
-print('PASS: 23 page structures; 3 complete research contracts; 19 evidence records; 35 links; 4 verified weekly selections; period and metric boundaries.')
+assert pubs['strands-box-preview']['published']=='2026-10-07'
+assert period_kind(pubs['temporal-queue-fairness'])=='能力资料'
+assert period_kind(pubs['ray-node-affinity'])=='能力资料'
+assert period_kind(pubs['yuanrong-session-affinity'])=='历史补录'
+assert len(read('evidence-batch-20261023.csv'))==6
+assert {r['publication_id'] for r in read('evidence-batch-20261023.csv')}<=set(pubs)
+sources={r['id'] for r in read('source-channels.csv')}
+assert len(sources)==27 and len(read('source-profile.csv'))==len(sources)
+assert all(r['channel_id'] in sources for r in read('source-checks-20261023.csv'))
+assert all(r['channel_id'] in sources and r['domain_id'] in {'workflow','mapping','sharing'} for r in read('source-domain-links.csv'))
+assert {r['channel_id'] for r in read('source-domain-links.csv')}==sources
+candidates=read('signal-candidates.csv')
+assert len({r['id'] for r in candidates})==len(candidates)
+assert all(not r['published'] and not r['revised'] for r in candidates if r['channel_id']=='arxiv'), 'Feed announcements cannot establish paper dates'
+assert all(set(r['publication_ids'].split('|'))<=set(pubs) and r['review_due']>r['reviewed'] for r in read('decision-watchlist.csv'))
+assert 'channel-area' in home and 'channel-evidence' in home and 'source-monitor' in home
+print(f'PASS: 23 page structures; 3 complete research contracts; {len(pubs)} evidence records; {len(links)} links; 4 verified weekly selections; source/evidence/decision and date boundaries.')

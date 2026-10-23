@@ -94,4 +94,4 @@ for name,page in pages.items():
     text=(folder/name).read_text(encoding='utf-8')
     assert not re.search(r'127\.0\.0\.1|C:[/\\]|PRIVATE KEY|Authorization\s*:|basic_verify\s*[:=]|password\s*[:=]',text,re.I),name
 subprocess.run([sys.executable,'-X','utf8',str(SOURCE/'check_team_report.py')],check=True)
-print(f'PASS: {len(pages)} pages; {count} internal links; {len(image_files)} original evidence images with source/preview/dist SHA-256 parity; 3 concrete mechanism SVGs; 19 evidence-to-decision links; no local paths or credential assignments.')
+print(f'PASS: {len(pages)} pages; {count} internal links; {len(image_files)} original evidence images with source/preview/dist SHA-256 parity; 3 concrete mechanism SVGs; {len(links)} evidence-to-decision links; no local paths or credential assignments.')

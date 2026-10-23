@@ -43,7 +43,7 @@ def page_lens(title,areas):
 
 def evidence_lens(key):
     r=next(r for r in read('architecture-evidence-links.csv') if r['publication_id']==key)
-    return f'''<aside class="arch-impact"><span>架构影响 · 本报告分析</span><h5>{e(r['decision'])}</h5><p>{e(r['impact'])}。</p><small>{e(r['boundary'])}。</small></aside>'''
+    return f'''<aside class="arch-impact"><span>架构影响 · 本报告分析</span><h5>{e(r['decision'])}</h5><p>{e(r['impact'].rstrip('。'))}。</p><small>{e(r['boundary'].rstrip('。'))}。</small></aside>'''
 
 def updates_lens():
     return '''<div class="architect-lens compact"><span class="eyebrow">读动态时，带走一个架构问题</span><h3>发生了什么 → 影响哪个决策 → 接入条件是什么</h3><p>每项资料保留原始事实和技术路线，新增“架构影响”解释改哪一层、需要什么条件。影响分析是本报告判断；选型优先级集中在“分析结论”，避免一篇论文直接变成采用建议。</p><p class="arch-note">本次更新覆盖2026-10-17—23日的重点筛选，共4条核验内容；论文仅完成摘要级核验，工程条目核对正式发布说明。既有资料保留原核验日期。</p></div>'''

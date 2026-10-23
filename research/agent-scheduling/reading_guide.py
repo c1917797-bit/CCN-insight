@@ -55,12 +55,13 @@ def related(title):
 
 
 def archive():
+    from insight_cycle import archive_delta
     from source_registry import registry
     channels=registry()[0]
     pubs=read('research-publications.csv')
     academics=8  # Fixed historical count for the 2026-10-14 record, not today's collection.
     return f'''<section id="archive"><p class="eyebrow">05 / 洞察归档</p><h2>保留研究过程，追踪判断变化</h2>
-<p>从2026年10月开始积累。正式报告、路线结论与整理记录分别标注，尚未定稿的工作不作为正式月报。</p>
+<p>从2026年10月开始积累。正式报告、路线结论与整理记录分别标注，尚未定稿的工作不作为正式月报。</p>{archive_delta()}
 <article class="archive-record"><span class="eyebrow">2026-10-23 · 专家阅读改造</span><h3>以研究问题组织地图，以机制与原图支撑阅读</h3><p>三项研究方向分别说明挑战、决策变量、路线与代表资料；架构、指标和咖啡演示归入按需展开的说明。新增三个可复算教学机制图与 Murakkab 原文深读，定点核对关键图表和比较条件，未复现实验。</p><a href="#map">查看研究地图 →</a> · <a href="{BASE}reading-murakkab.html">阅读 Murakkab 原文分析 →</a></article>{archive_entry()}<article class="archive-record"><span class="eyebrow">2026-10-15 · 团队研究体系</span><h3>围绕三项核心技术积累可复用竞争力</h3><p>统一依赖感知排程、状态感知映射与干扰感知分配；补充算法输入输出、方法、阶段验收和共用底座。新增 Murakkab 会议摘要级依据，保留既有资料核对日期。本版是研究规划，未宣称实现领先收益。</p><a href="#analysis">查看建设路径 →</a></article><article class="archive-record"><span class="eyebrow">2026-10-14 · 信源目录整理</span><h3>区分来源身份、执行层次与研究关联</h3><p>当前登记{len(channels)}个持续信源。补入元戎与InfoQ；产业界按四个执行层组织，跨层工程观察单列。每张卡说明定位、选择理由、关注内容与适用边界，昇腾相关作为独立筛选标签。</p><p>这是目录调整，未新增已核验的论文或发布事件。原有8篇论文与6项官方资料的证据归属保持不变。</p></article>
 <article class="archive-record"><span class="eyebrow">2026-10-13 · 资料整理记录</span><h3>明确证据用途、时间窗口与路线决策条件</h3>
 <dl><dt>当时范围</dt><dd>23个持续信源，8篇论文与6项官方实现资料，关联三个根技术方向。</dd><dt>当时调整</dt><dd>逐项标注14份资料的复核范围，说明28条路线关联，补充3个研究方向的继续与调整条件；统一22页的阅读目录和证据边界。</dd><dt>研究状态</dt><dd>新增信源待继续筛选内容，尚未形成正式月度报告，也没有云核实测路线结论。</dd></dl>
