@@ -1,0 +1,41 @@
+{
+  "site_url": "https://ccn-insight-four.sunshinepmy.chatgpt.site",
+  "site_version": 14,
+  "browser": "in-app browser",
+  "content_version": "compression-0c13ebb37577a4899c82",
+  "reader_revision": "03aed4dedb85aa7a50568c0cf537b20adcf99ead",
+  "online_manifest_tables": 91,
+  "map": {
+    "topic_entries": 16,
+    "root_routes": [
+      "低比特量化",
+      "稀疏化与剪枝",
+      "知识蒸馏",
+      "低秩分解"
+    ]
+  },
+  "weight_topic": {
+    "title": "权重 × 量化 · 推理压缩专题 · 云核",
+    "visible_research_content": true,
+    "horizontal_overflow": false
+  },
+  "report": {
+    "choice_cards": 3,
+    "title_links_display": [
+      "block",
+      "block",
+      "block"
+    ],
+    "reader_default_open": true,
+    "first_slide_loaded": true,
+    "first_slide_natural_width": 3202,
+    "argument_jump_target_top": 84.9921875,
+    "argument_jump_view": "home"
+  },
+  "screenshot": "docs/ccn-v14-public-map-20261023.png",
+  "limits": [
+    "This publication checked the map, one full topic, report viewer, jump and online manifest; all 16 topic pages were checked locally in the preceding editorial iteration.",
+    "Mobile layout and a 2-second public-load target were not measured in this publication check.",
+    "Direct Python HTTP requests were rejected with 403 by the hosting edge; browser access and manifest inspection succeeded."
+  ]
+}

@@ -67,3 +67,7 @@ node scripts/test_expert_navigation.cjs
 用户明确授权发布。GitHub 内容提交 a7a2dfcb55876afa91dbbe921a2a74a08a5757c3，Sites v13 部署 succeeded。回执 deployment/ccn-publication.json；线上实测 docs/ccn-v13-online-qa-20261023.json。公开站九机制、20做法、45记录、五修订及 INT4/GPU 检索、原始记录直达已核实；原站保持不变。
 为避免干扰并行编辑，本次从 local-releases/ccn-public-20261023 隔离副本基于最新 origin/main 构建和推送，保留远端 Agent 提交。共享工作区的旧 HEAD 与未提交改动未重置；后续先比较远端和现有工作，勿以旧 HEAD 覆盖 main。
 
+
+## CCN 公开发布 · v14
+
+用户已授权本次发布。GitHub 内容提交 `0b5c0d8d478bdebedc483267ddc216762f1c191f`；Sites 源码 `e7b46894c0e5bb568e4fd61d416e096eef24c2f5`；v14 部署 `appgdep_6adba809a1c48191b25bcb8040e126b9` 已成功。公开网址保持不变，原 TableGit 站点未修改。发布回执在 `deployment/ccn-publication.json`，线上验收在 `docs/ccn-v14-online-qa-20261023.json`。统一文本换行后内容版本为 `compression-0c13ebb37577a4899c82`。原主工作目录的未提交内容被保留，发布通过独立 worktree 完成，不要直接重置原工作目录。
