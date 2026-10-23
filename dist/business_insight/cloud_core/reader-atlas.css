@@ -88,7 +88,8 @@ body[data-compression-view="topics"] #map>h2{display:none}
 .compression-analysis-reader #insight-overview>p{max-width:90ch;margin:10px 0;line-height:1.85}
 .compression-analysis-reader #analysis-summary{width:100%;max-width:none;min-width:0;box-sizing:border-box}
 .compression-analysis-reader .analysis-choice-grid{width:100%;box-sizing:border-box}
-.compression-analysis-reader .analysis-choice-card h4 a{word-break:normal;overflow-wrap:normal}
+.compression-analysis-reader .analysis-choice-card h4 a{display:block;word-break:normal;overflow-wrap:normal}
+.compression-analysis-reader .analysis-source-index-row h4 a{display:block}
 .compression-research-workbench a:focus-visible,.compression-research-workbench button:focus-visible{outline:2px solid #756bd0;outline-offset:4px}
 @media(max-width:1000px){.compression-research-workbench .research-map-grid{grid-template-columns:1fr}.compression-research-workbench .research-map-route{padding:23px}.compression-research-workbench .science-map-header{padding:25px}}
 @media(max-width:640px){.compression-research-workbench .science-map-header{padding:22px 19px;border-radius:13px}.map-route-navigation>a{font-size:12px;padding:8px}.compression-research-workbench .research-map-route{padding:20px}.compression-research-workbench .research-map-related-grid{grid-template-columns:1fr}.topic-reasoning-item{padding-left:31px}.topic-reasoning-item dl>div{grid-template-columns:1fr;gap:3px}.topic-reasoning-item dt{font-size:11px}.topic-challenge-matrix th,.topic-challenge-matrix td{padding:14px}.compression-research-workbench .topic-reasoning-item>h5{font-size:16px}}
