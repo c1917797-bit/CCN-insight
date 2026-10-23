@@ -440,3 +440,19 @@ main>section{padding-top:30px}section section{padding-top:28px}h2{font-size:clam
 .source-group-heading>small{font-size:11px;color:#7a8e9d;white-space:nowrap}
 .source-group-description{font-size:12px;line-height:1.7;color:#718593;margin:0 0 13px}
 @media(max-width:600px){.compression-sources .source-panel-intro h3{font-size:21px;gap:8px}.source-group-heading h4{font-size:16px}.source-group-nav{gap:6px}.source-group-nav a{font-size:11px;padding:6px 8px}}
+
+/* Exactly one table per source category, with row groups inside the same grid. */
+.compression-sources .source-table tbody.source-subcategory{padding:0;margin:0}
+.compression-sources .source-table .source-subgroup-header>th{padding:12px 18px 11px;background:#edf3f6;border-top:1px solid #d6e2e9;border-bottom:1px solid #dce7ed}
+.compression-sources .source-table tbody:first-of-type .source-subgroup-header>th{border-top:0}
+.source-subgroup-header .source-group-heading{border:0;padding:0;margin:0 0 5px}
+.source-subgroup-header .source-group-heading h4{font-size:14px;line-height:1.6}
+.source-subgroup-header .source-group-description{font-size:11px;line-height:1.7;margin:0;color:#7c8f9d}
+.compression-sources .source-table tbody.source-subcategory tr:last-child>*{border-bottom:1px solid #e1e8ee}
+.compression-sources .source-table tbody.source-subcategory:last-child tr:last-child>*{border-bottom:0}
+.source-coverage-list{margin:16px 0 0}
+.source-coverage-list>div{padding:12px 0;border-top:1px solid #e2e9ee}
+.source-coverage-list dt{font-size:14px;font-weight:600;color:#36536b}
+.source-coverage-list dd{margin:5px 0 0;font-size:13px;color:#657b8c}
+.source-coverage-list p{margin:5px 0;line-height:1.8}
+.source-coverage-list small{font-size:12px}

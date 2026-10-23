@@ -4,7 +4,7 @@ from decision_map import read, BASE
 
 CATEGORIES = [('news', '热点资讯', '发现产品与需求信号，再回到官方原文。'),
               ('academic', '学术界', '从预印本发现新方法，用会议论文和原始实验核对依据。'),
-              ('industry', '业界', '按执行层比较工程实现，用昇腾标签筛选落地相关对象。')]
+              ('industry', '产业界', '按执行层比较工程实现，用昇腾标签筛选落地相关对象。')]
 
 
 def registry():
@@ -49,8 +49,8 @@ def coverage_view(channels):
     for row in read('source-coverage.csv'):
         selected=[channels[l['channel_id']] for l in links if l['coverage_id']==row['id']]
         refs=' · '.join(f'<a href="#channel-{c["id"]}">{e(c["title"])}</a>' for c in selected)
-        rows.append(f'<tr><th scope="row">{e(row["title"])}</th><td>{e(row["question"])}<small>{e(row["boundary"])}</small></td><td>{refs}</td></tr>')
-    return '<div id="sources-coverage" class="source-coverage"><h3>先看覆盖：沿任务链路检查研究盲区</h3><p>下列是信源覆盖检查项，三个根技术方向保持不变。信源相互补充，论文按原始标识去重。</p><div class="table-scroll"><table><thead><tr><th scope="col">检查范围</th><th scope="col">要回答的问题</th><th scope="col">重点入口</th></tr></thead><tbody>'+''.join(rows)+'</tbody></table></div></div>'
+        rows.append(f'<div><dt>{e(row["title"])}</dt><dd><p>{e(row["question"])}</p><small>{e(row["boundary"])}</small><p>{refs}</p></dd></div>')
+    return '<div id="sources-coverage" class="source-coverage"><h3>沿任务链路检查研究盲区</h3><p>信源相互补充，论文按原始标识去重。</p><dl class="source-coverage-list">'+''.join(rows)+'</dl></div>'
 
 
 def directory():
