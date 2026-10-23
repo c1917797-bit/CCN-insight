@@ -26,3 +26,17 @@
 - 扫描迁移源与发布HTML，未发现凭据模式或本地路径泄漏。
 
 Windows官方打包步骤失败后，按同一个已推送镜像提交打包；save/deploy返回版本25发布成功。没有把本地生成或GitHub推送本身当作线上部署成功。
+
+## 信源目录迭代发布 · v28
+
+用户要求表格展示，并进一步参考成熟的信息源管理实践。最终目录采用“信息源与入口 / 定位与研究价值 / 关注内容与跟踪方式”三列；名称直达主入口，同源其他渠道就近展开。人工建议频率与最近核对日期分开，证据用途不作为可信度评分。默认全部26源，保留三类、子类、生态、核心筛选与搜索；NeurIPS、ICML、ICLR默认可见。目录与具体论文、事件分开维护。
+
+| 版本 | GitHub内容提交 | Sites镜像提交 | 结果 |
+| --- | --- | --- | --- |
+| 26 | b94fa8be433fa12cc46303ef0fd0bd7f3dcd9407 | 8bacd959ad57ba6f5434362d710d04cb57efcdd9 | succeeded |
+| 27 | aac588a（表格宽度适配） | 69db2ac0fe76c6ea584e217733338d843d58efab | succeeded |
+| 28 | fc65e41edbb324a14bf87815ef355d140f7065fc | 5cd2aaf0ba6c4b61e8237f54d312dabf2588bfee | succeeded |
+
+最终部署：`appgdep_6adb59a7280081918b92d5e103f4bb31`；访问 https://cloud-core-agent-scheduling-preview.sunshinepmy.chatgpt.site/business_insight/cloud_core/agent_orchestration/?v=28#sources 。
+
+整仓构建与校验、22页模块结构与内部链接检查通过。浏览器验证三类切换、搜索及空结果、核心筛选、生态筛选、来源深链接、主入口与相关渠道、行内展开。窄桌面表格内容宽度与容器一致，手机在表内横向滚动。正式域名可见26条目录记录、三个新表头与默认9个学术信源；三大顶会均可见。整理实践的参考原文与字段契约见 `docs/AGENT-SOURCE-CATALOG.md`。仍为人工维护，未配置自动订阅。
