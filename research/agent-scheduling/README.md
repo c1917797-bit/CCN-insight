@@ -8,6 +8,7 @@
 - `architecture-decisions.csv`：三项技术的架构接入契约。
 - `architecture-evidence-links.csv`：19 项资料与架构决策的关联；分析不是原文事实。
 - `architecture-references.csv`：另行核对的4项架构依据，不冒充本期新增事件。
+- `source-profile.csv`：信源入口类型与证据用途；它不是可信度评分。主表展示来源身份、研究价值、关注重点与人工跟踪建议，默认保留全部来源；具体文章与论文继续进入动态。
 - Python 文件负责渲染；CSS / JS 负责阅读体验与教学模拟；`templates/` 是基础模板。
 - `site/`、`outputs/`、仓库 `dist/` 都是生成物，不能作为另一份手工编辑源。
 
