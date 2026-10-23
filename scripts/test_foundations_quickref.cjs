@@ -31,7 +31,7 @@ const document = {
   body: {dataset: {compressionFoundations: 'true'}}, documentElement: {}, createElement: create,
   getElementById: id => all().find(node => node.id === id) || null,
   querySelectorAll(selector) { assert(['[data-i18n-key]', 'a[data-preserve-scope]'].includes(selector)); return []; },
-  addEventListener() {}, dispatchEvent() {},
+  querySelector(){return null;}, addEventListener() {}, dispatchEvent() {},
 };
 const context = {document, location: {href: 'https://ccn.example/business_insight/cloud_core/foundations.html?month=2026-10&scope=reference-test', search: '?month=2026-10&scope=reference-test', hash: ''}, URL, URLSearchParams, Event: function Event() {}, requestAnimationFrame() {}, LRICloudFoundationUIPacks: Object.fromEntries(['zh', 'en'].map(locale => [locale, JSON.parse(fs.readFileSync(path.join(site, 'data/foundations-ui.' + locale + '.json'), 'utf8'))]))};
 const source = fs.readFileSync(path.join(site, 'foundations.js'), 'utf8');

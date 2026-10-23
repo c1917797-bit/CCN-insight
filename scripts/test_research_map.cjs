@@ -119,7 +119,7 @@ for (const route of routes) {
   const to = bootstrap.indexOf('const en=', from);
   assert(from >= 0 && to > from, 'Missing first-paint view selection');
   const cold = {location: {search: '?month=2026-10', hash: '#route-' + route,
-    pathname: '/business_insight/cloud_core/index.html'}, URLSearchParams, Date};
+    pathname: '/business_insight/cloud_core/index.html'}, URLSearchParams, Date, document:{documentElement:{dataset:{}}}};
   vm.createContext(cold);
   vm.runInContext(bootstrap.slice(from, to) + '\nglobalThis.selectedView = view;', cold);
   assert.equal(cold.selectedView, 'topics', 'First-paint bootstrap must request map data for cold route links');

@@ -74,10 +74,35 @@ function directViewContract() {
   return kind.startsWith('direct-') ? { kind, policy, editable, localSnapshot, snapshotSource, verifiedAt, evidenceSource } : null;
 }
 
+function cloudViewHref(view, href = document.location.href) {
+  const current = new URL(href), target = new URL('index.html', current);
+  for (const key of ['month', 'scope']) if (current.searchParams.has(key)) target.searchParams.set(key, current.searchParams.get(key));
+  target.hash = 'view-' + view;
+  return target.href;
+}
+
+function isCloudDetailPage(path = document.location.pathname) {
+  return /\/(?:topic|monthly|foundations)(?:\.html)?\/?$/.test(path);
+}
+
+// Equal-height columns are peers, not successive chapters. Honour the selected
+// hash while that section is in view, then follow the closest started section.
+function chooseCurrentSection(rows, hashId, line = 112) {
+  if (!rows.length) return '';
+  const started = rows.filter(row => row.top <= line && row.bottom > line);
+  const candidates = started.length ? started : rows.filter(row => row.bottom > line);
+  if (!candidates.length) return rows.at(-1).id;
+  const edge = started.length ? Math.max(...candidates.map(row => row.top)) : Math.min(...candidates.map(row => row.top));
+  const peers = candidates.filter(row => Math.abs(row.top - edge) < 4);
+  return (peers.find(row => row.id === hashId) || peers[0]).id;
+}
+
 function collectPageSections(locale = 'zh', labels = {}) {
   const seen = new Set();
   const result = [];
+  const topicRoot = document.body.dataset.compressionTopic === 'true' ? document.getElementById('direction-detail') : null;
   document.querySelectorAll('main section[id], main [data-section-id]').forEach((node) => {
+    if (topicRoot && !topicRoot.contains(node)) return;
     if (document.body.dataset.lriSectionVisibility === 'visible' && node.closest('[hidden]')) return;
     if (node.getAttribute('data-section-outline') === 'false') return;
     const id = node.id || node.getAttribute('data-section-id');
@@ -89,7 +114,7 @@ function collectPageSections(locale = 'zh', labels = {}) {
     const title = explicitTitle || (locale === 'en' ? labels.section_titles?.[rawTitle] : null) || rawTitle;
     const level = Number(node.getAttribute('data-section-level') || 2);
     seen.add(id);
-    const number = node.getAttribute('data-section-number') || '';
+    const number = node.getAttribute('data-section-number') || /^(\d{2})\s*[·.]/.exec(rawTitle)?.[1] || '';
     const collapsible = node.getAttribute('data-section-collapsible') === 'true';
     result.push({ id, title, number, collapsible, level: Number.isFinite(level) ? level : 2 });
   });
@@ -274,6 +299,7 @@ class LRISiteShell extends HTMLElement {
 
   disconnectedCallback() {
     this.observer?.disconnect();
+    this.sectionScrollCleanup?.();
     document.removeEventListener('keydown', this.boundKeydown);
     document.removeEventListener('lri:sections-changed', this.boundSectionsChanged);
     window.removeEventListener('resize', this.boundResize);
@@ -472,12 +498,16 @@ class LRISiteShell extends HTMLElement {
       ? `<details class="section-group" data-shell-outline ${outlineOpen ? 'open' : ''}><summary><b aria-hidden="true"></b><span>${escapeHtml(contextNavigation.section_label || labels.on_this_page || '')}</span><i aria-hidden="true">›</i></summary><nav class="path section-path">${sectionLinks}</nav></details>`
       : `<div class="rail-group-title">${escapeHtml(labels.on_this_page || labels.overview || '')}</div><nav class="path section-path">${sectionLinks}</nav>`) : '';
     const cloudPage = location.pathname.startsWith('/business_insight/cloud_core/');
+    const cloudViewItems = Array.from(document.querySelectorAll('.wb-view-tabs a')).map(a => ({view:a.dataset.view,label:a.textContent.trim(),current:a.getAttribute('aria-current')==='page'}));
+    if (document.body.dataset.compressionFoundations === 'true' && !cloudViewItems.length) {
+      for (const [view,zh,en] of [['sources','信息来源','Sources'],['topics','技术地图','Technology map'],['updates','本期动态','Updates'],['home','洞察报告','Insight report'],['reports','洞察归档','Archive']]) cloudViewItems.push({view,label:this.locale==='en'?en:zh,current:view==='topics'});
+    }
     const sourcePanel = document.getElementById('view-sources');
     const sourceVisible = sourcePanel && !sourcePanel.closest('[hidden]');
     const localItems = sourceVisible
       ? Array.from(document.querySelectorAll('.wb-domain-tabs [data-domain]')).map(a => ({label:a.textContent.trim(), domain:a.dataset.domain, active:a.getAttribute('aria-selected')==='true'}))
-      : this.sections.filter(item => { const el=document.getElementById(item.id); return el && !el.closest('[hidden]') && !['judgment-basis','reading-guide'].includes(item.id) && !item.id.startsWith('view-'); }).map(item => ({label:item.label || item.title || document.getElementById(item.id)?.querySelector('h2,h3,h4')?.textContent || item.id, id:item.id}));
-    const cloudLocalNav = '<nav class="path cloud-local-path">' + localItems.map((item,i) => '<a href="#'+(item.id || 'channels-panel')+'" '+(item.domain?'data-cloud-domain="'+escapeHtml(item.domain)+'"':'data-shell-section="'+escapeHtml(item.id)+'"')+(item.active?' aria-current="page"':'')+'><b>'+String(i+1).padStart(2,'0')+'</b><span>'+escapeHtml(item.label)+'</span></a>').join('')+'</nav>';
+      : this.sections.filter(item => { const el=document.getElementById(item.id); return el && !el.closest('[hidden]') && !['judgment-basis','reading-guide'].includes(item.id) && !item.id.startsWith('view-'); }).map(item => ({label:item.label || item.title || document.getElementById(item.id)?.querySelector('h2,h3,h4')?.textContent || item.id, id:item.id, number:item.number}));
+    const cloudLocalNav = '<nav class="path cloud-local-path">' + localItems.map((item,i) => '<a href="#'+(item.id || 'channels-panel')+'" '+(item.domain?'data-cloud-domain="'+escapeHtml(item.domain)+'"':'data-shell-section="'+escapeHtml(item.id)+'"')+(item.active?' aria-current="page"':'')+'><b>'+(item.number || String(i+1).padStart(2,'0'))+'</b><span>'+escapeHtml(item.label)+'</span></a>').join('')+'</nav>';
     this.toggleAttribute('data-cloud-no-outline', cloudPage && localItems.length===0);
     const leftNavigation = cloudPage ? cloudLocalNav : contextNavigation
       ? `<div class="rail-group"><div class="rail-group-title">${escapeHtml(contextNavigation.label || labels.workspace_pages || '')}</div><nav class="path workspace-path">${workspaceLinks}</nav>${workspaceGroups}</div>${sectionNavigation ? `<div class="rail-group">${sectionNavigation}</div>` : ''}`
@@ -581,14 +611,14 @@ class LRISiteShell extends HTMLElement {
         }
         @media(prefers-reduced-motion:reduce){.left,.right{transition:none}}
         .cloud-core-header{display:flex;min-height:48px;padding:6px 16px;gap:12px}.cloud-core-header .header-actions{margin-left:auto}.cloud-core-header .brand-mark{background:#0f766e;font-size:12px}.cloud-core-header .brand b{font-size:16px}
-        .cloud-primary-nav{display:flex;align-items:center;gap:6px;margin-left:24px;min-width:0;overflow:auto}.cloud-primary-nav a{padding:9px 16px;border-radius:9px;text-decoration:none;white-space:nowrap;font-size:14px;font-weight:650;color:#476071}.cloud-primary-nav a:hover{background:#edf6f7}.cloud-primary-nav a[aria-current="page"]{background:#e3f3f3;color:#086e78;box-shadow:inset 0 -2px #118893}.cloud-primary-nav a:focus-visible{outline:2px solid #118893;outline-offset:2px}@media(max-width:1050px){.cloud-primary-nav{display:none}}
+        .cloud-primary-nav{display:flex;align-items:center;gap:6px;margin-left:24px;min-width:0;overflow:auto}.cloud-primary-nav a{padding:9px 16px;border-radius:9px;text-decoration:none;white-space:nowrap;font-size:14px;font-weight:650;color:#476071}.cloud-primary-nav a:hover{background:#edf6f7}.cloud-primary-nav a[aria-current="page"]{background:#e3f3f3;color:#086e78;box-shadow:inset 0 -2px #118893}.cloud-primary-nav a:focus-visible{outline:2px solid #118893;outline-offset:2px}@media(max-width:1050px){.cloud-core-header{flex-wrap:wrap}.cloud-primary-nav{display:flex;order:3;flex-basis:100%;width:100%;margin:0;scrollbar-width:thin}.cloud-primary-nav a{padding:7px 10px;font-size:13px}}
         :host([data-cloud-no-outline]) .shell{grid-template-columns:minmax(0,1fr) min(var(--lri-right-track,44px),32vw)}:host([data-cloud-no-outline]) .left,:host([data-cloud-no-outline]) .left-toggle{display:none}.cloud-local-path{margin-top:12px}
       </style>
       <div class="shell">
         <header class="${location.pathname.startsWith('/business_insight/cloud_core/') ? 'cloud-core-header' : ''}">
           <button class="drawer-toggle left-toggle" type="button" data-drawer-open="left" aria-controls="lri-left-drawer" aria-expanded="false" aria-label="${escapeHtml(labels.open_path || '')}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h8"/></svg></button>
           <div class="brand"><span class="brand-mark">${location.pathname.startsWith('/business_insight/cloud_core/') ? '极智' : 'LRI'}</span><span><b>${location.pathname.startsWith('/business_insight/cloud_core/') ? (this.locale === 'en' ? 'Jizhi · AI Infra' : '极智 · AI Infra') : escapeHtml(labels.brand || 'LRI Insight')}</b>${location.pathname.startsWith('/business_insight/cloud_core/') ? '' : `<small class="role">${escapeHtml(labels.top_role || '')}</small>`}</span></div>
-          ${location.pathname.startsWith('/business_insight/cloud_core/') ? `<nav class="cloud-primary-nav" aria-label="${this.locale === 'en' ? 'Insight navigation' : '洞察导航'}">${Array.from(document.querySelectorAll('.wb-view-tabs a')).map(a => `<a href="${escapeHtml(a.href)}" data-cloud-view="${escapeHtml(a.dataset.view || '')}" ${a.getAttribute('aria-current') === 'page' ? 'aria-current="page"' : ''}>${escapeHtml(a.textContent.trim())}</a>`).join('')}</nav>` : `<nav class="global" aria-label="${escapeHtml(labels.top_role || '')}">${navigation}</nav>`}
+          ${cloudPage ? `<nav class="cloud-primary-nav" aria-label="${this.locale === 'en' ? 'Insight navigation' : '洞察导航'}">${cloudViewItems.map(item => `<a href="${escapeHtml(cloudViewHref(item.view))}" data-cloud-view="${escapeHtml(item.view || '')}" ${item.current ? 'aria-current="page"' : ''}>${escapeHtml(item.label)}</a>`).join('')}</nav>` : `<nav class="global" aria-label="${escapeHtml(labels.top_role || '')}">${navigation}</nav>`}
           <div class="header-actions"><button class="refresh-button" type="button" data-force-refresh aria-label="${escapeHtml(labels.force_refresh || 'Force refresh')}" title="${escapeHtml(labels.force_refresh || 'Force refresh')}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.34 5.66"/><path d="M20 4v7h-7"/></svg></button><span class="sr-only" data-refresh-status aria-live="polite"></span><div class="locale" aria-label="Language"><button type="button" data-locale="zh" aria-pressed="${this.locale === 'zh'}">中文</button><button type="button" data-locale="en" aria-pressed="${this.locale === 'en'}">EN</button></div><button class="drawer-toggle right-toggle" type="button" data-drawer-open="right" aria-controls="lri-right-drawer" aria-expanded="false" aria-label="${escapeHtml(labels.open_evidence || '')}"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 10v6M12 7h.01"/></svg></button></div>
         </header>
         <button class="backdrop" type="button" data-drawer-close aria-label="${escapeHtml(labels.close_drawer || '')}"></button>
@@ -604,6 +634,7 @@ class LRISiteShell extends HTMLElement {
       event.preventDefault(); document.querySelector('.wb-domain-tabs [data-domain="'+link.dataset.cloudDomain+'"]')?.click(); this.closeDrawer({restoreFocus:false}); this.refreshSections(); document.getElementById('channels-panel')?.scrollIntoView({block:'start'});
     }));
     this.shadowRoot.querySelectorAll('[data-cloud-view]').forEach(link => link.addEventListener('click', event => {
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button > 0 || isCloudDetailPage()) return;
       const target = document.querySelector('.wb-view-tabs a[data-view="' + link.dataset.cloudView + '"]');
       if (target) { event.preventDefault(); target.click(); this.refreshSections(); }
     }));
@@ -866,17 +897,24 @@ class LRISiteShell extends HTMLElement {
 
   observeSections() {
     this.observer?.disconnect();
+    this.sectionScrollCleanup?.();
     const links = new Map(Array.from(this.shadowRoot.querySelectorAll('[data-shell-section]')).map((node) => [node.dataset.shellSection, node]));
-    const targets = this.sections.map(({ id }) => document.getElementById(id)).filter(Boolean);
-    if (!targets.length || !('IntersectionObserver' in window)) return;
-    this.observer = new IntersectionObserver((entries) => {
-      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (!visible) return;
-      links.forEach((node) => node.classList.remove('is-current'));
-      const active = links.get(visible.target.id);
-      if (active) active.classList.add('is-current');
-    }, { rootMargin: '-20% 0px -65% 0px', threshold: [0, .2, .6] });
-    targets.forEach((target) => this.observer.observe(target));
+    const targets = [...links.keys()].map(id => document.getElementById(id)).filter(Boolean);
+    if (!targets.length) return;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const rows = targets.filter(node => node.getClientRects().length && !node.closest('[hidden]')).map(node => ({id:node.id, top:node.getBoundingClientRect().top, bottom:node.getBoundingClientRect().bottom}));
+      const current = chooseCurrentSection(rows, decodeURIComponent(location.hash.slice(1)));
+      links.forEach((node, id) => { node.classList.toggle('is-current', id === current); if (id === current) node.setAttribute('aria-current', 'location'); else node.removeAttribute('aria-current'); });
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    window.addEventListener('scroll', schedule, {passive:true});
+    window.addEventListener('hashchange', schedule);
+    window.addEventListener('resize', schedule, {passive:true});
+    if ('IntersectionObserver' in window) { this.observer = new IntersectionObserver(schedule); targets.forEach(node => this.observer.observe(node)); }
+    this.sectionScrollCleanup = () => { window.removeEventListener('scroll', schedule); window.removeEventListener('hashchange', schedule); window.removeEventListener('resize', schedule); if (frame) cancelAnimationFrame(frame); };
+    update();
   }
 }
 

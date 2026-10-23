@@ -148,17 +148,30 @@ def rebuild():
  helper=ROOT/'vendor/ai-infra/tools/cloud_core/build_reader_entry.py'
  spec=importlib.util.spec_from_file_location('reader_build',helper);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);module.ROOT=SITE;module.BASE=BASE
  for topic,name in [(False,'reader-entry.js'),(True,'topic-entry.js')]:
-  (BASE/name).write_text(module.build(topic),encoding='utf-8')
+  (BASE/name).write_bytes(module.build(topic).encode('utf-8'))
  # Foundations have their own entry bundle. Rebuild it alongside the readers so
  # source edits cannot silently leave the public formula reference stale.
  packs={lang:json.loads((BASE/f'data/foundations-ui.{lang}.json').read_text(encoding='utf-8')) for lang in ['zh','en']}
  foundation='// Generated shared foundations UI; facts remain in canonical compression tables.\n'+'globalThis.LRICloudFoundationUIPacks='+json.dumps(packs,ensure_ascii=False,separators=(',',':'))+';\n'+'\n'.join((BASE/name).read_text(encoding='utf-8') for name in ['runtime/mcp-table-read.js','runtime/tablegit.js','foundations.js'])
- (BASE/'foundations-entry.js').write_text(foundation,encoding='utf-8')
+ (BASE/'foundations-entry.js').write_bytes(foundation.encode('utf-8'))
  path=BASE/'foundations.html';text=path.read_text(encoding='utf-8');digest=hashlib.sha256(foundation.encode('utf-8')).hexdigest()[:16]
- text=re.sub(r'foundations-entry\.js(?:\?[^"\s]*)?',lambda _:'foundations-entry.js?v='+digest,text);path.write_text(text,encoding='utf-8')
+ text=re.sub(r'foundations-entry\.js(?:\?[^"\s]*)?',lambda _:'foundations-entry.js?v='+digest,text);path.write_bytes(text.encode('utf-8'))
  for name in ['index.html','topic.html','monthly.html']:
   path=BASE/name;t=path.read_text(encoding='utf-8');reader=re.search(r'data-lri-reader="([^"]+)"',t)[1].split('?')[0];digest=hashlib.sha256((BASE/reader).read_bytes()).hexdigest()[:16]
-  t=re.sub(r'data-lri-reader="[^"]+"',lambda _:'data-lri-reader="'+reader+'?v=reader-content-'+digest+'"',t);path.write_text(t,encoding='utf-8')
+  bootstrap=(BASE/'reader-bootstrap.js').read_text(encoding='utf-8').rstrip()
+  t=re.sub(r'<script data-lri-reader-bootstrap>[\s\S]*?</script>',lambda _:'<script data-lri-reader-bootstrap>\n'+bootstrap+'\n</script>',t)
+  t=re.sub(r'data-lri-reader="[^"]+"',lambda _:'data-lri-reader="'+reader+'?v=reader-content-'+digest+'"',t);path.write_bytes(t.encode('utf-8'))
+ # Navigation and stylesheet fixes must invalidate the same URLs on every entry
+ # page, including the extension-free URLs used by static hosting.
+ shell_hash=hashlib.sha256((SITE/'assets/lri-shell.js').read_bytes()).hexdigest()[:16]
+ for name in ['index.html','topic.html','monthly.html','foundations.html']:
+  path=BASE/name;t=path.read_text(encoding='utf-8')
+  t=re.sub(r'lri-shell\.js\?v=[^"\s]+',lambda _:'lri-shell.js?v='+shell_hash,t)
+  for asset in ['reader-atlas.css','foundations-quickref.css']:
+   digest=hashlib.sha256((BASE/asset).read_bytes()).hexdigest()[:16]
+   t=re.sub(re.escape(asset)+r'\?v=[^"\s]+',lambda _:asset+'?v='+digest,t)
+  t=t.replace('正在连接 TableGit…','正在读取研究资料…').replace('<title>压缩基础 · 云核 · LRI</title>','<title>压缩基础 · 极智 AI Infra</title>')
+  path.write_bytes(t.encode('utf-8'))
  # Rebuild UI cache from its tracked manifest, retaining shell asset ownership and policy.
  worker=BASE/'reader-ui-cache.js';text=worker.read_text(encoding='utf-8');match=re.search(r'const ASSETS=(.*);',text);assets=json.loads(match[1]);updated={}
  for url in assets:
@@ -167,7 +180,7 @@ def rebuild():
    digest=hashlib.sha256(path.read_bytes()).hexdigest();url=clean+'?v=reader-content-'+digest[:16]
   updated[url]=hashlib.sha256(path.read_bytes()).hexdigest()
  text=text[:match.start(1)]+json.dumps(updated,separators=(',',':'))+text[match.end(1):]
- digest=hashlib.sha256(json.dumps(updated,sort_keys=True).encode()).hexdigest()[:16];text=re.sub(r'const CACHE="[^"]+";',lambda _:'const CACHE="lri-cloud-ui-'+digest+'";',text);worker.write_text(text,encoding='utf-8')
+ digest=hashlib.sha256(json.dumps(updated,sort_keys=True).encode()).hexdigest()[:16];text=re.sub(r'const CACHE="[^"]+";',lambda _:'const CACHE="lri-cloud-ui-'+digest+'";',text);worker.write_bytes(text.encode('utf-8'))
  print('UI copy and reader bundles rebuilt')
 
 if __name__=='__main__':main()

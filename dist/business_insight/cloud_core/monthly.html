@@ -15,8 +15,9 @@
 
  // First-paint reader. It fetches authorized TableGit rows; no facts are built into this file.
  const params=new URLSearchParams(location.search),topic=params.get('topic'),period=params.get('month')||new Date().toISOString().slice(0,7),scope=params.get('scope');
- const topicPage=location.pathname.endsWith('/topic.html'),monthly=location.pathname.endsWith('/monthly.html');
+ const topicPage=/\/topic(?:\.html)?\/?$/.test(location.pathname),monthly=/\/monthly(?:\.html)?\/?$/.test(location.pathname);
  const match=/^#view-(sources|topics|updates|home|reports)/.exec(location.hash),mapRoute=/^#(?:map$|route-(?:precision|selection|distillation|factorization)$)/.test(location.hash),view=topicPage||mapRoute?'topics':monthly?'updates':match?.[1]||(location.hash==='#analysis-focus'?'home':location.hash==='#supplementary-paper-reviews'?'updates':'sources');
+ document.documentElement.dataset.cloudInitialView=view;
  const en=document.documentElement.lang.startsWith('en'),pick=(r,k)=>r[k+(en?'_en':'_zh')]||r[k+'_zh']||r[k]||'',eq=(field,value)=>({field,op:'eq',value});
  const common=[eq('business_id','cloud-core'),eq('topic_id','cloud_core')];
  const table=(name,filters=[])=>({name,table:'ic_'+name,filters:[...common,...filters]});
@@ -99,11 +100,11 @@
 <meta name="lri-page-i18n" content="data/focus-ui.{lang}.json?v=reader-content-v180-paper-review">
 <meta name="lri-page-translation" content="ui">
 <meta name="lri-shell-version" content="lri-shell-v18-cloud-report-navigation">
-<script type="module" src="../../assets/lri-shell.js?v=lri-shell-v18-cloud-report-navigation"></script>
-<script type="application/lri-reader" data-lri-reader="reader-entry.js?v=reader-content-36617f9ed2e8a9a4"></script>
+<script type="module" src="../../assets/lri-shell.js?v=a841a5453eecfcb7"></script>
+<script type="application/lri-reader" data-lri-reader="reader-entry.js?v=reader-content-7433bbe137a2091a"></script>
 <link rel="stylesheet" href="reader-editorial.css?v=20261022">
 <link rel="stylesheet" href="reader-refinement.css?v=round2-20261022">
-<link rel="stylesheet" href="reader-atlas.css?v=20261023-atlas-1">
+<link rel="stylesheet" href="reader-atlas.css?v=80a2ca86e1c9a286">
 </head>
 <body data-compression-monthly="true" data-lri-section-visibility="visible" data-lri-shell="auto" data-lri-content-kind="report" data-topic-id="cloud_core">
 <main class="wrap compression-research-workbench">
@@ -111,7 +112,7 @@
 <header class="wb-header">
 <h1 id="topic-title">云核 · 推理压缩洞察</h1>
 <details class="wb-research-scope"><summary data-i18n-key="research_scope">我的研究范围</summary><p id="topic-summary"></p><p data-i18n-key="research_scope_help">研究推理压缩的原理、适用条件及昇腾部署潜力，实际收益以目标平台测试为准。</p></details>
-<div class="wb-runtime"><p id="runtime-status" class="meta" role="status" aria-live="polite">正在连接 TableGit…</p><button class="btn" id="reload" type="button" data-i18n-key="refresh_snapshot">刷新页面数据</button></div>
+<div class="wb-runtime"><p id="runtime-status" class="meta" role="status" aria-live="polite">正在读取研究资料…</p><button class="btn" id="reload" type="button" data-i18n-key="refresh_snapshot">刷新页面数据</button></div>
 </header>
 <nav class="wb-view-tabs" aria-label="洞察视图" data-i18n-aria-label="view_navigation">
 <a href="#view-sources" data-view="sources" aria-current="page" data-i18n-key="view_sources">信息来源</a>

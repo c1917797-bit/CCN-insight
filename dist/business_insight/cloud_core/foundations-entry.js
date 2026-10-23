@@ -1295,10 +1295,14 @@ globalThis.LRICloudFoundationUIPacks={"zh":{"strings":{"page_title":"压缩基�
   const tbody=el('tbody');for(const step of steps){const tr=el('tr');tr.dataset.lessonStep=step.step_id;const title=el('th',pick(step,'title'));title.scope='row';title.dataset.label=labels[0];const equation=el('td'),takeaway=el('td');equation.dataset.label=labels[1];takeaway.dataset.label=labels[2];equation.append(el('p',step.formula||'—','foundation-example-formula'));const text=el('p',pick(step,'takeaway'));text.append(citation(step));takeaway.append(text);tr.append(title,equation,takeaway);tbody.append(tr);}table.append(tbody);scroll.append(table);section.append(scroll);host.append(section);
  }
  function updateUI(){
-  document.documentElement.lang=locale==='en'?'en':'zh-CN';document.title=ui('page_title')+' · LRI';
+  document.documentElement.lang=locale==='en'?'en':'zh-CN';document.title=ui('page_title')+' · 极智 AI Infra';
   for(const node of document.querySelectorAll('[data-i18n-key]')){const text=ui(node.dataset.i18nKey);if(text)node.textContent=text;}
   document.body.dataset.lriReaderNavigationLabel=ui('reading_order');
   for(const a of document.querySelectorAll('a[data-preserve-scope]')){const u=new URL(a.getAttribute('href'),location.href),p=new URLSearchParams(location.search);for(const key of ['month','scope'])if(p.has(key))u.searchParams.set(key,p.get(key));a.href=u.href;}
+  const returnTopic=new URLSearchParams(location.search).get('return_topic'),back=document.querySelector('a[data-i18n-key="back"]');
+  if(back&&/^(parameters|activations|kv_cache)-[a-z_]+$/.test(returnTopic||'')){
+   const target=new URL('topic.html',location.href),params=new URLSearchParams(location.search);target.searchParams.set('topic',returnTopic);for(const key of ['month','scope'])if(params.has(key))target.searchParams.set(key,params.get(key));target.hash='research-overview-basics';back.href=target.href;back.textContent=locale==='en'?'← Return to the research topic':'← 返回刚才的研究专题';
+  }
  }
  function render(){
   updateUI();if(!snapshot)return;

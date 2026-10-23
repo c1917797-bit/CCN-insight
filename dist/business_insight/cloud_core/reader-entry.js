@@ -2406,12 +2406,17 @@ const state = {
   collectionEpoch:0,collectionCache:new Map(),collectionPending:new Map(),collectionOffsets:new Map(),collectionStates:new Map()
 };
 try { state.locale = localStorage.getItem('lri_locale') === 'en' ? 'en' : 'zh'; } catch (_) {}
-const label = key => state.packs[state.locale]?.strings[key] || state.packs.zh?.strings[key] || key;
+const label = key => state.packs[state.locale]?.strings[key] || state.packs.zh?.strings[key] || (key==='loading'?(state.locale==='en'?'Loading research materials…':'正在读取研究资料…'):key);
 const enumLabel = (prefix,value) => state.packs[state.locale]?.strings[prefix+value] || state.packs.zh?.strings[prefix+value] || value || label('pending');
 const title = row => row && ((state.locale === 'en' ? (row.name_en||row.title_en) : (row.name_zh||row.title_zh)) || row.name_zh || row.title_zh || row.name || row.title || row.task_id || row.note_id) || '';
 const textOf = (row,key) => row?.[key+'_'+state.locale] || row?.[key+'_zh'] || '';
 const ordered = rows => [...rows].sort((a,b)=>(a.position||0)-(b.position||0));
 const topicPage=()=>document.body.dataset.compressionTopic==='true';
+function mainReaderHref(view='topics'){
+ const target=new URL('index.html',location.href),current=new URL(location.href);
+ for(const key of ['month','scope'])if(current.searchParams.has(key))target.searchParams.set(key,current.searchParams.get(key));
+ target.hash='view-'+view;return target.pathname+target.search+target.hash;
+}
 const requestedTopic=()=>new URLSearchParams(location.search).get('topic')||'';
 function restoreTopicNodes(){$('reading-controls').hidden=topicPage();}
 const collectionNames=['objects','methods','cells','techniques','placements','trend_periods','tasks','review_notes','evaluation_dimensions','source_refs','flywheel_stages','lineages','lineage_nodes','lineage_relations','lineage_cells','source_scans','source_screenings','channels','source_categories','channel_categories','channel_provenance','channel_checks','findings','finding_evidence','finding_cells','finding_techniques','finding_keywords','finding_scopes','map_facets','map_terms','map_assignments','compression_topics','compression_topic_sections','compression_topic_concepts'];
@@ -2453,6 +2458,7 @@ function disclosure(key,summary) {
 }
 function showView(view,updateHash=false) {
   state.view=topicPage()?'topics':document.body.dataset.compressionMonthly==='true'?'updates':Object.hasOwn(viewIds,view)?view:'sources';
+  document.documentElement.dataset.cloudInitialView=state.view;
   $('reading-controls').hidden=topicPage()||['topics','sources'].includes(state.view);$('reading-context').hidden=topicPage()||['topics','sources'].includes(state.view);
   $('judgment-basis').hidden=!['updates','topics','sources'].includes(state.view);
   $('judgment-basis').dataset.sectionOutline=state.view==='updates'?'false':'true';
@@ -3765,14 +3771,15 @@ function weightTopicRoutes(parent){
   for(const route of all){const a=element('a',title(route));a.href='#weight-route-'+route.route_id;index.append(a);}parent.append(index);
  }else{const a=element('a',mapText('← 本专题全部路线','← All routes'));a.href=researchHref('overview','routes');parent.append(a);}
  for(const route of all.filter(r=>!selected||r.route_id===selected)){
-  const card=element('article','','quant-route-card');card.id='weight-route-'+route.route_id;card.dataset.researchRoute=route.route_id;
+  const card=element('article','','quant-route-card');card.id='research-card-'+route.supporting_card_id;card.dataset.researchRoute=route.route_id;card.dataset.researchCard=route.supporting_card_id;
+  const routeAnchor=element('span','','research-route-anchor');routeAnchor.id='weight-route-'+route.route_id;card.append(routeAnchor);
   card.append(element('p',mapText('学术路线 · 机制与原文结果','Academic route · Mechanism and reported result'),'meta'),element('h4',title(route)));
   const paragraph=(zh,en,text,cls='')=>{const block=element('section','','weight-explanation-part '+cls);block.append(element('h5',mapText(zh,en)),element('p',text,'weight-explanation-text'));card.append(block);};
   paragraph('针对的挑战','Challenge',textOf(route,'problem'));
   paragraph('核心方法','Mechanism',textOf(route,'principle'));
   card.append(element('h5',mapText('方法步骤','Method steps'),'weight-steps-heading'));const steps=element('ol','','quant-route-steps');for(let i=1;i<=3;i++)steps.append(element('li',textOf(route,'step_'+i)));card.append(steps);
   const result=dossier.cards.find(c=>c.card_id===route.supporting_card_id);
-  if(result){const box=element('div','','quant-route-result');box.id='research-card-'+result.card_id;box.dataset.researchCard=result.card_id;box.dataset.claimKind=result.claim_kind;expertCardTools(box,result,dossier);box.append(element('h5',mapText('原文证据','Primary-source evidence'),'weight-steps-heading'));appendWeightStructuredText(box,textOf(result,'body'));card.append(box);}
+  if(result){card.dataset.claimKind=result.claim_kind;const box=element('div','','quant-route-result');box.dataset.claimKind=result.claim_kind;expertCardTools(box,result,dossier);box.append(element('h5',mapText('原文证据','Primary-source evidence'),'weight-steps-heading'));appendWeightStructuredText(box,textOf(result,'body'));card.append(box);}
   paragraph('研究启示','Research implication',textOf(route,'tradeoff'),'quant-route-implication');
   weightTopicCitations(card,[route.supporting_card_id]);parent.append(card);
  }
@@ -3782,6 +3789,7 @@ function compressionFoundationHref(method=''){
  const anchors={precision:'quantization',selection:'pruning-sparsity',distillation:'distillation',factorization:'low-rank'};
  const u=new URL('foundations.html',location.href);
  for(const [key,value]of [['month',state.period],['scope',state.scope]])if(value)u.searchParams.set(key,value);
+ if(topicPage())u.searchParams.set('return_topic',compressionTopicId());
  if(anchors[method])u.hash=anchors[method];
  return u.pathname+u.search+u.hash;
 }
@@ -3828,12 +3836,15 @@ function renderWeightExpertEntry(host,parent,dossier){
 function renderWeightQuantizationTopic(parent,topic,dossier){
  if(topicPage()&&['#research-overview-principles','#direction-quantization-principles'].includes(location.hash)){location.replace(compressionFoundationHref('precision'));return;}
  parent.classList.add('research-topic-report','weight-topic');
- const back=element('a',mapText('← 返回技术地图','← Technology map'),'direction-back');back.href='index.html'+(state.period?'?month='+state.period+(state.scope?'&scope='+state.scope:''):'')+'#view-topics';parent.append(back);
+ const breadcrumb=element('nav','','topic-breadcrumb');breadcrumb.setAttribute('aria-label',mapText('研究路径','Research path'));
+ for(const [href,zh,en]of [['/','CCN','CCN'],['/ai-infra/','AI Infra','AI Infra'],[mainReaderHref('topics'),'推理压缩','Inference compression']]){const a=element('a',mapText(zh,en));a.href=href;breadcrumb.append(a,element('span','/'));}breadcrumb.append(element('span',title(topic)));parent.append(breadcrumb);
  const hero=element('header','','direction-hero compression-topic-hero');
  hero.append(element('p',mapText('推理压缩 · 持续研究专题','Inference compression · Living research topic'),'meta'),element('h1',title(topic)));
  const concept=state.data.compression_topic_concepts.find(row=>row.compression_topic_id===topic.compression_topic_id);if(concept)hero.append(element('p',textOf(concept,'summary'),'direction-lead'));
  const reviewed=dossier?dossier.cards.map(r=>r.reviewed_at).filter(Boolean).sort().at(-1):topic.reviewed_at;
- const status=element('p',dossier?mapText('资料核对至 ','Sources checked through ')+reviewed:mapText('正在读取本专题资料…','Loading the topic…'),'meta');status.dataset.dossierReady=String(Boolean(dossier));hero.append(status);if(!dossier?.cards.some(card=>card.card_id==='parameters-precision__expert_brief'))renderEditorialTakeaway(hero);parent.append(hero);renderFoundationLink(hero,'precision');
+ const status=element('p',dossier?mapText('资料核对至 ','Sources checked through ')+reviewed:mapText('正在读取本专题资料…','Loading the topic…'),'meta');status.dataset.dossierReady=String(Boolean(dossier));hero.append(status);if(!dossier?.cards.some(card=>card.card_id==='parameters-precision__expert_brief'))renderEditorialTakeaway(hero);parent.append(hero);
+ const quick=element('nav','','topic-reading-actions');quick.setAttribute('aria-label',mapText('量化专题快速阅读','Quantization quick reading'));
+ for(const [href,zh,en]of [['#research-overview-comparison','先看比较判断','Compare the evidence'],['#direction-recent-research','近期变化与核对范围','Recent materials and review scope'],['#direction-precision-progress','查位宽与格式','Find bits and formats'],[compressionFoundationHref('precision'),'量化原理与动画','Principles and animation']]){const a=element('a',mapText(zh,en));a.href=href;quick.append(a);}hero.append(quick);
  const stages=[
  ['brief','速览与证据','Overview and evidence',['background','comparison']],
  ['problem','研究背景','Research context',['background']],
@@ -3847,7 +3858,7 @@ function renderWeightQuantizationTopic(parent,topic,dossier){
  if(!complete){const a=element('a',mapText('完整专题','Complete topic'));a.href=researchHref('overview');nav.append(a);}
  for(const [key,zh,en,views]of stages){const a=element('a',mapText(zh,en));a.href=complete?'#research-overview-'+key:researchHref(views[0],({problem:'scope',principles:'mechanism',challenges:'challenges',solutions:'routes',comparison:'comparison',implications:'implications'})[key]);if(!complete)a.dataset.compressionResearchView=views[0];nav.append(a);}parent.append(nav);
  document.body.dataset.lriReaderNavigation='.research-reader-tabs';document.body.dataset.lriReaderNavigationLabel=mapText('权重量化 · 阅读顺序','Weight quantization · Reading order');
- hero.append(element('p',mapText("围绕权重量化的关键挑战，比较产业实现和学术方案，再结合实验结果提出选型与研究建议。","Compare industry implementations and research approaches against the challenges of weight quantization, then use experimental evidence to inform selection and further study."),'reader-note'));
+ hero.append(element('p',mapText('按问题查路线，按原文核对效果；背景与原理可随时回看。','Find approaches by problem, inspect original results, and return to context or principles when needed.'),'reader-note'));
  if(!dossier){const error=dossierErrors.get(state.revision+'__'+compressionTopicId());if(error)parent.append(element('p',error,'direction-gap'),button(mapText('重试专题','Retry topic'),()=>{dossierErrors.delete(state.revision+'__'+compressionTopicId());renderDirectionDetail();}));return;}
  const sections={};
  for(const [key,zh,en,views]of stages){
@@ -3856,6 +3867,9 @@ function renderWeightQuantizationTopic(parent,topic,dossier){
   section.dataset.readingLayer=key==='implications'?'conclusion':key==='comparison'?'analysis':'facts';
   section.append(element('h2',String(stages.findIndex(r=>r[0]===key)+1).padStart(2,'0')+' · '+mapText(zh,en)));parent.append(section);sections[key]=section;
  }
+ const progressNav=element('nav','','topic-progress-nav');progressNav.setAttribute('aria-label',mapText('技术进展子目录','Technical progress sections'));
+ progressNav.hidden=Boolean(selected)||!complete;
+ for(const [id,zh,en]of [['industry','产业实现','Industry'],['research-landscape','学术路线','Research approaches'],['precision-progress','位宽与格式对照','Bits and formats'],['routes','机制与实验证据','Methods and experiments'],['recent-research','近期材料与审阅范围','Recent materials and review scope']]){const a=element('a',mapText(zh,en));a.href='#direction-'+id;progressNav.append(a);}sections.solutions.append(progressNav);
  const sub=(host,id,zh,en)=>{const node=element('section','','quant-reader-section');node.id='direction-'+id;node.dataset.sectionOutline='false';node.append(element('h3',mapText(zh,en)));host.append(node);return node;};
  renderWeightExpertEntry(sections.brief,parent,dossier);
  const context=sub(sections.problem,'scope','研究问题：表示、质量与执行','Reducing weight storage and memory traffic');renderResearchFraming(context,'why');weightTopicCards(context,['parameters-precision__insight_scope']);const related=element('nav','','quantization-related-topics');related.setAttribute('aria-label',mapText('联合量化与缓存专题','Related joint-quantization and cache topics'));related.append(scientificLink('activations','precision',mapText('权重—激活联合量化 →','Joint W/A quantization →')),scientificLink('kv_cache','precision',mapText('KV Cache 量化 →','KV Cache quantization →')));context.append(related);
@@ -3872,7 +3886,7 @@ function renderWeightQuantizationTopic(parent,topic,dossier){
  weightTopicCards(industry,['parameters-precision__industry_vllm','parameters-precision__msmodelslim_implementation','parameters-precision__industry_kernel','parameters-precision__industry_domain','parameters-precision__expert_evidence']);
  const routes=sub(sections.solutions,'routes',"代表案例：机制细读与原文效果","Research methods and experimental results");routes.hidden=!complete&&!selected&&!['mechanism','literature'].includes(view);if(selected)industry.hidden=true;
  const routesAlias=element('span');routesAlias.id='research-overview-routes';routes.append(routesAlias);
- weightTopicRoutes(routes);if(!selected)sections.solutions.insertBefore(industry,sections.solutions.children[1]);
+ weightTopicRoutes(routes);if(!selected)sections.solutions.insertBefore(industry,progressNav.nextSibling);
  const audit=sub(sections.comparison,'evidence-audit','可追溯对照：哪些结果可比，哪些仍有缺口','Traceable comparisons: comparable results and remaining gaps');weightTopicCards(audit,['parameters-precision__audit_coverage','parameters-precision__audit_awq','parameters-precision__audit_alignquant','parameters-precision__audit_compensation']);
  const compare=sub(sections.comparison,'comparison',"跨路线比较：新增能力、代价与证据边界","Cross-route interpretation: capabilities, costs and evidence");
  weightTopicCards(compare,['parameters-precision__dossier_3','parameters-precision__dossier_4']);
@@ -4871,7 +4885,7 @@ document.addEventListener('click',event=>{
   }
   const research=(event.composedPath?.()||[event.target]).find(n=>n?.tagName==='A'&&n.dataset.compressionResearchView);if(research){event.preventDefault();history.pushState(null,'',research.getAttribute('href'));renderDirectionDetail();revealHashTarget();return;}
   const route=(event.composedPath?.()||[event.target]).find(node=>node?.tagName==='A'&&(node.dataset.compressionTopicRoute||node.dataset.compressionTopicBack||node.dataset.compressionTopicTimeline));
-  if(route&&(route.dataset.compressionTopicTimeline||route.dataset.compressionTopicBack)&&location.pathname.endsWith('/topic.html'))return; // Load the separate main reader and its period module.
+  if(route&&(route.dataset.compressionTopicTimeline||route.dataset.compressionTopicBack)&&/\/topic(?:\.html)?\/?$/.test(location.pathname))return; // Load the separate main reader and its period module.
   if(route){event.preventDefault();if(route.dataset.compressionTopicTimeline){restoreTopicNodes();document.body.dataset.compressionTopic='false';document.title='推理压缩 · 云核 · LRI';history.pushState(null,'',route.getAttribute('href'));renderSelection();showView('updates');loadEvidence(0);document.dispatchEvent(new Event('lri:sections-changed'));}else if(route.dataset.compressionTopicBack){restoreTopicNodes();document.body.dataset.compressionTopic='false';document.title='推理压缩 · 云核 · LRI';history.pushState(null,'',route.getAttribute('href'));revealHashTarget('view-topics');showView('topics');document.dispatchEvent(new Event('lri:sections-changed'));}else{history.pushState(null,'',route.getAttribute('href'));document.body.dataset.compressionTopic='true';const [target,method]=route.dataset.compressionTopicRoute.split('-');openScientificFocus(target,method,false);}return;}
   const link=(event.composedPath?.()||[event.target]).find(node=>node?.tagName==='A'&&node.getAttribute('href')?.startsWith('#'));
   if(!link)return;const id=link.getAttribute('href').slice(1);
@@ -4881,8 +4895,8 @@ document.addEventListener('click',event=>{
   if(link.dataset.view){event.preventDefault();showView(link.dataset.view,true);}
   else if($(id)){showView(viewForTarget(id));revealHashTarget(id);}
 });
-window.addEventListener('hashchange',()=>{showView(viewFromHash());revealHashTarget();});
-window.addEventListener('popstate',()=>{restoreTopicNodes();document.body.dataset.compressionTopic=String(location.pathname.endsWith('/topic.html'));const topic=requestedTopic();if(topic&&state.revision){const [target,method]=topic.split('-');openScientificFocus(target,method,false);if(!topicPage())showView(viewFromHash());}else{showView(viewFromHash());revealHashTarget();}document.dispatchEvent(new Event('lri:sections-changed'));});
+window.addEventListener('hashchange',()=>{const view=/^#view-(sources|topics|updates|home|reports)$/.exec(location.hash);if(topicPage()&&view){location.replace(mainReaderHref(view[1]));return;}showView(viewFromHash());revealHashTarget();});
+window.addEventListener('popstate',()=>{restoreTopicNodes();document.body.dataset.compressionTopic=String(/\/topic(?:\.html)?\/?$/.test(location.pathname));const topic=requestedTopic();if(topic&&state.revision){const [target,method]=topic.split('-');openScientificFocus(target,method,false);if(!topicPage())showView(viewFromHash());}else{showView(viewFromHash());revealHashTarget();}document.dispatchEvent(new Event('lri:sections-changed'));});
 document.querySelectorAll('[data-domain]').forEach(tab=>{
   tab.addEventListener('click',()=>{state.domain=tab.dataset.domain;state.channelCategory='';state.channelOffset=0;state.industryOffsets={ascend:0,general:0};if(state.readerMode==='sources'){if(!state.sourceGroups.has(state.revision+'__'+state.domain)){for(const item of document.querySelectorAll('[data-domain]')){const active=item.dataset.domain===state.domain;item.setAttribute('aria-selected',String(active));item.tabIndex=active?0:-1;}$('channel-cards').textContent=mapText('正在读取','Loading ')+enumLabel('domain_',state.domain)+mapText('信源…',' sources…');$('channel-status').textContent=enumLabel('domain_',state.domain)+' · '+mapText('读取中','Loading');$('channel-category').replaceChildren();$('channel-category').disabled=true;$('channel-prev').disabled=true;$('channel-next').disabled=true;}showSourceGroup(state.domain).catch(error=>showLoadError(error,true));}else renderChannels();});
   tab.addEventListener('keydown',event=>{

@@ -74,6 +74,7 @@ def integrate(root):
     route_cards=compression_route_cards(compression_terms,local_reader)
     navigation='<div class="infra-navigation"><nav class="infra-primary" aria-label="AI Infra 主导航"><a class="selected" href="index.html">技术地图</a><a href="'+original+'#view-updates" title="查看原推理压缩站点的本期动态">本期动态 ↗</a><a href="'+original+'#view-home" title="查看原推理压缩站点的洞察报告">洞察报告 ↗</a><a href="'+original+'#view-reports" title="查看原推理压缩站点的洞察归档">洞察归档 ↗</a></nav><nav class="infra-support" aria-label="研究辅助入口"><a href="'+original+'#view-sources" title="查看信息源目录">信息来源 ↗</a><a href="methods.html">研究方法</a></nav></div>'
     navigation=navigation.replace(original,local_reader).replace('原推理压缩站点','推理压缩').replace(' ↗','')
+    navigation=navigation.replace('>本期动态</a>','>压缩动态</a>').replace('>洞察报告</a>','>压缩洞察报告</a>').replace('>洞察归档</a>','>压缩报告归档</a>').replace('>信息来源</a>','>压缩信息来源</a>')
     for f in source.iterdir():
         if f.is_file():
             shutil.copy2(f,target/f.name)

@@ -1,0 +1,75 @@
+{
+  "origin": "http://127.0.0.1:8789",
+  "rootPath": [
+    "首页",
+    "进入极智",
+    "AI Infra",
+    "低比特量化",
+    "权重量化"
+  ],
+  "localSwitches": [
+    {
+      "url": "http://127.0.0.1:8789/business_insight/cloud_core/index.html?month=2026-10&scope=ic-2026-10-public-20261007-v1#view-sources",
+      "view": "sources",
+      "visible": [
+        "sources"
+      ]
+    },
+    {
+      "url": "http://127.0.0.1:8789/business_insight/cloud_core/index.html?month=2026-10&scope=ic-2026-10-public-20261007-v1#view-topics",
+      "view": "topics",
+      "visible": [
+        "topics"
+      ]
+    },
+    {
+      "url": "http://127.0.0.1:8789/business_insight/cloud_core/index.html?month=2026-10&scope=ic-2026-10-public-20261007-v1#view-reports",
+      "view": "reports",
+      "visible": [
+        "reports"
+      ]
+    },
+    {
+      "url": "http://127.0.0.1:8789/business_insight/cloud_core/index.html?month=2026-10&scope=ic-2026-10-public-20261007-v1#view-home",
+      "view": "home",
+      "visible": [
+        "home"
+      ]
+    },
+    {
+      "url": "http://127.0.0.1:8789/business_insight/cloud_core/index.html?month=2026-10&scope=ic-2026-10-public-20261007-v1#view-updates",
+      "view": "updates",
+      "visible": [
+        "updates"
+      ]
+    }
+  ],
+  "quantizationRoute": {
+    "top": 100.1015625,
+    "activeOutline": "02低比特量化"
+  },
+  "weightOutline": [
+    "01速览与证据",
+    "02研究背景",
+    "03基本原理",
+    "04关键挑战",
+    "05技术进展",
+    "06比较判断",
+    "07研究结论"
+  ],
+  "awq": {
+    "element": "ARTICLE",
+    "heading": "AWQ：优先保护影响大的权重通道",
+    "top": 84.7578125
+  },
+  "foundationReturn": {
+    "returnTopic": "parameters-precision",
+    "returnHash": "#research-overview-basics",
+    "observedTop": 151.4453125
+  },
+  "limits": [
+    "Desktop preview tested; clean URL hosting verified after deployment.",
+    "An automation click hit a replaced shadow root during asynchronous report loading; refreshed accessibility state and repeated that click successfully.",
+    "Mobile viewport and 2-second public load target unmeasured."
+  ]
+}

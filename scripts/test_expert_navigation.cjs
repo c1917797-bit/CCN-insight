@@ -128,7 +128,7 @@ const viewContext = {
   state: viewState, viewIds: {sources: [], topics: [], updates: [], home: [], reports: []},
   topicPage: () => standaloneTopic,
   $: id => viewNodes.get(id),
-  document: {body: {dataset: {}}, querySelector: () => null, querySelectorAll: () => [], dispatchEvent() {}},
+  document: {documentElement:{dataset:{}}, body: {dataset: {}}, querySelector: () => null, querySelectorAll: () => [], dispatchEvent() {}},
   location: {hash: '#view-updates'}, Event: function Event() {},
   refreshSynthesis() {}, refreshImportedPapers() {}, renderViewPurpose() {},
   mapText: (zh, en) => zh,
