@@ -14,3 +14,7 @@ data/compression/.edit.lock
 # Agent report: generated output is built from research/agent-scheduling
 research/agent-scheduling/site/
 research/agent-scheduling/outputs/
+
+.tmp/
+
+research/ai-infra/operator-310p-prior.json

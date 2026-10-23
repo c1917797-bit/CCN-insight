@@ -1,0 +1,20 @@
+{
+  "lesson_id": "browser-request-is-not-proof",
+  "lesson_sha256": "7881c581401d2b7022c60a0c47e117b10cf9d790e7448904aa0f25d608fc4027",
+  "checked_at": "2026-10-23T14:33:54.650867+00:00",
+  "passed": true,
+  "checks": {
+    "skill-tree": true
+  },
+  "files": {
+    "docs/expert-topics-browser-qa-20261023.json": "21098dcea070f80250a6280dbc8062da9695903b2319bfb71bb72828b745c08b",
+    "docs/EXPERT-QUALITY-20261023.md": "ba1b355b2b25757cb1fece1a59f4db89a57f270259be2c80884a0c942ffc942b",
+    ".agents/skills/ccn-insight-build/references/reader-and-content.md": "c6c4edef174514dc183d045a58f66640e38754aff0530c6b1dc49ddc2f23557f"
+  },
+  "check_scripts": {
+    "scripts/validate_insight_skills.py": "e842bf97cdbdd2c8d8657ea655b24c87c9c7aa21ca8cad610d0c72e7cce53c40"
+  },
+  "logs": {
+    ".agents/evals/receipts/browser-request-is-not-proof--skill-tree.txt": "87636eecf4081eb7e0509b3067494b2c39c3649ca93825449f027dd490fe7cda"
+  }
+}

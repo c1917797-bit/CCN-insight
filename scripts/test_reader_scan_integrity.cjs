@@ -1,0 +1,21 @@
+/* Regression: heterogeneous corpus samples are valid; missing channel provenance elsewhere is not. */
+const fs=require('node:fs');
+const vm=require('node:vm');
+const assert=require('node:assert/strict');
+const path=require('node:path');
+const root=path.resolve(__dirname,'..');
+const source=fs.readFileSync(path.join(root,'original-reader/site/business_insight/cloud_core/compression.js'),'utf8');
+const start=source.indexOf('function validateEnrichment(data)');
+const end=source.indexOf('function validateResearch(data)',start);
+assert(start>=0&&end>start);
+const context={must:(ok,message)=>assert(ok,message)};
+vm.createContext(context);vm.runInContext(source.slice(start,end),context);
+const read=name=>fs.readFileSync(path.join(root,'data/compression/tables',name,'rows.jsonl'),'utf8').trim().split('\n').map(JSON.parse).filter(x=>!x.deleted).map(x=>x.row);
+const data={lineages:[],lineage_nodes:[],lineage_relations:[],lineage_cells:[],techniques:[],cells:[],source_scans:read('ic_source_scans'),source_screenings:read('ic_source_screenings')};
+context.validateEnrichment(data);
+const clone=()=>JSON.parse(JSON.stringify(data));
+let bad=clone();bad.source_scans.find(x=>x.channel_source_id==='').origin_kind='arxiv_recent_first_page';assert.throws(()=>context.validateEnrichment(bad),/Invalid source scan counts/);
+bad=clone();bad.source_scans[0].selected_count++;assert.throws(()=>context.validateEnrichment(bad),/Inconsistent source scan scope/);
+bad=clone();bad.source_screenings.pop();assert.throws(()=>context.validateEnrichment(bad),/Incomplete or duplicate screened candidates/);
+bad=clone();bad.source_scans[0].received_count=-1;assert.throws(()=>context.validateEnrichment(bad),/Invalid source scan counts/);
+console.log('PASS: imported corpus sample, channel provenance, count totals, complete screening, nonnegative counts');

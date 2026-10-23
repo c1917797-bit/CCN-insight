@@ -8,7 +8,7 @@ const el=(tag,text='',cls='')=>{const n=document.createElement(tag);n.textConten
 function url(value){const u=new URL(value,location.href);check(u.protocol==='https:'&&!u.username&&!u.password,'Unsafe insight reference');return u.href;}
 function primary(parent,source,label){const a=el('a',label||source.title);a.href=url(source.canonical_url);a.target='_blank';a.rel='noopener noreferrer';parent.append(a);}
 function topics(parent,ids,relations=[]){const group=el('div','','monthly-route-topics');for(const id of [...new Set(ids)]){const t=current.topics.find(x=>x.compression_topic_id===id);check(t,'Unresolved map topic');const relation=relations.find(r=>r.compression_topic_id===id),relationText=relation?(current.locale==='en'?(relation.relation_kind==='research_context'?' · Research context':' · Implementation example'):(relation.relation_kind==='research_context'?' · 研究背景':' · 实现示例')):'';const a=el('a',pick(t,'title')+relationText);const target=new URL('topic.html',location.href);target.searchParams.set('topic',id);target.searchParams.set('month',current.period);target.searchParams.set('scope',current.scope);a.href=target.pathname+target.search;group.append(a);}parent.append(group);}
-function mapHeading(tag,title,ids){const h=el(tag,title),labels=[...new Set(ids)].map(id=>{const topic=current.topics.find(x=>x.compression_topic_id===id);check(topic,'Unresolved map topic');return pick(topic,'title');});if(labels.length)h.append(el('span',(current.locale==='en'?' (':'（')+labels.join(' · ')+(current.locale==='en'?')':'）'),'monthly-route-map-label'));return h;}
+function mapHeading(tag,title,ids,contextOnly=false){const h=el(tag,title),labels=[...new Set(ids)].map(id=>{const topic=current.topics.find(x=>x.compression_topic_id===id);check(topic,'Unresolved map topic');return pick(topic,'title');});if(labels.length)h.append(el('span',(current.locale==='en'?' (':'（')+(contextOnly?(current.locale==='en'?'Context: ':'相关背景：'):'')+labels.join(' · ')+(current.locale==='en'?')':'）'),'monthly-route-map-label'));return h;}
 function field(parent,key,value){const p=el('p');p.append(el('strong',ui(key)+': '),document.createTextNode(value));parent.append(p);}
 function owned(rows){check(rows.every(r=>r.business_id==='cloud-core'&&r.topic_id==='cloud_core'),'Insight scope mismatch');return rows;}
 async function read(context){
@@ -33,86 +33,138 @@ function selected(model,story){return !current.topicId||model.monthly_route_evid
 function routePriority(row){return row.priority_zh==='优先穿刺'?ui('analysis_priority_research'):pick(row,'priority');}
 function paperProbeCandidates(parent,m,assessment,refs,probe){
  const papers=[...new Map(refs.map(r=>[r.summary_id,r])).values()];
- const section=el('section','','analysis-paper-probes');section.append(el('h6',ui('paper_probe_candidates')),el('p',ui('paper_probe_scope'),'meta'));
+ const section=el('section','','analysis-paper-probes');section.dataset.sectionOutline='false';section.append(el('h6',ui('paper_probe_candidates')),el('p',ui('paper_probe_scope'),'meta'));
  for(const ref of papers){
-  const p=m.paperSummaries.get(ref.summary_id),source=m.sources.get(ref.source_id),card=el('details','','analysis-paper-probe');card.dataset.paperProbe=ref.summary_id;
-  card.append(el('summary',source.title+' · '+ref.observed_version));const body=el('div','','analysis-paper-probe-body');
+  const p=m.paperSummaries.get(ref.summary_id),source=m.sources.get(ref.source_id),card=el('article','','analysis-paper-probe');card.id=assessment.assessment_id+'--'+ref.summary_id;card.dataset.sectionOutline='false';card.dataset.paperProbe=ref.summary_id;if(probe)card.dataset.probeStatus=probe.status;
+  card.append(el('h6',source.title+' · '+ref.observed_version,'analysis-paper-heading'));const body=el('div','','analysis-paper-probe-body');
   const link=el('a',source.title+' ↗');link.href=url(p.evidence_url);link.target='_blank';link.rel='noopener noreferrer';body.append(link);
   topics(body,refs.filter(r=>r.summary_id===ref.summary_id).map(r=>r.compression_topic_id));
-  body.append(el('p',ui('probe_not_run'),'paper-probe-status'));field(body,'paper_probe_claim',pick(p,'one_sentence'));field(body,'paper_probe_method',pick(p,'innovation'));field(body,'paper_probe_conditions',pick(p,'results'));
+  body.append(el('p',ui('probe_not_run'),'paper-probe-status'));const facts=el('a',current.locale==='en'?'Read the paper facts in current updates →':'在本期动态查阅原文事实 →','analysis-facts-link');facts.href=reportFactsHref(ref);body.append(facts);
   body.append(el('p',ui(p.review_status==='method_results_checked'?'paper_probe_review_sections':'paper_probe_review_abstract')+' · '+p.evidence_locator+' · '+p.reviewed_at,'meta'));
-  if(probe){const protocol=el('details','','analysis-probe');protocol.append(el('summary',ui('paper_probe_protocol')));field(protocol,'paper_probe_hypothesis',pick(probe,'hypothesis'));for(const key of ['design','metrics','decision_rule'])field(protocol,'probe_'+key,pick(probe,key));protocol.append(el('p',ui('probe_not_run'),'meta'));body.append(protocol);}
+  if(probe){const protocol=el('section','','analysis-probe');protocol.dataset.sectionOutline='false';protocol.dataset.probeStatus=probe.status;protocol.append(el('h6',ui('decision_probe_details')));field(protocol,'paper_probe_hypothesis',pick(probe,'hypothesis'));const grid=el('div','','analysis-protocol-grid');for(const key of ['design','metrics','decision_rule']){const block=el('section','','analysis-protocol-field');block.dataset.sectionOutline='false';block.append(el('h6',ui('probe_'+key)),el('p',pick(probe,key)));grid.append(block);}protocol.append(grid);body.append(protocol);}else body.append(el('p',ui('analysis_focus_probe_pending'),'meta'));
   card.append(body);section.append(card);
  }parent.append(section);
 }
 // Research-entry candidates follow the published report; route evidence remains complete.
-function reportPrioritySources(m){
+function reportPrioritySelection(m){
  const report=(m.insight_reports||[]).filter(r=>r.status==='published'&&r.scope_id===current.scope&&r.period_id===current.period).sort((a,b)=>b.reviewed_at.localeCompare(a.reviewed_at)||b.report_id.localeCompare(a.report_id))[0];
  if(!report)return null;
  const papers=(m.insight_report_papers||[]).filter(p=>p.report_id===report.report_id);
  // Existing reports used route-level priority; keep their display until cutover.
  if(!papers.some(p=>p.priority_zh==='条件优先'))return null;
- return new Set(papers.filter(p=>p.priority_zh==='条件优先').map(p=>p.source_id));
+ return {report,papers:papers.filter(p=>p.priority_zh==='条件优先').sort((a,b)=>a.position-b.position)};
+}
+function reportPrioritySources(m){
+ const selection=reportPrioritySelection(m);
+ return selection?new Set(selection.papers.map(p=>p.source_id+'|'+p.observed_version)):null;
 }
 function priorityRouteRefs(assessment,refs,prioritySources){
- return prioritySources?refs.filter(r=>prioritySources.has(r.source_id)):(assessment.priority_zh==='优先穿刺'?refs:[]);
+ return prioritySources?refs.filter(r=>prioritySources.has(r.source_id+'|'+r.observed_version)):(assessment.priority_zh==='优先穿刺'?refs:[]);
+}
+function reportResearchChoices(m,rows){
+ const selection=reportPrioritySelection(m),prioritySources=reportPrioritySources(m),candidates=[];
+ for(const assessment of rows){for(const ref of priorityRouteRefs(assessment,m.monthly_route_evidence.filter(r=>r.story_id===assessment.story_id),prioritySources)){const paper=selection?.papers.find(p=>p.source_id===ref.source_id&&p.observed_version===ref.observed_version);candidates.push({assessment,ref,paper});}}
+ const priorities=[...new Map(candidates.map(candidate=>[candidate.ref.summary_id,candidate])).values()].sort((a,b)=>(a.paper?.position??a.assessment.position)-(b.paper?.position??b.assessment.position));
+ return {selection,priorities};
+}
+function reportFactsHref(ref){const target=new URL('monthly.html',location.href);target.searchParams.set('month',current.period);target.searchParams.set('scope',current.scope);target.searchParams.set('paper',ref.summary_id);target.hash='monthly-route-report';return target.pathname+target.search+target.hash;}
+function bindReportArgumentJump(link,id){
+ link.href='#'+id;link.addEventListener('click',event=>{if(event.ctrlKey||event.metaKey||event.shiftKey||event.altKey||event.button)return;const target=document.getElementById(id);if(!target)return;event.preventDefault();event.stopPropagation();const appendix=document.getElementById('ascend');if(appendix?.tagName==='DETAILS')appendix.open=true;history.replaceState(null,'',location.pathname+location.search+'#'+id);target.tabIndex=-1;target.scrollIntoView({block:'start'});target.focus({preventScroll:true});});
+}
+function reportExcerpt(value){const text=value.trim(),end=text.search(/[。！？]|[.!?](?=\s|$)/);return end<0?text:text.slice(0,end+1);}
+function renderReportChoices(m,rows,root){
+ if(!root)return;const word=(zh,en)=>current.locale==='en'?en:zh,{selection,priorities}=reportResearchChoices(m,rows);root.replaceChildren();
+ if(selection)root.dataset.reportId=selection.report.report_id;else delete root.dataset.reportId;
+ const intro=document.querySelector?.('#insight-overview .analysis-intro');if(intro)intro.textContent=word('本期动态保存事件与论文事实；这里说明研究选择、判断理由，以及继续或停止验证的条件。','Current updates retain event and paper facts. This report explains research choices, the reasoning behind them, and the conditions for continuing or stopping validation.');
+ if(!priorities.length){const link=el('a',word('查看本期研究判断与验证条件 →','Read this period’s assessments and validation gates →'),'analysis-evidence-link');bindReportArgumentJump(link,'ascend');root.append(link);return;}
+ const header=el('header','','analysis-choice-heading');header.append(el('h3',word('本期研究选择','Research choices this period')),el('p',word('按当前报告顺序排列；以下是建议研究，尚未构成本地实测结论。','Ordered as in the current report. These are research recommendations, not local measured results.')));root.append(header);
+ const grid=el('div','','analysis-choice-grid');
+ priorities.forEach(({assessment,ref,paper},index)=>{
+  const probe=m.ascend_validation_probes.find(p=>p.assessment_id===assessment.assessment_id),card=el('article','','analysis-choice-card');card.dataset.sectionOutline='false';card.dataset.claimKind='analyst_recommendation';card.dataset.sourceId=ref.source_id;card.dataset.summaryId=ref.summary_id;card.dataset.assessmentId=assessment.assessment_id;if(selection)card.dataset.reportId=selection.report.report_id;if(probe)card.dataset.probeStatus=probe.status;
+  card.append(el('p',String(index+1).padStart(2,'0')+' · '+(paper?pick(paper,'priority'):routePriority(assessment))+' · '+ref.observed_version,'analysis-choice-meta'));
+  const heading=el('h4'),title=el('a',pick(assessment,'title'));bindReportArgumentJump(title,assessment.assessment_id);heading.append(title);card.append(heading,el('p',reportExcerpt(paper?pick(paper,'reason'):pick(assessment,'rationale')),'analysis-choice-reason'));
+  const gate=el('p','','analysis-choice-gate');gate.append(el('strong',word('推进门槛：','Validation gate: ')),document.createTextNode(probe?reportExcerpt(pick(probe,'decision_rule')):word('尚未登记完整条件，先补充验证设计。','Complete the validation design before treating this as an actionable recommendation.')));card.append(gate);
+  const links=el('div','','analysis-choice-links'),argument=el('a',word('论证与验证条件 ↓','Reasoning and validation gates ↓')),facts=el('a',word('本期动态中的原文事实 →','Paper facts in current updates →'));bindReportArgumentJump(argument,assessment.assessment_id);facts.href=reportFactsHref(ref);links.append(argument,facts);card.append(links);grid.append(card);
+ });root.append(grid);const all=el('a',word('查看全部 '+rows.length+' 条研究判断 →','Read all '+rows.length+' research assessments →'),'analysis-all-assessments');bindReportArgumentJump(all,'ascend');root.append(all);
 }
 function renderResearchFocus(m,rows){
  const root=document.getElementById('analysis-focus-cards');if(!root)return;root.replaceChildren();
- const prioritySources=reportPrioritySources(m);
- const priorities=rows.filter(a=>priorityRouteRefs(a,m.monthly_route_evidence.filter(r=>r.story_id===a.story_id),prioritySources).length);
+ root.dataset.sectionOutline='false';
+ const word=(zh,en)=>current.locale==='en'?en:zh,chapter=document.getElementById('analysis-focus'),heading=chapter?.querySelector?.('h3'),note=chapter?.querySelector?.('.reader-note');if(heading)heading.textContent=word('重点论文原文索引','Selected-paper source index');if(note)note.textContent=word('查阅同一版本的原文事实，或直达对应论证与验证建议。','Read facts for the cited paper version, or jump to its reasoning and proposed validation.');
+ const {selection,priorities}=reportResearchChoices(m,rows);
  if(!priorities.length){root.append(el('p',ui('analysis_focus_empty'),'reader-note'));return;}
- for(const a of priorities){
-  const refs=priorityRouteRefs(a,m.monthly_route_evidence.filter(r=>r.story_id===a.story_id),prioritySources),card=el('article','','card analysis-focus-card');
-  card.dataset.assessmentId=a.assessment_id;card.dataset.claimKind='analyst_recommendation';card.append(el('h4',pick(a,'title')));
-  const map=el('div','','analysis-route-map');topics(map,refs.map(r=>r.compression_topic_id));card.append(map);
-  const links=el('ul');
-  for(const ref of [...new Map(refs.map(r=>[r.summary_id,r])).values()]){
-   const source=m.sources.get(ref.source_id),summary=m.paperSummaries.get(ref.summary_id);
-   check(source&&summary&&summary.source_id===ref.source_id&&summary.observed_version===ref.observed_version,'Unbound priority paper');
-   const li=el('li'),a=el('a',source.title),url=new URL('monthly.html',location.href);url.searchParams.set('month',current.period);url.searchParams.set('scope',current.scope);url.searchParams.set('paper',ref.summary_id);url.hash='monthly-route-report';a.href=url.pathname+url.search+url.hash;li.append(a);links.append(li);
-  }card.append(links);
-  const detail=el('a',ui('analysis_focus_argument'),'analysis-evidence-link');detail.href='#'+a.assessment_id;detail.addEventListener('click',()=>{const appendix=document.getElementById('ascend');if(appendix?.tagName==='DETAILS')appendix.open=true;const target=document.getElementById(a.assessment_id);if(target)target.open=true;});card.append(detail);root.append(card);
+ for(const {assessment:a,ref,paper} of priorities){
+  const source=m.sources.get(ref.source_id),summary=m.paperSummaries.get(ref.summary_id),card=el('article','','analysis-focus-card analysis-source-index-row');
+  check(source&&summary&&summary.source_id===ref.source_id&&summary.observed_version===ref.observed_version,'Unbound priority paper');
+  card.dataset.sectionOutline='false';card.dataset.assessmentId=a.assessment_id;card.dataset.claimKind='analyst_recommendation';card.dataset.sourceId=ref.source_id;card.dataset.summaryId=ref.summary_id;if(selection)card.dataset.reportId=selection.report.report_id;
+  const title=el('h4'),link=el('a',source.title);link.href=url(summary.evidence_url);link.target='_blank';link.rel='noopener noreferrer';title.append(link);card.append(title,el('span',ref.observed_version,'analysis-source-index-version'));
+  const actions=el('div','','analysis-source-index-links'),facts=el('a',word('本期事实 →','Paper facts →')),detail=el('a',word('论证与验证 ↓','Reasoning and validation ↓'),'analysis-evidence-link');facts.href=reportFactsHref(ref);bindReportArgumentJump(detail,a.assessment_id+'--'+ref.summary_id);actions.append(facts,detail);card.append(actions);root.append(card);
  }
 }
 
 function renderAnalysis(m){
  const root=document.getElementById('ascend-cards');if(!root)return;
- const openIds=new Set([...root.querySelectorAll('details.analysis-route[open]')].map(n=>n.id));root.replaceChildren();
+ root.dataset.sectionOutline='false';root.dataset.sectionLabel='研究取舍与论证';root.dataset.sectionLabelEn='Research decisions and reasoning';
+ const appendix=document.getElementById('ascend');if(appendix){appendix.dataset.sectionId=appendix.id;appendix.dataset.sectionLabel='研究取舍与论证';appendix.dataset.sectionLabelEn='Research decisions and reasoning';appendix.dataset.sectionLevel='2';}
+ root.replaceChildren();
  const rows=m.ascend_route_assessments.filter(a=>selected(m,a.story_id)).sort((a,b)=>a.position-b.position);
  const overview=document.getElementById('analysis-summary'),meta=document.getElementById('analysis-meta'),prioritySources=reportPrioritySources(m);overview?.replaceChildren();renderResearchFocus(m,rows);
  if(!rows.length){root.append(el('p',ui('ascend_decision_empty')));if(meta)meta.textContent=current.period;return;}
+ renderReportChoices(m,rows,overview);
  const reviewed=rows.map(r=>r.reviewed_at).sort().at(-1),refsAll=m.monthly_route_evidence.filter(r=>rows.some(a=>a.story_id===r.story_id));
  if(meta)meta.textContent=current.period+' / '+ui('analysis_reviewed')+' '+reviewed+' / '+new Set(refsAll.map(r=>r.source_id)).size+' '+ui('analysis_sources');
  const groups=new Map();for(const a of rows){if(!groups.has(a.priority_zh))groups.set(a.priority_zh,[]);groups.get(a.priority_zh).push(a);}
  let groupIndex=0;
  for(const list of groups.values()){
-  const groupId='analysis-priority-'+(++groupIndex),group=el('section','','analysis-route-group');group.id=groupId;group.dataset.sectionLabel=routePriority(list[0]);group.dataset.sectionLevel='3';
+  const groupId='analysis-priority-'+(++groupIndex),group=el('section','','analysis-route-group');group.id=groupId;group.dataset.sectionLabel=list[0].priority_zh==='优先穿刺'?'优先研究':list[0].priority_zh;group.dataset.sectionLabelEn=list[0].priority_zh==='优先穿刺'?'Priority research':list[0].priority_en;group.dataset.sectionLevel='3';
   const heading=el('div','','analysis-group-heading');heading.append(el('h4',routePriority(list[0])),el('span',list.length+' '+ui('analysis_routes'),'analysis-count'));group.append(heading);
-  if(overview){const link=el('a','','analysis-priority-tile');link.href='#'+groupId;link.addEventListener('click',()=>{const appendix=document.getElementById('ascend');if(appendix?.tagName==='DETAILS')appendix.open=true;});link.append(el('span',routePriority(list[0])),el('strong',String(list.length)),el('span',ui('analysis_routes')+' ↗','analysis-tile-unit'));overview.append(link);}
   for(const a of list){
-   const story=m.stories.get(a.story_id),refs=m.monthly_route_evidence.filter(r=>r.story_id===a.story_id),routeShell=el('article','','analysis-route-shell'),card=el('details','','analysis-route');card.id=a.assessment_id;card.dataset.claimKind='analyst_recommendation';if(openIds.has(card.id))card.open=true;
-   const summary=el('summary'),number=el('span',String(a.position).padStart(2,'0'),'analysis-route-number'),headline=el('div','','analysis-route-headline');
+   const story=m.stories.get(a.story_id),refs=m.monthly_route_evidence.filter(r=>r.story_id===a.story_id),routeShell=el('article','','analysis-route-shell'),card=el('section','','analysis-route');card.id=a.assessment_id;card.dataset.sectionOutline='false';routeShell.dataset.sectionOutline='false';card.dataset.claimKind='analyst_recommendation';
+   const summary=el('header','','analysis-route-summary'),number=el('span',String(a.position).padStart(2,'0'),'analysis-route-number'),headline=el('div','','analysis-route-headline');
    headline.append(el('h5',pick(a,'title')));
-   const disclosure=el('span',ui(card.open?'analysis_collapse':'analysis_expand'),'analysis-route-disclosure');summary.append(number,headline,disclosure);card.append(summary);card.addEventListener('toggle',()=>{disclosure.textContent=ui(card.open?'analysis_collapse':'analysis_expand');});
+   summary.append(number,headline);card.append(summary);
    const map=el('div','','analysis-route-map');topics(map,refs.map(r=>r.compression_topic_id));routeShell.append(map);
    const candidateRefs=priorityRouteRefs(a,refs,prioritySources);
    if(candidateRefs.length){
     const candidates=el('ul','','analysis-route-paper-links');candidates.setAttribute('aria-label',ui('paper_probe_candidates_short'));
     for(const ref of [...new Map(candidateRefs.map(r=>[r.summary_id,r])).values()]){const li=el('li'),link=el('a',m.sources.get(ref.source_id).title+' · '+ref.observed_version),href=new URL('monthly.html',location.href);href.searchParams.set('month',current.period);href.searchParams.set('scope',current.scope);href.searchParams.set('paper',ref.summary_id);href.hash='monthly-route-report';link.href=href.pathname+href.search+href.hash;li.append(link);candidates.append(li);}routeShell.append(el('p',ui('paper_probe_candidates_short'),'analysis-candidate-label'),candidates);
    }
-   const body=el('div','','analysis-route-body'),grid=el('div','','analysis-reason-grid');body.append(el('p',pick(story,'title'),'analysis-route-context'));
-   for(const [key,value] of [['decision_reason',pick(a,'rationale')],['decision_choice',pick(a,'recommendation')]]){const block=el('section','','analysis-reason-block');block.append(el('h6',ui(key)),el('p',value));grid.append(block);}body.append(grid);
+   const body=el('div','','analysis-route-body'),grid=el('div','','analysis-reason-grid');
+   for(const [key,value] of [['decision_reason',pick(a,'rationale')],['decision_choice',pick(a,'recommendation')]]){const block=el('section','','analysis-reason-block');block.dataset.sectionOutline='false';block.append(el('h6',ui(key)),el('p',value));grid.append(block);}body.append(grid);
    const boundary=el('div','','analysis-boundary');boundary.append(el('h6',ui('decision_boundary')),el('p',pick(story,'boundary')));body.append(boundary);
-   const proof=el('details','','analysis-proof');proof.append(el('summary',ui('decision_sources')+' · '+new Set(refs.map(r=>r.source_id)).size));const sources=el('ul');for(const id of [...new Set(refs.map(r=>r.source_id))]){const li=el('li');primary(li,m.sources.get(id));sources.append(li);}proof.append(sources);body.append(proof);
+   const proof=el('section','','analysis-proof');proof.dataset.sectionOutline='false';proof.append(el('h6',ui('decision_sources')+' · '+new Set(refs.map(r=>r.source_id)).size));const sources=el('ul');for(const id of [...new Set(refs.map(r=>r.source_id))]){const li=el('li');primary(li,m.sources.get(id));sources.append(li);}proof.append(sources);body.append(proof);
    const probe=m.ascend_validation_probes.find(p=>p.assessment_id===a.assessment_id);
    const probeRefs=prioritySources?candidateRefs:refs;
-   if(probe&&probeRefs.length)paperProbeCandidates(body,m,a,probeRefs,probe);
+   if(probeRefs.length)paperProbeCandidates(body,m,a,probeRefs,probe);
    const detail=el('a',ui('decision_read_route'),'analysis-evidence-link'),target=new URL('monthly.html',location.href);target.searchParams.set('month',current.period);target.searchParams.set('scope',current.scope);target.searchParams.set('route',a.story_id);target.hash='monthly-route-report';detail.href=target.pathname+target.search+target.hash;body.append(detail);card.append(body);routeShell.prepend(card);group.append(routeShell);
   }
   root.append(group);
  }
  notify();
+}
+// Restore a cold report link after its asynchronous content has been mounted.
+// A later render at the same location must preserve the reader's scroll position.
+const restoredReportAnchors=new Set();
+function restoreReportAnchor(m){
+ if(current?.view!=='home')return;
+ const hash=location.hash;let id;
+ try{id=decodeURIComponent(hash.slice(1));}catch{return;}
+ const ownedAnchor=id==='analysis-focus'||id==='ascend'||/^analysis-priority-\d+$/.test(id)||(m.ascend_route_assessments||[]).some(a=>id===a.assessment_id||m.monthly_route_evidence.some(r=>r.story_id===a.story_id&&id===a.assessment_id+'--'+r.summary_id));
+ if(!ownedAnchor||!document.getElementById(id))return;
+ const contextKey=current.key||[current.revision,current.scope,current.period].join('|'),key=contextKey+'|'+hash;
+ if(restoredReportAnchors.has(key))return;
+ restoredReportAnchors.add(key);if(restoredReportAnchors.size>48)restoredReportAnchors.delete(restoredReportAnchors.values().next().value);
+ const active=()=>{
+  const activeKey=current?.key||[current?.revision,current?.scope,current?.period].join('|');
+  return current?.view==='home'&&activeKey===contextKey&&location.hash===hash;
+ };
+ requestAnimationFrame(()=>{
+  if(!active()){restoredReportAnchors.delete(key);return;}
+  requestAnimationFrame(()=>{
+   if(!active()){restoredReportAnchors.delete(key);return;}
+   const target=document.getElementById(id);if(target)target.scrollIntoView({block:'start',behavior:'auto'});else restoredReportAnchors.delete(key);
+  });
+ });
 }
 // Reader state is presentation-only; evidence and asset validation stay with renderReports.
 const reportPositions=new Map();
@@ -166,10 +218,14 @@ function mountReportReader(viewer,slides,title,assetUrl,stateKey,figures=[],page
 
 
 function renderReports(m){
- for(const id of current.view==='reports'?['insight-deck-archive']:['insight-deck-content']){
+ const archive=current.view==='reports',word=(zh,en)=>current.locale==='en'?en:zh,version=r=>r.report_id.match(/-v\d+$/)?.[0].slice(1)||'',byDate=(a,b)=>b.reviewed_at.localeCompare(a.reviewed_at)||(Number(version(b).slice(1))||0)-(Number(version(a).slice(1))||0)||b.report_id.localeCompare(a.report_id);
+ for(const id of archive?['insight-deck-archive']:['insight-deck-content']){
   const root=document.getElementById(id);if(!root)continue;for(const d of root.querySelectorAll('dialog[open]'))d.close();root.replaceChildren();
-  const rows=m.insight_reports.filter(r=>r.status==='published'&&r.scope_id===current.scope&&r.period_id===current.period);
-  if(!rows.length){root.append(el('p',ui('deck_not_available'),'meta'));continue;}
+  const scoped=m.insight_reports.filter(r=>r.scope_id===current.scope&&r.period_id===current.period&&(!archive||r.period_id>='2026-10')),rows=scoped.filter(r=>r.status==='published').sort(byDate),history=archive?scoped.filter(r=>r.status==='superseded').sort(byDate):[];
+  if(!rows.length&&!history.length){root.append(el('p',ui('deck_not_available'),'meta'));continue;}
+  const assetUrl=a=>{check(a,'Missing report asset');const target=new URL(a.public_path,location.origin);check(target.origin===location.origin&&target.pathname.startsWith('/business_insight/cloud_core/reports/')&&/^[a-f0-9]{64}$/.test(a.content_sha256)&&a.binary_sha256===a.content_sha256,'Invalid report asset');return target.href;};
+  const currentHost=archive?el('section','','analysis-archive-current'):root;
+  if(archive&&rows.length){currentHost.append(el('h3',word('当前报告','Current report')),el('p',word('本期采用的版本。历史版本保留在下方，供回看当时的内容；不作为当前结论。','The version used for this period. Earlier versions below preserve their original content and are not the current assessment.'),'analysis-archive-note'));root.append(currentHost);}
   for(const r of rows){
    const papers=m.insight_report_papers.filter(p=>p.report_id===r.report_id).sort((a,b)=>a.position-b.position);
    const assets=m.insight_report_assets.filter(a=>a.report_id===r.report_id),figures=assets.filter(a=>/^figure-\d{2}-(tech|results)$/.test(a.format));
@@ -177,15 +233,24 @@ function renderReports(m){
    if(figures.length)check(papers.filter(p=>p.selection_status==='illustrated').every(p=>['tech','results'].every(kind=>figures.some(a=>a.format==='figure-'+String(p.slide_number).padStart(2,'0')+'-'+kind))),'Incomplete original figures');
    check(r.status==='published'&&papers.length===r.candidate_count&&papers.filter(p=>p.selection_status==='illustrated').length===r.paper_count,'Incomplete report selection');
    const slides=assets.filter(a=>/^slide-\d{2}$/.test(a.format)).sort((a,b)=>a.format.localeCompare(b.format));check(slides.length===r.page_count&&['pdf','pptx'].every(f=>assets.some(a=>a.format===f)),'Incomplete report assets');
-   const card=el('article','','card analysis-report-card');card.append(el('h3',pick(r,'title')));const reportScope=el('details','','analysis-report-scope');reportScope.append(el('summary',ui('deck_report_scope')),el('p',pick(r,'summary')));card.append(reportScope,el('p',r.reviewed_at+' · '+r.paper_count+' '+ui('deck_papers')+' / '+r.candidate_count+' '+ui('deck_candidates')+' · '+r.page_count+' '+ui('deck_pages')+' · '+ui('deck_zh'),'meta'));
+   const card=el('article','','card analysis-report-card');card.dataset.reportId=r.report_id;card.dataset.reportStatus=r.status;if(archive)card.append(el('p',word('当前版本','Current version')+(version(r)?' · '+version(r):''),'analysis-archive-badge'));card.append(el('h3',pick(r,'title')));const reportScope=el('details','','analysis-report-scope');reportScope.append(el('summary',ui('deck_report_scope')),el('p',pick(r,'summary')));card.append(reportScope,el('p',r.reviewed_at+' · '+r.paper_count+' '+ui('deck_papers')+' / '+r.candidate_count+' '+ui('deck_candidates')+' · '+r.page_count+' '+ui('deck_pages')+' · '+ui('deck_zh'),'meta'));
    const actions=el('div','','actions analysis-report-actions'),viewer=el('div','','analysis-report-viewer');
-   const assetUrl=a=>{const target=new URL(a.public_path,location.origin);check(target.origin===location.origin&&target.pathname.startsWith('/business_insight/cloud_core/reports/')&&/^[a-f0-9]{64}$/.test(a.content_sha256)&&a.binary_sha256===a.content_sha256,'Invalid report asset');return target.href;};
    const pdf=assets.find(a=>a.format==='pdf'),ppt=assets.find(a=>a.format==='pptx');
    const pageTitles=slides.map((_,i)=>{const p=papers.find(p=>p.selection_status==='illustrated'&&p.slide_number===i+1);return p?m.sources.get(p.source_id).title:'';});
    const stateKey=r.report_id+'|'+current.scope+'|'+current.period+'|'+slides.map(a=>a.content_sha256).join('|');let dispose=null;
    const button=el('button',ui('deck_open'),'btn');button.type='button';button.setAttribute('aria-expanded','false');button.addEventListener('click',()=>{if(dispose){dispose();dispose=null;button.textContent=ui('deck_open');button.setAttribute('aria-expanded','false');return;}dispose=mountReportReader(viewer,slides,pick(r,'title'),assetUrl,stateKey,figures,pageTitles);button.textContent=ui('deck_close');button.setAttribute('aria-expanded','true');});actions.append(button);
    for(const [a,label] of [[pdf,'deck_fullscreen'],[ppt,'deck_download']]){const link=el('a',ui(label),'btn analysis-report-secondary');link.href=assetUrl(a);link.target='_blank';link.rel='noopener noreferrer';if(a.format==='pptx')link.download=a.public_path.split('/').pop();actions.append(link);}card.append(actions,el('p',ui('deck_lazy_help'),'reader-note'),viewer);
-   const selection=el('details','','analysis-report-selection');selection.append(el('summary',ui('deck_selection')));const list=el('ol');for(const p of papers){const li=el('li');primary(li,m.sources.get(p.source_id));li.append(el('p',pick(p,'priority')+' · '+pick(p,'reason'),'meta'));if(p.slide_number>0){const jumpTo=el('button',ui('deck_slide')+' '+p.slide_number+' ↗','analysis-reader-nav');jumpTo.type='button';jumpTo.addEventListener('click',()=>{if(!dispose)button.click();dispose.goTo(p.slide_number-1);});li.append(jumpTo);}topics(li,m.monthly_route_evidence.filter(e=>e.source_id===p.source_id).map(e=>e.compression_topic_id));list.append(li);}selection.append(list);card.append(selection);root.append(card);if(id==='insight-deck-content'&&current.view==='home')button.click();
+   const selection=el('details','','analysis-report-selection');selection.append(el('summary',ui('deck_selection')));const list=el('ol');for(const p of papers){const li=el('li');primary(li,m.sources.get(p.source_id));li.append(el('p',pick(p,'priority')+' · '+pick(p,'reason'),'meta'));if(p.slide_number>0){const jumpTo=el('button',ui('deck_slide')+' '+p.slide_number+' ↗','analysis-reader-nav');jumpTo.type='button';jumpTo.addEventListener('click',()=>{if(!dispose)button.click();dispose.goTo(p.slide_number-1);});li.append(jumpTo);}topics(li,m.monthly_route_evidence.filter(e=>e.source_id===p.source_id).map(e=>e.compression_topic_id));list.append(li);}selection.append(list);card.append(selection);currentHost.append(card);if(id==='insight-deck-content'&&current.view==='home')button.click();
+  }
+  if(history.length){
+   const section=el('section','','analysis-archive-history');section.append(el('h3',word('历史版本','Earlier versions')),el('p',word('以下版本已被替代，各项保留当时的摘要与原始文件。当前结论以本期报告为准。','These versions have been superseded. Their recorded summaries and original files remain available; use the current report for this period’s assessment.'),'analysis-archive-note'));
+   const timeline=el('ol','','analysis-archive-timeline');
+   for(const r of history){
+    const item=el('li','','analysis-archive-version');item.id='report-version-'+r.report_id;item.dataset.reportId=r.report_id;item.dataset.reportStatus=r.status;
+    const header=el('header','','analysis-archive-version-head'),date=el('time',r.reviewed_at);date.dateTime=r.reviewed_at;header.append(el('span',word('已被替代','Superseded')+(version(r)?' · '+version(r):''),'analysis-archive-badge'),date);item.append(header,el('h4',pick(r,'title')),el('p',word('该版摘要','Recorded summary'),'analysis-archive-summary-label'),el('p',pick(r,'summary'),'analysis-archive-summary'));
+    const actions=el('div','','analysis-archive-links'),assets=m.insight_report_assets.filter(a=>a.report_id===r.report_id&&['pdf','pptx'].includes(a.format));check(assets.length===2&&new Set(assets.map(a=>a.format)).size===2,'Incomplete archived report files');
+    for(const format of ['pdf','pptx']){const asset=assets.find(a=>a.format===format),link=el('a',format==='pdf'?word('阅读该版 PDF ↗','Read this PDF ↗'):word('下载该版 PPTX','Download this PPTX'));link.href=assetUrl(asset);link.target='_blank';link.rel='noopener noreferrer';if(format==='pptx')link.download=asset.public_path.split('/').pop();actions.append(link);}item.append(actions);timeline.append(item);
+   }section.append(timeline);root.append(section);
   }
  }
  notify();
@@ -195,7 +260,7 @@ function renderSignals(m){
  const root=document.getElementById('current-hotspot-cards');if(!root)return;root.replaceChildren();
  const rows=m.current_signals.filter(r=>!current.topicId||m.signal_topics.some(l=>l.signal_id===r.signal_id&&l.compression_topic_id===current.topicId)).sort((a,b)=>a.position-b.position);
  root.append(el('p',ui('current_signal_help'),'reader-note'));
- for(const r of rows){const card=el('article','','card'),mappings=m.signal_topics.filter(l=>l.signal_id===r.signal_id);card.append(el('p',r.publication_date+' · '+ui('signal_date_'+r.date_kind)+' · '+ui('primary_text_checked'),'meta'),mapHeading('h3',pick(r,'title'),mappings.map(l=>l.compression_topic_id)));topics(card,mappings.map(l=>l.compression_topic_id),mappings);field(card,'signal_fact',pick(r,'fact'));field(card,'signal_relevance',pick(r,'relevance'));field(card,'decision_boundary',pick(r,'boundary'));const refs=el('div','','actions');primary(refs,m.sources.get(r.source_id),ui('signal_primary'));if(r.discovery_source_id!==r.source_id)primary(refs,m.sources.get(r.discovery_source_id),ui('signal_discovery'));card.append(refs,el('p',r.locator+' · '+r.reviewed_at,'meta'));root.append(card);}
+ for(const r of rows){const card=el('article','','card'),mappings=m.signal_topics.filter(l=>l.signal_id===r.signal_id);card.append(el('p',r.publication_date+' · '+ui('signal_date_'+r.date_kind)+' · '+ui('primary_text_checked'),'meta'),mapHeading('h3',pick(r,'title'),mappings.map(l=>l.compression_topic_id),mappings.every(l=>l.relation_kind==='research_context')));topics(card,mappings.map(l=>l.compression_topic_id),mappings);field(card,'signal_fact',pick(r,'fact'));field(card,'signal_relevance',pick(r,'relevance'));field(card,'decision_boundary',pick(r,'boundary'));const refs=el('div','','actions');primary(refs,m.sources.get(r.source_id),ui('signal_primary'));if(r.discovery_source_id!==r.source_id)primary(refs,m.sources.get(r.discovery_source_id),ui('signal_discovery'));card.append(refs,el('p',r.locator+' · '+r.reviewed_at,'meta'));root.append(card);}
  if(!rows.length)root.append(el('p',ui('current_signal_empty')));
  const count=document.getElementById('current-hotspot-count');if(count)count.textContent=rows.length+' · '+ui('reviewed_signals');notify();
 }
@@ -208,12 +273,12 @@ function renderIndustry(reader){
  let published=0;root.append(el('p',ui('current_industry_help'),'reader-note'));
  for(const [familyId,entries] of groups){
   const f=directory.source_families.find(x=>x.family_id===familyId),scope=directory.industry_source_scopes.find(x=>x.family_id===familyId);check(f,'Unresolved industry source family');
-  const family=el('details','','card current-industry-card');family.dataset.industryKey=familyId;family.open=opened.has(familyId);
+  const family=el('details','','card current-industry-card');family.dataset.industryKey=familyId;family.open=true;
   const heading=el('summary'),name=el('span',pick(f,'title'),'current-industry-name'),count=el('span',entries.length+' '+ui('industry_progress_entries'),'current-industry-count');heading.append(name,count);family.append(heading);
   const area=el('div','','current-industry-entries');area.append(el('p',(scope?.ecosystem_id==='ascend'?ui('ascend_ecosystem'):ui('cross_platform_ecosystem')),'topic-dossier-type'));
   for(const r of entries){
    const isNew=r.release_date.startsWith(current.period);if(isNew)published++;
-   const d=el('details','','current-industry-entry');d.dataset.industryKey=r.update_id;d.open=opened.has(r.update_id);
+   const d=el('details','','current-industry-entry');d.dataset.industryKey=r.update_id;d.open=true;
    d.append(mapHeading('summary',pick(r,'title'),links.filter(l=>l.update_id===r.update_id).map(l=>l.compression_topic_id)),el('p',isNew?ui('published_this_month'):ui('reviewed_existing_capability'),'topic-dossier-type'));
    d.append(el('p',pick(r,'summary')),el('p',r.version_label+' · '+ui('reviewed_on')+r.checked_at+' · '+ui('published_on')+(r.release_date||ui('unknown_publication_date')),'meta'));topics(d,links.filter(l=>l.update_id===r.update_id).map(l=>l.compression_topic_id));
    for(const c of snapshot.changes.filter(x=>x.update_id===r.update_id&&links.some(l=>l.change_id===x.change_id)).sort((a,b)=>a.position-b.position)){
@@ -234,7 +299,7 @@ function refresh(context,force=false){
  const key=[context.revision,context.scope,context.period].join('|');current={...context,key};
  if(force)cache.delete(key);let e=cache.get(key);
  if(!e){e={promise:read(context),model:null,industry:null,industryPending:null};cache.set(key,e);if(cache.size>3)cache.delete(cache.keys().next().value);e.promise.then(m=>{e.model=m;if(current.key===key)render();}).catch(error=>{if(cache.get(key)===e)cache.delete(key);if(current?.key===key){failure('ascend-cards',error);failure('analysis-focus-cards',error);failure('analysis-summary',error);failure('current-hotspot-cards',error);failure('insight-deck-content',error);failure('insight-deck-archive',error);}});}
- const render=()=>{if(e.model){if(current.view==='home'){renderAnalysis(e.model);renderReports(e.model);}else if(current.view==='reports')renderReports(e.model);else renderSignals(e.model);}else{for(const id of current.view==='home'?['analysis-focus-cards','analysis-summary','ascend-cards','insight-deck-content']:current.view==='reports'?['insight-deck-archive']:['current-hotspot-cards'])document.getElementById(id)?.replaceChildren(el('p',ui('loading')));}
+ const render=()=>{if(e.model){if(current.view==='home'){renderAnalysis(e.model);renderReports(e.model);restoreReportAnchor(e.model);}else if(current.view==='reports')renderReports(e.model);else renderSignals(e.model);}else{for(const id of current.view==='home'?['analysis-focus-cards','analysis-summary','ascend-cards','insight-deck-content']:current.view==='reports'?['insight-deck-archive']:['current-hotspot-cards'])document.getElementById(id)?.replaceChildren(el('p',ui('loading')));}
  if(current.view==='updates'){if(e.industry)renderIndustry(e.industry);else if(!e.industryPending){document.getElementById('current-industry-cards')?.replaceChildren(el('p',ui('loading')));e.industryPending=context.loadIndustry().then(reader=>{e.industry=reader;if(current?.key===key)renderIndustry(reader);}).catch(error=>{if(current?.key===key)failure('current-industry-cards',error);}).finally(()=>{e.industryPending=null;});}}};
  render();
 }

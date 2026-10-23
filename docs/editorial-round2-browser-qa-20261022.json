@@ -1,0 +1,134 @@
+{
+  "date": "2026-10-22",
+  "environment": "local:8787",
+  "topic_checks": [
+    {
+      "topic": "parameters-precision",
+      "structuredPlan": true,
+      "error": false
+    },
+    {
+      "topic": "parameters-selection",
+      "structuredPlan": true,
+      "error": false
+    },
+    {
+      "topic": "parameters-distillation",
+      "structuredPlan": true,
+      "error": false
+    },
+    {
+      "topic": "parameters-factorization",
+      "structuredPlan": true,
+      "error": false
+    },
+    {
+      "topic": "activations-precision",
+      "structuredPlan": true,
+      "error": false
+    },
+    {
+      "topic": "activations-selection",
+      "structuredPlan": true,
+      "error": false
+    },
+    {
+      "topic": "activations-distillation",
+      "structuredPlan": true,
+      "error": false
+    },
+    {
+      "topic": "activations-factorization",
+      "structuredPlan": true,
+      "error": false
+    },
+    {
+      "topic": "activations-merging",
+      "structuredPlan": true,
+      "error": false
+    },
+    {
+      "topic": "kv_cache-precision",
+      "structuredPlan": true,
+      "error": false
+    },
+    {
+      "topic": "kv_cache-selection",
+      "structuredPlan": true,
+      "error": false
+    },
+    {
+      "topic": "kv_cache-distillation",
+      "structuredPlan": true,
+      "error": false
+    },
+    {
+      "topic": "kv_cache-factorization",
+      "structuredPlan": true,
+      "error": false
+    },
+    {
+      "topic": "kv_cache-kv_eviction",
+      "structuredPlan": true,
+      "error": false
+    },
+    {
+      "topic": "kv_cache-sharing",
+      "structuredPlan": true,
+      "error": false
+    },
+    {
+      "topic": "kv_cache-compact_architecture",
+      "structuredPlan": true,
+      "error": false
+    }
+  ],
+  "main_views": [
+    {
+      "view": "sources",
+      "loaded": true,
+      "error": false,
+      "queueHidden": true
+    },
+    {
+      "view": "topics",
+      "loaded": true,
+      "error": false,
+      "queueHidden": true
+    },
+    {
+      "view": "updates",
+      "loaded": true,
+      "error": false,
+      "queueHidden": true
+    },
+    {
+      "view": "home",
+      "loaded": true,
+      "error": false,
+      "queueHidden": true
+    },
+    {
+      "view": "reports",
+      "loaded": true,
+      "error": false,
+      "queueHidden": true
+    }
+  ],
+  "workbench": {
+    "default_queue_hidden": true,
+    "entry_clicked": true,
+    "candidate_records_loaded": true,
+    "return_link_clicked": true,
+    "queue_hidden_after_return": true
+  },
+  "checks": {
+    "schema_and_joins": "passed",
+    "citations": 287,
+    "verified_assets": 182,
+    "scan_integrity_regression": "passed",
+    "lazy_queue_regression": "passed",
+    "static_adapter": "passed"
+  },
+  "public_sites_changed": false
+}

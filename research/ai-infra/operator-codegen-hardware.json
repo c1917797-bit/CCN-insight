@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-23",
+  "scope": "对照NVIDIA CUDA GPU与昇腾NPU，不把它们概括成全部GPU或全部NPU。下面记录公开版本能力，不代表本地已部署。",
+  "platforms": [
+    {
+      "title": "NVIDIA GPU / CUDA",
+      "subtitle": "按线程层次与存储资源组织实现",
+      "nodes": [
+        "Grid / Block / Warp / Thread",
+        "寄存器 · Shared Memory · 缓存",
+        "SIMT / Tensor Core · 架构专属能力"
+      ],
+      "note": "Warp和线程块影响并行、协作与资源占用。Hopper、Blackwell的矩阵与异步搬运能力分别核查，不能写成所有GPU共有。",
+      "source_ids": [
+        "cuda-programming-model"
+      ]
+    },
+    {
+      "title": "昇腾 NPU / Ascend C SIMD路径",
+      "subtitle": "Host分块与Device数据流共同决定性能",
+      "nodes": [
+        "Host Tiling → 核间分工与核内切片",
+        "GM ↔ UB / L1 / L0 · 容量依代际",
+        "Scalar / Vector / Cube · 搬运与同步"
+      ],
+      "note": "各算子按所用单元安排实现，并非每个算子都用Cube。950等新代际另有SIMT/混合能力，不能把‘NPU只有SIMD’当作前提。",
+      "source_ids": [
+        "ascend-programming-model",
+        "ascend-3510-architecture"
+      ]
+    }
+  ],
+  "tools": [
+    {
+      "name": "CUDA / NVIDIA工具链",
+      "role": "表达线程与设备计算，配合编译、调试及profiling。",
+      "support": "NVIDIA GPU；具体指令、dtype、异步能力绑定计算架构。",
+      "implication": "迁移到昇腾时重建并行、存储和同步映射，保留算法规格与测试。",
+      "source_ids": [
+        "cuda-programming-model"
+      ]
+    },
+    {
+      "name": "Triton + Autotune",
+      "role": "块级程序表达；autotune比较给定Config集合，并按key触发选择。",
+      "support": "上游Triton与Ascend后端分别维护支持；Triton不是CUDA的同义词。",
+      "implication": "自动调优不会自动搜索所有算法；重复运行有状态内核需重置或恢复输出。",
+      "source_ids": [
+        "triton-autotune"
+      ]
+    },
+    {
+      "name": "Triton-Ascend v3.6.0",
+      "role": "2026-10-16固定版本：布局优化、动态CV流水、多缓冲与调优缓存。",
+      "support": "A2/A3：配套表列CANN8.5/9.0/9.1/9.2；950PR/DT：9.1/9.2。未列310P。",
+      "implication": "部分矩阵与libdevice能力限950PR/DT。GPU Triton代码可作为表达线索，后端合法性与收益须重新验证。",
+      "source_ids": [
+        "triton-ascend-360"
+      ]
+    },
+    {
+      "name": "Ascend C",
+      "role": "显式组织目标核、片上数据、计算与同步；支持范围按单API与版本核对。",
+      "support": "历史运行验证文档含310P1/P3，但不证明当前新API或模板均可用。",
+      "implication": "310P生成器需以实际工具链与已核实API建立约束集，保留编译与设备证据。",
+      "source_ids": [
+        "ascendc"
+      ]
+    },
+    {
+      "name": "PyPTO Tensor / Pro",
+      "role": "Tensor由编译器承担较多切分、布局与执行安排；Pro显式组织tile、缓冲和Vector/Cube。",
+      "support": "当前简介中Tensor覆盖A2/A3、950PR/DT等；Pro产品表仅950PR/DT，A2/A3不支持；均未列310P。",
+      "implication": "先区分自动化程度，再选芯片路径；不能把两套模式合成一个支持矩阵。",
+      "source_ids": [
+        "pypto-introduction"
+      ]
+    }
+  ],
+  "source_additions": [
+    {
+      "id": "cuda-programming-model",
+      "title": "CUDA编程模型：线程层次与硬件相关执行",
+      "url": "https://docs.nvidia.com/cuda/cuda-programming-guide/01-introduction/programming-model.html",
+      "kind": "official_documentation",
+      "review_scope": "核对官方编程模型的grid/block/warp/thread与执行组织，用于NVIDIA GPU范围的机制说明；未据此重审每一代GPU指令。",
+      "device_scope": "NVIDIA CUDA GPU；不代表全部GPU，更不构成昇腾映射或支持证据。",
+      "boundary": "寄存器、共享内存、矩阵与异步能力按具体架构核查；线程参数不机械对应昇腾分核参数。"
+    },
+    {
+      "id": "triton-autotune",
+      "title": "Triton autotune：配置空间、key与重复执行约束",
+      "url": "https://triton-lang.org/main/python-api/generated/triton.autotune.html",
+      "kind": "official_documentation",
+      "review_scope": "核对Config列表、key与reset_to_zero/restore_value等接口说明；未执行调优。",
+      "device_scope": "通用Triton调优API；具体后端与硬件支持另核。",
+      "boundary": "只比较给定候选配置，不证明搜索所有算法或找到全局最优；有状态输出需考虑多次运行的影响。"
+    },
+    {
+      "id": "triton-ascend-360",
+      "title": "Triton-Ascend v3.6.0：2026-10-16发布与兼容矩阵",
+      "url": "https://github.com/triton-lang/triton-ascend/releases/tag/v3.6.0",
+      "kind": "official_repository_documentation",
+      "review_scope": "核对固定tag及短提交97e8a2b、Release Notes与配套表：布局/缓存/多缓冲/CV流水、CANN9.2及950限定能力。",
+      "device_scope": "A2/A3：CANN8.5/9.0/9.1/9.2；950PR/DT：9.1/9.2。未列310P。",
+      "boundary": "发布说明没有提供本地shape上的时延保证；profiling页SoC枚举不等于编译后端支持，部分能力仅950。"
+    },
+    {
+      "id": "pypto-introduction",
+      "title": "PyPTO官方简介：Tensor与Pro的职责及硬件分工",
+      "url": "https://pypto.gitcode.com/guide/introduction.html",
+      "kind": "official_documentation",
+      "review_scope": "核对Tensor/Pro编程模式、图转换、SPMD/MPMD职责与两套产品支持表；不与其他社区同名实现混用。",
+      "device_scope": "简介列Tensor的A2/A3、950PR/DT等；Pro仅950PR/DT，A2/A3不支持；未列310P。",
+      "boundary": "简介中的支持不等于所有API、形状或dtype均覆盖；当前版本单独验证，不能沿用旧教程状态作当前结论。"
+    },
+    {
+      "id": "ascend-programming-model",
+      "title": "Ascend C：Scalar、Vector、Cube与数据搬运编程模型",
+      "url": "https://www.hiascend.com/document/detail/zh/canncommercial/80RC2/developmentguide/opdevg/Ascendcopdevg/atlas_ascendc_10_0038.html",
+      "kind": "official_historical_documentation",
+      "review_scope": "核对官方历史编程模型，解释Ascend C SIMD路径的计算与搬运职责；不是所有代际统一架构手册。",
+      "device_scope": "历史Ascend C编程模型；具体SoC/API需对应版本核验。",
+      "boundary": "不是每个算子均使用Cube；各级片上存储的可用范围、容量和同步按架构核查。"
+    },
+    {
+      "id": "ascend-3510-architecture",
+      "title": "CANN 3510架构：SIMD、SIMT及混合编程边界",
+      "url": "https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/910/programug/Ascendcopdevg/docs/guide/编程指南/编程模型/AI-Core-SIMD编程/抽象硬件架构.md",
+      "kind": "official_documentation",
+      "review_scope": "核对3510代际新增SIMT/寄存器与混合编程的架构说明，防止把GPU/SIMT与NPU/SIMD作互斥分类。",
+      "device_scope": "对应3510与具体产品/版本；不外推310P。",
+      "boundary": "各编程模式与API支持分别确认，不能由新代际提供某能力推定所有昇腾芯片都支持。"
+    }
+  ],
+  "implications": [
+    {
+      "dimension": "硬件约束",
+      "title": "从目标说明，走向机器可检查的合法空间",
+      "insight": "不同代际的容量、API、dtype、对齐和同步约束决定哪些实现合法。仅在提示词中写芯片名称，无法阻止越界、错误接口或跨代模板混用。",
+      "meaning": "目标信息需要进入候选生成、编译检查和调度搜索，而非只用于检索文档。语义规格可共享，执行约束与后端实现按硬件分别维护。",
+      "boundary": "310P等目标可以借鉴这种组织方法，但需要自己的配套API依据；950的新编程模式不能外推旧代际。",
+      "source_ids": [
+        "cannbot-tiling",
+        "ascendcraft",
+        "triton-ascend-360"
+      ]
+    },
+    {
+      "dimension": "结构与参数",
+      "title": "把Kernel结构与Host Tiling看成耦合问题",
+      "insight": "结构改写会改变缓冲需求、依赖和并行度，从而改变可用tile；单纯扩大参数搜索不能弥补错误的数据流组织。",
+      "meaning": "生成工具需要区分带语义条件的结构变换和受资源约束的参数搜索，并以执行结果连接两者。AscendOptimizer的独立消融提供了这种分工的直接证据。",
+      "boundary": "证据来自910B2已有算子优化；不是从零生成通过率，也不是310P或950的已验证收益。",
+      "source_ids": [
+        "ascendoptimizer-v2"
+      ]
+    },
+    {
+      "dimension": "可复用经验",
+      "title": "经验需要包含有效条件，而不只是优化口号",
+      "insight": "瓶颈名称只能指出症状。KernelBlaster的状态记忆、KernelEvolve的硬件检索与AscendOptimizer的变换经验，都在连接症状、具体代码改变与执行反馈。",
+      "meaning": "有价值的知识条目包含变换前后、适用shape/硬件、资源代价、正确性及收益证据；负例和分布外退化同样影响后续选择。",
+      "boundary": "跨算子或跨硬件检索得到的经验仍是候选，不能把历史成功直接当作新目标的结论。",
+      "source_ids": [
+        "kernelblaster-paper-named-a",
+        "kernelevolve-paper-named-a",
+        "ascendoptimizer-v2"
+      ]
+    },
+    {
+      "dimension": "评估与效率",
+      "title": "优化器不能同时控制自己的验收标准",
+      "insight": "候选可利用公开测试分布或计时缺口获得虚假优势。CUDA Agent的保护环境及CANN Bench的独立Golden，说明评估器本身也是技术系统的一部分。",
+      "meaning": "生成、功能验证与性能测量应职责分离；全case分母、评估预算、完整路径耗时与基线版本共同决定工具的有效产出。",
+      "boundary": "开发时间缩短、编译成功率提高、正确且更快的覆盖率与模型收益是不同指标，不合并成一个自动加速率。",
+      "source_ids": [
+        "cuda-agent-paper",
+        "cannbench",
+        "kernelbench-verified-v1"
+      ]
+    }
+  ],
+  "transfer_note": "这些是根技术研究对生成工具能力的启示，可支撑包括310P在内的工具演进判断；它们不描述某个本地项目的完成情况、排期或待办。是否采用，取决于目标设备的证据与工具能力边界。"
+}

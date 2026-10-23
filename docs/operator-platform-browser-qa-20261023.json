@@ -1,0 +1,420 @@
+{
+  "scope": "Local operators only; no publication or device experiment",
+  "pages": [
+    {
+      "bodyOverflow": false,
+      "brokenAnchors": [],
+      "folds": 0,
+      "h2": [
+        "问题定义",
+        "技术分解",
+        "产业与学术证据",
+        "研究判断",
+        "资料与证据范围"
+      ],
+      "title": "数据搬运与片上复用",
+      "url": "/ai-infra/operators-memory-reuse.html"
+    },
+    {
+      "bodyOverflow": false,
+      "brokenAnchors": [],
+      "folds": 0,
+      "h2": [
+        "问题定义",
+        "技术分解",
+        "产业与学术证据",
+        "研究判断",
+        "资料与证据范围"
+      ],
+      "title": "分块映射与并行流水",
+      "url": "/ai-infra/operators-tile-parallelism.html"
+    },
+    {
+      "bodyOverflow": false,
+      "brokenAnchors": [],
+      "folds": 0,
+      "h2": [
+        "问题定义",
+        "技术分解",
+        "产业与学术证据",
+        "研究判断",
+        "资料与证据范围"
+      ],
+      "title": "融合与启动优化",
+      "url": "/ai-infra/operators-fusion-launch.html"
+    },
+    {
+      "bodyOverflow": false,
+      "brokenAnchors": [],
+      "folds": 0,
+      "h2": [
+        "问题定义",
+        "技术分解",
+        "产业与学术证据",
+        "研究判断",
+        "资料与证据范围"
+      ],
+      "title": "布局与低精度执行",
+      "url": "/ai-infra/operators-layout-low-precision.html"
+    },
+    {
+      "bodyOverflow": false,
+      "brokenAnchors": [],
+      "folds": 0,
+      "h2": [
+        "问题定义",
+        "技术分解",
+        "产业与学术证据",
+        "研究判断",
+        "资料与证据范围"
+      ],
+      "title": "集合算法与拓扑映射",
+      "url": "/ai-infra/operators-collectives-topology.html"
+    },
+    {
+      "bodyOverflow": false,
+      "brokenAnchors": [],
+      "folds": 0,
+      "h2": [
+        "问题定义",
+        "技术分解",
+        "产业与学术证据",
+        "研究判断",
+        "资料与证据范围"
+      ],
+      "title": "启动与消息粒度",
+      "url": "/ai-infra/operators-launch-granularity.html"
+    },
+    {
+      "bodyOverflow": false,
+      "brokenAnchors": [],
+      "folds": 0,
+      "h2": [
+        "问题定义",
+        "技术分解",
+        "产业与学术证据",
+        "研究判断",
+        "资料与证据范围"
+      ],
+      "title": "数据路径与缓冲管理",
+      "url": "/ai-infra/operators-paths-buffers.html"
+    },
+    {
+      "bodyOverflow": false,
+      "brokenAnchors": [],
+      "folds": 0,
+      "h2": [
+        "问题定义",
+        "技术分解",
+        "产业与学术证据",
+        "研究判断",
+        "资料与证据范围"
+      ],
+      "title": "通算融合与异步重叠",
+      "url": "/ai-infra/operators-compute-communication-overlap.html"
+    },
+    {
+      "bodyOverflow": false,
+      "brokenAnchors": [],
+      "folds": 0,
+      "h2": [
+        "问题定义",
+        "技术分解",
+        "产业与学术证据",
+        "研究判断",
+        "资料与证据范围"
+      ],
+      "title": "传输编码与通信量压缩",
+      "url": "/ai-infra/operators-transfer-compression.html"
+    },
+    {
+      "bodyOverflow": false,
+      "brokenAnchors": [],
+      "folds": 0,
+      "h2": [
+        "机制体系与具体做法",
+        "机制怎样组合与取舍",
+        "从数学到硬件：用 Add 理解执行",
+        "研究判断",
+        "资料与证据范围"
+      ],
+      "title": "计算算子加速",
+      "url": "/ai-infra/operators-1.html"
+    },
+    {
+      "bodyOverflow": false,
+      "brokenAnchors": [],
+      "folds": 0,
+      "h2": [
+        "机制体系与具体做法",
+        "机制怎样组合与取舍",
+        "执行机制",
+        "研究判断",
+        "资料与证据范围"
+      ],
+      "title": "通信算子加速",
+      "url": "/ai-infra/operators-2.html"
+    },
+    {
+      "bodyOverflow": false,
+      "brokenAnchors": [],
+      "folds": 0,
+      "h2": [
+        "方法组成",
+        "GPU/NPU与工具链",
+        "产业与学术证据",
+        "研究判断",
+        "资料与证据范围"
+      ],
+      "title": "算子自动生成与调优",
+      "url": "/ai-infra/operators-codegen.html"
+    },
+    {
+      "bodyOverflow": false,
+      "brokenAnchors": [],
+      "folds": 0,
+      "h2": [
+        "技术体系",
+        "机制之间怎样取舍",
+        "研究证据检索",
+        "研究判断与更新",
+        "研究边界与方法",
+        "资料与证据范围"
+      ],
+      "title": "算子定制加速",
+      "url": "/ai-infra/operators.html"
+    }
+  ],
+  "catalogClicks": [
+    {
+      "hash": "#memory-reuse-m-loaded-input-reuse",
+      "header": 68,
+      "target": "一次加载，多次消费",
+      "top": 91.2421875
+    },
+    {
+      "hash": "#memory-reuse-m-streaming-intermediate",
+      "header": 68,
+      "target": "流式推进，减少中间落存",
+      "top": 91.1875
+    },
+    {
+      "hash": "#tile-parallelism-m-independent-partition",
+      "header": 68,
+      "target": "独立输出分块",
+      "top": 90.75
+    },
+    {
+      "hash": "#tile-parallelism-m-cooperative-partition",
+      "header": 68,
+      "target": "归约拆分与工作量均衡",
+      "top": 91.1953125
+    },
+    {
+      "hash": "#tile-parallelism-m-stage-overlap",
+      "header": 68,
+      "target": "生产消费分工与阶段流水",
+      "top": 91.140625
+    },
+    {
+      "hash": "#fusion-launch-m-local-consumer-fusion",
+      "header": 68,
+      "target": "逐元素消费与矩阵尾处理融合",
+      "top": 90.796875
+    },
+    {
+      "hash": "#fusion-launch-m-reduction-aware-fusion",
+      "header": 67.998046875,
+      "target": "含归约依赖的融合",
+      "top": 90.99609375
+    },
+    {
+      "hash": "#layout-low-precision-m-consumer-matched-layout",
+      "header": 67.998046875,
+      "target": "按消费者组织物理布局",
+      "top": 90.7421875
+    },
+    {
+      "hash": "#layout-low-precision-m-packed-consumption",
+      "header": 67.998046875,
+      "target": "紧凑表示的核内消费",
+      "top": 90.80078125
+    },
+    {
+      "hash": "#collectives-topology-m-1",
+      "header": 67.998046875,
+      "target": "分块环与树形传播",
+      "top": 90.8203125
+    },
+    {
+      "hash": "#collectives-topology-m-2",
+      "header": 67.998046875,
+      "target": "分层路由与归约卸载",
+      "top": 91.15234375
+    },
+    {
+      "hash": "#launch-granularity-m-1",
+      "header": 67.998046875,
+      "target": "调用分组与启动摊销",
+      "top": 91.123046875
+    },
+    {
+      "hash": "#launch-granularity-m-2",
+      "header": 67.998046875,
+      "target": "张量融合与聚合等待",
+      "top": 90.830078125
+    },
+    {
+      "hash": "#launch-granularity-m-3",
+      "header": 67.998046875,
+      "target": "分块、优先级与在途控制",
+      "top": 91.162109375
+    },
+    {
+      "hash": "#paths-buffers-m-1",
+      "header": 67.998046875,
+      "target": "预注册与直接访问",
+      "top": 90.830078125
+    },
+    {
+      "hash": "#paths-buffers-m-2",
+      "header": 67.998046875,
+      "target": "直接路径与中继聚合",
+      "top": 90.888671875
+    },
+    {
+      "hash": "#compute-communication-overlap-m-1",
+      "header": 67.998046875,
+      "target": "逐层与分块流水",
+      "top": 90.87890625
+    },
+    {
+      "hash": "#compute-communication-overlap-m-2",
+      "header": 67.998046875,
+      "target": "GEMM–collective细粒度融合",
+      "top": 90.9375
+    },
+    {
+      "hash": "#transfer-compression-m-1",
+      "header": 67.998046875,
+      "target": "量化符号与熵编码",
+      "top": 90.87890625
+    },
+    {
+      "hash": "#transfer-compression-m-2",
+      "header": 67.998046875,
+      "target": "低精度传输与缩放布局",
+      "top": 91.2109375
+    }
+  ],
+  "library": {
+    "int4_gpu": 1,
+    "conflicting_training": 0,
+    "reset": 45,
+    "reload_preserved": true
+  },
+  "judgmentClicks": [
+    {
+      "target": "通信库机制2026-10-23（NCCL2.32.3文档核对）NCCL Group Calls：多个collective共享一次launch关联研究：调用分组（launch grouping） ↑分组可将多项collective聚合到一次NCCL launch，减少重复启动；各操作仍保留独立语义和各",
+      "top": 90.869140625,
+      "url": "http://127.0.0.1:8787/ai-infra/operators-launch-granularity.html#record-launch-granularity--nccl-groups"
+    },
+    {
+      "target": "通信库机制2026-10-23（NCCL2.32.3文档）NCCL User Buffer Registration：直接缓冲与PXN的取舍关联研究：预注册与直接访问 ↑直接数据面与中继聚合 ↑受支持的注册路径可减少内部拷贝并复用注册；网络通信时，PXN中继与用户缓冲注册不能同时生效。对象与比较条件",
+      "top": 91.181640625,
+      "url": "http://127.0.0.1:8787/ai-infra/operators-paths-buffers.html#record-paths-buffers--nccl-buffer-registration"
+    },
+    {
+      "target": "注意力内核性能2026-03-05；v1FlashAttention-4：Blackwell上的流水与数据通路重构关联研究：从外存瓶颈继续追到片上与特殊函数瓶颈 ↑针对Blackwell异步矩阵计算带来的新瓶颈优化softmax和流水，并单独改进反向的片上数据通路。对象与比较条件论文§5、Figur",
+      "top": 90.771484375,
+      "url": "http://127.0.0.1:8787/ai-infra/operators-memory-reuse.html#record-memory-reuse--fa4-primary-expert"
+    },
+    {
+      "target": "低精度执行机制2024-08-21；arXiv v1Marlin：INT4存储与FP16矩阵执行的衔接关联研究：离线预排布、核内解包与在线转置 ↑静态权重与scale预排布，运行时解包并反量化为FP16，与Tensor Core计算流水衔接。低比特存储与矩阵指令的数据类型分别记录。对象与比较条件论文",
+      "top": 90.78125,
+      "url": "http://127.0.0.1:8787/ai-infra/operators-layout-low-precision.html#record-layout-low-precision--marlin-primary-round2"
+    },
+    {
+      "target": "训练压缩参考2019（NeurIPS）PowerSGD: Practical Low-Rank Gradient Compression for Distributed Optimization关联研究：低秩梯度压缩（训练参考） ↑以低秩因子、幂迭代、warm start与误差反馈压缩训练矩阵梯度。",
+      "top": 90.76171875,
+      "url": "http://127.0.0.1:8787/ai-infra/operators-transfer-compression.html#record-transfer-compression--powersgd"
+    }
+  ],
+  "responsive": [
+    {
+      "title": "分块映射与并行流水 · 极智 AI Infra",
+      "innerWidth": 390,
+      "client": 371,
+      "scrollWidth": 371,
+      "bodyOverflow": false,
+      "tableOverflow": 0,
+      "minVisibleDiagramFont": 12.425237121625868,
+      "h2": [
+        "问题定义",
+        "技术分解",
+        "产业与学术证据",
+        "研究判断",
+        "资料与证据范围"
+      ],
+      "folds": 0,
+      "queryWidth": null
+    },
+    {
+      "title": "算子自动生成与调优 · 极智 AI Infra",
+      "innerWidth": 390,
+      "client": 371,
+      "scrollWidth": 371,
+      "bodyOverflow": false,
+      "tableOverflow": 0,
+      "minVisibleDiagramFont": null,
+      "h2": [
+        "方法组成",
+        "GPU/NPU与工具链",
+        "产业与学术证据",
+        "研究判断",
+        "资料与证据范围"
+      ],
+      "folds": 0,
+      "queryWidth": null
+    },
+    {
+      "title": "算子定制加速 · 极智 AI Infra",
+      "innerWidth": 390,
+      "client": 371,
+      "scrollWidth": 371,
+      "bodyOverflow": false,
+      "tableOverflow": 0,
+      "minVisibleDiagramFont": null,
+      "h2": [
+        "技术体系",
+        "机制之间怎样取舍",
+        "研究证据检索",
+        "研究判断与更新",
+        "研究边界与方法",
+        "资料与证据范围"
+      ],
+      "folds": 0,
+      "queryWidth": 306.015625
+    },
+    {
+      "title": "算子定制加速 · 极智 AI Infra",
+      "innerWidth": 1440,
+      "client": 1421,
+      "scrollWidth": 1421,
+      "bodyOverflow": false,
+      "tableOverflow": 0,
+      "minVisibleDiagramFont": null,
+      "h2": [
+        "技术体系",
+        "机制之间怎样取舍",
+        "研究证据检索",
+        "研究判断与更新",
+        "研究边界与方法",
+        "资料与证据范围"
+      ],
+      "folds": 0,
+      "queryWidth": 1051.23046875
+    }
+  ],
+  "motionPaused": true
+}

@@ -1,0 +1,274 @@
+[
+  {
+    "category": "cs.CL",
+    "url": "https://arxiv.org/list/cs.CL/recent?skip=0&show=2000",
+    "received_entries": 842,
+    "candidates": [
+      {
+        "arxiv_id": "2610.31646",
+        "title": "Low-Bit N-Gram Embeddings for Language Models",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.31412",
+        "title": "SQuAT: Spherical Lattice Vector Quantization-Aware Training",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.29657",
+        "title": "Effects of Model Scale and Quantization on Social Bias and Abstention in Question Answering",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.29378",
+        "title": "Right On Q: Recovering Reasoning under Quantization via Self-Generated Trajectories",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.28500",
+        "title": "BitMTP: When Multi-Token Prediction Meets Low-Bit Large Language Models",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.27937",
+        "title": "From DQI to C-DQI: Automatic Codebook Generation and Evaluation for Measuring Computational Discourse Quality Index",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.24343",
+        "title": "What Matters for NVFP4 Training? A Comparative Study of Low-Precision Pretraining Recipes",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.24157",
+        "title": "CoDA: A Human-LM Collaborative Codebook Development Assistant for Domain-Specific Text Annotation",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.22428",
+        "title": "Embeddings Are Overpriced? A Frozen 16 MB Vocabulary for Small and Ternary Language Models",
+        "status": "title_candidate_not_full_review"
+      }
+    ],
+    "boundary": "Recent multi-day index, up to 2000 entries; title filter is not abstract/full-text exclusion; not a complete October census."
+  },
+  {
+    "category": "cs.LG",
+    "url": "https://arxiv.org/list/cs.LG/recent?skip=0&show=2000",
+    "received_entries": 1427,
+    "candidates": [
+      {
+        "arxiv_id": "2610.31412",
+        "title": "SQuAT: Spherical Lattice Vector Quantization-Aware Training",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.31309",
+        "title": "Extreme Compression of Per-Layer Embeddings via Cross-Layer Latent Vector Quantization",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.30339",
+        "title": "Spike-Aware Gradient-Based Mixed-Precision Quantization of Spiking Neural Networks for Vision Applications",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.30480",
+        "title": "FIGFLEX: A Mixed-Precision FP-INT GEMM Accelerator Co-Designed with Low-Bit LLM Quantization",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.28947",
+        "title": "Is 2:4 Sparsity Still Worth It? Semi-Structured Sparsity versus Quantization in LLM Inference",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.28784",
+        "title": "Extreme Low-State Quantized Transformer for Electricity-Load Forecasting",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.29378",
+        "title": "Right On Q: Recovering Reasoning under Quantization via Self-Generated Trajectories",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.28500",
+        "title": "BitMTP: When Multi-Token Prediction Meets Low-Bit Large Language Models",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.27621",
+        "title": "A Radiation-Hardened, Fault-Aware Quantized Neural Network That Self-Heals",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.26102",
+        "title": "Provable Adversarial Detection: Prime Quantization meets Gromov--Wasserstein",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.25048",
+        "title": "PACT: NVFP4 Data-Flow LoRA Fine-Tuning on Consumer GPUs",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.23928",
+        "title": "miniTE: Diagnosing and Bridging the Execution Gap in Native NVFP4 Reinforcement Learning",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.24890",
+        "title": "Query-Dependent Reading for Quantized Inner-Product Estimation: A Minimax Separation",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.24343",
+        "title": "What Matters for NVFP4 Training? A Comparative Study of Low-Precision Pretraining Recipes",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.22621",
+        "title": "Noise-shaped Sampling and Annealing for Scalable On-the-edge Training of Binary and Ternary AI Models",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.22435",
+        "title": "TRACE: Transformer Residual Activation Codebook Encoding for Communication-efficient Distributed Edge Inference",
+        "status": "title_candidate_not_full_review"
+      }
+    ],
+    "boundary": "Recent multi-day index, up to 2000 entries; title filter is not abstract/full-text exclusion; not a complete October census."
+  },
+  {
+    "category": "cs.AI",
+    "url": "https://arxiv.org/list/cs.AI/recent?skip=0&show=2000",
+    "received_entries": 1421,
+    "candidates": [
+      {
+        "arxiv_id": "2610.31198",
+        "title": "Different Tasks, Different Timesteps: Temporal Task-Aware Quantization for Diffusion Language Models",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.30779",
+        "title": "ProQuant: Preserving Expert Quality over Quantity in Ultra-Low-Bit Quantization of Mixture-of-Experts Models",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.31646",
+        "title": "Low-Bit N-Gram Embeddings for Language Models",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.29720",
+        "title": "Bio-Inspired Auditory Processing: Coupling Parallel Resonate-and-Fire Dynamics with Ternary Recurrent Networks for Speech Recognition",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.28537",
+        "title": "Beyond 4 bits: Data-Centric Post-training Quantization and Recovery",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.27699",
+        "title": "E8-QAT: Efficient 2-Bit Quantization-Aware Training with Implicit Lattice Codebooks",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.27397",
+        "title": "When PTQ Calibration Helps or Hurts: Dose-Driven Collapse and Validation-Gated Abstention in Quantized Text Embedders",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.28500",
+        "title": "BitMTP: When Multi-Token Prediction Meets Low-Bit Large Language Models",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.25675",
+        "title": "LIRQuant: An Efficient Locally Isolated Rotation Quantization Method for Large Language Models",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.25961",
+        "title": "PaceVLA: Adaptive Temporal Action Quantization in Vision-Language-Action Models",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.24343",
+        "title": "What Matters for NVFP4 Training? A Comparative Study of Low-Precision Pretraining Recipes",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.24157",
+        "title": "CoDA: A Human-LM Collaborative Codebook Development Assistant for Domain-Specific Text Annotation",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.23928",
+        "title": "miniTE: Diagnosing and Bridging the Execution Gap in Native NVFP4 Reinforcement Learning",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.23796",
+        "title": "FuTransformer: FP8 prefill and INT4 decode for Llama-style inference on Hopper",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.23046",
+        "title": "SpikeQ: Spike-Guided Post-Training Quantization for Spiking Neural Networks",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.22435",
+        "title": "TRACE: Transformer Residual Activation Codebook Encoding for Communication-efficient Distributed Edge Inference",
+        "status": "title_candidate_not_full_review"
+      }
+    ],
+    "boundary": "Recent multi-day index, up to 2000 entries; title filter is not abstract/full-text exclusion; not a complete October census."
+  },
+  {
+    "category": "cs.DC",
+    "url": "https://arxiv.org/list/cs.DC/recent?skip=0&show=2000",
+    "received_entries": 110,
+    "candidates": [
+      {
+        "arxiv_id": "2610.28620",
+        "title": "Weight Placement Is Not Enough: Synchronization in Multi-Node CPU Decoding of Ternary LLMs",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.28500",
+        "title": "BitMTP: When Multi-Token Prediction Meets Low-Bit Large Language Models",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.26945",
+        "title": "Emulating DGEMM and ZGEMM with INT8 Matrix Engines on Intel Arc GPUs: Ozaki Scheme II on the Xe2 Architecture",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.24997",
+        "title": "Hierarchical Rule Auditing with Exact Ternary GPU Correlation",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.24431",
+        "title": "Low-Bit Distributed Constrained Optimization with Application to Optimal Scheduling and Allocation",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.24421",
+        "title": "Adding Heavy-Ball Momentum to Distributed Constrained Optimization for Energy Resource Management Subject to Time-Delays and Quantization",
+        "status": "title_candidate_not_full_review"
+      },
+      {
+        "arxiv_id": "2610.22435",
+        "title": "TRACE: Transformer Residual Activation Codebook Encoding for Communication-efficient Distributed Edge Inference",
+        "status": "title_candidate_not_full_review"
+      }
+    ],
+    "boundary": "Recent multi-day index, up to 2000 entries; title filter is not abstract/full-text exclusion; not a complete October census."
+  }
+]

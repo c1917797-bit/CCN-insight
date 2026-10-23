@@ -1,0 +1,416 @@
+{
+  "schema_version": 1,
+  "audited_at": "2026-10-23",
+  "scope": "只读审阅通信五机制及其渲染。未修改canonical、renderer或发布物。替代内容坚持机制研究主线，设备与负载作为成立条件，自动生成只作实现方法。",
+  "review_passes": [
+    "分类与对象：检查五机制是否描述不同的直接改变。",
+    "原理与取舍：检查是否说清减少了什么，以及新增何种成本。",
+    "原始证据：重读NCCL算法/分组/注册、SGLang DeepEP接口、CacheGen与FLUX原文。",
+    "研究判断：去除无依据的固定优先级，把测量任务改为方案差异与待解问题。",
+    "阅读路径：检查实际renderer使用哪些字段、重复段落与证据分组。"
+  ],
+  "mechanism_boundaries": [
+    {"id": "collectives-topology", "primary_change": "固定collective语义、rank集合及负载后，改变传输/归约的路由、阶段和拓扑映射。", "not_primary": "增加或减少调用不是算法；改变TP/EP规模、专家部署或实例放置主归组合调度。"},
+    {"id": "launch-granularity", "primary_change": "固定逻辑通信需求后，改变何时、以多大单元提交和推进。", "not_primary": "分组不等于打包融合；分块有相反的固定成本取舍。若改变模型微批排程，主归组合调度。"},
+    {"id": "paths-buffers", "primary_change": "改变数据经过何处、由哪个引擎搬运、何时注册及复用缓冲。", "not_primary": "通信量不一定减少；换硬件链路主归硬件加速；并发与依赖改写主归通算重叠。"},
+    {"id": "compute-communication-overlap", "primary_change": "改变生产、传输和消费的依赖推进，使等待少暴露在完整关键路径上。", "not_primary": "异步返回不是重叠证明，单次API不是内核融合证明；全局并行划分变化仍归调度。"},
+    {"id": "transfer-compression", "primary_change": "在传输边界改变线上表示，减少实际交换的bitstream字节。", "not_primary": "模型驻留和计算表示一起改变时关联推理压缩；少算、少路由、缓存命中和只传增量应单独归因。"}
+  ],
+  "renderer_findings": [
+    {
+      "severity": "high",
+      "location": "operator_research_site.py:detailed_route，communication practice分支",
+      "problem": "五页研究启示共用‘固定拓扑/消息/dtype后判断收益’一段，随后又是测量清单。读者得到的是验收方法，缺少各路线的技术判断。",
+      "replacement": "按本文件各route的practice_replacement展示独立判断；评价动作和观察量保留为后续短清单，不再充当洞察主体。"
+    },
+    {
+      "severity": "medium",
+      "location": "operator_research_site.py:detailed_route，hero/progress/challenges字段读取",
+      "problem": "首屏读route.judgment，技术进展读route.industry/academic，挑战读route.research_questions；expert.brief、evidence_rows、open_questions的单独更新不会在这些位置生效。",
+      "replacement": "应用替代内容时同步本文件fields指定的现有字段。不要只改expert副本并声称页面已更新；确认保留一个权威字段后再消除重复。"
+    },
+    {
+      "severity": "medium",
+      "location": "operator-routes.json，industry与academic分组",
+      "problem": "Horovod Tensor Fusion的具体pack/allreduce/unpack是官方工程文档证据，当前与论文合在academic条目；读者不易区分原论文主张与后续实现。",
+      "replacement": "把Tensor Fusion实现说明作为industry条目，原论文保留在academic并只说明其实际覆盖；各条依旧显示来源范围。"
+    },
+    {
+      "severity": "medium",
+      "location": "paths-buffers.industry[1]",
+      "problem": "Mooncake直接数据面与DeepSeek EPBuffer生命周期被写在同一条证据中，二者的软件栈、数据对象和证明范围不同。",
+      "replacement": "拆为Mooncake传输路径和DeepEP EPBuffer协议两条；不要让一个来源替另一个实现背书。"
+    }
+  ],
+  "routes": [
+    {
+      "id": "collectives-topology",
+      "issues": [
+        {
+          "severity": "high",
+          "fields": ["judgment", "expert.brief"],
+          "old_excerpt": "只有跨层级链路或MoE路由成为关键路径时，才值得替换默认集合实现。",
+          "problem": "适用范围被无依据地收窄。单节点小消息阶段数、归约卸载和本地链路冲突同样能构成改进机会；MoE只是All-to-All类场景之一。",
+          "replacement": "集合算法没有脱离语义与拓扑的通用冠军：小消息要控制依赖阶段，大消息要避免链路拥塞，具备归约卸载的系统还要比较设备与网络承担多少工作。默认算法是对照起点，单节点和跨节点都可能存在特定负载的改进空间。",
+          "source_ids": ["nccl-algorithms", "taccl"]
+        },
+        {
+          "severity": "medium",
+          "fields": ["expert.branches"],
+          "old_excerpt": "Ring / Tree归约、分层与拓扑定制、MoE专用AllToAll",
+          "problem": "分支已有基础，但遗漏归约卸载这一会改变资源成本的产业路线；Ring/Tree条目也不宜暗示所有collective都采用相同分解。",
+          "replacement": [
+            {"name": "分块环与树形传播", "mechanism": "对AllReduce等指定操作，比较环形分块与树形依赖如何交换和归约数据；同名算法在AllGather等操作中的含义另核。", "tradeoff": "环形可保持规则流水但阶段随rank增长；树形缩短传播深度，也可能集中上层链路。不能用固定KB阈值代替具体实现。", "evidence_ids": ["nccl-algorithms", "taccl"]},
+            {"name": "分层路由与归约卸载", "mechanism": "分层路由把节点内外链路分别组织；NVLS/NVLSTree等由受支持的互连承担部分归约。前者改变路由，后者还改变归约执行位置。", "tradeoff": "中继会增加本地流量；卸载受操作、网络/交换能力、注册和版本限制。硬件具备能力也不说明每种消息都值得启用。", "evidence_ids": ["nccl-algorithms", "nccl-buffer-registration"]},
+            {"name": "稀疏路由的MoE分发与合并", "mechanism": "按token—expert路由执行dispatch和combine，选择分层或全互联路径；按消息稀疏性和到达分布组织传输。", "tradeoff": "热点expert和非均匀流量可使最慢rank主导完成，均匀AllReduce带宽不能解释这类尾部；改变expert放置另属调度。", "evidence_ids": ["sgl-deepep-ascend-api"]}
+          ],
+          "source_ids": ["nccl-algorithms", "nccl-buffer-registration", "sgl-deepep-ascend-api"]
+        },
+        {
+          "severity": "medium",
+          "fields": ["research_questions", "expert.open_questions"],
+          "old_excerpt": "当前慢的是哪种操作；是否位于decode串行路径；记录热点",
+          "problem": "偏向一次具体故障的排查，缺少可长期积累的研究问题。",
+          "replacement": [
+            "当rank数增长或节点内外带宽比变化时，减少依赖阶段与保持并行链路之间的转折如何变化？环、树与分层方案各自在哪一项成本上失去优势？",
+            "受支持的归约卸载能减少多少设备端工作，又会引入哪些注册、消息和collective限制？它与单纯增加通信channel的资源竞争有何不同？",
+            "非均匀MoE路由中，分层聚合节省跨机流量，还是把热点集中到中继？什么时候应改传输算法，什么时候必须改变expert放置或路由策略？"
+          ],
+          "source_ids": ["nccl-algorithms", "taccl", "sgl-deepep-ascend-api"]
+        },
+        {
+          "severity": "medium",
+          "fields": ["expert.conclusion"],
+          "old_excerpt": "先保留默认，再分类比较，只有关键路径改善才提高优先级",
+          "problem": "结论主要是程序性要求，没有解释三类机制为何改变选择。",
+          "replacement": "优先积累‘语义×规模×拓扑’下的算法切换条件，而不是维护一个算法排行榜。若延迟主要随依赖阶段增长，浅层传播更值得研究；若中继或共享链路饱和，路由与分层设计更重要；若可用卸载减少了通信对设备资源的占用，应同时重评并发计算。新库版本、卸载能力或流量分布改变，都可能推翻旧选择。",
+          "source_ids": ["nccl-algorithms", "taccl"]
+        }
+      ],
+      "practice_replacement": {
+        "title": "按通信语义与资源分工维护算法版图",
+        "paragraphs": [
+          "AllReduce、AllGather和MoE All-to-All不能共用一条‘大消息选环、小消息选树’规则。要解释每类候选减少了传播阶段、关键链路字节，还是设备归约工作；这些收益可分别成立，也可能互相抵消。",
+          "TACCL说明拓扑合成可以找到历史特定配置的优势，也存在慢于强库基线的区间。研究价值在于提炼切换条件；当新后端已吸收优化，旧倍数应退为历史证据。"
+        ],
+        "source_ids": ["nccl-algorithms", "taccl"]
+      },
+      "priority_change_evidence": [
+        "若同一单节点操作在新库的卸载路径中减少SM占用并改善并发模块，不能继续沿用‘只有跨节点才值得优化’的判断。",
+        "若均匀合成测试领先而真实路由的最慢rank恶化，应下调该算法，并区分传输热点与expert部署问题。"
+      ]
+    },
+    {
+      "id": "launch-granularity",
+      "issues": [
+        {
+          "severity": "high",
+          "fields": ["expert.conclusion"],
+          "old_excerpt": "前者主要节省提交",
+          "problem": "NCCL文档明确支持把多个collective放在一次NCCL launch中，减少launch overhead；仅说CPU提交会遗漏实际启动机制。",
+          "replacement": "调用分组、张量融合与分块是在选择三种不同的成本分配。分组可让多项操作共用一次NCCL launch，却不把它们变为一个张量；张量融合还减少逻辑通信项，但增加pack/unpack和等待；分块则相反，用更多固定开销换取更早推进。是否值得等待，取决于最早消费者而非平均消息大小。",
+          "source_ids": ["nccl-groups", "horovod-tensor-fusion", "bytescheduler"]
+        },
+        {
+          "severity": "medium",
+          "fields": ["judgment", "expert.brief"],
+          "old_excerpt": "若是数据碎片化，再比较融合",
+          "problem": "‘碎片化’没有交代数据是否同时就绪、语义是否兼容，容易把跨层依赖也理解为可凑批。",
+          "replacement": "能同时就绪的独立小通信适合研究分组或融合；逐层依赖的小消息通常没有等待凑批的空间。对大传输，较小分块可以更早释放消费者，但固定开销随块数增长，最佳粒度由关键依赖与链路共同决定。",
+          "source_ids": ["nccl-groups", "horovod-tensor-fusion", "bytescheduler"]
+        },
+        {
+          "severity": "medium",
+          "fields": ["research_questions", "expert.open_questions"],
+          "old_excerpt": "真正相互独立的通信有多少；分别比较三种实现",
+          "problem": "缺少对粒度与时机的机制性提问。",
+          "replacement": [
+            "同样的总字节下，分组减少launch、张量融合减少小项、分块提前消费，分别改变哪一段关键路径？何时减少启动反而增大等待？",
+            "当消息就绪时间分散时，按大小聚合与按消费期限聚合如何取舍？最早消费者的阻塞会不会超过省下的固定成本？",
+            "对可抢占或分块的大传输，块大小与并发credit怎样共同决定队头阻塞、链路利用和同步开销？训练优先级策略迁移到推理有哪些依赖差异？"
+          ],
+          "source_ids": ["nccl-groups", "horovod-tensor-fusion", "bytescheduler"]
+        },
+        {
+          "severity": "medium",
+          "fields": ["academic[0]"],
+          "old_excerpt": "Horovod论文与Tensor Fusion实现说明合并为一条",
+          "problem": "论文和当前工程文档的证据层次混合。",
+          "replacement": {
+            "title": "Horovod：训练通信方案的历史背景",
+            "mechanism": "原论文说明分布式训练的ring-reduction方案；本页关于融合缓冲的具体步骤另引用官方Tensor Fusion工程文档。",
+            "date": "2018（论文）",
+            "conditions": "分布式训练背景；本条不作为推理粒度优化实验。",
+            "result": "提供训练侧通信演进背景；不新增本轮未复核的性能倍数。",
+            "source_ids": ["horovod-paper"],
+            "evidence_scope": "训练梯度就绪和推理激活依赖不同；不能据训练方案推断decode可以跨层等待融合。"
+          },
+          "source_ids": ["horovod-paper", "horovod-tensor-fusion"]
+        }
+      ],
+      "industry_evidence_upserts": [
+        {
+          "match_source_id": "nccl-groups",
+          "title": "NCCL Group Calls：多个collective共享一次launch",
+          "mechanism": "分组可将多项collective聚合到一次NCCL launch，减少重复启动；各操作仍保留独立语义和各rank一致的调用顺序。",
+          "date": "2026-10-23（NCCL2.32.3文档核对）",
+          "conditions": "支持聚合的通信调用；最外层GroupEnd提交整个组。组内操作返回时可能尚未入流，应在GroupEnd后再做对应stream同步。",
+          "result": "官方提供启动摊销机制与顺序语义；没有在本文运行基准或报告节省比例。",
+          "boundary": "不是张量packing，也不等于可以合并尚未产生的数据；错误调用顺序会导致错误或挂起。",
+          "source_ids": ["nccl-groups"]
+        },
+        {
+          "match_source_id": "horovod-tensor-fusion",
+          "title": "Horovod Tensor Fusion：就绪张量的pack–AllReduce–unpack",
+          "mechanism": "把已就绪且同dtype的张量放入融合缓冲，对缓冲执行AllReduce，再拆回原张量。",
+          "date": "2026-10-23（官方实现文档）",
+          "conditions": "训练梯度场景，受融合阈值、调度周期与数据就绪时间限制。",
+          "result": "证明显式融合包含额外搬运与等待；不把文档流程当成推理效果实验。",
+          "boundary": "与NCCL调用分组分开；不跨越真实的数据依赖凑批。",
+          "source_ids": ["horovod-tensor-fusion"]
+        }
+      ],
+      "practice_replacement": {
+        "title": "粒度优化要围绕最早消费者",
+        "paragraphs": [
+          "启动受限不总意味着把消息做大。对已经同时ready的操作，共享launch可能直接降低固定成本；对尚未ready的后续数据，等待聚合可能拖住本来可以推进的计算。",
+          "ByteScheduler的分块和credit提供相反方向的思路：允许重要数据更早通过。值得积累的是‘聚合省固定成本’与‘分块省等待’的适用区间，而不是一个越大越好的融合阈值。"
+        ],
+        "source_ids": ["nccl-groups", "horovod-tensor-fusion", "bytescheduler"]
+      },
+      "priority_change_evidence": [
+        "若共享launch已消除主要间隙，pack融合的新增HBM拷贝可能使其失去优先级。",
+        "若新块级协议允许更早消费，应重新评估聚合窗口；不能继续只看通信带宽峰值。"
+      ]
+    },
+    {
+      "id": "paths-buffers",
+      "issues": [
+        {
+          "severity": "high",
+          "fields": ["expert.conclusion"],
+          "old_excerpt": "优先消除重复注册和可确认的中转拷贝，再评估多NIC或更复杂路径",
+          "problem": "固定优先级忽略实际可执行路径与互斥条件。NCCL当前文档明确网络缓冲注册与PXN不兼容；有意中继可能换取NIC聚合能力，不能一律视为应消除的拷贝。",
+          "replacement": "数据路径应比较‘直接访问’与‘经中继聚合’的完整资源成本，不能只数拷贝次数。NCCL文档中的网络缓冲注册与PXN互斥，说明预注册和中继路径并非总可叠加；热点在注册、PCIe、NIC或内存读写时，优先方案会不同。缓冲复用只有在完成可见、布局兼容和容量可控时成立。",
+          "source_ids": ["nccl-buffer-registration", "nccl-algorithms", "mooncake-architecture"]
+        },
+        {
+          "severity": "medium",
+          "fields": ["judgment", "expert.brief"],
+          "old_excerpt": "当多余拷贝、注册或非本地链路占用显著时才有价值",
+          "problem": "‘非本地’不必然是坏路径；中继聚合和多NIC方案可能主动使用非本地资源。",
+          "replacement": "更少中转不是唯一目标：直接访问减少内部拷贝，中继聚合可能更充分利用网络。应按设备内存、NIC亲和性和完成协议选择数据路径，并把注册摊销与常驻缓冲占用一起纳入判断。",
+          "source_ids": ["nccl-buffer-registration", "nccl-algorithms", "mooncake-architecture"]
+        },
+        {
+          "severity": "medium",
+          "fields": ["expert.branches[1]"],
+          "old_excerpt": "拓扑感知RDMA / 多NIC",
+          "problem": "仍偏能力清单，未点出直接路径与聚合中继之间的关键冲突。",
+          "replacement": {
+            "name": "直接数据面与中继聚合",
+            "mechanism": "直接路径让通信引擎访问已注册用户缓冲；中继路径可经其他设备汇聚流量后使用合适NIC。二者都可能比朴素路径好，取决于链路与资源。",
+            "tradeoff": "中继增加本地流量但可提高网络聚合效率。NCCL当前网络缓冲注册与PXN互斥；不能把两个开关都打开当成可叠加优化，也不能将这些参数照搬其他后端。",
+            "evidence_ids": ["nccl-buffer-registration", "nccl-algorithms", "mooncake-architecture"]
+          },
+          "source_ids": ["nccl-buffer-registration", "nccl-algorithms", "mooncake-architecture"]
+        },
+        {
+          "severity": "medium",
+          "fields": ["research_questions", "expert.open_questions"],
+          "old_excerpt": "现在几次拷贝、是否摊销、容量按峰值还是平均",
+          "problem": "这些是排查清单，尚未形成关于路径设计的研究问题。",
+          "replacement": [
+            "直接注册与中继聚合分别在哪些PCIe/NIC拓扑、消息大小和并发度下更有利？减少内部拷贝的收益能否补偿失去聚合或条带的代价？",
+            "长期注册的大池如何在复用、地址/offset约束、内存碎片和失败回收之间取舍？池化何时降低成本，何时只是把短时工作区变成长期容量压力？",
+            "接收完成、远端可见与消费者可读是否由同一个事件保证？跨transport复用同一handle或缓冲布局时，哪些协议条件必须重新建立？"
+          ],
+          "source_ids": ["nccl-buffer-registration", "mooncake-architecture", "deepseek-deepep-ascend"]
+        }
+      ],
+      "industry_evidence_upserts": [
+        {
+          "match_source_id": "nccl-buffer-registration",
+          "title": "NCCL User Buffer Registration：直接缓冲与PXN的取舍",
+          "mechanism": "受支持的注册路径可减少内部拷贝并复用注册；网络通信时，PXN中继与用户缓冲注册不能同时生效。",
+          "date": "2026-10-23（NCCL2.32.3文档）",
+          "conditions": "具体算法、分配器、rank一致性和offset约束分别核对。文档注明PXN启用时，调用ncclCommRegister也不会启用网络缓冲注册；不要据此直接建议关闭PXN。",
+          "result": "得到两条路径的真实互斥条件；并无本文实测的最优开关组合或速度。",
+          "boundary": "文档另提醒legacy cudaMalloc注册的安全问题及VMM分配条件；不能把注册等同于不经任何中转、没有同步或自动支持所有后端。",
+          "source_ids": ["nccl-buffer-registration"]
+        },
+        {
+          "split_from_match_source_id": "mooncake-architecture",
+          "title": "Mooncake Transfer Engine：控制面与已注册数据面分离",
+          "mechanism": "数据传送绕过控制面的正文处理，以注册buffer、transport与拓扑选择组织数据路径。",
+          "date": "2026-10-23（官方架构文档）",
+          "conditions": "后端能力取决于构建、内存位置与设备；多NIC和不同内存路径分别有约束。",
+          "result": "提供研究数据面设计的实现入口；论文整套缓存/调度goodput不是该路径单项效果。",
+          "boundary": "零拷贝指明被避免的拷贝，不能理解为无数据传输、无CPU控制或无完成同步。",
+          "source_ids": ["mooncake-architecture"]
+        },
+        {
+          "split_from_match_source_id": "deepseek-deepep-ascend",
+          "title": "DeepSeek DeepEP-Ascend：EPBuffer容量与生命周期",
+          "mechanism": "为dispatch/combine维护长生命周期缓冲，并要求在复用或销毁前完成在途操作；容量和组内协议需要一致。",
+          "date": "2026-10-23（官方仓库）",
+          "conditions": "README实测栈为950DT/CANN9.2.0和指定PoC HDK；不是所有950配置。",
+          "result": "公开明确的缓冲协议与边界；带宽计时含issue/drain但不含final epilogues。",
+          "boundary": "排除epilogue的核内带宽不能直接当作完整dispatch/combine时延；同名SGLang实现的参数不能混用。",
+          "source_ids": ["deepseek-deepep-ascend"]
+        }
+      ],
+      "practice_replacement": {
+        "title": "优化的是可执行数据路径，而不是‘零拷贝’标签",
+        "paragraphs": [
+          "直接注册可以减少用户buffer与内部buffer间的拷贝，但对称性、分配器和完成协议会限制可用形态。中继路径虽然多一次本地流转，却可能让流量汇聚到更有效的NIC；是否值得，取决于瓶颈资源。",
+          "因此路径研究应保存互斥条件和生命周期契约。NCCL网络注册与PXN的冲突是一个具体例子；Mooncake的数据面与DeepEP的EPBuffer则分别说明传输组织和容量协议，不能把两个项目的能力合成一个未经验证的方案。"
+        ],
+        "source_ids": ["nccl-buffer-registration", "mooncake-architecture", "deepseek-deepep-ascend"]
+      },
+      "priority_change_evidence": [
+        "若直接路径因NIC亲和性失去聚合带宽，中继即使增加一次本地流量也可能更值得采用。",
+        "若注册已充分摊销而主要等待来自容量不足或完成通知，应从注册开关转向缓冲并发与生命周期设计。"
+      ]
+    },
+    {
+      "id": "compute-communication-overlap",
+      "issues": [
+        {
+          "severity": "medium",
+          "fields": ["judgment", "expert.brief"],
+          "old_excerpt": "只有可用分块、正确依赖和剩余计算资源同时具备时",
+          "problem": "‘剩余计算资源’被写成必要条件，过于绝对。重叠可能允许某一部分变慢仍缩短总关键路径；依赖块就绪也能流水，不要求原操作全程无依赖。",
+          "replacement": "重叠成立的关键是让数据到达与可推进的计算相接，而不是只把任务放到不同stream。即使并发使某个核略慢，只要完整关键路径更短仍有价值；反之，两条时间线重叠也可能因资源争用和排空尾部而没有净收益。",
+          "source_ids": ["flux", "torch-distributed"]
+        },
+        {
+          "severity": "medium",
+          "fields": ["expert.conclusion"],
+          "old_excerpt": "大矩阵prefill先比较分块，小batch decode先确认窗口",
+          "problem": "方向合理但仍像流程建议，应把具体依赖和机制分支作为结论。",
+          "replacement": "已有独立计算窗口时，较粗粒度异步执行可能足够；消费者能按tile消费时，细粒度GEMM–collective融合才有额外空间。FLUX在某些H800 NVLink decode配置不获益，说明更快互连或更小计算量会降低可隐藏的价值。新证据若显示融合提高了计算代价或留下长尾，应优先回到更简单路径，而非继续增加stage。",
+          "source_ids": ["flux", "torch-distributed"]
+        },
+        {
+          "severity": "medium",
+          "fields": ["research_questions", "expert.open_questions"],
+          "old_excerpt": "消费者何时需要；重叠是否变慢；prefill与decode分别测",
+          "problem": "尚缺块级依赖和争用成本的研究内涵。",
+          "replacement": [
+            "AllGather→GEMM与GEMM→ReduceScatter分别可在哪个tile就绪后推进？tile顺序能否同时满足通信顺序和矩阵复用，而不造成额外等待？",
+            "融合把通信进度推进放到计算设备后，额外占用的SM/AIV、寄存器、片上存储或HBM是否削弱GEMM？何时值得牺牲局部计算效率换取更短总时间？",
+            "MoE中dispatch、FFN与combine的稀疏到达能否流水，还是被expert容量padding、barrier和最慢分支重新串行化？单次调用隐藏了哪些阶段边界？"
+          ],
+          "source_ids": ["flux", "sgl-deepep-ascend-api"]
+        },
+        {
+          "severity": "medium",
+          "fields": ["industry[0]"],
+          "old_excerpt": "公开融合路径但未展开模式的真实区别",
+          "problem": "‘融合’标题可能使读者把一次算子调用理解为全阶段有效重叠；应展示具名实现如何组织依赖。",
+          "replacement": {
+            "title": "SGLang DeepEP-Ascend：三种MoE融合组织",
+            "mechanism": "FUSED_DEEP_MOE以CamMoe通信和GMM阶段经跨核barrier衔接；DISPATCH_FFN_COMBINE把HCCL通信嵌入GMM；MEGA_MOE调用A3专用MegaMoe路径。",
+            "date": "2026-10-23（官方子README）",
+            "conditions": "FuseMode、平台、activation与quant_mode联合限制；例如DISPATCH_FFN_COMBINE只支持SwiGLU，不能与SiTU任意互换。",
+            "result": "公开了不同的依赖组织和功能边界；本条没有同条件跨模式性能或任务质量对照。",
+            "boundary": "一次API调用不证明通信已隐藏；主README与详细API、实际版本仍需一起固定。",
+            "source_ids": ["sgl-deepep-ascend-api"]
+          },
+          "source_ids": ["sgl-deepep-ascend-api"]
+        }
+      ],
+      "practice_replacement": {
+        "title": "把‘是否并发’推进到‘何时可消费’",
+        "paragraphs": [
+          "粗粒度异步适合已经存在的独立工作；细粒度融合则重新安排数据块到达、矩阵计算和结果归约的衔接。它的价值来自消费者更早推进，而不是API数量减少或图上出现重叠色带。",
+          "研究重点是依赖粒度和资源代价的匹配。较细tile可能改善等待，却增加信号、地址处理和计算碎片；更强互连会缩小通信尾部，也可能让复杂融合不再值得。"
+        ],
+        "source_ids": ["flux", "torch-distributed", "sgl-deepep-ascend-api"]
+      },
+      "priority_change_evidence": [
+        "若新矩阵内核更快而通信未变，原来的stage配比可能不再合理，需要重算暴露尾部。",
+        "若分块后计算损失和同步增加超过减少的等待，应降低融合粒度或保留粗粒度异步路径。"
+      ]
+    },
+    {
+      "id": "transfer-compression",
+      "issues": [
+        {
+          "severity": "medium",
+          "fields": ["judgment", "expert.brief"],
+          "old_excerpt": "先比较专用KV编码与通信量化，随后强调use_fp8参数名",
+          "problem": "主结论被一个API命名细节占据；它应作为证据边界，不能代替编码路线的核心判断。",
+          "replacement": "通信压缩应按被传数据和接收端需求选表示：可重复使用的远端KV有机会摊销较复杂编码，一次性MoE激活更依赖轻量量化。只有实际线上字节节省足以覆盖编解码、元数据和同步时，压缩才可能降低净时延；低位宽与有效压缩不是同一件事。",
+          "source_ids": ["cachegen-v6", "sgl-deepep-ascend-api"]
+        },
+        {
+          "severity": "medium",
+          "fields": ["expert.conclusion"],
+          "old_excerpt": "Mistral-7B/LongChat示例，随后以API名反例为主",
+          "problem": "模型和数据集的关系写得不清，结论重复事实但没有充分分出可摊销编码与低时延表示。",
+          "replacement": "KV传输编码与MoE激活量化应保留为两条不同研究线：前者可结合缓存复用、离线编码与流式解码，后者强调即时产生数据的轻量处理及接收端兼容。CacheGen表1是Mistral-7B模型在LongChat数据集上的结果，8-bit基线622MB/accuracy1.00与176MB/0.98必须一起阅读；压缩率不能代替质量证据。若更快链路或更短消息使编解码占主导，应降低压缩强度，而不是继续追逐更小文件。",
+          "source_ids": ["cachegen-v6", "sgl-deepep-ascend-api"]
+        },
+        {
+          "severity": "medium",
+          "fields": ["research_questions", "expert.open_questions"],
+          "old_excerpt": "明确对象、比较字节、按任务测精度",
+          "problem": "都是必要验收项，但不是能指向后续知识积累的研究问题。",
+          "replacement": [
+            "KV在何种复用次数和链路条件下值得采用差分、量化再熵编码，而不是直接传低精度张量或重新prefill？编码能否预先完成，解码能否与传输流水？",
+            "MoE dispatch的scale粒度、INT8/FP8/MX格式和接收GEMM路径如何联合设计？更低payload是否会引入额外转换、padding或不可融合的解码？",
+            "对归约张量，压缩前后的求和顺序、scale与累加类型如何改变误差？哪些训练梯度压缩依赖误差反馈，不能迁移为一次性推理激活的质量保障？"
+          ],
+          "source_ids": ["cachegen-v6", "sgl-deepep-ascend-api", "powersgd"]
+        },
+        {
+          "severity": "medium",
+          "fields": ["academic[0].conditions"],
+          "old_excerpt": "v6 Table1：Mistral-7B、LongChat",
+          "problem": "并列写法让读者误以为是两个模型。",
+          "replacement": "v6 Table1：Mistral-7B模型、LongChat数据集；整体实验另采用A40 GPU及指定模型/数据配置，不能把总体范围当作表1每行的同一条件。",
+          "source_ids": ["cachegen-v6"]
+        }
+      ],
+      "industry_evidence_upserts": [
+        {
+          "match_source_id": "sgl-deepep-ascend-api",
+          "title": "SGLang DeepEP-Ascend：按架构选择dispatch表示",
+          "mechanism": "Low-latency架构感知default路径中，A2/A3的use_fp8选择INT8；A5分别提供scalar FP8、MXFP8及MXFP4选择，scale粒度和编码类型不同。",
+          "date": "2026-10-23（官方子README）",
+          "conditions": "这些布尔参数的解析受default/ops/alltoall策略限制；MXFP4架构感知路径仅A5，A2/A3选择会报NotImplementedError。dispatch、combine和fused MoE的能力表须分开。",
+          "result": "得到不同硬件的真实表示与功能约束；README不是同质量/同负载的完整模型净收益实验。",
+          "boundary": "不能把参数名FP8当成数据格式，不能把低延迟dispatch支持推广到全部融合路径，也不能由格式支持推出任务质量无损。",
+          "source_ids": ["sgl-deepep-ascend-api"]
+        }
+      ],
+      "practice_replacement": {
+        "title": "从‘压得更小’转向‘传得更划算’",
+        "paragraphs": [
+          "远端KV缓存允许先编码、多次读取，较复杂的差分和熵编码因此可能摊销；MoE token激活即时产生，通常更看重量化与后续计算能否衔接。这两类负载不能只按一个压缩倍数排序。",
+          "‘无损’还要说明参照：熵编码可以无损还原量化符号，却不能消除前面的量化误差。若接收端长期以同一低精度表示驻留和计算，应同时关联推理压缩；若只是过链路时编码，主归通信。"
+        ],
+        "source_ids": ["cachegen-v6", "sgl-deepep-ascend-api"]
+      },
+      "priority_change_evidence": [
+        "若新接收端可以直接消费传输表示而省去反量化/布局转换，低精度传输的优先级可能上升。",
+        "若高速本地互联使传输时间低于编解码时间，较弱压缩或不压缩可能更优；质量回归也应立即降低候选成熟度。"
+      ]
+    }
+  ],
+  "source_review_updates": [
+    {"id": "nccl-algorithms", "new_scope": "本轮补读NCCL_ALGO的NVLS/NVLSTree卸载及按拓扑默认选择，另读PXN说明；不直接给生产环境固定开关建议。", "url": "https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-algo"},
+    {"id": "nccl-groups", "new_scope": "重核Aggregated Operations：多collective单次NCCL launch、最外层GroupEnd启动及组内返回未必已入stream；不同rank保持操作顺序。", "url": "https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/usage/groups.html"},
+    {"id": "nccl-buffer-registration", "new_scope": "补读General Buffer Registration、GPU Direct RDMA、Buffer Registration and PXN：网络注册与PXN互斥，legacy分配器限制与直接访问条件；未运行示例。", "url": "https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/usage/bufferreg.html"},
+    {"id": "sgl-deepep-ascend-api", "new_scope": "补读当前raw官方子README的架构感知low-latency量化、MXFP4边界、三种FuseMode及激活限制；主分支未锁SHA，不推广为所有版本。", "url": "https://github.com/sgl-project/sgl-kernel-npu/blob/main/python/deep_ep/README.md"},
+    {"id": "cachegen-v6", "new_scope": "重核Table1的Mistral-7B模型/LongChat数据集与622MB/176MB及1.00/0.98；论文将context处理称TTFT，但不可套作任意完整服务TTFT或稳态TPOT。", "url": "https://arxiv.org/html/2310.07240v6"}
+  ],
+  "remaining_gaps": [
+    "没有新增本地NPU/GPU测试；所有数值仍为作者或官方文档范围。",
+    "SGLang与DeepSeek同名实现的主分支没有在本轮锁定commit；上站不应仅显示‘最新支持’，应显示核对日期及实现身份。",
+    "HCCL原有资料部分仅取得导航壳；不能为补齐产业卡而编写未审接口细节。",
+    "通信五页已有足够主干证据，本轮不以新增论文数量替代机制判断；重点修复结论、边界及实际生效字段。"
+  ]
+}

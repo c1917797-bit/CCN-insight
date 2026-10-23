@@ -1,0 +1,2107 @@
+{
+  "date": "2026-10-22",
+  "status": "local_review_not_published",
+  "scope": "Reader-facing source descriptions, all 16 topic introductions and proposed actions; original result values and citations retained.",
+  "changed_records": 289,
+  "changes": [
+    {
+      "table": "ic_compression_topics",
+      "key": "activations-distillation",
+      "fields": [
+        "question_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topics",
+      "key": "activations-factorization",
+      "fields": [
+        "question_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topics",
+      "key": "activations-merging",
+      "fields": [
+        "question_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topics",
+      "key": "activations-precision",
+      "fields": [
+        "question_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topics",
+      "key": "activations-selection",
+      "fields": [
+        "question_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topics",
+      "key": "kv_cache-compact_architecture",
+      "fields": [
+        "question_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topics",
+      "key": "kv_cache-distillation",
+      "fields": [
+        "question_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topics",
+      "key": "kv_cache-factorization",
+      "fields": [
+        "question_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topics",
+      "key": "kv_cache-kv_eviction",
+      "fields": [
+        "question_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topics",
+      "key": "kv_cache-precision",
+      "fields": [
+        "question_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topics",
+      "key": "kv_cache-selection",
+      "fields": [
+        "question_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topics",
+      "key": "kv_cache-sharing",
+      "fields": [
+        "question_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topics",
+      "key": "parameters-distillation",
+      "fields": [
+        "question_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topics",
+      "key": "parameters-factorization",
+      "fields": [
+        "question_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topics",
+      "key": "parameters-precision",
+      "fields": [
+        "question_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topics",
+      "key": "parameters-selection",
+      "fields": [
+        "question_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-distillation__boundary",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-distillation__comparison",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-distillation__implication",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-distillation__mechanism",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-distillation__problem",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-distillation__watch",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-factorization__boundary",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-factorization__comparison",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-factorization__implication",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-factorization__mechanism",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-factorization__problem",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-factorization__watch",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-merging__boundary",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-merging__comparison",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-merging__implication",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-merging__mechanism",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-merging__problem",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-merging__watch",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-precision__boundary",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-precision__comparison",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-precision__implication",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-precision__mechanism",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-precision__problem",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-precision__watch",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-selection__boundary",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-selection__comparison",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-selection__implication",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-selection__mechanism",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-selection__problem",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "activations-selection__watch",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-compact_architecture__boundary",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-compact_architecture__comparison",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-compact_architecture__implication",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-compact_architecture__mechanism",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-compact_architecture__problem",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-compact_architecture__watch",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-distillation__boundary",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-distillation__comparison",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-distillation__implication",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-distillation__mechanism",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-distillation__problem",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-distillation__watch",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-factorization__boundary",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-factorization__comparison",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-factorization__implication",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-factorization__mechanism",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-factorization__problem",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-factorization__watch",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-kv_eviction__boundary",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-kv_eviction__comparison",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-kv_eviction__implication",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-kv_eviction__mechanism",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-kv_eviction__problem",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-kv_eviction__watch",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-precision__boundary",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-precision__comparison",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-precision__implication",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-precision__mechanism",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-precision__problem",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-precision__watch",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-selection__boundary",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-selection__comparison",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-selection__implication",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-selection__mechanism",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-selection__problem",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-selection__watch",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-sharing__boundary",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-sharing__comparison",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-sharing__implication",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-sharing__mechanism",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-sharing__problem",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "kv_cache-sharing__watch",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-distillation__boundary",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-distillation__comparison",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-distillation__implication",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-distillation__mechanism",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-distillation__problem",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-distillation__watch",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-factorization__boundary",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-factorization__comparison",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-factorization__implication",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-factorization__mechanism",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-factorization__problem",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-factorization__watch",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-precision__boundary",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-precision__comparison",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-precision__implication",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-precision__mechanism",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-precision__problem",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-precision__watch",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-selection__boundary",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-selection__comparison",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-selection__implication",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-selection__mechanism",
+      "fields": [
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-selection__problem",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_sections",
+      "key": "parameters-selection__watch",
+      "fields": [
+        "body_zh",
+        "heading_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "activations-distillation__dossier_5",
+      "fields": [
+        "body_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "activations-distillation__dossier_6",
+      "fields": [
+        "body_zh",
+        "title_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "activations-factorization__dossier_4",
+      "fields": [
+        "body_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "activations-factorization__dossier_5",
+      "fields": [
+        "body_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "activations-factorization__dossier_6",
+      "fields": [
+        "body_zh",
+        "title_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "activations-merging__dossier_5",
+      "fields": [
+        "body_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "activations-merging__dossier_6",
+      "fields": [
+        "body_zh",
+        "title_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "activations-precision__dossier_5",
+      "fields": [
+        "body_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "activations-precision__dossier_6",
+      "fields": [
+        "body_en",
+        "body_zh",
+        "title_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "activations-selection__dossier_5",
+      "fields": [
+        "body_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "activations-selection__dossier_6",
+      "fields": [
+        "body_zh",
+        "title_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "kv_cache-compact_architecture__dossier_5",
+      "fields": [
+        "body_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "kv_cache-compact_architecture__dossier_6",
+      "fields": [
+        "body_zh",
+        "title_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "kv_cache-distillation__dossier_5",
+      "fields": [
+        "body_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "kv_cache-distillation__dossier_6",
+      "fields": [
+        "body_zh",
+        "title_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "kv_cache-factorization__dossier_5",
+      "fields": [
+        "body_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "kv_cache-factorization__dossier_6",
+      "fields": [
+        "body_zh",
+        "title_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "kv_cache-kv_eviction__dossier_5",
+      "fields": [
+        "body_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "kv_cache-kv_eviction__dossier_6",
+      "fields": [
+        "body_zh",
+        "title_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "kv_cache-precision__dossier_5",
+      "fields": [
+        "body_en",
+        "body_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "kv_cache-precision__dossier_6",
+      "fields": [
+        "body_zh",
+        "title_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "kv_cache-selection__dossier_5",
+      "fields": [
+        "body_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "kv_cache-selection__dossier_6",
+      "fields": [
+        "body_zh",
+        "title_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "kv_cache-sharing__dossier_5",
+      "fields": [
+        "body_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "kv_cache-sharing__dossier_6",
+      "fields": [
+        "body_zh",
+        "title_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "parameters-distillation__dossier_5",
+      "fields": [
+        "body_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "parameters-distillation__dossier_6",
+      "fields": [
+        "body_zh",
+        "title_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "parameters-factorization__dossier_5",
+      "fields": [
+        "body_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "parameters-factorization__dossier_6",
+      "fields": [
+        "body_zh",
+        "title_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "parameters-precision__dossier_3",
+      "fields": [
+        "body_en"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "parameters-precision__dossier_5",
+      "fields": [
+        "body_zh",
+        "title_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "parameters-precision__dossier_6",
+      "fields": [
+        "body_zh",
+        "title_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "parameters-precision__lesson_guidance_5",
+      "fields": [
+        "body_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "parameters-selection__dossier_5",
+      "fields": [
+        "body_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_topic_cards",
+      "key": "parameters-selection__dossier_6",
+      "fields": [
+        "body_zh",
+        "title_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_research_frames",
+      "key": "activations-distillation",
+      "fields": [
+        "why_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_research_frames",
+      "key": "activations-factorization",
+      "fields": [
+        "why_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_research_frames",
+      "key": "activations-precision",
+      "fields": [
+        "why_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_research_frames",
+      "key": "activations-selection",
+      "fields": [
+        "why_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_research_frames",
+      "key": "kv_cache-distillation",
+      "fields": [
+        "why_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_research_frames",
+      "key": "kv_cache-factorization",
+      "fields": [
+        "why_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_research_frames",
+      "key": "kv_cache-precision",
+      "fields": [
+        "why_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_research_frames",
+      "key": "kv_cache-selection",
+      "fields": [
+        "why_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_research_frames",
+      "key": "parameters-distillation",
+      "fields": [
+        "why_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_research_frames",
+      "key": "parameters-factorization",
+      "fields": [
+        "why_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_research_frames",
+      "key": "parameters-precision",
+      "fields": [
+        "why_zh"
+      ]
+    },
+    {
+      "table": "ic_compression_research_frames",
+      "key": "parameters-selection",
+      "fields": [
+        "why_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "arxiv-cl",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "arxiv-dc",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "arxiv-lg",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "ascend-community",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "ascend-mindie",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "ascend-ops-transformer",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "ascend-ops-transformer-tag",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "ascend-quant-flash-attn",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "cann-release-management",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-05545b121713cf6266201401",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-06c94f036e3c97a3a621c799",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-09b05ee8aefda7618b4dbbdf",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-0e05f5f9fb86ec43e0801a18",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-0ff9c9f371a70f1894e0f732",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-1221993f54a2c7199b18a2e1",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-22705a47de9ac862cc971b51",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-22bd74735e6a3f6e1bfab45f",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-266ae3c8fd4248d33c5f4e08",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-29c2808ed90e37ce0c1304fe",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-2e4c9977930fad1b60321794",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-343ca380ce5dc4ba81faf7f1",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-39e255cf14bae2a4e125cb13",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-39ee5250ff3b158b5384bae5",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-44a42cb3987df5094c5adc33",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-4d243cef998a0bb0c88efd2b",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-504ab131bf9a634afa68dc25",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-548c777176838cb43bf16b44",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-591733c5bbcab0adb97cbc70",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-5f7b8c6a3444726a4e7c553a",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-72e2c7ff67b98ba4a85028c4",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-7460cff2d64f832ff3545d15",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-8c132669acb050f97048adf3",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-8f4d2163b5e697a72c778088",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-8f61192ea8b511d6725a474f",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-959c84b158c3e1f548ead417",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-9f1da1b4c8904073f8970358",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-a860535c8c57440d45f6bba5",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-b374b53bbe7e022f6a24d2fe",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-b4eb4336cbedde78ae3e301a",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-b95c39388e84894e0953f6b5",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-bc899db163a923abe203544b",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-d1cafa5415087246f6d38240",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-d46e10c7f4eb9a2863b7ff4e",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-e0b57a9463da97feb84cbb29",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-eb2a6658d9ebf1d85581fd87",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-efa84fcedb529eaf02e5e044",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-f392f1b4f4058bfc61aa398e",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-f9c36c2c15857d2e1e10955e",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "channel-fceb486df6ca59cf3b1ce1eb",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "fireworks-blog",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "hf-daily-papers",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "import-ai",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "jiqizhixin",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "mlperf-inference",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "mlsys",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "msmodelslim-algorithms",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "msmodelslim-models",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "msmodelslim-repository",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "msmodelslim-versions",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "nvidia-technical-blog",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "openreview",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "pytorch-blog",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "sglang-releases",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "techcrunch-ai",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "tensorrt-llm-releases",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "the-batch",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "together-blog",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "vllm-ascend-release-notes",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "vllm-ascend-releases",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "vllm-ascend-repository",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "vllm-quantization",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_channels",
+      "key": "vllm-releases",
+      "fields": [
+        "focus_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-ascend-community",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-ascend-mindie",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-cann-releases",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-09b05ee8aefda7618b4dbbdf",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-0e05f5f9fb86ec43e0801a18",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-22705a47de9ac862cc971b51",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-266ae3c8fd4248d33c5f4e08",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-29c2808ed90e37ce0c1304fe",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-2e4c9977930fad1b60321794",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-343ca380ce5dc4ba81faf7f1",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-39e255cf14bae2a4e125cb13",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-39ee5250ff3b158b5384bae5",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-44a42cb3987df5094c5adc33",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-4d243cef998a0bb0c88efd2b",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-504ab131bf9a634afa68dc25",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-548c777176838cb43bf16b44",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-591733c5bbcab0adb97cbc70",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-72e2c7ff67b98ba4a85028c4",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-7460cff2d64f832ff3545d15",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-8c132669acb050f97048adf3",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-8f61192ea8b511d6725a474f",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-959c84b158c3e1f548ead417",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-9f1da1b4c8904073f8970358",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-a860535c8c57440d45f6bba5",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-b374b53bbe7e022f6a24d2fe",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-b4eb4336cbedde78ae3e301a",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-b95c39388e84894e0953f6b5",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-bc899db163a923abe203544b",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-d1cafa5415087246f6d38240",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-ddf4c0a194109a11422236e3",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-eb2a6658d9ebf1d85581fd87",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-efa84fcedb529eaf02e5e044",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-f392f1b4f4058bfc61aa398e",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-f9c36c2c15857d2e1e10955e",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-channel-fceb486df6ca59cf3b1ce1eb",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-fireworks-blog",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-hf-daily-papers",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-iclr",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-icml",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-import-ai",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-jiqizhixin",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-mlsys",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-msmodelslim",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-nvidia-technical-blog",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-openreview",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-ops-transformer",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-osdi",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-pytorch-blog",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-sglang-blog",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-techcrunch-ai",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-the-batch",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-together-blog",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-vllm",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_source_families",
+      "key": "source-family-vllm-ascend",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_insight_reports",
+      "key": "ascend-2026-10-20261015-v6",
+      "fields": [
+        "summary_zh"
+      ]
+    },
+    {
+      "table": "ic_paper_summaries",
+      "key": "source-019e455bef452d8daa4ddd8f__v1",
+      "fields": [
+        "results_zh"
+      ]
+    },
+    {
+      "table": "ic_paper_summaries",
+      "key": "source-4053fca2b27af8dc50c3bff6__v2",
+      "fields": [
+        "results_zh"
+      ]
+    },
+    {
+      "table": "ic_paper_summaries",
+      "key": "source-76a4629af7b05cb540a31952__v1",
+      "fields": [
+        "one_sentence_zh",
+        "results_zh"
+      ]
+    }
+  ],
+  "limitations": [
+    "English copy is retained; this editorial pass targets Chinese reading.",
+    "Existing author-reported results have not all been re-reviewed against full text.",
+    "PDF/PPT binary assets are unchanged.",
+    "Original website is unchanged."
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "scope": "本站编辑判断的修订记录；日期为修订日期，不是论文发表或产品发布日期。",
+  "changes": [
+    {
+      "id": "group-launch",
+      "date": "2026-10-23",
+      "trigger_type": "既有官方资料复核",
+      "change_type": "修正机制解释",
+      "title": "分组调用应与张量打包分开理解",
+      "before": "此前结论将调用分组主要表述为提交摊销，未充分说明NCCL的聚合启动。",
+      "after": "受支持的NCCL聚合可以共享一次launch，各操作仍保留独立语义；张量融合另有pack/unpack与等待代价。",
+      "reason": "Group Calls的Aggregated Operations明确了启动机制。不能将两种成本变化归为同一种合并。",
+      "route_ids": [
+        "launch-granularity"
+      ],
+      "evidence_ids": [
+        "launch-granularity--nccl-groups"
+      ]
+    },
+    {
+      "id": "registration-pxn",
+      "date": "2026-10-23",
+      "trigger_type": "既有官方资料复核",
+      "change_type": "修正选择条件",
+      "title": "直接注册与中继聚合不能默认叠加",
+      "before": "此前结论给出了先消除注册和中转、再考虑复杂路径的固定优先级。",
+      "after": "网络缓冲注册与PXN有互斥条件。直接访问减少内部拷贝，中继路径可能改善网络聚合，应比较两个完整路径。",
+      "reason": "NCCL注册文档给出实际互斥约束，改变了原有的简单优先顺序。",
+      "route_ids": [
+        "paths-buffers",
+        "collectives-topology"
+      ],
+      "evidence_ids": [
+        "paths-buffers--nccl-buffer-registration"
+      ]
+    },
+    {
+      "id": "fa4-baseline",
+      "date": "2026-10-23",
+      "trigger_type": "历史实验边界整理",
+      "change_type": "收窄性能外推",
+      "title": "FA4的优势需要绑定比较库版本",
+      "before": "技术扫描中的最大倍数不足以说明相对当前库实现的优势。",
+      "after": "保留论文B200与cuDNN9.13的指定比较，同时说明更新版cuDNN已吸收相关技术并达到相近性能。",
+      "reason": "论文自身给出基线演进信息；历史比较应继续作为机制证据，不能成为当前统一排名。",
+      "route_ids": [
+        "memory-reuse"
+      ],
+      "evidence_ids": [
+        "memory-reuse--fa4-primary-expert"
+      ]
+    },
+    {
+      "id": "int4-consumption",
+      "date": "2026-10-23",
+      "trigger_type": "经典机制补充",
+      "change_type": "补充技术解释",
+      "title": "将低比特存储与矩阵执行类型分开",
+      "before": "该专题的低精度案例主要集中于FP8 Attention，对INT4如何接到计算的解释不足。",
+      "after": "引入Marlin的INT4预排布、核内反量化与FP16 Tensor Core消费路径，不把INT4存储等同原生INT4矩阵运算。",
+      "reason": "补足权重读取与实际指令之间的数据通路解释；本次不新增未经逐条件核对的峰值倍数。",
+      "route_ids": [
+        "layout-low-precision"
+      ],
+      "evidence_ids": [
+        "layout-low-precision--marlin-primary-round2"
+      ]
+    },
+    {
+      "id": "training-boundary",
+      "date": "2026-10-23",
+      "trigger_type": "知识层级整理",
+      "change_type": "明确研究对象",
+      "title": "训练梯度压缩保留为关联参考",
+      "before": "KV编码、MoE激活量化和PowerSGD同时出现在一张比较表中，容易被理解为同类推理候选。",
+      "after": "PowerSGD标为训练关联；KV传输和MoE激活的对象、误差处理及接收路径分别研究。",
+      "reason": "梯度误差反馈依赖训练过程，不能作为一次性推理数据的质量保障。",
+      "route_ids": [
+        "transfer-compression"
+      ],
+      "evidence_ids": [
+        "transfer-compression--powersgd",
+        "transfer-compression--cachegen-v6"
+      ]
+    }
+  ]
+}

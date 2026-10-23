@@ -1,4 +1,4 @@
-"""Reproduce the original reader; only inject the offline content transport."""
+"""Build the maintained reader sources with the offline content transport."""
 from pathlib import Path
 import hashlib,json,shutil,sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
@@ -32,6 +32,12 @@ def build():
             t['shards']=sorted(buckets)
         tables[name]=t
     (data/'manifest.json').write_text(json.dumps({'content_version':version,'revision':revision,'import_revision':manifest()['revision'],'tables':tables},ensure_ascii=False,separators=(',',':')),encoding='utf-8')
+    from scripts.build_expert_index import build as build_expert_index
+    expert_index=build_expert_index(data)
+    assert expert_index['revision']==revision,'Research index revision drift'
+    from scripts.audit_compression_inventory import build as build_inventory_audit
+    inventory_audit=build_inventory_audit(data)
+    assert inventory_audit['revision']==revision,'Inventory audit revision drift'
     assets=json.loads((DATA/'assets.json').read_text(encoding='utf-8'))['assets']
     for asset in assets:
         destination=target/asset['source_path'].lstrip('/');destination.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(ROOT/asset['local_path'],destination)

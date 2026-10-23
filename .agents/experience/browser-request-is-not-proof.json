@@ -1,0 +1,11 @@
+{
+  "id": "browser-request-is-not-proof",
+  "status": "proposed",
+  "trigger": "声明页面交互、移动视口或更新已经验收时",
+  "changed_action": "读取真实渲染和有效尺寸，保存结构化结果；请求成功而实际状态未变时不得记为通过。",
+  "scope": "浏览器功能和视觉验收，不由静态构建结果代替。",
+  "counterexample": "静态链接完整性检查可证明其自身范围，无需把所有小文案修正升级为全设备视觉复测。",
+  "evidence": ["docs/expert-topics-browser-qa-20261023.json", "docs/EXPERT-QUALITY-20261023.md"],
+  "destination": ".agents/skills/ccn-insight-build/references/reader-and-content.md",
+  "checks": ["skill-tree"]
+}

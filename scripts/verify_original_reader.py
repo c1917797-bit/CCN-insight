@@ -1,4 +1,4 @@
-"""Check preserved UI sources, local corpus/shards and exact report assets."""
+"""Check maintained UI delivery, local corpus/shards and exact report assets."""
 import hashlib,json,sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
@@ -27,4 +27,4 @@ for name,table in meta['tables'].items():
 assets=json.loads((DATA/'assets.json').read_text(encoding='utf-8'))['assets']
 for asset in assets:
     assert hashlib.sha256((target/asset['source_path'].lstrip('/')).read_bytes()).hexdigest()==asset['sha256']
-print('PASS:',checked,'original UI files unchanged except transport injection;',len(meta['tables']),'tables;',len(assets),'matching report assets')
+print('PASS:',checked,'reader source files delivered with transport injection;',len(meta['tables']),'tables;',len(assets),'matching report assets')

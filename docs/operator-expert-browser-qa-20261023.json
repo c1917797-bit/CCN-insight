@@ -1,0 +1,265 @@
+{
+  "date": "2026-10-23",
+  "scope": "13 active local operator research pages; source data stays internal; no publication",
+  "pages": [
+    {
+      "folds": 0,
+      "practice": "研究启示",
+      "priorLinks": 0,
+      "scrollWidth": 830,
+      "sections": [
+        "background",
+        "principles",
+        "challenges",
+        "progress",
+        "comparison",
+        "practice",
+        "conclusion",
+        "references"
+      ],
+      "title": "数据搬运与片上复用",
+      "url": "http://127.0.0.1:8787/ai-infra/operators-memory-reuse.html",
+      "width": 830
+    },
+    {
+      "folds": 0,
+      "practice": "研究启示",
+      "priorLinks": 0,
+      "scrollWidth": 830,
+      "sections": [
+        "background",
+        "principles",
+        "challenges",
+        "progress",
+        "comparison",
+        "practice",
+        "conclusion",
+        "references"
+      ],
+      "title": "分块映射与并行流水",
+      "url": "http://127.0.0.1:8787/ai-infra/operators-tile-parallelism.html",
+      "width": 830
+    },
+    {
+      "folds": 0,
+      "practice": "研究启示",
+      "priorLinks": 0,
+      "scrollWidth": 830,
+      "sections": [
+        "background",
+        "principles",
+        "challenges",
+        "progress",
+        "comparison",
+        "practice",
+        "conclusion",
+        "references"
+      ],
+      "title": "融合与启动优化",
+      "url": "http://127.0.0.1:8787/ai-infra/operators-fusion-launch.html",
+      "width": 830
+    },
+    {
+      "folds": 0,
+      "practice": "研究启示",
+      "priorLinks": 0,
+      "scrollWidth": 830,
+      "sections": [
+        "background",
+        "principles",
+        "challenges",
+        "progress",
+        "comparison",
+        "practice",
+        "conclusion",
+        "references"
+      ],
+      "title": "布局与低精度执行",
+      "url": "http://127.0.0.1:8787/ai-infra/operators-layout-low-precision.html",
+      "width": 830
+    },
+    {
+      "folds": 0,
+      "practice": "研究启示",
+      "priorLinks": 0,
+      "scrollWidth": 830,
+      "sections": [
+        "background",
+        "principles",
+        "challenges",
+        "progress",
+        "comparison",
+        "practice",
+        "conclusion",
+        "references"
+      ],
+      "title": "集合算法与拓扑映射",
+      "url": "http://127.0.0.1:8787/ai-infra/operators-collectives-topology.html",
+      "width": 830
+    },
+    {
+      "folds": 0,
+      "practice": "研究启示",
+      "priorLinks": 0,
+      "scrollWidth": 830,
+      "sections": [
+        "background",
+        "principles",
+        "challenges",
+        "progress",
+        "comparison",
+        "practice",
+        "conclusion",
+        "references"
+      ],
+      "title": "启动与消息粒度",
+      "url": "http://127.0.0.1:8787/ai-infra/operators-launch-granularity.html",
+      "width": 830
+    },
+    {
+      "folds": 0,
+      "practice": "研究启示",
+      "priorLinks": 0,
+      "scrollWidth": 830,
+      "sections": [
+        "background",
+        "principles",
+        "challenges",
+        "progress",
+        "comparison",
+        "practice",
+        "conclusion",
+        "references"
+      ],
+      "title": "数据路径与缓冲管理",
+      "url": "http://127.0.0.1:8787/ai-infra/operators-paths-buffers.html",
+      "width": 830
+    },
+    {
+      "folds": 0,
+      "practice": "研究启示",
+      "priorLinks": 0,
+      "scrollWidth": 830,
+      "sections": [
+        "background",
+        "principles",
+        "challenges",
+        "progress",
+        "comparison",
+        "practice",
+        "conclusion",
+        "references"
+      ],
+      "title": "通算融合与异步重叠",
+      "url": "http://127.0.0.1:8787/ai-infra/operators-compute-communication-overlap.html",
+      "width": 830
+    },
+    {
+      "folds": 0,
+      "practice": "研究启示",
+      "priorLinks": 0,
+      "scrollWidth": 830,
+      "sections": [
+        "background",
+        "principles",
+        "challenges",
+        "progress",
+        "comparison",
+        "practice",
+        "conclusion",
+        "references"
+      ],
+      "title": "传输编码与通信量压缩",
+      "url": "http://127.0.0.1:8787/ai-infra/operators-transfer-compression.html",
+      "width": 830
+    },
+    {
+      "concepts": 8,
+      "folds": 0,
+      "priorLinks": 0,
+      "scrollWidth": 830,
+      "title": "计算算子加速",
+      "url": "http://127.0.0.1:8787/ai-infra/operators-1.html",
+      "width": 830
+    },
+    {
+      "folds": 0,
+      "priorLinks": 0,
+      "scrollWidth": 830,
+      "title": "通信算子加速",
+      "url": "http://127.0.0.1:8787/ai-infra/operators-2.html",
+      "width": 830
+    },
+    {
+      "autoFeature": 0,
+      "folds": 0,
+      "mechanisms": 9,
+      "priorLinks": 0,
+      "scrollWidth": 830,
+      "title": "算子定制加速",
+      "url": "http://127.0.0.1:8787/ai-infra/operators.html",
+      "width": 830
+    },
+    {
+      "evidence": 12,
+      "folds": 0,
+      "priorLinks": 0,
+      "projects": 5,
+      "scrollWidth": 830,
+      "title": "算子自动生成与调优",
+      "url": "http://127.0.0.1:8787/ai-infra/operators-codegen.html",
+      "width": 830
+    }
+  ],
+  "namedEvidenceLinks": [
+    {
+      "hasConditions": true,
+      "hasLimit": true,
+      "hash": "evidence-kernelevolve-coverage",
+      "title": "KernelEvolve：硬件知识检索与反馈树搜索",
+      "top": 90.15625
+    },
+    {
+      "hasConditions": true,
+      "hasLimit": true,
+      "hash": "evidence-kernelblaster-h100",
+      "title": "KernelBlaster：持久CUDA经验库与上下文策略更新",
+      "top": 90.0859375
+    },
+    {
+      "hasConditions": true,
+      "hasLimit": true,
+      "hash": "evidence-avo-b200-attention",
+      "title": "AVO：Agentic Variation Operators，代理自主决定变异步骤",
+      "top": 89.90625
+    },
+    {
+      "hasConditions": true,
+      "hasLimit": true,
+      "hash": "evidence-gpu-cuda-agent",
+      "title": "CUDA Agent · 大规模Agentic RL",
+      "top": 90.2265625
+    },
+    {
+      "hasConditions": true,
+      "hasLimit": true,
+      "hash": "evidence-npu-ascendoptimizer",
+      "title": "AscendOptimizer · 经验检索与Host–Kernel协同优化",
+      "top": 89.96875
+    }
+  ],
+  "responsiveChecks": {
+    "method": "same-origin iframe at 390/845/1440 CSS pixels; visually inspected",
+    "views": [
+      "Add CopyIn/Compute/CopyOut at390",
+      "project comparison cards at390",
+      "stacked mechanism SVG at390",
+      "mechanism at845",
+      "project table with outline at1440"
+    ]
+  },
+  "limitations": [
+    "No NPU hardware experiments",
+    "Original reader parity check reported current-synthesis.js source/output mismatch; outside operator changes"
+  ]
+}

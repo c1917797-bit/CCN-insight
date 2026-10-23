@@ -1,0 +1,609 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-23",
+  "sources": [
+    {
+      "id": "flashattention",
+      "title": "FlashAttention：以IO感知分块减少注意力访存",
+      "url": "https://arxiv.org/abs/2205.14135",
+      "kind": "primary_paper",
+      "review_scope": "核对原论文摘要与版本信息，用于说明精确注意力的IO感知分块机制；本次没有重审全部实验表。",
+      "device_scope": "仅其他设备：原论文GPU机制与实验；不是310P支持或收益证据。",
+      "boundary": "精确注意力的实现优化与低秩近似不同。GPU结果不能直接外推昇腾；不据此承诺具体模型、数据类型、序列长度或内核支持。"
+    },
+    {
+      "id": "ascendc",
+      "title": "Ascend C：核函数CPU/NPU运行验证",
+      "url": "https://www.hiascend.com/doc_center/source/zh/CANNCommunityEdition/80RC1alpha003/devguide/opdevg/ascendcopdevg/atlas_ascendc_10_0019.html",
+      "kind": "official_documentation",
+      "review_scope": "核对CANN8.0.RC1.alpha003核函数运行验证正文：CPU与NPU调用路径、毕昇/GCC编译区分、Ascend310P1/P3参数，以及基础示例不覆盖动态shape/dtype和workspace的限制。",
+      "device_scope": "310P直接证据：该历史文档明确列Ascend310P1、Ascend310P3；不代表所有新版本接口支持。",
+      "boundary": "CPU调试不能替代目标NPU性能实测；应按实际SoC、CANN、驱动固件与单API条件核对。基础示例通过不证明动态shape或完整模型适配。"
+    },
+    {
+      "id": "msprof",
+      "title": "MindStudio Profiler：CANN与NPU性能采集分析",
+      "url": "https://github.com/Ascend/msprof",
+      "kind": "official_repository",
+      "review_scope": "核对官方README的工具定位与采集/解析功能，用于性能归因机制说明；未逐项审阅所有采集项、硬件兼容表和版本说明。",
+      "device_scope": "通用昇腾性能分析机制；本条不构成310P全部采集项支持的直接证据。",
+      "boundary": "采集接口、计数器和芯片支持需按配套版本核对。Profiling用于解释瓶颈，不是算子自动加速承诺；完整性能结论仍需匹配负载实测。"
+    },
+    {
+      "id": "tvm",
+      "title": "Apache TVM：张量程序表示、调度与代码生成",
+      "url": "https://tvm.apache.org/docs/arch/index.html",
+      "kind": "official_documentation",
+      "review_scope": "核对官方架构页中程序表示、调度、lowering、MetaSchedule与代码生成的机制说明；不是全部TVM文档或全部后端审阅。",
+      "device_scope": "通用编译与自动调优机制；本条不提供310P后端支持证据。",
+      "boundary": "目标后端、算子覆盖和设备版本必须单独验证；自动调度不保证优于目标设备已有算子，也不等于LLM生成算法。"
+    },
+    {
+      "id": "hccl",
+      "title": "HCCL：昇腾集合通信资料入口",
+      "url": "https://www.hiascend.com/document/detail/zh/canncommercial/800/developmentguide/hccl/hcclug/hcclug_000006.html",
+      "kind": "official_documentation",
+      "review_scope": "保留前轮已核对的官方HCCL资料地址，用于集合通信机制导航。本轮直接请求只返回站点导航壳，没有取得或追认该页全文，未据此新增接口、版本或设备结论。",
+      "device_scope": "通用昇腾集合通信机制入口；310P具体接口和拓扑支持仍需配套版本直接证据。",
+      "boundary": "通信语义、消息规模、设备拓扑、后端版本及同步条件分别核对。不可由入口可访问推断支持310P，也不可把通信带宽直接换算为模型端到端收益。"
+    },
+    {
+      "id": "nccl",
+      "title": "NCCL：集合通信与流执行机制",
+      "url": "https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/index.html",
+      "kind": "official_documentation",
+      "review_scope": "核对官方文档入口的集合操作、CUDA流、分组调用及设备通信等目录，作为机制资料导航；没有宣称本轮全文审阅整个NCCL手册。",
+      "device_scope": "仅其他设备：NVIDIA CUDA GPU生态；不是310P或HCCL支持证据。",
+      "boundary": "不同通信后端的接口语义、顺序和同步要求不可直接等同；本条不建立跨平台性能倍数，也不将NCCL支持自动视为HCCL支持。"
+    },
+    {
+      "id": "nccl-tests",
+      "title": "NCCL Tests：通信正确性与性能测试",
+      "url": "https://github.com/NVIDIA/nccl-tests",
+      "kind": "official_repository",
+      "review_scope": "核对README的正确性/性能定位、消息规模扫描、预热与迭代参数、进程/线程/GPU组合及性能指标导航；未实际运行测试。",
+      "device_scope": "仅其他设备：CUDA/NCCL测试；不是310P可执行工具或实测证据。",
+      "boundary": "可借鉴测试设计，但不能直接在昇腾运行或跨硬件套用带宽值。消息量、rank数、拓扑、预热、同步与正确性检查须同时记录。"
+    },
+    {
+      "id": "torch-distributed",
+      "title": "PyTorch distributed：通信后端与异步操作语义",
+      "url": "https://docs.pytorch.org/docs/2.14/distributed.html",
+      "kind": "official_documentation",
+      "review_scope": "由stable入口跳转后，核对2.14文档的Backends、第三方后端注册及Asynchronous operation/Work说明；不是全页全部API审阅。",
+      "device_scope": "通用框架通信语义；第三方后端能力由其实现决定，不是310P或TorchNPU/HCCL兼容证明。",
+      "boundary": "异步返回、入队和完成语义随后端及设备不同；必须核对实际后端的wait/stream行为。async_op=True不自动证明计算通信已经重叠或端到端更快。"
+    },
+    {
+      "id": "msopgen",
+      "title": "MindStudio Ops Generator：算子工程框架生成",
+      "url": "https://github.com/Ascend/msopgen",
+      "kind": "official_repository",
+      "review_scope": "核对README的Host/Kernel框架生成、编译部署功能；结合msot快速入门核对初始函数体仍需用户实现。",
+      "device_scope": "通用昇腾算子工程工具；310P学习环境证据见msot-install，不能据此承诺所有生成模板/API支持310P。",
+      "boundary": "工程代码框架生成不等于自动生成正确或高性能算法；Host、Tiling和Kernel核心实现及设备适配仍需开发和验证。"
+    },
+    {
+      "id": "msot-install",
+      "title": "MindStudio算子工具链：310P学习环境",
+      "url": "https://github.com/Ascend/msot/blob/master/docs/zh/quick_start/installation_guide.md",
+      "kind": "official_repository_documentation",
+      "review_scope": "核对官方安装指南的910B/310P/A3前置条件、310P的CANN9.0.0容器镜像及SoC查询步骤；不是生产部署或全部工具支持审阅。",
+      "device_scope": "310P直接证据：官方学习环境列310P，并给出9.0.0-310p镜像。",
+      "boundary": "文档限定学习用途及标准容器流程；环境支持310P不等于每个工具和算子功能都支持，不能作为生产稳定性或全部模型支持承诺。"
+    },
+    {
+      "id": "msot-quickstart",
+      "title": "MindStudio算子工具链：设计、开发、检测、调试与调优",
+      "url": "https://github.com/Ascend/msot/blob/master/docs/zh/quick_start/op_tool_quick_start.md",
+      "kind": "official_repository_documentation",
+      "review_scope": "核对快速入门的工具分工、msOpGen空函数实现提示，以及msKPP体验仅支持910B的明确限制；未实际执行示例或逐项核验所有工具设备范围。",
+      "device_scope": "310P关联环境证据；明确仅其他设备：本文msKPP性能建模体验要求910B。",
+      "boundary": "不可因统一学习环境列310P就把所有工具都写成310P支持。建模估计、CPU仿真、上板正确性和真实性能是不同证据层级。"
+    },
+    {
+      "id": "triton-ascend",
+      "title": "Triton-Ascend：官方后端与版本支持范围",
+      "url": "https://github.com/Ascend/triton-ascend",
+      "kind": "official_repository",
+      "review_scope": "原README核对后，本轮追加对照2026-10-16 v3.6.0固定发布及配套表，补充950PR/DT与CANN9.1/9.2；未运行后端。固定版本详见本页自动生成专题。",
+      "device_scope": "v3.6.0列A2/A3及950PR/DT配套；未取得310P直接支持条目。",
+      "boundary": "Profiling文档的310P soc参数不证明编译后端支持310P。不同功能有950限定；发布支持不等于所有shape和dtype已验证。"
+    },
+    {
+      "id": "ascendkernelgen",
+      "title": "AscendKernelGen：领域后训练与Host–Kernel执行验证 · v2",
+      "url": "https://arxiv.org/html/2601.07160v2",
+      "kind": "primary_paper",
+      "review_scope": "追加核对v2日期、§5–6领域数据/后训练、§7.2–7.4任务与分数/参考基线、§8.2/Table7；未复现实验；正文未定位明确SKU与完整CANN配套。",
+      "device_scope": "Ascend NPU研究；未据该正文确认具体310P、910B或950实验SKU。",
+      "boundary": "158任务、case分数、分层/加权分数与pass@k分开。参考官方优化库不是严格硬件下界；不把表内Mean直接解释为158任务通过率。"
+    },
+    {
+      "id": "ascendcraft",
+      "title": "AscendCraft：DSL引导的Ascend C分阶段生成 · v1",
+      "url": "https://arxiv.org/html/2601.22760v1",
+      "kind": "primary_paper",
+      "review_scope": "追加核对§4各pass编译反馈、§5.1环境及52任务范围、Table1/2分母与正确率表述差异；未运行实验。",
+      "device_scope": "NPU直接实验为910B2、CANN8.1、PyTorch2.6；不是310P/950证据。",
+      "boundary": "52任务不含MatMul/Convolution；按表格类别计数编译51/52、正确47/52、达到eager24/52，正文正确率分母描述不一致需保留说明。eager基线不能代替生产强库。"
+    },
+    {
+      "id": "cannbench",
+      "title": "CANN Bench：独立评估与910B2分析性能锚点 · v1",
+      "url": "https://arxiv.org/html/2607.20518v1",
+      "kind": "primary_paper",
+      "review_scope": "追加核对53算子/1060case范围、§3.1精度与可选fresh-input验证、§3.2的910B2六单元HAP以及结论；未运行评测。",
+      "device_scope": "直接分析锚点与论文结论针对910B2；不是310P/950性能上限。",
+      "boundary": "基准规模不是Agent成功率；HAP为分析锚点，非可保证的实测绝对下界。fresh-input二次验证为可选，默认榜单仍为single-trial，不能追认为默认开启。"
+    },
+    {
+      "id": "tik-history",
+      "title": "TIK BuildCCE：310P历史接口依据",
+      "url": "https://www.hiascend.com/doc_center/source/zh/canncommercial/60RC1/operatordev/operatordevg/tbedevg_tikapi_0007.html",
+      "kind": "official_historical_documentation",
+      "review_scope": "核对CANN6.0.RC1的BuildCCE正文，说明TIK编译二进制及配置，支持表包含310P AI Core与Vector Core。仅登记历史版本依据。",
+      "device_scope": "310P直接证据：CANN6.0.RC1历史接口支持表；不代表当前版本仍完整开放。",
+      "boundary": "新项目须另查当前版本开放范围与维护状态。官方8.5.0搜索索引出现TBE/TIK开放方式调整，但本轮直接页面仅导航壳，未将索引信息追认为最新全文结论。"
+    },
+    {
+      "id": "sgl-kernel-npu",
+      "title": "SGLang-Kernel-NPU与DeepEP-Ascend：计算/通信内核",
+      "url": "https://github.com/sgl-project/sgl-kernel-npu",
+      "kind": "official_project_repository",
+      "review_scope": "核对官方README的计算内核范围、MoE dispatch/combine通信模式及A2/A3/A5和CANN/CI边界；未运行内核、没有验证所有模型或拓扑。",
+      "device_scope": "仅其他设备：README覆盖A2/A3/A5及相应CANN配套；未取得310P直接支持证据。",
+      "boundary": "通信模式、token规模、EP规模、拓扑、精度和计算通信重叠条件决定适用性。库自述生产可用不替代本地验收；通信带宽与单核时延不能直接写成模型端到端收益。"
+    },
+    {
+      "id": "ansor",
+      "title": "Ansor: Generating High-Performance Tensor Programs for Deep Learning · OSDI 2020",
+      "url": "https://www.usenix.org/system/files/osdi20-zheng.pdf",
+      "kind": "primary_paper",
+      "review_scope": "核对原论文摘要、§4多级分块与§5搜索机制；本轮未复现实验，也未重评全部性能表。",
+      "device_scope": "论文包含CPU/GPU推理工作负载，不提供310P或其他昇腾目标设备证据。",
+      "boundary": "层次搜索空间、进化搜索和学习成本模型用于张量程序调度；不等于LLM自动生成算法，历史基线结果不能直接当作当前目标平台收益。"
+    },
+    {
+      "id": "bytescheduler",
+      "title": "A Generic Communication Scheduler for Distributed DNN Training Acceleration · SOSP 2019",
+      "url": "https://i.cs.hku.hk/~cwu/papers/yhpeng-sosp19.pdf",
+      "kind": "primary_paper",
+      "review_scope": "核对作者原文摘要、§3.2索引片段及ByteScheduler作者代码说明；本轮未取得完整PDF正文，不标作全文审阅。",
+      "device_scope": "分布式训练梯度同步场景，不是推理负载或昇腾设备结果。",
+      "boundary": "张量分块、优先级和依赖代理可提供通信关键路径分析思路；切分调度不等于小消息融合，不能直接外推推理通算重叠或310P支持。"
+    },
+    {
+      "id": "powersgd",
+      "title": "PowerSGD: Practical Low-Rank Gradient Compression for Distributed Optimization · NeurIPS 2019",
+      "url": "https://papers.neurips.cc/paper/9571-powersgd-practical-low-rank-gradient-compression-for-distributed-optimization.pdf",
+      "kind": "primary_paper",
+      "review_scope": "核对§3与Algorithm 1中的低秩因子、幂迭代、warm start及误差反馈；未复现实验。",
+      "device_scope": "分布式训练梯度压缩，不提供推理激活、KV传输或310P运行证据。",
+      "boundary": "是有损梯度近似，必须计入编码、正交化、因子通信、恢复及训练收敛代价；不能写成推理通信压缩已有收益或无损结果。"
+    },
+    {
+      "id": "fa2-primary-expert",
+      "title": "FlashAttention-2：并行任务与warp工作划分",
+      "url": "https://arxiv.org/html/2307.08691v1",
+      "kind": "primary_paper",
+      "review_scope": "核对§3.2–3.3序列维并行和sliced-Q机制、§4.1 A100前向实验条件与结果。",
+      "device_scope": "NVIDIA A100实验与CUDA GPU机制；不是310P实现或收益证据。",
+      "boundary": "前向内核结果不能改写为整模型TTFT/TPOT；训练实验另列，不与推理混用。"
+    },
+    {
+      "id": "fa3-primary-expert",
+      "title": "FlashAttention-3：Hopper异步流水与FP8误差控制",
+      "url": "https://arxiv.org/html/2407.08608v2",
+      "kind": "primary_paper",
+      "review_scope": "核对§3.1–3.3异步供数、GEMM/softmax交错、FP8布局与误差机制；§4.2 Table 2及§4.3 Table 3的条件和消融。",
+      "device_scope": "H100 80GB SXM5及Hopper专属能力；不构成昇腾或310P支持。",
+      "boundary": "指定形状内核时延、合成注意力RMSE和完整模型服务质量不同；不据此承诺TTFT/TPOT或任务损失小于1%。"
+    },
+    {
+      "id": "fa4-primary-expert",
+      "title": "FlashAttention-4：Blackwell流水、softmax与片上数据通路",
+      "url": "https://arxiv.org/html/2603.05451v1",
+      "kind": "primary_paper",
+      "review_scope": "核对§3流水与softmax机制、§5 B200基准及Figure 4对照版本说明。将反向Tensor Memory/2-CTA路径单独标记为训练机制。",
+      "device_scope": "Blackwell B200等原文GPU实现；不构成昇腾支持或310P性能结论。",
+      "boundary": "作者已注明更新版cuDNN吸收技术并有相近表现；论文相对旧基线的倍数不是当前所有实现的领先幅度。"
+    },
+    {
+      "id": "tensorir-primary-expert",
+      "title": "TensorIR：张量程序计算块与硬件张量化约束",
+      "url": "https://arxiv.org/html/2207.04296v2",
+      "kind": "primary_paper",
+      "review_scope": "核对计算块和缓冲区描述、§4.1–4.2 TensorIntrin及表达/索引匹配，未新增未复核的实验倍数。",
+      "device_scope": "通用编译研究，论文CPU/GPU示例；不是310P后端支持证据。",
+      "boundary": "合法变换不等于实测更快；张量指令匹配必须满足具体dtype、layout、storage scope和后端实现。"
+    },
+    {
+      "id": "catlass-official-expert",
+      "title": "CATLASS：昇腾分层矩阵模板与调度样例",
+      "url": "https://gitcode.com/cann/catlass/tree/master",
+      "kind": "official_repository",
+      "review_scope": "核对2026-10-23可读取的master README、发布记录、样例目录与CANN配套表；未复现性能。",
+      "device_scope": "当前表列A2/A3与950PR/DT；未列310P。950上的DSL配套版本另有要求。",
+      "boundary": "不同样例有独立约束；不将缺少完整形状和基线说明的性能概数作为可迁移收益。"
+    },
+    {
+      "id": "cann-fia-850-expert",
+      "title": "CANN FusedInferAttentionScore 8.5.0：推理融合注意力",
+      "url": "https://gitcode.com/cann/ops-transformer/blob/8.5.0/attention/fused_infer_attention_score/README.md",
+      "kind": "official_repository_documentation",
+      "review_scope": "核对8.5.0标签官方README可检索正文的全量/增量功能与产品支持范围；未宣称审核全部接口组合或内核实现。",
+      "device_scope": "标签文档列A2、A3和950PR/DT；不是310P支持证据。",
+      "boundary": "固定历史标签不代表当前所有版本，具体shape、dtype、KV布局和分页约束必须按实际版本逐项查验；无本地性能实测。"
+    },
+    {
+      "id": "cann-add-rms-norm-expert",
+      "title": "CANN AddRmsNorm：相加与RMSNorm融合接口",
+      "url": "https://gitcode.com/cann/ops-nn/blob/master/norm/add_rms_norm/README.md",
+      "kind": "official_repository_documentation",
+      "review_scope": "核对2026-10-23官方索引中README的运算描述、输入输出和产品/dtype表。直接页面受限流，未取得完整实现代码，证据限于可检索的官方文档正文。",
+      "device_scope": "产品表列A2/A3、950PR/DT及Atlas推理系列等；Atlas推理系列有BF16限制；不据类别名称推定每款310P配套。",
+      "boundary": "存在残差输出，不宣称全部中间写回消失；没有同条件时延或模型任务精度结果。"
+    },
+    {
+      "id": "pytorch-flex-fa4-expert",
+      "title": "PyTorch：FlexAttention与FlashAttention-4后端",
+      "url": "https://pytorch.org/blog/flexattention-flashattention-4-fast-and-flexible/",
+      "kind": "official_documentation",
+      "review_scope": "核对2026-03-05官方文章中的FA4后端、CuTe DSL、score_mod/mask_mod、JIT及形状/分页约束；不拼接不同实验的性能倍数。",
+      "device_scope": "Hopper/Blackwell GPU后端；不是TorchNPU、昇腾或310P实现证据。",
+      "boundary": "文章的训练正确性、内核性能与模型服务指标分开；块大小和分页支持有限定，不能推断任意定制逻辑保持相同效率。"
+    },
+    {
+      "id": "cann-grouped-matmul-expert",
+      "title": "CANN GroupedMatmul：格式、类型与量化参数约束",
+      "url": "https://gitcode.com/cann/ops-transformer/tree/master/gmm/grouped_matmul",
+      "kind": "official_repository_documentation",
+      "review_scope": "核对2026-10-23官方可检索README中的功能、产品类型限制、ND/NZ与可选调优参数。直接页面限流，未审完整代码或复测性能。",
+      "device_scope": "产品表分别限定950PR/DT、A2/A3等组合；未建立310P或全部950型号支持结论。",
+      "boundary": "FP8/FP4/INT4名称出现不代表全平台支持；须固定产品、CANN/算子版本、输入布局、scale和完整调用组合。"
+    },
+    {
+      "id": "nccl-algorithms",
+      "title": "NCCL 2.32.3：NCCL_ALGO算法选择",
+      "url": "https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-algo",
+      "kind": "official_documentation",
+      "review_scope": "核对NCCL_ALGO支持算法及默认按拓扑/架构自动选择；不是全部环境变量全文审阅。 本轮补读NCCL_ALGO的NVLS/NVLSTree卸载及按拓扑默认选择，另读PXN说明；不直接给生产环境固定开关建议。",
+      "device_scope": "仅其他设备：NVIDIA CUDA/NCCL，不构成310P或950支持证据。",
+      "boundary": "算法和collective/拓扑/版本匹配；不固定普适消息阈值，不跨后端照搬参数。"
+    },
+    {
+      "id": "nccl-groups",
+      "title": "NCCL Group Calls：聚合launch与调用顺序",
+      "url": "https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/usage/groups.html",
+      "kind": "official_documentation",
+      "review_scope": "核对Aggregated Operations、GroupEnd及Group Operation Ordering Semantics。 重核Aggregated Operations：多collective单次NCCL launch、最外层GroupEnd启动及组内返回未必已入stream；不同rank保持操作顺序。",
+      "device_scope": "仅其他设备：CUDA/NCCL机制。",
+      "boundary": "调用分组与packing/fusion不同；统一发起仍需满足各rank顺序与流依赖，非推理性能保证。"
+    },
+    {
+      "id": "nccl-buffer-registration",
+      "title": "NCCL User Buffer Registration：注册缓冲与直接通信",
+      "url": "https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/usage/bufferreg.html",
+      "kind": "official_documentation",
+      "review_scope": "核对开头一致性约束、NVLS注册条件、注册复用与IB SHARP限制；未执行示例。 补读General Buffer Registration、GPU Direct RDMA、Buffer Registration and PXN：网络注册与PXN互斥，legacy分配器限制与直接访问条件；未运行示例。",
+      "device_scope": "仅其他设备：CUDA/NCCL与相应互联；不是HCCL设备适配证明。",
+      "boundary": "算法、分配器、版本、rank一致性和offset约束不同；注册收益不是无条件零拷贝或模型加速。"
+    },
+    {
+      "id": "taccl",
+      "title": "TACCL: Guiding Collective Algorithm Synthesis using Communication Sketches · NSDI 2023",
+      "url": "https://www.usenix.org/system/files/nsdi23-shah.pdf",
+      "kind": "primary_paper",
+      "review_scope": "核对摘要、§3通信草图与§7.1按collective/消息规模/拓扑对照；未运行代码，未审全部附录。",
+      "device_scope": "仅其他设备：DGX-2与Azure NDv2 GPU拓扑；不构成昇腾运行证据。",
+      "boundary": "合成算法与实测拓扑相关；历史NCCL基线、具体消息区间和训练结果不可外推任意推理平台。"
+    },
+    {
+      "id": "horovod-paper",
+      "title": "Horovod: fast and easy distributed deep learning in TensorFlow",
+      "url": "https://arxiv.org/abs/1802.05799",
+      "kind": "primary_paper",
+      "review_scope": "核对论文标题、版本与摘要的ring-reduction分布式训练定位；Tensor Fusion细节另据项目官方文档。",
+      "device_scope": "分布式训练框架机制；不是推理或310P性能证据。",
+      "boundary": "摘要审阅，不声称全文重审；训练通信证据不可改写为LLM推理收益。"
+    },
+    {
+      "id": "horovod-tensor-fusion",
+      "title": "Horovod Tensor Fusion：就绪张量的融合缓冲流程",
+      "url": "https://horovod.readthedocs.io/en/stable/tensor-fusion_include.html",
+      "kind": "official_project_documentation",
+      "review_scope": "核对同dtype/ready筛选、融合buffer、pack/allreduce/unpack与阈值/cycle参数。",
+      "device_scope": "通用训练侧消息融合机制；无昇腾目标设备直接证据。",
+      "boundary": "实际会增加内存搬运和等待；不是NCCL group API同义词，也不是推理激活可跨层聚合的证明。"
+    },
+    {
+      "id": "mooncake-paper-v5",
+      "title": "Mooncake: A KVCache-centric Disaggregated Architecture for LLM Serving · v5",
+      "url": "https://arxiv.org/html/2407.00079v5",
+      "kind": "primary_paper",
+      "review_scope": "核对2026-10-08 v5身份、§3架构与KV传输、§5分离/流水和实验设备描述；未重评全部性能图。",
+      "device_scope": "论文直接评估GPU集群；不提供310P、950全型号通信支持证据。",
+      "boundary": "整体系统效果含缓存复用、P/D分离和调度，不能归因RDMA或单个通信算子；本文不追认所有版本的后续实现。"
+    },
+    {
+      "id": "mooncake-architecture",
+      "title": "Mooncake Architecture：数据面、注册内存与拓扑选路",
+      "url": "https://kvcache-ai.github.io/Mooncake/design/architecture.html",
+      "kind": "official_project_documentation",
+      "review_scope": "核对Design principles与Transfer Engine组件：控制/数据分离、注册buffers、多NIC与路径选择；非全部transport文档全文审阅。",
+      "device_scope": "跨硬件通用机制；文档提及Ascend但本条不证明310P/950特定transport或配置。",
+      "boundary": "backend随构建、内存位置和拓扑不同；架构能力不是任意环境零拷贝和端到端收益承诺。"
+    },
+    {
+      "id": "flux",
+      "title": "Flux: Fast Software-based Communication Overlap on GPUs through Kernel Fusion · v2",
+      "url": "https://arxiv.org/html/2406.06858v2",
+      "kind": "primary_paper",
+      "review_scope": "核对§3细粒度融合、§4.1 tile顺序、§5.2模型/基线/阶段结果与§6小m负收益边界；未复现实验。",
+      "device_scope": "仅其他设备：A100/H800 GPU与其互联；不是昇腾内核可直接移植证明。",
+      "boundary": "阶段加速不自动等于TTFT/TPOT；shape、互联、并行度和历史基线决定结果，小m可能无收益。"
+    },
+    {
+      "id": "sgl-deepep-ascend-api",
+      "title": "SGLang DeepEP-Ascend：通信模式、量化与FuseMode",
+      "url": "https://github.com/sgl-project/sgl-kernel-npu/blob/main/python/deep_ep/README.md",
+      "kind": "official_project_repository_documentation",
+      "review_scope": "核对Normal/Low-Latency模式、量化表、FuseMode及A2平台说明；没有运行内核或全量审查代码。 补读当前raw官方子README的架构感知low-latency量化、MXFP4边界、三种FuseMode及激活限制；主分支未锁SHA，不推广为所有版本。",
+      "device_scope": "文档按A2/A3/A5区分；本条没有310P直接支持证据，不确认用户950型号。",
+      "boundary": "A2/A3 use_fp8参数可能选择INT8；A2双机normal不支持量化。子API/主README口径须锁定版本，不混入其他同名DeepEP实现。"
+    },
+    {
+      "id": "deepseek-deepep-ascend",
+      "title": "DeepSeek DeepEP-Ascend：950DT验证栈与EPBuffer边界",
+      "url": "https://github.com/deepseek-ai/DeepEP-Ascend",
+      "kind": "official_project_repository",
+      "review_scope": "核对Requirements、Performance计时边界、API compatibility、Ongoing与buffer生命周期；未跑测试。",
+      "device_scope": "仅具体已报告栈：950DT/CANN9.2.0及手工配置PoC HDK；不能推定310P或所有950型号支持。",
+      "boundary": "PP/Engram/Bucket属实验；部分归约与负载均衡kernel未实现，hybrid通信/图捕获不支持。公开HDK计划不等于已公开且已验证发布，示例排除final epilogue。"
+    },
+    {
+      "id": "cachegen-v6",
+      "title": "CacheGen: KV Cache Compression and Streaming for Fast Large Language Model Serving · SIGCOMM 2024 / v6",
+      "url": "https://arxiv.org/html/2310.07240v6",
+      "kind": "primary_paper",
+      "review_scope": "核对v6身份、§5.2编码机制、Table1、§7.1设备/模型与§7.2总体时延；未运行作者仓库。 重核Table1的Mistral-7B模型/LongChat数据集与622MB/176MB及1.00/0.98；论文将context处理称TTFT，但不可套作任意完整服务TTFT或稳态TPOT。",
+      "device_scope": "仅其他设备：A40 GPU与指定长上下文模型/数据；非Ascend或当前业务直接证据。",
+      "boundary": "量化有损、算术编码对量化符号无损；远端KV取回与上下文处理时间、完整请求TTFT及稳态TPOT有不同计时边界；旧v3模型和性能数字不能混用v6。"
+    },
+    {
+      "id": "cannbot-overview",
+      "title": "CannBot Skills：核心概念、开发路径与插件迁移",
+      "url": "https://gitcode.com/cann/cannbot-skills",
+      "kind": "official_project_repository",
+      "review_scope": "2026-10-23核对hicann镜像README的项目架构、技能分工及迁移公告；GitCode直接读取受限。未安装或执行插件，未锁定master提交SHA。",
+      "device_scope": "覆盖多条昇腾开发路径；每种语言、技能与模板的芯片范围独立核对，不统一推定310P/910B/950全部支持。",
+      "boundary": "技能描述开发职责，不是运行成功率或性能证据；已迁移插件的冻结副本不当作当前应用入口。"
+    },
+    {
+      "id": "cannbot-add-template",
+      "title": "CannBot Add直调模板：分核、缓冲与搬算流程",
+      "url": "https://gitcode.com/cann/cannbot-skills/blob/master/ops/ascendc-direct-invoke-template/references/add_custom/op_kernel/add_custom_kernel.asc",
+      "kind": "official_repository_documentation",
+      "review_scope": "2026-10-23读取hicann master镜像全文，静态核对float输入、GetBlockIdx、TilingData、InitBuffer与CopyIn/Compute/CopyOut；未锁定提交SHA，未取得配套Host/tiling.h并运行。",
+      "device_scope": "教学与源码审阅线索；未据模板推定310P、910B或950具体支持。DataCopyPad等API按实际目标重新核对。",
+      "boundary": "多片循环的GM访问未见逐片offset，非末核片数向下取整还依赖Host整除条件；均为待完整工程核查点，不能称已验证正确实现。页面伪代码为机制重绘。"
+    },
+    {
+      "id": "cannbot-tiling",
+      "title": "CannBot Tiling：核间切分、UB切片、缓冲与分支覆盖",
+      "url": "https://gitcode.com/cann/cannbot-skills/blob/master/ops/ascendc-tiling-design/SKILL.md",
+      "kind": "official_project_documentation",
+      "review_scope": "核对hicann镜像SKILL正文的分类、四项通用设计要素与A2/A3/A5分代说明；不把其中用满UB的启发式追认为普适最优规律。",
+      "device_scope": "正文明确不同架构的UB容量和指令有差异；不外推310P。",
+      "boundary": "缓冲大小与tile需结合流水、并行和实际耗时比较；UB使用率高不是性能最优的充分条件。"
+    },
+    {
+      "id": "cannbot-buffer",
+      "title": "CannBot队列参数勘误：TQue depth与InitBuffer num",
+      "url": "https://gitcode.com/cann/cannbot-skills/tree/master/plugins-official/ops-direct-invoke/workflows",
+      "kind": "official_repository_documentation",
+      "review_scope": "核对官方目录检索正文所载!579修复说明：depth与Double Buffer的num不同，修正相关模板及工作流。直接页面受限，未取得提交SHA。",
+      "device_scope": "Ascend C队列与缓冲编程概念；具体API适用版本和设备另核。",
+      "boundary": "修复说明不证明所有分支模板都通过设备验收；配置多个缓冲也不保证搬算实际重叠或性能翻倍。"
+    },
+    {
+      "id": "cannbot-precision",
+      "title": "CannBot精度标准：按数值语义与dtype选择验证路径",
+      "url": "https://gitcode.com/cann/cannbot-skills/blob/master/ops/ops-precision-standard/SKILL.md",
+      "kind": "official_project_documentation",
+      "review_scope": "核对hicann镜像技能入口中的随机/非计算/整数/量化/浮点分流、独立标杆与边界测试入口；没有把不同版本参考阈值混写为统一规则。",
+      "device_scope": "测试方法；不证明任一目标芯片的精度达标或模型任务质量。",
+      "boundary": "算子数值误差和业务任务精度损失分开；规则应与所采用版本的参考文件及算子输出契约对应。"
+    },
+    {
+      "id": "cannbot-profiling",
+      "title": "CannBot Profiling：可比计时、瓶颈分析与结果归档",
+      "url": "https://gitcode.com/cann/cannbot-skills/blob/master/ops/ops-profiling/SKILL.md",
+      "kind": "official_project_documentation",
+      "review_scope": "核对hicann镜像性能技能入口的标准计时、对比采集、分析和可视化职责；不同缓存版本协议存在差异，本页不混写成已锁定的固定计时规程。",
+      "device_scope": "依赖真实NPU、配套CANN和采集能力；不承诺所有采集项支持310P或未知950型号。",
+      "boundary": "单算子、公开调用入口与整模计时不同；完整核序列与同步需计入，不能按工具名称推断实际收益。"
+    },
+    {
+      "id": "cannbot-comm-compute",
+      "title": "CannBot通算融合：通信、计算与融合路径分别测量",
+      "url": "https://gitcode.com/cann/cannbot-skills/blob/master/ops/ascendc-perf-optimize/references/comm-compute/index.md",
+      "kind": "official_project_documentation",
+      "review_scope": "核对hicann镜像中通信/计算/融合隔离测量、最慢rank和资源竞争的分析方法；未审查全部示例实现或运行。",
+      "device_scope": "通算融合的方法资料；目标芯片、通信后端、卡间连接与rank规模必须分别验证。",
+      "boundary": "性能方法不等于所有集合算法或传输压缩都已实现；并行划分改变另归调度，不把GM到UB搬运当作跨卡通信。"
+    },
+    {
+      "id": "kernelbench-v1",
+      "title": "KernelBench: Can LLMs Write Efficient GPU Kernels? · v1",
+      "url": "https://arxiv.org/html/2502.10517v1",
+      "kind": "primary_paper",
+      "review_scope": "核对§3任务/指标、Table1执行反馈预算及L40S基线、§4.4/附录G跨GPU差异；未运行框架。",
+      "device_scope": "GPU证据：L40S主实验及列明其他GPU对照；不是Ascend NPU后端或收益证据。",
+      "boundary": "fast_p为总任务中正确且超过速度门槛的比例；预算、基线、硬件和数值配置不可省略，不能与正确样本平均倍数混用。"
+    },
+    {
+      "id": "kernelagent-hardware-report",
+      "title": "KernelAgent: Hardware-Guided GPU Kernel Optimization via Multi-Agent Orchestration · PyTorch",
+      "url": "https://pytorch.org/blog/kernelagent-hardware-guided-gpu-kernel-optimization-via-multi-agent-orchestration/",
+      "kind": "official_project_documentation",
+      "review_scope": "核对2026-03-06官方报告的硬件反馈流程、100个L1任务、H100/静态shape/Graph关闭基线与计时；未独立复现实验。",
+      "device_scope": "GPU直接报告：NVIDIA H100；不构成NPU端口或跨硬件性能证明。",
+      "boundary": "官方工程报告不是同行评审论文；65/100与1.56×对应特定torch.compile对照，2.02×另对照早期正确性循环。SOL口径不等于全kernel达到理论最优。"
+    },
+    {
+      "id": "kernelbench-verified-v1",
+      "title": "KernelBench-Verified: Do LLM-Generated Kernels Actually Beat PyTorch? · v1",
+      "url": "https://arxiv.org/html/2607.16241v1",
+      "kind": "primary_paper",
+      "review_scope": "核对§2问题排除、H200、best-of-5、隐藏分布与TF32对照，以及§3/附录C正确样本几何平均；未复现。",
+      "device_scope": "GPU直接实验：NVIDIA H200；不是NPU生成/性能证据。",
+      "boundary": "实际活跃题目247，正确率与速度分母不同；单轮5样本不等于多轮Agent搜索。对照数值模式仍需符合任务契约，不重复引用正文有问题的TF32位宽描述。"
+    },
+    {
+      "id": "cuda-programming-model",
+      "title": "CUDA编程模型：线程层次与硬件相关执行",
+      "url": "https://docs.nvidia.com/cuda/cuda-programming-guide/01-introduction/programming-model.html",
+      "kind": "official_documentation",
+      "review_scope": "核对官方编程模型的grid/block/warp/thread与执行组织，用于NVIDIA GPU范围的机制说明；未据此重审每一代GPU指令。",
+      "device_scope": "NVIDIA CUDA GPU；不代表全部GPU，更不构成昇腾映射或支持证据。",
+      "boundary": "寄存器、共享内存、矩阵与异步能力按具体架构核查；线程参数不机械对应昇腾分核参数。"
+    },
+    {
+      "id": "triton-autotune",
+      "title": "Triton autotune：配置空间、key与重复执行约束",
+      "url": "https://triton-lang.org/main/python-api/generated/triton.autotune.html",
+      "kind": "official_documentation",
+      "review_scope": "核对Config列表、key与reset_to_zero/restore_value等接口说明；未执行调优。",
+      "device_scope": "通用Triton调优API；具体后端与硬件支持另核。",
+      "boundary": "只比较给定候选配置，不证明搜索所有算法或找到全局最优；有状态输出需考虑多次运行的影响。"
+    },
+    {
+      "id": "triton-ascend-360",
+      "title": "Triton-Ascend v3.6.0：2026-10-16发布与兼容矩阵",
+      "url": "https://github.com/triton-lang/triton-ascend/releases/tag/v3.6.0",
+      "kind": "official_repository_documentation",
+      "review_scope": "核对固定tag及短提交97e8a2b、Release Notes与配套表：布局/缓存/多缓冲/CV流水、CANN9.2及950限定能力。",
+      "device_scope": "A2/A3：CANN8.5/9.0/9.1/9.2；950PR/DT：9.1/9.2。未列310P。",
+      "boundary": "发布说明没有提供本地shape上的时延保证；profiling页SoC枚举不等于编译后端支持，部分能力仅950。"
+    },
+    {
+      "id": "pypto-introduction",
+      "title": "PyPTO官方简介：Tensor与Pro的职责及硬件分工",
+      "url": "https://pypto.gitcode.com/guide/introduction.html",
+      "kind": "official_documentation",
+      "review_scope": "核对Tensor/Pro编程模式、图转换、SPMD/MPMD职责与两套产品支持表；不与其他社区同名实现混用。",
+      "device_scope": "简介列Tensor的A2/A3、950PR/DT等；Pro仅950PR/DT，A2/A3不支持；未列310P。",
+      "boundary": "简介中的支持不等于所有API、形状或dtype均覆盖；当前版本单独验证，不能沿用旧教程状态作当前结论。"
+    },
+    {
+      "id": "ascend-programming-model",
+      "title": "Ascend C：Scalar、Vector、Cube与数据搬运编程模型",
+      "url": "https://www.hiascend.com/document/detail/zh/canncommercial/80RC2/developmentguide/opdevg/Ascendcopdevg/atlas_ascendc_10_0038.html",
+      "kind": "official_historical_documentation",
+      "review_scope": "核对官方历史编程模型，解释Ascend C SIMD路径的计算与搬运职责；不是所有代际统一架构手册。",
+      "device_scope": "历史Ascend C编程模型；具体SoC/API需对应版本核验。",
+      "boundary": "不是每个算子均使用Cube；各级片上存储的可用范围、容量和同步按架构核查。"
+    },
+    {
+      "id": "ascend-3510-architecture",
+      "title": "CANN 3510架构：SIMD、SIMT及混合编程边界",
+      "url": "https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/910/programug/Ascendcopdevg/docs/guide/编程指南/编程模型/AI-Core-SIMD编程/抽象硬件架构.md",
+      "kind": "official_documentation",
+      "review_scope": "核对3510代际新增SIMT/寄存器与混合编程的架构说明，防止把GPU/SIMT与NPU/SIMD作互斥分类。",
+      "device_scope": "对应3510与具体产品/版本；不外推310P。",
+      "boundary": "各编程模式与API支持分别确认，不能由新代际提供某能力推定所有昇腾芯片都支持。"
+    },
+    {
+      "id": "kernelevolve-paper-named-a",
+      "title": "KernelEvolve：异构加速器的代理式内核生成，arXiv v4",
+      "url": "https://arxiv.org/html/2512.23236v4",
+      "kind": "primary_paper",
+      "review_scope": "核对§3检索/搜索/硬件评测架构、§4 ATen跨平台正确性及搜索轨迹、§5.1卷积基线和分布外退化。arXiv元数据列v4修订为2026-07-06，但HTML正文另列技术报告日期2026-08-24；不把正文日期当首投日期。",
+      "device_scope": "原文NVIDIA/AMD GPU与Meta MTIA案例；没有建立Ascend310P、910B或950支持。",
+      "boundary": "正确性覆盖不等于全部配置加速；基础算子、专门化卷积与生产模型吞吐属于不同证据层级。未独立复现。"
+    },
+    {
+      "id": "kernelevolve-official-named-a",
+      "title": "Meta Engineering：KernelEvolve系统与生产应用说明",
+      "url": "https://engineering.fb.com/2026/04/02/developer-tools/kernelevolve-how-metas-ranking-engineer-agent-optimizes-ai-infrastructure/",
+      "kind": "official_documentation",
+      "review_scope": "核对2026-04-02官方文章的系统身份、异构硬件、知识检索、反馈搜索与工程部署定位。页面概述的强性能表述不能覆盖论文中逐实验的正确性与基线条件。",
+      "device_scope": "Meta使用的NVIDIA、AMD、MTIA与CPU生态；不是任意新加速器开箱可用证明。",
+      "boundary": "官方生产案例不能替代公开同条件复现，不能把模型吞吐比例改写为每个算子或昇腾收益。"
+    },
+    {
+      "id": "kernelblaster-paper-named-a",
+      "title": "KernelBlaster：Memory-Augmented In-Context RL，arXiv v1",
+      "url": "https://arxiv.org/html/2602.14293v1",
+      "kind": "primary_paper",
+      "review_scope": "核对§3上下文策略与replay机制、Table2–3搜索预算/有效率/速度、§4.1–4.4计量和正确性口径、成本与完整模型限制。未把摘要汇总倍数代替逐硬件结果。",
+      "device_scope": "NVIDIA A6000/A100/H100/L40S CUDA实验；此补充的数字只引用H100。",
+      "boundary": "核周期与应用层计时、成功任务速度与全任务成功率、原生CUDA与允许库调用的结果不能混用；无昇腾支持或本地实测。"
+    },
+    {
+      "id": "kernelblaster-repo-named-a",
+      "title": "NVlabs KernelBlaster：公开优化框架与验证harness",
+      "url": "https://github.com/NVlabs/KernelBlaster",
+      "kind": "official_repository",
+      "review_scope": "核对README的init.cu/driver.cpp输入、NCU反馈、持久知识库和replay流程、final_rl_cuda_perf.cu输出及eager/compile标杆脚本；未执行仓库脚本。",
+      "device_scope": "NVIDIA CUDA与Nsight Compute工具链；不是跨GPU/NPU通用安装包。",
+      "boundary": "代码公开不代表已在目标环境复现；初始化代码质量、依赖、预算与验证harness均影响结果。"
+    },
+    {
+      "id": "avo-paper-named-a",
+      "title": "AVO：Agentic Variation Operators for Autonomous Evolutionary Search",
+      "url": "https://arxiv.org/html/2603.24517v1",
+      "kind": "primary_paper",
+      "review_scope": "确认AVO全称与NVIDIA身份；核对§3代理变异及版本接受机制，§4.1–4.4 B200条件、基线版本、序列范围、搜索预算及因果/非因果结果，§5具名微架构优化。",
+      "device_scope": "NVIDIA B200注意力前向prefill；不是通用所有GPU或Ascend支持。",
+      "boundary": "7天探索成本与较强专家基线是判断价值的重要条件；最大吞吐增益不是平均时延改善，未报告完整模型TTFT/TPOT。"
+    },
+    {
+      "id": "avo-official-named-a",
+      "title": "NVIDIA官方：AVO长时自主代理的系统说明",
+      "url": "https://developer.nvidia.com/blog/nvidia-avo-reaches-100-on-arc-agi-3-demonstrating-a-frontier-level-general-purpose-architecture-for-long-horizon-autonomous-agents/",
+      "kind": "official_documentation",
+      "review_scope": "核对2026-08-21官方文章对AVO名称、长期记忆/监督器/执行反馈及此前7天GPU内核研究的解释；不将ARC-AGI-3分数纳入算子生成性能证据。",
+      "device_scope": "内核案例是DGX B200；通用代理其他任务的成绩不等于其他芯片的算子生成支持。",
+      "boundary": "不把第三方同名实现当NVIDIA开源项目；此文未提供本轮可验证的官方复现系统包，未声称安装或执行。"
+    },
+    {
+      "id": "cuda-agent-paper",
+      "title": "CUDA Agent：Agentic RL、硬件沙箱与KernelBench Table1",
+      "url": "https://cuda-agent.github.io/static/pdf/CUDA_Agent_Arxiv_Version.pdf",
+      "kind": "primary_paper",
+      "review_scope": "核对2026-02-27论文§3技能/奖励与训练、§4.1 H20沙箱/任务/指标、Table1及评测轮数；区分摘要与表内比例矛盾，未复现。",
+      "device_scope": "NVIDIA H20执行沙箱与CUDA路径；不是NPU生成或性能证据。",
+      "boundary": "正确率、更快率与正确解速度聚合分开；200轮轨迹与单次采样不同，训练成本不等于免训练Agent。未据GPU结果推断310P、910B或950收益。"
+    },
+    {
+      "id": "ascendoptimizer-v2",
+      "title": "AscendOptimizer v2：910B2上的Kernel改写与Host Tiling搜索",
+      "url": "https://arxiv.org/html/2603.23566v2",
+      "kind": "primary_paper",
+      "review_scope": "核对v2日期、§3 Rewind/检索/分块搜索、§4.1设备/基线/230预算、§4.2–4.3结果与独立消融；未复现。",
+      "device_scope": "Ascend910B2 / CANN8.3；不是310P或950支持证据。",
+      "boundary": "已有实现优化；101题分母、样本筛选与预算必须保留，v1数据不混入。性能经验的可迁移性需在新算子、shape及设备上重新证明。"
+    },
+    {
+      "id": "streamk-primary-round2",
+      "title": "Stream-K: Work-centric Parallel Decomposition for Dense Matrix-Matrix Multiplication on the GPU · v1",
+      "url": "https://arxiv.org/html/2301.03598v1",
+      "kind": "primary_paper",
+      "review_scope": "2026-10-23核对v1日期2023-01-09；§3数据并行/Fixed-split、§4按MAC循环分解、§5混合策略、§6设备/32,824形状/表2及附录A.1的模型示例。未复现实验。",
+      "device_scope": "直接实验为NVIDIA A100、108SM、400W/1005MHz；FP16输入FP32累加/输出与FP64。不是Ascend设备支持或性能证据。",
+      "boundary": "表2Average不改写为几何平均；保留最小值退化。部分和、同步和缓存错位成本不能省略；附录模型选择不伪装实测结果。"
+    },
+    {
+      "id": "marlin-primary-round2",
+      "title": "MARLIN: Mixed-Precision Auto-Regressive Parallel Inference on Large Language Models · v1",
+      "url": "https://arxiv.org/html/2408.11743v1",
+      "kind": "primary_paper",
+      "review_scope": "2026-10-23核对v1日期2024-08-21；§3.3混合精度挑战、§3.4权重/scale预排、共享存储布局、解包到FP16及Tensor Core流水。本轮只新增机制，不采纳摘要峰值及端到端倍数。",
+      "device_scope": "论文此处讨论NVIDIA Ampere类GPU与CUDA Tensor Core执行机制；INT4权重存储、FP16激活及反量化执行。不是昇腾直接证据。",
+      "boundary": "INT4存储不等于原生INT4×INT4矩阵指令；预处理、scale和解包成本需一起核算。不给未逐实验条件核对的速度、TTFT、TPOT或模型质量数字。"
+    }
+  ]
+}

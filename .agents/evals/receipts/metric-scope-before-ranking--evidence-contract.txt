@@ -1,0 +1,1 @@
+PASS: 8 evidence-contract cases; rejects metric relabeling, missing conditions and causal overclaim

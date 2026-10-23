@@ -6,12 +6,72 @@ import re
 import json
 from html import escape
 
+COMPRESSION_ROUTE_IDS = ('precision', 'selection', 'distillation', 'factorization')
+
+
+def compression_route_terms(root):
+    """Use the reader's canonical mechanism terms for the portal's route labels."""
+    path = root/'data'/'compression'/'tables'/'ic_map_terms'/'rows.jsonl'
+    terms = {}
+    for line in path.read_text(encoding='utf-8').splitlines():
+        if not line.strip():
+            continue
+        item = json.loads(line)
+        if not item.get('deleted'):
+            row = item['row']
+            if row.get('facet_id') == 'mechanism':
+                terms[row['term_id']] = row
+    missing = [term_id for term_id in COMPRESSION_ROUTE_IDS if term_id not in terms]
+    if missing:
+        raise ValueError('Missing canonical compression routes: '+', '.join(missing))
+    return [terms[term_id] for term_id in COMPRESSION_ROUTE_IDS]
+
+
+def compression_route_cards(terms, local_reader):
+    return ''.join(
+        '<a class="card" data-compression-route="'+escape(term['term_id'], quote=True)+
+        '" href="'+escape(local_reader+'?month=2026-10#route-'+term['term_id'], quote=True)+
+        '"><span class="tag">推理压缩研究路线</span><h3>'+escape(term['name_zh'])+
+        '</h3><p>'+escape(term['description_zh'])+
+        '</p><span class="more">查看研究路线 <i>→</i></span></a>'
+        for term in terms
+    )
+
+
+def update_compression_map(map_html, route_cards):
+    """Replace only this branch; the other five root branches remain intact."""
+    pattern = r'(<section class="group" id="compression">.*?<div class="grid">)(.*?)(</div></section>)'
+    match = re.search(pattern, map_html, flags=re.S)
+    if not match:
+        raise ValueError('AI Infra compression branch not found')
+    old_count = len(re.findall(r'class="card"', match.group(2)))
+    map_html = map_html[:match.start(2)]+route_cards+map_html[match.end(2):]
+    count_pattern = r'(<b>)(\d+)(</b><span>二级技术节点</span>)'
+    map_html = re.sub(
+        count_pattern,
+        lambda count: count.group(1)+str(int(count.group(2))-old_count+len(COMPRESSION_ROUTE_IDS))+count.group(3),
+        map_html,
+        count=1,
+    )
+    map_html = map_html.replace(
+        '下方两个节点分别进入模型量化与模型小型化。',
+        '四个节点直接进入对应的推理压缩研究路线。',
+    )
+    map_html = map_html.replace(
+        '沿用已有对象 × 方法专题体系。',
+        '沿四条研究路线查看原理、进展与证据。',
+    )
+    return map_html
+
+
 def integrate(root):
     source=root/'research'/'ai-infra'/'dist'
     target=root/'dist'/'ai-infra'
     target.mkdir(parents=True,exist_ok=True)
     original='https://c1b3ie6ayp-sworks-lrigit-tpc.ru.yxsbase.win/business_insight/cloud_core/index.html'
     local_reader='/business_insight/cloud_core/index.html'
+    compression_terms=compression_route_terms(root)
+    route_cards=compression_route_cards(compression_terms,local_reader)
     navigation='<div class="infra-navigation"><nav class="infra-primary" aria-label="AI Infra 主导航"><a class="selected" href="index.html">技术地图</a><a href="'+original+'#view-updates" title="查看原推理压缩站点的本期动态">本期动态 ↗</a><a href="'+original+'#view-home" title="查看原推理压缩站点的洞察报告">洞察报告 ↗</a><a href="'+original+'#view-reports" title="查看原推理压缩站点的洞察归档">洞察归档 ↗</a></nav><nav class="infra-support" aria-label="研究辅助入口"><a href="'+original+'#view-sources" title="查看信息源目录">信息来源 ↗</a><a href="methods.html">研究方法</a></nav></div>'
     navigation=navigation.replace(original,local_reader).replace('原推理压缩站点','推理压缩').replace(' ↗','')
     for f in source.iterdir():
@@ -27,6 +87,7 @@ def integrate(root):
         text=text.replace('</header>','</header>'+navigation)
         text=text.replace('</head>','<link rel="stylesheet" href="funnel.css"></head>')
         if f.name=='index.html':
+            text=update_compression_map(text,route_cards)
             text=text.replace('href="'+original+'#view-topics" target="_blank" rel="noopener noreferrer" title="打开原有完整推理压缩内容"','href="'+local_reader+'#view-topics" title="查看推理压缩研究专题"')
             text=text.replace('点击一级标题「推理压缩」打开原有完整内容','点击一级标题「推理压缩」进入完整专题目录')
             workflow='''<section class="evidence-funnel" aria-labelledby="funnel-title"><p class="eyebrow">FROM SIGNALS TO INSIGHT</p><h2 id="funnel-title">信息筛选与内容沉淀</h2><p>广泛寻找线索，逐层核对，最终留下与业务问题相关、值得学习或验证的技术。</p><ol><li><b>01 · 广泛采集</b><span>从论文、官方文档、开源仓库与产业资讯中寻找线索。</span></li><li><b>02 · 去重与时间筛选</b><span>合并重复报道，区分首次发布、版本更新和历史资料。</span></li><li><b>03 · 按根技术归类</b><span>对应技术地图，说明它处理什么挑战、采用什么路线。</span></li><li><b>04 · 核对关键证据</b><span>回到原文核对模型、测试条件、指标与适用边界。</span></li><li><b>05 · 筛出业务价值</b><span>明确值得验证的具体技术、预期收益及下一步实验。</span></li></ol><div class="funnel-outcomes"><article><h3>研究专题 · 沉淀长期知识</h3><p>吸收经核对的基本原理、关键挑战、技术路线与适用条件。</p></article><article><h3>本期动态 · 记录当月变化</h3><p>收录当月新增论文、版本和产业进展，说明相对已有路线的新变化。</p></article><article><h3>洞察报告 · 形成取舍建议</h3><p>综合事实与业务约束，给出优先验证、继续跟踪或暂缓投入的判断。</p></article></div><p class="funnel-status">流程说明：这是后续采用的研究工作方式。目前内容来自定向选源与原文核查，尚未实现全部信息源的自动采集与筛选。</p></section>'''
@@ -38,7 +99,7 @@ def integrate(root):
     shutil.copy2(root/'content'/'funnel.css',target/'funnel.css')
     template=(target/'compression-quantization.html').read_text(encoding='utf-8')
     topics=json.loads((root/'research'/'ai-infra'/'compression-topics.json').read_text(encoding='utf-8'))['rows']
-    body='<a class="back" href="index.html#compression">← 根技术地图</a><p class="eyebrow">AI INFRA / 推理压缩</p><h1>推理压缩</h1><p class="lead">从模型量化与模型小型化进入研究，再按权重、激活和 KV Cache 查看具体技术。以业务质量为约束，判断容量、时延和吞吐能否获得实际收益。</p><div class="grid"><a class="card" href="compression-quantization.html"><h3>模型量化</h3><p>通过低比特表示与误差控制，研究更低的存储和读取成本。</p><span class="more">进入专题 →</span></a><a class="card" href="compression-small.html"><h3>模型小型化</h3><p>通过剪枝、蒸馏与低秩分解，研究更紧凑的部署模型。</p><span class="more">进入专题 →</span></a></div><section class="prose"><h2>按压缩对象深入研究</h2><p>保留已有专题及证据。以下为内容快照，原站交互演示与报告附件仍可通过完整内容入口查看。</p><div class="grid">'
+    body='<a class="back" href="index.html#compression">← 根技术地图</a><p class="eyebrow">AI INFRA / 推理压缩</p><h1>推理压缩</h1><p class="lead">按研究路线进入，再按权重、激活和 KV Cache 查看具体技术及证据。</p><div class="grid">'+route_cards+'</div><section class="prose"><h2>按压缩对象深入研究</h2><p>保留已有专题及证据。以下为内容快照，原站交互演示与报告附件仍可通过完整内容入口查看。</p><div class="grid">'
     for item in sorted(topics,key=lambda x:x['row']['position']):
         t=item['row']
         body+='<a class="card" href="topic-'+escape(t['compression_topic_id'])+'.html"><h3>'+escape(t['title_zh'])+'</h3><p>'+escape(t['question_zh'])+'</p><span class="more">阅读专题 →</span></a>'
@@ -49,7 +110,7 @@ def integrate(root):
     branches=[
         ('evaluation','性能评测','先建立可比较的性能基线，再定位计算、访存、通信或排队瓶颈。',['evaluation-1']),
         ('hardware','硬件加速','围绕容量、带宽、计算和隔离能力，判断硬件供给与资源复用是否匹配业务。',['hardware-1','hardware-2']),
-        ('compression','推理压缩','以质量为约束，通过更紧凑的数值表示或模型结构降低部署成本。',['compression-quantization','compression-small']),
+        ('compression','推理压缩','沿研究路线查看原理、进展与证据，再按压缩对象深入具体专题。',[]),
         ('iteration','迭代算法加速','复用已有结果、跳过低价值计算，或减少昂贵的串行执行。',['iteration-1','iteration-2','iteration-3']),
         ('operators','算子定制加速','将算法收益落实到计算与通信内核，减少搬运、启动和同步成本。',['operators-1','operators-2']),
         ('scheduling','组合调度加速','协调模型、请求和设备，在业务时延约束下提高资源利用率。',['scheduling-1','scheduling-2','scheduling-3','scheduling-4'])]
@@ -57,6 +118,8 @@ def integrate(root):
     map_html=map_file.read_text(encoding='utf-8')
     for key,title,intro,children in branches:
         overview='<a class="back" href="index.html#'+key+'">← 根技术地图</a><p class="eyebrow">AI INFRA / 根技术</p><h1>'+title+'</h1><p class="lead">'+intro+'</p><section class="verdict"><span class="tag">研究路径</span><h2>从具体瓶颈进入，沿技术路线验证收益。</h2></section><section class="prose"><h2>二级技术</h2><div class="grid">'
+        if key=='compression':
+            overview+=route_cards
         for child in children:
             child_html=(target/(child+'.html')).read_text(encoding='utf-8')
             name=re.search(r'<h1>(.*?)</h1>',child_html,re.S).group(1)
@@ -64,8 +127,7 @@ def integrate(root):
             overview+='<a class="card" href="'+child+'.html"><h3>'+name+'</h3><p>'+description+'</p><span class="more">进入研究专题 →</span></a>'
         overview+='</div></section><section class="prose"><h2>如何开展研究</h2><p>先确认业务瓶颈，再比较机制与实现条件。对照原始依据选择候选技术，用相同模型、负载和质量指标验证实际收益。</p><a href="methods.html">查看研究方法 →</a></section>'
         if key=='compression':
-            # Detailed topics below already provide direct entry points.
-            overview=re.sub(r'<section class="prose"><h2>二级技术</h2>.*?</section>', '', overview, flags=re.S)
+            # Route links enter the maintained reader directly, without an extra hub.
             overview+=body[body.index('<section class="prose"><h2>按压缩对象'):]
         page=re.sub(r'<main id="main">.*?</main>','<main id="main">'+overview+'</main>',template,flags=re.S)
         page=re.sub(r'<title>.*?</title>','<title>'+title+' · AI Infra 根技术</title>',page)
@@ -76,3 +138,5 @@ def integrate(root):
     map_file.write_text(map_html,encoding='utf-8')
     from compression_site import build as build_compression
     build_compression(root)
+    from operator_research_site import build as build_operator_research
+    build_operator_research(root)

@@ -1,0 +1,23 @@
+{
+  "lesson_id": "metric-scope-before-ranking",
+  "lesson_sha256": "b187ce3a7a79195fea2c2dc27494f5c4e7a077240c67c309d2fdf88066450e56",
+  "checked_at": "2026-10-23T14:33:54.084140+00:00",
+  "passed": true,
+  "checks": {
+    "skill-tree": true,
+    "evidence-contract": true
+  },
+  "files": {
+    "docs/EXPERT-QUALITY-20261023.md": "ba1b355b2b25757cb1fece1a59f4db89a57f270259be2c80884a0c942ffc942b",
+    "research/source-audits/20261023-expert/kivi/source.md": "c27ebffb842367c9da409507c805c14b0bce49b25675a8491671c9792b41f951",
+    ".agents/skills/ccn-evidence-review/references/claim-contract.md": "d4441e6b4ec235f439a7e60f561237acd15a5e124002c92d0bad12569b699eb8"
+  },
+  "check_scripts": {
+    "scripts/validate_insight_skills.py": "e842bf97cdbdd2c8d8657ea655b24c87c9c7aa21ca8cad610d0c72e7cce53c40",
+    "scripts/insight_topic.py": "fa0ef85947b5cd8e574ce47be6cbaa8a9d37026402dcea4397ee86239ee483f2"
+  },
+  "logs": {
+    ".agents/evals/receipts/metric-scope-before-ranking--skill-tree.txt": "87636eecf4081eb7e0509b3067494b2c39c3649ca93825449f027dd490fe7cda",
+    ".agents/evals/receipts/metric-scope-before-ranking--evidence-contract.txt": "95aa3eccd388abf2357cce6bf66838f8ecb26ed4ea1609a3f90d02a5bf7f7d67"
+  }
+}

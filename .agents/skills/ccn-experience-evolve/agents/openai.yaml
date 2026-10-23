@@ -1,0 +1,4 @@
+interface:
+  display_name: "CCN 经验传承与进化"
+  short_description: "将真实反馈沉淀为有触发边界、验证回执和维护者决策的可复用经验"
+  default_prompt: "使用 $ccn-experience-evolve 整理本次实践中的可复用经验，验证后记录决策与交接。"

@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-10-23",
+  "scope": "Targeted primary-passage review for inference-compression topic revision, not exhaustive literature collection or full-paper review.",
+  "operations": {
+    "canonical_cards_updated": 4,
+    "canonical_refs_updated": 4,
+    "tables_changed": [
+      "ic_compression_topic_cards",
+      "ic_compression_topic_card_refs"
+    ],
+    "source_ids_preserved": true,
+    "source_catalog_modified": false,
+    "public_site_modified": false,
+    "independent_reproduction": false,
+    "canonical_cards_added": 1,
+    "canonical_refs_added": 1
+  },
+  "reviews": [
+    {
+      "card_id": "kv_cache-precision__case_kivi",
+      "source_id": "source-3ab07c12f815b21f4a366f64",
+      "primary_url": "https://arxiv.org/html/2402.02750v2",
+      "version": "arXiv:2402.02750v2 (2024-07-25)",
+      "fetched": true,
+      "review_depth": "section_review",
+      "locators": [
+        "Section 3.3",
+        "Section 4.1",
+        "Tables 3–4",
+        "Section 4.2.4",
+        "Figure 5"
+      ],
+      "issue": "Abstract multipliers did not expose the tested workload, batch-size changes or task-specific quality differences.",
+      "resolution": "Separate method, measured quality, efficiency conditions and attribution boundary.",
+      "unreviewed": "Other tables/appendix experiments and independent implementation reproduction."
+    },
+    {
+      "card_id": "kv_cache-precision__case_qjl",
+      "source_id": "source-a98daa16efef8d90dcccf7ed",
+      "primary_url": "https://arxiv.org/html/2406.03482v2",
+      "version": "arXiv:2406.03482v2 (2024-07-18)",
+      "fetched": true,
+      "review_depth": "section_review",
+      "locators": [
+        "Definition 3.1",
+        "Algorithm 1",
+        "Section 3.2",
+        "Section 4",
+        "Tables 1–2",
+        "Figure 3 and surrounding discussion"
+      ],
+      "issue": "Projected sign bits, retained norms and single-attention-layer timing were insufficiently explicit.",
+      "resolution": "State representation and runtime denominators; show task-specific quality instead of treating the abstract no-drop summary as universal.",
+      "unreviewed": "Complete theoretical proofs, all runtime curves and independent reproduction."
+    },
+    {
+      "card_id": "kv_cache-precision__msmodelslim_implementation",
+      "source_id": "source-msmodelslim-kvcache",
+      "primary_url": "https://msmodelslim.readthedocs.io/zh-cn/latest/zh/knowledge_base/quantization_algorithms/kvcache_quant/term_kvcache_quant/",
+      "version": "latest documentation retrieved 2026-10-23; unpinned software release",
+      "fetched": true,
+      "review_depth": "section_review",
+      "locators": [
+        "Section 2.4",
+        "Section 2.6"
+      ],
+      "issue": "The generic implementation reference omitted concrete integration constraints.",
+      "resolution": "Add supported representation, cache API prerequisites and fake-quantization versus real-memory boundary.",
+      "unreviewed": "Pinned source-code implementation, device-specific runtime support and measured speed/memory benefits."
+    },
+    {
+      "card_id": "kv_cache-factorization__case_asvd",
+      "source_id": "source-be495abfc6aaf41dbb879c9d",
+      "primary_url": "https://arxiv.org/html/2312.05821v5",
+      "version": "arXiv:2312.05821v5 (2025-08-28)",
+      "fetched": true,
+      "review_depth": "section_review",
+      "locators": [
+        "Sections 3.3–3.5",
+        "Section 4.3",
+        "Table 3"
+      ],
+      "issue": "The abstract no-performance-drop statement hid table-level perplexity differences.",
+      "resolution": "Preserve the cache-ratio denominator and show model/dataset-specific quality values; keep serving metrics unreported.",
+      "unreviewed": "Other compression tables, full appendix, long-context retrieval and independent runtime reproduction."
+    },
+    {
+      "card_id": "kv_cache-compact_architecture__boundary_deltalog",
+      "source_id": "source-4e2799c6e5f5758e6ed41ce0",
+      "primary_url": "https://arxiv.org/html/2608.15533v1",
+      "version": "arXiv:2608.15533v1 (2026-08-16)",
+      "fetched": true,
+      "review_depth": "section_review",
+      "locators": [
+        "Sections 3.1–3.4 / Algorithm 1 / Equations 7–11",
+        "Section 4: state allocator and phase-specific graph scheduling",
+        "Section 5.1 / Table 3",
+        "Section 5.3 / Figure 8",
+        "Section 5.5 / Figure 12",
+        "Section 5.6 / Table 4",
+        "Section 6"
+      ],
+      "issue": "A reviewed inventory paper had not been absorbed into a long-term topic; treating deferred writes as low-bit KV quantization would create a classification error.",
+      "resolution": "Add a related execution-boundary analysis under compact architectures, explicitly separating recurrent-state write traffic from cache capacity and quantization. Keep August publication identity; do not add it as a new October paper.",
+      "unreviewed": "Full-paper completeness, implementation reproduction, task-level accuracy, TTFT and Ascend performance."
+    }
+  ],
+  "additional_primary_reads_without_content_change": [
+    {
+      "url": "https://msmodelslim.readthedocs.io/zh-cn/latest/zh/knowledge_base/quantization_mode/kv_cache_quantization/",
+      "scope": "Sections 2.1 and 4: KV mode and processor entrypoint; not a release-pinned implementation audit."
+    },
+    {
+      "url": "https://msmodelslim.readthedocs.io/zh-cn/latest/zh/user_guide/usage_quick_quantization/",
+      "scope": "Command/configuration entrypoint only; model/device support matrix and all processor configurations not audited."
+    },
+    {
+      "url": "https://arxiv.org/html/2306.08543v6",
+      "scope": "Sections 2.1–2.2, Table 1 and Section 3.4/Table 4 inspected; no MiniLLM card changed."
+    }
+  ],
+  "fetch_limits": [
+    {
+      "url": "https://msmodelslim.readthedocs.io/zh-cn/msmodelslim/ir/attention.py",
+      "result": "Documentation source link failed; do not claim pinned code inspection."
+    }
+  ],
+  "coverage_exclusions": [
+    "No claim that all 16 topics or all 189 canonical cards have fresh section-level verification.",
+    "No whole-field or October-window systematic search was run in this subtask.",
+    "No new measurements for Qwen3.8-27B, domain models, 310P, 910B or the unspecified 950 device.",
+    "Publication dates and retrieval dates remain distinct; latest documentation is not a pinned release."
+  ],
+  "routing_decisions": [
+    {
+      "paper": "DeltaLog",
+      "excluded_topic": "kv_cache-precision",
+      "reason": "Deferred recurrent-state materialization changes write scheduling; it is not a quantization method or a new attention architecture.",
+      "absorbed_as": "kv_cache-compact_architecture__boundary_deltalog",
+      "role": "Related execution-boundary analysis, not another root compression route."
+    }
+  ]
+}

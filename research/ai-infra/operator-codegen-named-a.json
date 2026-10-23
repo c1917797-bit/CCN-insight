@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-23",
+  "scope": "核对KernelEvolve、KernelBlaster和AVO的原论文与官方项目。这里只记录作者证据，没有运行代码或独立复现实验。不同任务、基线、有效率和搜索预算不能直接合并排名。",
+  "evidence_rows": [
+    {
+      "id": "kernelevolve-coverage",
+      "platform": "异构加速器：NVIDIA H100、AMD MI350、Meta MTIA v3",
+      "work": "KernelEvolve：硬件知识检索与反馈树搜索",
+      "date": "2025-12-29首投；本轮核对arXiv v4",
+      "mechanism": "把规格转成多候选搜索；按目标硬件检索约束，将编译、正确性和profiling反馈传给后续节点，并持久化有用经验。生成与硬件评测解耦，不能把多平台覆盖理解成同一段内核无需重写。",
+      "conditions": "v4 §4：160个ATen基础算子×3平台，对照torch.compile后的PyTorch参考，以TritonBench的torch.allclose及相应容差验证。六个搜索轨迹示例展示先独立生成、再反馈扩展至约50步；该示例不是全部实验统一预算。",
+      "result": "作者报告480个算子—平台组合全部通过正确性检查；这项证据主要说明覆盖与数值一致性。正文示例中add的速度仍约为参考的0.70倍，不能把100%正确写成100%更快。",
+      "limit": "未核到对310P、910B或950的实现支持；MTIA不是昇腾。未给该覆盖实验的整模型TTFT/TPOT或统一搜索总成本，容差通过也不是任意输入下的逐位等价证明。",
+      "source_ids": [
+        "kernelevolve-paper-named-a",
+        "kernelevolve-official-named-a"
+      ]
+    },
+    {
+      "id": "kernelevolve-conv-case",
+      "platform": "NVIDIA H100 GPU",
+      "work": "KernelEvolve：生产形状卷积专门化案例",
+      "date": "arXiv v4；2026-10-23核对",
+      "mechanism": "针对推荐模型的实际形状生成并迭代卷积实现，比较直接conv1d与转成channels_last conv2d的优化路径，区分专门化收益和通用性。",
+      "conditions": "§5.1：FP16；(B,Cin,Cout,L)=(2048,96,96,200)；基线分别为torch.nn.functional.conv1d，以及重排为2D、使用channels_last的conv2d。原文数值验证atol=1e-4、rtol=5e-4；该案例的完整搜索token/时长预算未在核对段落给出。",
+      "result": "该形状作者报告相对conv1d为2.30倍、相对优化conv2d为1.62倍；同文分布外形状案例出现0.49–0.63倍，说明形状专门化可能退化。",
+      "limit": "卷积算子案例不是LLM整模型服务收益，不能改写成昇腾加速、量化质量结论或通用2.30倍。更强基线会显著缩小相对收益。",
+      "source_ids": [
+        "kernelevolve-paper-named-a"
+      ]
+    },
+    {
+      "id": "kernelblaster-h100",
+      "platform": "NVIDIA CUDA GPU；此行数值限定H100",
+      "work": "KernelBlaster：持久CUDA经验库与上下文策略更新",
+      "date": "2026-02-15；arXiv v1",
+      "mechanism": "从初始CUDA与C++ harness出发，用Nsight Compute状态定位瓶颈；检索经验、生成修改、执行验证，把轨迹写入replay buffer并改写自然语言策略。这里的in-context RL更新的是上下文知识，不是声称每轮训练模型权重。",
+      "conditions": "Table 2–3、§4：GPT-4.1/GPT-5.0；KernelBench L1、L2和L3子集；10次迭代×每次10步rollout。基线取torch.eager与torch.compile较快者；本方法以NCU汇总核elapsed cycles，不能与别的方法应用层计时不加区分地比较。",
+      "result": "H100表3：L1有效率86%，成功运行上的几何平均1.497倍；L2为81%、2.592倍；L3子集为67%、1.110倍。有效率表示通过相应验证的比例，不是超越基线的比例；本文不将这些条件速度换算为全任务平均，也不与不同计时口径的系统直接排名。",
+      "limit": "CUDA/NCU原型不能直接在昇腾运行；原生CUDA与允许cuDNN调用的实验应分开。有效率受初始代码、功能和soft-verification检查影响；LLM检查不是正确性证明。未给TTFT/TPOT或昇腾复现。",
+      "source_ids": [
+        "kernelblaster-paper-named-a",
+        "kernelblaster-repo-named-a"
+      ]
+    },
+    {
+      "id": "avo-b200-attention",
+      "platform": "NVIDIA Blackwell B200 GPU",
+      "work": "AVO：Agentic Variation Operators，代理自主决定变异步骤",
+      "date": "2026-03-25；arXiv v1",
+      "mechanism": "让代理读取版本谱系、硬件知识和执行反馈，自主规划、编辑、测试与修复；通过正确性门槛后保留不劣的新版本，监督器在停滞时换方向。论文分析了去分支重缩放、correction/MMA重叠和warp组寄存器再分配。",
+      "conditions": "§4：B200、CUDA13.1、PyTorch2.10.0；前向prefill，BF16、head dimension128、MHA16头，序列4096/8192/16384/32768且总token固定32768；对照cuDNN9.19.1及FA4 commit71bf77c。连续7天探索500多个方向，保留40版；每组实验重复10次。",
+      "result": "因果MHA吞吐相对cuDNN提升0.4%–3.5%，相对FA4提升5.0%–10.5%；非因果短序列差异在测量噪声范围内。最大值不代表全部形状或通用平均收益。",
+      "limit": "只证明指定B200前向注意力条件下的作者结果，不是解码TPOT、整模型TTFT或昇腾能力。AVO在此明确指NVIDIA论文；第三方同名复现不是官方发布。本轮未核到可直接复现实验的官方系统包。",
+      "source_ids": [
+        "avo-paper-named-a",
+        "avo-official-named-a"
+      ]
+    }
+  ],
+  "source_additions": [
+    {
+      "id": "kernelevolve-paper-named-a",
+      "title": "KernelEvolve：异构加速器的代理式内核生成，arXiv v4",
+      "url": "https://arxiv.org/html/2512.23236v4",
+      "kind": "primary_paper",
+      "review_scope": "核对§3检索/搜索/硬件评测架构、§4 ATen跨平台正确性及搜索轨迹、§5.1卷积基线和分布外退化。arXiv元数据列v4修订为2026-07-06，但HTML正文另列技术报告日期2026-08-24；不把正文日期当首投日期。",
+      "device_scope": "原文NVIDIA/AMD GPU与Meta MTIA案例；没有建立Ascend310P、910B或950支持。",
+      "boundary": "正确性覆盖不等于全部配置加速；基础算子、专门化卷积与生产模型吞吐属于不同证据层级。未独立复现。"
+    },
+    {
+      "id": "kernelevolve-official-named-a",
+      "title": "Meta Engineering：KernelEvolve系统与生产应用说明",
+      "url": "https://engineering.fb.com/2026/04/02/developer-tools/kernelevolve-how-metas-ranking-engineer-agent-optimizes-ai-infrastructure/",
+      "kind": "official_documentation",
+      "review_scope": "核对2026-04-02官方文章的系统身份、异构硬件、知识检索、反馈搜索与工程部署定位。页面概述的强性能表述不能覆盖论文中逐实验的正确性与基线条件。",
+      "device_scope": "Meta使用的NVIDIA、AMD、MTIA与CPU生态；不是任意新加速器开箱可用证明。",
+      "boundary": "官方生产案例不能替代公开同条件复现，不能把模型吞吐比例改写为每个算子或昇腾收益。"
+    },
+    {
+      "id": "kernelblaster-paper-named-a",
+      "title": "KernelBlaster：Memory-Augmented In-Context RL，arXiv v1",
+      "url": "https://arxiv.org/html/2602.14293v1",
+      "kind": "primary_paper",
+      "review_scope": "核对§3上下文策略与replay机制、Table2–3搜索预算/有效率/速度、§4.1–4.4计量和正确性口径、成本与完整模型限制。未把摘要汇总倍数代替逐硬件结果。",
+      "device_scope": "NVIDIA A6000/A100/H100/L40S CUDA实验；此补充的数字只引用H100。",
+      "boundary": "核周期与应用层计时、成功任务速度与全任务成功率、原生CUDA与允许库调用的结果不能混用；无昇腾支持或本地实测。"
+    },
+    {
+      "id": "kernelblaster-repo-named-a",
+      "title": "NVlabs KernelBlaster：公开优化框架与验证harness",
+      "url": "https://github.com/NVlabs/KernelBlaster",
+      "kind": "official_repository",
+      "review_scope": "核对README的init.cu/driver.cpp输入、NCU反馈、持久知识库和replay流程、final_rl_cuda_perf.cu输出及eager/compile标杆脚本；未执行仓库脚本。",
+      "device_scope": "NVIDIA CUDA与Nsight Compute工具链；不是跨GPU/NPU通用安装包。",
+      "boundary": "代码公开不代表已在目标环境复现；初始化代码质量、依赖、预算与验证harness均影响结果。"
+    },
+    {
+      "id": "avo-paper-named-a",
+      "title": "AVO：Agentic Variation Operators for Autonomous Evolutionary Search",
+      "url": "https://arxiv.org/html/2603.24517v1",
+      "kind": "primary_paper",
+      "review_scope": "确认AVO全称与NVIDIA身份；核对§3代理变异及版本接受机制，§4.1–4.4 B200条件、基线版本、序列范围、搜索预算及因果/非因果结果，§5具名微架构优化。",
+      "device_scope": "NVIDIA B200注意力前向prefill；不是通用所有GPU或Ascend支持。",
+      "boundary": "7天探索成本与较强专家基线是判断价值的重要条件；最大吞吐增益不是平均时延改善，未报告完整模型TTFT/TPOT。"
+    },
+    {
+      "id": "avo-official-named-a",
+      "title": "NVIDIA官方：AVO长时自主代理的系统说明",
+      "url": "https://developer.nvidia.com/blog/nvidia-avo-reaches-100-on-arc-agi-3-demonstrating-a-frontier-level-general-purpose-architecture-for-long-horizon-autonomous-agents/",
+      "kind": "official_documentation",
+      "review_scope": "核对2026-08-21官方文章对AVO名称、长期记忆/监督器/执行反馈及此前7天GPU内核研究的解释；不将ARC-AGI-3分数纳入算子生成性能证据。",
+      "device_scope": "内核案例是DGX B200；通用代理其他任务的成绩不等于其他芯片的算子生成支持。",
+      "boundary": "不把第三方同名实现当NVIDIA开源项目；此文未提供本轮可验证的官方复现系统包，未声称安装或执行。"
+    }
+  ],
+  "editorial_judgment": [
+    "KernelEvolve值得吸收的是跨硬件约束检索和正确性覆盖，不是把正确率写成加速率；生产形状专门化必须同时展示分布外退化。",
+    "KernelBlaster值得吸收的是把实测成败转成可检索经验；需要同时保留有效率、成功集速度、计量方式和搜索预算。",
+    "AVO值得吸收的是让代理在一次变异内部自主查证、测试和修复；7天长时搜索取得的尾部收益，不能包装为一次提示生成的效果。",
+    "三项方法可启发昇腾生成流程设计，但它们的原始硬件结果都不能证明310P、910B或950可以直接运行或获得同等收益。"
+  ]
+}

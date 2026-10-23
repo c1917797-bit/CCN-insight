@@ -1,0 +1,11 @@
+{
+  "updated_at":"2026-10-23",
+  "evidence":[
+    {"id":"gpu-cuda-agent","platform":"GPU / NVIDIA H20（论文执行沙箱池）","kind":"academic","work":"CUDA Agent · 大规模Agentic RL","date":"2026-02-27 · arXiv:2602.24286v1 / Table1","mechanism":"6K合成任务、受保护的验证/计时环境、多阶段预热与多轮PPO训练，把编译、调试和profiling行为纳入优化策略。","conditions":"KernelBench 250题（100/100/50），Seed1.6为基础模型；论文执行环境为128张H20组成的独占沙箱池，评测每题最多200轮交互，从轨迹中取最快正确实现；基线torch.compile。","result":"Table1整体通过98.8%（247/250），正确且快于compile为96.8%（242/250）；相对compile速度指标2.11×，仅在正确解上统计并按层汇总。L3表内为94%通过、90%更快、1.52×。","limit":"摘要的L1/L3更快比例与Table1不一致，此处按表列结果；不能称一次生成成功率或全部250题平均提速。专用训练和长轨迹成本不同于免训练检索搜索，不是Ascend代码或模型TTFT/TPOT结果。","source_ids":["cuda-agent-paper"]},
+    {"id":"npu-ascendoptimizer","platform":"NPU / Ascend 910B2 · CANN8.3","kind":"academic","work":"AscendOptimizer · 经验检索与Host–Kernel协同优化","date":"2026-05-16 · arXiv:2603.23566v2","mechanism":"从高效核移除优化，保留实测变慢的改动并反向提炼变换经验；在线先用经验改写Kernel，再以真机反馈搜索Host Tiling，交替推进。无需额外训练模型。","conditions":"筛选出的101个可编译、正确且时延稳定的cann-ops算子；DeepSeek-V3.2。每题230次硬件评估（经验构建20、在线210），失败与超时也占预算；同预算比较BoN与OpenEvolve。","result":"全部101题几何平均1.21×，53.47%（54/101）快于原参考。独立消融：带经验Kernel改写1.16×，去经验1.09×，仅Tiling1.02×；组合1.21×，说明结构改写与参数搜索承担不同作用。","limit":"这是已有实现优化，不是从零生成通过率；v1的127题/1.19×不能混入v2。基线从可运行稳定样本筛选，非所有算子普遍收益；平均约2分钟/硬件评估的成本也需考虑。没有310P或950复现，也没有整模TTFT/TPOT。","source_ids":["ascendoptimizer-v2"]}
+  ],
+  "source_additions":[
+    {"id":"cuda-agent-paper","title":"CUDA Agent：Agentic RL、硬件沙箱与KernelBench Table1","url":"https://cuda-agent.github.io/static/pdf/CUDA_Agent_Arxiv_Version.pdf","kind":"primary_paper","review_scope":"核对2026-02-27论文§3技能/奖励与训练、§4.1 H20沙箱/任务/指标、Table1及评测轮数；区分摘要与表内比例矛盾，未复现。","device_scope":"NVIDIA H20执行沙箱与CUDA路径；不是NPU生成或性能证据。","boundary":"正确率、更快率与正确解速度聚合分开；200轮轨迹与单次采样不同，训练成本不等于免训练Agent。未据GPU结果推断310P、910B或950收益。"},
+    {"id":"ascendoptimizer-v2","title":"AscendOptimizer v2：910B2上的Kernel改写与Host Tiling搜索","url":"https://arxiv.org/html/2603.23566v2","kind":"primary_paper","review_scope":"核对v2日期、§3 Rewind/检索/分块搜索、§4.1设备/基线/230预算、§4.2–4.3结果与独立消融；未复现。","device_scope":"Ascend910B2 / CANN8.3；不是310P或950支持证据。","boundary":"已有实现优化；101题分母、样本筛选与预算必须保留，v1数据不混入。性能经验的可迁移性需在新算子、shape及设备上重新证明。"}
+  ]
+}

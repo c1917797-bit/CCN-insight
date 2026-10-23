@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "id": "new-topic",
+  "domain": "new-domain",
+  "title": "研究专题",
+  "question": "这项技术解决什么问题，哪些证据会改变我们的判断？",
+  "status": "draft",
+  "sections": {"background": [], "principles": [], "challenges": [], "routes": []},
+  "sources": [],
+  "claims": [],
+  "judgments": [],
+  "changes": []
+}

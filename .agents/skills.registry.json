@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "selection": "Load the smallest applicable set; topic facts remain in content sources.",
+  "skills": [
+    {"id": "ccn-insight-build", "path": ".agents/skills/ccn-insight-build/SKILL.md", "version": "1.0.0", "status": "active", "when": "新建或细化专家洞察专题、页面结构与阅读体验"},
+    {"id": "ccn-evidence-review", "path": ".agents/skills/ccn-evidence-review/SKILL.md", "version": "1.0.0", "status": "active", "when": "新增技术材料、数值结果或修改技术判断"},
+    {"id": "ccn-experience-evolve", "path": ".agents/skills/ccn-experience-evolve/SKILL.md", "version": "1.0.0", "status": "active", "when": "复用实践经验、规则迭代、验证与维护交接"}
+  ]
+}

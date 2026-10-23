@@ -1,0 +1,303 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-23",
+  "scope": "CCN 本地专家洞察迭代；不代表线上发布、全文复核或实验复现",
+  "status_vocabulary": {
+    "used": "本轮有实际执行；以 actual_execution 的范围与证据为准",
+    "read_borrowed": "阅读并借鉴方法；没有完整执行原技能流程",
+    "available_unexecuted": "已知可用但本轮未执行",
+    "newly_authored": "本仓库新编写；已有检查不等于行为成熟"
+  },
+  "source_pin_policy": "第三方固定提交由本轮浏览器仓库树核对；不据此声称本机安装副本与该提交逐文件相同。内置技能无可核实提交时 pin 为 null。",
+  "entries": [
+    {
+      "id": "web-article-capture",
+      "source": {
+        "owner": "MozhiJiawei",
+        "repository": "web-article-capture",
+        "pin": "b23243de458626bd53093e9114b4a6840234abde",
+        "url": "https://github.com/MozhiJiawei/web-article-capture/tree/b23243de458626bd53093e9114b4a6840234abde"
+      },
+      "status": "used",
+      "transfer": [
+        "来源正文与原图邻近",
+        "记录版本、采集模式、正文边界与失败阶段",
+        "摘要级核查不升级为全文审阅"
+      ],
+      "actual_execution": {
+        "state": "executed_limited",
+        "summary": "对 KIVI、SparseGPT、ThinK 的 arXiv 摘要做渲染页面有限摘录，保留 source package；已有记录说明自带验证器通过。",
+        "evidence_paths": [
+          "research/source-audits/20261023-expert/kivi/source.md",
+          "research/source-audits/20261023-expert/sparsegpt/source.md",
+          "research/source-audits/20261023-expert/think/source.md",
+          "docs/EXPERT-QUALITY-20261023.md"
+        ],
+        "limits": [
+          "rendered partial，仅摘要范围",
+          "未执行 PDF 全文解析或独立复现",
+          "结构通过不证明事实与图片语义正确"
+        ]
+      }
+    },
+    {
+      "id": "ppt-deep-search",
+      "source": {
+        "owner": "MozhiJiawei",
+        "repository": "ppt-deep-search",
+        "pin": "7eb5758f0ffeff933cbced7040b265c180c6a1da",
+        "url": "https://github.com/MozhiJiawei/ppt-deep-search/tree/7eb5758f0ffeff933cbced7040b265c180c6a1da"
+      },
+      "status": "read_borrowed",
+      "transfer": [
+        "先确认来源理解再形成报告",
+        "比较机制、原始证据、对照路线与边界"
+      ],
+      "actual_execution": {
+        "state": "not_executed",
+        "summary": "阅读技能及来源理解编排，借鉴研究方法；未为本轮网站完整执行来源理解 HTML、审批基线及独立视觉 QA 流程。",
+        "evidence_paths": [
+          "docs/MOZHI-PRACTICES-20261023.md"
+        ],
+        "limits": [
+          "未生成本轮 Source Understanding review",
+          "forward-test fixture 不等于运行通过"
+        ]
+      }
+    },
+    {
+      "id": "hw-ppt-gen-html",
+      "source": {
+        "owner": "MozhiJiawei",
+        "repository": "hw-ppt-gen-html",
+        "pin": "0c79a8e4823ffcb8b32e49783d9d7411d94006cd",
+        "url": "https://github.com/MozhiJiawei/hw-ppt-gen-html/tree/0c79a8e4823ffcb8b32e49783d9d7411d94006cd",
+        "attribution": "集成 wrapper；包含 LearnPrompt/humanize-ppt 与 lewislulu/html-ppt-skill 的上游经验"
+      },
+      "status": "read_borrowed",
+      "transfer": [
+        "先叙事规划再渲染",
+        "区分 Report 与 Deck",
+        "导出后由独立检查者审图"
+      ],
+      "actual_execution": {
+        "state": "not_executed",
+        "summary": "阅读流程及已有 showcase 和 QA 证据；本轮网站未完整执行 Humanize-first 渲染，也未生成新 deck。网站浏览器检查属于 CCN 页面验收。",
+        "evidence_paths": [
+          "docs/MOZHI-PRACTICES-20261023.md",
+          "docs/expert-topics-browser-qa-20261023.json"
+        ],
+        "limits": [
+          "既有 showcase 不证明本轮执行",
+          "未将网页交互检查标为该技能独立视觉 QA"
+        ]
+      }
+    },
+    {
+      "id": "grobid-docling-pdf",
+      "source": {
+        "owner": "MozhiJiawei",
+        "repository": "grobid_pdf_skill",
+        "pin": "aa45aa2ca9499e2c8ae740b0e90443b54ad97d95",
+        "url": "https://github.com/MozhiJiawei/grobid_pdf_skill/tree/aa45aa2ca9499e2c8ae740b0e90443b54ad97d95"
+      },
+      "status": "available_unexecuted",
+      "transfer": [
+        "论文文本与原始图表可追溯",
+        "区分图片索引、正文引用和推断关联"
+      ],
+      "actual_execution": {
+        "state": "not_executed",
+        "summary": "已读输出契约，本轮未调用解析 pipeline。",
+        "evidence_paths": [
+          "docs/MOZHI-PRACTICES-20261023.md"
+        ],
+        "limits": [
+          "没有新增 TEI/XML 解析包",
+          "没有论文实验复现"
+        ]
+      }
+    },
+    {
+      "id": "create-single-page-tech-report",
+      "source": {
+        "owner": "Real-UtopiaNo",
+        "repository": "create-single-page-tech-report",
+        "pin": "c1c8b7a06b7f5c61eb2abb94d53cd53f141a83a5",
+        "url": "https://github.com/Real-UtopiaNo/create-single-page-tech-report/tree/c1c8b7a06b7f5c61eb2abb94d53cd53f141a83a5",
+        "attribution": "Mozhi 工作区引入的第三方技能，不归为 MozhiJiawei 原创"
+      },
+      "status": "read_borrowed",
+      "transfer": [
+        "一份简报一个中心问题",
+        "问题、方法、效果及结果边界",
+        "结论与建议使用自然语言"
+      ],
+      "actual_execution": {
+        "state": "not_executed",
+        "summary": "阅读固定版本 SKILL，借鉴技术表达；没有执行单页 PPTX 生成。",
+        "evidence_paths": [
+          "docs/MOZHI-PRACTICES-20261023.md"
+        ],
+        "limits": [
+          "固定 16:9 及动画约束属于 PPT 交付，不迁移到网站",
+          "不据成品外观推断生成技能"
+        ]
+      }
+    },
+    {
+      "id": "ccn-report-reference",
+      "source": {
+        "owner": "MozhiJiawei",
+        "repository": "ccn-report",
+        "pin": "0a028222aeffa7752a56cdf805a3a719ab30e97e",
+        "url": "https://github.com/MozhiJiawei/ccn-report/tree/0a028222aeffa7752a56cdf805a3a719ab30e97e"
+      },
+      "kind": "report_archive",
+      "status": "read_borrowed",
+      "transfer": [
+        "完整技术摘要包括对象、场景、核实指标或状态与时间边界",
+        "单份材料维护后聚合月度报告",
+        "固定版本与增量归档"
+      ],
+      "actual_execution": {
+        "state": "read_only",
+        "summary": "阅读固定版本 README 归档规范；它是报告仓库，不是可执行 skill。",
+        "evidence_paths": [
+          "docs/MOZHI-PRACTICES-20261023.md"
+        ],
+        "limits": [
+          "不复制其十三大类、五十分支",
+          "未取得逐份报告的技能运行清单",
+          "未据此宣称已验证报告中的论文结果"
+        ]
+      }
+    },
+    {
+      "id": "sites",
+      "source": {
+        "kind": "bundled_skill",
+        "pin": null,
+        "bundle_version": "1.1.1",
+        "path": "C:/Users/Huawei/.codex/plugins/cache/openai-curated-remote/sites/1.1.1/skills/sites/SKILL.md"
+      },
+      "status": "used",
+      "transfer": [
+        "本地修改、预览、验证与发布状态分别记录",
+        "唯一主仓库维护后同步发布镜像"
+      ],
+      "actual_execution": {
+        "state": "executed_local_only",
+        "summary": "沿 Sites 工作流进行现有网站的本地维护与浏览器检查；本轮未推送或发布。",
+        "evidence_paths": [
+          "docs/EXPERT-QUALITY-20261023.md",
+          "docs/expert-topics-browser-qa-20261023.json",
+          "docs/PUBLISHING.md"
+        ],
+        "limits": [
+          "不把本地验证当公开部署",
+          "移动端实际视口未生效，尚未验收"
+        ]
+      }
+    },
+    {
+      "id": "skill-creator",
+      "source": {
+        "kind": "bundled_skill",
+        "pin": null,
+        "path": "C:/Users/Huawei/.codex/skills/.system/skill-creator/SKILL.md"
+      },
+      "status": "used",
+      "transfer": [
+        "窄范围、渐进读取、保留用户意图",
+        "按真实任务与反例验证行为"
+      ],
+      "actual_execution": {
+        "state": "executed_authoring",
+        "summary": "按窄技能方法编写 CCN 构筑、证据、经验三项仓库技能；已有结构与回归校验。",
+        "evidence_paths": [
+          ".agents/skills.registry.json",
+          ".agents/skills/ccn-insight-build/SKILL.md",
+          ".agents/skills/ccn-evidence-review/SKILL.md",
+          ".agents/skills/ccn-experience-evolve/SKILL.md",
+          "docs/INSIGHT-MAINTENANCE.md"
+        ],
+        "limits": [
+          "编写与结构验证不证明长期行为成熟"
+        ]
+      }
+    },
+    {
+      "id": "ccn-owned-skills",
+      "source": {
+        "kind": "repository_local",
+        "pin": null,
+        "path": ".agents/skills.registry.json",
+        "pin_note": "本轮未提交工作树；不可将 active 误解为成熟或已发布"
+      },
+      "status": "newly_authored",
+      "transfer": [
+        "页面构筑、证据核对、经验进化各用窄入口",
+        "领域事实仍保存在内容源",
+        "候选经验保留反例与验证证据"
+      ],
+      "actual_execution": {
+        "state": "authored_and_checked",
+        "summary": "三项本地 skill、脚手架、经验校验与回执已建立；候选经验仍依实际状态保留。",
+        "evidence_paths": [
+          ".agents/skills.registry.json",
+          "docs/INSIGHT-MAINTENANCE.md",
+          ".agents/experience/citation-locator-ownership.json",
+          ".agents/experience/metric-scope-before-ranking.json",
+          ".agents/experience/browser-request-is-not-proof.json",
+          ".agents/HANDOFF.md"
+        ],
+        "limits": [
+          "新编写，尚不能称成熟",
+          "未完成充分独立行为验证",
+          "proposed 不等于维护者 accepted",
+          "检查通过不自动发布网站"
+        ]
+      }
+    }
+  ],
+  "operator_iteration_20261023": {
+    "scope": "local operators; five bounded iterations",
+    "used": [
+      "ccn-insight-build",
+      "ccn-evidence-review",
+      "sites local design and QA",
+      "ccn-experience-evolve handoff only"
+    ],
+    "read_borrowed": [
+      "deep-research fact-check perspectives; not full pipeline"
+    ],
+    "evidence": [
+      "docs/OPERATOR-FIVE-ROUNDS-20261023.md",
+      "docs/operator-atlas-browser-qa-20261023.json"
+    ],
+    "not_executed": [
+      "device replication",
+      "PPT generation",
+      "publish",
+      "new lesson acceptance"
+    ]
+  },
+  "operator_platform_20261023": {
+    "scope": "local operator research foundation; typed structure, canonical evidence search and actual editorial revisions",
+    "used": [
+      "ccn-insight-build",
+      "ccn-evidence-review"
+    ],
+    "evidence": [
+      "docs/OPERATOR-PLATFORM-20261023.md",
+      "docs/operator-platform-browser-qa-20261023.json"
+    ],
+    "not_executed": [
+      "new source ingestion pipeline",
+      "automated monitoring",
+      "device replication",
+      "publish"
+    ]
+  }
+}

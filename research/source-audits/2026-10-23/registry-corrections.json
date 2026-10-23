@@ -1,0 +1,326 @@
+[
+  {
+    "channel_id": "channel-223def7e2d5222c764c80c30",
+    "old_url": "https://github.com/frameworksai/graphiti",
+    "new_url": "https://github.com/getzep/graphiti",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-3c244d564c40286c35d4337e",
+    "old_url": "https://github.com/hao-ai-lab/CacheBlend",
+    "new_url": "https://docs.lmcache.ai/kv_cache_optimizations/cacheblend.html",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-46d89cfa75d66ed697c38edc",
+    "old_url": "https://microsoft.github.io/orleans",
+    "new_url": "https://learn.microsoft.com/en-us/dotnet/orleans/overview",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-6c6f1e0ec7a38df2e2e35561",
+    "old_url": "https://github.com/InfiniAI/InfiniGen",
+    "new_url": "https://github.com/snu-comparch/InfiniGen",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-6dc8bc88196635062dd41867",
+    "old_url": "https://github.com/facebookresearch/DistServe",
+    "new_url": "https://github.com/LLMServe/DistServe",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-796c482e11e634605c45cd89",
+    "old_url": "https://github.com/DefiniteSoftware/llm-d",
+    "new_url": "https://github.com/llm-d/llm-d",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-97a1a759d4b9a8a580d664bb",
+    "old_url": "https://github.com/MoonshotAI/Mooncake",
+    "new_url": "https://github.com/kvcache-ai/Mooncake",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-a1e6036943ea08c3884ff8a8",
+    "old_url": "https://github.com/michael-wzhu/HippoRAG",
+    "new_url": "https://github.com/OSU-NLP-Group/HippoRAG",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-a64bce2b77a8a1faeca61346",
+    "old_url": "https://github.com/argmaxinc/distilabel",
+    "new_url": "https://github.com/argilla-io/distilabel",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-dba8930a0d2a02e103013cfe",
+    "old_url": "https://github.com/hao-ai-lab/LMCache",
+    "new_url": "https://github.com/LMCache/LMCache",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-ced7758c4424826fd082146e",
+    "old_url": "https://github.com/tau-bench/tau-bench",
+    "new_url": "https://github.com/sierra-research/tau2-bench",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-d27a60e2db84a73be402cc93",
+    "old_url": "https://github.com/openai/openai-agents",
+    "new_url": "https://github.com/openai/openai-agents-python",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-b0658a590609b49f0bcb3ea9",
+    "old_url": "https://github.com/google-research/google-research/tree/master/bfcl",
+    "new_url": "https://gorilla.cs.berkeley.edu/leaderboard.html",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-9e6d9445176bd58e7a800003",
+    "old_url": "https://docs.vllm.ai/en/latest/latest",
+    "new_url": "https://docs.vllm.ai/en/latest/",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-0ff9c9f371a70f1894e0f732",
+    "old_url": "https://github.com/ggerganov/llama.cpp/releases",
+    "new_url": "https://github.com/ggml-org/llama.cpp/releases",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-cc3f03c7d757e296a1883bce",
+    "old_url": "https://github.com/ggerganov/llama.cpp/discussions",
+    "new_url": "https://github.com/ggml-org/llama.cpp/discussions",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-f607e353de33ad320ec5e107",
+    "old_url": "https://github.com/ggerganov/llama.cpp/tags",
+    "new_url": "https://github.com/ggml-org/llama.cpp/tags",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-e0b57a9463da97feb84cbb29",
+    "old_url": "https://github.com/ggerganov/llama.cpp/discussions/categories/quantization",
+    "new_url": "https://github.com/ggml-org/llama.cpp/discussions/categories/quantization",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-0160e2471287c7d669c6a472",
+    "old_url": "https://github.com/ray-project/kuberay",
+    "new_url": "https://github.com/kuberay-project/kuberay",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-9e08a8c29eb2dc06ea1f6bb2",
+    "old_url": "https://github.com/volcengine/verl",
+    "new_url": "https://github.com/verl-project/verl",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-de487e973f7a8cc08fcea733",
+    "old_url": "https://github.com/princeton-nlp/SWE-bench",
+    "new_url": "https://github.com/SWE-bench/SWE-bench",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-e8434441d222594475a6ed1f",
+    "old_url": "https://github.com/geekan/MetaGPT",
+    "new_url": "https://github.com/FoundationAgents/MetaGPT",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-08a6172e3c97a357a3285c20",
+    "old_url": "https://docs.modal.com",
+    "new_url": "https://modal.com/docs",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-186df582435d6e52cb5ef1b4",
+    "old_url": "https://lmarena.ai",
+    "new_url": "https://arena.ai/",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-71f6d57760e950918dfa6e3f",
+    "old_url": "https://epochai.org",
+    "new_url": "https://epoch.ai/",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-8162918b9a2d57506d8f6d42",
+    "old_url": "https://yq.aliyun.com",
+    "new_url": "https://developer.aliyun.com/",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-de837cb6076cd857da4e45ea",
+    "old_url": "https://www.cerebras.net/blog",
+    "new_url": "https://www.cerebras.ai/blog",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-7e6a159c0865f47d50bf928b",
+    "old_url": "https://blog.langchain.dev",
+    "new_url": "https://www.langchain.com/blog",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-d46e10c7f4eb9a2863b7ff4e",
+    "old_url": "https://mlcommons.org/inference",
+    "new_url": "https://mlcommons.org/working-groups/benchmarks/inference/",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-bda89e5b11d30e4a64213e03",
+    "old_url": "https://reinvent.awsevents.com",
+    "new_url": "https://aws.amazon.com/events/reinvent/",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-8e2dc916b3ff277e0baf5d47",
+    "old_url": "https://pytorch.org/tutorials/recipes/recipes/profiler_recipe.html",
+    "new_url": "https://docs.pytorch.org/tutorials/recipes/recipes/profiler_recipe.html",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-0556400e581ef7b724addb26",
+    "old_url": "https://export.arxiv.org/rss/cs.CL",
+    "new_url": "https://rss.arxiv.org/rss/cs.CL",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-6828bdd04b0a46ec29e3ff58",
+    "old_url": "https://export.arxiv.org/rss/cs.LG",
+    "new_url": "https://rss.arxiv.org/rss/cs.LG",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-6f69f8b1371074db152c5f92",
+    "old_url": "https://export.arxiv.org/rss/cs.DC",
+    "new_url": "https://rss.arxiv.org/rss/cs.DC",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-7290a32dd054b09f054b63a3",
+    "old_url": "https://export.arxiv.org/rss/cs.AI",
+    "new_url": "https://rss.arxiv.org/rss/cs.AI",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-f16b7d8a335bb18f35895c5b",
+    "old_url": "https://export.arxiv.org/rss/cs.CV",
+    "new_url": "https://rss.arxiv.org/rss/cs.CV",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-1453f30341f34b85f5b64730",
+    "old_url": "https://arxiv.org/abs/2204.05856",
+    "new_url": "https://arxiv.org/abs/2204.05862",
+    "reason": "paper title/arXiv identity mismatch corrected",
+    "paper_title": "Training a Helpful and Harmless Assistant with Reinforcement Learning from Human Feedback"
+  },
+  {
+    "channel_id": "channel-2a0ad7b8a037b0b603459fde",
+    "old_url": "https://arxiv.org/abs/2310.15123",
+    "new_url": "https://arxiv.org/abs/2402.02057",
+    "reason": "paper title/arXiv identity mismatch corrected",
+    "paper_title": "Break the Sequential Dependency of LLM Inference Using Lookahead Decoding"
+  },
+  {
+    "channel_id": "channel-7b701548c89db20000572154",
+    "old_url": "https://arxiv.org/abs/2009.11468",
+    "new_url": "https://arxiv.org/abs/2009.11462",
+    "reason": "paper title/arXiv identity mismatch corrected",
+    "paper_title": "RealToxicityPrompts: Evaluating Neural Toxic Degeneration in Language Models"
+  },
+  {
+    "channel_id": "channel-8136d37a5eaa2d2f7c2292e7",
+    "old_url": "https://arxiv.org/abs/2305.16291",
+    "new_url": "https://arxiv.org/abs/2307.16789",
+    "reason": "paper title/arXiv identity mismatch corrected",
+    "paper_title": "ToolLLM: Facilitating Large Language Models to Master 16000+ Real-world APIs"
+  },
+  {
+    "channel_id": "channel-b105f8342a2bad9954adad30",
+    "old_url": "https://arxiv.org/abs/2403.00024",
+    "new_url": "https://arxiv.org/abs/2401.10225",
+    "reason": "paper title/arXiv identity mismatch corrected",
+    "paper_title": "ChatQA: Surpassing GPT-4 on Conversational QA and RAG"
+  },
+  {
+    "channel_id": "channel-b85752d936effd8c3c4832f5",
+    "old_url": "https://arxiv.org/abs/2307.14769",
+    "new_url": "https://arxiv.org/abs/2307.13854",
+    "reason": "paper title/arXiv identity mismatch corrected",
+    "paper_title": "WebArena: A Realistic Web Environment for Building Autonomous Agents"
+  },
+  {
+    "channel_id": "channel-bcb4c35f36031714140889b3",
+    "old_url": "https://arxiv.org/abs/2402.09523",
+    "new_url": "https://arxiv.org/abs/2306.07174",
+    "reason": "paper title/arXiv identity mismatch corrected",
+    "paper_title": "Augmenting Language Models with Long-Term Memory"
+  },
+  {
+    "channel_id": "channel-da5e10dca2c862c0eca03f9e",
+    "old_url": "https://arxiv.org/abs/2404.09502",
+    "new_url": "https://arxiv.org/abs/2303.04947",
+    "reason": "paper title/arXiv identity mismatch corrected",
+    "paper_title": "InfoBatch: Lossless Training Speed Up by Unbiased Dynamic Data Pruning"
+  },
+  {
+    "channel_id": "channel-dc9b9095a92a0fc2009a5950",
+    "old_url": "https://arxiv.org/abs/2310.11702",
+    "new_url": "https://arxiv.org/abs/2405.04437",
+    "reason": "paper title/arXiv identity mismatch corrected",
+    "paper_title": "vAttention: Dynamic Memory Management for Serving LLMs without PagedAttention"
+  },
+  {
+    "channel_id": "channel-e81ae8ed1b192f1297025d81",
+    "old_url": "https://arxiv.org/abs/2405.11129",
+    "new_url": "https://arxiv.org/abs/2402.13753",
+    "reason": "paper title/arXiv identity mismatch corrected",
+    "paper_title": "LongRoPE: Extending LLM Context Window Beyond 2 Million Tokens"
+  },
+  {
+    "channel_id": "channel-f40abee4efe3169267e3e8a7",
+    "old_url": "https://arxiv.org/abs/2308.03263",
+    "new_url": "https://arxiv.org/abs/2305.20050",
+    "reason": "paper title/arXiv identity mismatch corrected",
+    "paper_title": "Let's Verify Step by Step"
+  },
+  {
+    "channel_id": "channel-fa9c9fa548d9b02dbeff0030",
+    "old_url": "https://arxiv.org/abs/2308.16381",
+    "new_url": "https://arxiv.org/abs/2308.16369",
+    "reason": "paper title/arXiv identity mismatch corrected",
+    "paper_title": "SARATHI: Efficient LLM Inference by Piggybacking Decodes with Chunked Prefills"
+  },
+  {
+    "channel_id": "channel-876ad5cefce2633aa5486a8a",
+    "old_url": "https://icml.cc/virtual/2026/papers.html",
+    "new_url": "https://icml.cc/Downloads/2026",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-db2b2a5ac405cefde01e0d4b",
+    "old_url": "https://mlsys.org/Conferences/2025",
+    "new_url": "https://proceedings.mlsys.org/paper_files/paper/2026",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-1221993f54a2c7199b18a2e1",
+    "old_url": "https://www.usenix.org/conference/osdi26",
+    "new_url": "https://www.usenix.org/conference/osdi26/technical-sessions",
+    "reason": "official identity/redirect checked"
+  },
+  {
+    "channel_id": "channel-9f1da1b4c8904073f8970358",
+    "old_url": "https://www.eurosys.org",
+    "new_url": "https://2026.eurosys.org/",
+    "reason": "official identity/redirect checked"
+  }
+]

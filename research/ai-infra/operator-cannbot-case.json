@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-23",
+  "title": "用一个 Add 算子，串起开发与优化",
+  "lead": "以 CannBot 的 Ascend C 直调模板为线索：两个数组逐元素相加，数学上只有一步；映射到 NPU 后，还要决定谁来算、每次搬多少、缓冲怎样周转，以及怎样证明结果正确、执行更快。",
+  "scope": "本页依据公开模板解释机制，图中的数据与分块仅为教学示意；没有在本机运行 CannBot、编译内核或完成 NPU 测试。模板面向的具体芯片与 API 仍须逐项核对。",
+  "formula": "y[i] = x₁[i] + x₂[i]，0 ≤ i < N",
+  "contract": "先讨论同 shape、连续布局的 FP32 数组，与模板中的 float 类型对应。广播、非连续步长、其他 dtype 和原地写入属于需要另行设计的分支。",
+  "template_review": "模板也需要审查。本次取得的 master 镜像中，Process 有多片循环，但 CopyIn / CopyOut 的 GM 访问未见 tileIndex × tileSize 偏移；非末核片数的整除条件还依赖 Host 保证。这是静态审阅发现的待核查点，尚未连同完整 Host 工程执行复现。下图与伪代码按完整分块逻辑重绘，不表示原模板已经正确运行。",
+  "source_ids": [
+    "cannbot-overview",
+    "cannbot-add-template",
+    "cannbot-tiling",
+    "cannbot-buffer",
+    "cannbot-precision",
+    "cannbot-profiling"
+  ],
+  "concepts": [
+    {
+      "id": "target",
+      "name": "目标芯片",
+      "term": "SoC / 架构 / CANN",
+      "question": "这一版实现能在哪个环境执行？",
+      "explanation": "先确定完整 SoC、软件栈与可用 API，再查架构知识。片上容量、指令与搬运约束随代际变化，不能把 950 或 910 的模板直接视为 310P 实现。",
+      "where": "ascendc-env-check → npu-arch",
+      "source_ids": [
+        "cannbot-overview",
+        "cannbot-tiling"
+      ]
+    },
+    {
+      "id": "host",
+      "name": "Host 与 Kernel",
+      "term": "CPU 侧计划 / NPU 侧执行",
+      "question": "谁制定分工，谁真正计算？",
+      "explanation": "Host 侧根据输入与目标设备准备分块参数、启动配置和内存；Device 侧 Kernel 读取这些参数，在各核上执行搬入、加法与写回。Host 不承担这里逐元素的 NPU 运算。",
+      "where": "op_host / TilingData / op_kernel",
+      "source_ids": [
+        "cannbot-add-template",
+        "ascendc"
+      ]
+    },
+    {
+      "id": "tiling",
+      "name": "两级分块",
+      "term": "核间分工 / 核内分批",
+      "question": "每个核算哪段，每次处理多少？",
+      "explanation": "先把不重叠的数据范围分给多个核，再把每核的数据按 tile 分批处理。最后一核和最后一片可能不足整块，必须按有效元素数处理，防止漏算或越界。",
+      "where": "GetBlockIdx / numPerCore / tailNumLastCore",
+      "source_ids": [
+        "cannbot-add-template",
+        "cannbot-tiling"
+      ]
+    },
+    {
+      "id": "memory",
+      "name": "GM 与 UB",
+      "term": "全局内存 / 片上缓冲",
+      "question": "为什么计算前还要搬数据？",
+      "explanation": "本例在 GM 中保存完整输入输出，在 UB 中暂存当前数据片，再由 Vector 单元计算。UB 容量有限，要同时容纳输入、输出和所需临时量；并非把整张量一次装进片上。",
+      "where": "GlobalTensor / LocalTensor / InitBuffer",
+      "source_ids": [
+        "cannbot-add-template",
+        "cannbot-tiling"
+      ]
+    },
+    {
+      "id": "queue",
+      "name": "队列与缓冲",
+      "term": "TQue / TPipe / Buffer",
+      "question": "怎样避免数据还没算完就被覆盖？",
+      "explanation": "队列组织搬运与计算之间的数据交接；分配、入队、出队和释放对应缓冲生命周期。TQue 的 depth 与缓冲个数是两个参数；双缓冲由 InitBuffer 的 num 配置，不能用 depth=2 来解释。",
+      "where": "AllocTensor → EnQue / DeQue → FreeTensor",
+      "source_ids": [
+        "cannbot-add-template",
+        "cannbot-buffer"
+      ]
+    },
+    {
+      "id": "pipeline",
+      "name": "搬算流水",
+      "term": "CopyIn → Compute → CopyOut",
+      "question": "能否搬下一片时计算当前片？",
+      "explanation": "在依赖、搬运引擎、缓冲容量与同步允许时，让不同数据片的阶段重叠。双缓冲增加可周转的存储空间，实际是否重叠、重叠多少，要看目标机时间线。",
+      "where": "DataCopyPad / Add / 队列同步",
+      "source_ids": [
+        "cannbot-add-template",
+        "cannbot-buffer"
+      ]
+    },
+    {
+      "id": "correctness",
+      "name": "独立精度验证",
+      "term": "Golden / 容差 / 边界用例",
+      "question": "编译成功后，怎样知道计算没错？",
+      "explanation": "先用独立参考验证当前产物，再用会暴露分块错误的输入：在可精确表示的小规模FP32测试中令x₁[i]=i、x₂[i]=1000+i，期望y[i]=1000+2i；至少跨两片并含尾片，逐位置比较。若每片都读第一片，输出会出现重复段，恒定输入却可能掩盖它。随后再扩展支持dtype、特殊数值与容差用例。",
+      "where": "ops-precision-standard / 测试与精度调试",
+      "source_ids": [
+        "cannbot-precision"
+      ]
+    },
+    {
+      "id": "profiling",
+      "name": "性能归因",
+      "term": "完整计时 / 各执行管线 / 瓶颈",
+      "question": "慢在搬运、计算、同步，还是提交？",
+      "explanation": "先对齐基线与候选的设备、输入和计时口径，再用 profiling 解释差异。CannBot 的性能技能区分标准计时、对比采集与可视化；应保留原始记录，避免只展示最好一次。",
+      "where": "ops-profiling / msprof / 对比报告",
+      "source_ids": [
+        "cannbot-profiling"
+      ]
+    }
+  ],
+  "route_links": [
+    {
+      "route_id": "memory-reuse",
+      "name": "数据搬运与片上复用",
+      "observation": "独立 Add 没有跨步骤反复使用同一输入的需求，分块不会自动减少理论总读写量。",
+      "action": "检查额外拷贝、无效访问与缓冲开销；有跨操作数据消费时，再寻找真正的片上复用机会。",
+      "source_ids": [
+        "cannbot-add-template"
+      ]
+    },
+    {
+      "route_id": "tile-parallelism",
+      "name": "分块映射与并行流水",
+      "observation": "多核分工决定并行度，tile 与缓冲决定每轮工作量和可重叠空间。两者改变执行组织，不改变 Add 的数学工作量。",
+      "action": "分别比较核数、tile 和缓冲配置；覆盖小输入、大输入与非整块输入，不把更大 tile 或用满 UB 当作最优结论。",
+      "source_ids": [
+        "cannbot-add-template",
+        "cannbot-tiling",
+        "cannbot-buffer"
+      ]
+    },
+    {
+      "route_id": "fusion-launch",
+      "name": "融合与启动优化",
+      "observation": "当 Add 的结果紧接着被归一化等操作消费，才出现减少中间往返和启动次数的机会。",
+      "action": "沿实际输出契约核算哪些读写能省、哪些必须保留；比较完整 Add + 后继操作，不能只比较融合核的一段计算。",
+      "source_ids": [
+        "cann-add-rms-norm-expert"
+      ]
+    },
+    {
+      "route_id": "layout-low-precision",
+      "name": "布局与低精度执行",
+      "observation": "Add 模板中的 FP32 连续输入只是一个分支。改成 FP16/BF16 或带广播的输入，会改变数值语义、访问模式和可用接口。",
+      "action": "把 dtype、stride、对齐及转换成本放进同一实现记录；不能由更少的字节直接推出更快或精度合格。",
+      "source_ids": [
+        "cannbot-add-template",
+        "cannbot-precision"
+      ]
+    }
+  ],
+  "judgments": [
+    {
+      "title": "大 Add：先看数据路径",
+      "text": "按每元素一次加法、两次读和一次写估算，FP32 Add 的理想载荷是 12N 字节，算术强度约 1/12 FLOP/Byte（忽略缓存、事务与额外拷贝）。大输入可能受访存限制；只增加计算指令吞吐未必有用。"
+    },
+    {
+      "title": "小 Add：先看启动占比",
+      "text": "输入很小时，提交、同步与调用开销可能超过有效计算。此时继续放大 tile 不一定改善完整时延，消除冗余调用或与相邻操作融合才值得比较。"
+    },
+    {
+      "title": "双缓冲：隐藏等待，不少搬数据",
+      "text": "它可以为搬算重叠创造条件，但不减少 Add 理想的总读写字节，也不保证性能翻倍。多出的缓冲占用还可能限制 tile 大小；以完整耗时和时间线判断净收益。"
+    }
+  ],
+  "fusion": {
+    "title": "进一步：从 Add 看懂融合为何可能有效",
+    "formula": "z = x + r；y[i] = γ[i] · z[i] / √(mean(z²) + ε)",
+    "description": "下面是数学教学推演；实际接口沿用规定的ε、归约轴与精度。Add各片可以独立相加，RMSNorm各列却共享同一行统计量。手算例中取z=[1,3]、γ=[1,1]、ε=0：整行mean(z²)=5，输出为[1/√5,3/√5]；若把两列当两个独立tile分别归一化，会得到[1,1]，结果已改变。因此列分块必须先合并平方和，再按同一统计量计算输出；还要保留接口规定的z、rstd等输出。",
+    "preserved_output": "若 z 是必需输出：融合仍要把 z 写回 GM；在片上保留并消费 z 的条件下，可以省后继归一化对 z 的重新读取。不能宣称中间读写全部消失。",
+    "internal_only": "若 z 仅为内部中间量：在容量与依赖允许时，才可能同时省去它的 GM 写回和重读。若整行放不下、需要多遍读取，须重新核算。",
+    "precision": "残差相加的中间 dtype 与舍入、归约的累加 dtype、ε 和输出类型都要与参考一致。表达式相同，不代表浮点执行顺序可以任意改变。",
+    "source_ids": [
+      "cann-add-rms-norm-expert"
+    ]
+  },
+  "engineering": {
+    "title": "根技术解释加速，开发方法帮助形成实现",
+    "text": "复用、分块、融合与布局解释执行代价如何变化。CannBot把架构知识、方案设计、代码实现、检查和采集组织成开发方法；它能帮助生成候选，但不能替代机制本身及独立性能证据。",
+    "migration": "截至本次核对，技能仓 README 提示部分插件正迁移到 cannbot 应用仓，包含 ops-direct-invoke、ops-registry-invoke 等。阅读旧工作流时保留来源日期，实际采用时跟随项目当前入口；本页没有安装或执行这些插件。",
+    "source_ids": [
+      "cannbot-overview",
+      "cannbot-tiling"
+    ]
+  }
+}

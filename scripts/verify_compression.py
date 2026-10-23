@@ -7,7 +7,11 @@ sys.path.insert(0,str(root))
 from compression_store import rows
 topics=rows('ic_compression_topics'); cards=rows('ic_compression_topic_cards'); refs=rows('ic_compression_topic_card_refs')
 sources={r['source_id'] for r in rows('compression_sources')}
-for ref in refs: assert ref['source_id'] in sources, ref['source_id']
+card_topics={c['card_id']:c['compression_topic_id'] for c in cards}
+for ref in refs:
+    assert ref['source_id'] in sources, ref['source_id']
+    assert ref['card_id'] in card_topics and card_topics[ref['card_id']]==ref['compression_topic_id'], ref['reference_id']
+    assert ref['review_depth'] in ['abstract_review','section_review'], ref['reference_id']
 for t in topics:
     key=t['compression_topic_id']; html=(out/('topic-'+key+'.html')).read_text(encoding='utf-8')
     assert '<details' not in html

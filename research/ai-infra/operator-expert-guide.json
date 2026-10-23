@@ -1,0 +1,360 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-23",
+  "scope": "编辑分析；提炼已核对材料中的机制与取舍，不代表本地实测或跨平台复现。",
+  "routes": {
+    "memory-reuse": {
+      "delta": "改变中间结果是否落外存、同一数据被加载几次；不以减少数学连接或近似计算换速度。",
+      "tradeoff": "更多片上复用会占用寄存器与缓冲；取消外存中间矩阵后，softmax、同步和片上供数可能成为新瓶颈。",
+      "priority": "长序列注意力的中间矩阵物化、GEMM重复供数值得优先看。只读一次的逐元素Add，不会因为分块就自动减少总字节。",
+      "decision": "把数据流量的结构性下降作为起点，把完整算子耗时作为终点。若只剩片上瓶颈，继续增加复用的优先级应下降。",
+      "reversal": "同语义、同形状下，外存流量已显著下降但耗时持平，或缓冲占用压低并行度；此时应转向流水与映射。",
+      "source_ids": [
+        "flashattention",
+        "fa4-primary-expert",
+        "cannbot-add-template"
+      ],
+      "search_terms": [
+        "FA1",
+        "FA4",
+        "FlashAttention 4"
+      ],
+      "insight": {
+        "title": "复用要有重复消费者，分块本身不创造复用",
+        "paragraphs": [
+          "GEMM的一块A/B会参与多个输出，注意力可以避免物化完整分数矩阵；这两类优化都有明确可减少的数据流。独立Add每元素只读两项、写一项，单纯多缓冲主要用于隐藏等待，不能再声称将理想流量减半。",
+          "外存负担降低后，研究应沿新瓶颈推进到softmax、供数与同步。经典机制仍然有效，但下一项有效优化可能已经换了方向。"
+        ],
+        "source_ids": [
+          "flashattention",
+          "fa4-primary-expert",
+          "cannbot-add-template"
+        ]
+      }
+    },
+    "tile-parallelism": {
+      "delta": "改变工作如何分给核、线程块或warp，以及搬运、矩阵计算和向量计算怎样流水；数学工作可保持不变。",
+      "tradeoff": "大tile提高局部复用，却可能减少并发、扩大尾块；多缓冲隐藏搬运，也会增加容量与同步成本。",
+      "priority": "计算单元利用率低、核间工作不均，或搬运与计算串行时看此路线。小shape往往应先检查启动成本。",
+      "decision": "结构选择先于参数微调：先确定并行维度、生产消费关系与合法缓冲，再搜索tile、核数和流水深度。",
+      "reversal": "更大tile或更深流水使等待、溢出或尾块时间上升，说明局部吞吐已不是目标路径的主导限制。",
+      "source_ids": [
+        "fa3-primary-expert",
+        "cannbot-tiling",
+        "streamk-primary-round2",
+        "catlass-official-expert"
+      ],
+      "search_terms": [
+        "FA2",
+        "FA3",
+        "FlashAttention 3",
+        "Split-K",
+        "Stream-K"
+      ],
+      "insight": {
+        "title": "并行工作量与归约代价，决定是否拆K",
+        "paragraphs": [
+          "输出tile足够多时，每块独立生成输出通常更简单；输出tile少而K长时，Split-K或Stream-K才更可能填满设备。新增部分和、同步与缓存错位会吃掉并行收益。",
+          "Stream-K的A100表2同时有平均1.13×和最差0.64×的结果。真正值得积累的是形状与分解策略的切换条件，而不是“用满核数”这一表面目标。"
+        ],
+        "source_ids": [
+          "streamk-primary-round2",
+          "catlass-official-expert"
+        ]
+      }
+    },
+    "fusion-launch": {
+      "delta": "把相邻阶段合并到更少的提交与执行边界，使内部中间量留在片上；完整模型仍需的输出必须保留。",
+      "tradeoff": "融合会延长活跃数据生命周期，扩大寄存器/缓冲需求，还可能牺牲库中高度优化的独立实现。",
+      "priority": "短核连续启动、逐元素链路或重复中间读写值得看；大GEMM已占主要时间时，先核算融合的增量收益。",
+      "decision": "优先寻找能同时消除一次启动和一次中间量回读的边界。语义允许消去的内部量，比对外承诺的输出更有价值。",
+      "reversal": "融合后必需输出仍要落存，或资源占用导致主计算核退化；这时分离执行加轻量调度可能更优。",
+      "source_ids": [
+        "cann-add-rms-norm-expert",
+        "cannbot-precision",
+        "catlass-official-expert"
+      ],
+      "search_terms": [
+        "RMSNorm",
+        "AddRmsNorm",
+        "FA4"
+      ],
+      "insight": {
+        "title": "可消去的中间量，比减少的API数量更重要",
+        "paragraphs": [
+          "Matmul尾处理可以消费累加结果；Add+RMSNorm还必须满足整行归约。两者都叫融合，但依赖、数据生命周期和可省字节并不相同。",
+          "若残差z还要作为输出，融合只能避免后继重复读，不能顺手删掉写回。对大shape，活跃数据与寄存器需求上升还可能压低并发；应保留分离的强实现作为替代。"
+        ],
+        "source_ids": [
+          "cann-add-rms-norm-expert",
+          "catlass-official-expert"
+        ]
+      }
+    },
+    "layout-low-precision": {
+      "delta": "让生产者的布局、dtype和缩放信息匹配消费者指令；减少或吸收转置、重排、反量化与打包。",
+      "tradeoff": "更小元素不等于更快指令。转换、scale访问、非对齐和数值误差可能抵消低精度计算优势。",
+      "priority": "格式转换占时明显、矩阵核供数不连续，或低比特模型未命中预期内核时看此路线。",
+      "decision": "研究对象应是生产者—表示—消费者的完整链路。模型量化给出可接受的表示，算子研究证明这种表示能被硬件高效消费。",
+      "reversal": "独立转换与解包占据主要耗时，或目标shape缺少匹配接口；应比较端到端布局保留与较高位宽实现。",
+      "source_ids": [
+        "fa3-primary-expert",
+        "cann-grouped-matmul-expert",
+        "marlin-primary-round2"
+      ],
+      "search_terms": [
+        "INT8",
+        "FP8",
+        "MXFP8",
+        "反量化",
+        "FA3"
+      ],
+      "insight": {
+        "title": "低比特存储与矩阵执行，需要一条能接通的数据通路",
+        "paragraphs": [
+          "Marlin把INT4静态权重预排布，核内反量化到FP16，再交给FP16 Tensor Core。它说明低比特存储的价值可以来自少读权重，而不依赖原生INT4矩阵乘。",
+          "静态权重可摊销准备成本，动态数据仍可能在线转置或量化。对比路线时，应同时记录存储类型、输入/累加类型、scale布局与实际指令，不能只写W4或FP8。"
+        ],
+        "source_ids": [
+          "marlin-primary-round2",
+          "fa3-primary-expert"
+        ]
+      }
+    },
+    "collectives-topology": {
+      "delta": "在相同集合语义下改变分段、路由和通信轮次，使流量匹配互连层次与链路约束。",
+      "tradeoff": "少轮次、少总字节、负载均衡和链路并行并不总能同时满足；一种拓扑上的最优算法可能在另一拓扑失效。",
+      "priority": "固定collective出现链路争用、跨节点瓶颈，或不同消息区间性能突变时看此路线。",
+      "decision": "集合算法没有脱离语义与拓扑的通用冠军：小消息要控制依赖阶段，大消息要避免链路拥塞，具备归约卸载的系统还要比较设备与网络承担多少工作。默认算法是对照起点，单节点和跨节点都可能存在特定负载的改进空间。",
+      "reversal": "若同一单节点操作在新库的卸载路径中减少SM占用并改善并发模块，不能继续沿用‘只有跨节点才值得优化’的判断；若均匀合成测试领先而真实路由的最慢rank恶化，应下调该算法，并区分传输热点与expert部署问题。",
+      "source_ids": [
+        "taccl",
+        "nccl-tests",
+        "nccl-algorithms"
+      ],
+      "search_terms": [
+        "Ring",
+        "Tree",
+        "AllReduce",
+        "AllGather"
+      ],
+      "insight": {
+        "title": "按通信语义与资源分工维护算法版图",
+        "paragraphs": [
+          "AllReduce、AllGather和MoE All-to-All不能共用一条‘大消息选环、小消息选树’规则。要解释每类候选减少了传播阶段、关键链路字节，还是设备归约工作；这些收益可分别成立，也可能互相抵消。",
+          "TACCL说明拓扑合成可以找到历史特定配置的优势，也存在慢于强库基线的区间。研究价值在于提炼切换条件；当新后端已吸收优化，旧倍数应退为历史证据。"
+        ],
+        "source_ids": [
+          "nccl-algorithms",
+          "taccl"
+        ]
+      }
+    },
+    "launch-granularity": {
+      "delta": "改变操作怎样发起、怎样聚合或分块，以及何时提交；分组调用、张量融合与分块调度分别研究。",
+      "tradeoff": "合并减少启动次数，却可能等待其他张量就绪、增加打包并延迟首个结果，吞吐改善可能伴随尾时延上升。",
+      "priority": "小消息多、Host提交间隙明显或decode阶段同步频繁时看此路线；大消息带宽饱和时收益有限。",
+      "decision": "能同时就绪的独立小通信适合研究分组或融合；逐层依赖的小消息通常没有等待凑批的空间。对大传输，较小分块可以更早释放消费者，但固定开销随块数增长，最佳粒度由关键依赖与链路共同决定。",
+      "reversal": "若共享launch已消除主要间隙，pack融合的新增HBM拷贝可能使其失去优先级；若新块级协议允许更早消费，应重新评估聚合窗口；不能继续只看通信带宽峰值。",
+      "source_ids": [
+        "nccl",
+        "nccl-tests",
+        "nccl-groups",
+        "horovod-tensor-fusion",
+        "bytescheduler"
+      ],
+      "search_terms": [
+        "Group Calls",
+        "Tensor Fusion",
+        "小消息"
+      ],
+      "insight": {
+        "title": "粒度优化要围绕最早消费者",
+        "paragraphs": [
+          "启动受限不总意味着把消息做大。对已经同时ready的操作，共享launch可能直接降低固定成本；对尚未ready的后续数据，等待聚合可能拖住本来可以推进的计算。",
+          "ByteScheduler的分块和credit提供相反方向的思路：允许重要数据更早通过。值得积累的是‘聚合省固定成本’与‘分块省等待’的适用区间，而不是一个越大越好的融合阈值。"
+        ],
+        "source_ids": [
+          "nccl-groups",
+          "horovod-tensor-fusion",
+          "bytescheduler"
+        ]
+      }
+    },
+    "paths-buffers": {
+      "delta": "改变数据经过的内存、搬运引擎、NIC与注册方式；直接访问减少内部拷贝，中继聚合则可能换来更有效的网络利用。",
+      "tradeoff": "直接路径与中继路径未必能叠加。NCCL文档中网络缓冲注册与PXN互斥；注册摊销、NIC亲和性与常驻容量需共同判断。",
+      "priority": "P/D分离或远端KV加载存在中转拷贝、注册开销，或同一缓冲被频繁创建时看此路线。",
+      "decision": "更少中转不是唯一目标：直接访问减少内部拷贝，中继聚合可能更充分利用网络。应按设备内存、NIC亲和性和完成协议选择数据路径，并把注册摊销与常驻缓冲占用一起纳入判断。",
+      "reversal": "若直接路径因NIC亲和性失去聚合带宽，中继即使增加一次本地流量也可能更值得采用；若注册已充分摊销而主要等待来自容量不足或完成通知，应从注册开关转向缓冲并发与生命周期设计。",
+      "source_ids": [
+        "mooncake-paper-v5",
+        "nccl",
+        "nccl-buffer-registration",
+        "mooncake-architecture",
+        "deepseek-deepep-ascend"
+      ],
+      "search_terms": [
+        "Mooncake",
+        "RDMA",
+        "PXN",
+        "KV传输"
+      ],
+      "insight": {
+        "title": "优化的是可执行数据路径，而不是‘零拷贝’标签",
+        "paragraphs": [
+          "直接注册可以减少用户buffer与内部buffer间的拷贝，但对称性、分配器和完成协议会限制可用形态。中继路径虽然多一次本地流转，却可能让流量汇聚到更有效的NIC；是否值得，取决于瓶颈资源。",
+          "因此路径研究应保存互斥条件和生命周期契约。NCCL网络注册与PXN的冲突是一个具体例子；Mooncake的数据面与DeepEP的EPBuffer则分别说明传输组织和容量协议，不能把两个项目的能力合成一个未经验证的方案。"
+        ],
+        "source_ids": [
+          "nccl-buffer-registration",
+          "mooncake-architecture",
+          "deepseek-deepep-ascend"
+        ]
+      }
+    },
+    "compute-communication-overlap": {
+      "delta": "把通信依赖细化到tile，使已经到达的数据提前计算，或让计算完成的部分尽早发送，减少暴露等待。",
+      "tradeoff": "更多重叠会引入就绪标志、同步和资源竞争；同一设备上的通信与计算可能争用SM、片上存储或搬运通路。",
+      "priority": "时间线中有可独立推进的计算与通信，且等待暴露在关键路径时看此路线。没有依赖独立性就没有可隐藏空间。",
+      "decision": "重叠成立的关键是让数据到达与可推进的计算相接，而不是只把任务放到不同stream。即使并发使某个核略慢，只要完整关键路径更短仍有价值；反之，两条时间线重叠也可能因资源争用和排空尾部而没有净收益。",
+      "reversal": "若新矩阵内核更快而通信未变，原来的stage配比可能不再合理，需要重算暴露尾部；若分块后计算损失和同步增加超过减少的等待，应降低融合粒度或保留粗粒度异步路径。",
+      "source_ids": [
+        "flux",
+        "cannbot-comm-compute",
+        "torch-distributed",
+        "sgl-deepep-ascend-api"
+      ],
+      "search_terms": [
+        "FLUX",
+        "通算融合",
+        "overlap"
+      ],
+      "insight": {
+        "title": "把‘是否并发’推进到‘何时可消费’",
+        "paragraphs": [
+          "粗粒度异步适合已经存在的独立工作；细粒度融合则重新安排数据块到达、矩阵计算和结果归约的衔接。它的价值来自消费者更早推进，而不是API数量减少或图上出现重叠色带。",
+          "研究重点是依赖粒度和资源代价的匹配。较细tile可能改善等待，却增加信号、地址处理和计算碎片；更强互连会缩小通信尾部，也可能让复杂融合不再值得。"
+        ],
+        "source_ids": [
+          "flux",
+          "torch-distributed",
+          "sgl-deepep-ascend-api"
+        ]
+      }
+    },
+    "transfer-compression": {
+      "delta": "在发送与接收之间换用更紧凑的表示；区分KV量化后熵编码、MoE激活低精度传输与训练梯度压缩。",
+      "tradeoff": "传输字节下降，代价是编解码、scale/索引、恢复缓冲及可能的质量损失；压缩率不是净加速。",
+      "priority": "远端KV取回或MoE dispatch受带宽限制时看此路线。固定延迟主导的小消息未必值得编码。",
+      "decision": "通信压缩应按被传数据和接收端需求选表示：可重复使用的远端KV有机会摊销较复杂编码，一次性MoE激活更依赖轻量量化。只有实际线上字节节省足以覆盖编解码、元数据和同步时，压缩才可能降低净时延；低位宽与有效压缩不是同一件事。",
+      "reversal": "若新接收端可以直接消费传输表示而省去反量化/布局转换，低精度传输的优先级可能上升；若高速本地互联使传输时间低于编解码时间，较弱压缩或不压缩可能更优；质量回归也应立即降低候选成熟度。",
+      "source_ids": [
+        "cachegen-v6",
+        "sgl-deepep-ascend-api"
+      ],
+      "search_terms": [
+        "CacheGen",
+        "FP8",
+        "INT8",
+        "MoE"
+      ],
+      "insight": {
+        "title": "从‘压得更小’转向‘传得更划算’",
+        "paragraphs": [
+          "远端KV缓存允许先编码、多次读取，较复杂的差分和熵编码因此可能摊销；MoE token激活即时产生，通常更看重量化与后续计算能否衔接。这两类负载不能只按一个压缩倍数排序。",
+          "‘无损’还要说明参照：熵编码可以无损还原量化符号，却不能消除前面的量化误差。若接收端长期以同一低精度表示驻留和计算，应同时关联推理压缩；若只是过链路时编码，主归通信。"
+        ],
+        "source_ids": [
+          "cachegen-v6",
+          "sgl-deepep-ascend-api"
+        ]
+      }
+    }
+  },
+  "frontier": [
+    {
+      "title": "注意力：从减少HBM访问，转向片上流水与softmax",
+      "view": "值得吸收的是瓶颈转移与数据流设计；历史基线的倍数会随库版本更新失去选型意义。",
+      "target": "operators-memory-reuse.html#progress",
+      "source_ids": [
+        "fa4-primary-expert"
+      ],
+      "record_id": "memory-reuse--fa4-primary-expert"
+    },
+    {
+      "title": "通算重叠：关键是有多少等待真正可隐藏",
+      "view": "重叠不是必然收益。互连越快、计算越少，可隐藏等待越少，资源争用越值得警惕。",
+      "target": "operators-compute-communication-overlap.html#progress",
+      "source_ids": [
+        "flux"
+      ],
+      "record_id": "compute-communication-overlap--flux"
+    },
+    {
+      "title": "低精度：更少存储，不等于同类型矩阵计算",
+      "view": "应把存储格式、解包与scale、矩阵输入和累加类型连起来判断。低比特模型能否更快，取决于完整的数据消费路径。",
+      "target": "operators-layout-low-precision.html#practice",
+      "source_ids": [
+        "marlin-primary-round2"
+      ],
+      "record_id": "layout-low-precision--marlin-primary-round2"
+    }
+  ],
+  "branch_conclusions": {
+    "compute": [
+      {
+        "title": "数据流改善后，研究重心应跟着瓶颈移动",
+        "text": "FlashAttention消除大中间矩阵，FA3/FA4继续处理softmax、流水与片上通路。只保留“减少HBM访问”的总标签，会丢掉后续真正决定速度的机制。",
+        "source_ids": [
+          "flashattention",
+          "fa3-primary-expert",
+          "fa4-primary-expert"
+        ]
+      },
+      {
+        "title": "形状决定并行分解，更多并行不是统一答案",
+        "text": "输出tile充足时，独立完成输出可以少归约；tile少且K长时，Split-K或Stream-K可能有价值。Stream-K保留0.64×退化区间，提醒我们保存策略切换条件与简单回退。",
+        "source_ids": [
+          "streamk-primary-round2"
+        ]
+      },
+      {
+        "title": "低精度的执行价值，取决于完整消费路径",
+        "text": "Marlin以INT4存储、FP16计算降低权重读取；FA3还需解决在线布局与误差。格式、指令、scale和转换要一起研究，不能以低位宽名称代替硬件上的机制。",
+        "source_ids": [
+          "marlin-primary-round2",
+          "fa3-primary-expert"
+        ]
+      }
+    ],
+    "communication": [
+      {
+        "title": "通信本身的耗时与暴露等待，分别建模",
+        "text": "算法与数据路径可以让传输更快，重叠则让依赖更早推进。FLUX的正负区间表明，两者不能共用一个“通信加速比”；更快互连还可能降低复杂融合的价值。",
+        "source_ids": [
+          "flux",
+          "nccl-algorithms"
+        ]
+      },
+      {
+        "title": "粒度和路径都有真实的互斥与等待代价",
+        "text": "共享launch、张量融合和分块分别改变固定成本、打包与就绪时机；直接注册和PXN中继也并非总可叠加。研究应保存完整路径的资源取舍，而不是优化开关清单。",
+        "source_ids": [
+          "nccl-groups",
+          "nccl-buffer-registration",
+          "horovod-tensor-fusion"
+        ]
+      },
+      {
+        "title": "按数据对象研究编码，按质量与总成本决定强度",
+        "text": "可复用KV允许摊销复杂编码，一次性MoE激活更依赖轻量处理和接收端兼容。CacheGen的容量与accuracy须并列；训练梯度误差反馈不能成为推理质量保证。",
+        "source_ids": [
+          "cachegen-v6",
+          "sgl-deepep-ascend-api",
+          "powersgd"
+        ]
+      }
+    ]
+  }
+}

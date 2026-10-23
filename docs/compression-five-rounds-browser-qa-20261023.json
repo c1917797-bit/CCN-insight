@@ -1,0 +1,243 @@
+{
+  "date": "2026-10-23",
+  "revision": "c8aa98e79b770437d90599d261f0c437e0cee478",
+  "rounds": 5,
+  "topics": [
+    {
+      "analysis": "analysis",
+      "anchorTop": 140.0234375,
+      "chapters": 7,
+      "closed": 0,
+      "missing": [],
+      "overflow": false,
+      "topic": "parameters-precision",
+      "viewport": 720
+    },
+    {
+      "analysis": "analysis",
+      "anchorTop": 140.2109375,
+      "chapters": 7,
+      "closed": 0,
+      "missing": [],
+      "overflow": false,
+      "topic": "parameters-selection",
+      "viewport": 720
+    },
+    {
+      "analysis": "analysis",
+      "anchorTop": 140.453125,
+      "chapters": 7,
+      "closed": 0,
+      "missing": [],
+      "overflow": false,
+      "topic": "parameters-distillation",
+      "viewport": 720
+    },
+    {
+      "analysis": "analysis",
+      "anchorTop": 140.1875,
+      "chapters": 7,
+      "closed": 0,
+      "missing": [],
+      "overflow": false,
+      "topic": "parameters-factorization",
+      "viewport": 720
+    },
+    {
+      "analysis": "analysis",
+      "anchorTop": 140.2890625,
+      "chapters": 7,
+      "closed": 0,
+      "missing": [],
+      "overflow": false,
+      "topic": "activations-precision",
+      "viewport": 720
+    },
+    {
+      "analysis": "analysis",
+      "anchorTop": 140.375,
+      "chapters": 7,
+      "closed": 0,
+      "missing": [],
+      "overflow": false,
+      "topic": "activations-selection",
+      "viewport": 720
+    },
+    {
+      "analysis": "analysis",
+      "anchorTop": 140.4921875,
+      "chapters": 7,
+      "closed": 0,
+      "missing": [],
+      "overflow": false,
+      "topic": "activations-distillation",
+      "viewport": 720
+    },
+    {
+      "analysis": "analysis",
+      "anchorTop": 140.28125,
+      "chapters": 7,
+      "closed": 0,
+      "missing": [],
+      "overflow": false,
+      "topic": "activations-factorization",
+      "viewport": 720
+    },
+    {
+      "analysis": "analysis",
+      "anchorTop": 140.09375,
+      "chapters": 7,
+      "closed": 0,
+      "missing": [],
+      "overflow": false,
+      "topic": "kv_cache-precision",
+      "viewport": 720
+    },
+    {
+      "analysis": "analysis",
+      "anchorTop": 140.1484375,
+      "chapters": 7,
+      "closed": 0,
+      "missing": [],
+      "overflow": false,
+      "topic": "kv_cache-selection",
+      "viewport": 720
+    },
+    {
+      "analysis": "analysis",
+      "anchorTop": 140.1171875,
+      "chapters": 7,
+      "closed": 0,
+      "deltaLog": false,
+      "missing": [],
+      "overflow": false,
+      "topic": "kv_cache-distillation",
+      "viewport": 720
+    },
+    {
+      "analysis": "analysis",
+      "anchorTop": 140.515625,
+      "chapters": 7,
+      "closed": 0,
+      "deltaLog": false,
+      "missing": [],
+      "overflow": false,
+      "topic": "kv_cache-factorization",
+      "viewport": 720
+    },
+    {
+      "analysis": "analysis",
+      "anchorTop": 140.4375,
+      "chapters": 7,
+      "closed": 0,
+      "deltaLog": false,
+      "missing": [],
+      "overflow": false,
+      "topic": "kv_cache-kv_eviction",
+      "viewport": 720
+    },
+    {
+      "analysis": "analysis",
+      "anchorTop": 140.1953125,
+      "chapters": 7,
+      "closed": 0,
+      "deltaLog": false,
+      "missing": [],
+      "overflow": false,
+      "topic": "kv_cache-sharing",
+      "viewport": 720
+    },
+    {
+      "analysis": "analysis",
+      "anchorTop": 140.1015625,
+      "chapters": 7,
+      "closed": 0,
+      "deltaLog": false,
+      "missing": [],
+      "overflow": false,
+      "topic": "activations-merging",
+      "viewport": 720
+    },
+    {
+      "analysis": "analysis",
+      "anchorTop": 140.4609375,
+      "chapters": 7,
+      "closed": 0,
+      "deltaLog": true,
+      "missing": [],
+      "overflow": false,
+      "topic": "kv_cache-compact_architecture",
+      "viewport": 720
+    }
+  ],
+  "sources": {
+    "heading": "这些论文，读到哪一步了",
+    "overflow": false,
+    "sourceTables": [
+      {
+        "rows": 8,
+        "title": "热点资讯"
+      },
+      {
+        "rows": 38,
+        "title": "产业界"
+      },
+      {
+        "rows": 12,
+        "title": "学术界"
+      }
+    ],
+    "stages": [
+      {
+        "label": "收录的论文编号",
+        "stage": "inventory",
+        "value": "16,148"
+      },
+      {
+        "label": "按标题筛出的候选",
+        "stage": "candidate",
+        "value": "1,734"
+      },
+      {
+        "label": "有阅读记录的论文",
+        "stage": "review",
+        "value": "38"
+      },
+      {
+        "label": "进入专题的论文",
+        "stage": "topic",
+        "value": "61"
+      }
+    ]
+  },
+  "interactions": {
+    "walkthrough_step_click": {
+      "requested_index": 2,
+      "observed_index": 2,
+      "playing": false,
+      "all_four_text_steps_present": true
+    },
+    "viewport_autoplay_observed": true,
+    "final_step_title_color": "rgb(224, 245, 250)",
+    "duplicate_pseudo_number": "none",
+    "delta_log_only_in_related_compact_architecture_boundary": true
+  },
+  "visual_review": {
+    "independent_agent": true,
+    "files": [
+      ".tmp/compression-round5-topic.png",
+      ".tmp/compression-round5-mechanism.png"
+    ],
+    "findings_corrected": [
+      "Dark text on dark walkthrough",
+      "Duplicate stage numbers"
+    ],
+    "blocking_findings": []
+  },
+  "limits": [
+    "Desktop browser QA; actual mobile viewport not verified",
+    "Five targeted primary-source passage reviews; not full review of the paper inventory",
+    "Identifier deduplication may retain cross-provider aliases and invalid records",
+    "No publication or hardware reproduction"
+  ]
+}

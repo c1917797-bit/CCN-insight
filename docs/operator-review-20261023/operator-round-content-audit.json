@@ -1,0 +1,294 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-23",
+  "scope": "算子13页第1—2轮专家内容审稿；重点4条计算机制、CannBot教学案例及自动生成证据。仅建议稿，未修改canonical数据、renderer或发布文件。",
+  "rounds": [
+    {
+      "id": 1,
+      "focus": "术语、分母与因果口径",
+      "finding": "现有证据整体已较审慎；找到一处资源占用表述方向不当，以及两处需要明确层级的术语。"
+    },
+    {
+      "id": 2,
+      "focus": "机制、替代路线与反例",
+      "finding": "计算侧过于依赖Attention案例。建议以Stream-K与Marlin补足通用GEMM分工及INT4存储/FP16执行机制，用两个小反例提高CannBot案例的教学价值。"
+    }
+  ],
+  "integration_notes": [
+    "根技术仍为数据复用、分块流水、融合、布局与执行；Ansor/LLM生成属于如何寻找实现的横向方法，可在算子页作关联入口，在自动生成方法页详述。",
+    "operator_research_site.py当前进展卡消费route.industry与route.academic；不要只更新expert.evidence_rows而使前台继续显示旧文。operator-expert-compute.json与operator-routes.json中的expert有相同内容，选定维护源后同步构建。",
+    "新增Stream-K、Marlin仅为已核对的GPU机制/论文证据，不作为310P、910B或950实现与性能证据。310P项目不进入前台。",
+    "部分机制取舍与反转条件适合写入operator-expert-guide.json，正文保留机制解释，不再把证据边界重复堆入每个段落。"
+  ],
+  "items": [
+    {
+      "id": "r1-fusion-resource-direction",
+      "round": 1,
+      "priority": "P1",
+      "route_id": "fusion-launch",
+      "file": "research/ai-infra/operator-routes.json",
+      "field": "branches[id=compute].routes[id=fusion-launch].expert.open_questions[2]",
+      "original_text": "小shape的收益是否主要来自少启动，而大shape因寄存器占用下降反而变慢？需要保留融合与非融合的适用分界。",
+      "issue": "寄存器使用量与并发驻留混为一谈。融合通常因活跃中间量增加而提高寄存器需求，继而降低并发驻留或发生溢出；不是寄存器使用量下降导致变慢。",
+      "replacement_text": "小shape能否因减少启动获益，而大shape因活跃中间量和寄存器需求上升、并发驻留下降而退化？对照融合前后的完整时延、寄存器及片上存储，保留性能转折的shape。",
+      "source_ids": [
+        "fa2-primary-expert",
+        "fa3-primary-expert"
+      ],
+      "conditions": "这是应测量的可能机制，不断言所有融合都增加寄存器，也不把GPU occupancy术语直接当作全部NPU资源模型。"
+    },
+    {
+      "id": "r1-fusion-transfer-layer",
+      "round": 1,
+      "priority": "P2",
+      "route_id": "fusion-launch",
+      "file": "research/ai-infra/operator-routes.json",
+      "field": "branches[id=compute].routes[id=fusion-launch].expert.branches[0].mechanism",
+      "original_text": "在同一内核中衔接残差相加、归一化或矩阵结果的尾处理，复用尚在片上的数据，减少跨核传递和重复加载；官方AddRmsNorm是可核查的具体实现。",
+      "issue": "“跨核传递”可能被理解为物理计算核间通信；这里首先是多个Kernel之间经GM交接的中间张量。RMSNorm还包含行归约，不能当作普通逐元素Matmul epilogue。",
+      "replacement_text": "融合优先消除相邻Kernel经GM交接的中间张量。Matmul的逐元素尾处理可直接消费累加结果；Add + RMSNorm还必须先得到完整行的平方和，再归一化。官方AddRmsNorm提供后一类接口，但必需的残差输出仍要保留。",
+      "source_ids": [
+        "cann-add-rms-norm-expert",
+        "catlass-official-expert"
+      ],
+      "conditions": "完整输出集合、归约轴、dtype与舍入点相同；一行是否能保留在片上决定是否需要再次读取。"
+    },
+    {
+      "id": "r1-fa2-splitk-scope",
+      "round": 1,
+      "priority": "P2",
+      "route_id": "tile-parallelism",
+      "file": "research/ai-infra/operator-routes.json",
+      "field": "branches[id=compute].routes[id=tile-parallelism].expert.branches[0].mechanism",
+      "original_text": "FA2把查询序列块也分给独立线程块，补足小batch/少head时的并行度；在一个线程块内部，把Q分片交给不同warp、共享K/V，使各warp产生独立输出，减少split-K式输出归约。",
+      "issue": "原论文确实称旧warp划分为split-K，因此原文并非事实错误；但同页若加入GEMM Split-K，必须区分线程块内warp归约与线程块间部分和归约。",
+      "replacement_text": "FA2在块间增加查询序列块并行；块内把Q的行片分给不同warp，K/V共享，各warp生成独立输出。它替换的是原FlashAttention在一个线程块内的split-K式warp划分，减少共享内存归约；这与GEMM跨线程块Split-K的工作分解层级不同。",
+      "source_ids": [
+        "fa2-primary-expert"
+      ],
+      "conditions": "本段限定FA2前向§3.2—3.3；反向仍有更复杂的同步，不把“无warp间通信”扩展到完整前向反向过程。"
+    },
+    {
+      "id": "r1-kernelblaster-denominators",
+      "round": 1,
+      "priority": "P2",
+      "route_id": "operators-codegen",
+      "file": "research/ai-infra/operator-codegen-named-a.json",
+      "field": "evidence_rows[id=kernelblaster-h100].result",
+      "original_text": "H100表3：L1有效率86%、几何平均1.497倍；L2为81%、2.592倍；L3子集为67%、1.110倍。有效率与成功运行上的速度须并列，不能删掉失败任务只展示倍数。",
+      "issue": "已有分母提醒正确，还可明确“有效率”不等于“超过基线的题目占比”。表3速度是成功运行上的聚合，不能据此把86%解读为86%任务更快，或与全任务几何平均直接排名。",
+      "replacement_text": "H100表3：L1有效率86%，成功运行上的几何平均1.497倍；L2为81%、2.592倍；L3子集为67%、1.110倍。有效率表示通过相应验证的比例，不是超越基线的比例；本文不将这些条件速度换算为全任务平均，也不与不同计时口径的系统直接排名。",
+      "source_ids": [
+        "kernelblaster-paper-named-a"
+      ],
+      "conditions": "保留原生CUDA/允许库调用实验、NCU核周期与应用计时的区分；没有原始任务分母时不倒推全局成功加速题数。"
+    },
+    {
+      "id": "r2-reuse-mathematical-work",
+      "round": 2,
+      "priority": "P1",
+      "route_id": "memory-reuse",
+      "file": "research/ai-infra/operator-routes.json",
+      "field": "branches[id=compute].routes[id=memory-reuse].principle",
+      "original_text": "将计算组织为可在片上存储中推进的数据块，重复使用已加载数据，并减少不必要的中间结果落存。FlashAttention 是这一机制的案例：通过分块和在线 softmax 避免完整注意力矩阵写入外部内存，而不是通过删去注意力连接来减少工作。",
+      "issue": "正确但把“搬到片上”与“复用”连得太快。应点出谁重复消费数据，并说明不物化N×N矩阵不等于把稠密注意力算术量变成线性。",
+      "replacement_text": "复用的关键是一次加载的数据被多个后续计算消费，而不是仅把数据搬进片上。GEMM让同一A/B子块参与多个输出元素；FlashAttention按块计算注意力，并用运行统计量衔接softmax，避免完整分数和概率矩阵落存。后者保持稠密注意力计算，降低的是中间存储与外存往返，不是把全部QKᵀ工作变为线性。",
+      "source_ids": [
+        "flashattention",
+        "streamk-primary-round2"
+      ],
+      "conditions": "讨论完整稠密注意力；稀疏连接、token删减和持久KV容量优化另属相应算法/压缩课题。"
+    },
+    {
+      "id": "r2-reuse-counterexample",
+      "round": 2,
+      "priority": "P1",
+      "route_id": "memory-reuse",
+      "file": "research/ai-infra/operator-routes.json",
+      "field": "branches[id=compute].routes[id=memory-reuse].selection",
+      "original_text": "suitable：重复读取或中间写回明显，数据块存在可复用关系。unsuitable：只有字节估算、没有完整计时，不足以作性能选型。",
+      "issue": "选型信号仍偏抽象。CannBot的Add就是可在本页复用的反例：片上分块和双缓冲不自动减少最低外存流量。",
+      "replacement_text": "优先研究：同一输入块被多个输出反复读取，或可消除一次中间张量写回与后继重读。反例：独立FP32 Add对每个元素只读两个输入、写一个输出，理想流量已为12N字节；仅增大片或增加缓冲不会把这个下界再减半。若已经达到这一数据流，应转向有效带宽、并行度和启动成本，而不是继续声称“提高复用”。",
+      "source_ids": [
+        "cannbot-add-template",
+        "ascendc"
+      ],
+      "conditions": "12N是假定每元素4字节、无缓存命中收益、无额外副本的理想数据量推导，不是实测带宽或时间。"
+    },
+    {
+      "id": "r2-tile-gemm-branch",
+      "round": 2,
+      "priority": "P1",
+      "route_id": "tile-parallelism",
+      "file": "research/ai-infra/operator-routes.json",
+      "field": "branches[id=compute].routes[id=tile-parallelism].expert.branches[2]",
+      "original_text": "Ansor 搜索与 TensorIR 张量化约束：Ansor生成层次化调度草图，再以进化搜索和学习型代价模型选择具体参数；TensorIR把计算块、缓冲区区域和硬件张量指令描述为可检查的约束，保证变换及张量化匹配合法。",
+      "issue": "当前第三分支主要回答“怎样搜索”，与前两条加速机制不在同一层；通用GEMM的输出tile并行、Split-K与Stream-K取舍反而缺席。",
+      "replacement_text": "输出tile并行、Split-K与Stream-K：输出tile足够多时，各线程块独立完成一个tile，可避免跨块部分和归约。输出tile少而K很长时，Split-K把K轴交给多个块并归约；Stream-K改按总MAC循环迭代分配工作，缓解尾波不满，但跨tile部分和、同步与缓存错位仍有成本。不是把更多核点亮就一定更快。",
+      "proposed_value": {
+        "name": "输出tile、Split-K与Stream-K",
+        "mechanism": "输出tile并行让各块独立生成输出；Split-K将同一输出的K归约分给多个块；Stream-K按总MAC循环迭代量分工，可跨输出tile边界平衡工作。",
+        "tradeoff": "输出tile足够多时，独立输出通常更简单；tile少、K长时才更值得比较K轴拆分。新增部分和、同步和缓存错位可能抵消并行收益，应保留普通分解回退。",
+        "evidence_ids": [
+          "streamk-primary-round2",
+          "catlass-official-expert"
+        ]
+      },
+      "source_ids": [
+        "streamk-primary-round2",
+        "catlass-official-expert"
+      ],
+      "conditions": "Stream-K论文是NVIDIA GPU直接证据；CATLASS仅作为昇腾具名实现入口，二者不共享性能结论。Ansor/TensorIR原内容移至自动生成横向方法关联，不删除其资料。"
+    },
+    {
+      "id": "r2-tile-streamk-evidence",
+      "round": 2,
+      "priority": "P2",
+      "route_id": "tile-parallelism",
+      "file": "research/ai-infra/operator-routes.json",
+      "field": "branches[id=compute].routes[id=tile-parallelism].academic (建议新增一条；不覆盖现有FA2/FA3数字)",
+      "original_text": "当前学术证据以FlashAttention-2、FlashAttention-3、Ansor/TensorIR为主。",
+      "issue": "新增机制应有匹配结果与反例，不能只有新名称。Stream-K表2同时保留平均获益和最差退化，可以防止“利用率更高必然更快”的误读。",
+      "replacement_text": "Stream-K在NVIDIA A100上比较32,824个GEMM形状。FP16输入、FP32累加与输出、128×128×32 tile的混合分解，相对CUDA11.6 cuBLAS的表列Average为1.13倍，最小值0.64倍。它说明负载均衡有价值，也说明额外部分和与访存会使部分形状退化；不能只拿峰值作为选型结论。",
+      "proposed_value": {
+        "title": "Stream-K：负载均衡与部分和成本一起比较",
+        "date": "2023-01-09；arXiv v1",
+        "mechanism": "将全局MAC循环工作均衡分配，再用Stream-K与独立输出tile混合分解减轻缓存错位和归约等待。",
+        "conditions": "NVIDIA A100 108SM；400W、1005MHz；32,824形状；FP16输入、FP32累加/输出；tile128×128×32；CUDA11.6 cuBLAS对照。",
+        "result": "表2相对cuBLAS的Average1.13倍、Min0.64倍；Average按表口径保留，不改称几何平均。",
+        "limit": "并非所有形状更快；GPU实现与固定测试环境不能推为昇腾或模型TTFT/TPOT收益。",
+        "source_ids": [
+          "streamk-primary-round2"
+        ]
+      },
+      "source_ids": [
+        "streamk-primary-round2"
+      ],
+      "conditions": "新增时同时登记精确v1链接及review_scope；该结果是算子测试，不是模型服务测试。"
+    },
+    {
+      "id": "r2-layout-int4-execution",
+      "round": 2,
+      "priority": "P1",
+      "route_id": "layout-low-precision",
+      "file": "research/ai-infra/operator-routes.json",
+      "field": "branches[id=compute].routes[id=layout-low-precision].expert.branches[0]",
+      "original_text": "布局匹配与核内转换：FA3的FP8第二次GEMM要求V沿序列维连续，而输入布局常沿head维连续，因此在内核中安排转置。TensorIR则把layout、storage scope、dtype与连续性写入张量指令匹配约束。",
+      "issue": "原则正确，但低精度执行只有FP8 Attention实例。用户熟悉权重量化，Marlin更能说明低比特存储、打包布局与实际矩阵计算类型为什么必须分开看。",
+      "replacement_text": "离线预排布与核内解包：Marlin将静态INT4权重及scale预排成加载和寄存器消费需要的顺序，运行时解包、反量化为FP16，再衔接FP16 Tensor Core乘加；INT4主要减少权重读取，不代表这里调用了原生INT4×INT4矩阵计算。FA3对V做核内转置则是动态数据不能简单提前预排的另一例。",
+      "proposed_value": {
+        "name": "离线预排布、核内解包与在线转置",
+        "mechanism": "Marlin预排INT4静态权重及scale，核内解包反量化到FP16并与Tensor Core计算流水衔接；FA3则在FP8注意力内部转置V以匹配第二次GEMM布局。",
+        "tradeoff": "静态权重可摊销预处理，动态激活通常仍需在线转换；解包、scale和转置占用执行资源。低比特存储、输入dtype、累加dtype及实际矩阵指令须分别记录。",
+        "evidence_ids": [
+          "marlin-primary-round2",
+          "fa3-primary-expert"
+        ]
+      },
+      "source_ids": [
+        "marlin-primary-round2",
+        "fa3-primary-expert"
+      ],
+      "conditions": "Marlin核对范围为§3.3—3.4，不在本轮新增摘要中的峰值或端到端倍数；其GPU机制不证明昇腾对应执行路径已实现。"
+    },
+    {
+      "id": "r2-layout-fp8-explain-transform",
+      "round": 2,
+      "priority": "P2",
+      "route_id": "layout-low-precision",
+      "file": "research/ai-infra/operator-routes.json",
+      "field": "branches[id=compute].routes[id=layout-low-precision].expert.branches[1].mechanism",
+      "original_text": "FA3用块级量化缩放控制局部动态范围，并对Q/K进行随机符号Hadamard类非相干处理，分散离群值，降低FP8注意力数值误差。",
+      "issue": "术语正确但没有解释为何可以改Q/K而不有意改变注意力。补一个简短等式比再加抽象描述更有信息量。",
+      "replacement_text": "块级scale让不同Q/K/V块各自适应动态范围；对Q、K同时右乘相同正交变换M，量化前有(QM)(KM)ᵀ=QKᵀ。FA3用随机符号与Hadamard构造快速变换，先分散离群值再量化，改变的是量化误差分布。量化后不再声称严格等价；既有合成RMSE证据仍与任务质量分开。",
+      "source_ids": [
+        "fa3-primary-expert"
+      ],
+      "conditions": "Q/K使用同一正交M并沿匹配维度变换；区分精确算术下的等式、浮点误差及后续FP8量化误差。不把合成RMSE改善替代语言模型质量。"
+    },
+    {
+      "id": "r2-layout-amortization-threshold",
+      "round": 2,
+      "priority": "P2",
+      "route_id": "layout-low-precision",
+      "file": "research/ai-infra/operator-routes.json",
+      "field": "branches[id=compute].routes[id=layout-low-precision].principle_formula",
+      "original_text": "平均成本粗估 T均摊 = T一次性准备/N次复用 + T每次完整执行。完整执行包含在线转换、解包、计算和同步；N是预期复用次数假设。并发阶段按实际关键路径计时，不能机械相加，也不能用文件大小替代时间。",
+      "issue": "已有摊销式正确，但没给出何时该选择预排布的具体判断；读者仍需自己补关键比较。",
+      "replacement_text": "比较同一输出契约下的旧路径T旧与新路径T新，并将新路径一次性准备成本记为T准备。只有T新<T旧时，复用次数N>T准备/(T旧−T新)才可能摊回准备成本。T新须包含在线解包、scale、转换和同步；权重或消费者布局改变后，重新计算准备成本与N。",
+      "source_ids": [
+        "marlin-primary-round2"
+      ],
+      "conditions": "这是由成本相等推导的判断式，不是Marlin测量结果。单位、计时范围相同；准备可以离线且可复用，若每次请求都准备则不能再按一次成本摊销。"
+    },
+    {
+      "id": "r2-cannbot-offset-test",
+      "round": 2,
+      "priority": "P1",
+      "route_id": "cannbot-case",
+      "file": "research/ai-infra/operator-cannbot-case.json",
+      "field": "concepts[id=correctness].explanation",
+      "original_text": "用独立参考比对当前编译产物。测试集合需覆盖尾块、特殊数值和支持的 dtype；数值准则按算子及类型选择，不能用业务精度损失小于 1% 代替内核正确性。",
+      "issue": "已有边界正确，但仍没有让读者看到如何捕捉本页静态审阅指出的逐tile偏移问题。恒定输入可能让重复计算第一片的错误漏过。",
+      "replacement_text": "先用独立参考验证当前产物，再用会暴露分块错误的输入：在可精确表示的小规模FP32测试中令x₁[i]=i、x₂[i]=1000+i，期望y[i]=1000+2i；至少跨两片并含尾片，逐位置比较。若每片都读第一片，输出会出现重复段，恒定输入却可能掩盖它。随后再扩展支持dtype、特殊数值与容差用例。",
+      "source_ids": [
+        "cannbot-add-template",
+        "cannbot-precision"
+      ],
+      "conditions": "这是建议的测试设计，不宣称已执行或已证实原模板存在缺陷。具体Host配置需确实产生多tile且遵守该API的搬运/尾块资格。"
+    },
+    {
+      "id": "r2-cannbot-rmsnorm-counterexample",
+      "round": 2,
+      "priority": "P1",
+      "route_id": "cannbot-case",
+      "file": "research/ai-infra/operator-cannbot-case.json",
+      "field": "fusion.description",
+      "original_text": "这是本文对 Add + RMSNorm 的机制推演，不是 CannBot 模板的实测结果。归一化沿一行的隐藏维度进行，必须先得到完整的行归约结果；列切片时要额外安排累积、保留或回读。对照官方接口实现时，还要保留 rstd 等规定输出。",
+      "issue": "解释准确但抽象；增加能手算的反例，让读者理解为什么Add的独立分块不能原封不动搬到RMSNorm。",
+      "replacement_text": "Add各片可以独立相加，RMSNorm各列却共享同一行统计量。手算例中取z=[1,3]、γ=[1,1]、ε=0：整行mean(z²)=5，输出为[1/√5,3/√5]；若把两列当两个独立tile分别归一化，会得到[1,1]，结果已改变。因此列分块必须先合并平方和，再按同一统计量计算输出；还要保留接口规定的z、rstd等输出。",
+      "source_ids": [
+        "cann-add-rms-norm-expert"
+      ],
+      "conditions": "ε=0仅为非零输入的教学手算；实际测试沿用参考接口的ε、归约轴、累加dtype和中间舍入。本文是公式推导，不是CannBot执行结果。"
+    },
+    {
+      "id": "r2-codegen-conditional-choice",
+      "round": 2,
+      "priority": "P1",
+      "route_id": "operators-codegen",
+      "file": "research/ai-infra/operator-codegen-insight.json",
+      "field": "nextwork",
+      "original_text": "维护按精确SoC和软件版本区分的生成约束表；新增接口先通过编译、独立参考与设备用例，再进入候选空间。为已采用的变换保存瓶颈、代码差异、有效shape、代价和实测记录；换设备或分布后重新验证，失败轨迹也进入经验库。",
+      "issue": "现有两条是正确维护动作，但专家更需要知道何时选哪种方法、什么证据会改变优先级。无需再堆新项目名称。",
+      "replacement_text": "已有正确但慢的实现：先做瓶颈归因，再把Kernel结构改写与Host参数搜索分开消融，避免搜索只是在替代结构问题。缺少目标实现：先比较编译覆盖和独立正确率，再以最强可用库路径判断是否值得进入性能搜索。重复出现的算子族：只有积累了可审计的失败/成功轨迹，并证明跨shape留出集收益，才提高经验检索或模型后训练的优先级；同时记录得到可用候选所花的评估与设备成本。",
+      "source_ids": [
+        "ascendoptimizer-v2",
+        "kernelbench-verified-v1",
+        "kernelblaster-paper-named-a",
+        "ascendkernelgen"
+      ],
+      "conditions": "这是基于证据的编辑判断，不是宣称某一种Agent普遍优于编译器或工程师。先固定算子契约、数值模式和强基线，再比较搜索方法；模型收益仍需独立端到端验证。"
+    }
+  ],
+  "source_additions": [
+    {
+      "id": "streamk-primary-round2",
+      "title": "Stream-K: Work-centric Parallel Decomposition for Dense Matrix-Matrix Multiplication on the GPU · v1",
+      "url": "https://arxiv.org/html/2301.03598v1",
+      "kind": "primary_paper",
+      "review_scope": "2026-10-23核对v1日期2023-01-09；§3数据并行/Fixed-split、§4按MAC循环分解、§5混合策略、§6设备/32,824形状/表2及附录A.1的模型示例。未复现实验。",
+      "device_scope": "直接实验为NVIDIA A100、108SM、400W/1005MHz；FP16输入FP32累加/输出与FP64。不是Ascend设备支持或性能证据。",
+      "boundary": "表2Average不改写为几何平均；保留最小值退化。部分和、同步和缓存错位成本不能省略；附录模型选择不伪装实测结果。"
+    },
+    {
+      "id": "marlin-primary-round2",
+      "title": "MARLIN: Mixed-Precision Auto-Regressive Parallel Inference on Large Language Models · v1",
+      "url": "https://arxiv.org/html/2408.11743v1",
+      "kind": "primary_paper",
+      "review_scope": "2026-10-23核对v1日期2024-08-21；§3.3混合精度挑战、§3.4权重/scale预排、共享存储布局、解包到FP16及Tensor Core流水。本轮只新增机制，不采纳摘要峰值及端到端倍数。",
+      "device_scope": "论文此处讨论NVIDIA Ampere类GPU与CUDA Tensor Core执行机制；INT4权重存储、FP16激活及反量化执行。不是昇腾直接证据。",
+      "boundary": "INT4存储不等于原生INT4×INT4矩阵指令；预处理、scale和解包成本需一起核算。不给未逐实验条件核对的速度、TTFT、TPOT或模型质量数字。"
+    }
+  ]
+}

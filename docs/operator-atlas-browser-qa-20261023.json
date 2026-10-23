@@ -1,0 +1,449 @@
+{
+  "scope": "local browser QA; not device replication",
+  "mechanismPages": [
+    {
+      "brief": 3,
+      "client": 830,
+      "evidence": 3,
+      "folds": 0,
+      "h1": "数据搬运与片上复用",
+      "insight": "复用要有重复消费者，分块本身不创造复用",
+      "missingHash": 0,
+      "overflow": false,
+      "reverse": true,
+      "url": "http://127.0.0.1:8787/ai-infra/operators-memory-reuse.html",
+      "viewport": 845
+    },
+    {
+      "brief": 3,
+      "client": 830,
+      "evidence": 5,
+      "folds": 0,
+      "h1": "分块映射与并行流水",
+      "insight": "并行工作量与归约代价，决定是否拆K",
+      "missingHash": 0,
+      "overflow": false,
+      "reverse": true,
+      "url": "http://127.0.0.1:8787/ai-infra/operators-tile-parallelism.html",
+      "viewport": 845
+    },
+    {
+      "brief": 3,
+      "client": 830,
+      "evidence": 3,
+      "folds": 0,
+      "h1": "融合与启动优化",
+      "insight": "可消去的中间量，比减少的API数量更重要",
+      "missingHash": 0,
+      "overflow": false,
+      "reverse": true,
+      "url": "http://127.0.0.1:8787/ai-infra/operators-fusion-launch.html",
+      "viewport": 845
+    },
+    {
+      "brief": 3,
+      "client": 830,
+      "evidence": 4,
+      "folds": 0,
+      "h1": "布局与低精度执行",
+      "insight": "低比特存储与矩阵执行，需要一条能接通的数据通路",
+      "missingHash": 0,
+      "overflow": false,
+      "reverse": true,
+      "url": "http://127.0.0.1:8787/ai-infra/operators-layout-low-precision.html",
+      "viewport": 845
+    },
+    {
+      "brief": 3,
+      "client": 830,
+      "evidence": 3,
+      "folds": 0,
+      "h1": "集合算法与拓扑映射",
+      "insight": "按通信语义与资源分工维护算法版图",
+      "missingHash": 0,
+      "overflow": false,
+      "reverse": true,
+      "url": "http://127.0.0.1:8787/ai-infra/operators-collectives-topology.html",
+      "viewport": 845
+    },
+    {
+      "brief": 3,
+      "client": 830,
+      "evidence": 4,
+      "folds": 0,
+      "h1": "启动与消息粒度",
+      "insight": "粒度优化要围绕最早消费者",
+      "missingHash": 0,
+      "overflow": false,
+      "reverse": true,
+      "url": "http://127.0.0.1:8787/ai-infra/operators-launch-granularity.html",
+      "viewport": 845
+    },
+    {
+      "brief": 3,
+      "client": 830,
+      "evidence": 4,
+      "folds": 0,
+      "h1": "数据路径与缓冲管理",
+      "insight": "优化的是可执行数据路径，而不是‘零拷贝’标签",
+      "missingHash": 0,
+      "overflow": false,
+      "reverse": true,
+      "url": "http://127.0.0.1:8787/ai-infra/operators-paths-buffers.html",
+      "viewport": 845
+    },
+    {
+      "brief": 3,
+      "client": 830,
+      "evidence": 3,
+      "folds": 0,
+      "h1": "通算融合与异步重叠",
+      "insight": "把‘是否并发’推进到‘何时可消费’",
+      "missingHash": 0,
+      "overflow": false,
+      "reverse": true,
+      "url": "http://127.0.0.1:8787/ai-infra/operators-compute-communication-overlap.html",
+      "viewport": 845
+    },
+    {
+      "brief": 3,
+      "client": 830,
+      "evidence": 4,
+      "folds": 0,
+      "h1": "传输编码与通信量压缩",
+      "insight": "从‘压得更小’转向‘传得更划算’",
+      "missingHash": 0,
+      "overflow": false,
+      "reverse": true,
+      "url": "http://127.0.0.1:8787/ai-infra/operators-transfer-compression.html",
+      "viewport": 845
+    }
+  ],
+  "entries": [
+    {
+      "folds": 0,
+      "h1": "计算算子加速",
+      "overflow": false,
+      "sections": [
+        "comparison",
+        "routes",
+        "principles",
+        "automatic",
+        "research",
+        "references"
+      ],
+      "url": "http://127.0.0.1:8787/ai-infra/operators-1.html#route-tile-parallelism"
+    },
+    {
+      "evidence": 12,
+      "folds": 0,
+      "h1": "算子自动生成与调优",
+      "overflow": false,
+      "url": "http://127.0.0.1:8787/ai-infra/operators-codegen.html"
+    },
+    {
+      "folds": 0,
+      "h1": "通信算子加速",
+      "overflow": false,
+      "sections": [
+        "comparison",
+        "routes",
+        "principles",
+        "boundaries",
+        "research",
+        "references"
+      ],
+      "url": "http://127.0.0.1:8787/ai-infra/operators-2.html"
+    }
+  ],
+  "projects": [
+    {
+      "hash": "evidence-kernelevolve-coverage",
+      "header": 68,
+      "title": "KernelEvolve：硬件知识检索与反馈树搜索",
+      "top": 90.140625
+    },
+    {
+      "hash": "evidence-kernelblaster-h100",
+      "header": 68,
+      "title": "KernelBlaster：持久CUDA经验库与上下文策略更新",
+      "top": 89.75
+    },
+    {
+      "hash": "evidence-avo-b200-attention",
+      "header": 68,
+      "title": "AVO：Agentic Variation Operators，代理自主决定变异步骤",
+      "top": 90.0546875
+    },
+    {
+      "hash": "evidence-gpu-cuda-agent",
+      "header": 68,
+      "title": "CUDA Agent · 大规模Agentic RL",
+      "top": 89.765625
+    },
+    {
+      "hash": "evidence-npu-ascendoptimizer",
+      "header": 68,
+      "title": "AscendOptimizer · 经验检索与Host–Kernel协同优化",
+      "top": 90.125
+    }
+  ],
+  "searchBeforeCacheFix": [
+    {
+      "count": "1 / 9 项机制",
+      "groups": 2,
+      "query": "FA3",
+      "visible": [
+        "分块映射与并行流水"
+      ]
+    },
+    {
+      "count": "1 / 9 项机制",
+      "groups": 2,
+      "query": "RMSNorm",
+      "visible": [
+        "融合与启动优化"
+      ]
+    },
+    {
+      "count": "2 / 9 项机制",
+      "groups": 2,
+      "query": "INT8",
+      "visible": [
+        "布局与低精度执行",
+        "传输编码与通信量压缩"
+      ]
+    },
+    {
+      "count": "1 / 9 项机制",
+      "groups": 2,
+      "query": "Split-K",
+      "visible": [
+        "分块映射与并行流水"
+      ]
+    },
+    {
+      "count": "1 / 9 项机制",
+      "groups": 2,
+      "query": "FLUX",
+      "visible": [
+        "通算融合与异步重叠"
+      ]
+    },
+    {
+      "count": "1 / 9 项机制",
+      "groups": 2,
+      "query": "CacheGen",
+      "visible": [
+        "传输编码与通信量压缩"
+      ]
+    },
+    {
+      "count": "1 / 9 项机制",
+      "groups": 2,
+      "query": "Mooncake",
+      "visible": [
+        "数据路径与缓冲管理"
+      ]
+    },
+    {
+      "count": "0 / 9 项机制",
+      "groups": 2,
+      "query": "不存在的技术987",
+      "visible": []
+    },
+    {
+      "count": "9 / 9 项机制",
+      "groups": 2,
+      "query": "",
+      "visible": [
+        "数据搬运与片上复用",
+        "分块映射与并行流水",
+        "融合与启动优化",
+        "布局与低精度执行",
+        "集合算法与拓扑映射",
+        "启动与消息粒度",
+        "数据路径与缓冲管理",
+        "通算融合与异步重叠",
+        "传输编码与通信量压缩"
+      ]
+    }
+  ],
+  "searchFinal": [
+    {
+      "count": "2 / 9 项机制",
+      "groups": 1,
+      "query": "FA3",
+      "visible": [
+        "分块映射与并行流水",
+        "布局与低精度执行"
+      ]
+    },
+    {
+      "count": "1 / 9 项机制",
+      "groups": 1,
+      "query": "RMSNorm",
+      "visible": [
+        "融合与启动优化"
+      ]
+    },
+    {
+      "count": "2 / 9 项机制",
+      "groups": 2,
+      "query": "INT8",
+      "visible": [
+        "布局与低精度执行",
+        "传输编码与通信量压缩"
+      ]
+    },
+    {
+      "count": "1 / 9 项机制",
+      "groups": 1,
+      "query": "Split-K",
+      "visible": [
+        "分块映射与并行流水"
+      ]
+    },
+    {
+      "count": "1 / 9 项机制",
+      "groups": 1,
+      "query": "FLUX",
+      "visible": [
+        "通算融合与异步重叠"
+      ]
+    },
+    {
+      "count": "1 / 9 项机制",
+      "groups": 1,
+      "query": "CacheGen",
+      "visible": [
+        "传输编码与通信量压缩"
+      ]
+    },
+    {
+      "count": "1 / 9 项机制",
+      "groups": 1,
+      "query": "Mooncake",
+      "visible": [
+        "数据路径与缓冲管理"
+      ]
+    },
+    {
+      "count": "0 / 9 项机制",
+      "groups": 0,
+      "query": "不存在的技术987",
+      "visible": []
+    },
+    {
+      "count": "9 / 9 项机制",
+      "groups": 2,
+      "query": "",
+      "visible": [
+        "数据搬运与片上复用",
+        "分块映射与并行流水",
+        "融合与启动优化",
+        "布局与低精度执行",
+        "集合算法与拓扑映射",
+        "启动与消息粒度",
+        "数据路径与缓冲管理",
+        "通算融合与异步重叠",
+        "传输编码与通信量压缩"
+      ]
+    }
+  ],
+  "citations": {
+    "source": {
+      "hash": "source-hccl",
+      "header": 68,
+      "top": 90.9453125
+    },
+    "returned": {
+      "hash": "cite-176",
+      "header": 68,
+      "top": 99.8515625
+    }
+  },
+  "nestedOutline": {
+    "active": [
+      "分块映射与并行流水"
+    ],
+    "hash": "route-tile-parallelism",
+    "top": 89.9140625
+  },
+  "motion": {
+    "paused": {
+      "animation": "none",
+      "paused": true,
+      "pressed": "true"
+    },
+    "playing": {
+      "animation": "opSignal",
+      "paused": false,
+      "pressed": "false"
+    }
+  },
+  "responsive": [
+    {
+      "title": "算子自动生成与调优 · 极智 AI Infra",
+      "innerWidth": 390,
+      "client": 375,
+      "scrollWidth": 375,
+      "bodyOverflow": false,
+      "tableOverflow": 0,
+      "minVisibleDiagramFont": null,
+      "chapterOrder": [
+        "#hardware",
+        "#projects",
+        "#methods",
+        "#evidence",
+        "#toolchain",
+        "#practice",
+        "#conclusion",
+        "#references"
+      ],
+      "folds": 0
+    },
+    {
+      "title": "分块映射与并行流水 · 极智 AI Infra",
+      "innerWidth": 390,
+      "client": 375,
+      "scrollWidth": 375,
+      "bodyOverflow": false,
+      "tableOverflow": 0,
+      "minVisibleDiagramFont": 12.537717725409836,
+      "chapterOrder": [
+        "#background",
+        "#principles",
+        "#challenges",
+        "#progress",
+        "#comparison",
+        "#practice",
+        "#conclusion",
+        "#references"
+      ],
+      "folds": 0
+    },
+    {
+      "title": "算子定制加速 · 极智 AI Infra",
+      "innerWidth": 1440,
+      "client": 1425,
+      "scrollWidth": 1425,
+      "bodyOverflow": false,
+      "tableOverflow": 0,
+      "minVisibleDiagramFont": null,
+      "chapterOrder": [
+        "#frontier",
+        "#routes",
+        "#principles",
+        "#hardware",
+        "#automatic",
+        "#evaluation",
+        "#boundaries",
+        "#conclusion",
+        "#references"
+      ],
+      "folds": 0
+    }
+  ],
+  "responsiveMethod": "same-origin iframe layout with actual 390px and 1440px inner windows; not a physical device"
+}

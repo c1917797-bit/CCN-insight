@@ -1,0 +1,344 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-10-23",
+  "scope": "算子根技术研究中的横向效率技术专题。比较自动生成与调优如何把加速机制转为正确、高效的实现；GPU与昇腾NPU分开陈述。公开实验与研究判断分开，未独立复现。",
+  "summary": "比较编译、搜索、经验检索和模型训练，如何把复用、分块、融合与布局变成高效实现。重点看硬件约束怎样进入生成过程，以及强基线下的有效覆盖率与搜索成本。",
+  "judgment": "生成工具的关键能力是把数学契约、硬件约束、结构变换、参数搜索和独立评估连起来。经验检索与Host–Kernel协同搜索值得吸收；GPU实现与性能结果必须在目标NPU上重建证据。",
+  "hardware_rows": [
+    {
+      "topic": "执行与调度模型",
+      "gpu": "本批CUDA/Triton研究围绕GPU的线程/warp、SM资源和设备kernel组织候选，调优会涉及占用率、寄存器与Tensor Core路径。",
+      "npu": "本批AscendC研究显式处理Host Tiling、Vector/Cube计算、数据搬运与队列同步；不同Ascend代际的编程模式/API不能混用。",
+      "implication": "先绑定芯片SKU、编程后端及版本，再选择生成模板。不能把CUDA线程块或warp参数机械改名为NPU分核参数；也不能把所有NPU概括成同一编程模型。",
+      "source_ids": [
+        "kernelagent-hardware-report",
+        "ascendkernelgen",
+        "ascendcraft"
+      ]
+    },
+    {
+      "topic": "存储与数据通路",
+      "gpu": "KernelAgent的H100案例用真实profiling诊断寄存器压力、内存访问与并行度；增加流水级数并不总是更快。",
+      "npu": "AscendCraft把数据搬入、片上计算、搬出与对齐处理拆为明确阶段；CANN Bench用多个执行/搬运单元分析瓶颈。",
+      "implication": "可迁移的是‘观察主导开销→提出变换→真机验证’的方法；寄存器、UB/L1/L0预算和同步规则仍须目标化。",
+      "source_ids": [
+        "kernelagent-hardware-report",
+        "ascendcraft",
+        "cannbench"
+      ]
+    },
+    {
+      "topic": "真值与数值口径",
+      "gpu": "KernelBench-Verified增加隐藏数值分布及TF32基线对照，说明公共输入分布与精度配置可显著改变结论。",
+      "npu": "CANN Bench把dtype阈值、高精度Golden和特殊值处理单列，并允许按算子声明有效阈值。",
+      "implication": "先冻结合法优化范围与双方精度配置；不能靠删去计算、猜输入、偷换精度或放宽阈值获得加速。任务质量门槛也不能替代算子数值验证。",
+      "source_ids": [
+        "kernelbench-verified-v1",
+        "cannbench"
+      ]
+    },
+    {
+      "topic": "性能反馈与跨平台迁移",
+      "gpu": "NCU指标和GPU计时可以指导候选搜索，但本批H100/H200/L40S结果各有不同基线与预算。",
+      "npu": "NPUKernelBench记录编译/执行日志并对功能通过的kernel计时；CANN Bench另提供910B2的分析锚点。",
+      "implication": "日志结构和验证闭环可复用，硬件计数器、API、性能锚点和速度倍数不可直接跨平台。310P、910B和未确认型号的950需分别建立记录。",
+      "source_ids": [
+        "kernelbench-v1",
+        "kernelagent-hardware-report",
+        "ascendkernelgen",
+        "cannbench"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "spec-target",
+      "title": "规格与目标约束先行",
+      "mechanism": "把数学表达式、输入输出、dtype、布局、shape范围、允许误差和目标工具链写成可执行契约；Host分派与Kernel消费同一套tiling定义。",
+      "limit": "提示词中的角色设定不等于目标支持；接口存在也不证明生成实现命中目标设备或保留完整语义。",
+      "source_ids": [
+        "ascendkernelgen",
+        "ascendcraft"
+      ]
+    },
+    {
+      "id": "structured-lowering",
+      "title": "DSL与分阶段转换",
+      "mechanism": "先生成表达数据流/分块的受约束表示，再分阶段展开Host、初始化、计算、对齐与padding；每阶段利用编译错误修正候选。",
+      "limit": "中间表示会限制可表达的策略；分阶段编译成功仍不能保证数值正确或达到强基线。",
+      "source_ids": [
+        "ascendcraft"
+      ]
+    },
+    {
+      "id": "domain-adaptation",
+      "title": "领域数据与后训练",
+      "mechanism": "用文档、真实算子与Host–Kernel推理数据补齐专用API和硬件语义，再以错误修正及执行偏好训练模型。",
+      "limit": "训练数据正确性、任务交叉污染、采样预算和动态shape泛化需分别审查；专用模型能力不等于无需运行验收。",
+      "source_ids": [
+        "ascendkernelgen"
+      ]
+    },
+    {
+      "id": "execution-feedback",
+      "title": "真机反馈与多候选搜索",
+      "mechanism": "将编译错误、数值差异、时延和profiling作为不同反馈；探索不同算法/分块候选，保留最好且正确的制品，记录搜索预算与失败分支。",
+      "limit": "正确性反馈与性能反馈不同；并行搜索增加成本且可能互相争用设备，测量应隔离。不能只报相对第一个很慢候选的提升。",
+      "source_ids": [
+        "kernelbench-v1",
+        "kernelagent-hardware-report"
+      ]
+    },
+    {
+      "id": "schedule-search",
+      "title": "编译器调度搜索",
+      "mechanism": "在合法表示与调度空间中用成本模型和搜索选择分块、并行及数据流；可作为LLM候选生成的下游或强对照。",
+      "limit": "自动调优不是LLM自由生成；支持哪个目标后端和调度范围需单独确认，不能从TVM/Ansor机制推定310P可用。",
+      "source_ids": [
+        "ansor",
+        "tvm"
+      ]
+    },
+    {
+      "id": "independent-evaluation",
+      "title": "独立真值、强基线与隐藏测试",
+      "mechanism": "候选与Golden分离，冻结精度/计时规则，覆盖未暴露的输入分布及shape，完整登记编译、正确性、时延、峰值内存和最终模型替换效果。",
+      "limit": "隐藏测试只能降低已覆盖的作弊/过拟合风险；分析性能锚点不是可达到的实测绝对上限，也不能用单算子结果替代整模型。",
+      "source_ids": [
+        "kernelbench-verified-v1",
+        "cannbench"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "gpu-kernelbench",
+      "platform": "GPU / NVIDIA L40S（所列反馈实验）；其他GPU迁移另有实验",
+      "kind": "academic",
+      "work": "KernelBench: Can LLMs Write Efficient GPU Kernels?",
+      "date": "2025-02-14 · arXiv:2502.10517v1",
+      "mechanism": "构建三层PyTorch工作负载，用执行结果与时序profile反馈迭代生成CUDA候选；fast_p同时要求数值正确和超过指定速度门槛。",
+      "conditions": "全套250任务：L1 100、L2 100、L3 50；Table1比较DeepSeek-R1一次生成与10次调用预算的G+E+P迭代，相对该实验Torch Eager基线。",
+      "result": "L1 fast_1由12/100提高到43/100。这个分母包含未成功任务，表示‘正确且更快’的题目比例，不是平均加速43%。",
+      "limit": "10次预算与一次生成成本不同；结果绑定当时软件/精度与L40S，不能直接对比NPU生成率或推定生产部署收益。",
+      "source_ids": [
+        "kernelbench-v1"
+      ]
+    },
+    {
+      "id": "gpu-kernelagent",
+      "platform": "GPU / NVIDIA H100",
+      "kind": "industry",
+      "work": "KernelAgent: Hardware-Guided GPU Kernel Optimization via Multi-Agent Orchestration",
+      "date": "2026-03-06 · PyTorch官方工程报告（非同行评审论文）",
+      "mechanism": "NCU采集→瓶颈诊断→提出硬件相关变换→多候选探索→数值验证→隔离计时；工作记忆保存成功与失败策略。",
+      "conditions": "100个KernelBench L1任务；对照默认Inductor torch.compile、静态shape、CUDA Graph关闭；报告>1秒预热、100次重复的均值。",
+      "result": "65/100任务快于该torch.compile对照，整体几何平均1.56×；相对早期仅正确性循环为2.02×，二者不能混为同一基线。",
+      "limit": "官方项目结果，未复现；不是全部250题性能达标，更不是LLM整模型收益。报告SOL百分比口径不是完整算子达到理论最优的证明。",
+      "source_ids": [
+        "kernelagent-hardware-report"
+      ]
+    },
+    {
+      "id": "gpu-kernelbench-verified",
+      "platform": "GPU / NVIDIA H200",
+      "kind": "academic",
+      "work": "KernelBench-Verified: Do LLM-Generated Kernels Actually Beat PyTorch?",
+      "date": "2026-06-26 · arXiv:2607.16241v1",
+      "mechanism": "增加四种隐藏数值分布、TF32-enabled PyTorch对照及峰值内存检查，重评既有CUDA候选。",
+      "conditions": "L1 100、L2排除3个恒定输出问题后97、L3 50；7个模型，单轮提示、每题5个独立样本，取最快正确样本；几何均值只在正确解决的题目上算。",
+      "result": "论文最佳模型GPT-5.5的Correct Speedup由标准协议1.43×变为加固协议0.88×；这不是全247题都正确或各题都慢12%。",
+      "limit": "这是特定基线/数值协议与best-of-5重评，不能与KernelAgent多轮搜索直接排名；TF32精度必须符合任务契约，不能为快而任意降低对照精度。",
+      "source_ids": [
+        "kernelbench-verified-v1"
+      ]
+    },
+    {
+      "id": "npu-ascendkernelgen",
+      "platform": "NPU / Ascend；本次正文核对未定位明确芯片SKU与完整CANN配套",
+      "kind": "academic",
+      "work": "AscendKernelGen: A Systematic Study of LLM-Based Kernel Generation for Neural Processing Units",
+      "date": "2026-04-17 · arXiv:2601.07160v2",
+      "mechanism": "Ascend-CoT领域数据、错误修正SFT与执行偏好DPO；NPUKernelBench支持Kernel-only及Host–Kernel路径，分开检查编译、功能与性能。",
+      "conditions": "158个kernel任务；任务内多个case、L1–L3分层；报告pass@1/10/100以及case分数、分层/加权分数等不同口径；性能对照为目标平台优化官方库实现。",
+      "result": "提供可执行的Host–Kernel一致性、阶段日志与强参考评估设计；Table7显示领域后训练改善功能结果，但复杂任务仍有明显缺口。此处不把表内Mean或case分数换算为158任务的成功数量。",
+      "limit": "未定位SKU就不能宣称910B/310P/950实测；pass@100不能写成一次生成成功率，官方库参考也不是严格硬件下界。本条不摘用缺完整聚合口径的平均加速数字。",
+      "source_ids": [
+        "ascendkernelgen"
+      ]
+    },
+    {
+      "id": "npu-ascendcraft",
+      "platform": "NPU / Ascend 910B2，CANN8.1，PyTorch2.6，Ubuntu22.04",
+      "kind": "academic",
+      "work": "AscendCraft: Automatic Ascend NPU Kernel Generation via DSL-Guided Transcompilation",
+      "date": "2026-01-30 · arXiv:2601.22760v1",
+      "mechanism": "先生成DSL，再分Host翻译、Kernel初始化、计算、对齐/padding等pass；每pass用编译反馈修正。",
+      "conditions": "MultiKernelBench/更新后的KernelBench L1形状，7类共52个kernel；不含MatMul与Convolution；对照PyTorch eager。",
+      "result": "按Table1类别数还原：51/52编译通过（98.1%）、47/52功能正确（90.4%）；Table2为24/52达到或超过eager（46.2%）。",
+      "limit": "正文对正确率分母表述与表格计数存在不一致，此处按52总数的分类计数解释；不能改写成全部已编译候选中的90.4%。达到eager不等于优于生产强库，亦不证明310P/950或整模型质量门槛通过。",
+      "source_ids": [
+        "ascendcraft"
+      ]
+    },
+    {
+      "id": "npu-cannbench",
+      "platform": "NPU / Ascend 910B2（本文HAP分析与结论范围）",
+      "kind": "academic",
+      "work": "CANN Bench: Benchmarking Agent Generated Kernels against Real NPU and Algorithmic Limits",
+      "date": "2026-07-08 · arXiv:2607.20518v1",
+      "mechanism": "把编译、功能和性能独立评分；以PyTorch-on-Ascend基线与逐case分析HAP作两端锚点，提供Golden和抗奖励作弊约束。",
+      "conditions": "53算子、1060个case、4层；按case与dtype核验；HAP涉及Cube、Vector及搬运通路，非GPU roofline的参数替换。",
+      "result": "这是评测体系与数据集贡献，不是某个生成模型在1060 case上的成功率。论文逐case分析标注MTE主导63%、Vector26%、Cube11%，指该数据集的分析分布。",
+      "limit": "HAP是依实现空间与硬件速率建立的分析锚点，不是无条件可达到的实测时延；fresh-input二次验证是可选加固，默认榜单仍为single-trial，不能宣称默认双重验证。不能把910B2锚点套给310P/950。",
+      "source_ids": [
+        "cannbench"
+      ]
+    }
+  ],
+  "conclusions": [
+    {
+      "title": "已有实现：结构改写与参数搜索承担不同作用",
+      "text": "AscendOptimizer在910B2上的消融表明，经验辅助的Kernel结构改写贡献大于仅搜索Host参数，两者组合继续改善。它支持把结构变换和参数调优分开建模；不证明其他芯片沿用同一变换就有收益。"
+    },
+    {
+      "title": "跨平台可借鉴的是知识与反馈组织",
+      "text": "KernelEvolve、KernelBlaster和AVO展示了硬件检索、状态记忆、版本搜索与执行反馈的不同组合。有效经验需要保留变换、适用条件、失败和测量依据；CUDA/NCU代码和GPU最优配置不是昇腾可直接复用的结论。"
+    },
+    {
+      "title": "后训练提供另一种积累经验的方式",
+      "text": "CUDA Agent与AscendKernelGen将经验写入模型参数，免训练系统则在检索库和上下文中积累经验。路线价值取决于任务重复性、领域数据和评估可信度，以及训练与搜索成本；应保留各自的生成覆盖、正确率和性能分母。"
+    }
+  ],
+  "nextwork": [
+    "维护按精确SoC和软件版本区分的生成约束表；新增接口先通过编译、独立参考与设备用例，再进入候选空间。",
+    "为已采用的变换保存瓶颈、代码差异、有效shape、代价和实测记录；换设备或分布后重新验证，失败轨迹也进入经验库。"
+  ],
+  "source_additions": [
+    {
+      "id": "kernelbench-v1",
+      "title": "KernelBench: Can LLMs Write Efficient GPU Kernels? · v1",
+      "url": "https://arxiv.org/html/2502.10517v1",
+      "kind": "primary_paper",
+      "review_scope": "核对§3任务/指标、Table1执行反馈预算及L40S基线、§4.4/附录G跨GPU差异；未运行框架。",
+      "device_scope": "GPU证据：L40S主实验及列明其他GPU对照；不是Ascend NPU后端或收益证据。",
+      "boundary": "fast_p为总任务中正确且超过速度门槛的比例；预算、基线、硬件和数值配置不可省略，不能与正确样本平均倍数混用。"
+    },
+    {
+      "id": "kernelagent-hardware-report",
+      "title": "KernelAgent: Hardware-Guided GPU Kernel Optimization via Multi-Agent Orchestration · PyTorch",
+      "url": "https://pytorch.org/blog/kernelagent-hardware-guided-gpu-kernel-optimization-via-multi-agent-orchestration/",
+      "kind": "official_project_documentation",
+      "review_scope": "核对2026-03-06官方报告的硬件反馈流程、100个L1任务、H100/静态shape/Graph关闭基线与计时；未独立复现实验。",
+      "device_scope": "GPU直接报告：NVIDIA H100；不构成NPU端口或跨硬件性能证明。",
+      "boundary": "官方工程报告不是同行评审论文；65/100与1.56×对应特定torch.compile对照，2.02×另对照早期正确性循环。SOL口径不等于全kernel达到理论最优。"
+    },
+    {
+      "id": "kernelbench-verified-v1",
+      "title": "KernelBench-Verified: Do LLM-Generated Kernels Actually Beat PyTorch? · v1",
+      "url": "https://arxiv.org/html/2607.16241v1",
+      "kind": "primary_paper",
+      "review_scope": "核对§2问题排除、H200、best-of-5、隐藏分布与TF32对照，以及§3/附录C正确样本几何平均；未复现。",
+      "device_scope": "GPU直接实验：NVIDIA H200；不是NPU生成/性能证据。",
+      "boundary": "实际活跃题目247，正确率与速度分母不同；单轮5样本不等于多轮Agent搜索。对照数值模式仍需符合任务契约，不重复引用正文有问题的TF32位宽描述。"
+    }
+  ],
+  "source_review_updates": [
+    {
+      "id": "ascendkernelgen",
+      "title": "AscendKernelGen：领域后训练与Host–Kernel执行验证 · v2",
+      "url": "https://arxiv.org/html/2601.07160v2",
+      "kind": "primary_paper",
+      "review_scope": "追加核对v2日期、§5–6领域数据/后训练、§7.2–7.4任务与分数/参考基线、§8.2/Table7；未复现实验；正文未定位明确SKU与完整CANN配套。",
+      "device_scope": "Ascend NPU研究；未据该正文确认具体310P、910B或950实验SKU。",
+      "boundary": "158任务、case分数、分层/加权分数与pass@k分开。参考官方优化库不是严格硬件下界；不把表内Mean直接解释为158任务通过率。"
+    },
+    {
+      "id": "ascendcraft",
+      "title": "AscendCraft：DSL引导的Ascend C分阶段生成 · v1",
+      "url": "https://arxiv.org/html/2601.22760v1",
+      "kind": "primary_paper",
+      "review_scope": "追加核对§4各pass编译反馈、§5.1环境及52任务范围、Table1/2分母与正确率表述差异；未运行实验。",
+      "device_scope": "NPU直接实验为910B2、CANN8.1、PyTorch2.6；不是310P/950证据。",
+      "boundary": "52任务不含MatMul/Convolution；按表格类别计数编译51/52、正确47/52、达到eager24/52，正文正确率分母描述不一致需保留说明。eager基线不能代替生产强库。"
+    },
+    {
+      "id": "cannbench",
+      "title": "CANN Bench：独立评估与910B2分析性能锚点 · v1",
+      "url": "https://arxiv.org/html/2607.20518v1",
+      "kind": "primary_paper",
+      "review_scope": "追加核对53算子/1060case范围、§3.1精度与可选fresh-input验证、§3.2的910B2六单元HAP以及结论；未运行评测。",
+      "device_scope": "直接分析锚点与论文结论针对910B2；不是310P/950性能上限。",
+      "boundary": "基准规模不是Agent成功率；HAP为分析锚点，非可保证的实测绝对下界。fresh-input二次验证为可选，默认榜单仍为single-trial，不能追认为默认开启。"
+    }
+  ],
+  "takeaways": [
+    {
+      "title": "强实现的增量改进，更值得看搜索是否有效",
+      "text": "AscendOptimizer把Kernel改写与Host Tiling搜索分开，910B2上的101题中54题更快。1.21×几何均值应与230次评估预算共同阅读。",
+      "target": "#evidence-npu-ascendoptimizer",
+      "source_ids": [
+        "ascendoptimizer-v2"
+      ]
+    },
+    {
+      "title": "跨硬件覆盖，不等于性能经验通用",
+      "text": "KernelEvolve在三类加速器上覆盖480组正确性测试，但个别任务及分布外形状仍退化。更有价值的是目标硬件知识与失败经验如何进入搜索。",
+      "target": "#evidence-kernelevolve-coverage",
+      "source_ids": [
+        "kernelevolve-paper-named-a"
+      ]
+    },
+    {
+      "title": "验证协议能改变“已经超越强库”的判断",
+      "text": "KernelBench-Verified的指定模型在隐藏输入与TF32对照下，正确解速度聚合由1.43×变为0.88×。评测设计是系统能力的一部分。",
+      "target": "#evidence-gpu-kernelbench-verified",
+      "source_ids": [
+        "kernelbench-verified-v1"
+      ]
+    }
+  ],
+  "project_comparisons": [
+    {
+      "name": "KernelEvolve",
+      "method": "硬件知识检索 + 反馈树搜索",
+      "hardware": "NVIDIA / AMD GPU、Meta MTIA",
+      "learn": "按平台注入约束、保存搜索经验；不把多平台覆盖等同一份代码通用。",
+      "limit": "正确性覆盖和更快率分开；保留分布外退化。",
+      "evidence_id": "kernelevolve-coverage"
+    },
+    {
+      "name": "KernelBlaster",
+      "method": "持久经验库 + 上下文策略更新",
+      "hardware": "NVIDIA CUDA GPU",
+      "learn": "将真实profiling状态与成功/失败轨迹用于下一轮选择。",
+      "limit": "上下文RL与模型权重训练分开；有效率与速度并列。",
+      "evidence_id": "kernelblaster-h100"
+    },
+    {
+      "name": "AVO",
+      "method": "代理自主规划变异 + 长时搜索",
+      "hardware": "NVIDIA B200",
+      "learn": "一次变异内部可查资料、改代码、测试与修复，保留版本谱系。",
+      "limit": "强专家基线下的增益连同7天搜索成本一起判断。",
+      "evidence_id": "avo-b200-attention"
+    },
+    {
+      "name": "CUDA Agent",
+      "method": "合成数据 + 技能环境 + Agentic RL",
+      "hardware": "NVIDIA H20执行沙箱",
+      "learn": "用受保护的验证/计时产生训练信号，培养多轮优化策略。",
+      "limit": "专用训练投入与200轮评测轨迹，不能称一次生成。",
+      "evidence_id": "gpu-cuda-agent"
+    },
+    {
+      "name": "AscendOptimizer",
+      "method": "经验检索改写 + Host Tiling搜索",
+      "hardware": "Ascend 910B2 / CANN8.3",
+      "learn": "分别改变Kernel结构与Host参数，再用真机反馈协同。",
+      "limit": "优化已有实现；尚无310P/950复现证据。",
+      "evidence_id": "npu-ascendoptimizer"
+    }
+  ],
+  "update_principle": "新材料只有改变目标覆盖、生成方法、验证强度或有效强基线结果，才进入结论层。每次保留版本和对照条件；名称更新与最好样例进入资料层。"
+}

@@ -158,6 +158,7 @@ function renderFunnel(root){
 function sourcePanel(root,ctx){
  const ticket=++epoch;
  root.replaceChildren(el('h3',ui('paper_pipeline_title')),el('p',ui('paper_pipeline_help'),'reader-note'));
+ const back=el('a',ctx.locale==='en'?'← Back to source directory':'← 返回信源目录','review-queue-back');back.href='#view-sources';root.prepend(back);
  renderFunnel(root);
  const summary=el('div');summary.append(el('p',ui('paper_review_loading'),'meta'));root.append(summary);
  const nav=el('nav','','actions'),buttons=new Map();

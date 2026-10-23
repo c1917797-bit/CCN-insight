@@ -1,0 +1,331 @@
+{
+  "date": "2026-10-23",
+  "revision": "b64274643dcccb5150471168047f227b125fa4eb",
+  "topics": [
+    {
+      "topic": "parameters-precision",
+      "links": 41,
+      "hidden": [],
+      "missing": [],
+      "overflow": false
+    },
+    {
+      "topic": "parameters-selection",
+      "links": 10,
+      "hidden": [],
+      "missing": [],
+      "overflow": false
+    },
+    {
+      "topic": "parameters-distillation",
+      "links": 8,
+      "hidden": [],
+      "missing": [],
+      "overflow": false
+    },
+    {
+      "topic": "parameters-factorization",
+      "links": 10,
+      "hidden": [],
+      "missing": [],
+      "overflow": false
+    },
+    {
+      "topic": "activations-precision",
+      "links": 11,
+      "hidden": [],
+      "missing": [],
+      "overflow": false
+    },
+    {
+      "topic": "activations-selection",
+      "links": 8,
+      "hidden": [],
+      "missing": [],
+      "overflow": false
+    },
+    {
+      "topic": "activations-distillation",
+      "links": 9,
+      "hidden": [],
+      "missing": [],
+      "overflow": false
+    },
+    {
+      "topic": "activations-factorization",
+      "links": 9,
+      "hidden": [],
+      "missing": [],
+      "overflow": false
+    },
+    {
+      "topic": "kv_cache-precision",
+      "links": 10,
+      "hidden": [],
+      "missing": [],
+      "overflow": false
+    },
+    {
+      "topic": "kv_cache-selection",
+      "links": 8,
+      "hidden": [],
+      "missing": [],
+      "overflow": false
+    },
+    {
+      "topic": "kv_cache-distillation",
+      "links": 9,
+      "hidden": [],
+      "missing": [],
+      "overflow": false
+    },
+    {
+      "topic": "kv_cache-factorization",
+      "links": 9,
+      "hidden": [],
+      "missing": [],
+      "overflow": false
+    },
+    {
+      "topic": "kv_cache-kv_eviction",
+      "links": 11,
+      "hidden": [],
+      "missing": [],
+      "overflow": false
+    },
+    {
+      "topic": "kv_cache-sharing",
+      "links": 9,
+      "hidden": [],
+      "missing": [],
+      "overflow": false
+    },
+    {
+      "topic": "activations-merging",
+      "links": 8,
+      "hidden": [],
+      "missing": [],
+      "overflow": false
+    },
+    {
+      "topic": "kv_cache-compact_architecture",
+      "links": 8,
+      "hidden": [],
+      "missing": [],
+      "overflow": false
+    }
+  ],
+  "interaction_checks": {
+    "cross_topic_search": true,
+    "case_filter": true,
+    "cross_topic_saved": true,
+    "direct_case_navigation": true
+  },
+  "scope": "desktop; no full-paper or performance claim",
+  "anchor_positions": [
+    {
+      "anchor": "research-card-parameters-precision__industry_vllm",
+      "top": 140.3125,
+      "topic": "parameters-precision",
+      "viewport": 720,
+      "visible": true
+    },
+    {
+      "anchor": "research-card-parameters-selection__case_sparsegpt",
+      "top": 140.3203125,
+      "topic": "parameters-selection",
+      "viewport": 720,
+      "visible": true
+    },
+    {
+      "anchor": "research-card-parameters-distillation__case_minillm",
+      "top": 140.0390625,
+      "topic": "parameters-distillation",
+      "viewport": 720,
+      "visible": true
+    },
+    {
+      "anchor": "research-card-parameters-factorization__case_asvd",
+      "top": 140.1953125,
+      "topic": "parameters-factorization",
+      "viewport": 720,
+      "visible": true
+    },
+    {
+      "anchor": "research-card-activations-precision__case_smoothquant",
+      "top": 140.171875,
+      "topic": "activations-precision",
+      "viewport": 720,
+      "visible": true
+    },
+    {
+      "anchor": "research-card-activations-selection__case_sparsevlm",
+      "top": 140.375,
+      "topic": "activations-selection",
+      "viewport": 720,
+      "visible": true
+    },
+    {
+      "anchor": "research-card-activations-distillation__case_1",
+      "top": 140.1953125,
+      "topic": "activations-distillation",
+      "viewport": 720,
+      "visible": true
+    },
+    {
+      "anchor": "research-card-activations-factorization__case_1",
+      "top": 140.078125,
+      "topic": "activations-factorization",
+      "viewport": 720,
+      "visible": true
+    },
+    {
+      "anchor": "research-card-kv_cache-precision__case_kivi",
+      "top": 140.2578125,
+      "topic": "kv_cache-precision",
+      "viewport": 720,
+      "visible": true
+    },
+    {
+      "anchor": "research-card-kv_cache-selection__case_think",
+      "top": 140.1640625,
+      "topic": "kv_cache-selection",
+      "viewport": 720,
+      "visible": true
+    },
+    {
+      "anchor": "research-card-kv_cache-distillation__case_1",
+      "top": 140.2421875,
+      "topic": "kv_cache-distillation",
+      "viewport": 720,
+      "visible": true
+    },
+    {
+      "anchor": "research-card-kv_cache-factorization__case_mla",
+      "top": 140.1484375,
+      "topic": "kv_cache-factorization",
+      "viewport": 720,
+      "visible": true
+    },
+    {
+      "anchor": "research-card-kv_cache-kv_eviction__case_snapkv",
+      "top": 140.125,
+      "topic": "kv_cache-kv_eviction",
+      "viewport": 720,
+      "visible": true
+    },
+    {
+      "anchor": "research-card-kv_cache-sharing__case_gqa",
+      "top": 140.3828125,
+      "topic": "kv_cache-sharing",
+      "viewport": 720,
+      "visible": true
+    },
+    {
+      "anchor": "research-card-activations-merging__case_llava-prumerge",
+      "top": 140.2890625,
+      "topic": "activations-merging",
+      "viewport": 720,
+      "visible": true
+    },
+    {
+      "anchor": "research-card-kv_cache-compact_architecture__case_mla",
+      "top": 140.1484375,
+      "topic": "kv_cache-compact_architecture",
+      "viewport": 720,
+      "visible": true
+    }
+  ],
+  "navigation_sequence": {
+    "path": [
+      "sources",
+      "reports",
+      "updates",
+      "topics"
+    ],
+    "single_library_after_transition": true,
+    "count": "16 topics / 178 entries",
+    "query": "KIVI",
+    "case_matches": 2
+  },
+  "views": {
+    "sources": {
+      "overflow": false,
+      "tables": [
+        {
+          "columns": [
+            "来源",
+            "原始链接",
+            "定位",
+            "跟踪重点与核对"
+          ],
+          "id": "source-register-hotspot",
+          "rows": 8
+        },
+        {
+          "columns": [
+            "来源",
+            "生态",
+            "原始链接",
+            "定位",
+            "跟踪重点与核对"
+          ],
+          "id": "source-register-industry",
+          "rows": 38
+        },
+        {
+          "columns": [
+            "来源",
+            "原始链接",
+            "定位",
+            "跟踪重点与核对"
+          ],
+          "id": "source-register-academic",
+          "rows": 12
+        }
+      ]
+    },
+    "archive": {
+      "archive": "洞察月份 · 自 2026-10 起\n2026-10\n\n已补年度候选目录；精读样本单列\n\n回看本月证据 →",
+      "report": "2026年10月推理压缩洞察：技术取舍与业务验证\n报告范围与阅读说明\n\n2026-10-15 · 10 篇图文洞察 / 13 篇候选复核 · 36 页 · 报告正文：中文，论文标题：英文\n\n在本页观看报告\n全屏阅读 PDF ↗\n下载 PowerPoint\n\n使用翻页按钮或目录选择内容；点击页面可放大，并切换查看技术原图和实验原图。\n\n入选资料与研究优先级",
+      "view": "reports"
+    },
+    "updates": {
+      "overflow": false,
+      "streams": "热点资讯\n产业进展\n学术进展\n本期补充研读",
+      "view": "updates"
+    },
+    "map": {
+      "count": "16 个专题 · 178 条可定位资料",
+      "libraries": 1,
+      "matches": "2 项匹配 · 显示 2",
+      "overflow": false,
+      "view": "topics"
+    },
+    "report": {
+      "closed": [],
+      "hash": "#analysis-focus",
+      "headingTop": 85.015625,
+      "margin": "85px",
+      "overflow": false,
+      "priorities": 3,
+      "routes": 6,
+      "view": "home",
+      "wrapper": "SECTION"
+    }
+  },
+  "limits": [
+    "Desktop 1280x720 only; requested mobile viewport was not effective",
+    "Changed-since-open filter has structural/hash verification but no real future-content revision browser replay",
+    "Not a full-text scientific review or performance benchmark"
+  ],
+  "report_cold_anchor": {
+    "hash": "#analysis-focus",
+    "final_top": 85.015625,
+    "title_visible_below_header": true,
+    "wrapper": "SECTION",
+    "priorities": 3,
+    "routes": 6,
+    "closed_ancestors": []
+  }
+}

@@ -1,0 +1,198 @@
+{
+  "date": "2026-10-23",
+  "scope": "Local original reader; no deployment or model experiments",
+  "viewport": "1280x720 topic/report QA; existing user map also observed at 845x1102",
+  "topics": [
+    {
+      "cases": 2,
+      "challengeRows": 0,
+      "chapters": 7,
+      "folded": 0,
+      "overflow": false,
+      "reasoningItems": 5,
+      "topic": "parameters-precision"
+    },
+    {
+      "cases": 2,
+      "challengeRows": 3,
+      "chapters": 7,
+      "folded": 0,
+      "overflow": false,
+      "reasoningItems": 5,
+      "topic": "parameters-selection"
+    },
+    {
+      "cases": 2,
+      "challengeRows": 3,
+      "chapters": 7,
+      "folded": 0,
+      "overflow": false,
+      "reasoningItems": 5,
+      "topic": "parameters-factorization"
+    },
+    {
+      "cases": 1,
+      "challengeRows": 3,
+      "chapters": 7,
+      "folded": 0,
+      "overflow": false,
+      "reasoningItems": 5,
+      "topic": "parameters-distillation"
+    },
+    {
+      "cases": 2,
+      "challengeRows": 3,
+      "chapters": 7,
+      "folded": 0,
+      "overflow": false,
+      "reasoningItems": 5,
+      "topic": "activations-precision"
+    },
+    {
+      "cases": 1,
+      "challengeRows": 3,
+      "chapters": 7,
+      "folded": 0,
+      "overflow": false,
+      "reasoningItems": 5,
+      "topic": "activations-selection"
+    },
+    {
+      "cases": 2,
+      "challengeRows": 3,
+      "chapters": 7,
+      "folded": 0,
+      "overflow": false,
+      "reasoningItems": 5,
+      "topic": "activations-distillation"
+    },
+    {
+      "cases": 2,
+      "challengeRows": 3,
+      "chapters": 7,
+      "folded": 0,
+      "overflow": false,
+      "reasoningItems": 5,
+      "topic": "activations-factorization"
+    },
+    {
+      "cases": 1,
+      "challengeRows": 3,
+      "chapters": 7,
+      "folded": 0,
+      "overflow": false,
+      "reasoningItems": 5,
+      "topic": "activations-merging"
+    },
+    {
+      "cases": 6,
+      "challengeRows": 3,
+      "chapters": 7,
+      "folded": 0,
+      "overflow": false,
+      "reasoningItems": 5,
+      "topic": "kv_cache-precision"
+    },
+    {
+      "cases": 1,
+      "challengeRows": 3,
+      "chapters": 7,
+      "folded": 0,
+      "overflow": false,
+      "reasoningItems": 5,
+      "topic": "kv_cache-selection"
+    },
+    {
+      "cases": 2,
+      "challengeRows": 3,
+      "chapters": 7,
+      "folded": 0,
+      "overflow": false,
+      "reasoningItems": 5,
+      "topic": "kv_cache-factorization"
+    },
+    {
+      "cases": 2,
+      "challengeRows": 3,
+      "chapters": 7,
+      "folded": 0,
+      "overflow": false,
+      "reasoningItems": 5,
+      "topic": "kv_cache-distillation"
+    },
+    {
+      "cases": 2,
+      "challengeRows": 3,
+      "chapters": 7,
+      "folded": 0,
+      "overflow": false,
+      "reasoningItems": 5,
+      "topic": "kv_cache-sharing"
+    },
+    {
+      "cases": 4,
+      "challengeRows": 3,
+      "chapters": 7,
+      "folded": 0,
+      "overflow": false,
+      "reasoningItems": 5,
+      "topic": "kv_cache-kv_eviction"
+    },
+    {
+      "cases": 1,
+      "challengeRows": 3,
+      "chapters": 7,
+      "folded": 0,
+      "overflow": false,
+      "reasoningItems": 5,
+      "topic": "kv_cache-compact_architecture"
+    }
+  ],
+  "map": {
+    "topics": 16,
+    "directCaseShortcuts": 30,
+    "overflow": false
+  },
+  "sourceRegister": {
+    "academicUnchanged": 12,
+    "arxivRefsInOpenNotes": 17,
+    "arxivRefsInTable": 0,
+    "filteredIndustry": [
+      "source-family-msmodelslim"
+    ],
+    "hotspotUnchanged": 8,
+    "overflow": false,
+    "tables": 3
+  },
+  "updates": {
+    "visiblePaperFactBlocks": 13,
+    "foldedPaperFactBlocks": 0
+  },
+  "archive": {
+    "currentVersions": 1,
+    "supersededVersions": 5,
+    "historyIframes": 0
+  },
+  "foundations": {
+    "quickReferences": 4,
+    "staticStages": 18,
+    "players": 4,
+    "topicLinks": 12
+  },
+  "report": {
+    "choices": 3,
+    "compactSourceIndexRows": 3,
+    "cardWidths": [
+      309,
+      309,
+      309
+    ],
+    "overflow": false,
+    "originalPPTUnchanged": true
+  },
+  "limitations": [
+    "No mobile viewport verification",
+    "Not exhaustive current-literature coverage",
+    "Selected passages checked; no independent experiments"
+  ]
+}

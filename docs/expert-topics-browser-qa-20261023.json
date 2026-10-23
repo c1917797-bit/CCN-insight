@@ -1,0 +1,160 @@
+{
+  "date": "2026-10-23",
+  "topics": [
+    {
+      "briefParts": 4,
+      "cases": 2,
+      "chapters": 7,
+      "folds": 0,
+      "overflow": false,
+      "topic": "activations-distillation",
+      "unresolved": []
+    },
+    {
+      "briefParts": 4,
+      "cases": 2,
+      "chapters": 7,
+      "folds": 0,
+      "overflow": false,
+      "topic": "activations-factorization",
+      "unresolved": []
+    },
+    {
+      "briefParts": 4,
+      "cases": 1,
+      "chapters": 7,
+      "folds": 0,
+      "overflow": false,
+      "topic": "activations-merging",
+      "unresolved": []
+    },
+    {
+      "briefParts": 4,
+      "cases": 2,
+      "chapters": 7,
+      "folds": 0,
+      "overflow": false,
+      "topic": "activations-precision",
+      "unresolved": []
+    },
+    {
+      "briefParts": 4,
+      "cases": 1,
+      "chapters": 7,
+      "folds": 0,
+      "overflow": false,
+      "topic": "activations-selection",
+      "unresolved": []
+    },
+    {
+      "briefParts": 4,
+      "cases": 1,
+      "chapters": 7,
+      "folds": 0,
+      "overflow": false,
+      "topic": "kv_cache-compact_architecture",
+      "unresolved": []
+    },
+    {
+      "briefParts": 4,
+      "cases": 2,
+      "chapters": 7,
+      "folds": 0,
+      "overflow": false,
+      "topic": "kv_cache-distillation",
+      "unresolved": []
+    },
+    {
+      "briefParts": 4,
+      "cases": 2,
+      "chapters": 7,
+      "folds": 0,
+      "overflow": false,
+      "topic": "kv_cache-factorization",
+      "unresolved": []
+    },
+    {
+      "briefParts": 4,
+      "cases": 4,
+      "chapters": 7,
+      "folds": 0,
+      "overflow": false,
+      "topic": "kv_cache-kv_eviction",
+      "unresolved": []
+    },
+    {
+      "briefParts": 4,
+      "cases": 2,
+      "chapters": 7,
+      "folds": 0,
+      "overflow": false,
+      "topic": "kv_cache-precision",
+      "unresolved": []
+    },
+    {
+      "briefParts": 4,
+      "cases": 1,
+      "chapters": 7,
+      "folds": 0,
+      "overflow": false,
+      "topic": "kv_cache-selection",
+      "unresolved": []
+    },
+    {
+      "briefParts": 4,
+      "cases": 2,
+      "chapters": 7,
+      "folds": 0,
+      "overflow": false,
+      "topic": "kv_cache-sharing",
+      "unresolved": []
+    },
+    {
+      "briefParts": 4,
+      "cases": 1,
+      "chapters": 7,
+      "folds": 0,
+      "overflow": false,
+      "topic": "parameters-distillation",
+      "unresolved": []
+    },
+    {
+      "briefParts": 4,
+      "cases": 2,
+      "chapters": 7,
+      "folds": 0,
+      "overflow": false,
+      "topic": "parameters-factorization",
+      "unresolved": []
+    },
+    {
+      "briefParts": 4,
+      "cases": 6,
+      "chapters": 7,
+      "folds": 0,
+      "overflow": false,
+      "topic": "parameters-precision",
+      "unresolved": []
+    },
+    {
+      "briefParts": 4,
+      "cases": 2,
+      "chapters": 7,
+      "folds": 0,
+      "overflow": false,
+      "topic": "parameters-selection",
+      "unresolved": []
+    }
+  ],
+  "interactions": {
+    "savePersistsAfterReload": true,
+    "savedFilterWorks": true,
+    "jumpFocusesCase": true,
+    "unsavePropagatesToIndex": true
+  },
+  "responsive": {
+    "requestedWidth": 390,
+    "observedWidth": 1280,
+    "status": "viewport override not effective; mobile not verified"
+  }
+}

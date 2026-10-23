@@ -1,0 +1,162 @@
+{
+  "date": "2026-10-22",
+  "environment": "http://127.0.0.1:8787",
+  "topics": [
+    {
+      "topic": "parameters-precision",
+      "hasExperiment": true,
+      "hasReference": true,
+      "hasError": false
+    },
+    {
+      "topic": "parameters-selection",
+      "hasExperiment": true,
+      "hasReference": true,
+      "hasError": false
+    },
+    {
+      "topic": "parameters-distillation",
+      "hasExperiment": true,
+      "hasReference": true,
+      "hasError": false
+    },
+    {
+      "topic": "parameters-factorization",
+      "hasExperiment": true,
+      "hasReference": true,
+      "hasError": false
+    },
+    {
+      "topic": "activations-precision",
+      "hasExperiment": true,
+      "hasReference": true,
+      "hasError": false
+    },
+    {
+      "topic": "activations-selection",
+      "hasExperiment": true,
+      "hasReference": true,
+      "hasError": false
+    },
+    {
+      "topic": "activations-distillation",
+      "hasExperiment": true,
+      "hasReference": true,
+      "hasError": false
+    },
+    {
+      "topic": "activations-factorization",
+      "hasExperiment": true,
+      "hasReference": true,
+      "hasError": false
+    },
+    {
+      "topic": "activations-merging",
+      "hasExperiment": true,
+      "hasReference": true,
+      "hasError": false
+    },
+    {
+      "topic": "kv_cache-precision",
+      "hasExperiment": true,
+      "hasReference": true,
+      "hasError": false
+    },
+    {
+      "topic": "kv_cache-selection",
+      "hasExperiment": true,
+      "hasReference": true,
+      "hasError": false
+    },
+    {
+      "topic": "kv_cache-distillation",
+      "hasExperiment": true,
+      "hasReference": true,
+      "hasError": false
+    },
+    {
+      "topic": "kv_cache-factorization",
+      "hasExperiment": true,
+      "hasReference": true,
+      "hasError": false
+    },
+    {
+      "topic": "kv_cache-kv_eviction",
+      "hasExperiment": true,
+      "hasReference": true,
+      "hasError": false
+    },
+    {
+      "topic": "kv_cache-sharing",
+      "hasExperiment": true,
+      "hasReference": true,
+      "hasError": false
+    },
+    {
+      "topic": "kv_cache-compact_architecture",
+      "hasExperiment": true,
+      "hasReference": true,
+      "hasError": false
+    }
+  ],
+  "main_views": [
+    {
+      "view": "sources",
+      "loaded": true,
+      "hasReadFailure": false,
+      "guideVisible": true
+    },
+    {
+      "view": "topics",
+      "loaded": true,
+      "hasReadFailure": false,
+      "guideVisible": false
+    },
+    {
+      "view": "updates",
+      "loaded": true,
+      "hasReadFailure": false,
+      "guideVisible": false
+    },
+    {
+      "view": "home",
+      "loaded": true,
+      "hasReadFailure": false,
+      "guideVisible": false
+    },
+    {
+      "view": "reports",
+      "loaded": true,
+      "hasReadFailure": false
+    }
+  ],
+  "source_tabs": {
+    "industry": {
+      "ascend": true,
+      "cross_platform": true,
+      "msModelSlim": true,
+      "vllmAscend": true
+    },
+    "academic": {
+      "ICLR": true,
+      "ICML": true,
+      "NeurIPS": true
+    }
+  },
+  "archive_regression": "Cross-source scan provenance fixed; archive report successfully loaded after repair.",
+  "limitations": [
+    "Browser checks cover loading, visible structure, actions and references; they are not independent re-reviews of all papers.",
+    "PDF/PPT assets unchanged."
+  ],
+  "final_checks": {
+    "main_views": 5,
+    "topics": 16,
+    "source_tabs": 3,
+    "author_result_cards_numerically_unchanged": 32,
+    "resolved_citations": 287,
+    "assets_hash_checked": 182,
+    "scan_integrity_regression": "passed",
+    "delivery_integrity": "passed"
+  },
+  "publication": "not_published; both public sites unchanged"
+}

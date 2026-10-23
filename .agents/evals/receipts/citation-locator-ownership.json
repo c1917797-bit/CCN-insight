@@ -1,0 +1,23 @@
+{
+  "lesson_id": "citation-locator-ownership",
+  "lesson_sha256": "4c64f3cf79dbf4120314bb81f1a47be71ea946c42e6040b4f01e7d945e4d4182",
+  "checked_at": "2026-10-23T14:33:52.830112+00:00",
+  "passed": true,
+  "checks": {
+    "skill-tree": true,
+    "citation-boundaries": true
+  },
+  "files": {
+    "docs/EXPERT-QUALITY-20261023.md": "ba1b355b2b25757cb1fece1a59f4db89a57f270259be2c80884a0c942ffc942b",
+    "scripts/verify_expert_topics.py": "e3febd30fe906254b1b419268c110a582dc8ce02fea88b98d23e1458bda19941",
+    ".agents/skills/ccn-evidence-review/SKILL.md": "7101daf8589ff3796f56d7aa012302f8545ea8f3ff07b6b6bcb2b265f3883c37"
+  },
+  "check_scripts": {
+    "scripts/validate_insight_skills.py": "e842bf97cdbdd2c8d8657ea655b24c87c9c7aa21ca8cad610d0c72e7cce53c40",
+    "scripts/verify_expert_topics.py": "e3febd30fe906254b1b419268c110a582dc8ce02fea88b98d23e1458bda19941"
+  },
+  "logs": {
+    ".agents/evals/receipts/citation-locator-ownership--skill-tree.txt": "87636eecf4081eb7e0509b3067494b2c39c3649ca93825449f027dd490fe7cda",
+    ".agents/evals/receipts/citation-locator-ownership--citation-boundaries.txt": "ffc16600debbe1ef4f0a26846ba81bbf153d0e6597fff62fe59f191b1816ec2f"
+  }
+}

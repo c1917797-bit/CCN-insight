@@ -77,6 +77,34 @@
       "role": "value",
       "source": null,
       "type": "string"
+    },
+    "reviewed_at": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "review_note_zh": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "review_note_en": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "review_url": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
     }
   },
   "indexes": [

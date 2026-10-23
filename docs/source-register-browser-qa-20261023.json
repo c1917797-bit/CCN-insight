@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-23",
+  "scope": "local preview only",
+  "registers": {
+    "hotspot": {
+      "families": 35,
+      "entrypoint_links": 37
+    },
+    "industry": {
+      "families": 233,
+      "entrypoint_links": 264
+    },
+    "academic": {
+      "families": 14,
+      "entrypoint_links": 52
+    }
+  },
+  "browser_checks": {
+    "three_separate_tables": true,
+    "industry_search_does_not_change_other_tables": true,
+    "ascend_filter_only_ascend_rows": true,
+    "NeurIPS_ICML_ICLR_present": true,
+    "no_details_inside_tables": true
+  },
+  "default": "core sources; all registered sources available in each table range selector"
+}

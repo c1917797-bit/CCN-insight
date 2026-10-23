@@ -1,0 +1,11 @@
+{
+  "id": "metric-scope-before-ranking",
+  "status": "proposed",
+  "trigger": "把论文/官方实现中的性能数字写入比较或洞察判断时",
+  "changed_action": "先冻结指标范围、负载和分母；不把前向或prefill改名为TTFT，不把组合整体结果归给单组件，未报告保持null。",
+  "scope": "新主题主张契约及既有研究的人工校核；不要求极稳也使用固定压缩指标。",
+  "counterexample": "明确注明配置不同的部署取舍比较可以保留，但不能标为同条件单因素因果。",
+  "evidence": ["docs/EXPERT-QUALITY-20261023.md", "research/source-audits/20261023-expert/kivi/source.md"],
+  "destination": ".agents/skills/ccn-evidence-review/references/claim-contract.md",
+  "checks": ["skill-tree", "evidence-contract"]
+}

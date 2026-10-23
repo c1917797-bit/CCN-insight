@@ -1,0 +1,25 @@
+/* Reader editorial layer: shared by all five views and topic pages. */
+.compression-research-workbench{--reading-ink:#183447;--reading-muted:#536778}
+.compression-research-workbench .wb-view-tabs{display:none!important}
+.compression-research-workbench #topic-title{font-size:clamp(26px,2.5vw,38px);line-height:1.3;letter-spacing:-.025em;margin:8px 0 16px}
+.compression-research-workbench #runtime-status:empty{display:none}
+.compression-research-workbench #reading-guide{margin:0 0 24px;background:#f5f8f9;box-shadow:none;border:1px solid #e1e9ed;border-radius:10px}
+.compression-research-workbench #reading-guide li{line-height:1.75}
+.compression-research-workbench p{line-height:1.85;overflow-wrap:anywhere}
+.compression-research-workbench .direction-section>p,.compression-research-workbench .topic-dossier-card>p:not(.meta):not(.topic-dossier-type){max-width:76ch}
+.compression-research-workbench .research-overview-section{margin:0 0 44px}
+.compression-research-workbench .direction-section{margin:24px 0}
+.compression-research-workbench .research-overview-section>h2{padding:0 0 12px;border-bottom:1px solid #dce7eb;font-size:clamp(23px,2vw,30px);color:var(--reading-ink)}
+.compression-research-workbench .topic-dossier-card{box-shadow:none;border-color:#dfe8ed;border-radius:12px;padding:22px 26px;background:#fff}
+.compression-research-workbench .topic-dossier-card h3,.compression-research-workbench .topic-dossier-card h4{line-height:1.55;font-size:20px;margin:8px 0 14px}
+.compression-research-workbench .topic-dossier-type{font-size:12px;letter-spacing:.04em;color:var(--reading-muted);margin:0 0 8px}
+.compression-research-workbench .topic-dossier-citations{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;font-size:12px}
+.compression-research-workbench .topic-dossier-citations a{border:0!important;background:transparent!important;padding:2px!important;box-shadow:none!important;font-weight:600}
+.compression-research-workbench [data-source-family]{box-shadow:none!important;transition:border-color .15s ease}
+.compression-research-workbench [data-source-family] p{font-size:15px;line-height:1.85;max-width:80ch}
+.compression-research-workbench #channel-cards h5{font-size:18px;line-height:1.55}
+.compression-research-workbench #channel-cards h4{font-size:14px;color:#647786;margin:22px 0 12px}
+.compression-research-workbench .meta{font-size:13px;line-height:1.7;color:var(--reading-muted)}
+.compression-research-workbench .topic-takeaway{font-size:18px;line-height:1.8;color:#173f4d;background:#edf6f5;border-left:3px solid #0d817f;border-radius:0 8px 8px 0;padding:16px 20px;max-width:76ch;margin:20px 0}
+@media(min-width:1051px){.compression-research-workbench .research-reader-tabs,.compression-research-workbench .topic-report-actions{display:none}}
+@media(max-width:760px){.compression-research-workbench .topic-dossier-card{padding:18px}.compression-research-workbench #reading-guide ul{grid-template-columns:1fr}.compression-research-workbench .topic-dossier-card h3{font-size:18px}}

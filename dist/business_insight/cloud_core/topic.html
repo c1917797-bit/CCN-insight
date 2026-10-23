@@ -16,13 +16,13 @@
  // First-paint reader. It fetches authorized TableGit rows; no facts are built into this file.
  const params=new URLSearchParams(location.search),topic=params.get('topic'),period=params.get('month')||new Date().toISOString().slice(0,7),scope=params.get('scope');
  const topicPage=location.pathname.endsWith('/topic.html'),monthly=location.pathname.endsWith('/monthly.html');
- const match=/^#view-(sources|topics|updates|home|reports)/.exec(location.hash),view=topicPage?'topics':monthly?'updates':match?.[1]||(location.hash==='#analysis-focus'?'home':location.hash==='#supplementary-paper-reviews'?'updates':'sources');
+ const match=/^#view-(sources|topics|updates|home|reports)/.exec(location.hash),mapRoute=/^#(?:map$|route-(?:precision|selection|distillation|factorization)$)/.test(location.hash),view=topicPage||mapRoute?'topics':monthly?'updates':match?.[1]||(location.hash==='#analysis-focus'?'home':location.hash==='#supplementary-paper-reviews'?'updates':'sources');
  const en=document.documentElement.lang.startsWith('en'),pick=(r,k)=>r[k+(en?'_en':'_zh')]||r[k+'_zh']||r[k]||'',eq=(field,value)=>({field,op:'eq',value});
  const common=[eq('business_id','cloud-core'),eq('topic_id','cloud_core')];
  const table=(name,filters=[])=>({name,table:'ic_'+name,filters:[...common,...filters]});
  let plan;
  if(view==='sources')plan=[table('source_families',[eq('ui_group','hotspot')]),table('channels',[eq('ui_group','hotspot'),{field:'priority',op:'in',value:['P0','P1']}]),{...table('channel_families'),limit:400,select:['business_id','topic_id','membership_id','channel_id','family_id','position']}];
- else if(view==='topics')plan=topic?[table('compression_topic_sections',[eq('compression_topic_id',topic),{field:'section_kind',op:'in',value:['problem','mechanism','boundary']}])]:[table('compression_topics'),table('compression_topic_concepts')];
+ else if(view==='topics')plan=topic?[table('compression_topic_sections',[eq('compression_topic_id',topic),{field:'section_kind',op:'in',value:['problem','mechanism','boundary']}])]:[table('map_terms',[eq('facet_id','mechanism')])];
  else if(view==='updates')plan=[table('paper_summary_events',[eq('period_id',period)]),table('paper_summaries')];
  else plan=[table('insight_reports',[eq('period_id',period),eq('status','published')])];
  const ensure=(test,message)=>{if(!test)throw Error(message);};
@@ -75,12 +75,12 @@
  function link(text,url){const a=node('a',text);const target=new URL(url,location.href);ensure(['https:','http:'].includes(target.protocol),'Unsafe first-content URL');a.href=target.href;if(target.origin!==location.origin){a.target='_blank';a.rel='noopener noreferrer';}return a;}
  function mount(model){
   if(retired||mounted)return;const nav=document.querySelector('.wb-view-tabs');if(!nav)return false;
-  const g=model.groups;root=node('section','','section');root.id='first-readable-content';root.dataset.readingLayer=['home','reports'].includes(view)?'analysis':'facts';root.dataset.revision=model.revision;
+  const g=model.groups;root=node('section','','section');root.id='first-readable-content';root.dataset.sectionOutline='false';root.dataset.readingLayer=['home','reports'].includes(view)?'analysis':'facts';root.dataset.revision=model.revision;
   root.append(node('h2',en?'Read now':view==='sources'?'信息来源':view==='topics'?(topic?'研究问题与技术原理':'技术地图'):view==='updates'?'本期论文摘要':'本期洞察报告'));
   const grid=node('div','','grid');root.append(grid);let count=0;
   const card=(heading,paragraphs,url)=>{const article=node('article','','card');article.append(url?link(heading,url):node('h3',heading));for(const text of paragraphs.filter(Boolean)){const paragraph=node('p',text);if(count===0&&!article.querySelector?.('p'))paragraph.setAttribute('elementtiming','cloud-core-native-first');article.append(paragraph);}grid.append(article);count++;};
   if(view==='sources'){for(const f of g.source_families)card(pick(f,'title'),[pick(f,'summary')]);}
-  else if(view==='topics'&&!topic){const topics=g.compression_topics.filter(t=>t.catalog_kind==='matrix').sort((a,b)=>a.position-b.position);for(const t of topics){const c=g.compression_topic_concepts.find(c=>c.compression_topic_id===t.compression_topic_id);ensure(c?.claim_kind==='editorial_definition'&&c.source_url&&c.reviewed_at,'Unbound topic concept');const url=new URL('topic.html',location.href);url.searchParams.set('topic',t.compression_topic_id);if(params.has('month'))url.searchParams.set('month',period);if(scope)url.searchParams.set('scope',scope);card(pick(t,'title'),[pick(c,'summary')],url.href);}}
+  else if(view==='topics'&&!topic){for(const id of ['precision','selection','distillation','factorization']){const term=g.map_terms.find(row=>row.term_id===id);ensure(term?.facet_id==='mechanism'&&term.description_zh&&term.name_zh,'Unbound core research route');const url=new URL('index.html',location.href);if(params.has('month'))url.searchParams.set('month',period);if(scope)url.searchParams.set('scope',scope);url.hash='route-'+id;card(pick(term,'name'),[pick(term,'description')],url.href);}}
   else if(view==='topics'){ensure(g.compression_topic_sections.length===3,'Incomplete first research sections');for(const kind of ['problem','mechanism','boundary']){const section=g.compression_topic_sections.find(s=>s.section_kind===kind);ensure(section&&section.claim_kind==='literature_synthesis'&&section.reviewed_at&&section.evidence_url&&section.section_id===topic+'__'+kind,'Unreviewed first research section');card(pick(section,'heading'),[pick(section,'body')],section.evidence_url);}}
   else if(view==='updates'){const events=new Map(g.paper_summary_events.map(e=>[e.summary_id,e]));for(const s of g.paper_summaries.filter(s=>events.has(s.summary_id)).slice(0,6)){const e=events.get(s.summary_id);ensure(e.source_id===s.source_id&&e.observed_version===s.observed_version&&['primary_abstract_checked','method_results_checked'].includes(s.review_status)&&s.evidence_url&&s.one_sentence_zh,'Unreviewed current paper');card((en?'Reviewed paper · ':'论文原文 · ')+new URL(s.evidence_url).pathname.split('/').at(-1),[pick(s,'one_sentence'),pick(s,'results')],s.evidence_url);}}
   else{for(const r of g.insight_reports)card(pick(r,'title'),[pick(r,'summary')],'index.html'+location.search+'#view-home');for(const r of (g.ascend_route_assessments||[]).sort((a,b)=>a.position-b.position).slice(0,3)){ensure(r.claim_status==='analyst_recommendation','Unsupported first-content recommendation');card(pick(r,'title'),[pick(r,'rationale'),pick(r,'recommendation')]);}}
@@ -100,7 +100,11 @@
 <meta name="lri-page-translation" content="ui">
 <meta name="lri-shell-version" content="lri-shell-v18-cloud-report-navigation">
 <script type="module" src="../../assets/lri-shell.js?v=lri-shell-v18-cloud-report-navigation"></script>
-<script type="application/lri-reader" data-lri-reader="topic-entry.js?v=reader-content-d1140db05b204943"></script>
+<script type="application/lri-reader" data-lri-reader="topic-entry.js?v=reader-content-7f1c47538058bdce"></script>
+<link rel="stylesheet" href="reader-editorial.css?v=20261022">
+<link rel="stylesheet" href="reader-refinement.css?v=round2-20261022">
+<link rel="stylesheet" href="topic-studio.css?v=20261023-studio-1">
+<link rel="stylesheet" href="reader-atlas.css?v=20261023-atlas-1">
 </head>
 <body data-lri-section-visibility="visible" data-lri-shell="auto" data-lri-content-kind="topic" data-topic-id="cloud_core" data-compression-topic="true">
 <main class="wrap compression-research-workbench">
@@ -128,12 +132,12 @@
 
 <div data-view-panel="sources" id="view-sources">
 <div class="section" id="channels-panel" data-section-label="信息来源" data-section-label-en="Information sources" data-section-level="3" data-section-number="1.1" data-reading-layer="facts"><h3 data-i18n-key="view_sources">信息来源</h3><p data-i18n-key="sources_help">热点资讯帮助发现值得关注的变化，产业资料展示实现与部署进展，学术来源提供研究论文。点击信源名称可访问原站。</p>
-<div class="wb-domain-tabs" role="tablist" aria-label="来源类别" data-i18n-aria-label="source_domains"><button type="button" role="tab" aria-selected="true" data-domain="hotspot" data-i18n-key="domain_hotspot">热点资讯</button><button type="button" role="tab" aria-selected="false" data-domain="industry" data-i18n-key="domain_industry">产业界</button><button type="button" role="tab" aria-selected="false" data-domain="academic" data-i18n-key="domain_academic">学术界</button></div>
+<nav class="source-register-navigation" aria-label="信息源目录"><a href="#source-register-hotspot">热点资讯</a><a href="#source-register-industry">产业界</a><a href="#source-register-academic">学术界</a></nav>
 <details class="wb-source-policy"><summary data-i18n-key="source_selection_policy">信源选择与审阅说明</summary><p data-i18n-key="collection_discovery_boundary">采集列表用于发现候选资料，技术内容经原文核对后再纳入分析。标题相关或页面标注日期，仅作为筛选线索。</p>
 
 <p data-i18n-key="source_priority_help">优先选择与推理压缩相关、提供一手资料且持续更新的来源。</p>
 <p id="source-subject-overview" class="reader-note"></p></details>
-<div class="wb-filters"><div><label for="channel-category" data-i18n-key="source_subcategory">信源子类</label><select id="channel-category"><option value="" data-i18n-key="source_category_all">全部子类</option></select></div><div><label for="channel-priority" data-i18n-key="source_display">显示范围</label><select id="channel-priority"><option value="important" data-i18n-key="source_important">核心信源（默认）</option><option value="all" data-i18n-key="source_all">全部信源（含备用）</option></select></div><div><label for="channel-query" data-i18n-key="source_search">搜索信源、网站或分类</label><input id="channel-query" type="search" autocomplete="off"></div></div>
+<div class="wb-filters" hidden><div><label for="channel-category" data-i18n-key="source_subcategory">信源子类</label><select id="channel-category"><option value="" data-i18n-key="source_category_all">全部子类</option></select></div><div><label for="channel-priority" data-i18n-key="source_display">显示范围</label><select id="channel-priority"><option value="important" data-i18n-key="source_important">核心信源（默认）</option><option value="all" data-i18n-key="source_all">全部信源（含备用）</option></select></div><div><label for="channel-query" data-i18n-key="source_search">搜索信源、网站或分类</label><input id="channel-query" type="search" autocomplete="off"></div></div>
 <p id="channel-status" class="meta" role="status"></p><div id="channel-cards" class="wb-reading-list"></div>
 
 <div class="actions"><button class="btn" type="button" id="channel-prev" data-dependent disabled data-i18n-key="previous">上一页</button><button class="btn" type="button" id="channel-next" data-dependent disabled data-i18n-key="next">下一页</button></div>
@@ -145,7 +149,7 @@
 </div>
 <div data-view-panel="topics" id="view-topics" hidden>
 <div class="section" id="map" data-section-label="技术地图" data-section-label-en="Technology map" data-section-level="3" data-section-number="1.2" data-reading-layer="analysis">
-<h3 data-i18n-key="view_topics">技术地图</h3><p data-i18n-key="topics_help">每个交叉格对应一个研究专题，介绍背景、原理、技术路线与代表文献。相关月度进展见“本期动态”。</p>
+<h3 data-i18n-key="view_topics">技术地图</h3><p data-i18n-key="topics_help">沿四条研究路线阅读原理、挑战与进展，再按压缩对象查找具体专题。相关月度新增证据见“本期动态”。</p>
 <div id="scientific-map"></div>
 <div id="direction-detail" class="direction-topic" hidden aria-live="polite"></div>
 <details id="representative-routes"><summary>代表技术路线</summary><p data-i18n-key="lineage_help">按技术方向查看代表工作的演进。论文首投日期保留原始时间；各路线的关系和引用版本可进一步查看。</p>

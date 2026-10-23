@@ -1,0 +1,62 @@
+# CCN 维护交接 · 2026-10-23
+
+## 当前状态
+
+工作目录为CCN-insight，分支main，存在大量历史及本轮未提交改动；不能把工作树等同于已合入、已推送或已发布。用户要求当前迭代本地审阅。原站保留，未经新授权不发布。
+
+## 已完成与入口
+
+- 用户认为深色版不美观，本轮另做专题视觉修订：`topic-studio.css` 仅接入 `topic.html`，浅色阅读、紫蓝点缀、张量页首插画，取消正文与侧栏重复目录；权重页不再重复显示页首判断，并统一七章目录。KV 量化分镜明确标为 KIVI 示例，图示逐通道 K、逐 token V 与高精度 residual，未将 QJL 等路线拼接为一套流程。见 `docs/COMPRESSION-VISUAL-STUDIO-20261023.md`。仍仅本地、未推送或发布，视觉方向尚待用户反馈。
+- 追加五轮推理压缩专题打磨（不是算子页）：`docs/COMPRESSION-FIVE-ROUNDS-20261023.md`。当前190卡、443引用、179个可定位检索条目。四张案例/工程卡由指定原文补强；DeltaLog作为状态写回的关联边界进入紧凑架构，没有归为量化或新架构。
+- 论文盘点：16,148个按编号/链接去重的论文标识，含异常及尚未确认压缩相关记录；38篇有阅读摘要，61篇被专题引用（34含指定章节核对、27仅摘要）。这些来自不同维护记录，不是严格递减漏斗。不能说上万篇已吸收或全文读完。`scripts/audit_compression_inventory.py` 随reader构建输出公共汇总，完整本地审计见docs。
+- 已有四步资料的11个通用专题增加SVG分镜，四步文字同时展示，带播放/暂停与步骤切换，尊重减少动态偏好。4个construction专题没有编造steps；权重量化继续使用共享基础课。深蓝/青色页首、清晰来源条、同页跳转及紧凑方法索引已接入。仍仅本地，未提交/推送/发布。
+- 推理压缩唯一内容源：`data/compression/tables/`；阅读器：`original-reader/site/business_insight/cloud_core/`。
+- 信息来源三张独立表，各自搜索/筛选，同主体多入口归一行。
+- 16专题增加研究速览、证据导航与本浏览器待读；10条跨来源Flint定位修正。详见 `docs/EXPERT-QUALITY-20261023.md`。
+- 仓库级skill入口：`.agents/skills.registry.json`，构筑/证据/经验三项。新领域模板和经验生命周期已加入，不需要复制个人skill库。
+- 三条实践经验目前为proposed；自动验证不等于维护者接受。
+- 技术地图新增跨16专题的资料检索，178条可定位资料；来源审阅范围、待读与打开后修订语义独立。索引由 `scripts/build_expert_index.py` 构建，不是编辑源。
+- 洞察报告逐篇列出当前v6的三篇条件优先论文，六条论证及三份建议实验直接展示。保留原PPT与其他入选研究，不把借鉴技能记作已重做PPT。
+- 方法借鉴与实际执行记录在 `docs/MOZHI-PRACTICES-20261023.md`、`.agents/skill-provenance.json`；网站Report与可编辑PPT的工具策略写入构筑skill参考。
+
+## 证据与限制
+
+逐页浏览器记录：`docs/expert-topics-browser-qa-20261023.json`。16页的速览、七章与案例锚点已检查；保存、刷新保持、筛选、直达已操作。移动视口请求未实际生效，因此移动端未验收。来源包为摘要级复核，不代表全文复现。全量189张卡片仍需要逐来源持续审阅。
+
+新增 `docs/expert-library-browser-qa-20261023.json` 记录178个索引锚点及16个专题案例的实际滚动位置；节点存在不能代替定位验收。189张canonical卡片中11张未被当前阅读器渲染，索引明确排除并记录。已修复通用专题卡片hash未滚动和连续视图切换后检索入口缺失。内容修订筛选不是发表监测，未通过虚构未来版本作浏览器演示。
+
+本轮最终整站构建与关联校验通过；原阅读器164个源文件、91张本地表及182个已登记资源一致。报告冷深链采用有界两帧恢复，避免shell布局完成前定位；实际标题最终距视口顶部85px。原文链接增大并换行，最终检索/报告截图经独立复核。截图在 `.tmp/expert-{library,report}-20261023.png`；未提交、未推送、未发布。
+
+## 接手与下一步
+
+先读AGENTS和注册表，运行 `git status --short --branch`，辨认并保留其他工作，尤其算子专题。按任务读取窄skill；新极稳课题先确定挑战与路线，使用insight_topic脚手架生成草稿，不继承压缩分类。
+
+可在授权范围内继续补全文证据与移动端验收。候选经验验证后，待真实维护者决策再采用；不得伪造reviewed_by。不要重跑旧日期化润色脚本覆盖现有内容。
+
+## 验证与恢复
+
+```text
+python -X utf8 scripts/validate_insight_skills.py
+python -X utf8 scripts/insight_topic.py self-test
+python -X utf8 scripts/test_insight_workbench.py
+python -X utf8 scripts/insight_learning.py validate
+python -X utf8 scripts/verify_expert_topics.py
+python -X utf8 scripts/verify_expert_index.py --self-test
+python -X utf8 scripts/audit_compression_inventory.py --self-test
+node scripts/test_topic_reader_five_rounds.cjs
+node scripts/test_report_reasoning.cjs
+node scripts/test_expert_navigation.cjs
+```
+
+页面维护源改动后按build skill中的bundle/build/verify流程重建。预览端口8787需先确认仍监听；服务终止不能以缓存页面作为最新验收依据。单纯本地http.server不提供维护与发布API。Git推送与公开部署均未执行。
+
+
+## 算子五轮迭代（2026-10-23）
+
+算子13页本地完成五轮内容/证据/判断/视觉/实点验收，详见 `docs/OPERATOR-FIVE-ROUNDS-20261023.md`。新增维护源 `research/ai-infra/operator-expert-guide.json`，source累计67项、机制证据33条，代码生成仍为横向方法。保留计算/通信两分支，不导入旧expert快照覆盖当前正文。CSS/JS已按内容散列版本；浏览器旧资源缓存曾影响初检，最终复查已确认新版本。整站构建及原阅读器/压缩/地图验证通过；后续算子增量构建也通过。未推送、未发布、未改原站、未执行设备实验。当前可用预览8787，重新接手仍需确认服务。
+
+## 算子平台结构与证据检索（2026-10-23）
+
+13页本地结构更新完成，详见 docs/OPERATOR-PLATFORM-20261023.md。新增维护源 operator-research-structure.json、operator-judgment-log.json；派生索引 operator-evidence-index.json 只由构建生成。45条事实单源维护，20做法入口、27角色条目、五项真实编辑修订。各机制四主章，旧锚点保留为H3；生成仍是横向方法。浏览器13页、20做法实点、五判断回链、筛选/重置/刷新、390/1440排版已验收，记录 operator-platform-browser-qa-20261023.json。
+
+两项算子验证均PASS。完整构建已运行；门户和技术地图PASS。压缩兼容渲染新增challenges/industry两类已有卡片，曾通过209卡片/617引用校验；随后并行内容编辑使最新全站校验再次不一致（原阅读器content_version、parameters-factorization__dossier_2正文）。不得覆盖其他任务的维护源，也不得声称最新全站已验收。待并行编辑稳定后完整重建复核。未提交、未推送、未发布、未改变原站、未运行设备实验。

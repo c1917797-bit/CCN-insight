@@ -1,0 +1,11 @@
+{
+  "id": "citation-locator-ownership",
+  "status": "proposed",
+  "trigger": "综合卡片引用多篇论文或复用审阅定位时",
+  "changed_action": "逐source ID核对locator归属，仅复用同一来源的已核章节；无对应证据时保留摘要范围。",
+  "scope": "CCN研究引用装配与编辑；不禁止分析中合理提及其他论文。",
+  "counterexample": "同一篇Flint论文多个综合卡可复用其章节；不是所有出现Flint字样的对比分析都属于错引。",
+  "evidence": ["docs/EXPERT-QUALITY-20261023.md", "scripts/verify_expert_topics.py"],
+  "destination": ".agents/skills/ccn-evidence-review/SKILL.md",
+  "checks": ["skill-tree", "citation-boundaries"]
+}

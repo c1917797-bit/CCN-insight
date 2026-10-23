@@ -1,0 +1,223 @@
+{
+  "date": "2026-10-23",
+  "scope": "local-preview-only",
+  "root": {
+    "folds": 0,
+    "mechanismLinks": 9,
+    "nav": [
+      "算子总览",
+      "计算算子",
+      "通信算子"
+    ],
+    "overflow": false,
+    "path": "/ai-infra/operators.html",
+    "title": "算子定制加速"
+  },
+  "mechanismPages": [
+    {
+      "folds": 0,
+      "formula": true,
+      "industryBeforeAcademic": [
+        "产业界：已有能力与实现条件",
+        "学术界：经典方法、机制分析与证据范围"
+      ],
+      "overflow": false,
+      "path": "/ai-infra/operators-memory-reuse.html",
+      "sections": [
+        "background",
+        "principles",
+        "challenges",
+        "progress",
+        "comparison",
+        "practice",
+        "conclusion",
+        "references"
+      ],
+      "svg": 1,
+      "title": "数据搬运与片上复用"
+    },
+    {
+      "folds": 0,
+      "formula": true,
+      "industryBeforeAcademic": [
+        "产业界：已有能力与实现条件",
+        "学术界：经典方法、机制分析与证据范围"
+      ],
+      "overflow": false,
+      "path": "/ai-infra/operators-tile-parallelism.html",
+      "sections": [
+        "background",
+        "principles",
+        "challenges",
+        "progress",
+        "comparison",
+        "practice",
+        "conclusion",
+        "references"
+      ],
+      "svg": 1,
+      "title": "分块映射与并行流水"
+    },
+    {
+      "folds": 0,
+      "formula": true,
+      "industryBeforeAcademic": [
+        "产业界：已有能力与实现条件",
+        "学术界：经典方法、机制分析与证据范围"
+      ],
+      "overflow": false,
+      "path": "/ai-infra/operators-fusion-launch.html",
+      "sections": [
+        "background",
+        "principles",
+        "challenges",
+        "progress",
+        "comparison",
+        "practice",
+        "conclusion",
+        "references"
+      ],
+      "svg": 1,
+      "title": "融合与启动优化"
+    },
+    {
+      "folds": 0,
+      "formula": true,
+      "industryBeforeAcademic": [
+        "产业界：已有能力与实现条件",
+        "学术界：经典方法、机制分析与证据范围"
+      ],
+      "overflow": false,
+      "path": "/ai-infra/operators-layout-low-precision.html",
+      "sections": [
+        "background",
+        "principles",
+        "challenges",
+        "progress",
+        "comparison",
+        "practice",
+        "conclusion",
+        "references"
+      ],
+      "svg": 1,
+      "title": "布局与低精度执行"
+    },
+    {
+      "folds": 0,
+      "formula": true,
+      "industryBeforeAcademic": [
+        "产业界：已有能力与实现条件",
+        "学术界：经典方法、机制分析与证据范围"
+      ],
+      "overflow": false,
+      "path": "/ai-infra/operators-collectives-topology.html",
+      "sections": [
+        "background",
+        "principles",
+        "challenges",
+        "progress",
+        "comparison",
+        "practice",
+        "conclusion",
+        "references"
+      ],
+      "svg": 1,
+      "title": "集合算法与拓扑映射"
+    },
+    {
+      "folds": 0,
+      "formula": true,
+      "industryBeforeAcademic": [
+        "产业界：已有能力与实现条件",
+        "学术界：经典方法、机制分析与证据范围"
+      ],
+      "overflow": false,
+      "path": "/ai-infra/operators-launch-granularity.html",
+      "sections": [
+        "background",
+        "principles",
+        "challenges",
+        "progress",
+        "comparison",
+        "practice",
+        "conclusion",
+        "references"
+      ],
+      "svg": 1,
+      "title": "启动与消息粒度"
+    },
+    {
+      "folds": 0,
+      "formula": true,
+      "industryBeforeAcademic": [
+        "产业界：已有能力与实现条件",
+        "学术界：经典方法、机制分析与证据范围"
+      ],
+      "overflow": false,
+      "path": "/ai-infra/operators-paths-buffers.html",
+      "sections": [
+        "background",
+        "principles",
+        "challenges",
+        "progress",
+        "comparison",
+        "practice",
+        "conclusion",
+        "references"
+      ],
+      "svg": 1,
+      "title": "数据路径与缓冲管理"
+    },
+    {
+      "folds": 0,
+      "formula": true,
+      "industryBeforeAcademic": [
+        "产业界：已有能力与实现条件",
+        "学术界：经典方法、机制分析与证据范围"
+      ],
+      "overflow": false,
+      "path": "/ai-infra/operators-compute-communication-overlap.html",
+      "sections": [
+        "background",
+        "principles",
+        "challenges",
+        "progress",
+        "comparison",
+        "practice",
+        "conclusion",
+        "references"
+      ],
+      "svg": 1,
+      "title": "通算融合与异步重叠"
+    },
+    {
+      "folds": 0,
+      "formula": true,
+      "industryBeforeAcademic": [
+        "产业界：已有能力与实现条件",
+        "学术界：经典方法、机制分析与证据范围"
+      ],
+      "overflow": false,
+      "path": "/ai-infra/operators-transfer-compression.html",
+      "sections": [
+        "background",
+        "principles",
+        "challenges",
+        "progress",
+        "comparison",
+        "practice",
+        "conclusion",
+        "references"
+      ],
+      "svg": 1,
+      "title": "传输编码与通信量压缩"
+    }
+  ],
+  "checks": {
+    "mapToCompute": true,
+    "computeTo310PPractice": true,
+    "caseNavigationHasNoPeer310P": true,
+    "sourceJumpMsotInstall": true
+  },
+  "note": "九项机制通过页面实际点击进入；所有正文展开，原理图与关系式存在，当前视口无横向溢出。未做目标设备实验或线上发布。"
+}

@@ -1,0 +1,1728 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-23",
+  "scope": "长期技术结构与检索元数据；事实正文只在各canonical记录维护。",
+  "branch_frames": {
+    "compute": {
+      "title": "围绕执行成本组织研究，而不是围绕工具名称罗列资料",
+      "text": "四条主线分别回答：哪些数据不必反复访问外存，工作如何映射并持续推进，哪些执行边界可以合并，数据表示如何被实际指令消费。它们是观察同一实现的四个成本坐标，可以组合，不是必须依次实施的四个步骤。",
+      "invariant": "先固定目标数学计算、完整输出集合和所选数值契约。若引入近似、量化或删减计算，应显式记录新的误差契约，并关联对应算法研究。",
+      "catalog_policy": [
+        "mechanism：可直接说明改变了什么执行过程，进入根目录机制层。",
+        "application：验证或解释机制的算子/接口实例，进入应用与实现证据。",
+        "training_extension：仅在存在反向传播时成立，进入明确标记的训练扩展。",
+        "crosscutting_method：表达、编译、搜索或生成方法，进入实现方法关联。",
+        "judgment：瓶颈转移、适用性或研究优先级，进入研究判断。"
+      ],
+      "source_ids": [
+        "flashattention",
+        "fa2-primary-expert",
+        "fa3-primary-expert",
+        "streamk-primary-round2",
+        "marlin-primary-round2",
+        "tensorir-primary-expert"
+      ]
+    },
+    "communication": {
+      "opening_judgment": "通信优化要先解释交换语义，再辨认改变的是路由、发起、路径、依赖还是表示。这五条路线是同一交换任务的五种因果干预，不是五种互不相关的加速技巧，也不是必须依次执行的五个阶段。",
+      "semantic_boundary": "模型并行切分、expert放置、请求调度决定哪些数据必须跨设备交换，主归组合调度；以下五条路线在明确交换需求后研究怎样完成交换。更换NIC、互连或交换设备主归硬件加速，现有硬件上的算法与实现留在通信算子。",
+      "layers": [
+        {
+          "id": "routing",
+          "title": "路由：交换任务怎样分摊",
+          "route_id": "collectives-topology",
+          "question": "谁向谁传、经过哪些层级、在哪归约？",
+          "direct_variables": [
+            "传播依赖阶段",
+            "关键链路字节",
+            "链路并行度",
+            "归约执行位置"
+          ],
+          "downstream_effect": "决定各链路和设备承担的工作；算法总字节更少，不一定意味着最慢链路更轻。",
+          "source_ids": [
+            "nccl-algorithms",
+            "taccl",
+            "sgl-deepep-ascend-api"
+          ]
+        },
+        {
+          "id": "launch",
+          "title": "发起：任务怎样切分与提交",
+          "route_id": "launch-granularity",
+          "question": "几项操作共享启动、哪些数据合并、分成多大块、何时提交？",
+          "direct_variables": [
+            "实际launch次数",
+            "聚合等待",
+            "pack/unpack字节",
+            "分块及在途数量"
+          ],
+          "downstream_effect": "影响固定成本和队头阻塞，但不能让尚未产生的数据提前就绪。",
+          "source_ids": [
+            "nccl-groups",
+            "horovod-tensor-fusion",
+            "bytescheduler"
+          ]
+        },
+        {
+          "id": "path",
+          "title": "路径：字节怎样经过内存与链路",
+          "route_id": "paths-buffers",
+          "question": "由哪个缓冲发出，是否中转，怎样注册与复用，何时可以回收？",
+          "direct_variables": [
+            "内部拷贝",
+            "注册及建立成本",
+            "设备与NIC亲和性",
+            "常驻缓冲",
+            "完成与复用协议"
+          ],
+          "downstream_effect": "影响有效带宽、准备开销和容量压力；直接访问与中继聚合可能各有优势。",
+          "source_ids": [
+            "nccl-buffer-registration",
+            "mooncake-architecture",
+            "deepseek-deepep-ascend"
+          ]
+        },
+        {
+          "id": "dependency",
+          "title": "依赖：数据何时允许消费者推进",
+          "route_id": "compute-communication-overlap",
+          "question": "需要全量完成后再计算，还是一个块到达就能安全消费？",
+          "direct_variables": [
+            "就绪与可消费粒度",
+            "事件及barrier",
+            "流水填充排空",
+            "计算通信资源争用"
+          ],
+          "downstream_effect": "决定通信中有多少时间暴露在完整模块关键路径上；并发时间线不是净收益证据。",
+          "source_ids": [
+            "torch-distributed",
+            "flux",
+            "mooncake-paper-v5",
+            "sgl-deepep-ascend-api"
+          ]
+        },
+        {
+          "id": "representation",
+          "title": "表示：每份交换数据占多少字节",
+          "route_id": "transfer-compression",
+          "question": "传原始张量、低精度张量还是编码流，接收端如何使用？",
+          "direct_variables": [
+            "实际payload及元数据字节",
+            "编解码",
+            "接收端格式转换",
+            "数值误差"
+          ],
+          "downstream_effect": "改变前述路由和路径承载的字节，也可能增加消费者等待、计算和恢复缓冲。",
+          "source_ids": [
+            "cachegen-v6",
+            "sgl-deepep-ascend-api",
+            "deepseek-deepep-ascend",
+            "powersgd"
+          ]
+        }
+      ],
+      "causal_chain": [
+        "给定交换语义、消息就绪关系及参与设备，表示确定真正上链的字节。",
+        "路由把这些字节和归约工作分摊到设备及链路；路径确定实际搬运与建立成本。",
+        "发起把任务组织为提交组、融合张量或分块；依赖安排决定哪些完成结果能让消费者提前推进。",
+        "最终判断是同一语义、同一工作量的完整关键路径及数值结果，不能把省字节、少launch或时间重叠单独当作结论。"
+      ],
+      "assignment_rules": [
+        "改变集合算法、通信边或归约位置，主归路由；改变同一路由的用户缓冲、注册和中转实现，主归路径。一个实现同时改变两者时保留主次关联。",
+        "仅把多项调用提交在一起或调整消息粒度，主归发起；让通信结果按块推进计算、改变同步依赖，主归依赖。分块是两者的接口，不应各写一份同样的方案。",
+        "仅为过链路改变编码，主归表示；同时改变模型驻留和计算表示时关联推理压缩，分别说明通信贡献和模型计算贡献。",
+        "调整TP/PP/EP切分、expert放置或跨实例请求排程，主归组合调度；固定这些选择后的通信实现研究才主归通信算子。"
+      ]
+    }
+  },
+  "routes": {
+    "memory-reuse": {
+      "research_object": "算子输入、临时中间量和跨阶段状态的存放层级、存活时间、读取次数及重建方式。",
+      "invariants": [
+        "保持所讨论的目标运算与完整输出；精确稠密注意力仍计算其所需的连接。浮点顺序变化按所选数值准则验证，不承诺逐位一致。"
+      ],
+      "direct_change": "改变实际外存读写、需要保存的中间状态及片上驻留；不直接改变模型权重、持久KV的表示位宽或token选择。",
+      "source_ids": [
+        "flashattention",
+        "cannbot-add-template",
+        "fa4-primary-expert",
+        "msprof"
+      ],
+      "axis_label": "数据生命周期",
+      "narrative": "先判断哪些数据必须存在，再决定它们保存在哪里、能否由小状态接续或按需重建，最后确认节省外存后成本转向何处。三层问题贯穿同一数据生命周期；它们不是三种并列加速算法。",
+      "subquestions": [
+        {
+          "id": "memory-reuse-q-required-materialization",
+          "title": "哪些中间量必须落存？",
+          "question": "输入和中间结果是否必须完整保存，还是可以按块消费并用小状态连接下一块？",
+          "explanation": "GEMM可让同一输入子块参与多个输出；在线softmax则维护运行统计量，使注意力不必保存完整分数与概率矩阵。前者强调输入复用，后者强调避免中间物化，两者都要指出被减少的具体数据流。",
+          "branch_indices": [
+            0
+          ],
+          "compare": "比较完整外存数据流、临时空间与全部输出，不只比较被删除的某一个张量。",
+          "source_ids": [
+            "flashattention",
+            "streamk-primary-round2"
+          ]
+        },
+        {
+          "id": "memory-reuse-q-save-or-recompute",
+          "title": "跨阶段状态要保存还是重建？",
+          "question": "后续阶段需要的数据，保存完整值、保存统计量，还是额外计算重建，哪种总代价更低？",
+          "explanation": "FlashAttention反向重算说明状态保存与算术量可以交换；它是训练扩展。纯推理没有反向传播时，应直接跳过这项收益，不把训练峰值内存变化混入服务推理结论。",
+          "branch_indices": [
+            1
+          ],
+          "compare": "同时比较保存字节、额外算术和完整训练步骤时延；纯推理单列。",
+          "source_ids": [
+            "flashattention"
+          ]
+        },
+        {
+          "id": "memory-reuse-q-new-limiting-resource",
+          "title": "节省外存后，谁成为新限制？",
+          "question": "外存流量下降后，算子时间是否同步下降；若没有，限制转向softmax、同步还是片上供数？",
+          "explanation": "FA4说明IO优化后仍需继续处理特殊函数和片上数据通路。研究应跟随新的主导成本调整，而不是继续用“减少访存”解释全部收益。",
+          "branch_indices": [
+            2
+          ],
+          "compare": "把外存流量变化与完整时延、片上占用及各阶段等待对齐，保留不同shape的瓶颈分界。",
+          "source_ids": [
+            "fa4-primary-expert",
+            "msprof"
+          ]
+        }
+      ],
+      "catalog": [
+        {
+          "id": "memory-reuse-m-loaded-input-reuse",
+          "title": "一次加载，多次消费",
+          "text": "让同一输入子块在片上参与多个后续计算；增加复用必须付得起保留它所需的容量与并发代价。",
+          "from_branch_indices": [
+            0
+          ],
+          "source_ids": [
+            "streamk-primary-round2"
+          ]
+        },
+        {
+          "id": "memory-reuse-m-streaming-intermediate",
+          "title": "流式推进，减少中间落存",
+          "text": "把大中间矩阵改成分块生成、即时消费，并用必要的运行状态衔接各块；保持目标运算，不靠删除连接换速度。",
+          "from_branch_indices": [
+            0
+          ],
+          "source_ids": [
+            "flashattention"
+          ]
+        }
+      ],
+      "comparison_coordinates": [
+        {
+          "axis": "外存负担",
+          "compare": "实际读写字节、重复读取与中间写回；估算值与计数器值分开。",
+          "decision": "优先选择能指出并消除具体数据流的方案。"
+        },
+        {
+          "axis": "驻留代价",
+          "compare": "片上缓冲/寄存器、活跃数据与可并发工作。",
+          "decision": "减少外存若显著压低并发，应比较较小tile或分离执行。"
+        },
+        {
+          "axis": "计算交换",
+          "compare": "额外重算与需保存状态，训练反向和纯推理分别统计。",
+          "decision": "重算不能只按峰值内存选型。"
+        },
+        {
+          "axis": "完整时间",
+          "compare": "匹配shape/dtype与全部输出的完整算子时间。",
+          "decision": "流量下降但时间持平时，转向新的瓶颈。"
+        }
+      ],
+      "trusted_conclusion": {
+        "claim": "现有证据足以支持通过分块复用和流式物化改变数据流；也足以否定“搬进片上或增加缓冲就自动减少总字节”。哪种驻留策略最优，需要随shape、消费关系与新瓶颈变化选择，不能用单一复用率替代执行成本。",
+        "source_ids": [
+          "flashattention",
+          "cannbot-add-template",
+          "fa4-primary-expert"
+        ]
+      },
+      "unresolved_questions": [
+        "怎样从输入/中间量的消费关系、片上容量和算术强度，预测“继续增加复用”与“转向流水/并行”的切换点？当前资料提供了具名机制和若干实验，尚不能给出跨芯片、跨shape的统一阈值。"
+      ],
+      "cross_route_condition": {
+        "with_route_id": "tile-parallelism",
+        "relationship": "更多复用与更多并行可能冲突",
+        "condition": "大tile可能让同一数据服务更多计算，也会增加片上驻留、减少独立任务或扩大尾块。复用与分块应联合比较，不能先把复用率最大化，再假定并行组织仍然最优。",
+        "implication": "在相同输出契约下同时记录外存读写、资源占用、有效任务量与完整时延；保留复用较低但整体更快的候选。",
+        "source_ids": [
+          "fa2-primary-expert",
+          "streamk-primary-round2"
+        ]
+      }
+    },
+    "tile-parallelism": {
+      "research_object": "算子的迭代域、独立输出块、归约域和搬运/计算阶段向核、线程块及其他目标执行单元的映射。",
+      "invariants": [
+        "保持目标运算、依赖和全部输出；归约顺序改变按数值契约验证。"
+      ],
+      "direct_change": "改变任务粒度、工作分配、协作方式与阶段重叠，不以增加核数本身作为收益。",
+      "source_ids": [
+        "fa2-primary-expert",
+        "fa3-primary-expert",
+        "streamk-primary-round2",
+        "ansor"
+      ],
+      "axis_label": "工作分解与推进",
+      "narrative": "先找可以独立执行的工作；独立工作不足时，再决定是否拆归约并支付协作成本；映射确定后，安排每份工作的搬算流水。这条主线从“有多少工作”递进到“工作怎样持续推进”。",
+      "subquestions": [
+        {
+          "id": "tile-parallelism-q-independent-work",
+          "title": "独立工作够不够？",
+          "question": "当前可独立生成的输出块能否覆盖设备，尾波和任务长度是否均衡？",
+          "explanation": "优先检查不需要新增跨块归约的并行维度。FA2增加查询序列块并行，并在块内让不同warp生成不同Q行的输出；GEMM输出tile分解同样以独立输出为起点。",
+          "branch_indices": [
+            0,
+            2
+          ],
+          "compare": "比较独立任务数、每任务工作量、尾波及重复输入读取，而不是只看瞬时利用率。",
+          "source_ids": [
+            "fa2-primary-expert",
+            "streamk-primary-round2"
+          ]
+        },
+        {
+          "id": "tile-parallelism-q-split-reduction",
+          "title": "拆归约值得付出多少协作？",
+          "question": "输出tile较少而归约维很长时，拆K带来的并行是否足以覆盖部分和、同步和缓存代价？",
+          "explanation": "Split-K让多个块共同生成一个输出；Stream-K按总MAC迭代量分配工作。它们可以补充并行度，但不应在已有足够独立输出时无条件替代普通分解。",
+          "branch_indices": [
+            2
+          ],
+          "compare": "将新增部分和读写、归约等待、工作区和缓存错位计入同一算子时间。",
+          "source_ids": [
+            "streamk-primary-round2",
+            "catlass-official-expert"
+          ]
+        },
+        {
+          "id": "tile-parallelism-q-stage-pipeline",
+          "title": "每份工作怎样连续推进？",
+          "question": "搬运、矩阵运算与向量运算是否能对不同数据块重叠，流水深度受到哪种资源限制？",
+          "explanation": "FA3的生产者—消费者分工与GEMM/softmax流水是在既定工作分解中隐藏等待。增加缓冲仅提供重叠机会，真实重叠取决于依赖、执行引擎和资源。",
+          "branch_indices": [
+            1
+          ],
+          "compare": "区分填充/排空、稳态间隔、同步与活跃中间量；不能把双缓冲名称等同于两倍性能。",
+          "source_ids": [
+            "fa3-primary-expert",
+            "cannbot-buffer"
+          ]
+        }
+      ],
+      "catalog": [
+        {
+          "id": "tile-parallelism-m-independent-partition",
+          "title": "独立输出分块",
+          "text": "优先按不共享输出归约的维度分工；同时控制输入重复读取和尾波。",
+          "from_branch_indices": [
+            0,
+            2
+          ],
+          "source_ids": [
+            "fa2-primary-expert",
+            "streamk-primary-round2"
+          ]
+        },
+        {
+          "id": "tile-parallelism-m-cooperative-partition",
+          "title": "归约拆分与工作量均衡",
+          "text": "独立任务不足时，以部分和与同步换取更多并行，并在普通分解、Split-K和Stream-K之间选择。",
+          "from_branch_indices": [
+            2
+          ],
+          "source_ids": [
+            "streamk-primary-round2"
+          ]
+        },
+        {
+          "id": "tile-parallelism-m-stage-overlap",
+          "title": "生产消费分工与阶段流水",
+          "text": "在合法依赖下重叠不同块的搬运和计算，比较等待隐藏与资源代价。",
+          "from_branch_indices": [
+            1
+          ],
+          "source_ids": [
+            "fa3-primary-expert"
+          ]
+        }
+      ],
+      "comparison_coordinates": [
+        {
+          "axis": "有效工作",
+          "compare": "独立输出任务量、每任务长度和尾波。",
+          "decision": "先用足够的独立工作，避免无必要的协作归约。"
+        },
+        {
+          "axis": "协作代价",
+          "compare": "部分和字节、同步、重复读取与工作区。",
+          "decision": "拆K只在并行收益覆盖协作成本时优先。"
+        },
+        {
+          "axis": "流水资源",
+          "compare": "填充/排空、稳态等待、寄存器与缓冲。",
+          "decision": "更深流水出现溢出或并发下降时保留较浅候选。"
+        },
+        {
+          "axis": "分布覆盖",
+          "compare": "完整shape集合的时延、回退和分派成本。",
+          "decision": "记录策略切换区域，不用单shape最优tile外推。"
+        }
+      ],
+      "trusted_conclusion": {
+        "claim": "已有证据支持独立工作划分、协作归约与阶段流水是不同层次的机制。Stream-K同时存在平均收益与个别形状退化，FA3消融只对指定配置建立因果证据；两者共同说明应积累策略的切换条件，而非宣称某种分块普遍最优。",
+        "source_ids": [
+          "streamk-primary-round2",
+          "fa3-primary-expert"
+        ]
+      },
+      "unresolved_questions": [
+        "能否以独立任务量、归约长度、缓存行为和资源占用，稳定预测普通分解、拆K与不同流水深度的优先级，并以较少设备测量适应动态shape？"
+      ],
+      "cross_route_condition": {
+        "with_route_id": "memory-reuse",
+        "relationship": "tile既决定复用，也决定设备是否有活干",
+        "condition": "更大tile可能减少重复供数，却减少输出任务数并提高驻留需求；更小tile可增加并行，也可能提高每次计算对应的访存比例。正确比较对象是分解与复用的组合，而非孤立tile大小。",
+        "implication": "同时固定数值契约并计入重复读取、归约与尾块；按完整时间选择，而不单独最大化占用率或复用率。",
+        "source_ids": [
+          "fa2-primary-expert",
+          "streamk-primary-round2"
+        ]
+      }
+    },
+    "fusion-launch": {
+      "research_object": "相邻操作的依赖边、内部中间量、全部对外输出、Kernel提交边界和共同执行的粒度。",
+      "invariants": [
+        "完整输出、归约轴、广播/别名约束、dtype、ε及约定舍入保持所选参考契约；改算法或近似必须另列。"
+      ],
+      "direct_change": "减少可消去的中间落存/重读和启动边界，同时改变数据生命周期与资源占用。",
+      "source_ids": [
+        "cann-add-rms-norm-expert",
+        "tensorir-primary-expert",
+        "pytorch-flex-fa4-expert"
+      ],
+      "axis_label": "执行边界与依赖",
+      "narrative": "融合不是一张算子拼接表。应从“哪些边界允许消去”进入“中间值能否同粒度生产消费”，最后比较合法融合与分离强实现的净成本。实现框架提供表达和变换能力，不自动构成另一条加速机制。",
+      "subquestions": [
+        {
+          "id": "fusion-launch-q-contract-boundary",
+          "title": "哪些边界允许消去？",
+          "question": "中间值是内部临时量，还是后续消费者或接口承诺的输出；合并后哪些语义仍必须保留？",
+          "explanation": "AddRmsNorm中的残差z若是必需输出，仍须保存；融合可以避免后继重复读取，但不能据核数减少就删除输出。依赖与完整输出集合是研究起点。",
+          "branch_indices": [
+            0,
+            2
+          ],
+          "compare": "逐项列出未融合和融合的全部输出、读写及舍入点。",
+          "source_ids": [
+            "cann-add-rms-norm-expert",
+            "tensorir-primary-expert"
+          ]
+        },
+        {
+          "id": "fusion-launch-q-producer-consumer-granularity",
+          "title": "中间值能否即时消费？",
+          "question": "消费者需要逐元素数据、整行统计量，还是跨块信息；生产粒度与消费粒度能否兼容？",
+          "explanation": "Matmul逐元素尾处理可消费已有累加结果；RMSNorm必须先得到同一行的统计量。定制注意力也要让score/mask逻辑落在融合路径支持的表达及块约束内；不是把相邻名字拼在一起。",
+          "branch_indices": [
+            0,
+            1
+          ],
+          "compare": "比较归约完成点、片上保留范围、回读次数与必需同步。",
+          "source_ids": [
+            "cann-add-rms-norm-expert",
+            "pytorch-flex-fa4-expert"
+          ]
+        },
+        {
+          "id": "fusion-launch-q-legal-and-profitable",
+          "title": "合法融合是否值得执行？",
+          "question": "共同执行是否仍匹配高效指令和并行组织；省下的读写与启动是否大于资源、转换和特化代价？",
+          "explanation": "TensorIR等方法帮助表达并检查变换约束，设备测量才回答是否更快。融合可能延长中间值存活、增加寄存器/缓冲，并失去独立库核的优势，应把分离强实现保留为对照。",
+          "branch_indices": [
+            2,
+            1,
+            0
+          ],
+          "compare": "对齐冷编译/热执行口径，比较完整输入到全部输出，而不是只计融合核。",
+          "source_ids": [
+            "tensorir-primary-expert",
+            "pytorch-flex-fa4-expert",
+            "catlass-official-expert"
+          ]
+        }
+      ],
+      "catalog": [
+        {
+          "id": "fusion-launch-m-local-consumer-fusion",
+          "title": "逐元素消费与矩阵尾处理融合",
+          "text": "消费者可在生产者已有的数据粒度上执行时，直接消费片上中间值，比较省去的交接与新增资源。",
+          "from_branch_indices": [
+            0
+          ],
+          "source_ids": [
+            "catlass-official-expert"
+          ]
+        },
+        {
+          "id": "fusion-launch-m-reduction-aware-fusion",
+          "title": "含归约依赖的融合",
+          "text": "如Add+RMSNorm，先满足整行统计量和必需输出，再安排保留、回读与归一化；不能按独立逐元素模式切分。",
+          "from_branch_indices": [
+            0
+          ],
+          "source_ids": [
+            "cann-add-rms-norm-expert"
+          ]
+        }
+      ],
+      "comparison_coordinates": [
+        {
+          "axis": "可消去的数据",
+          "compare": "内部中间量写回/重读，与必需输出分别列出。",
+          "decision": "优先研究真正可消去的边界。"
+        },
+        {
+          "axis": "依赖与粒度",
+          "compare": "局部逐元素、行归约、跨块状态及多消费者。",
+          "decision": "消费所需信息未就绪时，不宣称可以立即融合完成。"
+        },
+        {
+          "axis": "完整资源成本",
+          "compare": "启动、资源占用、同步、转换和独立强核。",
+          "decision": "合法但完整时间更差时，选择分离执行。"
+        },
+        {
+          "axis": "特化成本",
+          "compare": "冷编译、热执行、支持shape与回退。",
+          "decision": "动态或低复用请求不忽略特化与分派成本。"
+        }
+      ],
+      "trusted_conclusion": {
+        "claim": "可融合的依据是依赖与契约，可获益的依据是完整成本。现有接口和编译资料证明若干模式可以表达和实现；它们不构成全部融合候选更快的证据。应把逐元素融合与含归约融合分层，将FlexAttention/TensorIR放回实现方法，而不是伪装为平行算法路线。",
+        "source_ids": [
+          "cann-add-rms-norm-expert",
+          "pytorch-flex-fa4-expert",
+          "tensorir-primary-expert"
+        ]
+      },
+      "unresolved_questions": [
+        "在含归约、多消费者与动态shape的链路里，如何预测最合适的融合边界，使消去的数据交接不会破坏已有效的张量化和并行组织？"
+      ],
+      "cross_route_condition": {
+        "with_route_id": "layout-low-precision",
+        "relationship": "融合转换时，数值契约也随数据边界一起移动",
+        "condition": "融合可吸收独立的布局转换、解包或反量化；但需要明确中间dtype、scale及舍入发生的位置。不能只删除转换Kernel，就假定数据表示和数值行为保持不变。",
+        "implication": "生产者与消费者接受同一布局/scale约定，并以相同参考检查全部输出；新增活跃数据与资源占用计入完整时间。",
+        "source_ids": [
+          "marlin-primary-round2",
+          "cann-add-rms-norm-expert",
+          "tensorir-primary-expert"
+        ]
+      }
+    },
+    "layout-low-precision": {
+      "research_object": "逻辑张量到物理布局、编码和scale的映射，以及从存储格式到矩阵/向量指令的完整消费链。",
+      "invariants": [
+        "同一比较内固定目标运算、逻辑shape、完整输出和所选数值契约。比较不同量化配置时分别报告误差与性能，不默认相同位宽等价。"
+      ],
+      "direct_change": "改变排布、访问连续性、准备时机、解包/反量化与实际计算路径；量化算法的模型质量选择关联推理压缩研究。",
+      "source_ids": [
+        "marlin-primary-round2",
+        "fa3-primary-expert",
+        "cann-grouped-matmul-expert"
+      ],
+      "axis_label": "表示与指令消费",
+      "narrative": "先辨清“存的是什么、算的是什么”，再追踪布局和转换发生在哪里，最后检查数值方案与硬件消费是否共同成立。三层问题连接表示、数据通路和执行契约；产品支持矩阵是资格约束，不是第四种压缩算法。",
+      "subquestions": [
+        {
+          "id": "layout-low-precision-q-representation-instruction",
+          "title": "存储类型与计算类型是否接通？",
+          "question": "权重以什么编码驻留，进入计算前是否展开，实际乘加与累加分别使用什么类型？",
+          "explanation": "Marlin用INT4减少权重读取，在核内反量化为FP16后由FP16 Tensor Core消费；它直接说明低比特存储不等于原生同位宽矩阵乘。目标产品是否有对应组合，还须逐接口核对。",
+          "branch_indices": [
+            0,
+            2
+          ],
+          "compare": "分别记录存储、输入、累加和输出类型，以及实际命中内核与回退。",
+          "source_ids": [
+            "marlin-primary-round2",
+            "cann-grouped-matmul-expert"
+          ]
+        },
+        {
+          "id": "layout-low-precision-q-conversion-placement",
+          "title": "转换应提前准备还是在线完成？",
+          "question": "哪部分数据稳定且能多次复用，哪部分随请求改变；预排布、在线转置和融合解包的成本怎样摊销？",
+          "explanation": "静态权重可以提前排布，动态激活通常仍需在线处理。关键比较是新路径每次节省的时间，能否在预期复用次数内覆盖准备成本，而不是文件能否加载。",
+          "branch_indices": [
+            0,
+            2
+          ],
+          "compare": "将一次性准备、每次转换、scale访问、工作区和完整执行分别记录，形状或消费者变更后重新计算。",
+          "source_ids": [
+            "marlin-primary-round2",
+            "fa3-primary-expert",
+            "cann-grouped-matmul-expert"
+          ]
+        },
+        {
+          "id": "layout-low-precision-q-numeric-execution-coupling",
+          "title": "误差控制与执行代价能否同时成立？",
+          "question": "scale粒度、离群值处理和转换位置怎样改变数值误差与供数成本；算子误差能否支持更高层质量判断？",
+          "explanation": "FA3的块scale和Q/K正交处理提供数值方案实例；量化前的等式不等于量化后无误差。合成注意力RMSE回答的是特定算子误差，不等于语言模型任务质量，也不能因FP8与INT8都为8位就互换。",
+          "branch_indices": [
+            1,
+            2
+          ],
+          "compare": "先在相同分布和参考精度下比较算子误差，再独立报告模型任务质量；两层性能条件也分别保留。",
+          "source_ids": [
+            "fa3-primary-expert",
+            "cann-grouped-matmul-expert"
+          ]
+        }
+      ],
+      "catalog": [
+        {
+          "id": "layout-low-precision-m-consumer-matched-layout",
+          "title": "按消费者组织物理布局",
+          "text": "静态预排或在线重排，使连续访问、片上分布和指令要求匹配；同时核算转换及复用次数。",
+          "from_branch_indices": [
+            0
+          ],
+          "source_ids": [
+            "marlin-primary-round2",
+            "fa3-primary-expert"
+          ]
+        },
+        {
+          "id": "layout-low-precision-m-packed-consumption",
+          "title": "紧凑表示的核内消费",
+          "text": "将解包、scale及反量化衔接到计算，避免不必要的独立展开路径；显式区分存储位宽和实际计算类型。",
+          "from_branch_indices": [
+            0
+          ],
+          "source_ids": [
+            "marlin-primary-round2"
+          ]
+        }
+      ],
+      "comparison_coordinates": [
+        {
+          "axis": "表示与指令",
+          "compare": "存储编码、输入/累加/输出dtype、scale及实际矩阵指令。",
+          "decision": "名义位宽不足以判定执行路径。"
+        },
+        {
+          "axis": "数据通路",
+          "compare": "准备、打包、转换、解包、scale访问及工作区。",
+          "decision": "主核更快但完整链不快时，优先解释转换成本。"
+        },
+        {
+          "axis": "摊销",
+          "compare": "一次性准备成本、单次完整时间、稳定复用次数。",
+          "decision": "每次路径确有节省且复用足够，才选择昂贵预处理。"
+        },
+        {
+          "axis": "数值与资格",
+          "compare": "算子误差、模型质量，以及产品/版本的完整接口组合。",
+          "decision": "分别确定是否能执行、是否更快、是否满足数值契约。"
+        }
+      ],
+      "trusted_conclusion": {
+        "claim": "现有证据已证明低比特存储可以通过较高精度计算路径获得有效消费，也证明布局、scale与指令必须作为一套契约。ND/NZ和产品支持表应帮助判断配置资格；FP8误差处理应关联量化研究，不能用接口名称或合成误差直接宣布模型部署成熟。",
+        "source_ids": [
+          "marlin-primary-round2",
+          "fa3-primary-expert",
+          "cann-grouped-matmul-expert"
+        ]
+      },
+      "unresolved_questions": [
+        "在不同shape、复用次数与数值分布下，预排布、核内反量化和较高位宽直接计算的完整成本边界在哪里？执行侧节省能否在真实分布下保持而无需牺牲数值契约？"
+      ],
+      "cross_route_condition": {
+        "with_route_id": "fusion-launch",
+        "relationship": "把转换吸收到计算，需要同时安排生命周期",
+        "condition": "核内转换和计算衔接可以减少独立中间物化；同时会占用指令、scale读取及活跃缓冲。选择融合消费还是独立转换，取决于复用、容量与强基线，而不是转换Kernel数量。",
+        "implication": "完整数值契约和所有输出一致，准备/转换/计算均纳入同范围计时；跨产品只迁移机制，不迁移未经验证的最优布局或速度。",
+        "source_ids": [
+          "marlin-primary-round2",
+          "fa3-primary-expert",
+          "tensorir-primary-expert"
+        ]
+      }
+    },
+    "collectives-topology": {
+      "research_object": "给定集合语义和参与rank后，数据交换与归约工作在通信图上的分配。",
+      "invariants": [
+        "同一collective的输入输出语义",
+        "参与rank、逻辑消息及其精度",
+        "用于同条件比较的设备与互连资源",
+        "模型并行切分和expert放置"
+      ],
+      "direct_change": "改变传播树或环、分段路径、节点内外路由，以及受支持的归约卸载位置；直接影响依赖阶段、关键链路负载和设备归约工作。",
+      "comparison_coordinates": [
+        "collective语义与归约类型",
+        "rank数、rank映射及节点内外链路层级",
+        "消息大小与分段",
+        "传播阶段与关键链路字节",
+        "设备归约占用及最慢rank完成时间"
+      ],
+      "cross_route_condition": {
+        "with_route_id": "paths-buffers",
+        "relationship": "耦合：路由选择改变可用路径和注册约束",
+        "condition": "比较NCCL直接网络缓冲注册与PXN中继聚合时，当前文档说明两者不能同时生效。",
+        "implication": "不能把‘注册省拷贝’与‘中继提聚合’按两个独立收益相加；应在同一拓扑和消息条件下比较两个完整路径。",
+        "source_ids": [
+          "nccl-buffer-registration",
+          "nccl-algorithms"
+        ]
+      },
+      "trusted_conclusion": {
+        "claim": "不存在跨语义、跨拓扑的集合算法通用冠军。当前可靠的知识是候选如何分配阶段、字节和归约工作，以及其切换条件。",
+        "evidence_scope": "官方文档提供算法选择及支持约束；TACCL提供特定历史GPU拓扑上既有优势也有劣势的实验。不是当前所有后端或模型的排名。",
+        "source_ids": [
+          "nccl-algorithms",
+          "taccl"
+        ]
+      },
+      "unresolved_questions": [
+        "新后端吸收拓扑优化后，已有合成算法在哪些消息和拓扑区间仍有独立价值？",
+        "真实MoE路由的尾部主要由传输路径还是expert放置造成，怎样在固定路由需求下分离？"
+      ],
+      "source_ids": [
+        "nccl-algorithms",
+        "taccl",
+        "nccl-buffer-registration",
+        "sgl-deepep-ascend-api"
+      ],
+      "axis_label": "路由与归约位置",
+      "narrative": "围绕路由与归约位置，比较直接改变、代价和消费者完成条件；相关场景与训练参考分别标示。",
+      "subquestions": [
+        {
+          "id": "collectives-topology-q-1",
+          "title": "传播依赖较浅，是否足以抵消链路利用和分段效率的差异？",
+          "question": "传播依赖较浅，是否足以抵消链路利用和分段效率的差异？",
+          "explanation": "环的规则流水与树的较浅传播是不同收益；不能由小消息或大消息标签直接决定算法。",
+          "branch_indices": [
+            0
+          ],
+          "compare": "同一collective、rank映射、消息大小与后端版本下，对比环与树的阶段增长、关键链路负载及完整操作时延。",
+          "source_ids": [
+            "nccl-algorithms",
+            "taccl"
+          ]
+        },
+        {
+          "id": "collectives-topology-q-2",
+          "title": "把跨层流量先聚合，或把归约交给互连，究竟减轻了哪一类资源？",
+          "question": "把跨层流量先聚合，或把归约交给互连，究竟减轻了哪一类资源？",
+          "explanation": "层次化可能将拥塞集中到中继；卸载减少设备工作也不保证每种消息都更快。",
+          "branch_indices": [
+            1
+          ],
+          "compare": "分层路由比较节点内新增搬运与跨节点关键流量；归约卸载另比较设备端工作、可用操作和注册条件，二者不能合并成一个收益。",
+          "source_ids": [
+            "nccl-algorithms",
+            "nccl-buffer-registration"
+          ]
+        },
+        {
+          "id": "collectives-topology-q-3",
+          "title": "非均匀token—expert流量下，分层与全互联路径谁更能限制最慢rank？",
+          "question": "非均匀token—expert流量下，分层与全互联路径谁更能限制最慢rank？",
+          "explanation": "均匀集合测试的带宽冠军，可能不能处理真实稀疏流量；若问题来自expert放置，应转到组合调度。",
+          "branch_indices": [
+            2
+          ],
+          "compare": "固定同一token路由、expert放置和容量，对比分发与合并各自的字节矩阵、热点链路和rank完成分布。",
+          "source_ids": [
+            "sgl-deepep-ascend-api"
+          ]
+        }
+      ],
+      "catalog": [
+        {
+          "id": "collectives-topology-m-1",
+          "title": "分块环与树形传播",
+          "text": "对AllReduce等指定操作，比较环形分块与树形依赖如何交换和归约数据；同名算法在AllGather等操作中的含义另核。",
+          "from_branch_indices": [
+            0
+          ],
+          "source_ids": [
+            "nccl-algorithms",
+            "taccl"
+          ]
+        },
+        {
+          "id": "collectives-topology-m-2",
+          "title": "分层路由与归约卸载",
+          "text": "分层路由把节点内外链路分别组织；NVLS/NVLSTree等由受支持的互连承担部分归约。前者改变路由，后者还改变归约执行位置。",
+          "from_branch_indices": [
+            1
+          ],
+          "source_ids": [
+            "nccl-algorithms",
+            "nccl-buffer-registration"
+          ]
+        }
+      ]
+    },
+    "launch-granularity": {
+      "research_object": "已确定交换需求的通信任务，如何形成实际调用、融合缓冲和分块提交。",
+      "invariants": [
+        "逻辑交换数据与接收方",
+        "每项数据的真实就绪依赖",
+        "完整输出语义及数值要求",
+        "模型并行和请求排程"
+      ],
+      "direct_change": "改变共享launch的操作集合、打包成张量的数据集合，以及分块大小和在途任务次序；减少固定成本或队头等待，同时可能增加打包和凑批成本。",
+      "comparison_coordinates": [
+        "总逻辑字节及每项数据ready时间",
+        "实际launch及逻辑通信项数量",
+        "聚合窗口、pack/unpack和额外缓冲",
+        "分块大小与在途credit",
+        "首个可消费时间、关键消费者等待及总完成"
+      ],
+      "cross_route_condition": {
+        "with_route_id": "compute-communication-overlap",
+        "relationship": "冲突或协同：聚合摊销启动，分块释放消费者",
+        "condition": "只有消费者能够按块安全消费时，小块提前到达才可能转化为计算推进；若必须等待全部数据，过度分块只增加开销。",
+        "implication": "发起页解释怎样形成任务；重叠页解释任务完成后怎样推进计算。一次分块实现只维护一份证据，关联两个问题，不重复列为两份效果。",
+        "source_ids": [
+          "bytescheduler",
+          "flux",
+          "torch-distributed"
+        ]
+      },
+      "trusted_conclusion": {
+        "claim": "分组、融合和分块不是同一种‘合并优化’：分别摊销启动、合并数据、提前放行。选择应依据数据就绪与消费者阻塞，而不是单一消息阈值。",
+        "evidence_scope": "NCCL和Horovod文档直接支持接口与pack流程；ByteScheduler支持训练侧分块调度机制。本页没有推理统一最优阈值或新跑分。",
+        "source_ids": [
+          "nccl-groups",
+          "horovod-tensor-fusion",
+          "bytescheduler"
+        ]
+      },
+      "unresolved_questions": [
+        "同样的总字节和就绪分布下，共享launch已消除主要固定成本后，显式pack融合还有多大独立空间？",
+        "关键消费者期限、块大小与credit怎样共同决定聚合与拆分的切换点？"
+      ],
+      "source_ids": [
+        "nccl-groups",
+        "horovod-tensor-fusion",
+        "horovod-paper",
+        "bytescheduler",
+        "flux",
+        "torch-distributed"
+      ],
+      "axis_label": "发起与任务粒度",
+      "narrative": "围绕发起与任务粒度，比较直接改变、代价和消费者完成条件；相关场景与训练参考分别标示。",
+      "subquestions": [
+        {
+          "id": "launch-granularity-q-1",
+          "title": "已可提交的多项操作能否共享启动，同时保留各自通信语义？",
+          "question": "已可提交的多项操作能否共享启动，同时保留各自通信语义？",
+          "explanation": "调用聚合可以摊销launch，但不是张量packing；API返回、组提交和通信完成也不是同一个时间点。",
+          "branch_indices": [
+            0
+          ],
+          "compare": "独立提交与NCCL受支持的group调用比较实际launch、组提交时间及最早消费者推进；所有rank调用顺序保持一致。",
+          "source_ids": [
+            "nccl-groups"
+          ]
+        },
+        {
+          "id": "launch-granularity-q-2",
+          "title": "减少小项通信省下的成本，是否大于pack/unpack和等候其他张量的成本？",
+          "question": "减少小项通信省下的成本，是否大于pack/unpack和等候其他张量的成本？",
+          "explanation": "训练中同时就绪的梯度可融合，不代表推理中相邻层尚未产生的激活能等待凑批。",
+          "branch_indices": [
+            1
+          ],
+          "compare": "固定同一批真实就绪且兼容的数据，比较独立操作与融合缓冲的额外HBM读写、聚合等待、完整完成及峰值缓冲。",
+          "source_ids": [
+            "horovod-tensor-fusion",
+            "horovod-paper"
+          ]
+        },
+        {
+          "id": "launch-granularity-q-3",
+          "title": "用更多小任务提前释放关键数据，能否改善最早消费者而不使固定成本过高？",
+          "question": "用更多小任务提前释放关键数据，能否改善最早消费者而不使固定成本过高？",
+          "explanation": "分块减少等待的方向与融合摊销启动相反；ByteScheduler的训练依赖不能直接当作推理可抢占或可调度的支持证据。",
+          "branch_indices": [
+            2
+          ],
+          "compare": "固定同一总数据及依赖，对比块大小、并发credit、关键块等待、链路利用和最后完成；不只比较平均带宽。",
+          "source_ids": [
+            "bytescheduler"
+          ]
+        }
+      ],
+      "catalog": [
+        {
+          "id": "launch-granularity-m-1",
+          "title": "调用分组与启动摊销",
+          "text": "将多次通信调用放入同一提交组，减少发起次数；NCCL可将多个collective合为一次launch，但各操作仍保持各自语义。",
+          "from_branch_indices": [
+            0
+          ],
+          "source_ids": [
+            "nccl-groups"
+          ]
+        },
+        {
+          "id": "launch-granularity-m-2",
+          "title": "张量融合与聚合等待",
+          "text": "把同一时刻已ready且兼容的数据装入融合缓冲，执行一次collective，再拆回输出；Horovod给出同dtype选择和pack/allreduce/unpack流程。",
+          "from_branch_indices": [
+            1
+          ],
+          "source_ids": [
+            "horovod-tensor-fusion",
+            "horovod-paper"
+          ]
+        },
+        {
+          "id": "launch-granularity-m-3",
+          "title": "分块、优先级与在途控制",
+          "text": "将大传输切为较小任务，优先放行更接近消费点的数据；ByteScheduler以partition、credit和依赖代理调度训练通信。",
+          "from_branch_indices": [
+            2
+          ],
+          "source_ids": [
+            "bytescheduler"
+          ]
+        }
+      ]
+    },
+    "paths-buffers": {
+      "research_object": "给定交换任务从发送缓冲到接收缓冲的实际搬运路径，以及建立、注册、复用和回收协议。",
+      "invariants": [
+        "交换数据语义和任务量",
+        "已有物理设备与互连",
+        "比较中相同的热身和复用次数",
+        "消费者必须安全读到完整结果"
+      ],
+      "direct_change": "改变数据是否经过内部或中继缓冲、已注册用户内存怎样被访问，以及通信缓冲的生命周期；直接影响准备成本、有效带宽和常驻内存。",
+      "comparison_coordinates": [
+        "内存位置、NIC亲和与实际transport",
+        "分配器、注册及跨rank一致性条件",
+        "首次建立与同次数稳态复用",
+        "内外部拷贝及链路字节",
+        "常驻缓冲、完成语义与回收时点"
+      ],
+      "cross_route_condition": {
+        "with_route_id": "compute-communication-overlap",
+        "relationship": "前提与容量冲突：流水需要明确的缓冲所有权和完成事件",
+        "condition": "生产、传输与消费并发时，必须明确何时允许接收端读取以及发送端覆盖缓冲；更多在途阶段还可能要求更多常驻容量。",
+        "implication": "缩短单次搬运不等于流水安全或高效；先区分Work/事件表示的完成范围，再比较增加stage得到的关键路径收益。",
+        "source_ids": [
+          "torch-distributed",
+          "deepseek-deepep-ascend",
+          "mooncake-architecture"
+        ]
+      },
+      "trusted_conclusion": {
+        "claim": "路径研究应同时解释被避免的搬运、获得的链路利用和新增的长期资源占用。直接注册、中继聚合和缓冲复用不能按三个无条件可叠加的开关理解。",
+        "evidence_scope": "NCCL提供明确的注册、PXN及分配约束；Mooncake提供数据面实现结构；DeepEP-Ascend提供指定验证栈的容量与生命周期协议，均不能证明任意芯片支持。",
+        "source_ids": [
+          "nccl-buffer-registration",
+          "mooncake-architecture",
+          "deepseek-deepep-ascend"
+        ]
+      },
+      "unresolved_questions": [
+        "在多NIC和非均匀设备亲和条件下，注册少拷贝与中继聚合分别在哪些消息和并发范围占优？",
+        "长期大池的注册摊销何时超过其容量、碎片和回收代价；完成与远端可见协议是否允许安全分块复用？"
+      ],
+      "source_ids": [
+        "nccl-buffer-registration",
+        "nccl-algorithms",
+        "mooncake-architecture",
+        "deepseek-deepep-ascend",
+        "torch-distributed"
+      ],
+      "axis_label": "内存与传输路径",
+      "narrative": "围绕内存与传输路径，比较直接改变、代价和消费者完成条件；相关场景与训练参考分别标示。",
+      "subquestions": [
+        {
+          "id": "paths-buffers-q-1",
+          "title": "减少内部拷贝，是否足以覆盖注册、分配器限制和长期占用？",
+          "question": "减少内部拷贝，是否足以覆盖注册、分配器限制和长期占用？",
+          "explanation": "零拷贝只说明省去了指定拷贝，不意味着没有数据传输、CPU控制或完成同步。",
+          "branch_indices": [
+            0
+          ],
+          "compare": "在同一算法、消息、rank与分配器条件下，分列首次建立和稳态复用，比较内部搬运、注册摊销及端到端传输完成。",
+          "source_ids": [
+            "nccl-buffer-registration"
+          ]
+        },
+        {
+          "id": "paths-buffers-q-2",
+          "title": "直接访问用户缓冲与经其他设备聚合，哪一种更适合实际内存和NIC拓扑？",
+          "question": "直接访问用户缓冲与经其他设备聚合，哪一种更适合实际内存和NIC拓扑？",
+          "explanation": "直接路径少拷贝，中继路径可能更好地使用网络；少一次中转不是跨拓扑通用最优依据。",
+          "branch_indices": [
+            1
+          ],
+          "compare": "固定设备与消息，对比直接路径和中继路径的本地搬运、NIC利用、关键链路拥塞与完整传输时间。",
+          "source_ids": [
+            "nccl-buffer-registration",
+            "nccl-algorithms",
+            "mooncake-architecture"
+          ]
+        },
+        {
+          "id": "paths-buffers-q-3",
+          "title": "长生命周期缓冲怎样同时做到摊销准备成本、容量可控和并发安全？",
+          "question": "长生命周期缓冲怎样同时做到摊销准备成本、容量可控和并发安全？",
+          "explanation": "过度预留可能挤占模型和KV；handle与路由、布局、完成状态相关，不是任何下一次调用都可以复用。",
+          "branch_indices": [
+            2
+          ],
+          "compare": "按相同token容量与并发比较重建和复用的建立时间、常驻空间、在途操作、复用等待及失败条件；区分核内计时与包含收尾的完整调用。",
+          "source_ids": [
+            "deepseek-deepep-ascend"
+          ]
+        }
+      ],
+      "catalog": [
+        {
+          "id": "paths-buffers-m-1",
+          "title": "预注册与直接访问",
+          "text": "重复使用已注册用户缓冲，使通信实现直接访问数据，减少内部中转拷贝；NCCL按算法和版本开放相应注册路径。",
+          "from_branch_indices": [
+            0
+          ],
+          "source_ids": [
+            "nccl-buffer-registration"
+          ]
+        },
+        {
+          "id": "paths-buffers-m-2",
+          "title": "直接路径与中继聚合",
+          "text": "直接路径让通信引擎访问已注册用户缓冲；中继路径可经其他设备汇聚流量后使用合适NIC。二者都可能比朴素路径好，取决于链路与资源。",
+          "from_branch_indices": [
+            1
+          ],
+          "source_ids": [
+            "nccl-buffer-registration",
+            "nccl-algorithms",
+            "mooncake-architecture"
+          ]
+        }
+      ]
+    },
+    "compute-communication-overlap": {
+      "research_object": "通信生产者与计算消费者之间的数据依赖、完成粒度及共享设备资源。",
+      "invariants": [
+        "完整模块的逻辑工作量与输出语义",
+        "模型并行划分及参与设备",
+        "相同形状、数据精度和输入负载",
+        "消费者不得读取尚未就绪的数据"
+      ],
+      "direct_change": "把全量完成依赖细化为层、块或tile的就绪依赖，或将通信与可独立推进的计算并发；改变暴露等待，同时引入同步和资源竞争。",
+      "comparison_coordinates": [
+        "生产者—消费者依赖与最小可消费块",
+        "形状、互连、并行划分和工作量",
+        "粗粒度异步或细粒度融合",
+        "计算通信争用与同步代价",
+        "填充排空、暴露尾部及完整模块时延"
+      ],
+      "cross_route_condition": {
+        "with_route_id": "transfer-compression",
+        "relationship": "协同或冲突：传输更短可能换成解码等待",
+        "condition": "编码块能够边传边解码且消费者能够按块使用时，传输编码可接入流水；若必须等待完整编码流、格式转换或全量恢复，缩短链路时间不保证消费者更早推进。",
+        "implication": "把编解码、恢复缓冲及就绪事件加入同一依赖图，不能把压缩加速与重叠加速直接相乘。",
+        "source_ids": [
+          "cachegen-v6",
+          "torch-distributed"
+        ]
+      },
+      "trusted_conclusion": {
+        "claim": "重叠的可信判断是完整关键路径是否缩短，而不是图上是否有两条并行时间线。已有独立工作先比较粗粒度并发；按tile消费且通信暴露明显时，再研究细粒度融合。",
+        "evidence_scope": "FLUX的特定GPU实验包含收益和无收益区间；SGLang提供不同MoE耦合组织及功能边界。接口语义只证明正确使用方式，不构成已隐藏通信的性能证据。",
+        "source_ids": [
+          "flux",
+          "sgl-deepep-ascend-api",
+          "torch-distributed"
+        ]
+      },
+      "unresolved_questions": [
+        "矩阵内核或互连升级后，减少的等待是否仍大于融合带来的计算效率损失？",
+        "稀疏MoE的阶段边界怎样避免被padding、barrier和最慢分支重新串行化？"
+      ],
+      "source_ids": [
+        "mooncake-paper-v5",
+        "bytescheduler",
+        "torch-distributed",
+        "flux",
+        "sgl-deepep-ascend-api",
+        "cachegen-v6"
+      ],
+      "axis_label": "依赖与消费时点",
+      "narrative": "围绕依赖与消费时点，比较直接改变、代价和消费者完成条件；相关场景与训练参考分别标示。",
+      "subquestions": [
+        {
+          "id": "compute-communication-overlap-q-1",
+          "title": "下一步真正需要哪一层或哪一块，是否必须等全部传完？",
+          "question": "下一步真正需要哪一层或哪一块，是否必须等全部传完？",
+          "explanation": "可异步提交不代表可提前消费；已存在独立工作时，粗粒度并发可能足够，不必先追求内核融合。",
+          "branch_indices": [
+            0
+          ],
+          "compare": "同一工作量下比较全量串行与逐块流水的首块可消费、填充排空、同步次数和整个模块完成时间。",
+          "source_ids": [
+            "mooncake-paper-v5",
+            "bytescheduler",
+            "torch-distributed"
+          ]
+        },
+        {
+          "id": "compute-communication-overlap-q-2",
+          "title": "tile级通信到达与GEMM顺序怎样相接，省下等待能否覆盖计算效率损失？",
+          "question": "tile级通信到达与GEMM顺序怎样相接，省下等待能否覆盖计算效率损失？",
+          "explanation": "更细同步可提早推进，也可能增加等待标志、碎片与资源占用；快速互连或小m场景会缩小可隐藏的空间。",
+          "branch_indices": [
+            1
+          ],
+          "compare": "固定GEMM形状、collective、互连与基线，比较串行、粗粒度异步和细粒度融合的完整模块时延、GEMM代价与暴露尾部。",
+          "source_ids": [
+            "flux"
+          ]
+        },
+        {
+          "id": "compute-communication-overlap-q-3",
+          "title": "一次MoE调用内部，哪些阶段可以流水，哪些仍由barrier和最慢expert串行连接？",
+          "question": "一次MoE调用内部，哪些阶段可以流水，哪些仍由barrier和最慢expert串行连接？",
+          "explanation": "融合API不等于阶段全部重叠；容量padding、稀疏到达和跨核barrier仍可能决定尾部。",
+          "branch_indices": [
+            2
+          ],
+          "compare": "固定路由、expert布局、激活函数、量化与平台，对比各FuseMode的阶段依赖、就绪方式及完整MoE完成；不同功能配置不混入同一性能排名。",
+          "source_ids": [
+            "sgl-deepep-ascend-api"
+          ]
+        }
+      ],
+      "catalog": [
+        {
+          "id": "compute-communication-overlap-m-1",
+          "title": "逐层与分块流水",
+          "text": "按消费者顺序让已完成的块先传输/装载，后续块继续计算；Mooncake按层加载KV并与其他计算并行。",
+          "from_branch_indices": [
+            0
+          ],
+          "source_ids": [
+            "mooncake-paper-v5",
+            "bytescheduler"
+          ]
+        },
+        {
+          "id": "compute-communication-overlap-m-2",
+          "title": "GEMM–collective细粒度融合",
+          "text": "FLUX把依赖的通信和GEMM拆到tile级，在融合kernel内协调数据到达与计算，配合tile顺序减少等待/内存冲突。",
+          "from_branch_indices": [
+            1
+          ],
+          "source_ids": [
+            "flux"
+          ]
+        }
+      ]
+    },
+    "transfer-compression": {
+      "research_object": "发送与接收之间的张量表示、编码流、元数据及接收端恢复或直接消费方式。",
+      "invariants": [
+        "要传递的数据语义与声明的误差容限",
+        "同一负载、路由需求及互连资源",
+        "实际字节计入scale、索引、padding与旁路",
+        "训练和推理的误差恢复机制分别对待"
+      ],
+      "direct_change": "改变每份交换数据的编码和实际字节，并可能改变编解码、缓冲与精度；不把少传任务、改变路由或重算替代传输都命名为编码压缩。",
+      "comparison_coordinates": [
+        "被传对象：KV、MoE激活或训练梯度",
+        "原始表示、量化表示、编码流和接收端表示",
+        "含元数据的实际字节与复用次数",
+        "编解码、恢复缓冲和完整依赖路径",
+        "模型、数据集、质量口径及训练收敛边界"
+      ],
+      "cross_route_condition": {
+        "with_route_id": "launch-granularity",
+        "relationship": "冲突：低字节可能使固定成本成为新瓶颈",
+        "condition": "当编码缩小了payload，但每块仍需独立提交、元数据或恢复步骤时，小块固定成本占比可能上升；扩大编码块又可能增加等待并延迟消费者。",
+        "implication": "压缩强度与传输块大小应在同一时延分解中比较；不能只按压缩率选表示，或只按未压缩消息的阈值选聚合。此项是由成本分解得到的待检验判断，不是现有文献已给出的最优阈值。",
+        "source_ids": [
+          "cachegen-v6",
+          "nccl-groups",
+          "bytescheduler"
+        ]
+      },
+      "trusted_conclusion": {
+        "claim": "远端KV编码与即时MoE激活量化应分别研究：前者可能利用预编码和复用，后者更依赖轻量处理及接收端兼容。可信证据必须同时包含实际字节、完整成本及质量。",
+        "evidence_scope": "CacheGen提供限定模型和数据集的KV实验，不能写成无损或TPOT效果；两个DeepEP-Ascend来源提供各自版本的功能和平台条件，并未证明统一任务质量或模型净收益。PowerSGD仅作训练参考。",
+        "source_ids": [
+          "cachegen-v6",
+          "sgl-deepep-ascend-api",
+          "deepseek-deepep-ascend",
+          "powersgd"
+        ]
+      },
+      "unresolved_questions": [
+        "接收端若能直接消费传输表示，省去的解码或格式转换能否改变原有压缩强度选择？",
+        "链路更快、复用更少或消息更短时，轻量量化、复杂编码和直接传输各自的净收益区间如何变化？"
+      ],
+      "source_ids": [
+        "cachegen-v6",
+        "sgl-deepep-ascend-api",
+        "deepseek-deepep-ascend",
+        "powersgd",
+        "nccl-groups",
+        "bytescheduler"
+      ],
+      "axis_label": "线上数据表示",
+      "narrative": "围绕线上数据表示，比较直接改变、代价和消费者完成条件；相关场景与训练参考分别标示。",
+      "subquestions": [
+        {
+          "id": "transfer-compression-q-1",
+          "title": "重复取回的KV值得采用多复杂的编码，怎样摊销准备并衔接流式解码？",
+          "question": "重复取回的KV值得采用多复杂的编码，怎样摊销准备并衔接流式解码？",
+          "explanation": "熵编码对量化符号无损，不会消除先前量化误差；更小bitstream也不一定带来更短加载关键路径。",
+          "branch_indices": [
+            0
+          ],
+          "compare": "固定模型、上下文、数据集与链路，对比原始KV、仅量化KV、进一步编码流的实际字节、准备与恢复时间、上下文加载和任务质量。",
+          "source_ids": [
+            "cachegen-v6"
+          ]
+        },
+        {
+          "id": "transfer-compression-q-2",
+          "title": "即时产生的token激活采用何种dtype与scale，才能既少传又匹配接收GEMM？",
+          "question": "即时产生的token激活采用何种dtype与scale，才能既少传又匹配接收GEMM？",
+          "explanation": "use_fp8参数名不必等于FP8载荷；A2/A3和A5路径及dispatch、combine、fused MoE能力不同，不能跨表推断。",
+          "branch_indices": [
+            1
+          ],
+          "compare": "固定路由、hidden、token容量、expert与并行布局，对比实际传输格式、scale粒度、转换代价、完整dispatch及任务质量；combine另列。",
+          "source_ids": [
+            "sgl-deepep-ascend-api",
+            "deepseek-deepep-ascend"
+          ]
+        },
+        {
+          "id": "transfer-compression-q-3",
+          "title": "通信低秩因子而非完整梯度，依赖哪些训练迭代与误差反馈条件？",
+          "question": "通信低秩因子而非完整梯度，依赖哪些训练迭代与误差反馈条件？",
+          "explanation": "PowerSGD的误差反馈依赖后续训练迭代；不能据此认为当前推理激活或KV近似误差会自动恢复。",
+          "branch_indices": [
+            2
+          ],
+          "compare": "在训练问题中比较秩、因子通信、正交化、误差状态和收敛；与推理KV或一次性激活仅做机制对照，不并入推理效果排行。",
+          "source_ids": [
+            "powersgd"
+          ]
+        }
+      ],
+      "catalog": [
+        {
+          "id": "transfer-compression-m-1",
+          "title": "量化符号与熵编码",
+          "text": "先利用token局部性与层间敏感度量化，再把离散符号算术编码为传输bitstream；接收端解码恢复所需KV表示，分块流送可与解码流水。",
+          "from_branch_indices": [
+            0
+          ],
+          "source_ids": [
+            "cachegen-v6"
+          ]
+        },
+        {
+          "id": "transfer-compression-m-2",
+          "title": "低精度传输与缩放布局",
+          "text": "对待分发的token激活使用INT8/FP8等表示与scale，combine单独核对；通信量化对象并非模型权重。",
+          "from_branch_indices": [
+            1
+          ],
+          "source_ids": [
+            "sgl-deepep-ascend-api",
+            "deepseek-deepep-ascend"
+          ]
+        }
+      ]
+    }
+  },
+  "evidence_facets": {
+    "memory-reuse--cann-fia-850-expert": {
+      "hardware_families": [
+        "ascend"
+      ],
+      "level": "capability",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "memory-reuse--flashattention": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "capability",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "memory-reuse--fa4-primary-expert": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "kernel",
+      "metrics": [
+        "time"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "tile-parallelism--catlass-official-expert": {
+      "hardware_families": [
+        "ascend"
+      ],
+      "level": "capability",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "tile-parallelism--fa2-primary-expert": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "kernel",
+      "metrics": [
+        "time"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "tile-parallelism--fa3-primary-expert": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "kernel",
+      "metrics": [
+        "time"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "tile-parallelism--ansor": {
+      "hardware_families": [
+        "unspecified"
+      ],
+      "level": "capability",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "tile-parallelism--streamk-primary-round2": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "kernel",
+      "metrics": [
+        "time"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "fusion-launch--cann-add-rms-norm-expert": {
+      "hardware_families": [
+        "ascend"
+      ],
+      "level": "capability",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "fusion-launch--pytorch-flex-fa4-expert": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "capability",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "fusion-launch--tensorir-primary-expert": {
+      "hardware_families": [
+        "unspecified"
+      ],
+      "level": "capability",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "layout-low-precision--cann-grouped-matmul-expert": {
+      "hardware_families": [
+        "ascend"
+      ],
+      "level": "capability",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "layout-low-precision--marlin-primary-round2": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "capability",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "layout-low-precision--fa3-primary-expert": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "kernel",
+      "metrics": [
+        "quality"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "layout-low-precision--tensorir-primary-expert": {
+      "hardware_families": [
+        "unspecified"
+      ],
+      "level": "capability",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "collectives-topology--nccl-algorithms": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "capability",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "collectives-topology--sgl-deepep-ascend-api": {
+      "hardware_families": [
+        "ascend"
+      ],
+      "level": "capability",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "collectives-topology--taccl": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "kernel",
+      "metrics": [
+        "time"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "launch-granularity--nccl-groups": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "capability",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "launch-granularity--horovod-tensor-fusion": {
+      "hardware_families": [
+        "unspecified"
+      ],
+      "level": "capability",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "launch-granularity--horovod-paper": {
+      "hardware_families": [
+        "unspecified"
+      ],
+      "level": "training",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "launch-granularity--bytescheduler": {
+      "hardware_families": [
+        "unspecified"
+      ],
+      "level": "training",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "paths-buffers--nccl-buffer-registration": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "capability",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "paths-buffers--mooncake-architecture": {
+      "hardware_families": [
+        "unspecified"
+      ],
+      "level": "capability",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "paths-buffers--deepseek-deepep-ascend": {
+      "hardware_families": [
+        "ascend"
+      ],
+      "level": "capability",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "paths-buffers--mooncake-paper-v5": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "system",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "compute-communication-overlap--sgl-deepep-ascend-api": {
+      "hardware_families": [
+        "ascend"
+      ],
+      "level": "capability",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "compute-communication-overlap--torch-distributed": {
+      "hardware_families": [
+        "unspecified"
+      ],
+      "level": "capability",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "compute-communication-overlap--flux": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "stage",
+      "metrics": [
+        "time"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "transfer-compression--deepseek-deepep-ascend": {
+      "hardware_families": [
+        "ascend"
+      ],
+      "level": "capability",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "transfer-compression--sgl-deepep-ascend-api": {
+      "hardware_families": [
+        "ascend"
+      ],
+      "level": "capability",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "transfer-compression--cachegen-v6": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "system",
+      "metrics": [
+        "memory",
+        "quality"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "transfer-compression--powersgd": {
+      "hardware_families": [
+        "unspecified"
+      ],
+      "level": "training",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+    },
+    "kernelevolve-coverage": {
+      "hardware_families": [
+        "gpu",
+        "other"
+      ],
+      "level": "generation",
+      "metrics": [
+        "coverage"
+      ],
+      "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+    },
+    "kernelevolve-conv-case": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "generation",
+      "metrics": [
+        "time"
+      ],
+      "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+    },
+    "kernelblaster-h100": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "generation",
+      "metrics": [
+        "time",
+        "coverage"
+      ],
+      "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+    },
+    "avo-b200-attention": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "generation",
+      "metrics": [
+        "time"
+      ],
+      "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+    },
+    "gpu-cuda-agent": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "generation",
+      "metrics": [
+        "time",
+        "coverage"
+      ],
+      "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+    },
+    "npu-ascendoptimizer": {
+      "hardware_families": [
+        "ascend"
+      ],
+      "level": "generation",
+      "metrics": [
+        "time",
+        "coverage"
+      ],
+      "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+    },
+    "gpu-kernelbench": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "generation",
+      "metrics": [
+        "time",
+        "coverage"
+      ],
+      "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+    },
+    "gpu-kernelagent": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "generation",
+      "metrics": [
+        "time",
+        "coverage"
+      ],
+      "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+    },
+    "gpu-kernelbench-verified": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "generation",
+      "metrics": [
+        "time",
+        "quality"
+      ],
+      "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+    },
+    "npu-ascendkernelgen": {
+      "hardware_families": [
+        "ascend"
+      ],
+      "level": "generation",
+      "metrics": [
+        "coverage"
+      ],
+      "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+    },
+    "npu-ascendcraft": {
+      "hardware_families": [
+        "ascend"
+      ],
+      "level": "generation",
+      "metrics": [
+        "time",
+        "coverage"
+      ],
+      "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+    },
+    "npu-cannbench": {
+      "hardware_families": [
+        "ascend"
+      ],
+      "level": "generation",
+      "metrics": [
+        "mechanism"
+      ],
+      "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+    }
+  }
+}

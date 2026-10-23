@@ -1,0 +1,4 @@
+interface:
+  display_name: "CCN 证据与技术判断"
+  short_description: "核对一手来源、实验条件和指标口径，让技术比较与分析结论可追溯"
+  default_prompt: "使用 $ccn-evidence-review 核对这批技术材料，并说明可支持的判断与证据缺口。"

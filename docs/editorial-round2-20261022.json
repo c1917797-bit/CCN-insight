@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-22",
+  "status": "local_review_not_published",
+  "plans": 16,
+  "plan_card_ids": [
+    "parameters-precision__dossier_6",
+    "parameters-selection__dossier_6",
+    "parameters-factorization__dossier_6",
+    "parameters-distillation__dossier_6",
+    "activations-precision__dossier_6",
+    "activations-selection__dossier_6",
+    "activations-merging__dossier_6",
+    "activations-factorization__dossier_6",
+    "activations-distillation__dossier_6",
+    "kv_cache-precision__dossier_6",
+    "kv_cache-kv_eviction__dossier_6",
+    "kv_cache-selection__dossier_6",
+    "kv_cache-factorization__dossier_6",
+    "kv_cache-distillation__dossier_6",
+    "kv_cache-sharing__dossier_6",
+    "kv_cache-compact_architecture__dossier_6"
+  ],
+  "changed_this_run": [],
+  "source_queue": "Explicit #imported-paper-review only; no candidate pipeline read on the default source directory.",
+  "result_values": "Unchanged; protocol cards are research proposals, not measured results.",
+  "public_sites_changed": false
+}

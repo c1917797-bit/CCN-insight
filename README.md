@@ -37,19 +37,26 @@ python -m http.server 8781 --directory dist
 
 ## 当前独立程度
 
-**首页、信息源表格、AI Infra 根技术地图与静态研究专题能够独立运行。旧 AI Infra 动态应用尚未完成整体迁移。**
+**首页、信息源表格、AI Infra 根技术地图及本地推理压缩阅读器能够独立运行。** 推理压缩的16个专题、动态、报告与已登记附件通过本地数据适配读取，构建和阅读不需要连接原TableGit；外部论文链接仍保留为原始出处。
 
-首页 AI Infra 入口指向本站 `/ai-infra/`。根技术源码在 `research/ai-infra/`，通过 `publish_infra.py` 生成正式页；其月度内容与 Agent 入口仍指向原网站。Agent 报告源码已迁入本仓库，独立网址作为发布镜像保留。`vendor/ai-infra/` 中旧应用需要兼容数据接口。没有复制服务端 LRIGIT 程序、账号凭据和完整报告附件。详见 [迁移状态](docs/MIGRATION.md)。
+公开部署版本以Sites发布回执为准；GitHub提交本身不等于网站已上线。原站运行服务、权限和账号没有因此迁入本仓库，也未建立双站自动发布。Agent报告已另行迁入research/agent-scheduling/，原独立网址继续作为发布镜像。原版阅读器在 `original-reader/site/`，`vendor/ai-infra/` 是较早的应用副本；详见 [TableGit迁移说明](docs/TABLEGIT-MIGRATION.md)。
 
 ## 如何维护
 
 1. 修改首页板块和入口：编辑 `content/sections.json`、`content/entries.json` 中的 `rows[].row`，保留关联 ID。
-2. 修改首页外观：编辑 `home_design.py`、`dist/home.css`、`dist/home.js`。
-3. 修改信息源：编辑 `data/directory/`，同时保持 family、channel、source 关联键一致。
+2. 修改首页外观：编辑 `home_design.py` 等生成程序；不直接修改生成后的 `dist/`。
+3. 修改推理压缩及其信息源：通过 `scripts/maintain_compression.py` 编辑 `data/compression/tables/*/rows.jsonl`，保持关联ID；`data/directory/` 是生成视图。阅读器外观在 `original-reader/site/business_insight/cloud_core/`。
 4. 运行 `python scripts/build.py` 和 `python scripts/verify.py`，检查结果再提交。
 5. 在 GitHub 仓库 Settings → Collaborators 邀请协作者；建议通过 Pull Request 审核修改。
 
 所有内容来自已有项目及数据导出，复制不代表重新验证了论文结论或来源可靠性。未附加新的开源许可证，沿用原文件中的版权与许可证声明。
+
+## 可复用洞察 Skill
+
+见 [洞察构筑、进化与交接](docs/INSIGHT-MAINTENANCE.md)。维护者先读 `AGENTS.md`、`.agents/HANDOFF.md` 和 `.agents/skills.registry.json`；三项仓库级 skill 分别负责页面构筑、证据核对与经验进化。极稳等新领域可使用草稿脚手架复用方法，具体技术内容仍需研究。
+
+本地专家阅读入口改造见 [检索与论证改造记录](docs/EXPERT-WORKBENCH-20261023.md)，第三方技能实际使用及借鉴范围见 [方法溯源](docs/MOZHI-PRACTICES-20261023.md)。
+
 
 ## Agent 调度报告（2026-10-23）
 

@@ -1,7 +1,16 @@
 {
   "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
-  "content_version": "compression-d33884c90c78ecce6b9b",
-  "changed_since_import": [],
+  "content_version": "compression-644e1c963d28453f0b41",
+  "changed_since_import": [
+    "ic_channels",
+    "ic_compression_research_frames",
+    "ic_compression_topic_cards",
+    "ic_compression_topic_sections",
+    "ic_compression_topics",
+    "ic_insight_reports",
+    "ic_paper_summaries",
+    "ic_source_families"
+  ],
   "tables": 91,
   "rows": 63873,
   "checked_relationships": 24,

@@ -1,0 +1,27 @@
+/* Static expert reference alongside the existing instructional animations. */
+.compression-foundations .foundation-quickref{margin:22px 0 26px;padding:22px 24px;border:1px solid #dce4ec;border-radius:11px;background:#fbfcfe;scroll-margin-top:120px}
+.compression-foundations .foundation-quickref>h3,.compression-foundations .foundation-lesson-reference>h3{font-size:18px;line-height:1.5;margin:0 0 15px;color:#29435b}
+.compression-foundations .foundation-quickref-list{margin:0}
+.compression-foundations .foundation-quickref-row{display:grid;grid-template-columns:115px minmax(0,1fr);gap:18px;padding:16px 0;border-top:1px solid #e3e9ef}
+.compression-foundations .foundation-quickref-row>dt{font-size:13px;line-height:1.8;font-weight:650;color:#586e83}
+.compression-foundations .foundation-quickref-row>dd{min-width:0;margin:0}
+.compression-foundations .foundation-quickref-row p{font-size:15px;line-height:1.85;color:#40566c;margin:0}
+.compression-foundations .foundation-quickref-row p+p{margin-top:10px}
+.compression-foundations .foundation-quickref-row .foundation-formula{font:15px/1.8 ui-monospace,Consolas,"Microsoft YaHei",monospace;color:#274760;background:#eef3f9;border-left:3px solid #798fc0;border-radius:0 6px 6px 0;padding:12px 14px;overflow-wrap:anywhere;white-space:normal}
+.compression-foundations .foundation-topic-links{display:flex;flex-wrap:wrap;gap:9px 18px;border-top:1px solid #e1e8ef;padding-top:14px;margin-top:7px}
+.compression-foundations .foundation-topic-links a{font-size:13px!important;line-height:1.7;display:inline-flex;align-items:center;min-height:40px;padding:0!important;border:0!important;background:none!important;box-shadow:none!important;color:#476c9b!important;text-decoration:underline;text-underline-offset:4px}
+.compression-foundations .foundation-topic-links a[data-topic-relation="related"]{color:#69718d!important}
+.compression-foundations .foundation-topic-links a:focus-visible,.compression-foundations .foundation-reference-scroll:focus-visible{outline:2px solid #577faa;outline-offset:5px}
+.compression-foundations .foundation-lesson-reference{margin:28px 0 36px}
+.compression-foundations .foundation-reference-scroll{max-width:100%;overflow-x:auto;border:1px solid #dde5ed;border-radius:10px}
+.compression-foundations .foundation-reference-table{border-collapse:collapse;width:100%;table-layout:fixed;background:#fff}
+.compression-foundations .foundation-reference-table caption{text-align:left;font-size:12px;line-height:1.8;color:#708194;padding:14px 16px;background:#f7f9fc;caption-side:top}
+.compression-foundations .foundation-reference-table th,.compression-foundations .foundation-reference-table td{vertical-align:top;text-align:left;padding:15px 16px;border:0;border-top:1px solid #e2e8ef;overflow-wrap:anywhere}
+.compression-foundations .foundation-reference-table thead th{font-size:12px;line-height:1.6;color:#61778c;background:#f2f5fa;font-weight:650}
+.compression-foundations .foundation-reference-table th:first-child{width:25%}
+.compression-foundations .foundation-reference-table th:nth-child(2){width:31%}
+.compression-foundations .foundation-reference-table tbody th{font-size:14px;line-height:1.8;font-weight:650;color:#38536b;background:#fbfcfe}
+.compression-foundations .foundation-reference-table td p{font-size:14px;line-height:1.85;color:#4c6379;margin:0}
+.compression-foundations .foundation-reference-table td .foundation-example-formula{font-family:ui-monospace,Consolas,"Microsoft YaHei",monospace;color:#344f70;white-space:normal}
+@media(max-width:700px){.compression-foundations .foundation-quickref{padding:18px}.compression-foundations .foundation-quickref-row{grid-template-columns:minmax(0,1fr);gap:7px;padding:14px 0}.compression-foundations .foundation-topic-links{gap:4px 15px}.compression-foundations .foundation-reference-table,.compression-foundations .foundation-reference-table tbody,.compression-foundations .foundation-reference-table tbody tr,.compression-foundations .foundation-reference-table tbody th,.compression-foundations .foundation-reference-table tbody td{display:block;width:auto}.compression-foundations .foundation-reference-table thead{display:none}.compression-foundations .foundation-reference-table tbody tr+tr{border-top:2px solid #dce5ed}.compression-foundations .foundation-reference-table tbody th{background:#f5f8fc;border-top:0}.compression-foundations .foundation-reference-table tbody td{border-top:1px solid #edf1f5}.compression-foundations .foundation-reference-table tbody td:before{content:attr(data-label);display:block;font-size:11px;font-weight:650;color:#73869a;margin-bottom:5px}}
+@media print{.compression-foundations .foundation-quickref,.compression-foundations .foundation-lesson-reference{break-inside:avoid}.compression-foundations .foundation-reference-scroll{overflow:visible}}

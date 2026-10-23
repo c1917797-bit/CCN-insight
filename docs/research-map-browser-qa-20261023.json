@@ -1,0 +1,53 @@
+{
+  "date": "2026-10-23",
+  "mode": "local_only_not_published",
+  "portal_routes": [
+    {
+      "hash": "#route-precision",
+      "mapVisible": true,
+      "title": "低比特量化",
+      "top": 239.609375
+    },
+    {
+      "hash": "#route-selection",
+      "mapVisible": true,
+      "title": "稀疏化与剪枝",
+      "top": 221.109375
+    },
+    {
+      "hash": "#route-distillation",
+      "mapVisible": true,
+      "title": "知识蒸馏",
+      "top": 542.0625
+    },
+    {
+      "hash": "#route-factorization",
+      "mapVisible": true,
+      "title": "低秩分解",
+      "top": 357.5625
+    }
+  ],
+  "kv_filter": {
+    "folds": 0,
+    "overflow": false,
+    "selected": [
+      "KV Cache"
+    ],
+    "topics": [
+      "kv_cache-precision",
+      "kv_cache-selection",
+      "parameters-distillation",
+      "kv_cache-distillation",
+      "kv_cache-factorization",
+      "kv_cache-sharing",
+      "kv_cache-kv_eviction",
+      "kv_cache-compact_architecture"
+    ],
+    "url": "http://127.0.0.1:8787/business_insight/cloud_core/index.html?month=2026-10#map"
+  },
+  "history_return": {
+    "map_visible": true,
+    "direction_hidden": true
+  },
+  "legacy_topic_links": 16
+}

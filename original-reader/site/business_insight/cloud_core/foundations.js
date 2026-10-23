@@ -73,6 +73,30 @@
   copy.append(el('p',pick(row,'summary'),'foundation-lead'));formula(copy,row);body(copy,pick(row,'body'));
   appendCitation(copy,row);layout.append(copy);article.append(layout);host.append(article);
  }
+ function addQuickReference(host,method){
+  const word=(zh,en)=>locale==='en'?en:zh,parts=pick(method,'body').split(/\n+/).filter(v=>v.trim()),quick=el('section','','foundation-quickref');quick.dataset.foundationMethod=method.method_id;quick.dataset.sectionOutline='false';
+  quick.append(el('h3',word('原理速查','Principle quick reference')));
+  const list=el('dl','','foundation-quickref-list');
+  const row=(zh,en)=>{const item=el('div','','foundation-quickref-row'),definition=el('dd');item.append(el('dt',word(zh,en)),definition);list.append(item);return definition;};
+  const definition=row('定义','Definition');definition.append(el('p',parts[0]));
+  const equation=row('公式','Formula');if(method.formula)formula(equation,method);else equation.append(el('p',word('当前条目未登记公式。','No formula is recorded for this entry.')));
+  const conditions=row('成立条件与符号','Conditions and notation');body(conditions,parts.slice(1).join('\n'));appendCitation(conditions,method);quick.append(list);
+  const topicMethods={quantization:'precision',pruning_sparsity:'selection',distillation:'distillation',low_rank:'factorization'},names={
+   quantization:[['parameters','权重量化','Weight quantization'],['activations','激活量化','Activation quantization'],['kv_cache','KV Cache 量化','KV Cache quantization']],
+   pruning_sparsity:[['parameters','权重剪枝','Weight pruning'],['activations','激活剪枝','Activation pruning'],['kv_cache','KV Cache 剪枝','KV Cache pruning']],
+   low_rank:[['parameters','权重低秩分解','Low-rank weights'],['activations','激活低秩分解','Low-rank activations'],['kv_cache','KV Cache 低秩分解','Low-rank KV Cache']],
+   distillation:[['parameters','知识蒸馏 · 主专题','Knowledge distillation · Main topic'],['activations','特征监督 · 关联案例','Feature supervision · Related case'],['kv_cache','紧凑 KV 结构 · 关联案例','Compact KV structures · Related case']]
+  };
+  const links=el('nav','','foundation-topic-links');links.setAttribute('aria-label',word('进入对应研究专题','Open related research topics'));
+  for(const [target,zh,en]of names[method.method_id]){const id=target+'-'+topicMethods[method.method_id],a=el('a',word(zh,en)+' →'),url=new URL('topic.html',location.href),params=new URLSearchParams(location.search);url.searchParams.set('topic',id);for(const key of ['month','scope'])if(params.has(key))url.searchParams.set(key,params.get(key));a.href=url.pathname+url.search;a.dataset.foundationTopic=id;if(method.method_id==='distillation')a.dataset.topicRelation=target==='parameters'?'main':'related';links.append(a);}quick.append(links);host.append(quick);
+ }
+ function addLessonReference(host,method,steps){
+  const word=(zh,en)=>locale==='en'?en:zh,section=el('section','','foundation-lesson-reference');section.dataset.sectionOutline='false';section.append(el('h3',word('算例公式与要点','Worked-example formulas and takeaways')));
+  const scroll=el('div','','foundation-reference-scroll');scroll.tabIndex=0;scroll.setAttribute('role','region');scroll.setAttribute('aria-label',word('本方法全部算例步骤','All worked-example steps for this method'));
+  const table=el('table','','foundation-reference-table');table.append(el('caption',word('与上方动画使用同一组算例；各步公式与要点可直接查阅。','The same worked example as the animation above, with every formula and takeaway available for reference.')));
+  const head=el('thead'),heading=el('tr'),labels=[word('步骤','Step'),word('计算式','Formula'),word('理解要点','Takeaway')];for(const label of labels){const th=el('th',label);th.scope='col';heading.append(th);}head.append(heading);table.append(head);
+  const tbody=el('tbody');for(const step of steps){const tr=el('tr');tr.dataset.lessonStep=step.step_id;const title=el('th',pick(step,'title'));title.scope='row';title.dataset.label=labels[0];const equation=el('td'),takeaway=el('td');equation.dataset.label=labels[1];takeaway.dataset.label=labels[2];equation.append(el('p',step.formula||'—','foundation-example-formula'));const text=el('p',pick(step,'takeaway'));text.append(citation(step));takeaway.append(text);tr.append(title,equation,takeaway);tbody.append(tr);}table.append(tbody);scroll.append(table);section.append(scroll);host.append(section);
+ }
  function updateUI(){
   document.documentElement.lang=locale==='en'?'en':'zh-CN';document.title=ui('page_title')+' · LRI';
   for(const node of document.querySelectorAll('[data-i18n-key]')){const text=ui(node.dataset.i18nKey);if(text)node.textContent=text;}
@@ -90,7 +114,8 @@
   const nav=$('foundations-reading-nav');nav.replaceChildren();const link=(id,title)=>{const a=el('a',title);a.href='#'+id;nav.append(a);};link(overview.id,ui('overview'));
   for(const method of methods){const section=el('section','','foundation-method');section.id=anchors[method.method_id];section.dataset.sectionLabel=pick(method,'title');section.append(el('h2',pick(method,'title')));
    const intro=el('p',pick(method,'summary'),'foundation-lead');intro.append(citation(method));section.append(intro);
-   const player=document.createElement('lri-foundation-lesson');player.lesson={method:method.method_id,steps:snapshot.lessons.steps.filter(r=>r.method_id===method.method_id).sort((a,b)=>a.position-b.position),values:snapshot.lessons.values.filter(r=>r.method_id===method.method_id),locale,ui:globalThis.LRICloudFoundationUIPacks[locale].strings,referenceNumbers:Object.fromEntries(referenceNumbers)};section.append(player);
+   addQuickReference(section,method);const lessonSteps=snapshot.lessons.steps.filter(r=>r.method_id===method.method_id).sort((a,b)=>a.position-b.position);
+   const player=document.createElement('lri-foundation-lesson');player.lesson={method:method.method_id,steps:lessonSteps,values:snapshot.lessons.values.filter(r=>r.method_id===method.method_id),locale,ui:globalThis.LRICloudFoundationUIPacks[locale].strings,referenceNumbers:Object.fromEntries(referenceNumbers)};section.append(player);addLessonReference(section,method,lessonSteps);
    for(const row of rows.filter(r=>r.method_id===method.method_id&&(!['method','overview','quantization_step'].includes(r.section_kind)||['quant-group','quant-execution'].includes(r.foundation_id))))addCard(section,row);
    root.append(section);link(section.id,ui('nav_'+method.method_id));
   }

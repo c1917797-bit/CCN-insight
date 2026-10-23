@@ -1,0 +1,4 @@
+interface:
+  display_name: "CCN 专家洞察构筑"
+  short_description: "复用证据驱动模板与阅读器，构筑可持续维护的跨领域专家洞察网站"
+  default_prompt: "使用 $ccn-insight-build 构筑或优化指定领域的专家洞察，保留统一维护源。"

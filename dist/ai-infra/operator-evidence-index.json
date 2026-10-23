@@ -1,0 +1,3339 @@
+{
+  "schema_version": 1,
+  "generated_from": "maintained operator research; do not edit this projection",
+  "reviewed_at": "2026-10-23",
+  "routes": [
+    {
+      "id": "memory-reuse",
+      "title": "数据搬运与片上复用",
+      "branch": "compute",
+      "url": "operators-memory-reuse.html"
+    },
+    {
+      "id": "tile-parallelism",
+      "title": "分块映射与并行流水",
+      "branch": "compute",
+      "url": "operators-tile-parallelism.html"
+    },
+    {
+      "id": "fusion-launch",
+      "title": "融合与启动优化",
+      "branch": "compute",
+      "url": "operators-fusion-launch.html"
+    },
+    {
+      "id": "layout-low-precision",
+      "title": "布局与低精度执行",
+      "branch": "compute",
+      "url": "operators-layout-low-precision.html"
+    },
+    {
+      "id": "collectives-topology",
+      "title": "集合算法与拓扑映射",
+      "branch": "communication",
+      "url": "operators-collectives-topology.html"
+    },
+    {
+      "id": "launch-granularity",
+      "title": "启动与消息粒度",
+      "branch": "communication",
+      "url": "operators-launch-granularity.html"
+    },
+    {
+      "id": "paths-buffers",
+      "title": "数据路径与缓冲管理",
+      "branch": "communication",
+      "url": "operators-paths-buffers.html"
+    },
+    {
+      "id": "compute-communication-overlap",
+      "title": "通算融合与异步重叠",
+      "branch": "communication",
+      "url": "operators-compute-communication-overlap.html"
+    },
+    {
+      "id": "transfer-compression",
+      "title": "传输编码与通信量压缩",
+      "branch": "communication",
+      "url": "operators-transfer-compression.html"
+    }
+  ],
+  "mechanisms": [
+    {
+      "id": "memory-reuse-m-loaded-input-reuse",
+      "route_id": "memory-reuse",
+      "title": "一次加载，多次消费",
+      "source_ids": [
+        "streamk-primary-round2"
+      ],
+      "approach_ids": [
+        "memory-reuse-a-1"
+      ],
+      "url": "operators-memory-reuse.html#memory-reuse-m-loaded-input-reuse"
+    },
+    {
+      "id": "memory-reuse-m-streaming-intermediate",
+      "route_id": "memory-reuse",
+      "title": "流式推进，减少中间落存",
+      "source_ids": [
+        "flashattention"
+      ],
+      "approach_ids": [
+        "memory-reuse-a-1"
+      ],
+      "url": "operators-memory-reuse.html#memory-reuse-m-streaming-intermediate"
+    },
+    {
+      "id": "tile-parallelism-m-independent-partition",
+      "route_id": "tile-parallelism",
+      "title": "独立输出分块",
+      "source_ids": [
+        "fa2-primary-expert",
+        "streamk-primary-round2"
+      ],
+      "approach_ids": [
+        "tile-parallelism-a-1",
+        "tile-parallelism-a-3"
+      ],
+      "url": "operators-tile-parallelism.html#tile-parallelism-m-independent-partition"
+    },
+    {
+      "id": "tile-parallelism-m-cooperative-partition",
+      "route_id": "tile-parallelism",
+      "title": "归约拆分与工作量均衡",
+      "source_ids": [
+        "streamk-primary-round2"
+      ],
+      "approach_ids": [
+        "tile-parallelism-a-3"
+      ],
+      "url": "operators-tile-parallelism.html#tile-parallelism-m-cooperative-partition"
+    },
+    {
+      "id": "tile-parallelism-m-stage-overlap",
+      "route_id": "tile-parallelism",
+      "title": "生产消费分工与阶段流水",
+      "source_ids": [
+        "fa3-primary-expert"
+      ],
+      "approach_ids": [
+        "tile-parallelism-a-2"
+      ],
+      "url": "operators-tile-parallelism.html#tile-parallelism-m-stage-overlap"
+    },
+    {
+      "id": "fusion-launch-m-local-consumer-fusion",
+      "route_id": "fusion-launch",
+      "title": "逐元素消费与矩阵尾处理融合",
+      "source_ids": [
+        "catlass-official-expert"
+      ],
+      "approach_ids": [
+        "fusion-launch-a-1"
+      ],
+      "url": "operators-fusion-launch.html#fusion-launch-m-local-consumer-fusion"
+    },
+    {
+      "id": "fusion-launch-m-reduction-aware-fusion",
+      "route_id": "fusion-launch",
+      "title": "含归约依赖的融合",
+      "source_ids": [
+        "cann-add-rms-norm-expert"
+      ],
+      "approach_ids": [
+        "fusion-launch-a-1"
+      ],
+      "url": "operators-fusion-launch.html#fusion-launch-m-reduction-aware-fusion"
+    },
+    {
+      "id": "layout-low-precision-m-consumer-matched-layout",
+      "route_id": "layout-low-precision",
+      "title": "按消费者组织物理布局",
+      "source_ids": [
+        "marlin-primary-round2",
+        "fa3-primary-expert"
+      ],
+      "approach_ids": [
+        "layout-low-precision-a-1"
+      ],
+      "url": "operators-layout-low-precision.html#layout-low-precision-m-consumer-matched-layout"
+    },
+    {
+      "id": "layout-low-precision-m-packed-consumption",
+      "route_id": "layout-low-precision",
+      "title": "紧凑表示的核内消费",
+      "source_ids": [
+        "marlin-primary-round2"
+      ],
+      "approach_ids": [
+        "layout-low-precision-a-1"
+      ],
+      "url": "operators-layout-low-precision.html#layout-low-precision-m-packed-consumption"
+    },
+    {
+      "id": "collectives-topology-m-1",
+      "route_id": "collectives-topology",
+      "title": "分块环与树形传播",
+      "source_ids": [
+        "nccl-algorithms",
+        "taccl"
+      ],
+      "approach_ids": [
+        "collectives-topology-a-1"
+      ],
+      "url": "operators-collectives-topology.html#collectives-topology-m-1"
+    },
+    {
+      "id": "collectives-topology-m-2",
+      "route_id": "collectives-topology",
+      "title": "分层路由与归约卸载",
+      "source_ids": [
+        "nccl-algorithms",
+        "nccl-buffer-registration"
+      ],
+      "approach_ids": [
+        "collectives-topology-a-2"
+      ],
+      "url": "operators-collectives-topology.html#collectives-topology-m-2"
+    },
+    {
+      "id": "launch-granularity-m-1",
+      "route_id": "launch-granularity",
+      "title": "调用分组与启动摊销",
+      "source_ids": [
+        "nccl-groups"
+      ],
+      "approach_ids": [
+        "launch-granularity-a-1"
+      ],
+      "url": "operators-launch-granularity.html#launch-granularity-m-1"
+    },
+    {
+      "id": "launch-granularity-m-2",
+      "route_id": "launch-granularity",
+      "title": "张量融合与聚合等待",
+      "source_ids": [
+        "horovod-tensor-fusion",
+        "horovod-paper"
+      ],
+      "approach_ids": [
+        "launch-granularity-a-2"
+      ],
+      "url": "operators-launch-granularity.html#launch-granularity-m-2"
+    },
+    {
+      "id": "launch-granularity-m-3",
+      "route_id": "launch-granularity",
+      "title": "分块、优先级与在途控制",
+      "source_ids": [
+        "bytescheduler"
+      ],
+      "approach_ids": [
+        "launch-granularity-a-3"
+      ],
+      "url": "operators-launch-granularity.html#launch-granularity-m-3"
+    },
+    {
+      "id": "paths-buffers-m-1",
+      "route_id": "paths-buffers",
+      "title": "预注册与直接访问",
+      "source_ids": [
+        "nccl-buffer-registration"
+      ],
+      "approach_ids": [
+        "paths-buffers-a-1"
+      ],
+      "url": "operators-paths-buffers.html#paths-buffers-m-1"
+    },
+    {
+      "id": "paths-buffers-m-2",
+      "route_id": "paths-buffers",
+      "title": "直接路径与中继聚合",
+      "source_ids": [
+        "nccl-buffer-registration",
+        "nccl-algorithms",
+        "mooncake-architecture"
+      ],
+      "approach_ids": [
+        "paths-buffers-a-2"
+      ],
+      "url": "operators-paths-buffers.html#paths-buffers-m-2"
+    },
+    {
+      "id": "compute-communication-overlap-m-1",
+      "route_id": "compute-communication-overlap",
+      "title": "逐层与分块流水",
+      "source_ids": [
+        "mooncake-paper-v5",
+        "bytescheduler"
+      ],
+      "approach_ids": [
+        "compute-communication-overlap-a-1"
+      ],
+      "url": "operators-compute-communication-overlap.html#compute-communication-overlap-m-1"
+    },
+    {
+      "id": "compute-communication-overlap-m-2",
+      "route_id": "compute-communication-overlap",
+      "title": "GEMM–collective细粒度融合",
+      "source_ids": [
+        "flux"
+      ],
+      "approach_ids": [
+        "compute-communication-overlap-a-2"
+      ],
+      "url": "operators-compute-communication-overlap.html#compute-communication-overlap-m-2"
+    },
+    {
+      "id": "transfer-compression-m-1",
+      "route_id": "transfer-compression",
+      "title": "量化符号与熵编码",
+      "source_ids": [
+        "cachegen-v6"
+      ],
+      "approach_ids": [
+        "transfer-compression-a-1"
+      ],
+      "url": "operators-transfer-compression.html#transfer-compression-m-1"
+    },
+    {
+      "id": "transfer-compression-m-2",
+      "route_id": "transfer-compression",
+      "title": "低精度传输与缩放布局",
+      "source_ids": [
+        "sgl-deepep-ascend-api",
+        "deepseek-deepep-ascend"
+      ],
+      "approach_ids": [
+        "transfer-compression-a-2"
+      ],
+      "url": "operators-transfer-compression.html#transfer-compression-m-2"
+    }
+  ],
+  "approaches": [
+    {
+      "id": "memory-reuse-a-1",
+      "route_id": "memory-reuse",
+      "name": "在线 softmax 与流式分块",
+      "role": "mechanism",
+      "url": "operators-memory-reuse.html#memory-reuse-a-1",
+      "source_ids": [
+        "flashattention",
+        "cann-fia-850-expert"
+      ]
+    },
+    {
+      "id": "memory-reuse-a-2",
+      "route_id": "memory-reuse",
+      "name": "保存统计量，反向时重算",
+      "role": "training_extension",
+      "url": "operators-memory-reuse.html#memory-reuse-a-2",
+      "source_ids": [
+        "flashattention"
+      ]
+    },
+    {
+      "id": "memory-reuse-a-3",
+      "route_id": "memory-reuse",
+      "name": "从外存瓶颈继续追到片上与特殊函数瓶颈",
+      "role": "judgment",
+      "url": "operators-memory-reuse.html#memory-reuse-a-3",
+      "source_ids": [
+        "fa4-primary-expert"
+      ]
+    },
+    {
+      "id": "tile-parallelism-a-1",
+      "route_id": "tile-parallelism",
+      "name": "序列维并行与 sliced-Q 划分",
+      "role": "mechanism",
+      "url": "operators-tile-parallelism.html#tile-parallelism-a-1",
+      "source_ids": [
+        "fa2-primary-expert"
+      ]
+    },
+    {
+      "id": "tile-parallelism-a-2",
+      "route_id": "tile-parallelism",
+      "name": "生产者—消费者与 GEMM/softmax 流水",
+      "role": "mechanism",
+      "url": "operators-tile-parallelism.html#tile-parallelism-a-2",
+      "source_ids": [
+        "fa3-primary-expert"
+      ]
+    },
+    {
+      "id": "tile-parallelism-a-3",
+      "route_id": "tile-parallelism",
+      "name": "输出tile、Split-K与Stream-K",
+      "role": "mechanism",
+      "url": "operators-tile-parallelism.html#tile-parallelism-a-3",
+      "source_ids": [
+        "streamk-primary-round2",
+        "catlass-official-expert"
+      ]
+    },
+    {
+      "id": "fusion-launch-a-1",
+      "route_id": "fusion-launch",
+      "name": "Add + RMSNorm 与矩阵尾处理融合",
+      "role": "mechanism",
+      "url": "operators-fusion-launch.html#fusion-launch-a-1",
+      "source_ids": [
+        "cann-add-rms-norm-expert",
+        "catlass-official-expert"
+      ]
+    },
+    {
+      "id": "fusion-launch-a-2",
+      "route_id": "fusion-launch",
+      "name": "FlexAttention 的 score_mod / mask_mod 专用编译",
+      "role": "crosscutting_method",
+      "url": "operators-fusion-launch.html#fusion-launch-a-2",
+      "source_ids": [
+        "pytorch-flex-fa4-expert"
+      ]
+    },
+    {
+      "id": "fusion-launch-a-3",
+      "route_id": "fusion-launch",
+      "name": "TensorIR 计算块与依赖约束下的融合",
+      "role": "crosscutting_method",
+      "url": "operators-fusion-launch.html#fusion-launch-a-3",
+      "source_ids": [
+        "tensorir-primary-expert",
+        "tvm"
+      ]
+    },
+    {
+      "id": "layout-low-precision-a-1",
+      "route_id": "layout-low-precision",
+      "name": "离线预排布、核内解包与在线转置",
+      "role": "mechanism",
+      "url": "operators-layout-low-precision.html#layout-low-precision-a-1",
+      "source_ids": [
+        "marlin-primary-round2",
+        "fa3-primary-expert"
+      ]
+    },
+    {
+      "id": "layout-low-precision-a-2",
+      "route_id": "layout-low-precision",
+      "name": "块级 FP8 缩放与离群值分散",
+      "role": "mechanism",
+      "url": "operators-layout-low-precision.html#layout-low-precision-a-2",
+      "source_ids": [
+        "fa3-primary-expert"
+      ]
+    },
+    {
+      "id": "layout-low-precision-a-3",
+      "route_id": "layout-low-precision",
+      "name": "ND/NZ 与量化参数配套执行",
+      "role": "application",
+      "url": "operators-layout-low-precision.html#layout-low-precision-a-3",
+      "source_ids": [
+        "cann-grouped-matmul-expert"
+      ]
+    },
+    {
+      "id": "collectives-topology-a-1",
+      "route_id": "collectives-topology",
+      "name": "分块环与树形传播",
+      "role": "mechanism",
+      "url": "operators-collectives-topology.html#collectives-topology-a-1",
+      "source_ids": [
+        "nccl-algorithms",
+        "taccl"
+      ]
+    },
+    {
+      "id": "collectives-topology-a-2",
+      "route_id": "collectives-topology",
+      "name": "分层路由与归约卸载",
+      "role": "mechanism",
+      "url": "operators-collectives-topology.html#collectives-topology-a-2",
+      "source_ids": [
+        "nccl-algorithms",
+        "nccl-buffer-registration"
+      ]
+    },
+    {
+      "id": "collectives-topology-a-3",
+      "route_id": "collectives-topology",
+      "name": "稀疏路由的MoE分发与合并",
+      "role": "application",
+      "url": "operators-collectives-topology.html#collectives-topology-a-3",
+      "source_ids": [
+        "sgl-deepep-ascend-api"
+      ]
+    },
+    {
+      "id": "launch-granularity-a-1",
+      "route_id": "launch-granularity",
+      "name": "调用分组（launch grouping）",
+      "role": "mechanism",
+      "url": "operators-launch-granularity.html#launch-granularity-a-1",
+      "source_ids": [
+        "nccl-groups"
+      ]
+    },
+    {
+      "id": "launch-granularity-a-2",
+      "route_id": "launch-granularity",
+      "name": "张量融合（tensor fusion）",
+      "role": "mechanism",
+      "url": "operators-launch-granularity.html#launch-granularity-a-2",
+      "source_ids": [
+        "horovod-tensor-fusion",
+        "horovod-paper"
+      ]
+    },
+    {
+      "id": "launch-granularity-a-3",
+      "route_id": "launch-granularity",
+      "name": "分块与优先级调度",
+      "role": "mechanism",
+      "url": "operators-launch-granularity.html#launch-granularity-a-3",
+      "source_ids": [
+        "bytescheduler"
+      ]
+    },
+    {
+      "id": "paths-buffers-a-1",
+      "route_id": "paths-buffers",
+      "name": "预注册与直接访问",
+      "role": "mechanism",
+      "url": "operators-paths-buffers.html#paths-buffers-a-1",
+      "source_ids": [
+        "nccl-buffer-registration"
+      ]
+    },
+    {
+      "id": "paths-buffers-a-2",
+      "route_id": "paths-buffers",
+      "name": "直接数据面与中继聚合",
+      "role": "mechanism",
+      "url": "operators-paths-buffers.html#paths-buffers-a-2",
+      "source_ids": [
+        "nccl-buffer-registration",
+        "nccl-algorithms",
+        "mooncake-architecture"
+      ]
+    },
+    {
+      "id": "paths-buffers-a-3",
+      "route_id": "paths-buffers",
+      "name": "持久缓冲与容量协议",
+      "role": "crosscutting_method",
+      "url": "operators-paths-buffers.html#paths-buffers-a-3",
+      "source_ids": [
+        "deepseek-deepep-ascend"
+      ]
+    },
+    {
+      "id": "compute-communication-overlap-a-1",
+      "route_id": "compute-communication-overlap",
+      "name": "逐层 / 分块流水",
+      "role": "mechanism",
+      "url": "operators-compute-communication-overlap.html#compute-communication-overlap-a-1",
+      "source_ids": [
+        "mooncake-paper-v5",
+        "bytescheduler"
+      ]
+    },
+    {
+      "id": "compute-communication-overlap-a-2",
+      "route_id": "compute-communication-overlap",
+      "name": "GEMM与collective细粒度融合",
+      "role": "mechanism",
+      "url": "operators-compute-communication-overlap.html#compute-communication-overlap-a-2",
+      "source_ids": [
+        "flux"
+      ]
+    },
+    {
+      "id": "compute-communication-overlap-a-3",
+      "route_id": "compute-communication-overlap",
+      "name": "MoE dispatch–FFN–combine融合",
+      "role": "application",
+      "url": "operators-compute-communication-overlap.html#compute-communication-overlap-a-3",
+      "source_ids": [
+        "sgl-deepep-ascend-api"
+      ]
+    },
+    {
+      "id": "transfer-compression-a-1",
+      "route_id": "transfer-compression",
+      "name": "KV量化 + 熵编码（CacheGen）",
+      "role": "mechanism",
+      "url": "operators-transfer-compression.html#transfer-compression-a-1",
+      "source_ids": [
+        "cachegen-v6"
+      ]
+    },
+    {
+      "id": "transfer-compression-a-2",
+      "route_id": "transfer-compression",
+      "name": "MoE dispatch低精度传输",
+      "role": "mechanism",
+      "url": "operators-transfer-compression.html#transfer-compression-a-2",
+      "source_ids": [
+        "sgl-deepep-ascend-api",
+        "deepseek-deepep-ascend"
+      ]
+    },
+    {
+      "id": "transfer-compression-a-3",
+      "route_id": "transfer-compression",
+      "name": "低秩梯度压缩（训练参考）",
+      "role": "training_extension",
+      "url": "operators-transfer-compression.html#transfer-compression-a-3",
+      "source_ids": [
+        "powersgd"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "id": "memory-reuse--cann-fia-850-expert",
+      "route_id": "memory-reuse",
+      "route_title": "数据搬运与片上复用",
+      "title": "CANN FusedInferAttentionScore：完整与增量注意力接口",
+      "kind": "industry",
+      "date": "8.5.0文档快照；2026-10-23核对",
+      "mechanism": "将推理注意力作为融合算子提供，并区分全量与增量调用条件，提供布局、分组及缓存相关参数约束。",
+      "conditions": "本条引用ops-transformer的8.5.0标签说明，产品范围列Atlas A2、A3及950PR/DT；具体shape、dtype和布局仍以该版本接口约束为准。",
+      "result": "证明有对应的推理融合实现入口；文档没有给出可用于本页横向比较的同条件时延表，未报告TTFT/TPOT。",
+      "limit": "不能由接口存在推断所有配置更快，更不能推断310P可用。全量注意力、逐token解码和分页KV访问的瓶颈不同。",
+      "result_type": "接口能力",
+      "source_ids": [
+        "cann-fia-850-expert"
+      ],
+      "approach_ids": [
+        "memory-reuse-a-1"
+      ],
+      "facets": {
+        "hardware_families": [
+          "ascend"
+        ],
+        "level": "capability",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-memory-reuse.html#record-memory-reuse--cann-fia-850-expert",
+      "canonical_origin": "operator-routes.json#/branches/compute/routes/memory-reuse/industry/memory-reuse--cann-fia-850-expert"
+    },
+    {
+      "id": "memory-reuse--flashattention",
+      "route_id": "memory-reuse",
+      "route_title": "数据搬运与片上复用",
+      "title": "FlashAttention：IO感知的精确注意力",
+      "kind": "academic",
+      "date": "2022；核对v2",
+      "mechanism": "以分块、在线softmax和反向重算替代注意力大中间矩阵的外存保存。",
+      "conditions": "原论文GPU实现；本轮重点核对§2与§3.1–3.2的数据流和IO机制，没有复测实验表。",
+      "result": "机制证据支持减少完整注意力中间矩阵的外存读写。此行不把论文训练实验或内核实验改写为本地推理收益。",
+      "limit": "精确稠密路径与论文另述的块稀疏扩展要分开；前者不是删token、低秩近似或KV淘汰。未提供本地TTFT/TPOT。",
+      "result_type": "机制证据",
+      "source_ids": [
+        "flashattention"
+      ],
+      "approach_ids": [
+        "memory-reuse-a-1",
+        "memory-reuse-a-2"
+      ],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "capability",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-memory-reuse.html#record-memory-reuse--flashattention",
+      "canonical_origin": "operator-routes.json#/branches/compute/routes/memory-reuse/academic/memory-reuse--flashattention"
+    },
+    {
+      "id": "memory-reuse--fa4-primary-expert",
+      "route_id": "memory-reuse",
+      "route_title": "数据搬运与片上复用",
+      "title": "FlashAttention-4：Blackwell上的流水与数据通路重构",
+      "kind": "academic",
+      "date": "2026-03-05；v1",
+      "mechanism": "针对Blackwell异步矩阵计算带来的新瓶颈优化softmax和流水，并单独改进反向的片上数据通路。",
+      "conditions": "论文§5、Figure 4：B200、BF16、因果/非因果；序列1K–32K，batch随序列调整使总token为32K，hidden dimension为2048。",
+      "result": "Figure 4在head dimension 128的前向比较中报告相对cuDNN 9.13.0约1.1–1.3倍、相对所比较Triton实现约2.1–2.7倍。",
+      "limit": "同图注明更新版cuDNN已吸收相关技术并达到相近性能，不能把该倍数写成相对当前所有实现的优势；这是注意力内核前向，非整模型TTFT/TPOT。",
+      "result_type": "注意力内核性能",
+      "source_ids": [
+        "fa4-primary-expert"
+      ],
+      "approach_ids": [
+        "memory-reuse-a-3"
+      ],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "kernel",
+        "metrics": [
+          "time"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-memory-reuse.html#record-memory-reuse--fa4-primary-expert",
+      "canonical_origin": "operator-routes.json#/branches/compute/routes/memory-reuse/academic/memory-reuse--fa4-primary-expert"
+    },
+    {
+      "id": "tile-parallelism--catlass-official-expert",
+      "route_id": "tile-parallelism",
+      "route_title": "分块映射与并行流水",
+      "title": "CATLASS：分层模板与 Stream-K / Split-K 调度样例",
+      "kind": "industry",
+      "date": "2026-10-23核对master；README含2026-08 v2.0.0记录",
+      "mechanism": "以分层矩阵与融合模板表达搬运、块计算和多核调度；官方示例列出Stream-K、MultiCoreSplitK、Batched/GMM等候选。",
+      "conditions": "当前README配套表：A2/A3至少CANN 8.5.0，950PR/DT至少9.0.0；CATLASS DSL在950上的要求另列CANN 9.1.0。不同样例有自己的形状、dtype和产品约束。",
+      "result": "证明已有可检查、可复用的昇腾矩阵调度实现；本轮不转述缺少完整对照条件的性能概数，未报告TTFT/TPOT。",
+      "limit": "README未列310P作为支持产品；Stream-K、Split-K不是每种形状都更优，额外归约、工作区与尾块处理需要计入。",
+      "result_type": "实现与模板",
+      "source_ids": [
+        "catlass-official-expert"
+      ],
+      "approach_ids": [
+        "tile-parallelism-a-3"
+      ],
+      "facets": {
+        "hardware_families": [
+          "ascend"
+        ],
+        "level": "capability",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-tile-parallelism.html#record-tile-parallelism--catlass-official-expert",
+      "canonical_origin": "operator-routes.json#/branches/compute/routes/tile-parallelism/industry/tile-parallelism--catlass-official-expert"
+    },
+    {
+      "id": "tile-parallelism--fa2-primary-expert",
+      "route_id": "tile-parallelism",
+      "route_title": "分块映射与并行流水",
+      "title": "FlashAttention-2：改进工作划分",
+      "kind": "academic",
+      "date": "2023-07-17；v1",
+      "mechanism": "增加序列维线程块并行，采用sliced-Q减少warp间共享存储读写和归约。",
+      "conditions": "§4.1前向：A100 80GB SXM4；head dimension 64或128，序列512至16K，batch调整到总token为16K，hidden dimension为2048，覆盖因果与非因果。",
+      "result": "原文前向实验报告相对所比较的Triton FlashAttention实现约1.3–1.5倍。",
+      "limit": "该倍数依赖所比较实现与形状，不能改写成任意GPU或昇腾收益；全文模型训练结果也不能视作服务TTFT/TPOT。",
+      "result_type": "注意力内核性能",
+      "source_ids": [
+        "fa2-primary-expert"
+      ],
+      "approach_ids": [
+        "tile-parallelism-a-1"
+      ],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "kernel",
+        "metrics": [
+          "time"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-tile-parallelism.html#record-tile-parallelism--fa2-primary-expert",
+      "canonical_origin": "operator-routes.json#/branches/compute/routes/tile-parallelism/academic/tile-parallelism--fa2-primary-expert"
+    },
+    {
+      "id": "tile-parallelism--fa3-primary-expert",
+      "route_id": "tile-parallelism",
+      "route_title": "分块映射与并行流水",
+      "title": "FlashAttention-3：流水与 warp specialization 消融",
+      "kind": "academic",
+      "date": "2024-07；v2",
+      "mechanism": "在固定配置中分别移除GEMM/softmax流水或warp specialization，以分离两项机制的贡献。",
+      "conditions": "§4.2、Table 2：H100 80GB SXM5，非因果FP16，{batch, seqlen, nheads, hdim}={4, 8448, 16, 128}。",
+      "result": "完整FA3为3.538 ms；保留warp specialization但不做GEMM/softmax流水为4.021 ms；保留流水但不做warp specialization为4.105 ms。",
+      "limit": "这是作者指定形状的内核消融，不是跨设备通用比例，也没有整模型TTFT/TPOT或任务精度结论。",
+      "result_type": "内核性能消融",
+      "source_ids": [
+        "fa3-primary-expert"
+      ],
+      "approach_ids": [
+        "tile-parallelism-a-2"
+      ],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "kernel",
+        "metrics": [
+          "time"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-tile-parallelism.html#record-tile-parallelism--fa3-primary-expert",
+      "canonical_origin": "operator-routes.json#/branches/compute/routes/tile-parallelism/academic/tile-parallelism--fa3-primary-expert"
+    },
+    {
+      "id": "tile-parallelism--ansor",
+      "route_id": "tile-parallelism",
+      "route_title": "分块映射与并行流水",
+      "title": "Ansor：生成、搜索并测量张量程序",
+      "kind": "academic",
+      "date": "OSDI 2020",
+      "mechanism": "将高层调度结构与低层参数分开搜索，用学习型代价模型引导进化搜索和测量预算分配。",
+      "conditions": "核对论文§4–5的程序生成和搜索机制；目标硬件、算子与搜索预算属于实验条件。",
+      "result": "支持把分块、缓存和并行候选组织为可搜索空间；本页不新增未复核的性能倍数。",
+      "limit": "不能推出任一新后端可直接使用，也不能推出搜索一定优于设备已有库；应记录编译/搜索开销与最终测量结果。",
+      "result_type": "编译调度研究",
+      "source_ids": [
+        "ansor"
+      ],
+      "approach_ids": [],
+      "facets": {
+        "hardware_families": [
+          "unspecified"
+        ],
+        "level": "capability",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-tile-parallelism.html#record-tile-parallelism--ansor",
+      "canonical_origin": "operator-routes.json#/branches/compute/routes/tile-parallelism/academic/tile-parallelism--ansor"
+    },
+    {
+      "id": "tile-parallelism--streamk-primary-round2",
+      "route_id": "tile-parallelism",
+      "route_title": "分块映射与并行流水",
+      "title": "Stream-K：负载均衡与部分和成本一起比较",
+      "kind": "academic",
+      "date": "2023-01-09；arXiv v1",
+      "mechanism": "将全局MAC循环工作均衡分配，再用Stream-K与独立输出tile混合分解减轻缓存错位和归约等待。",
+      "conditions": "NVIDIA A100 108SM；400W、1005MHz；32,824形状；FP16输入、FP32累加/输出；tile128×128×32；CUDA11.6 cuBLAS对照。",
+      "result": "表2相对cuBLAS的Average1.13倍、Min0.64倍；Average按表口径保留，不改称几何平均。",
+      "limit": "并非所有形状更快；GPU实现与固定测试环境不能推为昇腾或模型TTFT/TPOT收益。",
+      "result_type": "GEMM内核性能",
+      "source_ids": [
+        "streamk-primary-round2"
+      ],
+      "approach_ids": [
+        "tile-parallelism-a-3"
+      ],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "kernel",
+        "metrics": [
+          "time"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-tile-parallelism.html#record-tile-parallelism--streamk-primary-round2",
+      "canonical_origin": "operator-routes.json#/branches/compute/routes/tile-parallelism/academic/tile-parallelism--streamk-primary-round2"
+    },
+    {
+      "id": "fusion-launch--cann-add-rms-norm-expert",
+      "route_id": "fusion-launch",
+      "route_title": "融合与启动优化",
+      "title": "CANN AddRmsNorm：残差相加与归一化融合",
+      "kind": "industry",
+      "date": "2026-10-23核对官方master的可检索README正文",
+      "mechanism": "官方算子把x=x1+x2与RMSNorm相连，并将归一化结果及残差中间输出纳入接口。",
+      "conditions": "产品表列A2/A3、950PR/DT与Atlas推理系列等；不同产品的dtype支持不完全相同，Atlas推理系列注明不支持BF16。",
+      "result": "机制与接口级证据支持存在Add+RMSNorm融合实现；README未给同条件单算子时延、整模型TTFT/TPOT或精度表，本轮没有实测。",
+      "limit": "残差输出仍是接口的一部分，不能宣传成完全消除全部中间写回。产品类别不等同于逐一确认所有310P型号/版本；本轮直接网页受访问限流，未审完整实现代码。",
+      "result_type": "融合接口",
+      "source_ids": [
+        "cann-add-rms-norm-expert"
+      ],
+      "approach_ids": [
+        "fusion-launch-a-1"
+      ],
+      "facets": {
+        "hardware_families": [
+          "ascend"
+        ],
+        "level": "capability",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-fusion-launch.html#record-fusion-launch--cann-add-rms-norm-expert",
+      "canonical_origin": "operator-routes.json#/branches/compute/routes/fusion-launch/industry/fusion-launch--cann-add-rms-norm-expert"
+    },
+    {
+      "id": "fusion-launch--pytorch-flex-fa4-expert",
+      "route_id": "fusion-launch",
+      "route_title": "融合与启动优化",
+      "title": "PyTorch FlexAttention + FlashAttention-4",
+      "kind": "industry",
+      "date": "2026-03-05",
+      "mechanism": "官方新增FA4后端，让定制score/mask逻辑进入高性能融合注意力的编译路径。",
+      "conditions": "官方文章限定Hopper/Blackwell后端；描述CuTe DSL、JIT和score_mod/mask_mod示例，并列块大小及分页注意力等约束。",
+      "result": "支持定制逻辑可融入专用注意力实现的判断；本页不拼接文章不同硬件/掩码的倍数，不推导服务TTFT/TPOT。",
+      "limit": "特定后端优化不是所有形状、所有掩码或所有芯片的性能保证；冷编译、热执行与训练正确性证据须分开。",
+      "result_type": "实现与工具链",
+      "source_ids": [
+        "pytorch-flex-fa4-expert"
+      ],
+      "approach_ids": [
+        "fusion-launch-a-2"
+      ],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "capability",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-fusion-launch.html#record-fusion-launch--pytorch-flex-fa4-expert",
+      "canonical_origin": "operator-routes.json#/branches/compute/routes/fusion-launch/industry/fusion-launch--pytorch-flex-fa4-expert"
+    },
+    {
+      "id": "fusion-launch--tensorir-primary-expert",
+      "route_id": "fusion-launch",
+      "route_title": "融合与启动优化",
+      "title": "TensorIR：显式计算块与可验证张量化",
+      "kind": "academic",
+      "date": "2022-07-09；核对v2，ASPLOS 2023",
+      "mechanism": "用计算块及显式缓冲区元数据表达可组合调度，允许同时检查循环变换、存储与张量指令的约束。",
+      "conditions": "核对论文§4张量指令描述和变换机制；其CPU/GPU示例不是310P后端说明。",
+      "result": "提供合法组织与变换张量计算的原始研究依据；本页不声称任意Add+Norm融合均由该论文实测加速。",
+      "limit": "这是编译表达与约束机制证据；具体融合收益取决于后端实现和形状，不是每个融合候选的性能证明。",
+      "result_type": "编译表示研究",
+      "source_ids": [
+        "tensorir-primary-expert"
+      ],
+      "approach_ids": [
+        "fusion-launch-a-3"
+      ],
+      "facets": {
+        "hardware_families": [
+          "unspecified"
+        ],
+        "level": "capability",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-fusion-launch.html#record-fusion-launch--tensorir-primary-expert",
+      "canonical_origin": "operator-routes.json#/branches/compute/routes/fusion-launch/academic/fusion-launch--tensorir-primary-expert"
+    },
+    {
+      "id": "layout-low-precision--cann-grouped-matmul-expert",
+      "route_id": "layout-low-precision",
+      "route_title": "布局与低精度执行",
+      "title": "CANN GroupedMatmul：分产品定义低精度与布局组合",
+      "kind": "industry",
+      "date": "2026-10-23核对官方master可检索README正文",
+      "mechanism": "官方接口对ND/NZ、数据类型、scale与可选调优参数给出组合条件，而不是对全部产品提供同一低精度路径。",
+      "conditions": "文档注明950PR/DT不支持部分INT4输入与INT16组合；A2/A3对FP8_E5M2、FP8_E4M3、HIFLOAT8、E8M0等有不支持说明。应逐项使用产品表和脚注。",
+      "result": "支持“布局—类型—scale—产品需联合核查”的判断；本轮没有运行该算子，也未获得同条件完整性能表或TTFT/TPOT。",
+      "limit": "master会变化，落地应固定版本与具体接口。页面直接访问受限，本轮依据官方可检索README正文审查边界，未审内核；不由此声称310P或所有950型号支持。",
+      "result_type": "接口支持矩阵",
+      "source_ids": [
+        "cann-grouped-matmul-expert"
+      ],
+      "approach_ids": [
+        "layout-low-precision-a-3"
+      ],
+      "facets": {
+        "hardware_families": [
+          "ascend"
+        ],
+        "level": "capability",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-layout-low-precision.html#record-layout-low-precision--cann-grouped-matmul-expert",
+      "canonical_origin": "operator-routes.json#/branches/compute/routes/layout-low-precision/industry/layout-low-precision--cann-grouped-matmul-expert"
+    },
+    {
+      "id": "layout-low-precision--marlin-primary-round2",
+      "route_id": "layout-low-precision",
+      "route_title": "布局与低精度执行",
+      "title": "Marlin：INT4存储与FP16矩阵执行的衔接",
+      "kind": "academic",
+      "date": "2024-08-21；arXiv v1",
+      "mechanism": "静态权重与scale预排布，运行时解包并反量化为FP16，与Tensor Core计算流水衔接。低比特存储与矩阵指令的数据类型分别记录。",
+      "conditions": "论文§3.3–3.4，NVIDIA Ampere类GPU；本条审阅权重/scale布局、片上组织及反量化机制。",
+      "result": "机制证据表明INT4压缩可以通过FP16 Tensor Core消费；本条未摘录未逐条件复核的峰值或整模型倍数。",
+      "limit": "这是GPU执行路径，不证明Ascend对应接口或性能；模型质量、TTFT和TPOT另需完整实验。",
+      "result_type": "低精度执行机制",
+      "source_ids": [
+        "marlin-primary-round2"
+      ],
+      "approach_ids": [
+        "layout-low-precision-a-1"
+      ],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "capability",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-layout-low-precision.html#record-layout-low-precision--marlin-primary-round2",
+      "canonical_origin": "operator-routes.json#/branches/compute/routes/layout-low-precision/academic/layout-low-precision--marlin-primary-round2"
+    },
+    {
+      "id": "layout-low-precision--fa3-primary-expert",
+      "route_id": "layout-low-precision",
+      "route_title": "布局与低精度执行",
+      "title": "FlashAttention-3：FP8误差控制消融",
+      "kind": "academic",
+      "date": "2024-07；v2",
+      "mechanism": "比较基础FP8与加入块量化、非相干处理后的注意力数值误差。",
+      "conditions": "§4.3、Table 3：相对FP64参考；合成Q/K/V由N(0,1)与稀疏大离群分量N(0,100)×Bernoulli(0.001)构成；基础路径用每张量缩放、FP32累加和FP16 softmax。",
+      "result": "论文报告基础FP8 RMSE为2.4×10⁻²，完整块量化+非相干处理为9.1×10⁻³；不做块量化为9.3×10⁻³，不做非相干处理为2.4×10⁻²。",
+      "limit": "只说明该合成注意力设置下的输出RMSE，非模型/任务精度评测，也不证明任意分布或昇腾FP8路径具有相同误差；本表不含TTFT/TPOT。",
+      "result_type": "合成数值实验",
+      "source_ids": [
+        "fa3-primary-expert"
+      ],
+      "approach_ids": [
+        "layout-low-precision-a-1",
+        "layout-low-precision-a-2"
+      ],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "kernel",
+        "metrics": [
+          "quality"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-layout-low-precision.html#record-layout-low-precision--fa3-primary-expert",
+      "canonical_origin": "operator-routes.json#/branches/compute/routes/layout-low-precision/academic/layout-low-precision--fa3-primary-expert"
+    },
+    {
+      "id": "layout-low-precision--tensorir-primary-expert",
+      "route_id": "layout-low-precision",
+      "route_title": "布局与低精度执行",
+      "title": "TensorIR：布局与张量指令一同描述",
+      "kind": "academic",
+      "date": "2022；v2",
+      "mechanism": "在TensorIntrin中同时描述计算语义、dtype、缓冲区storage scope、layout与连续性，并检查候选计算能否与之匹配。",
+      "conditions": "核对论文§4.1–4.2，示例包含NVIDIA矩阵指令和ARM交错布局；不是昇腾指令或310P适配声明。",
+      "result": "提供布局不是独立装饰、而是硬件执行约束一部分的机制证据；本页没有给出未经复核的性能数值。",
+      "limit": "合法张量化仍需实际后端实现和完整代价测量，不能证明任意布局转换值得做。",
+      "result_type": "编译表示研究",
+      "source_ids": [
+        "tensorir-primary-expert"
+      ],
+      "approach_ids": [],
+      "facets": {
+        "hardware_families": [
+          "unspecified"
+        ],
+        "level": "capability",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-layout-low-precision.html#record-layout-low-precision--tensorir-primary-expert",
+      "canonical_origin": "operator-routes.json#/branches/compute/routes/layout-low-precision/academic/layout-low-precision--tensorir-primary-expert"
+    },
+    {
+      "id": "collectives-topology--nccl-algorithms",
+      "route_id": "collectives-topology",
+      "route_title": "集合算法与拓扑映射",
+      "title": "NCCL 2.32.3：算法选择",
+      "kind": "industry",
+      "date": "2026-10-23（文档核查）",
+      "mechanism": "官方列出Ring、Tree及特定互联的其他算法；未设置NCCL_ALGO时按拓扑和架构选择可用算法。",
+      "conditions": "CUDA/NCCL及其支持的collective、拓扑与版本；不同算法并非对所有操作都可用。",
+      "result": "提供默认自动选择与受控算法对照入口；本条没有新跑分或昇腾收益。",
+      "limit": "不能把NCCL环境变量移植为HCCL参数；禁止给Ring/Tree写固定普适分界点。",
+      "result_type": "通信库机制",
+      "source_ids": [
+        "nccl-algorithms"
+      ],
+      "approach_ids": [
+        "collectives-topology-a-1",
+        "collectives-topology-a-2"
+      ],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "capability",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-collectives-topology.html#record-collectives-topology--nccl-algorithms",
+      "canonical_origin": "operator-routes.json#/branches/communication/routes/collectives-topology/industry/collectives-topology--nccl-algorithms"
+    },
+    {
+      "id": "collectives-topology--sgl-deepep-ascend-api",
+      "route_id": "collectives-topology",
+      "route_title": "集合算法与拓扑映射",
+      "title": "SGLang DeepEP-Ascend：分层与全互联路径",
+      "kind": "industry",
+      "date": "2026-10-23（README核查）",
+      "mechanism": "子README区分A3纯HCCS与A2双机HCCS+RDMA/纯RDMA路径，decode另分策略。",
+      "conditions": "项目列明的设备、CANN、EP与token容量；A2双机normal要求BF16。",
+      "result": "可按真实拓扑筛选实现；没有把主README示例带宽换算成模型收益。",
+      "limit": "主/子README容量口径存在差异，应锁定版本及子API；未获310P直接证据。",
+      "result_type": "实现与产品约束",
+      "source_ids": [
+        "sgl-deepep-ascend-api"
+      ],
+      "approach_ids": [
+        "collectives-topology-a-3"
+      ],
+      "facets": {
+        "hardware_families": [
+          "ascend"
+        ],
+        "level": "capability",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-collectives-topology.html#record-collectives-topology--sgl-deepep-ascend-api",
+      "canonical_origin": "operator-routes.json#/branches/communication/routes/collectives-topology/industry/collectives-topology--sgl-deepep-ascend-api"
+    },
+    {
+      "id": "collectives-topology--taccl",
+      "route_id": "collectives-topology",
+      "route_title": "集合算法与拓扑映射",
+      "title": "TACCL: Guiding Collective Algorithm Synthesis using Communication Sketches",
+      "kind": "academic",
+      "date": "2023（NSDI）",
+      "mechanism": "由通信草图、实测拓扑、目标collective和数据规模指导算法合成。",
+      "conditions": "论文DGX-2/NDv2 GPU拓扑；指定消息规模与当时NCCL基线。",
+      "result": "§7.1.1两节点DGX-2的256MB–1GB AllGather报告20%–25%加速；同论文部分大消息AllReduce反而慢于NCCL。",
+      "limit": "这是特定拓扑与历史基线的集合实验；不能外推所有collective、当前NCCL、推理模型或昇腾。",
+      "result_type": "集合通信性能",
+      "source_ids": [
+        "taccl"
+      ],
+      "approach_ids": [
+        "collectives-topology-a-1"
+      ],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "kernel",
+        "metrics": [
+          "time"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-collectives-topology.html#record-collectives-topology--taccl",
+      "canonical_origin": "operator-routes.json#/branches/communication/routes/collectives-topology/academic/collectives-topology--taccl"
+    },
+    {
+      "id": "launch-granularity--nccl-groups",
+      "route_id": "launch-granularity",
+      "route_title": "启动与消息粒度",
+      "title": "NCCL Group Calls：多个collective共享一次launch",
+      "kind": "industry",
+      "date": "2026-10-23（NCCL2.32.3文档核对）",
+      "mechanism": "分组可将多项collective聚合到一次NCCL launch，减少重复启动；各操作仍保留独立语义和各rank一致的调用顺序。",
+      "conditions": "支持聚合的通信调用；最外层GroupEnd提交整个组。组内操作返回时可能尚未入流，应在GroupEnd后再做对应stream同步。",
+      "result": "官方提供启动摊销机制与顺序语义；没有在本文运行基准或报告节省比例。",
+      "limit": "不是张量packing，也不等于可以合并尚未产生的数据；错误调用顺序会导致错误或挂起。",
+      "result_type": "通信库机制",
+      "source_ids": [
+        "nccl-groups"
+      ],
+      "approach_ids": [
+        "launch-granularity-a-1"
+      ],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "capability",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-launch-granularity.html#record-launch-granularity--nccl-groups",
+      "canonical_origin": "operator-routes.json#/branches/communication/routes/launch-granularity/industry/launch-granularity--nccl-groups"
+    },
+    {
+      "id": "launch-granularity--horovod-tensor-fusion",
+      "route_id": "launch-granularity",
+      "route_title": "启动与消息粒度",
+      "title": "Horovod Tensor Fusion：就绪张量的pack–AllReduce–unpack",
+      "kind": "industry",
+      "date": "2026-10-23（官方实现文档）",
+      "mechanism": "把已就绪且同dtype的张量放入融合缓冲，对缓冲执行AllReduce，再拆回原张量。",
+      "conditions": "训练梯度场景，受融合阈值、调度周期与数据就绪时间限制。",
+      "result": "证明显式融合包含额外搬运与等待；不把文档流程当成推理效果实验。",
+      "limit": "与NCCL调用分组分开；不跨越真实的数据依赖凑批。",
+      "result_type": "通信库机制",
+      "source_ids": [
+        "horovod-tensor-fusion"
+      ],
+      "approach_ids": [
+        "launch-granularity-a-2"
+      ],
+      "facets": {
+        "hardware_families": [
+          "unspecified"
+        ],
+        "level": "capability",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-launch-granularity.html#record-launch-granularity--horovod-tensor-fusion",
+      "canonical_origin": "operator-routes.json#/branches/communication/routes/launch-granularity/industry/launch-granularity--horovod-tensor-fusion"
+    },
+    {
+      "id": "launch-granularity--horovod-paper",
+      "route_id": "launch-granularity",
+      "route_title": "启动与消息粒度",
+      "title": "Horovod：训练通信方案的历史背景",
+      "kind": "academic",
+      "date": "2018（论文）",
+      "mechanism": "原论文说明分布式训练的ring-reduction方案；本页关于融合缓冲的具体步骤另引用官方Tensor Fusion工程文档。",
+      "conditions": "分布式训练背景；本条不作为推理粒度优化实验。",
+      "result": "提供训练侧通信演进背景；不新增本轮未复核的性能倍数。",
+      "limit": "训练梯度就绪和推理激活依赖不同；不能据训练方案推断decode可以跨层等待融合。",
+      "result_type": "训练系统参考",
+      "source_ids": [
+        "horovod-paper"
+      ],
+      "approach_ids": [
+        "launch-granularity-a-2"
+      ],
+      "facets": {
+        "hardware_families": [
+          "unspecified"
+        ],
+        "level": "training",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-launch-granularity.html#record-launch-granularity--horovod-paper",
+      "canonical_origin": "operator-routes.json#/branches/communication/routes/launch-granularity/academic/launch-granularity--horovod-paper"
+    },
+    {
+      "id": "launch-granularity--bytescheduler",
+      "route_id": "launch-granularity",
+      "route_title": "启动与消息粒度",
+      "title": "A Generic Communication Scheduler for Distributed DNN Training Acceleration（ByteScheduler）",
+      "kind": "academic",
+      "date": "2019（SOSP）",
+      "mechanism": "用分块、优先级、credit与依赖代理调整通信发起顺序。",
+      "conditions": "论文训练同步场景；本轮沿用已核摘要、§3.2索引片段及作者代码说明。",
+      "result": "提供‘分块大小与并发credit需联合调节’的研究依据；未重审全部性能表。",
+      "limit": "不是推理论文，也不是小消息张量融合；不作目标NPU性能证据。",
+      "result_type": "训练系统参考",
+      "source_ids": [
+        "bytescheduler"
+      ],
+      "approach_ids": [
+        "launch-granularity-a-3"
+      ],
+      "facets": {
+        "hardware_families": [
+          "unspecified"
+        ],
+        "level": "training",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-launch-granularity.html#record-launch-granularity--bytescheduler",
+      "canonical_origin": "operator-routes.json#/branches/communication/routes/launch-granularity/academic/launch-granularity--bytescheduler"
+    },
+    {
+      "id": "paths-buffers--nccl-buffer-registration",
+      "route_id": "paths-buffers",
+      "route_title": "数据路径与缓冲管理",
+      "title": "NCCL User Buffer Registration：直接缓冲与PXN的取舍",
+      "kind": "industry",
+      "date": "2026-10-23（NCCL2.32.3文档）",
+      "mechanism": "受支持的注册路径可减少内部拷贝并复用注册；网络通信时，PXN中继与用户缓冲注册不能同时生效。",
+      "conditions": "具体算法、分配器、rank一致性和offset约束分别核对。文档注明PXN启用时，调用ncclCommRegister也不会启用网络缓冲注册；不要据此直接建议关闭PXN。",
+      "result": "得到两条路径的真实互斥条件；并无本文实测的最优开关组合或速度。",
+      "limit": "文档另提醒legacy cudaMalloc注册的安全问题及VMM分配条件；不能把注册等同于不经任何中转、没有同步或自动支持所有后端。",
+      "result_type": "通信库机制",
+      "source_ids": [
+        "nccl-buffer-registration"
+      ],
+      "approach_ids": [
+        "paths-buffers-a-1",
+        "paths-buffers-a-2"
+      ],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "capability",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-paths-buffers.html#record-paths-buffers--nccl-buffer-registration",
+      "canonical_origin": "operator-routes.json#/branches/communication/routes/paths-buffers/industry/paths-buffers--nccl-buffer-registration"
+    },
+    {
+      "id": "paths-buffers--mooncake-architecture",
+      "route_id": "paths-buffers",
+      "route_title": "数据路径与缓冲管理",
+      "title": "Mooncake Transfer Engine：控制面与已注册数据面分离",
+      "kind": "industry",
+      "date": "2026-10-23（官方架构文档）",
+      "mechanism": "控制面管理连接和内存区域元数据；实际数据由所选transport（传输后端）在已注册的缓冲之间传输，路径选择还需结合内存位置与拓扑。",
+      "conditions": "后端能力取决于构建、内存位置与设备；多NIC和不同内存路径分别有约束。",
+      "result": "提供研究数据面设计的实现入口；论文整套缓存/调度goodput不是该路径单项效果。",
+      "limit": "零拷贝指明被避免的拷贝，不能理解为无数据传输、无CPU控制或无完成同步。",
+      "result_type": "通信库机制",
+      "source_ids": [
+        "mooncake-architecture"
+      ],
+      "approach_ids": [
+        "paths-buffers-a-2"
+      ],
+      "facets": {
+        "hardware_families": [
+          "unspecified"
+        ],
+        "level": "capability",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-paths-buffers.html#record-paths-buffers--mooncake-architecture",
+      "canonical_origin": "operator-routes.json#/branches/communication/routes/paths-buffers/industry/paths-buffers--mooncake-architecture"
+    },
+    {
+      "id": "paths-buffers--deepseek-deepep-ascend",
+      "route_id": "paths-buffers",
+      "route_title": "数据路径与缓冲管理",
+      "title": "DeepSeek DeepEP-Ascend：EPBuffer容量与生命周期",
+      "kind": "industry",
+      "date": "2026-10-23（官方仓库）",
+      "mechanism": "为dispatch/combine维护长生命周期缓冲，并要求在复用或销毁前完成在途操作；容量和组内协议需要一致。",
+      "conditions": "README实测栈为950DT/CANN9.2.0和指定PoC HDK；不是所有950配置。",
+      "result": "公开明确的缓冲协议与边界；带宽计时含issue/drain但不含final epilogues。",
+      "limit": "排除epilogue的核内带宽不能直接当作完整dispatch/combine时延；同名SGLang实现的参数不能混用。",
+      "result_type": "通信库机制",
+      "source_ids": [
+        "deepseek-deepep-ascend"
+      ],
+      "approach_ids": [
+        "paths-buffers-a-3"
+      ],
+      "facets": {
+        "hardware_families": [
+          "ascend"
+        ],
+        "level": "capability",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-paths-buffers.html#record-paths-buffers--deepseek-deepep-ascend",
+      "canonical_origin": "operator-routes.json#/branches/communication/routes/paths-buffers/industry/paths-buffers--deepseek-deepep-ascend"
+    },
+    {
+      "id": "paths-buffers--mooncake-paper-v5",
+      "route_id": "paths-buffers",
+      "route_title": "数据路径与缓冲管理",
+      "title": "Mooncake: A KVCache-centric Disaggregated Architecture for LLM Serving",
+      "kind": "academic",
+      "date": "2024首次发表；核查2026-10-08 v5",
+      "mechanism": "将KV缓存池、传输组件和P/D实例组织为分离服务；正文描述RDMA传送KV块与逐层装载。",
+      "conditions": "原文GPU集群、前缀复用与长上下文服务；本轮核对架构与传输相关段落。",
+      "result": "证明KV传输是需要单独设计的推理数据面；不把整套调度/复用的goodput增益记到RDMA单项。",
+      "limit": "论文整体效果混合了复用、调度与分离；不构成任意Ascend设备的支持和收益证据。",
+      "result_type": "服务架构研究",
+      "source_ids": [
+        "mooncake-paper-v5"
+      ],
+      "approach_ids": [],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "system",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-paths-buffers.html#record-paths-buffers--mooncake-paper-v5",
+      "canonical_origin": "operator-routes.json#/branches/communication/routes/paths-buffers/academic/paths-buffers--mooncake-paper-v5"
+    },
+    {
+      "id": "compute-communication-overlap--sgl-deepep-ascend-api",
+      "route_id": "compute-communication-overlap",
+      "route_title": "通算融合与异步重叠",
+      "title": "SGLang DeepEP-Ascend：三种MoE融合组织",
+      "kind": "industry",
+      "date": "2026-10-23（官方子README）",
+      "mechanism": "FUSED_DEEP_MOE以CamMoe通信和GMM阶段经跨核barrier衔接；DISPATCH_FFN_COMBINE把HCCL通信嵌入GMM；MEGA_MOE调用A3专用MegaMoe路径。",
+      "conditions": "FuseMode、平台、activation与quant_mode联合限制；例如DISPATCH_FFN_COMBINE只支持SwiGLU，不能与SiTU任意互换。",
+      "result": "公开了不同的依赖组织和功能边界；本条没有同条件跨模式性能或任务质量对照。",
+      "limit": "一次API调用不证明通信已隐藏；主README与详细API、实际版本仍需一起固定。",
+      "result_type": "实现与产品约束",
+      "source_ids": [
+        "sgl-deepep-ascend-api"
+      ],
+      "approach_ids": [
+        "compute-communication-overlap-a-3"
+      ],
+      "facets": {
+        "hardware_families": [
+          "ascend"
+        ],
+        "level": "capability",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-compute-communication-overlap.html#record-compute-communication-overlap--sgl-deepep-ascend-api",
+      "canonical_origin": "operator-routes.json#/branches/communication/routes/compute-communication-overlap/industry/compute-communication-overlap--sgl-deepep-ascend-api"
+    },
+    {
+      "id": "compute-communication-overlap--torch-distributed",
+      "route_id": "compute-communication-overlap",
+      "route_title": "通算融合与异步重叠",
+      "title": "PyTorch distributed：异步Work与完成语义",
+      "kind": "industry",
+      "date": "2026-10-23（2.14文档核查）",
+      "mechanism": "异步操作提供Work/等待机制，设备流入队与CPU返回不同。",
+      "conditions": "具体后端、流和wait行为须对应实际实现。",
+      "result": "提供依赖和完成协议依据，不构成已经发生性能重叠的证据。",
+      "limit": "需要timeline及消费者安全检查；第三方后端不能直接沿用CUDA全部语义。",
+      "result_type": "异步接口语义",
+      "source_ids": [
+        "torch-distributed"
+      ],
+      "approach_ids": [],
+      "facets": {
+        "hardware_families": [
+          "unspecified"
+        ],
+        "level": "capability",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-compute-communication-overlap.html#record-compute-communication-overlap--torch-distributed",
+      "canonical_origin": "operator-routes.json#/branches/communication/routes/compute-communication-overlap/industry/compute-communication-overlap--torch-distributed"
+    },
+    {
+      "id": "compute-communication-overlap--flux",
+      "route_id": "compute-communication-overlap",
+      "route_title": "通算融合与异步重叠",
+      "title": "Flux: Fast Software-based Communication Overlap on GPUs through Kernel Fusion",
+      "kind": "academic",
+      "date": "2024-06-12（v2）",
+      "mechanism": "以tile级通信/GEMM融合及顺序映射隐藏TP通信。",
+      "conditions": "§5.2：GPT-3 175B/Llama-2 70B，8GPU，vLLM0.2.1；prefill batch8/序列2048，decode batch64或512；A100/H800互联。",
+      "result": "相对vLLM的跨配置最大prefill 1.66×、decode 1.30×；H800 NVLink decode未见加速。",
+      "limit": "阶段加速不是逐项TTFT/TPOT；历史GPU基线不可外推昇腾，且§6明确极小m可能负收益。",
+      "result_type": "模型阶段性能",
+      "source_ids": [
+        "flux"
+      ],
+      "approach_ids": [
+        "compute-communication-overlap-a-2"
+      ],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "stage",
+        "metrics": [
+          "time"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-compute-communication-overlap.html#record-compute-communication-overlap--flux",
+      "canonical_origin": "operator-routes.json#/branches/communication/routes/compute-communication-overlap/academic/compute-communication-overlap--flux"
+    },
+    {
+      "id": "transfer-compression--deepseek-deepep-ascend",
+      "route_id": "transfer-compression",
+      "route_title": "传输编码与通信量压缩",
+      "title": "DeepSeek DeepEP-Ascend：FP8 dispatch / BF16 combine",
+      "kind": "industry",
+      "date": "2026-10-23（官方仓库核查）",
+      "mechanism": "提供BF16/FP8 dispatch与BF16 combine；验证栈限950DT/CANN9.2.0及PoC HDK。",
+      "conditions": "README示例采用hidden7168、top-6、256experts和特定EP/互联条件。",
+      "result": "是独立实现与设备限定的通信功能证据；本条未把GB/s当作TTFT/TPOT改善。",
+      "limit": "示例排除final epilogue，且公开商用HDK计划不等于已验证发布；不能声称所有950或310P支持。",
+      "result_type": "通信量化实现",
+      "source_ids": [
+        "deepseek-deepep-ascend"
+      ],
+      "approach_ids": [
+        "transfer-compression-a-2"
+      ],
+      "facets": {
+        "hardware_families": [
+          "ascend"
+        ],
+        "level": "capability",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-transfer-compression.html#record-transfer-compression--deepseek-deepep-ascend",
+      "canonical_origin": "operator-routes.json#/branches/communication/routes/transfer-compression/industry/transfer-compression--deepseek-deepep-ascend"
+    },
+    {
+      "id": "transfer-compression--sgl-deepep-ascend-api",
+      "route_id": "transfer-compression",
+      "route_title": "传输编码与通信量压缩",
+      "title": "SGLang DeepEP-Ascend：按架构选择dispatch表示",
+      "kind": "industry",
+      "date": "2026-10-23（官方子README）",
+      "mechanism": "Low-latency架构感知default路径中，A2/A3的use_fp8选择INT8；A5分别提供scalar FP8、MXFP8及MXFP4选择，scale粒度和编码类型不同。",
+      "conditions": "这些布尔参数的解析受default/ops/alltoall策略限制；MXFP4架构感知路径仅A5，A2/A3选择会报NotImplementedError。dispatch、combine和fused MoE的能力表须分开。",
+      "result": "得到不同硬件的真实表示与功能约束；README不是同质量/同负载的完整模型净收益实验。",
+      "limit": "不能把参数名FP8当成数据格式，不能把低延迟dispatch支持推广到全部融合路径，也不能由格式支持推出任务质量无损。",
+      "result_type": "通信量化实现",
+      "source_ids": [
+        "sgl-deepep-ascend-api"
+      ],
+      "approach_ids": [
+        "transfer-compression-a-2"
+      ],
+      "facets": {
+        "hardware_families": [
+          "ascend"
+        ],
+        "level": "capability",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-transfer-compression.html#record-transfer-compression--sgl-deepep-ascend-api",
+      "canonical_origin": "operator-routes.json#/branches/communication/routes/transfer-compression/industry/transfer-compression--sgl-deepep-ascend-api"
+    },
+    {
+      "id": "transfer-compression--cachegen-v6",
+      "route_id": "transfer-compression",
+      "route_title": "传输编码与通信量压缩",
+      "title": "CacheGen: KV Cache Compression and Streaming for Fast Large Language Model Serving",
+      "kind": "academic",
+      "date": "2024-07-19（arXiv v6；SIGCOMM 2024）",
+      "mechanism": "专为远端KV加载设计差分、分层量化、算术编码与自适应流送。",
+      "conditions": "v6 Table1：Mistral-7B模型、LongChat数据集；整体实验另采用A40 GPU及指定模型/数据配置，不能把总体范围当作表1每行的同一条件。",
+      "result": "该表KV由8-bit基线622MB降到176MB；accuracy从1.00到0.98。",
+      "limit": "不能宣称损失小于1%或无损；不是TPOT实验，也不是Ascend结果。论文总体的3.2–3.7倍对应取回并处理上下文的总延迟区间，不能套到该表单项，也不能直接改写为稳态TPOT。",
+      "result_type": "KV容量与任务质量",
+      "source_ids": [
+        "cachegen-v6"
+      ],
+      "approach_ids": [
+        "transfer-compression-a-1"
+      ],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "system",
+        "metrics": [
+          "memory",
+          "quality"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-transfer-compression.html#record-transfer-compression--cachegen-v6",
+      "canonical_origin": "operator-routes.json#/branches/communication/routes/transfer-compression/academic/transfer-compression--cachegen-v6"
+    },
+    {
+      "id": "transfer-compression--powersgd",
+      "route_id": "transfer-compression",
+      "route_title": "传输编码与通信量压缩",
+      "title": "PowerSGD: Practical Low-Rank Gradient Compression for Distributed Optimization",
+      "kind": "academic",
+      "date": "2019（NeurIPS）",
+      "mechanism": "以低秩因子、幂迭代、warm start与误差反馈压缩训练矩阵梯度。",
+      "conditions": "分布式训练与收敛评价；编码、正交化、因子collective及误差状态都需计费。",
+      "result": "提供训练低秩梯度通信压缩的明确原理；本条没有推理激活/KV实验。",
+      "limit": "不得作为推理技术已落地证据；若关注推理，应优先跟踪CacheGen式KV传输及MoE dispatch的专门实现。",
+      "result_type": "训练压缩参考",
+      "source_ids": [
+        "powersgd"
+      ],
+      "approach_ids": [
+        "transfer-compression-a-3"
+      ],
+      "facets": {
+        "hardware_families": [
+          "unspecified"
+        ],
+        "level": "training",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "手工审阅当前记录的对象与结果；不表示适配支持"
+      },
+      "url": "operators-transfer-compression.html#record-transfer-compression--powersgd",
+      "canonical_origin": "operator-routes.json#/branches/communication/routes/transfer-compression/academic/transfer-compression--powersgd"
+    },
+    {
+      "id": "kernelevolve-coverage",
+      "route_id": "codegen",
+      "route_title": "自动生成与调优 · 横向方法",
+      "title": "KernelEvolve：硬件知识检索与反馈树搜索",
+      "kind": "academic",
+      "date": "2025-12-29首投；本轮核对arXiv v4",
+      "mechanism": "把规格转成多候选搜索；按目标硬件检索约束，将编译、正确性和profiling反馈传给后续节点，并持久化有用经验。生成与硬件评测解耦，不能把多平台覆盖理解成同一段内核无需重写。",
+      "conditions": "v4 §4：160个ATen基础算子×3平台，对照torch.compile后的PyTorch参考，以TritonBench的torch.allclose及相应容差验证。六个搜索轨迹示例展示先独立生成、再反馈扩展至约50步；该示例不是全部实验统一预算。",
+      "result": "作者报告480个算子—平台组合全部通过正确性检查；这项证据主要说明覆盖与数值一致性。正文示例中add的速度仍约为参考的0.70倍，不能把100%正确写成100%更快。",
+      "limit": "未核到对310P、910B或950的实现支持；MTIA不是昇腾。未给该覆盖实验的整模型TTFT/TPOT或统一搜索总成本，容差通过也不是任意输入下的逐位等价证明。",
+      "result_type": "生成与调优评测",
+      "source_ids": [
+        "kernelevolve-paper-named-a",
+        "kernelevolve-official-named-a"
+      ],
+      "approach_ids": [],
+      "facets": {
+        "hardware_families": [
+          "gpu",
+          "other"
+        ],
+        "level": "generation",
+        "metrics": [
+          "coverage"
+        ],
+        "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+      },
+      "url": "operators-codegen.html#evidence-kernelevolve-coverage",
+      "canonical_origin": "operator-codegen-named-a.json#/evidence_rows/kernelevolve-coverage"
+    },
+    {
+      "id": "kernelevolve-conv-case",
+      "route_id": "codegen",
+      "route_title": "自动生成与调优 · 横向方法",
+      "title": "KernelEvolve：生产形状卷积专门化案例",
+      "kind": "academic",
+      "date": "arXiv v4；2026-10-23核对",
+      "mechanism": "针对推荐模型的实际形状生成并迭代卷积实现，比较直接conv1d与转成channels_last conv2d的优化路径，区分专门化收益和通用性。",
+      "conditions": "§5.1：FP16；(B,Cin,Cout,L)=(2048,96,96,200)；基线分别为torch.nn.functional.conv1d，以及重排为2D、使用channels_last的conv2d。原文数值验证atol=1e-4、rtol=5e-4；该案例的完整搜索token/时长预算未在核对段落给出。",
+      "result": "该形状作者报告相对conv1d为2.30倍、相对优化conv2d为1.62倍；同文分布外形状案例出现0.49–0.63倍，说明形状专门化可能退化。",
+      "limit": "卷积算子案例不是LLM整模型服务收益，不能改写成昇腾加速、量化质量结论或通用2.30倍。更强基线会显著缩小相对收益。",
+      "result_type": "生成与调优评测",
+      "source_ids": [
+        "kernelevolve-paper-named-a"
+      ],
+      "approach_ids": [],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "generation",
+        "metrics": [
+          "time"
+        ],
+        "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+      },
+      "url": "operators-codegen.html#evidence-kernelevolve-conv-case",
+      "canonical_origin": "operator-codegen-named-a.json#/evidence_rows/kernelevolve-conv-case"
+    },
+    {
+      "id": "kernelblaster-h100",
+      "route_id": "codegen",
+      "route_title": "自动生成与调优 · 横向方法",
+      "title": "KernelBlaster：持久CUDA经验库与上下文策略更新",
+      "kind": "academic",
+      "date": "2026-02-15；arXiv v1",
+      "mechanism": "从初始CUDA与C++ harness出发，用Nsight Compute状态定位瓶颈；检索经验、生成修改、执行验证，把轨迹写入replay buffer并改写自然语言策略。这里的in-context RL更新的是上下文知识，不是声称每轮训练模型权重。",
+      "conditions": "Table 2–3、§4：GPT-4.1/GPT-5.0；KernelBench L1、L2和L3子集；10次迭代×每次10步rollout。基线取torch.eager与torch.compile较快者；本方法以NCU汇总核elapsed cycles，不能与别的方法应用层计时不加区分地比较。",
+      "result": "H100表3：L1有效率86%，成功运行上的几何平均1.497倍；L2为81%、2.592倍；L3子集为67%、1.110倍。有效率表示通过相应验证的比例，不是超越基线的比例；本文不将这些条件速度换算为全任务平均，也不与不同计时口径的系统直接排名。",
+      "limit": "CUDA/NCU原型不能直接在昇腾运行；原生CUDA与允许cuDNN调用的实验应分开。有效率受初始代码、功能和soft-verification检查影响；LLM检查不是正确性证明。未给TTFT/TPOT或昇腾复现。",
+      "result_type": "生成与调优评测",
+      "source_ids": [
+        "kernelblaster-paper-named-a",
+        "kernelblaster-repo-named-a"
+      ],
+      "approach_ids": [],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "generation",
+        "metrics": [
+          "time",
+          "coverage"
+        ],
+        "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+      },
+      "url": "operators-codegen.html#evidence-kernelblaster-h100",
+      "canonical_origin": "operator-codegen-named-a.json#/evidence_rows/kernelblaster-h100"
+    },
+    {
+      "id": "avo-b200-attention",
+      "route_id": "codegen",
+      "route_title": "自动生成与调优 · 横向方法",
+      "title": "AVO：Agentic Variation Operators，代理自主决定变异步骤",
+      "kind": "academic",
+      "date": "2026-03-25；arXiv v1",
+      "mechanism": "让代理读取版本谱系、硬件知识和执行反馈，自主规划、编辑、测试与修复；通过正确性门槛后保留不劣的新版本，监督器在停滞时换方向。论文分析了去分支重缩放、correction/MMA重叠和warp组寄存器再分配。",
+      "conditions": "§4：B200、CUDA13.1、PyTorch2.10.0；前向prefill，BF16、head dimension128、MHA16头，序列4096/8192/16384/32768且总token固定32768；对照cuDNN9.19.1及FA4 commit71bf77c。连续7天探索500多个方向，保留40版；每组实验重复10次。",
+      "result": "因果MHA吞吐相对cuDNN提升0.4%–3.5%，相对FA4提升5.0%–10.5%；非因果短序列差异在测量噪声范围内。最大值不代表全部形状或通用平均收益。",
+      "limit": "只证明指定B200前向注意力条件下的作者结果，不是解码TPOT、整模型TTFT或昇腾能力。AVO在此明确指NVIDIA论文；第三方同名复现不是官方发布。本轮未核到可直接复现实验的官方系统包。",
+      "result_type": "生成与调优评测",
+      "source_ids": [
+        "avo-paper-named-a",
+        "avo-official-named-a"
+      ],
+      "approach_ids": [],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "generation",
+        "metrics": [
+          "time"
+        ],
+        "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+      },
+      "url": "operators-codegen.html#evidence-avo-b200-attention",
+      "canonical_origin": "operator-codegen-named-a.json#/evidence_rows/avo-b200-attention"
+    },
+    {
+      "id": "gpu-cuda-agent",
+      "route_id": "codegen",
+      "route_title": "自动生成与调优 · 横向方法",
+      "title": "CUDA Agent · 大规模Agentic RL",
+      "kind": "academic",
+      "date": "2026-02-27 · arXiv:2602.24286v1 / Table1",
+      "mechanism": "6K合成任务、受保护的验证/计时环境、多阶段预热与多轮PPO训练，把编译、调试和profiling行为纳入优化策略。",
+      "conditions": "KernelBench 250题（100/100/50），Seed1.6为基础模型；论文执行环境为128张H20组成的独占沙箱池，评测每题最多200轮交互，从轨迹中取最快正确实现；基线torch.compile。",
+      "result": "Table1整体通过98.8%（247/250），正确且快于compile为96.8%（242/250）；相对compile速度指标2.11×，仅在正确解上统计并按层汇总。L3表内为94%通过、90%更快、1.52×。",
+      "limit": "摘要的L1/L3更快比例与Table1不一致，此处按表列结果；不能称一次生成成功率或全部250题平均提速。专用训练和长轨迹成本不同于免训练检索搜索，不是Ascend代码或模型TTFT/TPOT结果。",
+      "result_type": "生成与调优评测",
+      "source_ids": [
+        "cuda-agent-paper"
+      ],
+      "approach_ids": [],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "generation",
+        "metrics": [
+          "time",
+          "coverage"
+        ],
+        "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+      },
+      "url": "operators-codegen.html#evidence-gpu-cuda-agent",
+      "canonical_origin": "operator-codegen-named-b.json#/evidence/gpu-cuda-agent"
+    },
+    {
+      "id": "npu-ascendoptimizer",
+      "route_id": "codegen",
+      "route_title": "自动生成与调优 · 横向方法",
+      "title": "AscendOptimizer · 经验检索与Host–Kernel协同优化",
+      "kind": "academic",
+      "date": "2026-05-16 · arXiv:2603.23566v2",
+      "mechanism": "从高效核移除优化，保留实测变慢的改动并反向提炼变换经验；在线先用经验改写Kernel，再以真机反馈搜索Host Tiling，交替推进。无需额外训练模型。",
+      "conditions": "筛选出的101个可编译、正确且时延稳定的cann-ops算子；DeepSeek-V3.2。每题230次硬件评估（经验构建20、在线210），失败与超时也占预算；同预算比较BoN与OpenEvolve。",
+      "result": "全部101题几何平均1.21×，53.47%（54/101）快于原参考。独立消融：带经验Kernel改写1.16×，去经验1.09×，仅Tiling1.02×；组合1.21×，说明结构改写与参数搜索承担不同作用。",
+      "limit": "这是已有实现优化，不是从零生成通过率；v1的127题/1.19×不能混入v2。基线从可运行稳定样本筛选，非所有算子普遍收益；平均约2分钟/硬件评估的成本也需考虑。没有310P或950复现，也没有整模TTFT/TPOT。",
+      "result_type": "生成与调优评测",
+      "source_ids": [
+        "ascendoptimizer-v2"
+      ],
+      "approach_ids": [],
+      "facets": {
+        "hardware_families": [
+          "ascend"
+        ],
+        "level": "generation",
+        "metrics": [
+          "time",
+          "coverage"
+        ],
+        "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+      },
+      "url": "operators-codegen.html#evidence-npu-ascendoptimizer",
+      "canonical_origin": "operator-codegen-named-b.json#/evidence/npu-ascendoptimizer"
+    },
+    {
+      "id": "gpu-kernelbench",
+      "route_id": "codegen",
+      "route_title": "自动生成与调优 · 横向方法",
+      "title": "KernelBench: Can LLMs Write Efficient GPU Kernels?",
+      "kind": "academic",
+      "date": "2025-02-14 · arXiv:2502.10517v1",
+      "mechanism": "构建三层PyTorch工作负载，用执行结果与时序profile反馈迭代生成CUDA候选；fast_p同时要求数值正确和超过指定速度门槛。",
+      "conditions": "全套250任务：L1 100、L2 100、L3 50；Table1比较DeepSeek-R1一次生成与10次调用预算的G+E+P迭代，相对该实验Torch Eager基线。",
+      "result": "L1 fast_1由12/100提高到43/100。这个分母包含未成功任务，表示‘正确且更快’的题目比例，不是平均加速43%。",
+      "limit": "10次预算与一次生成成本不同；结果绑定当时软件/精度与L40S，不能直接对比NPU生成率或推定生产部署收益。",
+      "result_type": "生成与调优评测",
+      "source_ids": [
+        "kernelbench-v1"
+      ],
+      "approach_ids": [],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "generation",
+        "metrics": [
+          "time",
+          "coverage"
+        ],
+        "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+      },
+      "url": "operators-codegen.html#evidence-gpu-kernelbench",
+      "canonical_origin": "operator-codegen-insight.json#/evidence/gpu-kernelbench"
+    },
+    {
+      "id": "gpu-kernelagent",
+      "route_id": "codegen",
+      "route_title": "自动生成与调优 · 横向方法",
+      "title": "KernelAgent: Hardware-Guided GPU Kernel Optimization via Multi-Agent Orchestration",
+      "kind": "industry",
+      "date": "2026-03-06 · PyTorch官方工程报告（非同行评审论文）",
+      "mechanism": "NCU采集→瓶颈诊断→提出硬件相关变换→多候选探索→数值验证→隔离计时；工作记忆保存成功与失败策略。",
+      "conditions": "100个KernelBench L1任务；对照默认Inductor torch.compile、静态shape、CUDA Graph关闭；报告>1秒预热、100次重复的均值。",
+      "result": "65/100任务快于该torch.compile对照，整体几何平均1.56×；相对早期仅正确性循环为2.02×，二者不能混为同一基线。",
+      "limit": "官方项目结果，未复现；不是全部250题性能达标，更不是LLM整模型收益。报告SOL百分比口径不是完整算子达到理论最优的证明。",
+      "result_type": "生成与调优评测",
+      "source_ids": [
+        "kernelagent-hardware-report"
+      ],
+      "approach_ids": [],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "generation",
+        "metrics": [
+          "time",
+          "coverage"
+        ],
+        "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+      },
+      "url": "operators-codegen.html#evidence-gpu-kernelagent",
+      "canonical_origin": "operator-codegen-insight.json#/evidence/gpu-kernelagent"
+    },
+    {
+      "id": "gpu-kernelbench-verified",
+      "route_id": "codegen",
+      "route_title": "自动生成与调优 · 横向方法",
+      "title": "KernelBench-Verified: Do LLM-Generated Kernels Actually Beat PyTorch?",
+      "kind": "academic",
+      "date": "2026-06-26 · arXiv:2607.16241v1",
+      "mechanism": "增加四种隐藏数值分布、TF32-enabled PyTorch对照及峰值内存检查，重评既有CUDA候选。",
+      "conditions": "L1 100、L2排除3个恒定输出问题后97、L3 50；7个模型，单轮提示、每题5个独立样本，取最快正确样本；几何均值只在正确解决的题目上算。",
+      "result": "论文最佳模型GPT-5.5的Correct Speedup由标准协议1.43×变为加固协议0.88×；这不是全247题都正确或各题都慢12%。",
+      "limit": "这是特定基线/数值协议与best-of-5重评，不能与KernelAgent多轮搜索直接排名；TF32精度必须符合任务契约，不能为快而任意降低对照精度。",
+      "result_type": "生成与调优评测",
+      "source_ids": [
+        "kernelbench-verified-v1"
+      ],
+      "approach_ids": [],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "generation",
+        "metrics": [
+          "time",
+          "quality"
+        ],
+        "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+      },
+      "url": "operators-codegen.html#evidence-gpu-kernelbench-verified",
+      "canonical_origin": "operator-codegen-insight.json#/evidence/gpu-kernelbench-verified"
+    },
+    {
+      "id": "npu-ascendkernelgen",
+      "route_id": "codegen",
+      "route_title": "自动生成与调优 · 横向方法",
+      "title": "AscendKernelGen: A Systematic Study of LLM-Based Kernel Generation for Neural Processing Units",
+      "kind": "academic",
+      "date": "2026-04-17 · arXiv:2601.07160v2",
+      "mechanism": "Ascend-CoT领域数据、错误修正SFT与执行偏好DPO；NPUKernelBench支持Kernel-only及Host–Kernel路径，分开检查编译、功能与性能。",
+      "conditions": "158个kernel任务；任务内多个case、L1–L3分层；报告pass@1/10/100以及case分数、分层/加权分数等不同口径；性能对照为目标平台优化官方库实现。",
+      "result": "提供可执行的Host–Kernel一致性、阶段日志与强参考评估设计；Table7显示领域后训练改善功能结果，但复杂任务仍有明显缺口。此处不把表内Mean或case分数换算为158任务的成功数量。",
+      "limit": "未定位SKU就不能宣称910B/310P/950实测；pass@100不能写成一次生成成功率，官方库参考也不是严格硬件下界。本条不摘用缺完整聚合口径的平均加速数字。",
+      "result_type": "生成与调优评测",
+      "source_ids": [
+        "ascendkernelgen"
+      ],
+      "approach_ids": [],
+      "facets": {
+        "hardware_families": [
+          "ascend"
+        ],
+        "level": "generation",
+        "metrics": [
+          "coverage"
+        ],
+        "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+      },
+      "url": "operators-codegen.html#evidence-npu-ascendkernelgen",
+      "canonical_origin": "operator-codegen-insight.json#/evidence/npu-ascendkernelgen"
+    },
+    {
+      "id": "npu-ascendcraft",
+      "route_id": "codegen",
+      "route_title": "自动生成与调优 · 横向方法",
+      "title": "AscendCraft: Automatic Ascend NPU Kernel Generation via DSL-Guided Transcompilation",
+      "kind": "academic",
+      "date": "2026-01-30 · arXiv:2601.22760v1",
+      "mechanism": "先生成DSL，再分Host翻译、Kernel初始化、计算、对齐/padding等pass；每pass用编译反馈修正。",
+      "conditions": "MultiKernelBench/更新后的KernelBench L1形状，7类共52个kernel；不含MatMul与Convolution；对照PyTorch eager。",
+      "result": "按Table1类别数还原：51/52编译通过（98.1%）、47/52功能正确（90.4%）；Table2为24/52达到或超过eager（46.2%）。",
+      "limit": "正文对正确率分母表述与表格计数存在不一致，此处按52总数的分类计数解释；不能改写成全部已编译候选中的90.4%。达到eager不等于优于生产强库，亦不证明310P/950或整模型质量门槛通过。",
+      "result_type": "生成与调优评测",
+      "source_ids": [
+        "ascendcraft"
+      ],
+      "approach_ids": [],
+      "facets": {
+        "hardware_families": [
+          "ascend"
+        ],
+        "level": "generation",
+        "metrics": [
+          "time",
+          "coverage"
+        ],
+        "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+      },
+      "url": "operators-codegen.html#evidence-npu-ascendcraft",
+      "canonical_origin": "operator-codegen-insight.json#/evidence/npu-ascendcraft"
+    },
+    {
+      "id": "npu-cannbench",
+      "route_id": "codegen",
+      "route_title": "自动生成与调优 · 横向方法",
+      "title": "CANN Bench: Benchmarking Agent Generated Kernels against Real NPU and Algorithmic Limits",
+      "kind": "academic",
+      "date": "2026-07-08 · arXiv:2607.20518v1",
+      "mechanism": "把编译、功能和性能独立评分；以PyTorch-on-Ascend基线与逐case分析HAP作两端锚点，提供Golden和抗奖励作弊约束。",
+      "conditions": "53算子、1060个case、4层；按case与dtype核验；HAP涉及Cube、Vector及搬运通路，非GPU roofline的参数替换。",
+      "result": "这是评测体系与数据集贡献，不是某个生成模型在1060 case上的成功率。论文逐case分析标注MTE主导63%、Vector26%、Cube11%，指该数据集的分析分布。",
+      "limit": "HAP是依实现空间与硬件速率建立的分析锚点，不是无条件可达到的实测时延；fresh-input二次验证是可选加固，默认榜单仍为single-trial，不能宣称默认双重验证。不能把910B2锚点套给310P/950。",
+      "result_type": "生成与调优评测",
+      "source_ids": [
+        "cannbench"
+      ],
+      "approach_ids": [],
+      "facets": {
+        "hardware_families": [
+          "ascend"
+        ],
+        "level": "generation",
+        "metrics": [
+          "mechanism"
+        ],
+        "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+      },
+      "url": "operators-codegen.html#evidence-npu-cannbench",
+      "canonical_origin": "operator-codegen-insight.json#/evidence/npu-cannbench"
+    }
+  ],
+  "relations": [
+    {
+      "from": "memory-reuse",
+      "relation": "contains_mechanism",
+      "to": "memory-reuse-m-loaded-input-reuse"
+    },
+    {
+      "from": "memory-reuse-a-1",
+      "relation": "explains",
+      "to": "memory-reuse-m-loaded-input-reuse"
+    },
+    {
+      "from": "memory-reuse",
+      "relation": "contains_mechanism",
+      "to": "memory-reuse-m-streaming-intermediate"
+    },
+    {
+      "from": "memory-reuse-a-1",
+      "relation": "explains",
+      "to": "memory-reuse-m-streaming-intermediate"
+    },
+    {
+      "from": "tile-parallelism",
+      "relation": "contains_mechanism",
+      "to": "tile-parallelism-m-independent-partition"
+    },
+    {
+      "from": "tile-parallelism-a-1",
+      "relation": "explains",
+      "to": "tile-parallelism-m-independent-partition"
+    },
+    {
+      "from": "tile-parallelism-a-3",
+      "relation": "explains",
+      "to": "tile-parallelism-m-independent-partition"
+    },
+    {
+      "from": "tile-parallelism",
+      "relation": "contains_mechanism",
+      "to": "tile-parallelism-m-cooperative-partition"
+    },
+    {
+      "from": "tile-parallelism-a-3",
+      "relation": "explains",
+      "to": "tile-parallelism-m-cooperative-partition"
+    },
+    {
+      "from": "tile-parallelism",
+      "relation": "contains_mechanism",
+      "to": "tile-parallelism-m-stage-overlap"
+    },
+    {
+      "from": "tile-parallelism-a-2",
+      "relation": "explains",
+      "to": "tile-parallelism-m-stage-overlap"
+    },
+    {
+      "from": "fusion-launch",
+      "relation": "contains_mechanism",
+      "to": "fusion-launch-m-local-consumer-fusion"
+    },
+    {
+      "from": "fusion-launch-a-1",
+      "relation": "explains",
+      "to": "fusion-launch-m-local-consumer-fusion"
+    },
+    {
+      "from": "fusion-launch",
+      "relation": "contains_mechanism",
+      "to": "fusion-launch-m-reduction-aware-fusion"
+    },
+    {
+      "from": "fusion-launch-a-1",
+      "relation": "explains",
+      "to": "fusion-launch-m-reduction-aware-fusion"
+    },
+    {
+      "from": "layout-low-precision",
+      "relation": "contains_mechanism",
+      "to": "layout-low-precision-m-consumer-matched-layout"
+    },
+    {
+      "from": "layout-low-precision-a-1",
+      "relation": "explains",
+      "to": "layout-low-precision-m-consumer-matched-layout"
+    },
+    {
+      "from": "layout-low-precision",
+      "relation": "contains_mechanism",
+      "to": "layout-low-precision-m-packed-consumption"
+    },
+    {
+      "from": "layout-low-precision-a-1",
+      "relation": "explains",
+      "to": "layout-low-precision-m-packed-consumption"
+    },
+    {
+      "from": "collectives-topology",
+      "relation": "contains_mechanism",
+      "to": "collectives-topology-m-1"
+    },
+    {
+      "from": "collectives-topology-a-1",
+      "relation": "explains",
+      "to": "collectives-topology-m-1"
+    },
+    {
+      "from": "collectives-topology",
+      "relation": "contains_mechanism",
+      "to": "collectives-topology-m-2"
+    },
+    {
+      "from": "collectives-topology-a-2",
+      "relation": "explains",
+      "to": "collectives-topology-m-2"
+    },
+    {
+      "from": "launch-granularity",
+      "relation": "contains_mechanism",
+      "to": "launch-granularity-m-1"
+    },
+    {
+      "from": "launch-granularity-a-1",
+      "relation": "explains",
+      "to": "launch-granularity-m-1"
+    },
+    {
+      "from": "launch-granularity",
+      "relation": "contains_mechanism",
+      "to": "launch-granularity-m-2"
+    },
+    {
+      "from": "launch-granularity-a-2",
+      "relation": "explains",
+      "to": "launch-granularity-m-2"
+    },
+    {
+      "from": "launch-granularity",
+      "relation": "contains_mechanism",
+      "to": "launch-granularity-m-3"
+    },
+    {
+      "from": "launch-granularity-a-3",
+      "relation": "explains",
+      "to": "launch-granularity-m-3"
+    },
+    {
+      "from": "paths-buffers",
+      "relation": "contains_mechanism",
+      "to": "paths-buffers-m-1"
+    },
+    {
+      "from": "paths-buffers-a-1",
+      "relation": "explains",
+      "to": "paths-buffers-m-1"
+    },
+    {
+      "from": "paths-buffers",
+      "relation": "contains_mechanism",
+      "to": "paths-buffers-m-2"
+    },
+    {
+      "from": "paths-buffers-a-2",
+      "relation": "explains",
+      "to": "paths-buffers-m-2"
+    },
+    {
+      "from": "compute-communication-overlap",
+      "relation": "contains_mechanism",
+      "to": "compute-communication-overlap-m-1"
+    },
+    {
+      "from": "compute-communication-overlap-a-1",
+      "relation": "explains",
+      "to": "compute-communication-overlap-m-1"
+    },
+    {
+      "from": "compute-communication-overlap",
+      "relation": "contains_mechanism",
+      "to": "compute-communication-overlap-m-2"
+    },
+    {
+      "from": "compute-communication-overlap-a-2",
+      "relation": "explains",
+      "to": "compute-communication-overlap-m-2"
+    },
+    {
+      "from": "transfer-compression",
+      "relation": "contains_mechanism",
+      "to": "transfer-compression-m-1"
+    },
+    {
+      "from": "transfer-compression-a-1",
+      "relation": "explains",
+      "to": "transfer-compression-m-1"
+    },
+    {
+      "from": "transfer-compression",
+      "relation": "contains_mechanism",
+      "to": "transfer-compression-m-2"
+    },
+    {
+      "from": "transfer-compression-a-2",
+      "relation": "explains",
+      "to": "transfer-compression-m-2"
+    },
+    {
+      "from": "memory-reuse",
+      "relation": "contains_mechanism",
+      "to": "memory-reuse-a-1"
+    },
+    {
+      "from": "memory-reuse",
+      "relation": "contains_training_extension",
+      "to": "memory-reuse-a-2"
+    },
+    {
+      "from": "memory-reuse",
+      "relation": "contains_judgment",
+      "to": "memory-reuse-a-3"
+    },
+    {
+      "from": "tile-parallelism",
+      "relation": "contains_mechanism",
+      "to": "tile-parallelism-a-1"
+    },
+    {
+      "from": "tile-parallelism",
+      "relation": "contains_mechanism",
+      "to": "tile-parallelism-a-2"
+    },
+    {
+      "from": "tile-parallelism",
+      "relation": "contains_mechanism",
+      "to": "tile-parallelism-a-3"
+    },
+    {
+      "from": "fusion-launch",
+      "relation": "contains_mechanism",
+      "to": "fusion-launch-a-1"
+    },
+    {
+      "from": "fusion-launch",
+      "relation": "contains_crosscutting_method",
+      "to": "fusion-launch-a-2"
+    },
+    {
+      "from": "fusion-launch",
+      "relation": "contains_crosscutting_method",
+      "to": "fusion-launch-a-3"
+    },
+    {
+      "from": "layout-low-precision",
+      "relation": "contains_mechanism",
+      "to": "layout-low-precision-a-1"
+    },
+    {
+      "from": "layout-low-precision",
+      "relation": "contains_mechanism",
+      "to": "layout-low-precision-a-2"
+    },
+    {
+      "from": "layout-low-precision",
+      "relation": "contains_application",
+      "to": "layout-low-precision-a-3"
+    },
+    {
+      "from": "collectives-topology",
+      "relation": "contains_mechanism",
+      "to": "collectives-topology-a-1"
+    },
+    {
+      "from": "collectives-topology",
+      "relation": "contains_mechanism",
+      "to": "collectives-topology-a-2"
+    },
+    {
+      "from": "collectives-topology",
+      "relation": "contains_application",
+      "to": "collectives-topology-a-3"
+    },
+    {
+      "from": "launch-granularity",
+      "relation": "contains_mechanism",
+      "to": "launch-granularity-a-1"
+    },
+    {
+      "from": "launch-granularity",
+      "relation": "contains_mechanism",
+      "to": "launch-granularity-a-2"
+    },
+    {
+      "from": "launch-granularity",
+      "relation": "contains_mechanism",
+      "to": "launch-granularity-a-3"
+    },
+    {
+      "from": "paths-buffers",
+      "relation": "contains_mechanism",
+      "to": "paths-buffers-a-1"
+    },
+    {
+      "from": "paths-buffers",
+      "relation": "contains_mechanism",
+      "to": "paths-buffers-a-2"
+    },
+    {
+      "from": "paths-buffers",
+      "relation": "contains_crosscutting_method",
+      "to": "paths-buffers-a-3"
+    },
+    {
+      "from": "compute-communication-overlap",
+      "relation": "contains_mechanism",
+      "to": "compute-communication-overlap-a-1"
+    },
+    {
+      "from": "compute-communication-overlap",
+      "relation": "contains_mechanism",
+      "to": "compute-communication-overlap-a-2"
+    },
+    {
+      "from": "compute-communication-overlap",
+      "relation": "contains_application",
+      "to": "compute-communication-overlap-a-3"
+    },
+    {
+      "from": "transfer-compression",
+      "relation": "contains_mechanism",
+      "to": "transfer-compression-a-1"
+    },
+    {
+      "from": "transfer-compression",
+      "relation": "contains_mechanism",
+      "to": "transfer-compression-a-2"
+    },
+    {
+      "from": "transfer-compression",
+      "relation": "contains_training_extension",
+      "to": "transfer-compression-a-3"
+    },
+    {
+      "from": "memory-reuse--cann-fia-850-expert",
+      "relation": "belongs_to",
+      "to": "memory-reuse"
+    },
+    {
+      "from": "memory-reuse--cann-fia-850-expert",
+      "relation": "associated_with",
+      "to": "memory-reuse-a-1"
+    },
+    {
+      "from": "memory-reuse--cann-fia-850-expert",
+      "relation": "cites",
+      "to": "cann-fia-850-expert"
+    },
+    {
+      "from": "memory-reuse--flashattention",
+      "relation": "belongs_to",
+      "to": "memory-reuse"
+    },
+    {
+      "from": "memory-reuse--flashattention",
+      "relation": "associated_with",
+      "to": "memory-reuse-a-1"
+    },
+    {
+      "from": "memory-reuse--flashattention",
+      "relation": "associated_with",
+      "to": "memory-reuse-a-2"
+    },
+    {
+      "from": "memory-reuse--flashattention",
+      "relation": "cites",
+      "to": "flashattention"
+    },
+    {
+      "from": "memory-reuse--fa4-primary-expert",
+      "relation": "belongs_to",
+      "to": "memory-reuse"
+    },
+    {
+      "from": "memory-reuse--fa4-primary-expert",
+      "relation": "associated_with",
+      "to": "memory-reuse-a-3"
+    },
+    {
+      "from": "memory-reuse--fa4-primary-expert",
+      "relation": "cites",
+      "to": "fa4-primary-expert"
+    },
+    {
+      "from": "tile-parallelism--catlass-official-expert",
+      "relation": "belongs_to",
+      "to": "tile-parallelism"
+    },
+    {
+      "from": "tile-parallelism--catlass-official-expert",
+      "relation": "associated_with",
+      "to": "tile-parallelism-a-3"
+    },
+    {
+      "from": "tile-parallelism--catlass-official-expert",
+      "relation": "cites",
+      "to": "catlass-official-expert"
+    },
+    {
+      "from": "tile-parallelism--fa2-primary-expert",
+      "relation": "belongs_to",
+      "to": "tile-parallelism"
+    },
+    {
+      "from": "tile-parallelism--fa2-primary-expert",
+      "relation": "associated_with",
+      "to": "tile-parallelism-a-1"
+    },
+    {
+      "from": "tile-parallelism--fa2-primary-expert",
+      "relation": "cites",
+      "to": "fa2-primary-expert"
+    },
+    {
+      "from": "tile-parallelism--fa3-primary-expert",
+      "relation": "belongs_to",
+      "to": "tile-parallelism"
+    },
+    {
+      "from": "tile-parallelism--fa3-primary-expert",
+      "relation": "associated_with",
+      "to": "tile-parallelism-a-2"
+    },
+    {
+      "from": "tile-parallelism--fa3-primary-expert",
+      "relation": "cites",
+      "to": "fa3-primary-expert"
+    },
+    {
+      "from": "tile-parallelism--ansor",
+      "relation": "belongs_to",
+      "to": "tile-parallelism"
+    },
+    {
+      "from": "tile-parallelism--ansor",
+      "relation": "cites",
+      "to": "ansor"
+    },
+    {
+      "from": "tile-parallelism--streamk-primary-round2",
+      "relation": "belongs_to",
+      "to": "tile-parallelism"
+    },
+    {
+      "from": "tile-parallelism--streamk-primary-round2",
+      "relation": "associated_with",
+      "to": "tile-parallelism-a-3"
+    },
+    {
+      "from": "tile-parallelism--streamk-primary-round2",
+      "relation": "cites",
+      "to": "streamk-primary-round2"
+    },
+    {
+      "from": "fusion-launch--cann-add-rms-norm-expert",
+      "relation": "belongs_to",
+      "to": "fusion-launch"
+    },
+    {
+      "from": "fusion-launch--cann-add-rms-norm-expert",
+      "relation": "associated_with",
+      "to": "fusion-launch-a-1"
+    },
+    {
+      "from": "fusion-launch--cann-add-rms-norm-expert",
+      "relation": "cites",
+      "to": "cann-add-rms-norm-expert"
+    },
+    {
+      "from": "fusion-launch--pytorch-flex-fa4-expert",
+      "relation": "belongs_to",
+      "to": "fusion-launch"
+    },
+    {
+      "from": "fusion-launch--pytorch-flex-fa4-expert",
+      "relation": "associated_with",
+      "to": "fusion-launch-a-2"
+    },
+    {
+      "from": "fusion-launch--pytorch-flex-fa4-expert",
+      "relation": "cites",
+      "to": "pytorch-flex-fa4-expert"
+    },
+    {
+      "from": "fusion-launch--tensorir-primary-expert",
+      "relation": "belongs_to",
+      "to": "fusion-launch"
+    },
+    {
+      "from": "fusion-launch--tensorir-primary-expert",
+      "relation": "associated_with",
+      "to": "fusion-launch-a-3"
+    },
+    {
+      "from": "fusion-launch--tensorir-primary-expert",
+      "relation": "cites",
+      "to": "tensorir-primary-expert"
+    },
+    {
+      "from": "layout-low-precision--cann-grouped-matmul-expert",
+      "relation": "belongs_to",
+      "to": "layout-low-precision"
+    },
+    {
+      "from": "layout-low-precision--cann-grouped-matmul-expert",
+      "relation": "associated_with",
+      "to": "layout-low-precision-a-3"
+    },
+    {
+      "from": "layout-low-precision--cann-grouped-matmul-expert",
+      "relation": "cites",
+      "to": "cann-grouped-matmul-expert"
+    },
+    {
+      "from": "layout-low-precision--marlin-primary-round2",
+      "relation": "belongs_to",
+      "to": "layout-low-precision"
+    },
+    {
+      "from": "layout-low-precision--marlin-primary-round2",
+      "relation": "associated_with",
+      "to": "layout-low-precision-a-1"
+    },
+    {
+      "from": "layout-low-precision--marlin-primary-round2",
+      "relation": "cites",
+      "to": "marlin-primary-round2"
+    },
+    {
+      "from": "layout-low-precision--fa3-primary-expert",
+      "relation": "belongs_to",
+      "to": "layout-low-precision"
+    },
+    {
+      "from": "layout-low-precision--fa3-primary-expert",
+      "relation": "associated_with",
+      "to": "layout-low-precision-a-1"
+    },
+    {
+      "from": "layout-low-precision--fa3-primary-expert",
+      "relation": "associated_with",
+      "to": "layout-low-precision-a-2"
+    },
+    {
+      "from": "layout-low-precision--fa3-primary-expert",
+      "relation": "cites",
+      "to": "fa3-primary-expert"
+    },
+    {
+      "from": "layout-low-precision--tensorir-primary-expert",
+      "relation": "belongs_to",
+      "to": "layout-low-precision"
+    },
+    {
+      "from": "layout-low-precision--tensorir-primary-expert",
+      "relation": "cites",
+      "to": "tensorir-primary-expert"
+    },
+    {
+      "from": "collectives-topology--nccl-algorithms",
+      "relation": "belongs_to",
+      "to": "collectives-topology"
+    },
+    {
+      "from": "collectives-topology--nccl-algorithms",
+      "relation": "associated_with",
+      "to": "collectives-topology-a-1"
+    },
+    {
+      "from": "collectives-topology--nccl-algorithms",
+      "relation": "associated_with",
+      "to": "collectives-topology-a-2"
+    },
+    {
+      "from": "collectives-topology--nccl-algorithms",
+      "relation": "cites",
+      "to": "nccl-algorithms"
+    },
+    {
+      "from": "collectives-topology--sgl-deepep-ascend-api",
+      "relation": "belongs_to",
+      "to": "collectives-topology"
+    },
+    {
+      "from": "collectives-topology--sgl-deepep-ascend-api",
+      "relation": "associated_with",
+      "to": "collectives-topology-a-3"
+    },
+    {
+      "from": "collectives-topology--sgl-deepep-ascend-api",
+      "relation": "cites",
+      "to": "sgl-deepep-ascend-api"
+    },
+    {
+      "from": "collectives-topology--taccl",
+      "relation": "belongs_to",
+      "to": "collectives-topology"
+    },
+    {
+      "from": "collectives-topology--taccl",
+      "relation": "associated_with",
+      "to": "collectives-topology-a-1"
+    },
+    {
+      "from": "collectives-topology--taccl",
+      "relation": "cites",
+      "to": "taccl"
+    },
+    {
+      "from": "launch-granularity--nccl-groups",
+      "relation": "belongs_to",
+      "to": "launch-granularity"
+    },
+    {
+      "from": "launch-granularity--nccl-groups",
+      "relation": "associated_with",
+      "to": "launch-granularity-a-1"
+    },
+    {
+      "from": "launch-granularity--nccl-groups",
+      "relation": "cites",
+      "to": "nccl-groups"
+    },
+    {
+      "from": "launch-granularity--horovod-tensor-fusion",
+      "relation": "belongs_to",
+      "to": "launch-granularity"
+    },
+    {
+      "from": "launch-granularity--horovod-tensor-fusion",
+      "relation": "associated_with",
+      "to": "launch-granularity-a-2"
+    },
+    {
+      "from": "launch-granularity--horovod-tensor-fusion",
+      "relation": "cites",
+      "to": "horovod-tensor-fusion"
+    },
+    {
+      "from": "launch-granularity--horovod-paper",
+      "relation": "belongs_to",
+      "to": "launch-granularity"
+    },
+    {
+      "from": "launch-granularity--horovod-paper",
+      "relation": "associated_with",
+      "to": "launch-granularity-a-2"
+    },
+    {
+      "from": "launch-granularity--horovod-paper",
+      "relation": "cites",
+      "to": "horovod-paper"
+    },
+    {
+      "from": "launch-granularity--bytescheduler",
+      "relation": "belongs_to",
+      "to": "launch-granularity"
+    },
+    {
+      "from": "launch-granularity--bytescheduler",
+      "relation": "associated_with",
+      "to": "launch-granularity-a-3"
+    },
+    {
+      "from": "launch-granularity--bytescheduler",
+      "relation": "cites",
+      "to": "bytescheduler"
+    },
+    {
+      "from": "paths-buffers--nccl-buffer-registration",
+      "relation": "belongs_to",
+      "to": "paths-buffers"
+    },
+    {
+      "from": "paths-buffers--nccl-buffer-registration",
+      "relation": "associated_with",
+      "to": "paths-buffers-a-1"
+    },
+    {
+      "from": "paths-buffers--nccl-buffer-registration",
+      "relation": "associated_with",
+      "to": "paths-buffers-a-2"
+    },
+    {
+      "from": "paths-buffers--nccl-buffer-registration",
+      "relation": "cites",
+      "to": "nccl-buffer-registration"
+    },
+    {
+      "from": "paths-buffers--mooncake-architecture",
+      "relation": "belongs_to",
+      "to": "paths-buffers"
+    },
+    {
+      "from": "paths-buffers--mooncake-architecture",
+      "relation": "associated_with",
+      "to": "paths-buffers-a-2"
+    },
+    {
+      "from": "paths-buffers--mooncake-architecture",
+      "relation": "cites",
+      "to": "mooncake-architecture"
+    },
+    {
+      "from": "paths-buffers--deepseek-deepep-ascend",
+      "relation": "belongs_to",
+      "to": "paths-buffers"
+    },
+    {
+      "from": "paths-buffers--deepseek-deepep-ascend",
+      "relation": "associated_with",
+      "to": "paths-buffers-a-3"
+    },
+    {
+      "from": "paths-buffers--deepseek-deepep-ascend",
+      "relation": "cites",
+      "to": "deepseek-deepep-ascend"
+    },
+    {
+      "from": "paths-buffers--mooncake-paper-v5",
+      "relation": "belongs_to",
+      "to": "paths-buffers"
+    },
+    {
+      "from": "paths-buffers--mooncake-paper-v5",
+      "relation": "cites",
+      "to": "mooncake-paper-v5"
+    },
+    {
+      "from": "compute-communication-overlap--sgl-deepep-ascend-api",
+      "relation": "belongs_to",
+      "to": "compute-communication-overlap"
+    },
+    {
+      "from": "compute-communication-overlap--sgl-deepep-ascend-api",
+      "relation": "associated_with",
+      "to": "compute-communication-overlap-a-3"
+    },
+    {
+      "from": "compute-communication-overlap--sgl-deepep-ascend-api",
+      "relation": "cites",
+      "to": "sgl-deepep-ascend-api"
+    },
+    {
+      "from": "compute-communication-overlap--torch-distributed",
+      "relation": "belongs_to",
+      "to": "compute-communication-overlap"
+    },
+    {
+      "from": "compute-communication-overlap--torch-distributed",
+      "relation": "cites",
+      "to": "torch-distributed"
+    },
+    {
+      "from": "compute-communication-overlap--flux",
+      "relation": "belongs_to",
+      "to": "compute-communication-overlap"
+    },
+    {
+      "from": "compute-communication-overlap--flux",
+      "relation": "associated_with",
+      "to": "compute-communication-overlap-a-2"
+    },
+    {
+      "from": "compute-communication-overlap--flux",
+      "relation": "cites",
+      "to": "flux"
+    },
+    {
+      "from": "transfer-compression--deepseek-deepep-ascend",
+      "relation": "belongs_to",
+      "to": "transfer-compression"
+    },
+    {
+      "from": "transfer-compression--deepseek-deepep-ascend",
+      "relation": "associated_with",
+      "to": "transfer-compression-a-2"
+    },
+    {
+      "from": "transfer-compression--deepseek-deepep-ascend",
+      "relation": "cites",
+      "to": "deepseek-deepep-ascend"
+    },
+    {
+      "from": "transfer-compression--sgl-deepep-ascend-api",
+      "relation": "belongs_to",
+      "to": "transfer-compression"
+    },
+    {
+      "from": "transfer-compression--sgl-deepep-ascend-api",
+      "relation": "associated_with",
+      "to": "transfer-compression-a-2"
+    },
+    {
+      "from": "transfer-compression--sgl-deepep-ascend-api",
+      "relation": "cites",
+      "to": "sgl-deepep-ascend-api"
+    },
+    {
+      "from": "transfer-compression--cachegen-v6",
+      "relation": "belongs_to",
+      "to": "transfer-compression"
+    },
+    {
+      "from": "transfer-compression--cachegen-v6",
+      "relation": "associated_with",
+      "to": "transfer-compression-a-1"
+    },
+    {
+      "from": "transfer-compression--cachegen-v6",
+      "relation": "cites",
+      "to": "cachegen-v6"
+    },
+    {
+      "from": "transfer-compression--powersgd",
+      "relation": "belongs_to",
+      "to": "transfer-compression"
+    },
+    {
+      "from": "transfer-compression--powersgd",
+      "relation": "associated_with",
+      "to": "transfer-compression-a-3"
+    },
+    {
+      "from": "transfer-compression--powersgd",
+      "relation": "cites",
+      "to": "powersgd"
+    },
+    {
+      "from": "kernelevolve-coverage",
+      "relation": "belongs_to",
+      "to": "codegen"
+    },
+    {
+      "from": "kernelevolve-coverage",
+      "relation": "cites",
+      "to": "kernelevolve-paper-named-a"
+    },
+    {
+      "from": "kernelevolve-coverage",
+      "relation": "cites",
+      "to": "kernelevolve-official-named-a"
+    },
+    {
+      "from": "kernelevolve-conv-case",
+      "relation": "belongs_to",
+      "to": "codegen"
+    },
+    {
+      "from": "kernelevolve-conv-case",
+      "relation": "cites",
+      "to": "kernelevolve-paper-named-a"
+    },
+    {
+      "from": "kernelblaster-h100",
+      "relation": "belongs_to",
+      "to": "codegen"
+    },
+    {
+      "from": "kernelblaster-h100",
+      "relation": "cites",
+      "to": "kernelblaster-paper-named-a"
+    },
+    {
+      "from": "kernelblaster-h100",
+      "relation": "cites",
+      "to": "kernelblaster-repo-named-a"
+    },
+    {
+      "from": "avo-b200-attention",
+      "relation": "belongs_to",
+      "to": "codegen"
+    },
+    {
+      "from": "avo-b200-attention",
+      "relation": "cites",
+      "to": "avo-paper-named-a"
+    },
+    {
+      "from": "avo-b200-attention",
+      "relation": "cites",
+      "to": "avo-official-named-a"
+    },
+    {
+      "from": "gpu-cuda-agent",
+      "relation": "belongs_to",
+      "to": "codegen"
+    },
+    {
+      "from": "gpu-cuda-agent",
+      "relation": "cites",
+      "to": "cuda-agent-paper"
+    },
+    {
+      "from": "npu-ascendoptimizer",
+      "relation": "belongs_to",
+      "to": "codegen"
+    },
+    {
+      "from": "npu-ascendoptimizer",
+      "relation": "cites",
+      "to": "ascendoptimizer-v2"
+    },
+    {
+      "from": "gpu-kernelbench",
+      "relation": "belongs_to",
+      "to": "codegen"
+    },
+    {
+      "from": "gpu-kernelbench",
+      "relation": "cites",
+      "to": "kernelbench-v1"
+    },
+    {
+      "from": "gpu-kernelagent",
+      "relation": "belongs_to",
+      "to": "codegen"
+    },
+    {
+      "from": "gpu-kernelagent",
+      "relation": "cites",
+      "to": "kernelagent-hardware-report"
+    },
+    {
+      "from": "gpu-kernelbench-verified",
+      "relation": "belongs_to",
+      "to": "codegen"
+    },
+    {
+      "from": "gpu-kernelbench-verified",
+      "relation": "cites",
+      "to": "kernelbench-verified-v1"
+    },
+    {
+      "from": "npu-ascendkernelgen",
+      "relation": "belongs_to",
+      "to": "codegen"
+    },
+    {
+      "from": "npu-ascendkernelgen",
+      "relation": "cites",
+      "to": "ascendkernelgen"
+    },
+    {
+      "from": "npu-ascendcraft",
+      "relation": "belongs_to",
+      "to": "codegen"
+    },
+    {
+      "from": "npu-ascendcraft",
+      "relation": "cites",
+      "to": "ascendcraft"
+    },
+    {
+      "from": "npu-cannbench",
+      "relation": "belongs_to",
+      "to": "codegen"
+    },
+    {
+      "from": "npu-cannbench",
+      "relation": "cites",
+      "to": "cannbench"
+    }
+  ],
+  "sources": [
+    {
+      "id": "cann-fia-850-expert",
+      "title": "CANN FusedInferAttentionScore 8.5.0：推理融合注意力",
+      "url": "https://gitcode.com/cann/ops-transformer/blob/8.5.0/attention/fused_infer_attention_score/README.md",
+      "kind": "official_repository_documentation",
+      "review_scope": "核对8.5.0标签官方README可检索正文的全量/增量功能与产品支持范围；未宣称审核全部接口组合或内核实现。",
+      "device_scope": "标签文档列A2、A3和950PR/DT；不是310P支持证据。",
+      "boundary": "固定历史标签不代表当前所有版本，具体shape、dtype、KV布局和分页约束必须按实际版本逐项查验；无本地性能实测。"
+    },
+    {
+      "id": "flashattention",
+      "title": "FlashAttention：以IO感知分块减少注意力访存",
+      "url": "https://arxiv.org/abs/2205.14135",
+      "kind": "primary_paper",
+      "review_scope": "核对原论文摘要与版本信息，用于说明精确注意力的IO感知分块机制；本次没有重审全部实验表。",
+      "device_scope": "仅其他设备：原论文GPU机制与实验；不是310P支持或收益证据。",
+      "boundary": "精确注意力的实现优化与低秩近似不同。GPU结果不能直接外推昇腾；不据此承诺具体模型、数据类型、序列长度或内核支持。"
+    },
+    {
+      "id": "fa4-primary-expert",
+      "title": "FlashAttention-4：Blackwell流水、softmax与片上数据通路",
+      "url": "https://arxiv.org/html/2603.05451v1",
+      "kind": "primary_paper",
+      "review_scope": "核对§3流水与softmax机制、§5 B200基准及Figure 4对照版本说明。将反向Tensor Memory/2-CTA路径单独标记为训练机制。",
+      "device_scope": "Blackwell B200等原文GPU实现；不构成昇腾支持或310P性能结论。",
+      "boundary": "作者已注明更新版cuDNN吸收技术并有相近表现；论文相对旧基线的倍数不是当前所有实现的领先幅度。"
+    },
+    {
+      "id": "catlass-official-expert",
+      "title": "CATLASS：昇腾分层矩阵模板与调度样例",
+      "url": "https://gitcode.com/cann/catlass/tree/master",
+      "kind": "official_repository",
+      "review_scope": "核对2026-10-23可读取的master README、发布记录、样例目录与CANN配套表；未复现性能。",
+      "device_scope": "当前表列A2/A3与950PR/DT；未列310P。950上的DSL配套版本另有要求。",
+      "boundary": "不同样例有独立约束；不将缺少完整形状和基线说明的性能概数作为可迁移收益。"
+    },
+    {
+      "id": "fa2-primary-expert",
+      "title": "FlashAttention-2：并行任务与warp工作划分",
+      "url": "https://arxiv.org/html/2307.08691v1",
+      "kind": "primary_paper",
+      "review_scope": "核对§3.2–3.3序列维并行和sliced-Q机制、§4.1 A100前向实验条件与结果。",
+      "device_scope": "NVIDIA A100实验与CUDA GPU机制；不是310P实现或收益证据。",
+      "boundary": "前向内核结果不能改写为整模型TTFT/TPOT；训练实验另列，不与推理混用。"
+    },
+    {
+      "id": "fa3-primary-expert",
+      "title": "FlashAttention-3：Hopper异步流水与FP8误差控制",
+      "url": "https://arxiv.org/html/2407.08608v2",
+      "kind": "primary_paper",
+      "review_scope": "核对§3.1–3.3异步供数、GEMM/softmax交错、FP8布局与误差机制；§4.2 Table 2及§4.3 Table 3的条件和消融。",
+      "device_scope": "H100 80GB SXM5及Hopper专属能力；不构成昇腾或310P支持。",
+      "boundary": "指定形状内核时延、合成注意力RMSE和完整模型服务质量不同；不据此承诺TTFT/TPOT或任务损失小于1%。"
+    },
+    {
+      "id": "ansor",
+      "title": "Ansor: Generating High-Performance Tensor Programs for Deep Learning · OSDI 2020",
+      "url": "https://www.usenix.org/system/files/osdi20-zheng.pdf",
+      "kind": "primary_paper",
+      "review_scope": "核对原论文摘要、§4多级分块与§5搜索机制；本轮未复现实验，也未重评全部性能表。",
+      "device_scope": "论文包含CPU/GPU推理工作负载，不提供310P或其他昇腾目标设备证据。",
+      "boundary": "层次搜索空间、进化搜索和学习成本模型用于张量程序调度；不等于LLM自动生成算法，历史基线结果不能直接当作当前目标平台收益。"
+    },
+    {
+      "id": "streamk-primary-round2",
+      "title": "Stream-K: Work-centric Parallel Decomposition for Dense Matrix-Matrix Multiplication on the GPU · v1",
+      "url": "https://arxiv.org/html/2301.03598v1",
+      "kind": "primary_paper",
+      "review_scope": "2026-10-23核对v1日期2023-01-09；§3数据并行/Fixed-split、§4按MAC循环分解、§5混合策略、§6设备/32,824形状/表2及附录A.1的模型示例。未复现实验。",
+      "device_scope": "直接实验为NVIDIA A100、108SM、400W/1005MHz；FP16输入FP32累加/输出与FP64。不是Ascend设备支持或性能证据。",
+      "boundary": "表2Average不改写为几何平均；保留最小值退化。部分和、同步和缓存错位成本不能省略；附录模型选择不伪装实测结果。"
+    },
+    {
+      "id": "cann-add-rms-norm-expert",
+      "title": "CANN AddRmsNorm：相加与RMSNorm融合接口",
+      "url": "https://gitcode.com/cann/ops-nn/blob/master/norm/add_rms_norm/README.md",
+      "kind": "official_repository_documentation",
+      "review_scope": "核对2026-10-23官方索引中README的运算描述、输入输出和产品/dtype表。直接页面受限流，未取得完整实现代码，证据限于可检索的官方文档正文。",
+      "device_scope": "产品表列A2/A3、950PR/DT及Atlas推理系列等；Atlas推理系列有BF16限制；不据类别名称推定每款310P配套。",
+      "boundary": "存在残差输出，不宣称全部中间写回消失；没有同条件时延或模型任务精度结果。"
+    },
+    {
+      "id": "pytorch-flex-fa4-expert",
+      "title": "PyTorch：FlexAttention与FlashAttention-4后端",
+      "url": "https://pytorch.org/blog/flexattention-flashattention-4-fast-and-flexible/",
+      "kind": "official_documentation",
+      "review_scope": "核对2026-03-05官方文章中的FA4后端、CuTe DSL、score_mod/mask_mod、JIT及形状/分页约束；不拼接不同实验的性能倍数。",
+      "device_scope": "Hopper/Blackwell GPU后端；不是TorchNPU、昇腾或310P实现证据。",
+      "boundary": "文章的训练正确性、内核性能与模型服务指标分开；块大小和分页支持有限定，不能推断任意定制逻辑保持相同效率。"
+    },
+    {
+      "id": "tensorir-primary-expert",
+      "title": "TensorIR：张量程序计算块与硬件张量化约束",
+      "url": "https://arxiv.org/html/2207.04296v2",
+      "kind": "primary_paper",
+      "review_scope": "核对计算块和缓冲区描述、§4.1–4.2 TensorIntrin及表达/索引匹配，未新增未复核的实验倍数。",
+      "device_scope": "通用编译研究，论文CPU/GPU示例；不是310P后端支持证据。",
+      "boundary": "合法变换不等于实测更快；张量指令匹配必须满足具体dtype、layout、storage scope和后端实现。"
+    },
+    {
+      "id": "cann-grouped-matmul-expert",
+      "title": "CANN GroupedMatmul：格式、类型与量化参数约束",
+      "url": "https://gitcode.com/cann/ops-transformer/tree/master/gmm/grouped_matmul",
+      "kind": "official_repository_documentation",
+      "review_scope": "核对2026-10-23官方可检索README中的功能、产品类型限制、ND/NZ与可选调优参数。直接页面限流，未审完整代码或复测性能。",
+      "device_scope": "产品表分别限定950PR/DT、A2/A3等组合；未建立310P或全部950型号支持结论。",
+      "boundary": "FP8/FP4/INT4名称出现不代表全平台支持；须固定产品、CANN/算子版本、输入布局、scale和完整调用组合。"
+    },
+    {
+      "id": "marlin-primary-round2",
+      "title": "MARLIN: Mixed-Precision Auto-Regressive Parallel Inference on Large Language Models · v1",
+      "url": "https://arxiv.org/html/2408.11743v1",
+      "kind": "primary_paper",
+      "review_scope": "2026-10-23核对v1日期2024-08-21；§3.3混合精度挑战、§3.4权重/scale预排、共享存储布局、解包到FP16及Tensor Core流水。本轮只新增机制，不采纳摘要峰值及端到端倍数。",
+      "device_scope": "论文此处讨论NVIDIA Ampere类GPU与CUDA Tensor Core执行机制；INT4权重存储、FP16激活及反量化执行。不是昇腾直接证据。",
+      "boundary": "INT4存储不等于原生INT4×INT4矩阵指令；预处理、scale和解包成本需一起核算。不给未逐实验条件核对的速度、TTFT、TPOT或模型质量数字。"
+    },
+    {
+      "id": "nccl-algorithms",
+      "title": "NCCL 2.32.3：NCCL_ALGO算法选择",
+      "url": "https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-algo",
+      "kind": "official_documentation",
+      "review_scope": "核对NCCL_ALGO支持算法及默认按拓扑/架构自动选择；不是全部环境变量全文审阅。 本轮补读NCCL_ALGO的NVLS/NVLSTree卸载及按拓扑默认选择，另读PXN说明；不直接给生产环境固定开关建议。",
+      "device_scope": "仅其他设备：NVIDIA CUDA/NCCL，不构成310P或950支持证据。",
+      "boundary": "算法和collective/拓扑/版本匹配；不固定普适消息阈值，不跨后端照搬参数。"
+    },
+    {
+      "id": "sgl-deepep-ascend-api",
+      "title": "SGLang DeepEP-Ascend：通信模式、量化与FuseMode",
+      "url": "https://github.com/sgl-project/sgl-kernel-npu/blob/main/python/deep_ep/README.md",
+      "kind": "official_project_repository_documentation",
+      "review_scope": "核对Normal/Low-Latency模式、量化表、FuseMode及A2平台说明；没有运行内核或全量审查代码。 补读当前raw官方子README的架构感知low-latency量化、MXFP4边界、三种FuseMode及激活限制；主分支未锁SHA，不推广为所有版本。",
+      "device_scope": "文档按A2/A3/A5区分；本条没有310P直接支持证据，不确认用户950型号。",
+      "boundary": "A2/A3 use_fp8参数可能选择INT8；A2双机normal不支持量化。子API/主README口径须锁定版本，不混入其他同名DeepEP实现。"
+    },
+    {
+      "id": "taccl",
+      "title": "TACCL: Guiding Collective Algorithm Synthesis using Communication Sketches · NSDI 2023",
+      "url": "https://www.usenix.org/system/files/nsdi23-shah.pdf",
+      "kind": "primary_paper",
+      "review_scope": "核对摘要、§3通信草图与§7.1按collective/消息规模/拓扑对照；未运行代码，未审全部附录。",
+      "device_scope": "仅其他设备：DGX-2与Azure NDv2 GPU拓扑；不构成昇腾运行证据。",
+      "boundary": "合成算法与实测拓扑相关；历史NCCL基线、具体消息区间和训练结果不可外推任意推理平台。"
+    },
+    {
+      "id": "nccl-groups",
+      "title": "NCCL Group Calls：聚合launch与调用顺序",
+      "url": "https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/usage/groups.html",
+      "kind": "official_documentation",
+      "review_scope": "核对Aggregated Operations、GroupEnd及Group Operation Ordering Semantics。 重核Aggregated Operations：多collective单次NCCL launch、最外层GroupEnd启动及组内返回未必已入stream；不同rank保持操作顺序。",
+      "device_scope": "仅其他设备：CUDA/NCCL机制。",
+      "boundary": "调用分组与packing/fusion不同；统一发起仍需满足各rank顺序与流依赖，非推理性能保证。"
+    },
+    {
+      "id": "horovod-tensor-fusion",
+      "title": "Horovod Tensor Fusion：就绪张量的融合缓冲流程",
+      "url": "https://horovod.readthedocs.io/en/stable/tensor-fusion_include.html",
+      "kind": "official_project_documentation",
+      "review_scope": "核对同dtype/ready筛选、融合buffer、pack/allreduce/unpack与阈值/cycle参数。",
+      "device_scope": "通用训练侧消息融合机制；无昇腾目标设备直接证据。",
+      "boundary": "实际会增加内存搬运和等待；不是NCCL group API同义词，也不是推理激活可跨层聚合的证明。"
+    },
+    {
+      "id": "horovod-paper",
+      "title": "Horovod: fast and easy distributed deep learning in TensorFlow",
+      "url": "https://arxiv.org/abs/1802.05799",
+      "kind": "primary_paper",
+      "review_scope": "核对论文标题、版本与摘要的ring-reduction分布式训练定位；Tensor Fusion细节另据项目官方文档。",
+      "device_scope": "分布式训练框架机制；不是推理或310P性能证据。",
+      "boundary": "摘要审阅，不声称全文重审；训练通信证据不可改写为LLM推理收益。"
+    },
+    {
+      "id": "bytescheduler",
+      "title": "A Generic Communication Scheduler for Distributed DNN Training Acceleration · SOSP 2019",
+      "url": "https://i.cs.hku.hk/~cwu/papers/yhpeng-sosp19.pdf",
+      "kind": "primary_paper",
+      "review_scope": "核对作者原文摘要、§3.2索引片段及ByteScheduler作者代码说明；本轮未取得完整PDF正文，不标作全文审阅。",
+      "device_scope": "分布式训练梯度同步场景，不是推理负载或昇腾设备结果。",
+      "boundary": "张量分块、优先级和依赖代理可提供通信关键路径分析思路；切分调度不等于小消息融合，不能直接外推推理通算重叠或310P支持。"
+    },
+    {
+      "id": "nccl-buffer-registration",
+      "title": "NCCL User Buffer Registration：注册缓冲与直接通信",
+      "url": "https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/usage/bufferreg.html",
+      "kind": "official_documentation",
+      "review_scope": "核对开头一致性约束、NVLS注册条件、注册复用与IB SHARP限制；未执行示例。 补读General Buffer Registration、GPU Direct RDMA、Buffer Registration and PXN：网络注册与PXN互斥，legacy分配器限制与直接访问条件；未运行示例。",
+      "device_scope": "仅其他设备：CUDA/NCCL与相应互联；不是HCCL设备适配证明。",
+      "boundary": "算法、分配器、版本、rank一致性和offset约束不同；注册收益不是无条件零拷贝或模型加速。"
+    },
+    {
+      "id": "mooncake-architecture",
+      "title": "Mooncake Architecture：数据面、注册内存与拓扑选路",
+      "url": "https://kvcache-ai.github.io/Mooncake/design/architecture.html",
+      "kind": "official_project_documentation",
+      "review_scope": "核对Design principles与Transfer Engine组件：控制/数据分离、注册buffers、多NIC与路径选择；非全部transport文档全文审阅。",
+      "device_scope": "跨硬件通用机制；文档提及Ascend但本条不证明310P/950特定transport或配置。",
+      "boundary": "backend随构建、内存位置和拓扑不同；架构能力不是任意环境零拷贝和端到端收益承诺。"
+    },
+    {
+      "id": "deepseek-deepep-ascend",
+      "title": "DeepSeek DeepEP-Ascend：950DT验证栈与EPBuffer边界",
+      "url": "https://github.com/deepseek-ai/DeepEP-Ascend",
+      "kind": "official_project_repository",
+      "review_scope": "核对Requirements、Performance计时边界、API compatibility、Ongoing与buffer生命周期；未跑测试。",
+      "device_scope": "仅具体已报告栈：950DT/CANN9.2.0及手工配置PoC HDK；不能推定310P或所有950型号支持。",
+      "boundary": "PP/Engram/Bucket属实验；部分归约与负载均衡kernel未实现，hybrid通信/图捕获不支持。公开HDK计划不等于已公开且已验证发布，示例排除final epilogue。"
+    },
+    {
+      "id": "mooncake-paper-v5",
+      "title": "Mooncake: A KVCache-centric Disaggregated Architecture for LLM Serving · v5",
+      "url": "https://arxiv.org/html/2407.00079v5",
+      "kind": "primary_paper",
+      "review_scope": "核对2026-10-08 v5身份、§3架构与KV传输、§5分离/流水和实验设备描述；未重评全部性能图。",
+      "device_scope": "论文直接评估GPU集群；不提供310P、950全型号通信支持证据。",
+      "boundary": "整体系统效果含缓存复用、P/D分离和调度，不能归因RDMA或单个通信算子；本文不追认所有版本的后续实现。"
+    },
+    {
+      "id": "torch-distributed",
+      "title": "PyTorch distributed：通信后端与异步操作语义",
+      "url": "https://docs.pytorch.org/docs/2.14/distributed.html",
+      "kind": "official_documentation",
+      "review_scope": "由stable入口跳转后，核对2.14文档的Backends、第三方后端注册及Asynchronous operation/Work说明；不是全页全部API审阅。",
+      "device_scope": "通用框架通信语义；第三方后端能力由其实现决定，不是310P或TorchNPU/HCCL兼容证明。",
+      "boundary": "异步返回、入队和完成语义随后端及设备不同；必须核对实际后端的wait/stream行为。async_op=True不自动证明计算通信已经重叠或端到端更快。"
+    },
+    {
+      "id": "flux",
+      "title": "Flux: Fast Software-based Communication Overlap on GPUs through Kernel Fusion · v2",
+      "url": "https://arxiv.org/html/2406.06858v2",
+      "kind": "primary_paper",
+      "review_scope": "核对§3细粒度融合、§4.1 tile顺序、§5.2模型/基线/阶段结果与§6小m负收益边界；未复现实验。",
+      "device_scope": "仅其他设备：A100/H800 GPU与其互联；不是昇腾内核可直接移植证明。",
+      "boundary": "阶段加速不自动等于TTFT/TPOT；shape、互联、并行度和历史基线决定结果，小m可能无收益。"
+    },
+    {
+      "id": "cachegen-v6",
+      "title": "CacheGen: KV Cache Compression and Streaming for Fast Large Language Model Serving · SIGCOMM 2024 / v6",
+      "url": "https://arxiv.org/html/2310.07240v6",
+      "kind": "primary_paper",
+      "review_scope": "核对v6身份、§5.2编码机制、Table1、§7.1设备/模型与§7.2总体时延；未运行作者仓库。 重核Table1的Mistral-7B模型/LongChat数据集与622MB/176MB及1.00/0.98；论文将context处理称TTFT，但不可套作任意完整服务TTFT或稳态TPOT。",
+      "device_scope": "仅其他设备：A40 GPU与指定长上下文模型/数据；非Ascend或当前业务直接证据。",
+      "boundary": "量化有损、算术编码对量化符号无损；远端KV取回与上下文处理时间、完整请求TTFT及稳态TPOT有不同计时边界；旧v3模型和性能数字不能混用v6。"
+    },
+    {
+      "id": "powersgd",
+      "title": "PowerSGD: Practical Low-Rank Gradient Compression for Distributed Optimization · NeurIPS 2019",
+      "url": "https://papers.neurips.cc/paper/9571-powersgd-practical-low-rank-gradient-compression-for-distributed-optimization.pdf",
+      "kind": "primary_paper",
+      "review_scope": "核对§3与Algorithm 1中的低秩因子、幂迭代、warm start及误差反馈；未复现实验。",
+      "device_scope": "分布式训练梯度压缩，不提供推理激活、KV传输或310P运行证据。",
+      "boundary": "是有损梯度近似，必须计入编码、正交化、因子通信、恢复及训练收敛代价；不能写成推理通信压缩已有收益或无损结果。"
+    },
+    {
+      "id": "kernelevolve-paper-named-a",
+      "title": "KernelEvolve：异构加速器的代理式内核生成，arXiv v4",
+      "url": "https://arxiv.org/html/2512.23236v4",
+      "kind": "primary_paper",
+      "review_scope": "核对§3检索/搜索/硬件评测架构、§4 ATen跨平台正确性及搜索轨迹、§5.1卷积基线和分布外退化。arXiv元数据列v4修订为2026-07-06，但HTML正文另列技术报告日期2026-08-24；不把正文日期当首投日期。",
+      "device_scope": "原文NVIDIA/AMD GPU与Meta MTIA案例；没有建立Ascend310P、910B或950支持。",
+      "boundary": "正确性覆盖不等于全部配置加速；基础算子、专门化卷积与生产模型吞吐属于不同证据层级。未独立复现。"
+    },
+    {
+      "id": "kernelevolve-official-named-a",
+      "title": "Meta Engineering：KernelEvolve系统与生产应用说明",
+      "url": "https://engineering.fb.com/2026/04/02/developer-tools/kernelevolve-how-metas-ranking-engineer-agent-optimizes-ai-infrastructure/",
+      "kind": "official_documentation",
+      "review_scope": "核对2026-04-02官方文章的系统身份、异构硬件、知识检索、反馈搜索与工程部署定位。页面概述的强性能表述不能覆盖论文中逐实验的正确性与基线条件。",
+      "device_scope": "Meta使用的NVIDIA、AMD、MTIA与CPU生态；不是任意新加速器开箱可用证明。",
+      "boundary": "官方生产案例不能替代公开同条件复现，不能把模型吞吐比例改写为每个算子或昇腾收益。"
+    },
+    {
+      "id": "kernelblaster-paper-named-a",
+      "title": "KernelBlaster：Memory-Augmented In-Context RL，arXiv v1",
+      "url": "https://arxiv.org/html/2602.14293v1",
+      "kind": "primary_paper",
+      "review_scope": "核对§3上下文策略与replay机制、Table2–3搜索预算/有效率/速度、§4.1–4.4计量和正确性口径、成本与完整模型限制。未把摘要汇总倍数代替逐硬件结果。",
+      "device_scope": "NVIDIA A6000/A100/H100/L40S CUDA实验；此补充的数字只引用H100。",
+      "boundary": "核周期与应用层计时、成功任务速度与全任务成功率、原生CUDA与允许库调用的结果不能混用；无昇腾支持或本地实测。"
+    },
+    {
+      "id": "kernelblaster-repo-named-a",
+      "title": "NVlabs KernelBlaster：公开优化框架与验证harness",
+      "url": "https://github.com/NVlabs/KernelBlaster",
+      "kind": "official_repository",
+      "review_scope": "核对README的init.cu/driver.cpp输入、NCU反馈、持久知识库和replay流程、final_rl_cuda_perf.cu输出及eager/compile标杆脚本；未执行仓库脚本。",
+      "device_scope": "NVIDIA CUDA与Nsight Compute工具链；不是跨GPU/NPU通用安装包。",
+      "boundary": "代码公开不代表已在目标环境复现；初始化代码质量、依赖、预算与验证harness均影响结果。"
+    },
+    {
+      "id": "avo-paper-named-a",
+      "title": "AVO：Agentic Variation Operators for Autonomous Evolutionary Search",
+      "url": "https://arxiv.org/html/2603.24517v1",
+      "kind": "primary_paper",
+      "review_scope": "确认AVO全称与NVIDIA身份；核对§3代理变异及版本接受机制，§4.1–4.4 B200条件、基线版本、序列范围、搜索预算及因果/非因果结果，§5具名微架构优化。",
+      "device_scope": "NVIDIA B200注意力前向prefill；不是通用所有GPU或Ascend支持。",
+      "boundary": "7天探索成本与较强专家基线是判断价值的重要条件；最大吞吐增益不是平均时延改善，未报告完整模型TTFT/TPOT。"
+    },
+    {
+      "id": "avo-official-named-a",
+      "title": "NVIDIA官方：AVO长时自主代理的系统说明",
+      "url": "https://developer.nvidia.com/blog/nvidia-avo-reaches-100-on-arc-agi-3-demonstrating-a-frontier-level-general-purpose-architecture-for-long-horizon-autonomous-agents/",
+      "kind": "official_documentation",
+      "review_scope": "核对2026-08-21官方文章对AVO名称、长期记忆/监督器/执行反馈及此前7天GPU内核研究的解释；不将ARC-AGI-3分数纳入算子生成性能证据。",
+      "device_scope": "内核案例是DGX B200；通用代理其他任务的成绩不等于其他芯片的算子生成支持。",
+      "boundary": "不把第三方同名实现当NVIDIA开源项目；此文未提供本轮可验证的官方复现系统包，未声称安装或执行。"
+    },
+    {
+      "id": "cuda-agent-paper",
+      "title": "CUDA Agent：Agentic RL、硬件沙箱与KernelBench Table1",
+      "url": "https://cuda-agent.github.io/static/pdf/CUDA_Agent_Arxiv_Version.pdf",
+      "kind": "primary_paper",
+      "review_scope": "核对2026-02-27论文§3技能/奖励与训练、§4.1 H20沙箱/任务/指标、Table1及评测轮数；区分摘要与表内比例矛盾，未复现。",
+      "device_scope": "NVIDIA H20执行沙箱与CUDA路径；不是NPU生成或性能证据。",
+      "boundary": "正确率、更快率与正确解速度聚合分开；200轮轨迹与单次采样不同，训练成本不等于免训练Agent。未据GPU结果推断310P、910B或950收益。"
+    },
+    {
+      "id": "ascendoptimizer-v2",
+      "title": "AscendOptimizer v2：910B2上的Kernel改写与Host Tiling搜索",
+      "url": "https://arxiv.org/html/2603.23566v2",
+      "kind": "primary_paper",
+      "review_scope": "核对v2日期、§3 Rewind/检索/分块搜索、§4.1设备/基线/230预算、§4.2–4.3结果与独立消融；未复现。",
+      "device_scope": "Ascend910B2 / CANN8.3；不是310P或950支持证据。",
+      "boundary": "已有实现优化；101题分母、样本筛选与预算必须保留，v1数据不混入。性能经验的可迁移性需在新算子、shape及设备上重新证明。"
+    },
+    {
+      "id": "kernelbench-v1",
+      "title": "KernelBench: Can LLMs Write Efficient GPU Kernels? · v1",
+      "url": "https://arxiv.org/html/2502.10517v1",
+      "kind": "primary_paper",
+      "review_scope": "核对§3任务/指标、Table1执行反馈预算及L40S基线、§4.4/附录G跨GPU差异；未运行框架。",
+      "device_scope": "GPU证据：L40S主实验及列明其他GPU对照；不是Ascend NPU后端或收益证据。",
+      "boundary": "fast_p为总任务中正确且超过速度门槛的比例；预算、基线、硬件和数值配置不可省略，不能与正确样本平均倍数混用。"
+    },
+    {
+      "id": "kernelagent-hardware-report",
+      "title": "KernelAgent: Hardware-Guided GPU Kernel Optimization via Multi-Agent Orchestration · PyTorch",
+      "url": "https://pytorch.org/blog/kernelagent-hardware-guided-gpu-kernel-optimization-via-multi-agent-orchestration/",
+      "kind": "official_project_documentation",
+      "review_scope": "核对2026-03-06官方报告的硬件反馈流程、100个L1任务、H100/静态shape/Graph关闭基线与计时；未独立复现实验。",
+      "device_scope": "GPU直接报告：NVIDIA H100；不构成NPU端口或跨硬件性能证明。",
+      "boundary": "官方工程报告不是同行评审论文；65/100与1.56×对应特定torch.compile对照，2.02×另对照早期正确性循环。SOL口径不等于全kernel达到理论最优。"
+    },
+    {
+      "id": "kernelbench-verified-v1",
+      "title": "KernelBench-Verified: Do LLM-Generated Kernels Actually Beat PyTorch? · v1",
+      "url": "https://arxiv.org/html/2607.16241v1",
+      "kind": "primary_paper",
+      "review_scope": "核对§2问题排除、H200、best-of-5、隐藏分布与TF32对照，以及§3/附录C正确样本几何平均；未复现。",
+      "device_scope": "GPU直接实验：NVIDIA H200；不是NPU生成/性能证据。",
+      "boundary": "实际活跃题目247，正确率与速度分母不同；单轮5样本不等于多轮Agent搜索。对照数值模式仍需符合任务契约，不重复引用正文有问题的TF32位宽描述。"
+    },
+    {
+      "id": "ascendkernelgen",
+      "title": "AscendKernelGen：领域后训练与Host–Kernel执行验证 · v2",
+      "url": "https://arxiv.org/html/2601.07160v2",
+      "kind": "primary_paper",
+      "review_scope": "追加核对v2日期、§5–6领域数据/后训练、§7.2–7.4任务与分数/参考基线、§8.2/Table7；未复现实验；正文未定位明确SKU与完整CANN配套。",
+      "device_scope": "Ascend NPU研究；未据该正文确认具体310P、910B或950实验SKU。",
+      "boundary": "158任务、case分数、分层/加权分数与pass@k分开。参考官方优化库不是严格硬件下界；不把表内Mean直接解释为158任务通过率。"
+    },
+    {
+      "id": "ascendcraft",
+      "title": "AscendCraft：DSL引导的Ascend C分阶段生成 · v1",
+      "url": "https://arxiv.org/html/2601.22760v1",
+      "kind": "primary_paper",
+      "review_scope": "追加核对§4各pass编译反馈、§5.1环境及52任务范围、Table1/2分母与正确率表述差异；未运行实验。",
+      "device_scope": "NPU直接实验为910B2、CANN8.1、PyTorch2.6；不是310P/950证据。",
+      "boundary": "52任务不含MatMul/Convolution；按表格类别计数编译51/52、正确47/52、达到eager24/52，正文正确率分母描述不一致需保留说明。eager基线不能代替生产强库。"
+    },
+    {
+      "id": "cannbench",
+      "title": "CANN Bench：独立评估与910B2分析性能锚点 · v1",
+      "url": "https://arxiv.org/html/2607.20518v1",
+      "kind": "primary_paper",
+      "review_scope": "追加核对53算子/1060case范围、§3.1精度与可选fresh-input验证、§3.2的910B2六单元HAP以及结论；未运行评测。",
+      "device_scope": "直接分析锚点与论文结论针对910B2；不是310P/950性能上限。",
+      "boundary": "基准规模不是Agent成功率；HAP为分析锚点，非可保证的实测绝对下界。fresh-input二次验证为可选，默认榜单仍为single-trial，不能追认为默认开启。"
+    },
+    {
+      "id": "tvm",
+      "title": "Apache TVM：张量程序表示、调度与代码生成",
+      "url": "https://tvm.apache.org/docs/arch/index.html",
+      "kind": "official_documentation",
+      "review_scope": "核对官方架构页中程序表示、调度、lowering、MetaSchedule与代码生成的机制说明；不是全部TVM文档或全部后端审阅。",
+      "device_scope": "通用编译与自动调优机制；本条不提供310P后端支持证据。",
+      "boundary": "目标后端、算子覆盖和设备版本必须单独验证；自动调度不保证优于目标设备已有算子，也不等于LLM生成算法。"
+    }
+  ]
+}
