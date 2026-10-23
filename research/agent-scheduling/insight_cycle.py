@@ -4,6 +4,7 @@ from urllib.parse import urlsplit
 import re
 from decision_map import read, BASE
 from report_contract import CUTOFF
+from verification_registry import latest as source_verifications
 
 AREAS={'workflow':'依赖感知排程','mapping':'状态感知映射','sharing':'干扰感知分配'}
 
@@ -29,11 +30,13 @@ def collection_state():
 def source_overview(channels,provenance):
     runs,pending=collection_state()
     populated=covered_channels(provenance)
-    checks=read('source-checks-20261023.csv')
-    checked={r['channel_id'] for r in checks}
+    audits=source_verifications()
+    readable=sum(r['access_status']=='readable' for r in audits.values())
+    partial=sum(r['access_status']=='partial' for r in audits.values())
+    blocked=sum(r['access_status']=='blocked' for r in audits.values())
     stats=[(f'{len(channels)}','持续信源','三类总表，按发布角色管理'),
-           (f'{len(populated)}/{len(channels)}','已形成核验记录','含媒体线索追溯；事实以原文为准'),
-           (f'{len(checked)}/{len(channels)}','本轮人工核查','包括失败记录；不代表全量扫读'),
+           (f'{len(audits)}/{len(channels)}','信源核验留档',f'可读 {readable} · 部分可读 {partial} · 受阻 {blocked}'),
+           (f'{len(populated)}/{len(channels)}','已收录研究依据','与入口核查分开；含媒体线索追溯'),
            (f'{len(pending)}','机器筛选候选','标题与关键词命中，尚未成为事实')]
     cells=''.join(f'<div class="signal-stat"><strong>{value}</strong><span>{label}</span><small>{note}</small></div>' for value,label,note in stats)
     return f'''<details class="insight-loop"><summary>从信源到决策：这份目录如何使用</summary><p>优先看工作流与执行引擎，再按问题下钻模型服务和设备资源。信源代表发布角色；调度关联说明它能帮助回答什么。</p><ol><li><strong>持续来源</strong><span>稳定入口与更新渠道</span></li><li><strong>原文核验</strong><span>日期、机制、条件与边界</span></li><li><strong>研究归属</strong><span>排程、映射与资源分配</span></li><li><strong>决策复核</strong><span>改变什么，何时重新判断</span></li></ol><p class="source-health">本轮核查 {CUTOFF} · 支持按需抓取公开候选，当前未设置定时采集。采集成功不等于内容已核验；没有新条目也不代表没有进展。<a href="#source-monitor">查看覆盖与待补缺口 →</a></p></details><div class="coverage-strip">{cells}</div>'''
@@ -45,7 +48,7 @@ def source_health(channel_id,selected):
     status='已有核验资料' if selected else '待筛选具体内容'
     collection=max((r['checked_at'][:10] for r in feeds),default='未接入候选采集')
     checks_html=''.join(f'<li><a href="{e(r["url"])}" target="_blank" rel="noopener noreferrer">{e(r["check_type"])} ↗</a> · {e(r["checked"])}<p>{e(r["result"])} {e(r["boundary"])}</p></li>' for r in checks)
-    log='<ul class="source-check-log">'+checks_html+'</ul>' if checks else '<p>本轮未人工复核该来源；沿用其原有核对记录。</p>'
+    log='<details class="source-check-history"><summary>此前访问与核查记录 · '+str(len(checks))+'</summary><ul class="source-check-log">'+checks_html+'</ul></details>' if checks else ''
     return status,collection,log
 
 def monitoring(channels,provenance):
@@ -78,4 +81,5 @@ def discovery_note(key):
     return ''.join(f'<p class="publication-discovery">发现线索：<a href="{e(r["url"])}" target="_blank" rel="noopener noreferrer">{e(r["channel_id"])} 报道 ↗</a> · {e(r["published"])}；事实依据以上方原始发布为准。</p>' for r in rows)
 
 def archive_delta():
-    return '''<article class="archive-record"><span class="eyebrow">2026-10-23 · 来源到决策闭环</span><h3>补齐执行层依据，记录何时需要改判断</h3><p>补充 Temporal、Ray、元戎和工具准入的官方依据；来源目录保持三张总表。新增按需公开候选采集、去重、失败记录与决策复核条件。本轮内容补录与原始事件日期分开，不计作全量覆盖。</p><a href="#updates-verified">本轮核验 →</a> · <a href="#decision-watchlist">判断变化 →</a></article>'''
+    audit_record = '<article class="archive-record"><span class="eyebrow">2026-10-23 · 信源逐项核验</span><h3>27个来源有记录，读取结果与研究依据分开</h3><p>本轮逐项访问27个持续来源，21个可读、6个部分可读；保留替代原文、核对范围和未确认条件。每个来源新增核验发现、独立记录入口及下一步复核动作。新线索尚未扩充为已审论文，已有25项资料和60条待审候选的统计不变。</p><a href="#sources">查看信源核验目录 →</a></article>'
+    return audit_record + '''<article class="archive-record"><span class="eyebrow">2026-10-23 · 来源到决策闭环</span><h3>补齐执行层依据，记录何时需要改判断</h3><p>补充 Temporal、Ray、元戎和工具准入的官方依据；来源目录保持三张总表。新增按需公开候选采集、去重、失败记录与决策复核条件。本轮内容补录与原始事件日期分开，不计作全量覆盖。</p><a href="#updates-verified">本轮核验 →</a> · <a href="#decision-watchlist">判断变化 →</a></article>'''

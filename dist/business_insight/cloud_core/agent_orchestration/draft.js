@@ -54,7 +54,7 @@
     let section = /^#[a-zA-Z][\w-]*$/.test(hash) ? document.querySelector(hash) : null;
     while (section && section.tagName !== 'SECTION') section = section.parentElement;
     const localKey = section && section.id ? '#' + section.id : hash;
-    const key = hash.startsWith('#analysis-') ? '#analysis' : hash.startsWith('#channel-') || hash.startsWith('#sources-') ? '#sources' : hash.startsWith('#publication-') || hash.startsWith('#updates-') ? '#updates' : hash.startsWith('#point-') || hash.startsWith('#root-') || hash.startsWith('#decision-') || hash.startsWith('#research-') || hash === '#scope-index' || ['#runtime-loop','#coffee-task','#north-star','#scheduling-essence','#research-directions','#demo-coverage','#agent-demo','#scheduling-roots','#scheduling-directions','#scheduling-decisions','#scheduling-feedback','#scheduling-dimensions'].includes(hash) ? '#map' : hash;
+    const key = hash.startsWith('#analysis-') ? '#analysis' : hash.startsWith('#verification-') || hash.startsWith('#channel-') || hash.startsWith('#sources-') ? '#sources' : hash.startsWith('#publication-') || hash.startsWith('#updates-') ? '#updates' : hash.startsWith('#point-') || hash.startsWith('#root-') || hash.startsWith('#decision-') || hash.startsWith('#research-') || hash === '#scope-index' || ['#runtime-loop','#coffee-task','#north-star','#scheduling-essence','#research-directions','#demo-coverage','#agent-demo','#scheduling-roots','#scheduling-directions','#scheduling-decisions','#scheduling-feedback','#scheduling-dimensions'].includes(hash) ? '#map' : hash;
     document.querySelectorAll('.rail nav a').forEach(a => {
       const current = a.dataset.navScope === 'primary' ? (isTopic ? '#map' : key) : (isTopic ? localKey : key);
       if (a.hash === current || (!isTopic && a.hash === hash)) a.setAttribute('aria-current', 'location');
@@ -228,12 +228,12 @@
   const one=s=>root.querySelector(s), all=s=>[...root.querySelectorAll(s)];
   const cards=all('.source-table-row'),tabs=all('[data-source-tab]');
   const category=one('#channel-category'),priority=one('#channel-priority'),query=one('#channel-query'),ecosystem=one('#channel-ecosystem');
-  const area=one('#channel-area'), evidence=one('#channel-evidence');
+  const area=one('#channel-area'), evidence=one('#channel-evidence'),verification=one('#channel-verification');
   const offsets={news:0,industry:0,academic:0};
   let domain='news';
   function reset(){for(const k of Object.keys(offsets))offsets[k]=0;}
   function inDomain(){return cards.filter(c=>c.dataset.sourceDomain===domain);}
-  function matches(c){return (priority.value!=='important'||c.dataset.sourcePriority==='core')&&(!category.value||category.value===c.dataset.sourceCategory)&&(!area.value||c.dataset.sourceAreas.split(' ').includes(area.value))&&(!evidence.value||c.dataset.sourceReviewed===evidence.value)&&(domain!=='industry'||!ecosystem.value||ecosystem.value===c.dataset.sourceEcosystem)&&c.dataset.sourceSearch.toLocaleLowerCase().includes(query.value.trim().toLocaleLowerCase());}
+  function matches(c){return (priority.value!=='important'||c.dataset.sourcePriority==='core')&&(!category.value||category.value===c.dataset.sourceCategory)&&(!area.value||c.dataset.sourceAreas.split(' ').includes(area.value))&&(!evidence.value||c.dataset.sourceReviewed===evidence.value)&&(!verification.value||c.dataset.sourceAccess===verification.value)&&(domain!=='industry'||!ecosystem.value||ecosystem.value===c.dataset.sourceEcosystem)&&c.dataset.sourceSearch.toLocaleLowerCase().includes(query.value.trim().toLocaleLowerCase());}
   function categories(){
     const previous=category.value;
     category.replaceChildren();
@@ -267,7 +267,7 @@
     one('#channel-status').textContent=`${label} · ${rows.length} 个信源 · 人工整理，具体进展见本期动态`;
   }
   function choose(key){domain=key;category.value='';ecosystem.value='';query.value='';reset();categories();render();}
-  function clearResearchFilters(){area.value='';evidence.value='';}
+  function clearResearchFilters(){area.value='';evidence.value='';verification.value='';}
   one('#channel-reset').addEventListener('click',()=>{priority.value='all';clearResearchFilters();choose(domain);});
   tabs.forEach((tab,index)=>{
     tab.addEventListener('click',()=>choose(tab.dataset.sourceTab));
@@ -276,9 +276,15 @@
       event.preventDefault();choose(tabs[i].dataset.sourceTab);tabs[i].focus();
     });
   });
-  for(const control of [category,priority,query,ecosystem,area,evidence])control.addEventListener(control===query?'input':'change',()=>{reset();render();});
+  for(const control of [category,priority,query,ecosystem,area,evidence,verification])control.addEventListener(control===query?'input':'change',()=>{reset();render();});
   for(const direction of ['prev','next'])one('#channel-'+direction).addEventListener('click',()=>{offsets[domain]+=direction==='prev'?-20:20;render();one('#channel-status').scrollIntoView({block:'nearest'});});
   function deepLink(){
+    const record=all('.verification-record').find(d=>'#'+d.id===location.hash);
+    if(record){
+      const source=record.closest('.source-table-row');
+      clearResearchFilters();priority.value='all';choose(source.dataset.sourceDomain);
+      record.open=true;record.scrollIntoView({block:'start'});return;
+    }
     const hash=location.hash,target=cards.find(c=>'#'+c.id===hash);
     if(target){
       clearResearchFilters();

@@ -16,6 +16,7 @@
 - `source-groups.csv`：热点资讯、学术界、产业界各一张总表，严格3张；二级分类仅作为表内行组，来源必须匹配唯一分组。保留旧来源与分层锚点，兼容已有链接。
 - `source-domain-links.csv`：来源与依赖感知排程、状态感知映射、干扰感知分配的关联。同一来源可以关联多个研究方向，但只在其所属大类总表出现一次。
 - `source-checks-20261023.csv`：本轮人工核查的入口、结果和读取限制；失败记录也保留，不能将未读取写成没有更新。
+- `source-verifications.csv`：27个信源逐项核验的累计记录；入口读取结果、核验深度和已收录研究依据分开。页面展示具体发现、原文、边界、下一步及建议复核日；旧访问记录继续保留。维护和准入规则见[核验规范](../../docs/AGENT-VERIFICATION-STANDARD.md)。
 - `collection-feeds.csv`、`collection-runs.csv`和`signal-candidates.csv`：公开候选采集配置、运行记录与去重后的待审元数据；不直接生成已核验事实。
 - `evidence-batch-20261023.csv`：本轮新核验的6项资料及其决策增量，区分本月版本、较早机制和媒体线索追溯，不等同近一周新发布。
 - `publication-discovery-links.csv`：保留媒体发现路径；事实依据仍指向官方原始发布。

@@ -44,6 +44,17 @@ assert period_kind(pubs['yuanrong-session-affinity'])=='历史补录'
 assert len(read('evidence-batch-20261023.csv'))==6
 assert {r['publication_id'] for r in read('evidence-batch-20261023.csv')}<=set(pubs)
 sources={r['id'] for r in read('source-channels.csv')}
+from verification_registry import records, latest
+audits=records()
+assert set(latest())==sources, 'Missing source verification record'
+assert home.count('class="verification-record"')==len(sources)
+for audit in latest().values():
+    assert f'id="verification-{audit["id"]}"' in home
+    assert audit['observed_fact'] in unescape(home)
+    assert audit['limitations'] in unescape(home)
+    assert f'data-source-access="{audit["access_status"]}"' in home
+assert 'channel-verification' in home
+assert '信源核验留档' in home and '已收录研究依据' in home
 assert len(sources)==27 and len(read('source-profile.csv'))==len(sources)
 assert all(r['channel_id'] in sources for r in read('source-checks-20261023.csv'))
 assert all(r['channel_id'] in sources and r['domain_id'] in {'workflow','mapping','sharing'} for r in read('source-domain-links.csv'))
