@@ -40,3 +40,14 @@ Windows官方打包步骤失败后，按同一个已推送镜像提交打包；s
 最终部署：`appgdep_6adb59a7280081918b92d5e103f4bb31`；访问 https://cloud-core-agent-scheduling-preview.sunshinepmy.chatgpt.site/business_insight/cloud_core/agent_orchestration/?v=28#sources 。
 
 整仓构建与校验、22页模块结构与内部链接检查通过。浏览器验证三类切换、搜索及空结果、核心筛选、生态筛选、来源深链接、主入口与相关渠道、行内展开。窄桌面表格内容宽度与容器一致，手机在表内横向滚动。正式域名可见26条目录记录、三个新表头与默认9个学术信源；三大顶会均可见。整理实践的参考原文与字段契约见 `docs/AGENT-SOURCE-CATALOG.md`。仍为人工维护，未配置自动订阅。
+
+## 三级分类发布 · v29
+
+一级顺序统一为“热点资讯 → 学术界 → 业界”。二级分组分别为2、4、5组，每组独立成表；表格仍按来源身份、研究价值与跟踪方式三列阅读。26来源仅调整分组，原文资料、核对日期与关联保留。
+
+- GitHub内容提交：`ace8b1e83ced71c0aee67d226aa1878554d75a89`
+- Sites镜像提交：`2249a4c1060085014a638e30582b4bc62ccb5f69`
+- Sites版本：29；部署`appgdep_6adb5d6dba488191bd9d8d3dd40eb829`，`succeeded`
+- 入口：https://cloud-core-agent-scheduling-preview.sunshinepmy.chatgpt.site/business_insight/cloud_core/agent_orchestration/?v=29#sources
+
+整仓构建与校验、22页结构和1548条模块内部链接通过。浏览器逐一打开11组，新学术与新闻分组能切到正确类别，旧source-layer分层链接仍可用。核心筛选下点击仅有补充来源的分组会恢复全部来源，以确保目标表格可见。正式网址验证三类顺序，分别显示2/9/15条来源与2/4/5张表。发布前对照GitHub提交记录和镜像溯源，并核对37个产物文件一致。
