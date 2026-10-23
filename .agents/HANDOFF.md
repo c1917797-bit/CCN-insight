@@ -68,6 +68,10 @@ node scripts/test_expert_navigation.cjs
 为避免干扰并行编辑，本次从 local-releases/ccn-public-20261023 隔离副本基于最新 origin/main 构建和推送，保留远端 Agent 提交。共享工作区的旧 HEAD 与未提交改动未重置；后续先比较远端和现有工作，勿以旧 HEAD 覆盖 main。
 
 
+## CCN 公开发布 · v14
+
+用户已授权本次发布。GitHub 内容提交 `0b5c0d8d478bdebedc483267ddc216762f1c191f`；Sites 源码 `e7b46894c0e5bb568e4fd61d416e096eef24c2f5`；v14 部署 `appgdep_6adba809a1c48191b25bcb8040e126b9` 已成功。公开网址保持不变，原 TableGit 站点未修改。发布回执在 `deployment/ccn-publication.json`，线上验收在 `docs/ccn-v14-online-qa-20261023.json`。统一文本换行后内容版本为 `compression-0c13ebb37577a4899c82`。原主工作目录的未提交内容被保留，发布通过独立 worktree 完成，不要直接重置原工作目录。
+
 ## CCN v14 核验完成（2026-10-23）
 本轮已将新增报告布局和审阅记录合并入 GitHub main，整合提交 e6058b4。官方 Sites 状态确认并行发布的 v14 succeeded，版本源码 e7b46894c0e5bb568e4fd61d416e096eef24c2f5，故未重复部署。线上三张研究选择和三条原始文献标题均实测 display:block、宽度等于标题容器，记录 docs/ccn-v14-online-qa-20261023.json。回执区分独立验证的 GitHub 整合提交和实际 Sites 版本来源，不声称生成缓存标签逐字节相同。
 CCN-insight-site 保存未推送的镜像提交 4727fe9，远端已由并行流程推进到 e7b4689。保留本地提交，不强推或重置；后续请用官方 source helper 在干净目录打开当前源码，或按合并规则处理分歧。共享主工作区仍保留旧HEAD和并行未提交改动。原站未改动。
