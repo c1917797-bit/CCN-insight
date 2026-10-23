@@ -1,0 +1,5 @@
+policy,label,gpus,energy_mwh,cost_kusd,comparison_role
+lg,LangGraph（手工调优）,2568,82.1,211.7,固定配置对照
+lg-auto,LangGraph＋同款扩缩容,2472,80.6,112.3,扩缩容对照
+opt,Murakkab 单独优化,1164,27.7,57.2,各工作流与SLO组合分别优化
+opt-mult,Murakkab 联合优化与共享,912,22.1,47.2,跨工作流联合优化与实例复用

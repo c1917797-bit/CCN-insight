@@ -26,3 +26,7 @@
 ## 发布
 
 见仓库 `docs/AGENT-REPORT-PUBLISHING.md`。不得重新从旧工作区 `.tmp` 生成发布文件；本目录已经成为维护源。
+
+## 专家阅读改造
+
+技术地图的整理依据、机制图、原文深读与实际验收记录见 [2026-10-23 专家阅读审视](../../docs/AGENT-MAP-EXPERT-REVIEW.md)。新增内容从 `expert_map.py`、`research_mechanisms.py` 和 `deep_readings.py` 维护；原图出处与实验数值分别保存在小型 CSV 中。

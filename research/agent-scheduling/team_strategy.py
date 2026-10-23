@@ -21,7 +21,7 @@ def methods(area):
     from research_depth import algorithm_contract
     r=next(r for r in capabilities() if r['area_id']==area)
     fields=[('算法输入','inputs'),('决策输出','outputs'),('规则与启发式','heuristic'),('优化求解','optimization'),('学习辅助','learning'),('必须计入的代价','cost')]
-    return algorithm_contract(area)+worked_example(area)+'<details class="scope-index"><summary>展开算法选型：基线、优化求解与学习增强</summary><article class="team-methods"><h3>同一问题，多种求解路线</h3><dl>'+''.join(f'<dt>{label}</dt><dd>{e(r[k])}</dd>' for label,k in fields)+'</dl><p class="note">先用可解释基线验证瓶颈与收益，再比较优化求解和学习增强；选择取决于状态是否可观测、动作是否可执行，以及在线开销能否回收。Agent 扩展为本报告研究设计。</p></article></details>'
+    return '<details class="scope-index"><summary>展开算法选型：基线、优化求解与学习增强</summary><article class="team-methods"><h3>同一问题，多种求解路线</h3><dl>'+''.join(f'<dt>{label}</dt><dd>{e(r[k])}</dd>' for label,k in fields)+'</dl><p class="note">先用可解释基线验证瓶颈与收益，再比较优化求解和学习增强；选择取决于状态是否可观测、动作是否可执行，以及在线开销能否回收。Agent 扩展为本报告研究设计。</p></article></details>'
 
 
 def contract(area):

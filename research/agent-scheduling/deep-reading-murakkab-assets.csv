@@ -1,0 +1,4 @@
+asset,source_url,pdf_sha256,pdf_page,printed_page,label,crop_px_300dpi,width,height,sha256,checked
+assets/evidence/murakkab/figure-06.png,https://www.usenix.org/system/files/osdi26-chaudhry.pdf,9c9aa888b675c7849467d5b594e640996fee57f32b79fc9cf443fb549587c0e0,9,574,Figure 6,215 280 1040 500,1040,500,e36d18689973260408dbcfe6d0521ee66f24f9f7462953656f63e924b8623ff6,2026-10-23
+assets/evidence/murakkab/table-02.png,https://www.usenix.org/system/files/osdi26-chaudhry.pdf,9c9aa888b675c7849467d5b594e640996fee57f32b79fc9cf443fb549587c0e0,11,576,Table 2,1380 285 900 245,900,245,03fd681bb757ea9f9525c0e51e2639645afcf7c508b8f7dc75569da8ebece07d,2026-10-23
+assets/evidence/murakkab/figure-12.png,https://www.usenix.org/system/files/osdi26-chaudhry.pdf,9c9aa888b675c7849467d5b594e640996fee57f32b79fc9cf443fb549587c0e0,14,579,Figure 12,215 285 2120 880,2120,880,3aee576cfa58265b34d08179937e997dcd9424bcc9b2840b650fb82a7ef7611c,2026-10-23

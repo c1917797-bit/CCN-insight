@@ -89,3 +89,9 @@ Agent接入调度,guidance,研究建议,先验证简单分流，再引入代价�
 调度输入与验收边界,ownership,职责边界,规划、调度、运行时与业务验收
 调度输入与验收边界,acceptance,完成判定,订单回执与实物送达的不同终点
 调度输入与验收边界,implications,研究约束,固定质量、期限与预算后比较收益
+Murakkab：画像驱动的工作流与资源联合优化,reading-problem,研究问题,为什么只调模型或机器还不够
+Murakkab：画像驱动的工作流与资源联合优化,reading-mechanism,联合机制,把画像转成可执行的部署计划
+Murakkab：画像驱动的工作流与资源联合优化,reading-example,调度示例,30秒预算下如何在6、5、4张卡间取舍
+Murakkab：画像驱动的工作流与资源联合优化,reading-results,实验依据,联合优化的收益与比较条件
+Murakkab：画像驱动的工作流与资源联合优化,reading-judgment,研究取舍,先验证联合空间，再引入优化器
+Murakkab：画像驱动的工作流与资源联合优化,reading-sources,原文定位,逐项回看原始图表与核验范围

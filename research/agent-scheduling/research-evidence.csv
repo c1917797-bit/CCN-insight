@@ -5,6 +5,6 @@ quincy,Quincy · SOSP 2009,https://www.microsoft.com/en-us/research/wp-content/u
 kube,Kubernetes · Scheduling Framework,https://kubernetes.io/docs/concepts/scheduling-eviction/scheduling-framework/,框架将候选节点过滤与评分等阶段分开，提供扩展调度策略的机制。,这是工程框架，不是一种自动适用于所有工作负载的最优算法。
 drf,DRF · NSDI 2011,https://www2.eecs.berkeley.edu/Pubs/TechRpts/2011/EECS-2011-18.html,以用户占用的主导资源份额为依据，研究多资源环境中的公平分配。,公平性质取决于论文的资源与需求模型；异构服务器和不可分资源需要进一步处理。
 vtc,VTC · OSDI 2024,https://www.usenix.org/conference/osdi24/presentation/sheng,研究LLM服务中的公平性，用反映输入和输出token成本的服务计量设计调度器。,服务成本模型与请求处理机制决定结论范围；不能等同业务任务完成公平。
-murakkab,Murakkab · OSDI 2026,https://www.usenix.org/conference/osdi26/presentation/chaudhry,会议摘要描述声明式工作流、画像驱动优化和自适应运行时，联合管理模型与硬件配置。,摘要级核对；为跨层配置研究提供参照，不直接证明本页共卡干扰模型或昇腾方案。
+murakkab,Murakkab · OSDI 2026,https://www.usenix.org/conference/osdi26/presentation/chaudhry,正式论文§3.2–3.4、Figure 6描述声明式工作流、两层画像、MILP与自适应执行；§4.3 Table 2及§4.6 Figure 12提供条件化资源结果与工具放置例证。,2026-10-23已对官方PDF定点深读并核原图；LangGraph对照部分时延SLO违约。尚未复现实验，不直接证明共卡干扰模型或昇腾收益。
 llmd,llm-d · 缓存亲和与饱和退出,https://llm-d.ai/blog/sticky-until-saturated-token-aware-routing,官方工程文章区分 prefill 与 decode 瓶颈，结合缓存亲和与匹配的负载信号，并在饱和后退出亲和。,硬件配置和校准阈值不能直接迁移到昇腾；每组实验只运行一次，原文未提供重复运行置信区间。
 alpaserve,AlpaServe · OSDI 2023,https://www.usenix.org/conference/osdi23/presentation/li-zhouhan,研究多模型放置及模型并行的统计复用，分析并行开销与突发请求承载能力之间的取舍。,本轮核对官方摘要；为共享配置提供方法参照，不证明本地共卡干扰预测与份额控制已实现。

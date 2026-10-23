@@ -25,7 +25,7 @@ def shell(title, body):
     else:
         body,page_nav=structure(title,body)
         body = body.replace('</header>', '</header>'+context(title), 1)+related(title)
-    map_nav = '<p class="rail-note">技术地图</p><nav aria-label="技术地图阅读">'+''.join(f'<a href="{BASE}#{key}">{label}</a>' for key,label in [('architecture-boundaries','架构全景'),('research-directions','核心技术'),('scheduling-essence','调度本质'),('north-star','目标指标'),('runtime-loop','共用底座'),('coffee-task','全景演示')])+'</nav>'
+    map_nav = '<p class="rail-note">技术地图</p><nav aria-label="技术地图阅读">'+''.join(f'<a href="{BASE}#{key}">{label}</a>' for key,label in [('research-directions','研究方向'),('research-comparison','比较口径'),('research-reading','重点深读'),('architecture-boundaries','系统边界'),('north-star','评价指标'),('coffee-task','咖啡全景')])+'</nav>'
     if page_nav: map_nav=page_nav
     body=body.replace('class="table-scroll"', 'class="table-scroll" tabindex="0" role="region" aria-label="横向滚动表格"')
     page_kind='index' if title=='Agent端到端调度' else 'topic'
@@ -33,20 +33,8 @@ def shell(title, body):
     return f'''<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="{description}"><meta name="theme-color" content="#0c2538"><title>{escape(title)} · 云核研究预览</title><link rel="stylesheet" href="{BASE}draft.{css_version}.css"><script defer src="{BASE}draft.{js_version}.js"></script></head><body data-page-kind="{page_kind}"><a class="skip-link" href="#main-content">跳到正文</a><div class="reading-progress" aria-hidden="true"><span></span></div><aside class="rail"><a class="brand" href="{BASE}"><span class="brand-symbol" aria-hidden="true">◈</span> 云核 / 调度研究</a><p class="rail-note">AGENT SCHEDULING<br>任务 · 服务 · 资源</p><nav aria-label="阅读路径"><a data-nav-scope="primary" href="{BASE}#sources">01 信息来源</a><a data-nav-scope="primary" href="{BASE}#map">02 技术地图</a><a data-nav-scope="primary" href="{BASE}#updates">03 本期动态</a><a data-nav-scope="primary" href="{BASE}#analysis">04 分析结论</a><a data-nav-scope="primary" href="{BASE}#archive">05 洞察归档</a></nav>{map_nav}<div class="private-note"><strong>独立只读预览</strong><p>持链接者可访问，未加入首页导航。文献事实、研究判断与教学演示分别标注。</p></div></aside><main id="main-content" tabindex="-1">{body}</main><footer>架构编排 · 2026-10-23 · 动态证据截至 2026-10-23 · 人工整理与发布 · 尚无云核实测结论</footer></body></html>'''
 
 def home():
-    research = render_research_map()
-    map_html = research + '<details id="demo-section" class="demo-disclosure"><summary>咖啡演示 · 看调度决策如何作用于实际流程</summary>'+render_map()+'</details>'
-    body = f'''<header class="hero"><p class="eyebrow">业务洞察 / 云核 / Agent端到端调度</p><span class="badge">私有草稿 · 调度技术研究</span><h1>构筑可积累的根技术，<br>提升 Agent 调度竞争力。</h1><p class="lead">面向云核团队的长期研究：以昇腾为重点落地平台，构筑依赖感知排程、状态感知映射与干扰感知分配。以真实任务证据推动路线取舍。</p>
-<div class="objective-primary"><span>主指标 · 越高越好</span><strong>端到端任务有效吞吐</strong><p>观察窗口内质量、时限、成本同时达标的完成任务数 ÷ 窗口秒数</p><small>一个原始任务只计一次；超时、超预算、执行失败及容量拒绝均不能算达标。</small></div>
-<div class="objective-metrics" aria-label="调度配套指标"><article><span>体验 · 秒</span><h2>P95 完成时延</h2><p>成功任务端到端耗时的第95百分位；超时率、失败率另报。</p></article><article><span>质量 · 百分比</span><h2>达标完成率</h2><p>同批次达标任务占比，计入容量拒绝、失败与超时。</p></article><article><span>效率 · 成本/任务</span><h2>单位达标成本</h2><p>同批次全部尝试成本 ÷ 达标任务数，包含失败与重试。</p></article></div>
-<p class="objective-note">指标定义已明确，尚未接入实测；目标值需按业务SLO设定。<a href="#north-star">查看验收条件与统计口径 →</a></p><div class="hero-actions"><a class="button" href="#scheduling-decisions">查看调度技术地图</a><a class="button secondary" href="#updates">阅读近期论文与实现</a><a class="button secondary" href="#agent-demo">播放调度演示</a></div></header>
-<details class="status-card draft-disclosure" id="draft-status"><summary>草稿状态与验证范围</summary><p>主地图突出三个研究方向，每个方向有独立专题、技术路线和原始依据。原决策矩阵及执行层专题保留为辅助索引；三个方向是研究组织框架，不宣称为行业标准。咖啡动画是教学演示，尚未完成真实并发和故障实验。</p><div class="status-grid"><span>业务归属 <strong>云核</strong></span><span>研究范围 <strong>任务全流程调度</strong></span><span>访问方式 <strong>本机私有预览</strong></span></div></details>
-{source_directory()}
-<section id="map"><p class="eyebrow">02 / 技术地图</p>{map_html}</section>
-{updates()}
-{analysis()}
-{archive()}'''
     from report_redesign import report_header
-    body=report_header()+body[body.index('</header>')+len('</header>'):]
+    body = report_header()+source_directory()+f'<section id="map"><p class="eyebrow">02 / 技术地图</p>{render_research_map()}</section>'+updates()+analysis()+archive()
     return shell('Agent端到端调度', body)
 
 if __name__ == '__main__':
@@ -78,4 +66,11 @@ if __name__ == '__main__':
         (folder/('research-'+area['id']+'.html')).write_text(research_page(shell,area),encoding='utf-8')
     from coffee_heft import render
     (folder/'heft-coffee.html').write_text(render(shell),encoding='utf-8')
-    print('Built 3 main research topics, retained all decision/object references and coffee case; 22 pages, private only.')
+    from deep_readings import pages, ASSET_FILES
+    for name in ASSET_FILES:
+        dest=folder/name
+        dest.parent.mkdir(parents=True,exist_ok=True)
+        dest.write_bytes((HERE/name).read_bytes())
+    for name, content in pages(shell).items():
+        (folder/name).write_text(content,encoding='utf-8')
+    print('Built 3 main research topics, retained all decision/object references and coffee case; 23 pages, selected primary-source reading included.')

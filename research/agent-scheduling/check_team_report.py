@@ -7,7 +7,7 @@ from literature_view import model,period_kind,CUTOFF
 from team_strategy import capabilities
 P=Path(__file__).parent
 pages=list((P/'site'/BASE.lstrip('/')).glob('*.html'))
-assert len(pages)==22
+assert len(pages)==23
 home=next(p for p in pages if p.name=='index.html').read_text(encoding='utf-8')
 positions=[home.index(f'<section id="{k}"') for k in ('sources','map','updates','analysis','archive')]
 assert positions==sorted(positions)
@@ -37,4 +37,4 @@ for path in pages:
         pos=[text.index(f'<section id="{r["section_id"]}"') for r in rows]
         assert pos==sorted(pos)
     assert '架构编排 · 2026-10-23' in text and '动态证据截至 2026-10-23' in text
-print('PASS: 22 page structures; 3 complete research contracts; 19 evidence records; 35 links; 4 verified weekly selections; period and metric boundaries.')
+print('PASS: 23 page structures; 3 complete research contracts; 19 evidence records; 35 links; 4 verified weekly selections; period and metric boundaries.')

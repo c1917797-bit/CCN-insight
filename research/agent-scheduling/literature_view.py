@@ -74,6 +74,7 @@ def associations(key):
 
 
 def entry(p):
+    deep_link = f'<p><a class="source-link" href="{BASE}reading-murakkab.html">原文深读：机制、原图与比较条件 →</a></p>' if p['id']=='murakkab' else ''
     area_ids=' '.join(dict.fromkeys(l['area_id'] for l in model()[1] if l['publication_id']==p['id']))
     brief=''.join(f'<dt>{label}</dt><dd>{e(p[field])}</dd>' for field,label in (
         ('mechanism','关键机制'),('result','原文结果与条件')))
@@ -84,7 +85,7 @@ def entry(p):
 <p class="literature-original">{external(p['url'],p['title'])}</p>
 <p class="publication-origin">{origin(p['id'])}</p>
 {associations(p['id'])}<p class="literature-summary"><strong>一句话总结：</strong>{e(p['summary'])}</p>
-<dl class="literature-brief">{brief}</dl>
+<dl class="literature-brief">{brief}</dl>{deep_link}
 <aside class="evidence-use"><strong>研究启示 · 本报告判断</strong><p>{e(p['insight'])}</p><strong>下一项可检验的问题</strong><p>{e(p['experiment'])}</p></aside>
 <details class="literature-details"><summary>背景、架构接入与核验记录</summary><h5>原始证据与适用范围</h5><dl>{facts}</dl>{evidence_lens(p["id"])}{relevance(p['id'])}
 <p class="literature-check">核对：{e(p['checked'])} · {e(p['checked_sections'])} · {external(p['full_url'],'查看原文依据')}</p>
