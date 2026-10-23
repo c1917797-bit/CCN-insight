@@ -10,3 +10,7 @@ node_modules/
 local-releases/
 .maintenance/
 data/compression/.edit.lock
+
+# Agent report: generated output is built from research/agent-scheduling
+research/agent-scheduling/site/
+research/agent-scheduling/outputs/

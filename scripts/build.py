@@ -50,3 +50,6 @@ if (ROOT / 'data/compression/manifest.json').exists():
     subprocess.run([sys.executable, '-X', 'utf8', str(ROOT / 'compression_migration_preview.py')], cwd=ROOT, check=True)
 if (ROOT / 'original-reader/SOURCE-MANIFEST.json').exists():
     subprocess.run([sys.executable, '-X', 'utf8', str(ROOT / 'scripts/build_original_reader.py')], cwd=ROOT, check=True)
+
+# Agent report shares this repository; existing public navigation stays unchanged.
+subprocess.run([sys.executable, '-X', 'utf8', str(ROOT / 'scripts/build_agent_report.py')], cwd=ROOT, check=True)

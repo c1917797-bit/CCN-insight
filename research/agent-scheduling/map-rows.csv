@@ -1,0 +1,6 @@
+id,title,meaning,topics
+user-task,用户任务,一次端到端任务的接入层,access
+subtask,工作流子任务,任务图中的一次待执行操作,workflow
+inference,模型请求,一次模型调用及其实例内推进,model-route|batch
+tool-call,工具请求,一次外部工具或API调用,tools
+deployment,部署作业,部署或扩容一个服务副本,placement

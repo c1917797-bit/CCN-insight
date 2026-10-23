@@ -1,0 +1,15 @@
+area_id,point_id,role
+workflow,workflow,主要关联
+workflow,feedback,运行支撑
+mapping,access,主要关联
+mapping,workflow,联合决策
+mapping,model-route,主要关联
+mapping,tools,执行器选择
+mapping,placement,主要关联
+mapping,feedback,运行支撑
+sharing,access,租户预算
+sharing,workflow,并行预算
+sharing,batch,主要关联
+sharing,tools,主要关联
+sharing,placement,资源需求
+sharing,feedback,运行支撑

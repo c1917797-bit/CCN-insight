@@ -1,0 +1,17 @@
+decision_id,algorithm_id,relation
+admission,L01,令牌桶作为速率与突发限流的配套机制
+ordering,A04,FIFO决定等待任务的服务顺序
+ordering,A05,优先级决定就绪任务的先后
+ordering,A06,关键路径信息用于节点排序
+ordering,A13,多级反馈队列根据行为调整队列优先级
+dispatch,A01,加权轮询决定请求归属
+dispatch,A02,按在途请求数选择实例
+dispatch,A03,按哈希映射保持请求归属稳定
+dispatch,A07,按预计等待时间选择实例
+dispatch,A08,将缓存亲和纳入实例选择
+dispatch,A09,装箱策略选择资源放置位置
+dispatch,A10,分散策略选择资源放置位置
+dispatch,A11,拓扑约束或评分影响放置位置
+dispatch,A12,成组要求约束一组任务的联合放置
+allocation,A12,成组任务需要协调资源预留；它本身不规定公平分配算法
+ordering,A12,成组资源就绪约束一组任务的联合启动；不等于接纳新任务

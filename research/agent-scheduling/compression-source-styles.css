@@ -1,0 +1,66 @@
+/* Scoped port of Works c775ebec source-directory layout. */
+.compression-sources{--surface:#fff;--soft:#344054;--muted:#667085;--line:#dce2e9;--line-2:#e8edf2;--radius-sm:8px;--accent:#ac1b22;--accent-soft:#fff2f3}
+.compression-sources [hidden]{display:none!important}
+.compression-sources .wb-domain-tabs{display:flex;gap:6px;margin:16px 0;flex-wrap:wrap}
+.compression-sources button{font:inherit;cursor:pointer}
+.compression-sources .wb-domain-tabs button{border:1px solid var(--line);padding:8px 18px;border-radius:var(--radius-sm);background:var(--surface);color:var(--soft);min-height:44px}
+.compression-sources .wb-domain-tabs button[aria-selected=true]{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);font-weight:650}
+.compression-sources .wb-filters{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:20px;padding:14px 18px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm)}
+.compression-sources .wb-filters>div{display:flex;flex-direction:column;gap:4px;min-width:140px;max-width:100%;flex:1}
+.compression-sources .wb-filters label{font-size:12px;color:var(--muted)}
+.compression-sources .wb-filters select,.compression-sources .wb-filters input{width:100%;min-width:0;max-width:100%;font:inherit;font-size:14px;padding:8px 10px;min-height:40px;border:1px solid var(--line);border-radius:6px;background:white;color:var(--soft)}
+.compression-sources .wb-reading-list{display:flex;flex-direction:column;gap:14px}
+.compression-sources .source-subcategory{padding-top:12px}
+.compression-sources .source-subcategory>h3,.compression-sources .source-subcategory>h4{font-size:1rem;color:#667085;margin:0 0 14px}
+.compression-sources .channel-card{max-width:100%;min-width:0;padding:18px 22px;box-shadow:none;border:1px solid var(--line);border-radius:16px;margin:0 0 14px;background:var(--surface)}
+.compression-sources .source-family-title{font-size:1.2rem;margin:.2rem 0 .7rem;line-height:1.45}
+.compression-sources .source-family-title a{color:#17283e;text-decoration:underline;text-decoration-color:#c8ced9;text-underline-offset:.2em}
+.compression-sources .source-family-title a:hover{color:var(--accent);text-decoration-color:currentColor}
+.compression-sources .wb-reading-list p{margin:8px 0;overflow-wrap:anywhere}
+.compression-sources .reader-note{font-size:15px;line-height:1.8;color:var(--soft)}
+.compression-sources .source-family-status{display:inline-block;color:var(--muted);font-size:.78rem;margin:.4rem 0 0}
+.compression-sources .source-family-health{display:inline-block;margin:.4rem 0 0 .8rem;border:0;background:transparent;padding:0}
+.compression-sources .source-family-health summary{font-size:.75rem;color:var(--muted);min-height:0;padding:4px 0}
+.compression-sources .source-family-health[open]{display:block;margin-left:0}
+.compression-sources .source-family-health p{font-size:13px;color:var(--muted)}
+.compression-sources .source-family-entries,.compression-sources .channel-items{margin-top:12px;border-top:1px solid var(--line-2);padding-top:10px}
+.compression-sources .source-family-entries summary,.compression-sources .channel-items summary{font-size:14px;color:var(--soft)}
+.compression-sources .source-family-links{display:flex;flex-wrap:wrap;gap:.5rem 1rem;font-size:.9rem}
+.compression-sources .source-family-links a{color:var(--muted);overflow-wrap:anywhere}
+.compression-sources .source-family-links a:hover{color:var(--accent)}
+.compression-sources .meta{font-size:13px;color:var(--muted)}
+.compression-sources .source-pagination,.compression-sources .source-ecosystem-jumps{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:16px 0}
+.compression-sources .source-pagination button,.compression-sources .source-ecosystem-jumps a{border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--accent);padding:8px 14px;font-size:14px;min-height:40px}
+.compression-sources button:disabled{opacity:.45;cursor:default}
+.compression-sources .source-pagination span{font-size:13px;color:var(--muted)}
+.compression-sources .source-policy{margin:14px 0;font-size:14px}
+.compression-sources .source-policy summary{font-size:14px;font-weight:400;color:var(--muted);min-height:0;padding:6px 0}
+.compression-sources .source-ecosystem{padding-top:16px;scroll-margin-top:20px}
+.compression-sources .source-ecosystem>h3{font-size:20px}
+.compression-sources .source-ecosystem>h3 span{font-size:14px;font-weight:400;color:var(--muted)}
+@media(max-width:680px){.compression-sources .wb-filters{gap:10px;padding:12px}.compression-sources .wb-filters>div{flex-basis:calc(50% - 10px);min-width:0}.compression-sources .wb-filters>div:last-child{flex-basis:100%}.compression-sources .channel-card{padding:18px}.compression-sources .source-family-health{display:block;margin-left:0}}
+/* Structured source reading: retain the compression directory's tab/list format. */
+.compression-sources .source-role-map{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0}
+.compression-sources .source-role-map a{display:grid;gap:6px;padding:18px 20px;background:#fff;border:1px solid #dce3ed;border-radius:14px;text-decoration:none;color:#17304b}
+.compression-sources .source-role-map span{font-size:13px;color:#66758a}
+.compression-sources .source-role-map strong{font-size:20px}
+.compression-sources .source-panel-intro{padding:20px 0 8px;color:#17304b}
+.compression-sources .source-panel-intro p{margin:8px 0;font-size:15px}
+.compression-sources .source-layer-map{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0 18px}
+.compression-sources .source-layer-map a{display:grid;gap:9px;padding:16px;background:#eef3f9;border:1px solid #dce4ef;border-radius:12px;color:#17304b;text-decoration:none}
+.compression-sources .source-layer-map span{font-size:13px;color:#596a80;line-height:1.65}
+.compression-sources .source-card-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.compression-sources .source-card-heading h4{margin:0}
+.compression-sources .source-tag{font-size:12px;border-radius:20px;background:#eef3f9;color:#45617d;padding:5px 10px;white-space:nowrap}
+.compression-sources .source-reader-facts{display:grid;gap:10px;margin:18px 0}
+.compression-sources .source-reader-facts>div{display:grid;grid-template-columns:94px minmax(0,1fr);gap:12px}
+.compression-sources .source-reader-facts dt{font-weight:600;color:#42566f;font-size:14px}
+.compression-sources .source-reader-facts dd{margin:0;font-size:15px;line-height:1.7;color:#263e58}
+.compression-sources .source-boundary{font-size:13px;line-height:1.7;color:#64748b;border-left:3px solid #d5dfeb;padding:6px 12px;background:#f8fafc}
+.compression-sources .source-research-links{display:flex;gap:9px;flex-wrap:wrap;align-items:center;font-size:13px;margin:15px 0}
+.compression-sources .source-research-links span{color:#64748b}
+.compression-sources .source-research-links a{padding:5px 10px;border:1px solid #e0e6ed;border-radius:7px;text-decoration:none;color:#9f1d23}
+.compression-sources .wb-filters{grid-template-columns:repeat(4,minmax(0,1fr))}
+.compression-sources [hidden]{display:none!important}
+@media(max-width:1000px){.compression-sources .source-layer-map,.compression-sources .wb-filters{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.compression-sources .source-role-map,.compression-sources .source-layer-map,.compression-sources .wb-filters{grid-template-columns:1fr}.compression-sources .source-reader-facts>div{grid-template-columns:1fr;gap:2px}}

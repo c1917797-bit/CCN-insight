@@ -1,0 +1,4 @@
+area_id,route_id,title,judgment,condition,next_step,boundary,verification_subject,publication_ids
+workflow,list,先让调度器看见整项任务的进度,优先建立任务身份、依赖与累计服务量的关联，再比较程序级排序；单次请求提速不足以替代整任务优化。,能够追踪一个任务跨模型和工具的执行过程，并保留最终完成状态。,用相同轨迹对比逐请求与整任务排序，观察达标完成率及长任务退化；用AgentReplay思路控制负载差异。,并行越多不一定越好；动态分支与工具等待须单独纳入预算和比较条件。,优先研究Agentix的程序级排程,agentix|dynamic-concurrency|agentreplay
+mapping,cost,优先比较缓存亲和与过载退出的组合,将缓存复用和排队代价共同纳入路由；在固定副本池上得到可信结果后，再扩大到P/D及联合优化。,模型质量要求固定，队列、缓存命中与请求代价可观测，并核对昇腾版本支持。,先按llm-d方法标定冷暖请求代价；再决定是否研究Dyserve的联合计划并单列质量损失。,P/D分离必须计入KV传输和额外资源成本；允许改变模型的方案不能与固定质量方案直接等价比较。,先用llm-d工程路线作对照，再评估Dyserve论文,llmd-routing|vllm-agentx|ascend-pd|dyserve
+sharing,service,把公平计量从请求数量推进到实际服务成本,先明确资源单位与长任务保护，再比较配额和成本感知的分配；暂停程序不等于释放全部资源。,可以计量模型服务成本和缓存占用，并观测工具等待期间的工作集。,先在vLLM Ascend短请求策略上建立短任务收益与长任务等待的基线，再对比Justitia成本计量。,Justitia与ThunderAgent的结果受各自模型和负载限制；Dynamo程序暂停属于实验实现。,优先研究Justitia的公平计量,justitia|thunderagent|ascend-short|dynamo-thunder

@@ -1,0 +1,18 @@
+channel_id,label,url,checked
+arxiv,分布式系统 cs.DC,https://arxiv.org/list/cs.DC/recent,2026-10-13
+arxiv,操作系统 cs.OS,https://arxiv.org/list/cs.OS/recent,2026-10-13
+arxiv,多智能体 cs.MA,https://arxiv.org/list/cs.MA/recent,2026-10-13
+ascend,版本发布,https://github.com/vllm-project/vllm-ascend/releases,2026-10-13
+ascend,官方文档,https://docs.vllm.ai/projects/ascend/en/latest/,2026-10-13
+usenix,会议论文库,https://www.usenix.org/publications/proceedings,2026-10-13
+usenix,会议日程,https://www.usenix.org/conferences,2026-10-13
+neurips,会议官网,https://neurips.cc/,2026-10-13
+neurips,历届论文集,https://proceedings.neurips.cc/,2026-10-13
+arxiv,性能研究 cs.PF,https://arxiv.org/list/cs.PF/recent,2026-10-13
+vllm,版本发布,https://github.com/vllm-project/vllm/releases,2026-10-13
+temporal,执行与恢复文档,https://docs.temporal.io/,2026-10-13
+kueue,准入与配额文档,https://kueue.sigs.k8s.io/,2026-10-13
+volcano,项目与调度文档,https://volcano.sh/,2026-10-13
+yuanrong,Agent会话与亲和性调度,https://docs.openyuanrong.org/zh-cn/latest/multi_language_function_programming_interface/advanced_tutorials/ai_agent_session.html,2026-10-14
+yuanrong,成组实例与放置策略,https://docs.openyuanrong.org/zh-cn/latest/multi_language_function_programming_interface/api/distributed_programming/Cpp/struct-Group.html,2026-10-14
+ucm,正式与预发布版本,https://github.com/ModelEngine-Group/unified-cache-management/releases,2026-10-23

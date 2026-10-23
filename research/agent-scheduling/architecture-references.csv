@@ -1,0 +1,5 @@
+id,title,url,fact,limit,checked
+agentix,Agentix · NSDI 2026,https://www.usenix.org/conference/nsdi26/presentation/luo,将程序上下文引入LLM调用调度以优化端到端程序时延,会议页支持研究问题与机制概述；此处不新增实验外推,2026-10-23
+langgraph,LangGraph · Persistence,https://docs.langchain.com/oss/python/langgraph/persistence,检查点保存线程图状态；长期存储与线程级状态分别管理,状态持久化本身不保证外部工具调用恰好执行一次,2026-10-23
+kubernetes,Kubernetes · Scheduling Framework,https://kubernetes.io/docs/concepts/scheduling-eviction/scheduling-framework/,Filter筛选可行节点；Score排序；Reserve与Unreserve维护预留状态,这是Pod调度框架；不是Agent工作流调度器,2026-10-23
+triton,Triton · Rate Limiter,https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/rate_limiter.html,跨模型控制实例执行并用资源计数和优先级约束并发,资源计数机制不等同于GPU硬隔离或昇腾兼容性,2026-10-23

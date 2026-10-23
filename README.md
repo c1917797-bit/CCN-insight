@@ -39,7 +39,7 @@ python -m http.server 8781 --directory dist
 
 **首页、信息源表格、AI Infra 根技术地图与静态研究专题能够独立运行。旧 AI Infra 动态应用尚未完成整体迁移。**
 
-首页 AI Infra 入口指向本站 `/ai-infra/`。根技术源码在 `research/ai-infra/`，通过 `publish_infra.py` 生成正式页；其月度内容与 Agent 入口仍指向原网站。`vendor/ai-infra/` 中旧应用需要兼容数据接口。没有复制服务端 LRIGIT 程序、账号凭据和完整报告附件。详见 [迁移状态](docs/MIGRATION.md)。
+首页 AI Infra 入口指向本站 `/ai-infra/`。根技术源码在 `research/ai-infra/`，通过 `publish_infra.py` 生成正式页；其月度内容与 Agent 入口仍指向原网站。Agent 报告源码已迁入本仓库，独立网址作为发布镜像保留。`vendor/ai-infra/` 中旧应用需要兼容数据接口。没有复制服务端 LRIGIT 程序、账号凭据和完整报告附件。详见 [迁移状态](docs/MIGRATION.md)。
 
 ## 如何维护
 
@@ -50,3 +50,7 @@ python -m http.server 8781 --directory dist
 5. 在 GitHub 仓库 Settings → Collaborators 邀请协作者；建议通过 Pull Request 审核修改。
 
 所有内容来自已有项目及数据导出，复制不代表重新验证了论文结论或来源可靠性。未附加新的开源许可证，沿用原文件中的版权与许可证声明。
+
+## Agent 调度报告（2026-10-23）
+
+Agent 报告已纳入本仓库，唯一维护源为 `research/agent-scheduling/`。原独立网址与导航保持不变；Sites 只作发布镜像。运行 `python scripts/build_agent_report.py` 和 `python scripts/verify_agent_report.py`。详见 [Agent 发布说明](docs/AGENT-REPORT-PUBLISHING.md)。没有配置自动发布，当前主仓库内的推理压缩未因本次迁移被改写。

@@ -1,0 +1,117 @@
+"""One connected system view: request, agent DAG, services, physical resources."""
+def diagram():
+    parts=['''<svg class="cs-dag cs-panorama" viewBox="0 0 1200 1490" role="group" aria-labelledby="coffee-dag-title coffee-dag-desc"><title id="coffee-dag-title">Agent 点咖啡：任务、工作流、模型工具和卡资源全景图</title><desc id="coffee-dag-desc">用户请求经过 S1 分配给 Agent A。Agent 内部七节点 DAG 经 S2 就绪排程，由运行时调用模型或工具。模型请求经 M1 语义路由选择模型，再经 S3 选择副本、S4 安排批次，在卡上执行。资源层展示 P1 多模型放置与 P2 共卡共享；工具经 S5 获取额度后调用商家 API。服务结果返回任务状态，最终回执返回用户。点线表示部署承载，不是任务执行顺序。</desc><defs><marker id="dag-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>''']
+    def path(d,cls='',attrs='',arrow=True):
+        parts.append(f'<path class="{cls}" d="{d}" {attrs}'+(' marker-end="url(#dag-arrow)"' if arrow else '')+'/>')
+        if cls!='pg-support' and ('pg-' in cls or cls=='cs-dependency'):
+            color='pg-result-dot' if 'pg-return' in cls else 'pg-request-dot'
+            parts.append(f'''<circle class="pg-packet {color}" r="5" style="offset-path:path('{d}')" aria-hidden="true"/>''')
+    def text(x,y,t,cls='pg-sub',attrs=''): parts.append(f'<text x="{x}" y="{y}" class="{cls}" {attrs}>{t}</text>')
+    def rect(x,y,w,h,cls='pg-box'):parts.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="14" class="{cls}"/>')
+    def gate(x,y,w,h,ident,question,context):
+        parts.append(f'<g class="pg-decision" data-scheduling-gate="{ident}" tabindex="0" role="button" aria-label="{ident} {question}" aria-controls="coffee-decision-focus"><path d="M{x+16} {y} H{x+w-16} L{x+w} {y+h/2} L{x+w-16} {y+h} H{x+16} L{x} {y+h/2} Z"/>')
+        label={'S1':'任务分派','S2':'就绪排程','S3':'副本路由','S4':'批次调度','S5':'工具排程','M1':'语义路由','P1':'模型放置','P2':'共卡调度'}[ident]
+        text(x+26,y+23,ident+' · '+label,'pg-decision-kicker')
+        text(x+26,y+49,question,'pg-decision-question')
+        if context:text(x+26,y+h-12,context,'pg-decision-context')
+        parts.append('</g>')
+    # A complete return path is visible throughout, illuminated only at completion.
+    path('M1120 360 H1180 V20 H160 V54','pg-return pg-final', 'data-final-return')
+    text(750,14,'⑥ 核验完成 · C01 回执返回原用户','pg-return-label')
+    parts.append('<g data-origin="incoming">');rect(40,54,250,86,'pg-user');text(58,79,'① 用户目标 · 委托 C01','pg-kicker');text(58,106,'帮我点一杯咖啡','pg-title');text(58,126,'已确定门店 · 非真实交易');parts.append('</g>')
+    path('M290 97 H340','pg-request','data-assignment-flow')
+    gate(330,46,285,103,'S1','交给哪个 Agent？','匹配能力与权限，结合负载分派')
+    path('M615 97 H674','pg-request','data-assignment-flow')
+    rect(650,43,510,108,'pg-pool');text(668,65,'Agent 实例池 · 本例固定选 A','pg-kicker')
+    parts.append('<g data-agent-instance="A">');rect(675,78,215,56,'pg-instance');text(691,102,'Agent A · 负责 C01','pg-title');text(691,123,'维护计划与任务状态');parts.append('</g>')
+    rect(913,78,225,56,'pg-instance pg-idle');text(929,102,'Agent B · 其他可选实例','pg-sub');text(929,123,'未分配本项委托')
+    path('M782 134 V169','pg-request','data-assignment-flow')
+    # Nested workflow explicitly belongs to the selected Agent instance.
+    rect(40,170,1120,353,'pg-agent-frame');text(60,197,'② Agent A 内部 · C01 的完整执行计划','pg-heading')
+    text(60,222,'规划生成步骤与依赖 → 调度选择就绪步骤 → 运行时执行并保存结果')
+    parts.append('<g data-origin="planned">');rect(60,237,420,36,'pg-plan');text(74,260,'同一用户目标拆成七步；每步都标记 C01.x','pg-sub');parts.append('</g>')
+    gate(500,232,640,77,'S2','哪些就绪步骤先做、哪些并行？','就绪步骤争用有限执行名额')
+    text(60,282,'依赖满足后进入就绪集合，按可用名额安排执行','pg-sub')
+    text(850,295,'0 / 2 个名额占用','pg-decision-context','data-global-queue')
+    nodes=[('menu','C01.1','查菜单','工具',60,289),('offer','C01.2','查优惠','工具',60,389),('compare','C01.3','比较方案','模型',250,339),('authorize','C01.4','确认授权','用户',430,339),('order','C01.5','提交订单','工具',610,339),('verify','C01.6','核验订单','工具',790,339),('receipt','C01.7','返回回执','本地',970,339)]
+    edges=[('menu','compare','M210 326 H230 V376 H250'),('offer','compare','M210 426 H230 V376 H250'),('compare','authorize','M400 376 H430'),('authorize','order','M580 376 H610'),('order','verify','M760 376 H790'),('verify','receipt','M940 376 H970')]
+    for a,b,d in edges:path(d,'cs-dependency',f'data-dag-from="{a}" data-dag-to="{b}"')
+    text(251,324,'等齐两份结果','pg-sub');text(431,324,'授权后才可下单','pg-sub');text(790,324,'核验成功再返回','pg-sub')
+    # Calls from individual executing nodes meet at the Agent runtime dispatch strip.
+    for ident,d in [('menu','M210 343 H218 V480 H230'),('offer','M135 463 V480 H230'),('compare','M325 413 V475'),('order','M685 413 V475'),('verify','M865 413 V475')]:path(d,'pg-node-call',f'data-call-node="{ident}"')
+    rect(230,475,900,34,'pg-runtime');text(243,497,'运行时 · 调用服务 / 接收结果 / 更新 C01 状态','pg-sub');text(700,497,'尚无执行中的步骤','pg-sub','data-global-running')
+    for ident,code,name,service,x,y in nodes:
+        parts.append(f'<g class="cs-dag-node" data-dag-node="{ident}" data-state="unplanned" role="button" tabindex="0" aria-label="{code} {name}，查看步骤说明" transform="translate({x} {y})"><rect width="150" height="74" rx="11"/><text class="cs-dag-code" x="12" y="18">{code} · {service}</text><text class="cs-dag-name" x="12" y="41">{name}</text><circle class="cs-state-dot" cx="15" cy="59" r="3"/><text class="cs-dag-state" x="24" y="63" data-node-state="{ident}">尚未生成</text><rect class="cs-node-progress" x="12" y="69" width="0" height="2" rx="1" data-node-progress="{ident}"/></g>')
+    # Separate downward requests and upward responses; no fake dependency links to cards.
+    for service,x in [('model',350),('tool',1000)]:
+        path(f'M{x} 509 V580','pg-call',f'data-service-flow="{service}"')
+        path(f'M{x+25} 580 V509','pg-return',f'data-response-flow="{service}"')
+        text(x+40,547,'请求 ↓  结果 ↑','pg-sub')
+    # Model call: model selection -> replica selection -> batching -> device execution.
+    parts.append('<g class="pg-service" data-service="model">');rect(40,580,800,425,'pg-service-frame')
+    text(60,607,'③ 模型调用 · 选模型 → 选副本 → 排批次 → 卡上执行','pg-heading')
+    gate(60,630,240,96,'M1','用哪种模型？','按能力、质量与成本约束选择')
+    gate(330,630,240,96,'S3','发给哪个副本？','看排队、缓存与可用容量')
+    gate(600,630,220,96,'S4','本轮处理哪些请求？','按 token / KV 预算排批次')
+    path('M300 678 H330','pg-model-flow','data-model-stage="semantic"')
+    path('M570 678 H600','pg-model-flow','data-model-stage="replica"')
+    rect(60,754,240,140,'pg-model');text(76,779,'模型能力池','pg-title')
+    text(76,810,'轻量模型 L · 简单任务候选')
+    text(76,840,'推理模型 R · 本例比较方案','pg-gold')
+    text(76,875,'示意策略，非能力评测结论')
+    path('M180 726 V754','pg-choice')
+    rect(330,754,240,140,'pg-model pg-model-a');text(346,779,'所选模型 R 的副本','pg-title')
+    text(346,810,'R1 · 设备 A 的双卡实例','pg-gold')
+    text(346,840,'R2 · 设备 B 的双卡实例')
+    text(346,875,'L1 属于模型 L，不混为副本')
+    path('M450 726 V754','pg-choice')
+    rect(600,754,220,140,'pg-model');text(616,779,'R1 实例内的队列','pg-title')
+    text(616,810,'C01.3 + 其他用户请求')
+    text(616,840,'选取本轮请求与处理预算')
+    text(616,875,'各模型实例独立排批次')
+    path('M710 726 V754','pg-choice')
+    path('M710 894 V1018 H28 V1255 H60','pg-model-flow','data-model-stage="batch"')
+    text(60,934,'本例路径：比较方案 → 模型 R → 副本 R1 → 本轮批次')
+    text(60,981,'等待模型请求','pg-sub','data-model-flow');parts.append('</g>')
+    parts.append('<g class="pg-service" data-service="tool">');rect(860,580,300,425,'pg-service-frame')
+    text(880,607,'④ 工具调用 · 排队与放行','pg-heading')
+    gate(880,630,260,96,'S5','哪些调用现在放行？','并发 / 速率受限，按额度放行')
+    path('M1010 726 V754','pg-choice')
+    rect(880,754,260,140,'pg-tool');text(896,779,'工具程序 → 商家 API','pg-title')
+    text(896,810,'查菜单 / 查优惠 / 下单 / 核验')
+    text(896,840,'遵守授权与幂等约束')
+    text(896,875,'调用结果写回原任务 C01')
+    text(880,934,'CPU、网络与接口配额支撑')
+    text(880,981,'等待工具请求','pg-sub','data-tool-flow');parts.append('</g>')
+    # A model replica may span a device group; replica count != card count.
+    rect(40,1040,1120,430,'pg-resource-frame')
+    text(60,1068,'⑤ 多设备资源池 · 先选设备与卡组，再协调组内共享','pg-heading')
+    gate(60,1090,355,84,'P1','模型放在哪个设备与卡组？','容量、拓扑、并行方式与可用性')
+    gate(455,1090,365,84,'P2','卡组与共卡模型如何协同？','兼顾组内通信、共享预算与尾延迟')
+    path('M235 1174 V1200','pg-support')
+    path('M635 1174 V1187 H280 V1200','pg-support')
+    path('M635 1187 V1200','pg-support')
+    for x,device,replica,kind in [(60,'A','R1','model'),(450,'B','R2','idle')]:
+        parts.append(f'<g data-resource="{kind}">');rect(x,1200,370,184,'pg-resource')
+        text(x+18,1228,'设备 '+device+' · 计算节点 / 服务器','pg-title')
+        rect(x+18,1240,334,32,'pg-model');text(x+28,1262,'模型 R · '+replica+' · 张量并行 TP = 2','pg-title')
+        for i in range(2):
+            cx=x+18+i*176;rect(cx,1283,158,68,'pg-card')
+            text(cx+12,1305,'GPU / NPU '+device+str(i),'pg-resource-title')
+            text(cx+12,1327,replica+' 的分片 '+str(i),'pg-sub')
+            if device=='A' and i==0:text(cx+12,1344,'+ 模型 L 的实例 L1','pg-card-note')
+        path(f'M{x+176} 1317 H{x+194}','pg-card-link',f'data-card-link="{device}"')
+        text(x+18,1374,'同一副本跨两卡；'+('A0 另与 L1 共卡' if device=='A' else '与设备 A 的副本独立接收请求'),'pg-sub')
+        parts.append('</g>')
+    # Fabric expresses physical topology, not per-request model migration.
+    path('M245 1384 V1405 H635 V1384','pg-support',arrow=False)
+    text(170,1430,'设备间互联 · 本例 R1 / R2 为独立副本，非一次推理跨两台设备','pg-sub')
+    text(60,1455,'GPU / NPU 为可选后端示意；同一并行组需兼容硬件、通信库与运行时','pg-sub')
+    for y,title,sub,kind in [(1090,'CPU / 内存','各节点支撑 Agent 与工具','cpu'),(1230,'网络 / 接口配额','集群互联与外部 API 配额','network')]:
+        parts.append(f'<g data-resource="{kind}">');rect(880,y,260,112,'pg-resource');text(898,y+35,title,'pg-title');text(898,y+70,sub);parts.append('</g>')
+    path('M1010 1090 V1005','pg-support')
+    path('M1140 1140 H1188 V492 H1130','pg-support')
+    text(880,1380,'点线：部署与物理连接','pg-sub')
+    text(880,1406,'亮线：当前请求执行路径','pg-sub')
+    text(880,1432,'共卡需评估显存与干扰','pg-sub')
+    parts.append('</svg>');return ''.join(parts)

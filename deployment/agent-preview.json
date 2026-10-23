@@ -1,0 +1,11 @@
+{
+  "source_repository": "https://github.com/c1917797-bit/CCN-insight",
+  "source_directory": "research/agent-scheduling",
+  "build_command": "python scripts/build_agent_report.py",
+  "artifact_directory": "research/agent-scheduling/outputs/isolated-preview",
+  "project_id": "appgprj_6acf4d01d4a48191a167ab0a3ff7b192",
+  "site_url": "https://cloud-core-agent-scheduling-preview.sunshinepmy.chatgpt.site/business_insight/cloud_core/agent_orchestration/",
+  "sync_mode": "manual",
+  "audience": "public",
+  "navigation": "direct-url-only"
+}

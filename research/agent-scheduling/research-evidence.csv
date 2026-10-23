@@ -1,0 +1,10 @@
+id,title,url,fact,limit
+heft,HEFT / CPOP · IEEE TPDS 2002,https://disco.ethz.ch/courses/fs14/seminar/paper/Jochen/4.pdf,论文研究异构处理器上的静态任务图排程；HEFT结合任务优先级排序与处理器选择。,静态DAG和代价模型是重要前提；不能据此宣称已解决动态Agent任务图。
+decima,Decima · SIGCOMM 2019,https://web.mit.edu/decima/index.html,以数据处理集群为场景，通过任务图表示和强化学习学习调度策略。,原实验场景不是Agent系统；需要重新定义动作、约束与训练负载，不能直接照搬效果。
+quincy,Quincy · SOSP 2009,https://www.microsoft.com/en-us/research/wp-content/uploads/2009/10/isard-sosp09.pdf,将集群任务分配建模为最小费用流，在代价与容量中表达数据局部性和公平要求。,最优性针对所建图和代价模型；并非任意资源约束或动态系统的全局最优保证。
+kube,Kubernetes · Scheduling Framework,https://kubernetes.io/docs/concepts/scheduling-eviction/scheduling-framework/,框架将候选节点过滤与评分等阶段分开，提供扩展调度策略的机制。,这是工程框架，不是一种自动适用于所有工作负载的最优算法。
+drf,DRF · NSDI 2011,https://www2.eecs.berkeley.edu/Pubs/TechRpts/2011/EECS-2011-18.html,以用户占用的主导资源份额为依据，研究多资源环境中的公平分配。,公平性质取决于论文的资源与需求模型；异构服务器和不可分资源需要进一步处理。
+vtc,VTC · OSDI 2024,https://www.usenix.org/conference/osdi24/presentation/sheng,研究LLM服务中的公平性，用反映输入和输出token成本的服务计量设计调度器。,服务成本模型与请求处理机制决定结论范围；不能等同业务任务完成公平。
+murakkab,Murakkab · OSDI 2026,https://www.usenix.org/conference/osdi26/presentation/chaudhry,会议摘要描述声明式工作流、画像驱动优化和自适应运行时，联合管理模型与硬件配置。,摘要级核对；为跨层配置研究提供参照，不直接证明本页共卡干扰模型或昇腾方案。
+llmd,llm-d · 缓存亲和与饱和退出,https://llm-d.ai/blog/sticky-until-saturated-token-aware-routing,官方工程文章区分 prefill 与 decode 瓶颈，结合缓存亲和与匹配的负载信号，并在饱和后退出亲和。,硬件配置和校准阈值不能直接迁移到昇腾；每组实验只运行一次，原文未提供重复运行置信区间。
+alpaserve,AlpaServe · OSDI 2023,https://www.usenix.org/conference/osdi23/presentation/li-zhouhan,研究多模型放置及模型并行的统计复用，分析并行开销与突发请求承载能力之间的取舍。,本轮核对官方摘要；为共享配置提供方法参照，不证明本地共卡干扰预测与份额控制已实现。

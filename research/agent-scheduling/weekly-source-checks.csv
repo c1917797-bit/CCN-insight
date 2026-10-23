@@ -1,0 +1,7 @@
+source,url,checked,result,boundary
+arXiv,https://arxiv.org/list/cs.MA/recent,2026-10-23,收录2篇本周预印本；摘要级核验,主题检索与原始页面核对，非全量抓取。
+vLLM,https://github.com/vllm-project/vllm/releases/tag/v0.32.0,2026-10-23,收录10月18日正式版本中的入口负载均衡变化,只纳入与当前研究相关的变化，不搬运完整release notes。
+UCM,https://github.com/ModelEngine-Group/unified-cache-management/releases/tag/v0.8.1,2026-10-23,收录10月20日维护版本,与NPU缓存正确性相关，不代表新调度算法。
+vLLM Ascend,https://github.com/vllm-project/vllm-ascend/releases,2026-10-23,已读发布列表；最新显示v0.30.0rc2，10月13日,该版本在本周窗口外；不计入本周新增。未完成所有PR和Issue核验。
+openYuanrong · 元戎,https://docs.openyuanrong.org/zh-cn/latest/index.html,2026-10-23,官网展示v0.10.0入口；发布详情读取失败,发布日期与变更尚未核实，不计作本周事件；保留持续入口。
+热点资讯,https://techcrunch.com/category/artificial-intelligence/,2026-10-23,检索发现Agent生态标准相关新闻线索，未完成官方原文核验,暂不写入事实库，不为凑齐类别采用二手报道或推测。
