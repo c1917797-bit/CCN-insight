@@ -3,7 +3,7 @@ from html import escape as e
 from decision_map import read, BASE
 from source_registry import topic_sources
 from report_contract import remit, CUTOFF
-from architect_view import page_lens, archive_entry
+from architect_view import archive_entry
 
 FLOW = [('sources','信息来源','持续看哪里'), ('map','技术地图','研究什么'),
         ('updates','本期动态','发生什么'), ('analysis','分析结论','如何取舍'),
@@ -37,7 +37,7 @@ def profile(title):
 
 def context(title):
     role, purpose, areas=profile(title)
-    return f'<div class="page-context"><a href="{BASE}#map">技术地图</a><span aria-hidden="true"> / </span><strong>{e(role)}</strong><p>{e(purpose)}</p><small>证据整理截至 {CUTOFF} · 方法介绍与本地研究建议分别标注</small></div>{page_lens(title,areas)}'
+    return f'<div class="page-context" aria-label="专题位置与证据时点"><a href="{BASE}#map">技术地图</a><span aria-hidden="true"> / </span><strong>{e(role)}</strong><small>证据截至 {CUTOFF}</small></div>'
 
 
 def related(title):
@@ -45,8 +45,8 @@ def related(title):
     names={a['id']:a['title'] for a in read('research-areas.csv')}
     links=''.join(f'<a href="{BASE}research-{a}.html">{e(names[a])} →</a>' for a in areas)
     # This is navigation by research area, not an assertion that every item applies to every execution layer.
-    return f'''<section id="reading-connections" class="reading-connections"><h2>把本页放回完整的研究链路</h2>
-<p>专题解释方法；具体论文与版本变化在本期动态查阅，跨路线取舍在分析结论中集中说明。</p>
+    return f'''<section id="reading-connections" class="reading-connections"><h2>继续研究</h2>
+<p>从本页方法出发，追踪原始资料与跨路线取舍。</p>
 <div class="topic-source-links"><strong>关联根技术</strong>{links or f'<a href="{BASE}#north-star">任务达标完成率与统计口径 →</a>'}</div>
 {topic_sources(areas) if areas else ''}<div class="reading-next"><a href="{BASE}#updates">查看本期动态与原始依据 →</a><a href="{BASE}#analysis">查看跨路线判断 →</a></div></section>'''
 

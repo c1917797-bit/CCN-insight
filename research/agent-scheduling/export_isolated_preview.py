@@ -31,7 +31,7 @@ def main():
     files = {}
     for path in sorted(SOURCE.glob('*.html')):
         text = path.read_text(encoding='utf-8')
-        text = text.replace('云核私有草稿', '云核研究预览').replace('私有草稿 ·', '研究草稿 ·')
+        text = text.replace('云核私有草稿', '云核研究预览').replace('私有草稿', '研究草稿')
         text = text.replace('本地私有预览', '独立只读预览').replace('本机私有预览', '独立网址直达')
         text = text.replace('仅监听127.0.0.1。调度研究草稿，未发布到线上。', 'Agent 调度研究草稿的只读快照。持链接者可访问；不加入原站导航。')
         text = text.replace('<head>', '<head><meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer"><meta name="lri-preview-status" content="isolated-reading-snapshot">')

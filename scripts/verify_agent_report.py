@@ -20,6 +20,17 @@ assert {r['area_id'] for r in read('architecture-decisions.csv')}=={'workflow','
 folder=ROOT/'dist'/BASE
 pages={p.name:Page(p.read_text(encoding='utf-8')) for p in folder.glob('*.html')}
 assert len(pages)==22
+home=(folder/'index.html').read_text(encoding='utf-8')
+source_chapter=home[home.index('<section id="sources"'):home.index('<section id="map"')]
+assert len(re.findall(r'<table\b',source_chapter))==3, 'Source directory must have exactly three category tables'
+assert source_chapter.count('class="source-table-row"')==len(read('source-channels.csv'))
+contracts=read('decision-research-contracts.csv')
+assert {r['decision_id'] for r in contracts}=={'admission','ordering','dispatch','allocation'} and len(contracts)==4
+methods=read('decision-methods.csv')
+assert all(sum(m['decision_id']==r['decision_id'] for m in methods)==3 for r in contracts)
+for row in contracts:
+    decision_text=(folder/f'decision-{row["decision_id"]}.html').read_text(encoding='utf-8')
+    assert row['baseline'] in decision_text and row['retreat'] in decision_text
 count=0
 for name,page in pages.items():
     for link in page.links:

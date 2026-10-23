@@ -34,6 +34,7 @@ def map_cards():
     return '<p class="note">卡片上的决策标签可进入相应研究专题。任务理解与计划生成提供输入；权限、状态和验收要求提供约束。</p>'+''.join(grouped)
 
 def topic(shell,r,algorithms,legacy=False):
+    from research_depth import object_contract, object_evaluation, object_evidence
     p = r['point']
     # Scheduling points remain the single source for object/decision/carrier.
     contract = ''.join(f'<div><small>{label}</small><strong>{e(p[key])}</strong></div>' for label,key in [('调度对象','object'),('调度决策','decision'),('执行载体','carrier')])
@@ -44,12 +45,12 @@ def topic(shell,r,algorithms,legacy=False):
     decision_names={row['id']:row['title'] for row in decisions}
     root_links=''.join(f'<a id="decision-{link["decision_id"]}" class="decision-object" href="{BASE}decision-{link["decision_id"]}.html"><strong>{e(decision_names[link["decision_id"]])}</strong><span>{e(link["relation"])}</span></a>' for link in links if link['point_id']==r['point_id'])
     case = f'<a class="button secondary" href="{BASE}heft-coffee.html">HEFT：工作流任务调度教学案例 →</a>' if r['point_id']=='workflow' else f'<a class="button secondary" href="{BASE}#point-{r["point_id"]}">在演示图中定位这个调度点 →</a>'
-    body = f'''<header class="hero topic-hero"><a class="back" href="{BASE}#map">← 返回调度技术地图</a><p class="eyebrow">云核 / Agent端到端调度 / {e(r['layer'])}</p><span class="badge">调度研究专题 · 私有草稿</span><h1>{e(r['title'])}</h1><p class="lead">{e(r['intro'])}</p>{warning}<div class="hero-actions"><a class="button" href="#decision">查看调度决策</a><a class="button secondary" href="#routes">查看研究路线</a></div></header>
-<section id="decision"><p class="eyebrow">01 / 研究对象</p><h2>这个方向决定什么</h2><div class="point-contract">{contract}</div><article class="card"><h3>用咖啡场景理解调度问题</h3><p>{e(r['question'])}</p>{case}</article></section>
+    body = f'''<header class="hero topic-hero"><a class="back" href="{BASE}#map">← 返回调度技术地图</a><p class="eyebrow">云核 / Agent端到端调度 / {e(r['layer'])}</p><span class="badge">调度研究专题 · 尚待本地验证</span><h1>{e(r['title'])}</h1><p class="lead">{e(r['intro'])}</p>{warning}<div class="hero-actions"><a class="button" href="#decision">查看调度决策</a><a class="button secondary" href="#routes">查看研究路线</a></div></header>
+<section id="decision"><p class="eyebrow">01 / 研究对象</p><h2>这个方向决定什么</h2><div class="point-contract">{contract}</div>{object_contract(r['point_id'])}<article class="card"><h3>用咖啡场景理解调度问题</h3><p>{e(r['question'])}</p>{case}</article></section>
 <section id="challenges"><p class="eyebrow">02 / 约束与挑战</p><h2>为什么简单分配还不够</h2><div class="topic-challenges"><article class="card"><h3>需要解决的困难</h3><p>{e(r['challenge'])}</p></article><article class="card"><h3>不能突破的条件</h3><ul>{list_items(r['constraints'])}</ul></article></div></section>
-<section id="routes"><p class="eyebrow">03 / 调度路线</p><h2>针对约束比较不同决策机制</h2><article class="card"><h3>涉及哪些调度决策</h3><div class="decision-object-grid">{root_links}</div><h3>候选技术路线</h3><ol>{list_items(r['routes'])}</ol><details class="algorithm-index"><summary>算法参考 · 咖啡演示中的候选策略</summary><ul class="algorithm-list">{candidates}</ul></details><p class="note">路线是待研究的方案；索引沿用用户原图，不等同业界统一分类，也不表示来源框架已实现全部候选策略。</p></article></section>
-<section id="evaluation"><p class="eyebrow">04 / 评价方法</p><h2>用同一负载比较调度效果</h2><article class="card"><ul>{list_items(r['metrics'])}</ul><p>固定任务输入、到达过程、执行器能力和可用资源；从简单基线开始比较，再分别改变负载与故障条件。任务质量和完成判定作为约束保留，避免用局部速度替代端到端成功。</p><p class="note">这些是拟采集的指标；当前未运行真实并发、压力或故障实验。</p></article></section>
-<section id="scope"><p class="eyebrow">05 / 边界与来源</p><h2>与其他调度方向明确衔接</h2><article class="card"><p>{e(r['boundary'])}</p><p><a class="source-link" href="{e(p['source_url'])}" target="_blank" rel="noopener noreferrer">原始机制依据 · {e(p['source_title'])} ↗</a></p><p class="note">来源用于说明相关基础机制；本页的云核问题组织方式是研究设计，不是现成标准分类或已落地成果。</p></article></section>'''
+<section id="routes"><p class="eyebrow">03 / 调度路线</p><h2>针对约束比较不同决策机制</h2><article class="card"><h3>从基线到增强：每次只新增一种决策信息</h3><ol class="algorithm-steps">{list_items(r['routes'])}</ol><details class="algorithm-index"><summary>决策关联与候选算法索引</summary><div class="decision-object-grid">{root_links}</div><ul class="algorithm-list">{candidates}</ul></details><p class="note">候选算法编号沿用演示索引，不是统一行业分类；可行性检查、排队策略、限流和恢复机制承担不同职责，不将它们视为可互换算法。</p></article></section>
+<section id="evaluation"><p class="eyebrow">04 / 评价方法</p><h2>用同一负载比较调度效果</h2>{object_evaluation(r['point_id'])}<article class="card"><h3>诊断指标：解释收益来自哪里</h3><ul>{list_items(r['metrics'])}</ul><p class="note">诊断指标说明局部机制；采纳策略仍以任务达标吞吐、端到端时延与服务护栏为依据。当前无真实并发、压力或故障实验结果。</p></article></section>
+<section id="scope"><p class="eyebrow">05 / 边界与来源</p><h2>与其他调度方向明确衔接</h2><article class="card"><h3>职责边界</h3><p>{e(r['boundary'])}</p></article>{object_evidence(r['point_id'])}</section>'''
     from research_map import area_backlinks
     from page_structure import object_guidance
     body += object_guidance(r['point_id'])

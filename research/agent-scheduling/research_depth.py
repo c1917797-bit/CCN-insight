@@ -3,10 +3,47 @@ from html import escape as e
 from decision_map import read, BASE
 
 
+def object_contract(point_id):
+    """A schedulable input/output contract, not a claim about an implemented API."""
+    r=next(r for r in read('object-research-contracts.csv') if r['point_id']==point_id)
+    return '<article class="research-spec object-spec"><h3>调度接口：何时触发，读什么，交付什么</h3><dl>'+''.join(
+        f'<dt>{label}</dt><dd>{e(r[key])}</dd>' for label,key in [('触发时机','trigger'),('可观测输入','inputs'),('可执行输出','outputs')])+'</dl></article>'
+
+
+def object_evaluation(point_id):
+    r=next(r for r in read('object-research-contracts.csv') if r['point_id']==point_id)
+    return '<article class="research-spec"><h3>最小可判定实验</h3><dl>'+''.join(
+        f'<dt>{label}</dt><dd>{e(r[key])}</dd>' for label,key in [('比较基线','baseline'),('压力与反例','stress'),('采纳条件','decision_rule')])+'</dl><p class="note">以上是实验设计，尚未执行。固定原始任务到达、模型质量和总资源；拒绝、超时与失败保留在统计中，避免通过少接任务制造局部低延迟。</p></article>'
+
+
+def object_evidence(point_id):
+    r=next(r for r in read('object-research-contracts.csv') if r['point_id']==point_id)
+    return f'<article class="research-spec"><span class="evidence-label">已核对的工程机制 · 2026-10-23</span><p>{e(r["evidence_fact"])}</p><a class="source-link" href="{e(r["source_url"])}" target="_blank" rel="noopener noreferrer">{e(r["source_label"])} · 官方原文 ↗</a><p class="note">核对文档中的机制与职责边界；未运行目标框架，也未确认所有机制均已适配昇腾。实验设计不视为来源框架的既有能力。</p></article>'
+
+
+def mechanism_figure(area):
+    """Decision semantics as a vector diagram; all labels are research design."""
+    specs={
+        'workflow': [('观测依赖','当前已知节点','完成状态与代价'),('筛选就绪','前驱与授权满足','容量允许启动'),('比较次序','FIFO／程序进度','关键路径作对照'),('更新状态','启动节点并计量','完成后解锁后继')],
+        'mapping': [('接收工作','质量与能力要求','负载与状态快照'),('筛选候选','先满足硬约束','剔除不兼容位置'),('比较代价','排队＋执行','状态与传输成本'),('绑定并校准','输出模型／副本','用实测修正估计')],
+        'sharing': [('计量服务','租户权重与消耗','资源与干扰画像'),('形成可行集','容量与服务下限','可执行的隔离接口'),('分配预算','服务份额／并发','容量另设慢周期'),('核验保障','等待、成本与慢化','越界回退或隔离')],
+    }
+    colors={'workflow':'#1b7f79','mapping':'#3265a8','sharing':'#7350a2'}
+    nodes=specs[area]
+    color=colors[area]
+    blocks=[]
+    for i,(title,line1,line2) in enumerate(nodes):
+        x=12+i*228
+        blocks.append(f'<rect x="{x}" y="18" width="204" height="130" rx="16" fill="#f7fafc" stroke="{color}" stroke-width="1.5"/><text x="{x+18}" y="50" fill="{color}" font-size="17" font-weight="700">0{i+1} / {title}</text><text x="{x+18}" y="85" fill="#163047" font-size="16">{line1}</text><text x="{x+18}" y="113" fill="#526477" font-size="15">{line2}</text>')
+        if i<3:
+            blocks.append(f'<path d="M{x+208} 83 H{x+222} m-6 -5 6 5 -6 5" fill="none" stroke="{color}" stroke-width="2"/>')
+    return '<figure class="research-mechanism"><div class="table-scroll"><svg viewBox="0 0 912 174" width="100%" role="img" aria-label="观测、合法性筛选、调度决策与运行反馈的四步机制"><g font-family="system-ui, Microsoft YaHei, sans-serif">'+''.join(blocks)+'</g></svg></div><figcaption>机制示意 / 先保证动作合法，再比较收益；本图描述研究接口，未表示已有性能结果。</figcaption></figure>'
+
+
 def problem_contract(area):
     r=next(r for r in read('research-depth-model.csv') if r['area_id']==area)
     fields=[('决策变量','variable'),('触发时机','trigger'),('可行条件','feasible'),('优化目标','objective'),('首轮控制变量','excluded')]
-    return '<article class="research-spec"><span class="eyebrow">研究定义 / 本报告的实验建模</span><h3>明确算法能改什么，不能改什么</h3><dl>'+''.join(f'<dt>{label}</dt><dd>{e(r[key])}</dd>' for label,key in fields)+'</dl><p class="note">调度面对的是逐步显露的任务图，不能使用运行时尚未产生的未来节点或真实完成时间作为在线输入。使用未来信息的离线方案仅作参照；只有证明相应界限后，才能称为上界或下界。</p></article>'
+    return mechanism_figure(area)+'<article class="research-spec"><span class="eyebrow">研究定义 / 本报告的实验建模</span><h3>明确算法能改什么，不能改什么</h3><dl>'+''.join(f'<dt>{label}</dt><dd>{e(r[key])}</dd>' for label,key in fields)+'</dl><p class="note">在线输入只含决策时已知的信息。尚未生成的分支、未来到达与真实完成时间不可泄漏给在线策略；使用未来信息的离线解只作参照，未经证明不称上界或下界。</p></article>'
 
 
 def model_overview():

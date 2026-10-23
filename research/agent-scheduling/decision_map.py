@@ -70,6 +70,13 @@ def render_decisions():
 
 def decision_page(shell, r):
     _, links, objects, algorithm_links, algorithms = decision_model()
+    contract = next(c for c in read('decision-research-contracts.csv') if c['decision_id'] == r['id'])
+    methods = ''.join(
+        f'<article class="decision-method-card"><span class="eyebrow">候选机制 / {i:02d}</span><h3>{e(m["title"])}</h3>'
+        f'<p>{e(m["mechanism"])}</p><dl><dt>适用条件</dt><dd>{e(m["condition"])}</dd>'
+        f'<dt>代价与边界</dt><dd>{e(m["tradeoff"])}</dd></dl></article>'
+        for i, m in enumerate([m for m in read('decision-methods.csv') if m['decision_id'] == r['id']], 1))
+    inputs = ''.join(f'<dt>{label}</dt><dd>{e(contract[key])}</dd>' for label,key in [('触发信号','trigger'),('必需输入','inputs'),('输出契约','output')])
     object_cards = ''.join(f'<a class="decision-object" href="{BASE}{objects[l["point_id"]]["key"]}.html"><strong>{e(objects[l["point_id"]]["title"])}</strong><span>{e(l["relation"])}</span></a>' for l in links if l['decision_id'] == r['id'])
     candidates = ''.join(f'<li><strong>{e(l["algorithm_id"])} · {e(algorithms[l["algorithm_id"]]["name"])}</strong><p>{e(l["relation"])}</p></li>' for l in algorithm_links if l['decision_id'] == r['id'])
     extra = '<p class="note">原图没有单独列出公平份额算法。成组资源协调不能代替DRF等公平分配策略；多人并发只提供测试场景，并不自动实现公平。</p>' if r['id'] == 'allocation' else ''
@@ -80,9 +87,9 @@ def decision_page(shell, r):
         'allocation': '先定义份额单位、租户权重和服务目标，再比较均分、加权分配与多资源策略。同时记录完成时间和资源效率，避免把公平简单理解为每人同样多的请求。',
     }[r['id']]
     body = f'''<header class="hero topic-hero"><a class="back" href="{BASE}#decision-scope">← 返回调度决策辅助索引</a><p class="eyebrow">云核 / Agent端到端调度 / 决策研究</p><span class="badge">研究设计 · 私有草稿</span><h1>{e(r['title'])}</h1><p class="lead">{e(r['question'])}</p><p class="decision-output"><strong>决策结果</strong>{e(r['output'])}</p></header>
-<section id="problem"><p class="eyebrow">01 / 问题与挑战</p><h2>为什么需要这个决策</h2><div class="card"><p>{e(r['principle'])}</p><h3>关键挑战</h3><p>{e(r['challenge'])}</p><h3>咖啡实例</h3><p>{e(r['coffee'])}</p></div></section>
-<section id="routes"><p class="eyebrow">02 / 方法与依据</p><h2>有哪些候选技术路线</h2><div class="card"><ul>{bullets(r['methods'])}</ul><p><a class="source-link" href="{e(r['source_url'])}" target="_blank" rel="noopener noreferrer">原始依据 · {e(r['source_title'])} ↗</a></p><p class="note">来源支撑相关基础方法；不表示本文所有候选都由同一来源实现或验证。</p><details class="algorithm-index"><summary>算法参考 · 咖啡演示中的决策对应</summary><ul class="decision-candidates">{candidates}</ul>{extra}</details></div></section>
+<section id="problem"><p class="eyebrow">01 / 问题与挑战</p><h2>为什么需要这个决策</h2><article class="decision-brief"><span class="eyebrow">研究立场 · 本报告分析</span><h3>{e(contract['stance'])}</h3><p>{e(r['principle'])}</p><dl>{inputs}</dl></article><div class="topic-challenges"><article class="card"><h3>核心矛盾</h3><p>{e(r['challenge'])}</p></article><article class="card"><h3>咖啡任务中的对应</h3><p>{e(r['coffee'])}</p></article></div></section>
+<section id="routes"><p class="eyebrow">02 / 方法与依据</p><h2>有哪些候选技术路线</h2><p>按决策机制比较候选方案：先明确它读取什么状态、改变什么动作，再比较收益与代价。</p><div class="decision-method-grid">{methods}</div><div class="card"><p><a class="source-link" href="{e(r['source_url'])}" target="_blank" rel="noopener noreferrer">基础机制依据 · {e(r['source_title'])} ↗</a></p><p class="note">上方是研究候选的机制分解；引用来源支撑相应基础方法，不能据此认定所有候选均已实现或获得同样保证。</p><details class="algorithm-index"><summary>咖啡演示的算法索引</summary><ul class="decision-candidates">{candidates}</ul>{extra}</details></div></section>
 <section id="objects"><p class="eyebrow">03 / 执行层关联</p><h2>这个决策作用在哪里</h2><div class="decision-object-grid">{object_cards}</div></section>
-<section id="evaluation"><p class="eyebrow">04 / 比较与边界</p><h2>怎样比较路线是否有效</h2><div class="card"><ul>{bullets(r['metrics'])}</ul><p>{e(r['boundary'])}</p><p>固定到达过程、任务质量、执行器能力与可用资源；分别测试平稳、突发及代价估计失准情形。当前没有真实系统性能结果。</p></div></section>
-<section id="guidance"><p class="eyebrow">05 / 研究建议</p><h2>从可解释基线逐步推进</h2><div class="card"><p>{e(advice)}</p><p class="note">这是基于前述问题与边界提出的研究建议，尚待实际负载验证。</p><a class="source-link" href="{BASE}#agent-demo">在咖啡教学演示中定位执行过程 →</a></div></section>'''
+<section id="evaluation"><p class="eyebrow">04 / 比较与边界</p><h2>怎样比较路线是否有效</h2><article class="decision-research-plan"><h3>用单变量对照识别收益来源</h3><dl><dt>起点基线</dt><dd>{e(contract['baseline'])}</dd><dt>比较设计</dt><dd>{e(contract['experiment'])}</dd><dt>核心指标</dt><dd><ul>{bullets(r['metrics'])}</ul></dd><dt>适用边界</dt><dd>{e(r['boundary'])}</dd></dl></article></section>
+<section id="guidance"><p class="eyebrow">05 / 研究建议</p><h2>从可解释基线逐步推进</h2><div class="card"><h3>推进次序</h3><p>{e(advice)}</p><h3>停止或回退条件</h3><p>{e(contract['retreat'])}</p><p class="note">以上是研究方案，当前没有真实系统性能结果。</p><a class="source-link" href="{BASE}#agent-demo">查看咖啡任务的决策位置 →</a></div></section>'''
     return shell(r['title'], body)

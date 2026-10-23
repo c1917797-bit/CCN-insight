@@ -18,7 +18,7 @@ assert len(week)==4 and len({r['publication_id'] for r in week})==4
 assert all('2026-10-17' <= pubs[r['publication_id']]['published'] <= '2026-10-23' for r in week)
 assert period_kind(pubs['murakkab'])=='历史补录'
 assert pubs['agentix']['checked']=='2026-10-13' # Migration must not fake re-review dates.
-assert '尚无团队实测领先证据' in home
+assert '尚无云核实测结论' in home
 assert '主指标：端到端任务有效吞吐' in home
 assert '同一到达批次' in home and '容量拒绝' in home
 assert len({c['area_id'] for c in capabilities()})==3
