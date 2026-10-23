@@ -4,6 +4,8 @@
 
 ## 维护
 
+内容维护先参考 [成品学习与写作规范](../../docs/AGENT-REPORT-AUTHORING.md)：继承 MozhiJiawei CCN 成品的机制解释、原图证据、比较口径和适用边界，保持本模块五段主线。该文记录实际学习范围及当前差距，不代表完整技能流程已执行。
+
 - CSV 文件分别保存信源、论文事实、路线关联、研究建议；不要把它们合并为一个大 JSON。
 - `architecture-decisions.csv`：三项技术的架构接入契约。
 - `architecture-evidence-links.csv`：19 项资料与架构决策的关联；分析不是原文事实。
