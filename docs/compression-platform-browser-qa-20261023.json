@@ -188,11 +188,21 @@
       309
     ],
     "overflow": false,
-    "originalPPTUnchanged": true
+    "originalPPTUnchanged": true,
+    "argumentJump": {
+      "focused": "ic-2026-10-public-20261007-v1__quantization-execution__ascend",
+      "hash": "#ic-2026-10-public-20261007-v1__quantization-execution__ascend",
+      "targetY": 104.2421875
+    },
+    "argumentJumpPassed": true
   },
   "limitations": [
     "No mobile viewport verification",
     "Not exhaustive current-literature coverage",
     "Selected passages checked; no independent experiments"
-  ]
+  ],
+  "topicRefresh": {
+    "kvQuantNewEvidenceEntersJudgment": true,
+    "vllmCaseInIndustry": true
+  }
 }
