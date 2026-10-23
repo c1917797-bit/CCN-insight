@@ -51,3 +51,14 @@ Windows官方打包步骤失败后，按同一个已推送镜像提交打包；s
 - 入口：https://cloud-core-agent-scheduling-preview.sunshinepmy.chatgpt.site/business_insight/cloud_core/agent_orchestration/?v=29#sources
 
 整仓构建与校验、22页结构和1548条模块内部链接通过。浏览器逐一打开11组，新学术与新闻分组能切到正确类别，旧source-layer分层链接仍可用。核心筛选下点击仅有补充来源的分组会恢复全部来源，以确保目标表格可见。正式网址验证三类顺序，分别显示2/9/15条来源与2/4/5张表。发布前对照GitHub提交记录和镜像溯源，并核对37个产物文件一致。
+
+## 三张总表发布 · v30（当前）
+
+按用户纠正，撤销v29的11张分表。信息来源严格只有3张总表：热点资讯2个来源、学术界9个、产业界15个。11个二级分类保留为总表内部的行组，每张总表仅出现一次列标题。覆盖检查改为说明列表，不增加第4张隐藏表。
+
+- GitHub内容提交：`346c3f651d83964c8e6bdf6e883555793e90a9dd`
+- Sites镜像提交：`26ae6863b2a48de3ce17727ac6dd6bc4b68b69ab`
+- Sites版本：30；部署`appgdep_6adb5ff5143c8191b045c18d4b692838`，`succeeded`
+- 入口：https://cloud-core-agent-scheduling-preview.sunshinepmy.chatgpt.site/business_insight/cloud_core/agent_orchestration/?v=30#sources
+
+整仓构建与校验、22页模块结构和1548条内部链接通过。浏览器核对本地及正式网址：信息来源DOM恰好3张表、26行来源、11个表内行组；三类分别只有1张表。搜索元戎、空结果提示、核心筛选、昇腾生态筛选、表内分类跳转通过。手机仅表格内部横向滚动，页面未横向溢出。发布前逐字节核对38个生成文件与镜像一致，确认GitHub内容提交和镜像溯源对应。原有资料与访问范围保持不变，仍为人工维护与发布。
