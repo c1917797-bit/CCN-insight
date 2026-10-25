@@ -100,7 +100,7 @@
 <meta name="lri-page-translation" content="ui">
 <meta name="lri-shell-version" content="lri-shell-v18-cloud-report-navigation">
 <script type="module" src="../../assets/lri-shell.js?v=a841a5453eecfcb7"></script>
-<script type="application/lri-reader" data-lri-reader="reader-entry.js?v=reader-content-7433bbe137a2091a"></script>
+<script type="application/lri-reader" data-lri-reader="reader-entry.js?v=reader-content-62eac81d39cb71f2"></script>
 <style>
 /* Compact introduction: keep the reading path visible without a full-height preamble. */
 .compression-research-workbench #reading-guide{margin:8px 0 18px;padding:14px 18px;background:#f5f8fa;border:1px solid #e1e7ec;border-radius:12px}
@@ -156,6 +156,7 @@
 <link rel="stylesheet" href="reader-editorial.css?v=20261022">
 <link rel="stylesheet" href="reader-refinement.css?v=round2-20261022">
 <link rel="stylesheet" href="reader-atlas.css?v=80a2ca86e1c9a286">
+<link rel="stylesheet" href="source-directory.css?v=49eb5fd1e8f1d278">
 </head>
 <body data-lri-section-visibility="visible" data-lri-shell="auto" data-lri-content-kind="report" data-topic-id="cloud_core">
 <main class="wrap compression-research-workbench">
@@ -186,13 +187,13 @@
 <div data-view-panel="sources" id="view-sources">
 <section class="section" id="channels-panel" data-section-label="信息来源" data-section-label-en="Information sources" data-section-level="3" data-section-number="1.1" data-reading-layer="facts"><h3 data-i18n-key="view_sources">信息来源</h3><p data-i18n-key="sources_help">热点资讯帮助发现值得关注的变化，产业资料展示实现与部署进展，学术来源提供研究论文。点击信源名称可访问原站。</p>
 <nav class="source-register-navigation" aria-label="信息源目录"><a href="#source-register-hotspot">热点资讯</a><a href="#source-register-industry">产业界</a><a href="#source-register-academic">学术界</a></nav>
-<p><a href="#imported-paper-review" data-i18n-key="paper_review_entry">查看已导入论文与待审状态 →</a></p>
+<div class="source-directory-utilities"><p><a href="#imported-paper-review" data-i18n-key="paper_review_entry">查看已导入论文与待审状态 →</a></p>
 <details class="wb-source-policy"><summary data-i18n-key="source_selection_policy">信源选择与审阅说明</summary><p data-i18n-key="collection_discovery_boundary">采集列表用于发现候选资料，技术内容经原文核对后再纳入分析。标题相关或页面标注日期，仅作为筛选线索。</p>
 
 <p data-i18n-key="source_priority_help">优先选择与推理压缩相关、提供一手资料且持续更新的来源。</p>
-<p id="source-subject-overview" class="reader-note"></p></details>
+<p id="source-subject-overview" class="reader-note"></p></details><p id="channel-status" class="meta" role="status"></p></div>
 <div class="wb-filters" hidden><div><label for="channel-category" data-i18n-key="source_subcategory">信源子类</label><select id="channel-category"><option value="" data-i18n-key="source_category_all">全部子类</option></select></div><div><label for="channel-priority" data-i18n-key="source_display">显示范围</label><select id="channel-priority"><option value="important" data-i18n-key="source_important">核心信源（默认）</option><option value="all" data-i18n-key="source_all">全部信源（含备用）</option></select></div><div><label for="channel-query" data-i18n-key="source_search">搜索信源、网站或分类</label><input id="channel-query" type="search" autocomplete="off"></div></div>
-<p id="channel-status" class="meta" role="status"></p><div id="channel-cards" class="wb-reading-list"></div>
+<div id="channel-cards" class="wb-reading-list"></div>
 
 <div class="actions"><button class="btn" type="button" id="channel-prev" data-dependent disabled data-i18n-key="previous">上一页</button><button class="btn" type="button" id="channel-next" data-dependent disabled data-i18n-key="next">下一页</button></div>
 <details class="wb-collection-audit"><summary data-i18n-key="collection_health_details">本轮采集状态</summary><div id="collection-summary" class="reader-note" role="status" aria-live="polite"></div></details>

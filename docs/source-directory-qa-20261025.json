@@ -1,0 +1,42 @@
+{
+  "scope": "CCN information sources presentation; original TableGit host unchanged",
+  "date": "2026-10-25",
+  "canonical_data_changed": false,
+  "registers": {
+    "hotspot": {
+      "core_families": 8,
+      "all_families": 35
+    },
+    "industry": {
+      "core_families": 38,
+      "all_families": 233
+    },
+    "academic": {
+      "core_families": 12,
+      "all_families": 14
+    }
+  },
+  "desktop_observation": {
+    "tool": "Windows Computer Use / Chrome",
+    "screenshot_size": [
+      1392,
+      947
+    ],
+    "observed": "First layout, source rows, source links, independent register controls and notes",
+    "interactions": [
+      "Hotspot search The Batch gives 1/35, other register counts unchanged",
+      "Reset restores 8/35 and disables Reset",
+      "All-source range shows 35/35; other registers remain core"
+    ],
+    "final_adjustments": "Increased text size, reduced the source-page intro and grouped secondary links after desktop review",
+    "limitation": "Computer Use stopped while refreshing because it could not confidently determine the browser URL. No further browser interaction was attempted. Final typography/intro, industry ecosystem/category filtering and mobile rendering were not visually rechecked."
+  },
+  "source_checks": [
+    "Full summaries retained as lead and detail",
+    "Original links retained in identity cell; full URL available in title",
+    "Source-review notes remain visible below each register",
+    "Three separate tables, industry ecosystem retained",
+    "Canonical source/research tables unchanged"
+  ],
+  "performance": "Not measured; no loading-time guarantee"
+}
