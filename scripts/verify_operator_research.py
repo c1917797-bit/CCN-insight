@@ -13,9 +13,9 @@ DIST = ROOT / 'dist'
 OUT = DIST / 'ai-infra'
 PAGES = ['operators.html', 'operators-1.html', 'operators-2.html', 'operators-codegen.html']
 BRANCHES = {'compute': ('计算算子加速', 4), 'communication': ('通信算子加速', 5)}
-ROUTE_SECTIONS = ['background', 'principles', 'challenges', 'progress', 'comparison', 'practice', 'conclusion']
-PRIMARY_ROUTE_SECTIONS = ['background', 'principles', 'progress', 'practice']
-SUBORDINATE_ROUTE_SECTIONS = ['challenges', 'comparison', 'conclusion']
+ROUTE_SECTIONS = ['brief', 'background', 'principles', 'challenges', 'progress', 'comparison', 'practice', 'conclusion']
+PRIMARY_ROUTE_SECTIONS = ['brief', 'background', 'principles', 'challenges', 'progress', 'comparison', 'practice']
+SUBORDINATE_ROUTE_SECTIONS = ['conclusion']
 SOURCE_KINDS = {'primary_paper', 'official_documentation', 'official_historical_documentation', 'official_project_repository', 'official_repository', 'official_repository_documentation', 'official_project_documentation', 'official_project_repository_documentation'}
 ID = re.compile(r'^[a-z][a-z0-9-]*$')
 
@@ -316,10 +316,11 @@ def verify():
         require(not any(node.tag in {'details', 'summary'} for node in current.nodes), filename + ': research content must stay expanded')
         h1 = [normalized(node.text) for node in current.nodes if node.tag == 'h1']
         require(len(h1) == 1, filename + ': expected one page title')
-        top_nav = [node for node in current.nodes if node.tag == 'nav' and node.attrs.get('aria-label') == '算子研究导航']
+        top_nav = [node for node in current.nodes if node.tag == 'nav' and node.attrs.get('aria-label') == '算子洞察导航']
         require(len(top_nav) == 1, filename + ': missing single operator navigation')
         top_links = [node for node in top_nav[0].descendants() if node.tag == 'a']
-        require([node.attrs.get('href') for node in top_links] == ['operators.html', 'operators-1.html', 'operators-2.html'], filename + ': navigation must contain only the overview and two peer branches')
+        require([node.attrs.get('href') for node in top_links] == ['operators.html#view-'+key for key in ['sources','topics','updates','home','reports']], filename + ': navigation must reuse the five compression reading responsibilities')
+        require([normalized(node.text) for node in top_links] == ['信息来源','技术地图','本期动态','洞察报告','洞察归档'], filename + ': shared navigation labels drifted')
         require(not any('310P' in node.text for node in top_links), filename + ': 310P practice must not be a peer navigation item')
         require('Ascend310P_12_Page_Report' not in current.raw, filename + ': internal report must not be exposed')
         if prior is not None:
@@ -380,8 +381,10 @@ def verify():
                 require(any(n.tag in {'p', 'li'} and normalized(n.text) for n in chapter.descendants()), destination + ': empty chapter ' + section)
             main_headings = [n for n in detailed.nodes if n.tag == 'h2']
             expected_headings = [next(n for n in detailed.ids[key].descendants() if n.tag == 'h2') for key in PRIMARY_ROUTE_SECTIONS + ['references']]
-            require(main_headings == expected_headings, destination + ': mechanism must keep four primary chapters plus references in reading order')
-            for child_id, parent_id in [('challenges', 'background'), ('comparison', 'principles'), ('conclusion', 'practice')]:
+            require(main_headings == expected_headings, destination + ': mechanism must follow the shared seven-chapter compression format plus references')
+            expected_titles=['速览与证据','研究背景','基本原理','关键挑战','技术进展','比较判断','研究结论']
+            require([normalized(h.text) for h in main_headings[:-1]]==expected_titles, destination + ': shared chapter names/order drifted')
+            for child_id, parent_id in [('conclusion', 'practice')]:
                 require(detailed.ids[child_id] in list(detailed.ids[parent_id].descendants()), destination + ': compatibility anchor must remain within its primary chapter: ' + child_id)
             require(normalized(expert['bottleneck_signal']) in normalized(detailed.ids['background'].text), destination + ': observable bottleneck signal absent')
             require(normalized(route['principle_formula']) in normalized(detailed.ids['principles'].text), destination + ': principle relation absent')

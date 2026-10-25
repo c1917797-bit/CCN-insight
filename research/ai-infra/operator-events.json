@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "month": "2026-10",
+  "reviewed_at": "2026-10-25",
+  "scope": "已核对事件日期的增量目录，不代表全量信息源扫描。经典研究和仅有核对日期的实现资料保留在技术地图。",
+  "events": [
+    {
+      "id": "mooncake-v5",
+      "event_on": "2026-10-08",
+      "event_kind": "论文版本更新",
+      "version": "v5",
+      "record_id": "paths-buffers--mooncake-paper-v5",
+      "event_url": "https://arxiv.org/abs/2407.00079v5",
+      "date_locator": "Submission history · v5 · 8 Oct 2026",
+      "delta": "Mooncake论文更新至v5。当前已核对版本身份，尚未逐项比较v4与v5的正文变化，不把原有KV缓存架构或历史性能写成本月新增成果。",
+      "implication": "继续放在数据路径与缓冲管理专题跟踪：整系统的缓存复用、P/D分离和调度收益，需要与传输路径的贡献分开解读。"
+    }
+  ]
+}

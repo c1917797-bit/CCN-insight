@@ -1,5 +1,7 @@
 # 维护路径与验收
 
+算子专题沿用同一七章阅读契约。`operator_topic_reader.py`投影速览与证据索引，正文事实仍在原operator维护包。算子与压缩共用`original-reader/site/business_insight/cloud_core/topic-studio.css`，不新建另一份主题样式；修改该文件后须重建reader UI缓存并回归两类专题。算子待读ID使用operator:命名空间，共用存储时必须保留压缩记录。筛选与检索只调整导航结果，不折叠正文。
+
 推理压缩表内容在 `data/compression/tables/`，界面在 `original-reader/site/business_insight/cloud_core/`。样式为 `reader-refinement.css`；语言为 `data/focus-ui.*.json`。不要直接修改 `dist/`、`data/directory/`、`research/ai-infra/imported/` 生成视图。
 
 维护源改后更新bundle：

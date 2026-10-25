@@ -1,5 +1,10 @@
 # CCN 维护交接 · 2026-10-23
 
+## 算子专题格式发布准备（2026-10-25）
+
+用户已授权更新Git并发布CCN。本次在最新main上选择性合入算子五栏目、十二专题七章、四项速览、证据导航/待读/检索及共用topic-studio.css；完整保留v17来源记录分离及Agent改动。维护入口和桌面验收见docs/OPERATOR-COMPRESSION-FORMAT-20261025.md和docs/OPERATOR-TOPIC-SHARED-FORMAT-20261025.md。部署结果以deployment/ccn-publication.json与后续发布回执为准，原TableGit不改。
+
+
 ## 当前状态
 
 工作目录为CCN-insight，分支main，存在大量历史及本轮未提交改动；不能把工作树等同于已合入、已推送或已发布。用户要求当前迭代本地审阅。原站保留，未经新授权不发布。

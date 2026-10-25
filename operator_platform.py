@@ -85,11 +85,11 @@ def render_scope(spec):
 
 
 def render_taxonomy(branch, specs, guides):
-    html='<article class="op-family op-tree-family"><span class="op-kicker">'+('COMPUTE' if branch['id']=='compute' else 'COMMUNICATION')+'</span><h3><a href="operators-'+('1' if branch['id']=='compute' else '2')+'.html">'+e(branch['title'])+' →</a></h3><ol class="op-tech-tree">'
+    html='<article id="'+branch['id']+'-map" class="op-family op-tree-family"><span class="op-kicker">'+('COMPUTE' if branch['id']=='compute' else 'COMMUNICATION')+'</span><h3><a href="operators-'+('1' if branch['id']=='compute' else '2')+'.html">'+e(branch['title'])+' →</a></h3><p>'+e(branch['summary'])+'</p><ol class="op-tech-tree">'
     for route in branch['routes']:
         terms=[route['title'],route['principle'],route['challenge']]+guides[route['id']]['search_terms']+[x['title']+' '+x['mechanism'] for group in ['industry','academic'] for x in route[group]]+[a['name'] for a in route['expert']['branches']]
         main=specs[route['id']]['catalog']
-        html+='<li data-route-search="'+e(' '.join(terms),quote=True)+'"><div class="op-tree-node"><a href="operators-'+route['id']+'.html">'+e(route['title'])+' →</a><span>'+e(specs[route['id']].get('axis_label','执行机制'))+'</span></div><ul>'
+        html+='<li data-route-search="'+e(' '.join(terms),quote=True)+'"><div class="op-tree-node"><a href="operators-'+route['id']+'.html">'+e(route['title'])+' →</a><span>'+e(specs[route['id']].get('axis_label','执行机制'))+'</span></div><p class="op-map-judgment">'+e(route['expert']['brief'])+'</p><ul>'
         for a in main:
             html+='<li><a href="operators-'+route['id']+'.html#'+a['id']+'">'+e(a['title'])+'</a></li>'
         html+='</ul></li>'

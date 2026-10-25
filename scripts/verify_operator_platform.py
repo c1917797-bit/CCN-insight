@@ -319,6 +319,28 @@ def verify():
     require(len(set(active_urls)) == 13, 'Expected thirteen active research readers')
     for url in active_urls:
         page_for(url, False)
+    topic_chapters=['brief','background','principles','challenges','progress','comparison','practice']
+    chapter_titles=['速览与证据','研究背景','基本原理','关键挑战','技术进展','比较判断','研究结论']
+    for url in active_urls[1:]:
+        topic=page_for(url,False)
+        primary=[n for n in topic.nodes if n.tag=='section' and 'research-overview-section' in n.attrs.get('class','').split()]
+        require([n.attrs['id'] for n in primary]==topic_chapters, url+': all twelve topics must follow the same seven-chapter contract')
+        require([next(n.text.strip() for n in chapter.descendants() if n.tag=='h2') for chapter in primary]==chapter_titles, url+': shared chapter titles drifted')
+        styles=[n.attrs.get('href','') for n in topic.nodes if n.tag=='link']
+        require(any(s.startswith('/business_insight/cloud_core/topic-studio.css?v=') for s in styles), url+': topic must reuse the compression stylesheet')
+        grid=next((n for n in topic.nodes if 'expert-brief-grid' in n.attrs.get('class','').split()),None)
+        require(grid is not None and len([n for n in grid.children if isinstance(n,Node) and n.tag=='article'])==4, url+': brief must explain judgment/routes/evidence/gaps')
+        if url=='operators-codegen.html':
+            allowed={'codegen'}
+        elif url in ['operators-1.html','operators-2.html']:
+            branch='compute' if url=='operators-1.html' else 'communication'
+            allowed={rid for rid,row in built_routes.items() if row['branch']==branch}
+        else:
+            allowed={next(rid for rid,row in built_routes.items() if row['url']==url)}
+        expected={'operator:'+rid for rid,row in built_records.items() if row['route_id'] in allowed}
+        shown=[n.attrs['data-topic-record'] for n in topic.nodes if 'data-topic-record' in n.attrs]
+        require(Counter(shown)==Counter(expected), url+': evidence navigation must project each applicable canonical record exactly once')
+        require('operator-topic-query' in topic.ids, url+': topic search is missing')
     for catalog_id, (item, route_id, _) in catalogs.items():
         node = page_for(built_catalogs[catalog_id]['url'])
         require(normalized(item['title']) in normalized(node.text) and normalized(item['text']) in normalized(node.text), catalog_id + ': catalog anchor lacks its maintained mechanism explanation')
@@ -336,6 +358,22 @@ def verify():
         require(canonical_anchors[anchor] == 1, record_id + ': evidence must have exactly one full canonical HTML entry across active pages')
         require(all(normalized(row[field]) in normalized(node.text) for field in ['title', 'mechanism', 'conditions', 'result', 'limit']), record_id + ': canonical entry dropped facts or applicability boundaries')
     overview = page_for('operators.html', False)
+    view_ids=['view-sources','view-topics','view-updates','view-home','view-reports']
+    require(all(key in overview.ids for key in view_ids), 'Operator hub must use the five compression reading responsibilities')
+    require('evidence-library' in {n.attrs.get('id') for n in overview.ids['view-topics'].descendants()}, 'Complete historical library belongs to the long-term technical map')
+    current_ids={n.attrs.get('id') for n in overview.ids['view-updates'].descendants()}
+    require('evidence-library' not in current_ids, 'Historical/cross-period library cannot masquerade as current events')
+    registers=[n for n in overview.nodes if 'op-source-register' in n.attrs.get('class','').split()]
+    registered_links=[n.attrs.get('href') for table in registers for n in table.descendants() if n.tag=='a' and n.attrs.get('href','').startswith('#source-')]
+    require(Counter(registered_links)==Counter('#source-'+sid for sid in registry), 'Source directory must contain every maintained source exactly once')
+    events=load('operator-events.json')
+    require(events.get('schema_version')==1 and re.fullmatch(r'\d{4}-\d{2}',events['month']), 'Invalid event schema/month')
+    for event in events['events']:
+        require(event['record_id'] in facts, event['id']+': event must link to an existing canonical record')
+        require(event['event_on'].startswith(events['month']) and date.fromisoformat(event['event_on'])<=date.today(), event['id']+': invalid/future current-event date')
+        require(event['date_locator'] and event['event_url'].startswith('https://'), event['id']+': event needs original date evidence')
+        require('event-'+event['id'] in current_ids, event['id']+': event missing from its current view')
+    require('尚未建立独立的月度报告版本归档' in overview.ids['view-reports'].text, 'Editorial revisions must not imply archived monthly report versions')
     trees = [node for node in overview.nodes if 'op-tech-tree' in node.attrs.get('class', '').split()]
     leaf_links = [node.attrs.get('href') for tree in trees for node in tree.descendants() if node.tag == 'a' and urlsplit(node.attrs.get('href', '')).fragment]
     require(set(leaf_links) == {row['url'] for row in built_catalogs.values()}, 'Root taxonomy must contain catalog leaves only, not methods/applications/judgments')

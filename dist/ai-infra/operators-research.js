@@ -2,13 +2,55 @@
   const header = document.querySelector('.op-header');
   const outline = [...document.querySelectorAll('.op-outline nav a')];
   const sections = outline.map(link => document.getElementById(link.getAttribute('href').slice(1))).filter(Boolean);
+  // Same five reading responsibilities as the compression reader. Deep links to
+  // a record or a citation reveal its owning view before scrolling.
+  const views = [...document.querySelectorAll('[data-operator-view]')];
+  function restoreView() {
+    if (!views.length) return;
+    const id = decodeURIComponent(location.hash.slice(1));
+    const target = document.getElementById(id);
+    const panel = target?.closest('[data-operator-view]') || views.find(v => v.dataset.operatorView === 'topics');
+    for (const view of views) view.hidden = view !== panel;
+    document.body.dataset.operatorActiveView = panel.dataset.operatorView;
+    for (const link of document.querySelectorAll('.op-header nav a')) {
+      const selected = new URL(link.href).hash === `#${panel.id}`;
+      if (selected) link.setAttribute('aria-current','page');
+      else link.removeAttribute('aria-current');
+    }
+    for (const link of outline) {
+      const section = document.getElementById(link.hash.slice(1));
+      link.hidden = section?.closest('[data-operator-view]') !== panel;
+    }
+    const quick = document.querySelector('.op-mobile-quick');
+    if (quick) {
+      const first = panel.querySelector('section[id]');
+      const a = quick.querySelector('a');
+      if (first && a) { a.href = `#${first.id}`; a.textContent = first.querySelector('h2')?.textContent + ' ↓'; }
+      const judgment = quick.querySelectorAll('a')[1];
+      if (judgment) judgment.href = '#conclusion';
+    }
+    if (target && target !== panel) requestAnimationFrame(()=>target.scrollIntoView({block:'start'}));
+    else requestAnimationFrame(()=>window.scrollTo({top:0}));
+    updateReading();
+  }
+  if (views.length) {
+    document.querySelector('.op-header nav')?.addEventListener('click',event=>{
+      const link=event.target.closest('a');
+      if (!link || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
+      event.preventDefault();
+      if (location.hash === link.hash) restoreView();
+      else location.hash=link.hash;
+    });
+    addEventListener('hashchange',restoreView);
+    addEventListener('pageshow',restoreView);
+  }
   let scheduled = false;
   function updateReading() {
     scheduled = false;
     const available = document.documentElement.scrollHeight - innerHeight;
     header?.style.setProperty('--reading', `${available > 0 ? Math.min(100,scrollY / available * 100) : 0}%`);
     const boundary = (header?.getBoundingClientRect().height || 68) + 35;
-    const current = sections.filter(section => section.getBoundingClientRect().top <= boundary).sort((a,b) => b.getBoundingClientRect().top-a.getBoundingClientRect().top)[0];
+    const current = sections.filter(section => section.getClientRects().length && section.getBoundingClientRect().top <= boundary).sort((a,b) => b.getBoundingClientRect().top-a.getBoundingClientRect().top)[0];
     for (const link of outline) {
       const active = current && link.getAttribute('href') === `#${current.id}`;
       link.classList.toggle('is-active', !!active);
@@ -21,6 +63,49 @@
   }, {passive:true});
   addEventListener('resize',updateReading,{passive:true});
   updateReading();
+  restoreView();
+  const topicEvidence=document.querySelector('[data-topic-evidence]');
+  if (topicEvidence) {
+    const storageKey='ccn.expert.saved.v1';
+    const rows=[...topicEvidence.querySelectorAll('[data-topic-record]')];
+    const filter=topicEvidence.querySelector('select');
+    const count=topicEvidence.querySelector('[data-topic-evidence-count]');
+    const empty=topicEvidence.querySelector('[data-topic-evidence-empty]');
+    const savedIds=()=>{try{const value=JSON.parse(localStorage.getItem(storageKey)||'[]');return new Set(Array.isArray(value)?value:[]);}catch{return new Set();}};
+    function paintEvidence() {
+      const saved=savedIds();let total=0;
+      for (const row of rows) {
+        const selected=saved.has(row.dataset.topicRecord);
+        row.hidden=!(filter.value==='all'||filter.value===row.dataset.kind||filter.value==='saved'&&selected);
+        if (!row.hidden) total++;
+        const button=row.querySelector('[data-save-card]');
+        button.setAttribute('aria-pressed',String(selected));
+        button.textContent=selected?'已加入待读':'加入待读';
+      }
+      count.textContent=total+'个案例';empty.hidden=total>0;
+    }
+    topicEvidence.addEventListener('click',event=>{
+      const button=event.target.closest('[data-save-card]');if (!button) return;
+      const saved=savedIds(),id=button.dataset.saveCard;
+      if (saved.has(id)) saved.delete(id);else saved.add(id);
+      try{localStorage.setItem(storageKey,JSON.stringify([...saved]));}catch{count.textContent='浏览器未允许保存；正文和证据导航仍可阅读。';return;}
+      paintEvidence();
+    });
+    filter.addEventListener('change',paintEvidence);
+    addEventListener('storage',event=>{if(event.key===storageKey)paintEvidence();});
+    paintEvidence();
+  }
+  const topicQuery=document.querySelector('[data-topic-query]');
+  if (topicQuery) {
+    const results=document.querySelector('[data-topic-query-results]');
+    const candidates=[...document.querySelectorAll('.topic-dossier-card[id],.research-overview-section[id]:not(#brief)')].map(node=>({id:node.id,title:node.querySelector('h2,h3,h4')?.textContent.trim()||node.id,text:node.textContent.toLocaleLowerCase()}));
+    topicQuery.addEventListener('input',()=>{
+      results.replaceChildren();const query=topicQuery.value.trim().toLocaleLowerCase();if(!query)return;
+      const matches=candidates.filter(node=>node.text.includes(query));
+      for (const item of matches.slice(0,8)) {const a=document.createElement('a');a.href='#'+item.id;a.textContent=item.title+' →';results.append(a);}
+      if(!matches.length)results.textContent='本专题已展示内容没有匹配项；可换关键词，或返回技术地图查找其他专题。';
+    });
+  }
   const search = document.querySelector('[data-operator-search]');
   if (search) {
     const items = [...document.querySelectorAll('[data-route-search]')];
