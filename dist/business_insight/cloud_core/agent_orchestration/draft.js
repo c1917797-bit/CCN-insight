@@ -252,6 +252,9 @@
     all('[data-source-panel]').forEach(p=>p.hidden=p.dataset.sourcePanel!==domain);
     cards.forEach(c=>c.hidden=true);
     rows.slice(offsets[domain],offsets[domain]+size).forEach(c=>c.hidden=false);
+    syncDetails();
+    const active=[category.value,priority.value==='important',ecosystem.value,evidence.value,verification.value].filter(Boolean).length;
+    one('#channel-filter-count').textContent=active?' · '+active+' 项已启用':'';
     all('[data-source-subcategory]').forEach(g=>{
       const count=[...g.querySelectorAll('.source-table-row')].filter(c=>!c.hidden).length;
       g.hidden=count===0;
@@ -266,6 +269,21 @@
     const label=tabs.find(t=>t.dataset.sourceTab===domain).textContent;
     one('#channel-status').textContent=`${label} · ${rows.length} 个信源 · 人工整理，具体进展见本期动态`;
   }
+  function syncDetails(){
+    all('.source-detail-row').forEach(row=>{
+      const owner=document.getElementById(row.dataset.sourceOwner),record=row.querySelector('.verification-record');
+      row.hidden=owner.hidden||!record.open;
+      const toggle=owner.querySelector('[data-audit-toggle]');
+      toggle.setAttribute('aria-expanded',String(record.open));
+      toggle.textContent=record.open?'收起核验记录 ↑':'展开核验记录 →';
+    });
+  }
+  all('[data-audit-toggle]').forEach(a=>a.addEventListener('click',event=>{
+    event.preventDefault();
+    const record=document.getElementById(a.getAttribute('aria-controls'));
+    record.open=!record.open;syncDetails();
+  }));
+  all('.verification-record').forEach(record=>record.addEventListener('toggle',syncDetails));
   function choose(key){domain=key;category.value='';ecosystem.value='';query.value='';reset();categories();render();}
   function clearResearchFilters(){area.value='';evidence.value='';verification.value='';}
   one('#channel-reset').addEventListener('click',()=>{priority.value='all';clearResearchFilters();choose(domain);});
@@ -281,9 +299,9 @@
   function deepLink(){
     const record=all('.verification-record').find(d=>'#'+d.id===location.hash);
     if(record){
-      const source=record.closest('.source-table-row');
+      const source=document.getElementById(record.closest('.source-detail-row').dataset.sourceOwner);
       clearResearchFilters();priority.value='all';choose(source.dataset.sourceDomain);
-      record.open=true;record.scrollIntoView({block:'start'});return;
+      record.open=true;syncDetails();record.scrollIntoView({block:'start'});return;
     }
     const hash=location.hash,target=cards.find(c=>'#'+c.id===hash);
     if(target){
@@ -459,7 +477,7 @@
   window.addEventListener('hashchange', () => show(true));
   document.addEventListener('click', event => {
     const link=event.target.closest('a[href]');
-    if (!link || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    if (event.defaultPrevented || !link || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
     const url = new URL(link.href, location.href);
     if (url.origin === location.origin && url.pathname === location.pathname && url.hash && url.hash === location.hash) show(true);
   });

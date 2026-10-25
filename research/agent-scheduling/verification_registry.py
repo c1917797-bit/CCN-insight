@@ -43,12 +43,12 @@ def verification_cell(channel_id):
     summary = f'<div class="verification-preview">{badge}<small>核验 {r["reviewed"]}</small><p>{e(r["observed_fact"])}</p></div>'
     fields = [('核对范围', r['check_scope']), ('调度关联', r['scheduling_relevance']),
               ('尚未证明', r['limitations']), ('下一步核验', r['next_action'])]
-    details = ''.join(f'<dt>{k}</dt><dd>{e(v)}</dd>' for k, v in fields)
-    record = f'''<details class="verification-record" id="verification-{r['id']}"><summary>查看完整核验记录</summary>
+    details = ''.join(f'<div><dt>{k}</dt><dd>{e(v)}</dd></div>' for k, v in fields)
+    record = f'''<details class="verification-record" id="verification-{r['id']}"><summary>核对范围、研究价值与证据边界</summary>
 <p class="verification-record-id">记录编号：{e(r['id'])} · <a href="#verification-{r['id']}">记录直达链接</a></p>
 <p><a href="{e(r['entry_url'])}" target="_blank" rel="noopener noreferrer">检查的入口 ↗</a> · <a href="{e(r['evidence_url'])}" target="_blank" rel="noopener noreferrer">本次核对原文 ↗</a></p>
 <dl>{details}</dl><p class="verification-deadline">建议复核：<time datetime="{r['next_review']}">{r['next_review']}</time>，出现版本／目录变化时提前。此日期是维护建议，未设置自动提醒。</p></details>'''
-    return r, summary + record
+    return r, summary, record
 
 def review_worklist(channels):
     rows = list(latest().values())

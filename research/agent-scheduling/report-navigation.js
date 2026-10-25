@@ -34,7 +34,7 @@
   window.addEventListener('hashchange', () => show(true));
   document.addEventListener('click', event => {
     const link=event.target.closest('a[href]');
-    if (!link || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    if (event.defaultPrevented || !link || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
     const url = new URL(link.href, location.href);
     if (url.origin === location.origin && url.pathname === location.pathname && url.hash && url.hash === location.hash) show(true);
   });
