@@ -1,0 +1,275 @@
+{
+  "date": "2026-10-25",
+  "site": "https://ccn-insight-four.sunshinepmy.chatgpt.site",
+  "site_version": 18,
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "views": [
+    {
+      "overflow": false,
+      "view": "sources",
+      "visible": 1
+    },
+    {
+      "overflow": false,
+      "view": "topics",
+      "visible": 1
+    },
+    {
+      "overflow": false,
+      "view": "current",
+      "visible": 1
+    },
+    {
+      "overflow": false,
+      "view": "report",
+      "visible": 1
+    },
+    {
+      "overflow": false,
+      "view": "archive",
+      "visible": 1
+    }
+  ],
+  "topics": [
+    {
+      "briefs": 4,
+      "broken": [],
+      "cases": 12,
+      "chapters": [
+        "速览与证据",
+        "研究背景",
+        "基本原理",
+        "关键挑战",
+        "技术进展",
+        "比较判断",
+        "研究结论"
+      ],
+      "folds": 0,
+      "overflow": false,
+      "page": "operators-codegen",
+      "sharedStyle": true,
+      "title": "算子自动生成与调优"
+    },
+    {
+      "briefs": 4,
+      "broken": [],
+      "cases": 15,
+      "chapters": [
+        "速览与证据",
+        "研究背景",
+        "基本原理",
+        "关键挑战",
+        "技术进展",
+        "比较判断",
+        "研究结论"
+      ],
+      "folds": 0,
+      "overflow": false,
+      "page": "operators-1",
+      "sharedStyle": true,
+      "title": "计算算子加速"
+    },
+    {
+      "briefs": 4,
+      "broken": [],
+      "cases": 3,
+      "chapters": [
+        "速览与证据",
+        "研究背景",
+        "基本原理",
+        "关键挑战",
+        "技术进展",
+        "比较判断",
+        "研究结论"
+      ],
+      "folds": 0,
+      "overflow": false,
+      "page": "operators-memory-reuse",
+      "sharedStyle": true,
+      "title": "数据搬运与片上复用"
+    },
+    {
+      "briefs": 4,
+      "broken": [],
+      "cases": 5,
+      "chapters": [
+        "速览与证据",
+        "研究背景",
+        "基本原理",
+        "关键挑战",
+        "技术进展",
+        "比较判断",
+        "研究结论"
+      ],
+      "folds": 0,
+      "overflow": false,
+      "page": "operators-tile-parallelism",
+      "sharedStyle": true,
+      "title": "分块映射与并行流水"
+    },
+    {
+      "briefs": 4,
+      "broken": [],
+      "cases": 3,
+      "chapters": [
+        "速览与证据",
+        "研究背景",
+        "基本原理",
+        "关键挑战",
+        "技术进展",
+        "比较判断",
+        "研究结论"
+      ],
+      "folds": 0,
+      "overflow": false,
+      "page": "operators-fusion-launch",
+      "sharedStyle": true,
+      "title": "融合与启动优化"
+    },
+    {
+      "briefs": 4,
+      "broken": [],
+      "cases": 4,
+      "chapters": [
+        "速览与证据",
+        "研究背景",
+        "基本原理",
+        "关键挑战",
+        "技术进展",
+        "比较判断",
+        "研究结论"
+      ],
+      "folds": 0,
+      "overflow": false,
+      "page": "operators-layout-low-precision",
+      "sharedStyle": true,
+      "title": "布局与低精度执行"
+    },
+    {
+      "briefs": 4,
+      "broken": [],
+      "cases": 18,
+      "chapters": [
+        "速览与证据",
+        "研究背景",
+        "基本原理",
+        "关键挑战",
+        "技术进展",
+        "比较判断",
+        "研究结论"
+      ],
+      "folds": 0,
+      "overflow": false,
+      "page": "operators-2",
+      "sharedStyle": true,
+      "title": "通信算子加速"
+    },
+    {
+      "briefs": 4,
+      "broken": [],
+      "cases": 3,
+      "chapters": [
+        "速览与证据",
+        "研究背景",
+        "基本原理",
+        "关键挑战",
+        "技术进展",
+        "比较判断",
+        "研究结论"
+      ],
+      "folds": 0,
+      "overflow": false,
+      "page": "operators-collectives-topology",
+      "sharedStyle": true,
+      "title": "集合算法与拓扑映射"
+    },
+    {
+      "briefs": 4,
+      "broken": [],
+      "cases": 4,
+      "chapters": [
+        "速览与证据",
+        "研究背景",
+        "基本原理",
+        "关键挑战",
+        "技术进展",
+        "比较判断",
+        "研究结论"
+      ],
+      "folds": 0,
+      "overflow": false,
+      "page": "operators-launch-granularity",
+      "sharedStyle": true,
+      "title": "启动与消息粒度"
+    },
+    {
+      "briefs": 4,
+      "broken": [],
+      "cases": 4,
+      "chapters": [
+        "速览与证据",
+        "研究背景",
+        "基本原理",
+        "关键挑战",
+        "技术进展",
+        "比较判断",
+        "研究结论"
+      ],
+      "folds": 0,
+      "overflow": false,
+      "page": "operators-paths-buffers",
+      "sharedStyle": true,
+      "title": "数据路径与缓冲管理"
+    },
+    {
+      "briefs": 4,
+      "broken": [],
+      "cases": 3,
+      "chapters": [
+        "速览与证据",
+        "研究背景",
+        "基本原理",
+        "关键挑战",
+        "技术进展",
+        "比较判断",
+        "研究结论"
+      ],
+      "folds": 0,
+      "overflow": false,
+      "page": "operators-compute-communication-overlap",
+      "sharedStyle": true,
+      "title": "通算融合与异步重叠"
+    },
+    {
+      "briefs": 4,
+      "broken": [],
+      "cases": 4,
+      "chapters": [
+        "速览与证据",
+        "研究背景",
+        "基本原理",
+        "关键挑战",
+        "技术进展",
+        "比较判断",
+        "研究结论"
+      ],
+      "folds": 0,
+      "overflow": false,
+      "page": "operators-transfer-compression",
+      "sharedStyle": true,
+      "title": "传输编码与通信量压缩"
+    }
+  ],
+  "functional": {
+    "industry_filter": [
+      "industry"
+    ],
+    "query": "FlashAttention",
+    "query_results": 6,
+    "query_anchors_valid": true
+  },
+  "scope": "Desktop browser navigation, shared styles and open content. No mobile-device or hardware-performance claim."
+}

@@ -1,5 +1,10 @@
 # CCN 维护交接 · 2026-10-23
 
+## CCN v18 已发布（2026-10-25）
+
+用户授权更新Git并发布CCN；内容提交84acb546f3eba381ae219a4fa9b92e2411f8bd85已推送GitHub，官方Sites源b82f3e42a512cecdbd610b8c9687810a7ee6e4c1、v18部署appgdep_6addaaf920448191aada6aaa2113b3c0 succeeded。线上五栏目和十二专题、四项速览、共享CSS、锚点及筛选/检索实测通过；记录docs/ccn-v18-online-qa-20261025.json。以最新v17为基线选择合并，保留来源核对记录分离与Agent改动。原TableGit未变。共享主工作目录保留旧HEAD和未提交改动，不能拿它整体覆盖远端；发布使用local-releases/ccn-public-20261023隔离副本。回执deployment/ccn-publication.json。
+
+
 ## 算子专题格式发布准备（2026-10-25）
 
 用户已授权更新Git并发布CCN。本次在最新main上选择性合入算子五栏目、十二专题七章、四项速览、证据导航/待读/检索及共用topic-studio.css；完整保留v17来源记录分离及Agent改动。维护入口和桌面验收见docs/OPERATOR-COMPRESSION-FORMAT-20261025.md和docs/OPERATOR-TOPIC-SHARED-FORMAT-20261025.md。部署结果以deployment/ccn-publication.json与后续发布回执为准，原TableGit不改。
