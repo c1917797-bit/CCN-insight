@@ -92,3 +92,9 @@ CCN-insight-site 保存未推送的镜像提交 4727fe9，远端已由并行流�
 Chrome 首轮实点搜索、重置、核心/全部来源均通过，另两表筛选未受影响。最终放大字号与收紧顶部后，Computer Use 刷新时因无法确认网址而停止；未继续浏览器操作。最终线上视觉、移动端和产业生态/类型筛选尚未实点复核，不得声称全页视觉验收。构建、verify.py、verify_original_reader.py、verify_compression.py、test_reader_scan_integrity.cjs、test_reader_journey.cjs及JS语法检查通过。详细边界见 docs/source-directory-qa-20261025.json。
 
 推送前已合并远端最新 Agent v35 相关修改，保留其发布文件；本轮未改原 TableGit。官方 Sites helper 已完成提交/推送/远端HEAD校验，但本机打包仍报无详情错误，使用校验后的 manifest+dist tar 包完成保存与发布。仅使用 source-origin.json 记录主源，凭据未落盘。
+
+## CCN v17 核对记录移出来源正文（2026-10-25）
+
+用户批准按建议移走来源页大块核对卡片。renderChannels不再生成source-register-notes；sourceRecordHref保留month/scope/lang，旧source-review与source-paper-entries锚点跳转到source-records.html对应记录。完整21条核对记录与17条文献入口从同一canonical表源派生，由scripts/build_source_records.py随原阅读器构建生成，不建立第二可编辑源，不把日志直接当成动态或技术结论。核对日期及小记录链接仍在来源表。verify_source_records.py已加入CI，检查记录文字、原始链接和记录锚点完整；整站/原阅读器/阅读链校验和旧链接VM检查通过。
+
+CCN v17部署appgdep_6adda62f8ae8819194fe435df8fa39f1 succeeded；GitHub内容0be38e919de94044e306d08087b50070a13bf671，Sites源e09ba9d533e7483fca9b69d38401a32f09ce1977。回执deployment/ccn-publication.json，详情docs/SOURCE-RECORDS-SEPARATION-20261025.md。原站未改。本机记录页HTTP200；Computer Use导航时再次因无法确认网址而中断，未继续浏览器操作，视觉与实点待复核。本轮预览29336已核对命令行并关闭。
