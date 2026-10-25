@@ -1,21 +1,21 @@
 {
-  "published_at": "2026-10-25T07:09:14.828926+00:00",
+  "published_at": "2026-10-25T09:31:31.270965+00:00",
   "site_url": "https://ccn-insight-four.sunshinepmy.chatgpt.site",
   "access": "public (unchanged)",
   "github_repository": "https://github.com/c1917797-bit/CCN-insight",
-  "github_content_commit": "84acb546f3eba381ae219a4fa9b92e2411f8bd85",
-  "sites_source_commit": "b82f3e42a512cecdbd610b8c9687810a7ee6e4c1",
+  "github_content_commit": "36439f43d9e221dbb90e0cf5a6d6e1e804e594e3",
+  "sites_source_commit": "a772229975cfb5176c123834a228e50e2d0fb420",
   "site_project_id": "appgprj_6ad8b74cbb048191b7b6aaf46ad43a89",
-  "site_version_id": "appgprj_6ad8b74cbb048191b7b6aaf46ad43a89~appgver_8e715886a6948191a3bbf82e00067a19",
-  "site_version_number": 18,
-  "deployment_id": "appgdep_6addaaf920448191aada6aaa2113b3c0",
+  "site_version_id": "appgprj_6ad8b74cbb048191b7b6aaf46ad43a89~appgver_edc58d8a4f3081918c08679254e3ff6b",
+  "site_version_number": 19,
+  "deployment_id": "appgdep_6addcc5f9a688191b989f29fdb52ce75",
   "deployment_status": "succeeded",
-  "archive_storage_hash": "sha256:aa7c588e4327678eac4ae0cd025057fb865e61d49964ab441ff753ae1c911f78",
+  "archive_storage_hash": "sha256:a5b5763442d569f93304de313d7958a63f599d3cbdf38cfbaaa3031e7215f25c",
   "archive_files": 2264,
   "original_host_changed": false,
   "content_version": "compression-0c13ebb37577a4899c82",
   "reader_revision": "03aed4dedb85aa7a50568c0cf537b20adcf99ead",
-  "change": "Operator hub uses five reading views; twelve topics share the compression seven-chapter format, research brief, evidence navigation and local reading list. CCN v17 source-record separation and Agent updates retained.",
+  "change": "Generic detailed-insight status gives compression and operators identical gold markers; two operator links and cache-busted portal styles verified",
   "validated": {
     "operator_topics": 12,
     "operator_canonical_records": 45,
@@ -27,7 +27,7 @@
     "reader_tables": 91,
     "reader_assets": 182
   },
-  "online_qa": "docs/ccn-v18-online-qa-20261025.json",
+  "online_qa": "docs/ccn-v19-atlas-qa-20261025.json",
   "packaging": "Official Sites source helper successfully pushed the exact source and packaged the manifest plus 2263 identical static files. No fallback archive was used.",
-  "verification_scope": "Desktop 1280x720: five views and twelve topics checked; seven chapters, four brief items, shared stylesheet, internal anchors, expanded content and filters/search. No hardware experiments or mobile-device validation."
+  "verification_scope": "Desktop 1280x720 computed colors and both operator entry destinations checked; existing six-root taxonomy and topic contents unchanged."
 }

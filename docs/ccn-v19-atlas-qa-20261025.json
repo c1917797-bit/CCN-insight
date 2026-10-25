@@ -1,0 +1,79 @@
+{
+  "site_version": 19,
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "marker_check": {
+    "legend": "一级分类 可点击研究节点 已有专题洞察",
+    "operatorLinks": [
+      {
+        "action": "查看专题洞察 →",
+        "href": "https://ccn-insight-four.sunshinepmy.chatgpt.site/ai-infra/operators-1.html",
+        "title": "计算算子加速"
+      },
+      {
+        "action": "查看专题洞察 →",
+        "href": "https://ccn-insight-four.sunshinepmy.chatgpt.site/ai-infra/operators-2.html",
+        "title": "通信算子加速"
+      }
+    ],
+    "roots": [
+      {
+        "actionColor": "rgb(137, 164, 196)",
+        "cardColor": "rgba(11, 22, 38, 0.7)",
+        "id": "evaluation",
+        "status": "overview",
+        "titleColor": "rgb(231, 240, 255)"
+      },
+      {
+        "actionColor": "rgb(137, 164, 196)",
+        "cardColor": "rgba(11, 22, 38, 0.7)",
+        "id": "hardware",
+        "status": "overview",
+        "titleColor": "rgb(231, 240, 255)"
+      },
+      {
+        "actionColor": "rgb(220, 184, 121)",
+        "cardColor": "rgba(58, 44, 27, 0.44)",
+        "id": "compression",
+        "status": "detailed",
+        "titleColor": "rgb(241, 196, 128)"
+      },
+      {
+        "actionColor": "rgb(137, 164, 196)",
+        "cardColor": "rgba(11, 22, 38, 0.7)",
+        "id": "iteration",
+        "status": "overview",
+        "titleColor": "rgb(231, 240, 255)"
+      },
+      {
+        "actionColor": "rgb(220, 184, 121)",
+        "cardColor": "rgba(58, 44, 27, 0.44)",
+        "id": "operators",
+        "status": "detailed",
+        "titleColor": "rgb(241, 196, 128)"
+      },
+      {
+        "actionColor": "rgb(137, 164, 196)",
+        "cardColor": "rgba(11, 22, 38, 0.7)",
+        "id": "scheduling",
+        "status": "overview",
+        "titleColor": "rgb(231, 240, 255)"
+      }
+    ],
+    "url": "https://ccn-insight-four.sunshinepmy.chatgpt.site/ai-infra/#operators"
+  },
+  "links": [
+    {
+      "chapters": 7,
+      "title": "计算算子加速",
+      "url": "https://ccn-insight-four.sunshinepmy.chatgpt.site/ai-infra/operators-1"
+    },
+    {
+      "chapters": 7,
+      "title": "通信算子加速",
+      "url": "https://ccn-insight-four.sunshinepmy.chatgpt.site/ai-infra/operators-2"
+    }
+  ]
+}

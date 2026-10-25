@@ -1,5 +1,10 @@
 # CCN 维护交接 · 2026-10-23
 
+## CCN v19 门户标记已发布（2026-10-25）
+
+推理压缩与算子统一使用data-research-status=detailed黄色标记；仅表示已有专题洞察。两个算子入口都为“查看专题洞察”，其他四类未升级。内容提交36439f43d9e221dbb90e0cf5a6d6e1e804e594e3、Sites源a772229975cfb5176c123834a228e50e2d0fb420，v19部署appgdep_6addcc5f9a688191b989f29fdb52ce75 succeeded。线上实际颜色完全一致，两入口进入对应七章专题。回执deployment/ccn-publication.json、docs/ccn-v19-atlas-qa-20261025.json；原TableGit未变。仍从隔离发布副本维护，保留共享旧工作目录未提交内容。
+
+
 ## CCN v18 已发布（2026-10-25）
 
 用户授权更新Git并发布CCN；内容提交84acb546f3eba381ae219a4fa9b92e2411f8bd85已推送GitHub，官方Sites源b82f3e42a512cecdbd610b8c9687810a7ee6e4c1、v18部署appgdep_6addaaf920448191aada6aaa2113b3c0 succeeded。线上五栏目和十二专题、四项速览、共享CSS、锚点及筛选/检索实测通过；记录docs/ccn-v18-online-qa-20261025.json。以最新v17为基线选择合并，保留来源核对记录分离与Agent改动。原TableGit未变。共享主工作目录保留旧HEAD和未提交改动，不能拿它整体覆盖远端；发布使用local-releases/ccn-public-20261023隔离副本。回执deployment/ccn-publication.json。
