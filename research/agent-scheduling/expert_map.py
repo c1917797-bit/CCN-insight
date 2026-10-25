@@ -1,4 +1,4 @@
-"""Expert reading entry: research decisions first, explanatory material on demand."""
+"""Reading order: definition, concrete example, research questions, mechanisms and evidence."""
 from html import escape as e
 from decision_map import BASE, read, render_decisions
 from architect_view import architecture_overview
@@ -64,11 +64,12 @@ def _legacy_points():
 
 
 def render():
-    return f'''<div id="scheduling-decisions" class="research-overview"><p class="eyebrow">研究地图 / 问题 → 机制 → 证据 → 取舍</p><h2>从任务瓶颈，定位三项调度研究</h2><p>研究对象是有依赖、有状态、持续调用模型与工具的 Agent 任务。调度决定工作<strong>何时执行、交给谁执行、获得多少资源</strong>，以改善整任务的完成效果。</p><div class="map-objective"><strong>共同目标：提高端到端任务有效吞吐</strong><span>固定资源预算和任务分布，统计单位时间内质量、时限与成本同时达标的完成任务数。<a href="#north-star">查看完整口径 →</a></span></div></div>
+    return f'''{render_basics()}
+<details id="demo-section" class="map-reference" open><summary>咖啡样例 · 从完整工作流理解调度位置</summary><div class="map-reference-body" id="agent-demo">{render_case()}{_legacy_points()}<details class="map-reference"><summary>演示边界 · 单人、并发与故障分别覆盖什么</summary>{coverage()}</details></div></details>
+<div id="scheduling-decisions" class="research-overview"><p class="eyebrow">从样例到研究 / 问题 → 机制 → 证据 → 取舍</p><h2>从任务瓶颈，定位三项调度研究</h2><p>咖啡样例展示了任务如何经过 Agent、模型与工具服务，最终使用设备资源。下面把其中的调度问题归为三项研究：工作<strong>何时执行、交给谁执行、获得多少资源</strong>。三项研究共同服务于整任务的完成效果。</p><div class="map-objective"><strong>共同目标：提高端到端任务有效吞吐</strong><span>固定资源预算和任务分布，统计单位时间内质量、时限与成本同时达标的完成任务数。<a href="#north-star">查看完整口径 →</a></span></div></div>
 {_directory()}{_comparison()}
 <section id="research-reading"><h2>沿着一个具体问题，读透一份代表研究</h2><article class="reading-entry"><span>重点深读 · 历史论文</span><h3>Murakkab：多模型工作流怎样减少资源需求？</h3><p>从任务分解、模型放置和弹性机制读起，再核对 Figure 6、Table 2 的比较条件。区分论文测量、作者解释与面向云核的研究判断。</p><a class="source-link" href="{BASE}reading-murakkab.html">阅读机制、原图与证据边界 →</a></article></section>
-<details class="map-reference"><summary>系统边界 · 任务、Agent、服务与设备如何关联</summary><div class="map-reference-body">{architecture_overview()}{render_basics()}</div></details>
+<details class="map-reference"><summary>系统边界 · 任务、Agent、服务与设备如何关联</summary><div class="map-reference-body">{architecture_overview()}</div></details>
 <details class="map-reference"><summary>评价口径 · 怎样判断调度真正有效</summary><div class="map-reference-body">{metrics()}</div></details>
 <details class="map-reference"><summary>共用基础 · 观测、决策、反馈与恢复</summary><div class="map-reference-body" id="runtime-loop"><h2>用同一条任务轨迹连接三项研究</h2><p>统一 task_id 与依赖事件，记录就绪、排队、执行和结果核验时间；将模型状态、工具额度与卡资源分开计量。决策后写回状态、校准代价估计，并记录失败与恢复成本。</p><p>这些是后续算法复用的工程基础。目前页面提供研究设计与教学演示，尚未接入真实运行时。</p><a class="source-link" href="{BASE}runtime-rescheduling.html">阅读运行反馈与恢复专题 →</a></div></details>
-<details id="demo-section" class="map-reference"><summary>咖啡全景 · 从完整工作流理解调度位置</summary><div class="map-reference-body" id="agent-demo">{render_case()}{_legacy_points()}<details class="map-reference"><summary>演示边界 · 单人、并发与故障分别覆盖什么</summary>{coverage()}</details></div></details>
 <details id="scope-index" class="map-reference"><summary>应用索引 · 按执行对象与决策查找</summary><div class="map-reference-body"><p>以下是三项研究的应用索引；执行层和决策类型分别组织，不增加新的根技术。</p>{render_decisions()}</div></details>'''

@@ -25,7 +25,7 @@ def shell(title, body):
     else:
         body,page_nav=structure(title,body)
         body = body.replace('</header>', '</header>'+context(title), 1)+related(title)
-    map_nav = '<p class="rail-note">技术地图</p><nav aria-label="技术地图阅读">'+''.join(f'<a href="{BASE}#{key}">{label}</a>' for key,label in [('research-directions','研究方向'),('research-comparison','比较口径'),('research-reading','重点深读'),('architecture-boundaries','系统边界'),('north-star','评价指标'),('coffee-task','咖啡全景')])+'</nav>'
+    map_nav = '<p class="rail-note">技术地图</p><nav aria-label="技术地图阅读">'+''.join(f'<a href="{BASE}#{key}">{label}</a>' for key,label in [('scheduling-essence','调度概念'),('coffee-task','咖啡样例'),('research-directions','研究方向'),('research-comparison','比较口径'),('research-reading','重点深读'),('architecture-boundaries','系统边界'),('north-star','评价指标')])+'</nav>'
     if page_nav: map_nav=page_nav
     body=body.replace('class="table-scroll"', 'class="table-scroll" tabindex="0" role="region" aria-label="横向滚动表格"')
     page_kind='index' if title=='Agent端到端调度' else 'topic'
