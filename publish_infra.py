@@ -4,9 +4,25 @@ from pathlib import Path
 import shutil
 import re
 import json
+from hashlib import sha256
 from html import escape
 
 COMPRESSION_ROUTE_IDS = ('precision', 'selection', 'distillation', 'factorization')
+DETAILED_INSIGHT_ROOTS = ('compression', 'operators')
+
+
+def mark_detailed_insights(map_html):
+    """Mark reading depth, not device validation or exhaustive coverage."""
+    for key in DETAILED_INSIGHT_ROOTS:
+        pattern=r'(<section class="group" id="'+key+r'")(>)(.*?)(</div></section>)'
+        match=re.search(pattern,map_html,flags=re.S)
+        if not match:
+            raise ValueError('Missing detailed insight branch: '+key)
+        content=match.group(3)
+        if key=='operators':
+            content=content.replace('研究建议 · 待验证','已有专题洞察').replace('查看研究内容','查看专题洞察').replace('计算机制与技术进展','查看专题洞察').replace('<i>↗</i>','<i>→</i>')
+        map_html=map_html[:match.start()]+match.group(1)+' data-research-status="detailed"'+match.group(2)+content+match.group(4)+map_html[match.end():]
+    return map_html.replace('已有完整内容','已有专题洞察')
 
 
 def compression_route_terms(root):
@@ -141,3 +157,8 @@ def integrate(root):
     build_compression(root)
     from operator_research_site import build as build_operator_research
     build_operator_research(root)
+    marked=mark_detailed_insights(map_file.read_text(encoding='utf-8'))
+    for asset in ('style.css','atlas.css'):
+        version=sha256((target/asset).read_bytes()).hexdigest()[:12]
+        marked=marked.replace('href="'+asset+'"','href="'+asset+'?v='+version+'"')
+    map_file.write_text(marked,encoding='utf-8')

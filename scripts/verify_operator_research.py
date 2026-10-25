@@ -525,6 +525,12 @@ def verify():
     group = atlas.ids['operators']
     headings = [normalized(n.text) for n in group.descendants() if n.tag == 'h3']
     require(headings == [BRANCHES['compute'][0], BRANCHES['communication'][0]], 'Operator root must preserve its two exact second-level titles')
+    detailed={n.attrs.get('id') for n in atlas.nodes if n.attrs.get('data-research-status')=='detailed'}
+    require(detailed=={'compression','operators'}, 'Detailed insight markers must include compression and operators without upgrading unfinished roots')
+    operator_root=atlas.ids['operators']
+    require('已有专题洞察' in operator_root.text and '研究建议 · 待验证' not in operator_root.text, 'Operator cards must show their current reading depth')
+    marker_css=(OUT/'atlas.css').read_text(encoding='utf-8')
+    require('[data-research-status=detailed]' in marker_css and '#compression' not in marker_css, 'Research-depth color must be generic, not hard-coded to compression')
     require(any(n.attrs.get('href') == 'operators-1.html' and normalized(n.text) for n in group.descendants() if n.tag == 'a'), 'Root map must retain the compute branch entry')
     for label in ['硬件/模型性能评测', '硬件增强', '虚拟化复用', '缓存代计算', '数据稀疏化', '迭代次数压缩', '异构资源调度', '单模型实例多卡调度', '业务感知调度', '多模型实例多卡调度']:
         require(label in atlas.root.text, 'Existing second-level classification lost: ' + label)
