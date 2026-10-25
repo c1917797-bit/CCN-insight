@@ -78,3 +78,5 @@ body[data-compression-view="sources"] .wb-page-header{margin-bottom:0}
 .compression-research-workbench .source-register-table td:first-child{padding-left:12px}
 .compression-research-workbench .source-register-table th:first-child{padding-left:12px}
 @media(max-width:700px){.source-directory-utilities #channel-status{margin-left:0}.compression-research-workbench .source-domain-register{border-radius:11px}.source-register-table .source-name{font-size:16px}}
+
+.source-register-table .source-record-link{display:inline-block;font-size:11px;color:#6b7e91;text-decoration:none;margin:5px 0 0}.source-register-table .source-record-link:hover{text-decoration:underline}

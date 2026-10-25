@@ -45,6 +45,7 @@ function viewForTarget(id) {
 }
 function viewFromHash() { return viewForTarget(location.hash.slice(1))||'sources'; }
 function revealHashTarget(id=location.hash.slice(1)) {
+  if(/^source-(review|paper-entries)-source-family-[a-z0-9_-]+$/.test(id)){location.replace(sourceRecordHref(id));return;}
   if(/^route-(precision|selection|distillation|factorization)$/.test(id)&&state.mapTargetFilter){state.mapTargetFilter='';renderScientificMap();}
   const focusMatch=/^focus-([a-z_]+)-([a-z_]+)$/.exec(id);if(focusMatch){if(state.revision)openScientificFocus(focusMatch[1],focusMatch[2],false);return;}
   if(/^direction-[A-Z]_[A-Z]$/.test(id)){if(state.revision)openDirection(id.slice(10),false);return;}
@@ -481,6 +482,7 @@ function renderInventoryAudit(parent){
  const limits=element('p',(state.locale==='en'?v.limits_en:v.limits_zh).slice(2,3).join(' '),'source-inventory-limits');root.append(limits);document.dispatchEvent(new Event('lri:sections-changed'));
  }).catch(()=>{if(!root.isConnected)return;status.textContent=mapText('库存盘点暂不可用；下方三个信源目录仍可阅读。','Inventory audit unavailable; the three source registers remain accessible.');status.append(button(mapText('重试','Retry'),load));});};load();
 }
+function sourceRecordHref(id){const query=new URLSearchParams(location.search);query.set('lang',state.locale);return 'source-records.html?'+query.toString()+'#'+encodeURIComponent(id);}
 function renderChannels(){
  if(!state.directoryReady||!Array.isArray(state.data.source_families))return;
  const parent=$('channel-cards');parent.replaceChildren();parent.removeAttribute('role');parent.removeAttribute('aria-labelledby');
@@ -508,10 +510,10 @@ function renderChannels(){
   table.setAttribute('aria-label',enumLabel('domain_',domain)+mapText('信息源表格',' source register'));const caption=element('caption',mapText('同一来源保留一行，多种原始入口列在同一单元格。','One row per source; related entrypoints share one cell.'));table.append(caption);
   const columns=domain==='industry'?[mapText('来源与入口','Source and links'),mapText('生态','Ecosystem'),mapText('来源定位','Purpose'),mapText('关注什么','Tracking focus')]:[mapText('来源与入口','Source and links'),mapText('来源定位','Purpose'),mapText('关注什么','Tracking focus')];
   const head=element('thead'),headRow=element('tr');for(const name of columns){const th=element('th',name);th.scope='col';headRow.append(th);}head.append(headRow);table.append(head);const body=element('tbody');table.append(body);scroll.append(table);section.append(scroll);
-  const reviewNotes=element('section','','source-register-notes');reviewNotes.setAttribute('aria-label',enumLabel('domain_',domain)+mapText('来源核对记录',' source review records'));section.append(reviewNotes);
+
   const paint=()=>{
    const catalog=LRIGroupedSources.catalog(state.data,{domain,important:saved.important,query:saved.query,searchText:row=>[row.title_zh,row.title_en,row.focus_zh,row.focus_en,sources.get(row.source_id)?.canonical_url].join(' ')});
-   const entries=catalog.rows.filter(group=>(!saved.ecosystem||group.ecosystem===saved.ecosystem)&&(!saved.category||group.family.category_key===saved.category));body.replaceChildren();reviewNotes.replaceChildren();
+   const entries=catalog.rows.filter(group=>(!saved.ecosystem||group.ecosystem===saved.ecosystem)&&(!saved.category||group.family.category_key===saved.category));body.replaceChildren();
    count.textContent=mapText('显示 ','Showing ')+entries.length+' / '+catalog.all.length+mapText(' 个来源 · ',' sources · ')+entries.reduce((n,g)=>n+g.entries.length,0)+mapText(' 个登记入口',' registered links');
    clear.disabled=!saved.query&&saved.important&&!saved.category&&!saved.ecosystem;
    for(const group of entries){const tr=element('tr');tr.dataset.sourceFamily=group.family.family_id;
@@ -522,9 +524,9 @@ function renderChannels(){
     const summary=textOf(group.family,'summary'),leadEnd=state.locale==='en'?summary.indexOf('. '):summary.indexOf('。');
     if(leadEnd>=0){const split=leadEnd+1;purpose.append(element('p',summary.slice(0,split),'source-purpose-lead'));if(summary.slice(split).trim())purpose.append(element('p',summary.slice(split).trim(),'source-purpose-detail'));}else purpose.append(element('p',summary,'source-purpose-lead'));
     const focusLines=[...new Set(displayEntries.flatMap(e=>textOf(e.channel,'focus').split(state.locale==='en'?/(?<=\.)\s+/:/[。；]+/)).map(s=>s.trim()).filter(Boolean))];const focusList=element('ul','','source-focus-list');for(const line of focusLines)focusList.append(element('li',line));if(!focusLines.length)focusList.append(element('li',mapText('具体跟踪方向待补充。','Tracking focus needs refinement.')));focus.append(focusList);
-    if(papers.length&&mainEntries.length){const note=element('article','','source-paper-entry-notes');note.id='source-paper-entries-'+group.family.family_id;note.append(element('strong',title(group.family)+mapText(' · 已登记的专题文献',' · Registered topic references')));const list=element('ul');for(const entry of papers){const source=sources.get(entry.channel.source_id);if(!source?.canonical_url)continue;const li=element('li'),a=element('a',source.title);a.href=safeUrl(source.canonical_url);a.target='_blank';a.rel='noopener noreferrer';li.append(a,element('p',textOf(entry.channel,'focus')));list.append(li);}note.append(list);reviewNotes.append(note);const jump=element('a',papers.length+mapText(' 条专题文献入口 ↓',' topic references ↓'));jump.href='#'+note.id;urls.append(jump);}
+    if(papers.length&&mainEntries.length){const jump=element('a',papers.length+mapText(' 条专题文献入口 →',' topic references →'));jump.href=sourceRecordHref('source-paper-entries-'+group.family.family_id);urls.append(jump);}
     const dates=group.entries.map(e=>e.channel.entrypoint_checked_at).filter(Boolean).sort();if(dates.length){const checked=element('small',mapText('入口核对 ','Link checked ')+dates.at(-1),'source-table-check');checked.title=mapText('仅指入口核对，不代表效果验证','Entrypoint check, not a performance validation');name.append(checked);}
-    if(group.family.reviewed_at&&textOf(group.family,'review_note')){const id='source-review-'+group.family.family_id,note=element('article','','source-review-note');note.id=id;note.append(element('strong',title(group.family)+' · '+group.family.reviewed_at),element('p',textOf(group.family,'review_note')));if(group.family.review_url){const a=element('a',mapText('核对依据 ↗','Review source ↗'));a.href=safeUrl(group.family.review_url);a.target='_blank';a.rel='noopener noreferrer';note.append(a);}reviewNotes.append(note);const jump=element('a',mapText('阅读核对记录 →','Read review record →'));jump.href='#'+id;focus.append(jump);}
+    if(group.family.reviewed_at&&textOf(group.family,'review_note')){const jump=element('a',mapText('核对记录 →','Review record →'),'source-record-link');jump.href=sourceRecordHref('source-review-'+group.family.family_id);name.append(jump);}
     name.append(urls);const eco=element('td','','source-ecosystem-cell');eco.append(element('span',mapText(group.ecosystem==='ascend'?'昇腾生态':'跨平台生态',group.ecosystem==='ascend'?'Ascend':'Cross-platform'),'source-ecosystem-tag'));
     const cells=[name,...(domain==='industry'?[eco]:[]),purpose,focus];cells.forEach((cell,i)=>{cell.dataset.label=columns[i];tr.append(cell);});body.append(tr);
    }

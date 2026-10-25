@@ -38,6 +38,8 @@ def build():
     from scripts.audit_compression_inventory import build as build_inventory_audit
     inventory_audit=build_inventory_audit(data)
     assert inventory_audit['revision']==revision,'Inventory audit revision drift'
+    from scripts.build_source_records import build as build_source_records
+    build_source_records(module)
     assets=json.loads((DATA/'assets.json').read_text(encoding='utf-8'))['assets']
     for asset in assets:
         destination=target/asset['source_path'].lstrip('/');destination.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(ROOT/asset['local_path'],destination)

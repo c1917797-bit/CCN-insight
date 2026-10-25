@@ -12,6 +12,7 @@ jobs:
           python-version: '3.12'
       - run: python scripts/build.py
       - run: python scripts/verify.py
+      - run: python scripts/verify_source_records.py
       - run: python scripts/validate_insight_skills.py
       - run: python scripts/insight_topic.py self-test
       - run: python scripts/test_insight_workbench.py
