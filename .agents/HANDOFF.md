@@ -82,3 +82,13 @@ CCN-insight-site 保存未推送的镜像提交 4727fe9，远端已由并行流�
 用户要求修复点击与阅读主线。基于最新 main 的隔离 worktree `ccn-navigation-20261023` 完成；未重置旧 CCN-insight 工作目录。GitHub 内容提交 `1f2915f81f4adcd5a9c5d0e3e709d7551b084d5d`，Sites 源码 `bfd0f6f5ae023df05fe271f7e4407b5898202849`，v15 部署 `appgdep_6adbbe38ab9c8191a95e5d8dccf91c14` succeeded。
 
 主栏目跨页、HTML/clean URL识别、并排目录高亮、七章编号、整张方法卡片锚点、五类进展子目录与原理返回上下文已修复。首页AI Infra使用本站相对路径，总地图导航明确压缩范围。`scripts/test_reader_journey.cjs` 已加入CI。rebuild现统一刷新内联启动脚本及shell/CSS散列并以LF写入，勿运行旧日期化文案脚本覆盖现有内容。详见 `docs/READER-JOURNEY-REPAIR-20261023.md` 与 `docs/reader-journey-online-qa-20261023.json`。数据仍为209卡/482引用，PPT与原TableGit未改。移动视口和2秒目标未实测；本次自首页实点到课题、AWQ、动态、报告、原理返回和刷新。
+
+## CCN v16 信息来源目录优化（2026-10-25）
+
+用户要求优化来源表格外观。本轮使用隔离 worktree ccn-sources-20261025，保留主工作目录和其他任务。GitHub 内容提交 d91397dd42dd01f1757fd6aa91cc4a5050f585c3，Sites 源码 cf2c82ade1fd30d359b866411d0acaa3cc5cad2c；v16 部署 appgdep_6adda14abd108191a5dc6c50728d27c6 succeeded。回执 deployment/ccn-publication.json。
+
+保留热点/产业/学术三张独立表，来源和链接合列，定位与关注点分列；产业生态仍独立。新增每表重置、字号和宽度优化、紧凑顶部及响应式样式。正文和链接保留，核对记录仍可见。样式源 source-directory.css 通过 refine_reader_copy.rebuild 刷新散列，仅主入口加载；不要运行旧日期化 main。
+
+Chrome 首轮实点搜索、重置、核心/全部来源均通过，另两表筛选未受影响。最终放大字号与收紧顶部后，Computer Use 刷新时因无法确认网址而停止；未继续浏览器操作。最终线上视觉、移动端和产业生态/类型筛选尚未实点复核，不得声称全页视觉验收。构建、verify.py、verify_original_reader.py、verify_compression.py、test_reader_scan_integrity.cjs、test_reader_journey.cjs及JS语法检查通过。详细边界见 docs/source-directory-qa-20261025.json。
+
+推送前已合并远端最新 Agent v35 相关修改，保留其发布文件；本轮未改原 TableGit。官方 Sites helper 已完成提交/推送/远端HEAD校验，但本机打包仍报无详情错误，使用校验后的 manifest+dist tar 包完成保存与发布。仅使用 source-origin.json 记录主源，凭据未落盘。
