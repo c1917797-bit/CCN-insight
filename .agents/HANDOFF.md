@@ -113,3 +113,12 @@ Chrome 首轮实点搜索、重置、核心/全部来源均通过，另两表筛
 用户批准按建议移走来源页大块核对卡片。renderChannels不再生成source-register-notes；sourceRecordHref保留month/scope/lang，旧source-review与source-paper-entries锚点跳转到source-records.html对应记录。完整21条核对记录与17条文献入口从同一canonical表源派生，由scripts/build_source_records.py随原阅读器构建生成，不建立第二可编辑源，不把日志直接当成动态或技术结论。核对日期及小记录链接仍在来源表。verify_source_records.py已加入CI，检查记录文字、原始链接和记录锚点完整；整站/原阅读器/阅读链校验和旧链接VM检查通过。
 
 CCN v17部署appgdep_6adda62f8ae8819194fe435df8fa39f1 succeeded；GitHub内容0be38e919de94044e306d08087b50070a13bf671，Sites源e09ba9d533e7483fca9b69d38401a32f09ce1977。回执deployment/ccn-publication.json，详情docs/SOURCE-RECORDS-SEPARATION-20261025.md。原站未改。本机记录页HTTP200；Computer Use导航时再次因无法确认网址而中断，未继续浏览器操作，视觉与实点待复核。本轮预览29336已核对命令行并关闭。
+
+
+## CCN v21：推理压缩展示与统一入口候选（2026-10-28）
+
+CCN v21 已公开发布，GitHub 内容提交 912bb417705b4ab449261dfca10922b76baaceb9，Sites 源 cc29009eaf7116d15c9e0e66f9c30875a7e326a7，部署 appgdep_6ae2597abadc8191950c871ede107fb1 succeeded。回执 deployment/ccn-publication.json，公网记录 docs/ccn-v21-online-qa-20261028.json。报告首屏、三项论文选择、栏目滚动复位、异步标题与中英文摘要、手机角标换行和锚点遮挡已修复。16 专题逐页加载/结构通过；未重新审阅全部论文事实、未重做 PPT、未运行设备实验。浏览器实际下载的 PPTX SHA 与登记一致。
+
+原站仍未切换，不得声称两个公网入口已共源。统一入口配置 deployment/compression-entry.json、生成 scripts/build_original_entry.py；原站候选 Topic be5431cf-c315-4222-869c-1e6b94ca357b，候选修订 a74282fe3a94b066007883a6e1d4192d9c3294c0。两项额外修复分别得到用户明确授权：OCP 单处 Shell 引用、provider 测试四处模拟响应 matched_count。完整全局检查之后仍失败于旧 topic guard 签名检查，未扩大范围或绕过发布门槛；禁止上传私人校验数据仍有效。详见 docs/COMPRESSION-DEMO-20261028.md、docs/COMPRESSION-SOURCE.md。下一次继续必须先读这些记录，保留原站现状。
+
+Sites 的 source 参数是官方工具此前打开仓库的结果，不是将要部署的提交；工具会 saveSource 后返回新的镜像 SHA。曾因基准 SHA 被自动审批误判，检查官方代码和镜像逐文件哈希后同一官方流程获准继续。最终只部署新返回的保存版本，不用 GitHub 的 SHA 替换不同仓库的镜像 SHA。

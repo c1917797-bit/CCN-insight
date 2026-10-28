@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-28",
+  "site": "https://ccn-insight-four.sunshinepmy.chatgpt.site",
+  "release_marker": {
+    "canonical_reader": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/",
+    "content_version": "compression-c3dce1a489f4d9495b14",
+    "reader_revision": "c0256050fd587356989e27621e330d7a5aa331ea",
+    "schema": "ccn.compression-release.v1",
+    "source_repository": "https://github.com/c1917797-bit/CCN-insight",
+    "ui_revision": "773ef6efad16014bec85"
+  },
+  "browser_release_matches_local": true,
+  "public_checks": [
+    "Canonical report conclusion and three research choices",
+    "Chinese and English canonical introduction",
+    "Sources to report returns to scrollY 0 and preserves conclusion",
+    "PowerPoint link clicked; downloaded bytes match registered asset SHA-256"
+  ],
+  "download": {
+    "filename": "ascend-compression-reading-218fa8d2937e.pptx",
+    "bytes": 4935983,
+    "sha256": "218fa8d2937e957df2251d24c115d40d196680a9c52de586318efd7a6a0eca32"
+  },
+  "desktop": {
+    "inner_width": 1280,
+    "document_width": 1265
+  },
+  "local_checks": "docs/compression-topics-browser-qa-20261028.json",
+  "local_report_controls": [
+    "Next page",
+    "Jump to page 4",
+    "Open enlarged reader",
+    "150%",
+    "Technical original image (1921px)",
+    "Escape close"
+  ],
+  "limitations": [
+    "CLI HTTP verification received 403; public marker and PPTX were verified through the browser instead",
+    "PDF link not independently opened on the public site in this round",
+    "Not a new full-paper audit, an Ascend benchmark, or a measured two-second cold-start guarantee"
+  ],
+  "original_site": {
+    "changed": false,
+    "candidate_revision": "a74282fe3a94b066007883a6e1d4192d9c3294c0",
+    "blocking_check": "TableGit provider missing topic guard: function loadTopicWorkbench(topicId)"
+  }
+}
