@@ -1,5 +1,20 @@
 # 推理压缩唯一维护源
 
+## 2026-10-28：统一内容源与线上入口的实际状态
+
+唯一可编辑内容仍在 CCN-insight 的 `data/compression/tables/*/rows.jsonl`，阅读器在 `original-reader/site/business_insight/cloud_core/`。构建不从旧 TableGit 回填内容。GitHub 推送、CCN 部署和原站发布是三件不同的事。
+
+原站目前仍保留旧入口，**尚不能声称两站线上已共源**。本轮准备的统一方式是：CCN 托管一份正式阅读器，原站的五个推理压缩入口直接转到这份阅读器。保留 month、scope、topic、lang 与正文锚点，不转发其他参数；不套 iframe，不把原站其他栏目或 Agent 页面重定向。
+
+- 入口配置：`deployment/compression-entry.json`。
+- 原站待发布入口：`python scripts/build_original_entry.py`，输出到 `.tmp/canonical-entry/`，绝不覆盖 CCN 的 `dist/`。
+- CCN 构建标记：`/business_insight/cloud_core/compression-release.json`，分别记录内容、阅读器与界面版本。相同内容哈希不代表相同页面已部署。
+- 验证：`node scripts/test_compression_entry.cjs`，覆盖五入口、参数与锚点保留、无关参数排除和循环跳转保护。
+
+只有原站入口通过其完整校验、正式发布，并在用户实际使用的地址验收后，才形成“一次维护，两个入口使用同一阅读器”。在此之前，CCN 继续独立发布，原站保持线上版本。本轮原站候选、受限修复与剩余阻挡见 `COMPRESSION-DEMO-20261028.md`；最新成功的 CCN 版本以 `deployment/ccn-publication.json` 为准。
+
+下面保留的双份静态模块方案是早期导出流程，仍可用于隔离预览和迁移；它不会自动更新两个公网网站，不再作为已实现共源的证明。
+
 更新：默认预览和双站文件已改用原样阅读器，入口为 /business_insight/cloud_core/index.html#view-topics；原来重排版的 migration 阅读页不再作为默认交付。双站安装目标都保留 business_insight/cloud_core/ 与 assets/ 目录。见 ORIGINAL-READER-PARITY.md。
 
 ## 维护入口

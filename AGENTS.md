@@ -1,5 +1,9 @@
 # CCN 网站维护说明
 
+## 统一入口候选与展示修订（2026-10-28）
+
+继续维护前先读 `docs/COMPRESSION-DEMO-20261028.md` 和 `docs/COMPRESSION-SOURCE.md` 顶部。原站五入口转到单一 CCN 阅读器的方案已准备，但被原站既有全局检查阻挡，尚未正式切换；不得声称两个公网网站已共源。原站候选仅包含推理压缩入口，以及用户逐项批准的 OCP 版本引用和一个 provider 测试样本修复。禁止上传私人校验数据、扩大到其他业务栏目的修复或绕过失败的发布检查。CCN 的实际成功版本以 deployment/ccn-publication.json 为准。
+
 ## 本地迁移保护（2026-10-22）
 
 用户要求原样迁移推理压缩。默认阅读器是 original-reader/site/ 的原版页面，构建时只注入静态数据读取适配，默认预览为 /business_insight/cloud_core/index.html#view-topics。双站交付必须使用 renderer=original-reader，不再交付 compression-migration 的重新排版页作为正式替代。保持16专题正文与原版一致。详见 docs/ORIGINAL-READER-PARITY.md。

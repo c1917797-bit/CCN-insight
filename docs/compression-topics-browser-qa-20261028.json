@@ -1,0 +1,158 @@
+{
+  "date": "2026-10-28",
+  "scope": "Desktop page loading/structure, not a fresh audit of all paper facts",
+  "topics": [
+    {
+      "cards": 40,
+      "closed": [],
+      "errors": [],
+      "overflow": false,
+      "sections": 7,
+      "title": "权重 × 量化 · 推理压缩专题 · 云核",
+      "topic": "parameters-precision"
+    },
+    {
+      "cards": 11,
+      "closed": [],
+      "errors": [],
+      "overflow": false,
+      "sections": 7,
+      "title": "激活 × 量化 · 推理压缩专题 · 云核",
+      "topic": "activations-precision"
+    },
+    {
+      "cards": 14,
+      "closed": [],
+      "errors": [],
+      "overflow": false,
+      "sections": 7,
+      "title": "KV Cache × 量化 · 推理压缩专题 · 云核",
+      "topic": "kv_cache-precision"
+    },
+    {
+      "cards": 10,
+      "closed": [],
+      "errors": [],
+      "overflow": false,
+      "sections": 7,
+      "title": "权重 × 剪枝 · 推理压缩专题 · 云核",
+      "topic": "parameters-selection"
+    },
+    {
+      "cards": 8,
+      "closed": [],
+      "errors": [],
+      "overflow": false,
+      "sections": 7,
+      "title": "激活 × 剪枝 · 推理压缩专题 · 云核",
+      "topic": "activations-selection"
+    },
+    {
+      "cards": 8,
+      "closed": [],
+      "errors": [],
+      "overflow": false,
+      "sections": 7,
+      "title": "KV Cache × 剪枝 · 推理压缩专题 · 云核",
+      "topic": "kv_cache-selection"
+    },
+    {
+      "cards": 8,
+      "closed": [],
+      "errors": [],
+      "overflow": false,
+      "sections": 7,
+      "title": "知识蒸馏与紧凑学生模型 · 推理压缩专题 · 云核",
+      "topic": "parameters-distillation"
+    },
+    {
+      "cards": 9,
+      "closed": [],
+      "errors": [],
+      "overflow": false,
+      "sections": 7,
+      "title": "特征监督与紧凑中间表示 · 推理压缩专题 · 云核",
+      "topic": "activations-distillation"
+    },
+    {
+      "cards": 9,
+      "closed": [],
+      "errors": [],
+      "overflow": false,
+      "sections": 7,
+      "title": "紧凑注意力与 KV 结构蒸馏 · 推理压缩专题 · 云核",
+      "topic": "kv_cache-distillation"
+    },
+    {
+      "cards": 10,
+      "closed": [],
+      "errors": [],
+      "overflow": false,
+      "sections": 7,
+      "title": "权重 × 低秩分解 · 推理压缩专题 · 云核",
+      "topic": "parameters-factorization"
+    },
+    {
+      "cards": 9,
+      "closed": [],
+      "errors": [],
+      "overflow": false,
+      "sections": 7,
+      "title": "激活 × 低秩分解 · 推理压缩专题 · 云核",
+      "topic": "activations-factorization"
+    },
+    {
+      "cards": 9,
+      "closed": [],
+      "errors": [],
+      "overflow": false,
+      "sections": 7,
+      "title": "KV Cache × 低秩分解 · 推理压缩专题 · 云核",
+      "topic": "kv_cache-factorization"
+    },
+    {
+      "cards": 9,
+      "closed": [],
+      "errors": [],
+      "overflow": false,
+      "sections": 7,
+      "title": "KV Cache × GQA / MQA · 推理压缩专题 · 云核",
+      "topic": "kv_cache-sharing"
+    },
+    {
+      "cards": 11,
+      "closed": [],
+      "errors": [],
+      "overflow": false,
+      "sections": 7,
+      "title": "KV Cache × 淘汰 · 推理压缩专题 · 云核",
+      "topic": "kv_cache-kv_eviction"
+    },
+    {
+      "cards": 8,
+      "closed": [],
+      "errors": [],
+      "overflow": false,
+      "sections": 7,
+      "title": "激活 × Token 合并 · 推理压缩专题 · 云核",
+      "topic": "activations-merging"
+    },
+    {
+      "cards": 9,
+      "closed": [],
+      "errors": [],
+      "overflow": false,
+      "sections": 7,
+      "title": "KV Cache × 高效架构设计 · 推理压缩专题 · 云核",
+      "topic": "kv_cache-compact_architecture"
+    }
+  ],
+  "mobile": {
+    "actualInnerWidth": 390,
+    "reportScrollWidth": 375,
+    "weightScrollWidth": 375,
+    "kvScrollWidth": 375,
+    "anchoredReportTop": 180,
+    "mainDetailsClosed": 0
+  }
+}

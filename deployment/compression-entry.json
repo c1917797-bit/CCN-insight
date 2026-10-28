@@ -1,0 +1,6 @@
+{
+  "canonical_reader": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/",
+  "source_repository": "https://github.com/c1917797-bit/CCN-insight",
+  "entrypoints": ["index.html", "topic.html", "monthly.html", "foundations.html", "archive.html"],
+  "query_allowlist": ["month", "scope", "topic", "lang"]
+}

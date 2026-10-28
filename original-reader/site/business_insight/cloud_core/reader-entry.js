@@ -2165,12 +2165,13 @@ function renderReportChoices(m,rows,root){
  if(selection)root.dataset.reportId=selection.report.report_id;else delete root.dataset.reportId;
  const intro=document.querySelector?.('#insight-overview .analysis-intro');if(intro)intro.textContent=word('本期动态保存事件与论文事实；这里说明研究选择、判断理由，以及继续或停止验证的条件。','Current updates retain event and paper facts. This report explains research choices, the reasoning behind them, and the conditions for continuing or stopping validation.');
  if(!priorities.length){const link=el('a',word('查看本期研究判断与验证条件 →','Read this period’s assessments and validation gates →'),'analysis-evidence-link');bindReportArgumentJump(link,'ascend');root.append(link);return;}
- const header=el('header','','analysis-choice-heading');header.append(el('h3',word('本期研究选择','Research choices this period')),el('p',word('按当前报告顺序排列；以下是建议研究，尚未构成本地实测结论。','Ordered as in the current report. These are research recommendations, not local measured results.')));root.append(header);
+ const reportSummary=selection?pick(selection.report,'summary'):'';if(reportSummary){const headline=reportExcerpt(reportSummary),title=document.getElementById('home-judgement');if(title){title.textContent=headline;title.dataset.synthesisContext=[current.revision,current.scope,current.period,current.locale].join('|');}if(intro){const rest=reportSummary.slice(headline.length).trim(),first=reportExcerpt(rest),second=reportExcerpt(rest.slice(first.length).trim());intro.textContent=first+' '+second;}}
+ const header=el('header','','analysis-choice-heading');header.append(el('h3',word('本期研究选择','Research choices this period')),el('p',word('先看研究价值与继续条件，再按需查看原文和详细论证。以下均为研究建议。','Compare research value and continuation criteria before opening the source and detailed reasoning. These are research recommendations.')));root.append(header);
  const grid=el('div','','analysis-choice-grid');
  priorities.forEach(({assessment,ref,paper},index)=>{
   const probe=m.ascend_validation_probes.find(p=>p.assessment_id===assessment.assessment_id),card=el('article','','analysis-choice-card');card.dataset.sectionOutline='false';card.dataset.claimKind='analyst_recommendation';card.dataset.sourceId=ref.source_id;card.dataset.summaryId=ref.summary_id;card.dataset.assessmentId=assessment.assessment_id;if(selection)card.dataset.reportId=selection.report.report_id;if(probe)card.dataset.probeStatus=probe.status;
-  card.append(el('p',String(index+1).padStart(2,'0')+' · '+(paper?pick(paper,'priority'):routePriority(assessment))+' · '+ref.observed_version,'analysis-choice-meta'));
-  const heading=el('h4'),title=el('a',pick(assessment,'title'));bindReportArgumentJump(title,assessment.assessment_id);heading.append(title);card.append(heading,el('p',reportExcerpt(paper?pick(paper,'reason'):pick(assessment,'rationale')),'analysis-choice-reason'));
+  const identity=el('div','','analysis-choice-identity');identity.append(el('p',String(index+1).padStart(2,'0')+' · '+(paper?pick(paper,'priority'):routePriority(assessment))+' · '+ref.observed_version,'analysis-choice-meta'));
+  const heading=el('h4'),title=el('a',pick(assessment,'title'));bindReportArgumentJump(title,assessment.assessment_id);heading.append(title);identity.append(heading);card.append(identity);const reason=el('div','','analysis-choice-why');reason.append(el('strong',word('研究价值','Research value')),el('p',reportExcerpt(paper?pick(paper,'reason'):pick(assessment,'rationale')),'analysis-choice-reason'));card.append(reason);
   const gate=el('p','','analysis-choice-gate');gate.append(el('strong',word('推进门槛：','Validation gate: ')),document.createTextNode(probe?reportExcerpt(pick(probe,'decision_rule')):word('尚未登记完整条件，先补充验证设计。','Complete the validation design before treating this as an actionable recommendation.')));card.append(gate);
   const links=el('div','','analysis-choice-links'),argument=el('a',word('论证与验证条件 ↓','Reasoning and validation gates ↓')),facts=el('a',word('本期动态中的原文事实 →','Paper facts in current updates →'));bindReportArgumentJump(argument,assessment.assessment_id);facts.href=reportFactsHref(ref);links.append(argument,facts);card.append(links);grid.append(card);
  });root.append(grid);const all=el('a',word('查看全部 '+rows.length+' 条研究判断 →','Read all '+rows.length+' research assessments →'),'analysis-all-assessments');bindReportArgumentJump(all,'ascend');root.append(all);
@@ -2457,6 +2458,15 @@ function disclosure(key,summary) {
   const node=element('details');node.dataset.disclosureKey=key;
   node.open=state.disclosureOpen.get(key)===true;node.append(element('summary',summary));return node;
 }
+function scrollViewStart(view) {
+  // A main-column change starts at its beginning; evidence deep links keep their own target.
+  const hash='#view-'+view;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    if(topicPage()||state.view!==view||location.hash!==hash)return;
+    const target=$('view-'+view);if(!target||target.hidden)return;
+    window.scrollTo({top:0,behavior:'auto'});
+  }));
+}
 function showView(view,updateHash=false) {
   state.view=topicPage()?'topics':document.body.dataset.compressionMonthly==='true'?'updates':Object.hasOwn(viewIds,view)?view:'sources';
   document.documentElement.dataset.cloudInitialView=state.view;
@@ -2471,6 +2481,7 @@ function showView(view,updateHash=false) {
   document.dispatchEvent(new Event('lri:sections-changed'));
   renderViewPurpose();
   if(updateHash&&location.hash!=='#view-'+state.view)history.pushState(null,'','#view-'+state.view);
+  if(updateHash)scrollViewStart(state.view);
   if(!topicPage()&&state.readerMode==='sources'&&state.view!=='sources'){start(state.view);return;}
   if(!topicPage()&&state.readerMode==='current'&&!['updates','home'].includes(state.view)){start(state.view);return;}
   if(!topicPage()&&state.readerMode==='map'&&state.view!=='topics'){start(state.view);return;}
@@ -2691,12 +2702,16 @@ function cellTitle(cell) { return title(cell)||[title(state.data.objects.find(ro
 function currentReview(cellId) { return state.reviews.find(row=>row.cell_id===cellId); }
 function renderOverview() {
   const observation=$('insight-observation'),boundary=$('insight-boundary'),freshness=$('insight-freshness');
-  observation.replaceChildren(); boundary.replaceChildren(); freshness.replaceChildren(); $('home-judgement').replaceChildren();
+  observation.replaceChildren(); boundary.replaceChildren(); freshness.replaceChildren();
+  const judgement=$('home-judgement'),context=[state.revision,state.scope,state.period,state.locale].join('|');
+  if(judgement.dataset.synthesisContext!==context||!judgement.textContent.trim()){
+    judgement.textContent=state.profile?label('conclusion_from_checked_facts'):'';
+    delete judgement.dataset.synthesisContext;
+  }
   if(!state.profile)return;
   const scope=currentScope();
   const period=state.data.trend_periods.find(row=>row.period_id===state.period);
   $('home-period').textContent=label('view_home')+(period?' · '+period.month:'')+' · '+label('latest_check_record')+': '+state.profile.last_verified;
-  $('home-judgement').textContent=label('conclusion_from_checked_facts');
   if(state.scopeError)observation.append(element('p',label('scope_read_failed')));
   else if(state.scopeBusy)observation.append(element('p',label('loading')));
   else if(!scope||!state.scopeReady)observation.append(element('p',label('no_scope')));
@@ -4018,7 +4033,7 @@ function openScientificFocus(target,mechanism,updateHash=true){
 }
 function mapTopicLabel(topic){
  if(topic.method_term_id==='distillation')return title(topic);
- return title(mapTerm(topic.target_term_id))+' · '+title(mapTerm(topic.method_term_id));
+ const object=title(mapTerm(topic.target_term_id)),method=title(mapTerm(topic.method_term_id));return method.startsWith(object)?method:object+' · '+method;
 }
 // Generated retrieval view, not a second editable knowledge source.
 const expertLibraryState={query:'',mode:'all',limit:12};
@@ -4905,7 +4920,7 @@ document.addEventListener('click',event=>{
   if(link.dataset.view){event.preventDefault();showView(link.dataset.view,true);}
   else if($(id)){showView(viewForTarget(id));revealHashTarget(id);}
 });
-window.addEventListener('hashchange',()=>{const view=/^#view-(sources|topics|updates|home|reports)$/.exec(location.hash);if(topicPage()&&view){location.replace(mainReaderHref(view[1]));return;}showView(viewFromHash());revealHashTarget();});
+window.addEventListener('hashchange',()=>{const view=/^#view-(sources|topics|updates|home|reports)$/.exec(location.hash);if(topicPage()&&view){location.replace(mainReaderHref(view[1]));return;}showView(viewFromHash());revealHashTarget();if(view)scrollViewStart(view[1]);});
 window.addEventListener('popstate',()=>{restoreTopicNodes();document.body.dataset.compressionTopic=String(/\/topic(?:\.html)?\/?$/.test(location.pathname));const topic=requestedTopic();if(topic&&state.revision){const [target,method]=topic.split('-');openScientificFocus(target,method,false);if(!topicPage())showView(viewFromHash());}else{showView(viewFromHash());revealHashTarget();}document.dispatchEvent(new Event('lri:sections-changed'));});
 document.querySelectorAll('[data-domain]').forEach(tab=>{
   tab.addEventListener('click',()=>{state.domain=tab.dataset.domain;state.channelCategory='';state.channelOffset=0;state.industryOffsets={ascend:0,general:0};if(state.readerMode==='sources'){if(!state.sourceGroups.has(state.revision+'__'+state.domain)){for(const item of document.querySelectorAll('[data-domain]')){const active=item.dataset.domain===state.domain;item.setAttribute('aria-selected',String(active));item.tabIndex=active?0:-1;}$('channel-cards').textContent=mapText('正在读取','Loading ')+enumLabel('domain_',state.domain)+mapText('信源…',' sources…');$('channel-status').textContent=enumLabel('domain_',state.domain)+' · '+mapText('读取中','Loading');$('channel-category').replaceChildren();$('channel-category').disabled=true;$('channel-prev').disabled=true;$('channel-next').disabled=true;}showSourceGroup(state.domain).catch(error=>showLoadError(error,true));}else renderChannels();});

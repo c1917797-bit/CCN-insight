@@ -60,6 +60,15 @@ function disclosure(key,summary) {
   const node=element('details');node.dataset.disclosureKey=key;
   node.open=state.disclosureOpen.get(key)===true;node.append(element('summary',summary));return node;
 }
+function scrollViewStart(view) {
+  // A main-column change starts at its beginning; evidence deep links keep their own target.
+  const hash='#view-'+view;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    if(topicPage()||state.view!==view||location.hash!==hash)return;
+    const target=$('view-'+view);if(!target||target.hidden)return;
+    window.scrollTo({top:0,behavior:'auto'});
+  }));
+}
 function showView(view,updateHash=false) {
   state.view=topicPage()?'topics':document.body.dataset.compressionMonthly==='true'?'updates':Object.hasOwn(viewIds,view)?view:'sources';
   document.documentElement.dataset.cloudInitialView=state.view;
@@ -74,6 +83,7 @@ function showView(view,updateHash=false) {
   document.dispatchEvent(new Event('lri:sections-changed'));
   renderViewPurpose();
   if(updateHash&&location.hash!=='#view-'+state.view)history.pushState(null,'','#view-'+state.view);
+  if(updateHash)scrollViewStart(state.view);
   if(!topicPage()&&state.readerMode==='sources'&&state.view!=='sources'){start(state.view);return;}
   if(!topicPage()&&state.readerMode==='current'&&!['updates','home'].includes(state.view)){start(state.view);return;}
   if(!topicPage()&&state.readerMode==='map'&&state.view!=='topics'){start(state.view);return;}
@@ -294,12 +304,16 @@ function cellTitle(cell) { return title(cell)||[title(state.data.objects.find(ro
 function currentReview(cellId) { return state.reviews.find(row=>row.cell_id===cellId); }
 function renderOverview() {
   const observation=$('insight-observation'),boundary=$('insight-boundary'),freshness=$('insight-freshness');
-  observation.replaceChildren(); boundary.replaceChildren(); freshness.replaceChildren(); $('home-judgement').replaceChildren();
+  observation.replaceChildren(); boundary.replaceChildren(); freshness.replaceChildren();
+  const judgement=$('home-judgement'),context=[state.revision,state.scope,state.period,state.locale].join('|');
+  if(judgement.dataset.synthesisContext!==context||!judgement.textContent.trim()){
+    judgement.textContent=state.profile?label('conclusion_from_checked_facts'):'';
+    delete judgement.dataset.synthesisContext;
+  }
   if(!state.profile)return;
   const scope=currentScope();
   const period=state.data.trend_periods.find(row=>row.period_id===state.period);
   $('home-period').textContent=label('view_home')+(period?' · '+period.month:'')+' · '+label('latest_check_record')+': '+state.profile.last_verified;
-  $('home-judgement').textContent=label('conclusion_from_checked_facts');
   if(state.scopeError)observation.append(element('p',label('scope_read_failed')));
   else if(state.scopeBusy)observation.append(element('p',label('loading')));
   else if(!scope||!state.scopeReady)observation.append(element('p',label('no_scope')));
@@ -1621,7 +1635,7 @@ function openScientificFocus(target,mechanism,updateHash=true){
 }
 function mapTopicLabel(topic){
  if(topic.method_term_id==='distillation')return title(topic);
- return title(mapTerm(topic.target_term_id))+' · '+title(mapTerm(topic.method_term_id));
+ const object=title(mapTerm(topic.target_term_id)),method=title(mapTerm(topic.method_term_id));return method.startsWith(object)?method:object+' · '+method;
 }
 // Generated retrieval view, not a second editable knowledge source.
 const expertLibraryState={query:'',mode:'all',limit:12};
@@ -2508,7 +2522,7 @@ document.addEventListener('click',event=>{
   if(link.dataset.view){event.preventDefault();showView(link.dataset.view,true);}
   else if($(id)){showView(viewForTarget(id));revealHashTarget(id);}
 });
-window.addEventListener('hashchange',()=>{const view=/^#view-(sources|topics|updates|home|reports)$/.exec(location.hash);if(topicPage()&&view){location.replace(mainReaderHref(view[1]));return;}showView(viewFromHash());revealHashTarget();});
+window.addEventListener('hashchange',()=>{const view=/^#view-(sources|topics|updates|home|reports)$/.exec(location.hash);if(topicPage()&&view){location.replace(mainReaderHref(view[1]));return;}showView(viewFromHash());revealHashTarget();if(view)scrollViewStart(view[1]);});
 window.addEventListener('popstate',()=>{restoreTopicNodes();document.body.dataset.compressionTopic=String(/\/topic(?:\.html)?\/?$/.test(location.pathname));const topic=requestedTopic();if(topic&&state.revision){const [target,method]=topic.split('-');openScientificFocus(target,method,false);if(!topicPage())showView(viewFromHash());}else{showView(viewFromHash());revealHashTarget();}document.dispatchEvent(new Event('lri:sections-changed'));});
 document.querySelectorAll('[data-domain]').forEach(tab=>{
   tab.addEventListener('click',()=>{state.domain=tab.dataset.domain;state.channelCategory='';state.channelOffset=0;state.industryOffsets={ascend:0,general:0};if(state.readerMode==='sources'){if(!state.sourceGroups.has(state.revision+'__'+state.domain)){for(const item of document.querySelectorAll('[data-domain]')){const active=item.dataset.domain===state.domain;item.setAttribute('aria-selected',String(active));item.tabIndex=active?0:-1;}$('channel-cards').textContent=mapText('正在读取','Loading ')+enumLabel('domain_',state.domain)+mapText('信源…',' sources…');$('channel-status').textContent=enumLabel('domain_',state.domain)+' · '+mapText('读取中','Loading');$('channel-category').replaceChildren();$('channel-category').disabled=true;$('channel-prev').disabled=true;$('channel-next').disabled=true;}showSourceGroup(state.domain).catch(error=>showLoadError(error,true));}else renderChannels();});

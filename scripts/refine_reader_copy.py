@@ -167,7 +167,7 @@ def rebuild():
  for name in ['index.html','topic.html','monthly.html','foundations.html']:
   path=BASE/name;t=path.read_text(encoding='utf-8')
   t=re.sub(r'lri-shell\.js\?v=[^"\s]+',lambda _:'lri-shell.js?v='+shell_hash,t)
-  for asset in ['reader-atlas.css','foundations-quickref.css','source-directory.css']:
+  for asset in ['reader-atlas.css','reader-refinement.css','foundations-quickref.css','source-directory.css']:
    digest=hashlib.sha256((BASE/asset).read_bytes()).hexdigest()[:16]
    t=re.sub(re.escape(asset)+r'\?v=[^"\s]+',lambda _:asset+'?v='+digest,t)
   t=t.replace('正在连接 TableGit…','正在读取研究资料…').replace('<title>压缩基础 · 云核 · LRI</title>','<title>压缩基础 · 极智 AI Infra</title>')

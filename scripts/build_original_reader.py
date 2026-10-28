@@ -40,6 +40,8 @@ def build():
     assert inventory_audit['revision']==revision,'Inventory audit revision drift'
     from scripts.build_source_records import build as build_source_records
     build_source_records(module)
+    ui_digest=hashlib.sha256(json.dumps(inventory,sort_keys=True).encode()).hexdigest()[:20]
+    (module/'compression-release.json').write_bytes((json.dumps({'schema':'ccn.compression-release.v1','content_version':version,'reader_revision':revision,'ui_revision':ui_digest,'source_repository':'https://github.com/c1917797-bit/CCN-insight','canonical_reader':'https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/'},ensure_ascii=False,indent=2)+'\n').encode())
     assets=json.loads((DATA/'assets.json').read_text(encoding='utf-8'))['assets']
     for asset in assets:
         destination=target/asset['source_path'].lstrip('/');destination.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(ROOT/asset['local_path'],destination)
