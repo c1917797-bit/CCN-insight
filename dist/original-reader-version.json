@@ -200,7 +200,7 @@
     },
     {
       "path": "business_insight/cloud_core/current-synthesis.js",
-      "sha256": "d8ef49bcb0adedf27d07cea85a66b9374dcd43e50b95251fe0c2874987927f4b",
+      "sha256": "9f7bd8b414c072c02a1682ccb0b3bf5cff8f4103d4a14d41f1b549c832c87d58",
       "transport_injected": false
     },
     {
@@ -235,7 +235,7 @@
     },
     {
       "path": "business_insight/cloud_core/index.html",
-      "sha256": "8c21d60c416c40bb401736bc80141fd93eac50965c52ccce1440b802ec0f4e47",
+      "sha256": "9d71637a980f1489028d9045b0f1411bc342c137ef9cca3cb6a5ac028d143ff3",
       "transport_injected": true
     },
     {
@@ -250,7 +250,7 @@
     },
     {
       "path": "business_insight/cloud_core/monthly.html",
-      "sha256": "1a5d0adcc296d595f963fa708ef4ca0354d4108bd41038e53868c23681f8b874",
+      "sha256": "84f699bbb58aabd290b06a97c1c9b3c0af091a7e24f333471aa0af5a57689ea7",
       "transport_injected": true
     },
     {
@@ -275,7 +275,7 @@
     },
     {
       "path": "business_insight/cloud_core/reader-entry.js",
-      "sha256": "efde4bd6f8bbd09d8cef8d211bef8c3df0d3dff6d6e8f7f08767f4a804538a3b",
+      "sha256": "f0d5a725082d2c0138ade72d2cbb7d938107ec931f4956e857764c98b78b81ee",
       "transport_injected": false
     },
     {
@@ -285,7 +285,7 @@
     },
     {
       "path": "business_insight/cloud_core/reader-ui-cache.js",
-      "sha256": "1c9822fd523a3460563352fd2394fdbda2f7e72d0b205a5754bcd85799120f02",
+      "sha256": "1eec7b2e49da196ac08dae0a1d60c63a852f3429b7f9a6372951ae657b4186a2",
       "transport_injected": false
     },
     {
@@ -315,7 +315,7 @@
     },
     {
       "path": "business_insight/cloud_core/topic-entry.js",
-      "sha256": "0f8600a932291636f71f0f9cb63814fd97cb869b16790f90a70005c7c2776282",
+      "sha256": "e0eaf508132f3fd739f89c980ed46200978d6e807f5a5e29c051826cb11dbff2",
       "transport_injected": false
     },
     {
@@ -330,7 +330,7 @@
     },
     {
       "path": "business_insight/cloud_core/topic.html",
-      "sha256": "967ef03ffd6b94faa2f048a77fd684dc538df19c6676828292443c2a1f9e6955",
+      "sha256": "b79e15da38445f3acd3a136fd5be21e10f0b36176563027e8bf99ba6d3453cb4",
       "transport_injected": true
     },
     {

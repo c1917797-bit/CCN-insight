@@ -70,6 +70,7 @@ function element(tag, value = '', className = '') {
     scrollIntoView(options) { scrollEvents.push({id: this.id, options}); },
     focus(options) { this.focusCount++; this.focusOptions = options; },
     setAttribute(name, value) { this.attributes[name] = String(value); },
+    removeAttribute(name) { delete this.attributes[name]; },
     getAttribute(name) {
       if (name === 'id') return this.id || null;
       if (name.startsWith('data-')) return this.dataset[name.slice(5).replace(/-([a-z])/g, (_, letter) => letter.toUpperCase())] ?? null;
@@ -81,10 +82,12 @@ const roots = new Map(['analysis-focus-cards', 'ascend-cards', 'analysis-summary
   const node = element(id === 'ascend' ? shells[0].tag : 'div'); node.id = id;if (id === 'ascend') node.open = shells[0].open;return [id, node];
 }));
 const nodes = () => [...roots.values()].flatMap(walk);
+const reportIntro=element('p');reportIntro.setAttribute('data-i18n-key','analysis_intro');
 const document = {
   createElement: element, createTextNode: value => element('#text', value),
   getElementById: id => nodes().find(node => node.id === id) || null,
   body: {dataset: {}},
+  querySelector: selector=>selector==='#insight-overview .analysis-intro'?reportIntro:null,
   querySelectorAll: () => nodes().filter(node => (node.tagName === 'SECTION' && node.id) || node.dataset.sectionId),
   dispatchEvent() {}
 };
@@ -103,6 +106,8 @@ for (const locale of ['zh', 'en']) {
   const current = {locale, scope: report.scope_id, period: report.period_id, topicId: '', strings, topics: readRows('ic_compression_topics')};
   context.reportTest.setCurrent(current);
   context.reportTest.renderAnalysis(model);
+  assert.equal(reportIntro.getAttribute('data-i18n-key'),null,'Shell translation must not overwrite the localized canonical report summary');
+  assert(reportIntro.textContent.includes(locale==='zh'?'块对齐混合精度':'mixed precision'),'The visible introduction follows the adopted report, not generic translation copy');
   const focus = roots.get('analysis-focus-cards').children;
   assert.deepEqual(focus.map(node => node.dataset.sourceId), expected.map(row => row.source_id), 'Focus must follow the selected paper order');
   const choices = walk(roots.get('analysis-summary')).filter(node => node.className === 'analysis-choice-card');
