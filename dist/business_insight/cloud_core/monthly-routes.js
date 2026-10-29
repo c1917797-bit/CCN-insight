@@ -233,7 +233,7 @@
         li.append(node('span',event.event_date+' · '+ref.observed_version+' · '+t(event.date_kind==='revision'?'修订':'首投',event.date_kind==='revision'?'Revision':'First submission'),'meta'),node('span',t(summary.review_status==='method_results_checked'?'方法与结果已核对':'仅摘要已核对',summary.review_status==='method_results_checked'?'Methods/results checked':'Abstract only'),'monthly-review-badge'));
         const primaryLink=node('p','','monthly-paper-links');cite(primaryLink,ref);const detailLink=node('a',t('原文笔记 →','Source notes →'));detailLink.href=readerUrl('',ref.summary_id);detailLink.dataset.monthlyReader='true';primaryLink.append(detailLink);li.append(primaryLink);const summaryDetails=node('div','','monthly-paper-details');paperFields(summaryDetails,summary,model,ref.summary_id,{compact:true});li.append(summaryDetails);if(current.topicId&&!topicPaperIds.has(ref.summary_id)){li.prepend(node('p',t('关联背景原文','Contextual source'),'meta'));li.dataset.topicRelation='context';}else li.dataset.topicRelation='direct';list.append(li);}
       card.append(list);
-      
+
       const report=node('a',t('查看本期综合判断 →','Open this period’s synthesis →'),'monthly-synthesis-link');report.href='index.html?month='+current.period+'&scope='+current.scope+'#view-home';
       card.append(node('p',t(papers.size+' 篇原文 · 数字保留论文条件，不等于昇腾实测',papers.size+' primary papers · Results retain paper conditions, not Ascend measurements'),'meta'));
       const open=node('a',t('查看完整原文笔记 →','Read the full source notes →'),'monthly-story-open');open.href=readerUrl(story.story_id);open.dataset.monthlyReader='true';card.append(open);overview.append(card);
