@@ -1,0 +1,20 @@
+{
+  "status": "local_browser_verified_pending_online",
+  "change": "Compact grouped source entrypoints without changing canonical sources or URLs",
+  "viewport_width": 1280,
+  "arxiv": {
+    "before_entry_area_height_px": 605.0625,
+    "after_entry_area_height_px": 168.8828125,
+    "before_row_height_px": 758.84375,
+    "after_row_height_px": 455.734375,
+    "all_12_links_preserved": true,
+    "subject_labels": ["cs.LG", "cs.CL", "cs.DC", "cs.AI", "cs.CV"],
+    "rss_initially_closed": true,
+    "rss_expand_and_collapse_checked": true,
+    "all_5_feed_links_checked": true,
+    "horizontal_page_overflow": false
+  },
+  "other_sources": "Show up to two ordinary entrypoints by default; keep additional links in one native details element",
+  "checks": ["node --check compression.js", "build.py", "verify.py", "verify_compression.py", "verify_original_reader.py", "verify_source_records.py", "test_reader_journey.cjs", "git diff --check"],
+  "scope": "Presentation only. Canonical tables, publication dates and research judgments unchanged. No new device-size override was used."
+}

@@ -84,3 +84,15 @@ body[data-compression-view="sources"] .wb-page-header{margin-bottom:0}
 @media(max-width:700px){.source-directory-utilities #channel-status{margin-left:0}.compression-research-workbench .source-domain-register{border-radius:11px}.source-register-table .source-name{font-size:16px}}
 
 .source-register-table .source-record-link{display:inline-block;font-size:11px;color:#6b7e91;text-decoration:none;margin:5px 0 0}.source-register-table .source-record-link:hover{text-decoration:underline}
+
+/* Group alternate entrypoints instead of stretching one source into a long list. */
+.source-link-group{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 9px;margin:9px 0}
+.source-link-group-label{font-size:11px;color:#718095;flex:none}
+.source-link-chips{display:flex;flex-wrap:wrap;gap:5px}
+.compression-research-workbench .source-register-table .source-link-chips a{display:inline-flex;align-items:center;min-height:28px;padding:2px 8px;border:1px solid #d8e5ed;border-radius:6px;background:#f2f7fa;color:#27657b;font:12px/1.5 ui-monospace,Consolas,monospace;text-decoration:none;white-space:nowrap}
+.compression-research-workbench .source-register-table .source-link-chips a:hover{background:#e5f1f4;border-color:#99bdc9}
+.source-link-chips a:focus-visible,.source-links-more>summary:focus-visible{outline:2px solid #408b9c;outline-offset:3px}
+.compression-research-workbench .source-register-table .source-links-more{margin:9px 0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+.compression-research-workbench .source-register-table .source-links-more>summary{font-size:12px;line-height:1.7;color:#507387;cursor:pointer;padding:3px 0;min-height:28px}
+.source-links-more[open]>.source-links-expanded,.source-links-more[open]>.source-link-group{margin-top:8px;padding-left:11px;border-left:2px solid #dce9ef}
+.source-links-more~a{margin-top:9px}

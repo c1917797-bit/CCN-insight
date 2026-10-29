@@ -2916,6 +2916,19 @@ function renderInventoryAudit(parent){
  }).catch(()=>{if(!root.isConnected)return;status.textContent=mapText('库存盘点暂不可用；下方三个信源目录仍可阅读。','Inventory audit unavailable; the three source registers remain accessible.');status.append(button(mapText('重试','Retry'),load));});};load();
 }
 function sourceRecordHref(id){const query=new URLSearchParams(location.search);query.set('lang',state.locale);return 'source-records.html?'+query.toString()+'#'+encodeURIComponent(id);}
+function renderSourceEntryLinks(entries,sources,parent){
+ const seen=new Set(),links=[];
+ for(const entry of entries){const source=sources.get(entry.channel.source_id);if(!source?.canonical_url||seen.has(source.canonical_url))continue;seen.add(source.canonical_url);links.push({entry,url:safeUrl(source.canonical_url)});}
+ const anchor=(item,compact=false)=>{const {entry,url}=item;let name=enumLabel('source_entry_kind_',entry.entry_kind);if(compact){const subject=new URL(url).pathname.match(/\/(?:list|rss)\/([^/]+)/);name=subject?decodeURIComponent(subject[1]):title(entry.channel);}
+  const link=element('a',name+(compact?'':' ↗'));link.href=url;link.title=url;link.target='_blank';link.rel='noopener noreferrer';link.setAttribute('aria-label',title(entry.channel)+' · '+url);return link;};
+ const standard=(item,target)=>{const box=element('div','','source-register-entry'),address=element('small',item.url.replace(/^https?:\/\/(?:www\.)?/,''),'source-table-url');address.title=item.url;box.append(anchor(item),address);target.append(box);};
+ const subjects=links.filter(item=>item.entry.entry_kind==='subject_list'),feeds=links.filter(item=>item.entry.entry_kind==='rss'),other=links.filter(item=>!['subject_list','rss'].includes(item.entry.entry_kind));
+ const chips=(items,target,labelText)=>{const group=element('div','','source-link-group');if(labelText)group.append(element('span',labelText,'source-link-group-label'));const list=element('div','','source-link-chips');for(const item of items)list.append(anchor(item,true));group.append(list);target.append(group);};
+ for(const item of other.slice(0,2))standard(item,parent);
+ if(subjects.length)chips(subjects,parent,mapText('学科','Subjects'));
+ if(other.length>2){const more=element('details','','source-links-more');more.append(element('summary',mapText('更多入口','More links')+' · '+(other.length-2)));const content=element('div','','source-links-expanded');for(const item of other.slice(2))standard(item,content);more.append(content);parent.append(more);}
+ if(feeds.length){if(other.length||subjects.length){const more=element('details','','source-links-more source-feed-links');more.append(element('summary',mapText('RSS 订阅','RSS feeds')+' · '+feeds.length));chips(feeds,more);parent.append(more);}else chips(feeds,parent,mapText('RSS 订阅','RSS feeds'));}
+}
 function renderChannels(){
  if(!state.directoryReady||!Array.isArray(state.data.source_families))return;
  const parent=$('channel-cards');parent.replaceChildren();parent.removeAttribute('role');parent.removeAttribute('aria-labelledby');
@@ -2953,7 +2966,7 @@ function renderChannels(){
     const name=element('td','','source-identity-cell'),urls=element('div','','source-entry-list'),purpose=element('td','','source-purpose-cell'),focus=element('td','','source-focus-cell');
     name.append(element('strong',title(group.family),'source-name'));const tags=element('div','','source-identity-tags');tags.append(element('span',mapText(group.rank<=1?'核心':'备用',group.rank<=1?'Core':'Reserve'),'source-tier'),element('span',enumLabel('source_category_'+domain+'_',group.family.category_key),'source-table-category'));name.append(tags);
     const papers=group.entries.filter(e=>e.entry_kind==='paper_reference'),mainEntries=group.entries.filter(e=>e.entry_kind!=='paper_reference'),displayEntries=mainEntries.length?mainEntries:group.entries;
-    const seen=new Set();for(const entry of displayEntries){const source=sources.get(entry.channel.source_id);if(!source?.canonical_url||seen.has(source.canonical_url))continue;seen.add(source.canonical_url);const link=element('a',enumLabel('source_entry_kind_',entry.entry_kind)+' ↗'),url=safeUrl(source.canonical_url);link.href=url;link.title=url;link.target='_blank';link.rel='noopener noreferrer';const box=element('div','','source-register-entry'),address=element('small',url.replace(/^https?:\/\/(?:www\.)?/,''),'source-table-url');address.title=url;box.append(link,address);urls.append(box);}
+    renderSourceEntryLinks(displayEntries,sources,urls);
     const summary=textOf(group.family,'summary'),leadEnd=state.locale==='en'?summary.indexOf('. '):summary.indexOf('。');
     if(leadEnd>=0){const split=leadEnd+1;purpose.append(element('p',summary.slice(0,split),'source-purpose-lead'));if(summary.slice(split).trim())purpose.append(element('p',summary.slice(split).trim(),'source-purpose-detail'));}else purpose.append(element('p',summary,'source-purpose-lead'));
     const focusLines=[...new Set(displayEntries.flatMap(e=>textOf(e.channel,'focus').split(state.locale==='en'?/(?<=\.)\s+/:/[。；]+/)).map(s=>s.trim()).filter(Boolean))];const focusList=element('ul','','source-focus-list');for(const line of focusLines)focusList.append(element('li',line));if(!focusLines.length)focusList.append(element('li',mapText('具体跟踪方向待补充。','Tracking focus needs refinement.')));focus.append(focusList);
