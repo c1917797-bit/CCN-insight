@@ -1,0 +1,25 @@
+{
+  "checked_at": "2026-10-29T12:00:11.606Z",
+  "deployment_version": 25,
+  "live_page": {
+    "academic": "2026-10 · 学术进展\n\n按技术地图查看本月论文进展：解决了什么问题、采用什么方法、效果如何。点击动态标题阅读全文，点击专题标签查看基础原理与长期研究。\n\n截至 2026-10-29 · 6 篇精选论文 · 4 篇核对关键章节／2 篇仅摘要研读\n\n量化产物可重建，仍可能无法完成功能\n\n量化产物可以按配方精确重建，却仍可能失去任务功能；文件校验和功能验收需要分别进行。\n\n权重 × 量化\nBroken on Arrival: Non-Functional Quantized LLM Artifacts in Public Model Registries and How to Catch Them\n2026-10-25 · v2 · 修订\n方法与结果已核对\n\n[E01]\n原文笔记 →\n\n关键词\n量化产物\n功能验收\n版本修订\n技术增量\n先用15个代码任务筛查可疑GGUF标签，再用164个HumanEval+任务复测；固定权重、工具链和张量组合，比较是否使用重要性矩阵校准。\n原文结果与测试条件\nv2审计305个官方标签，其中291个量化、14个FP16。7个标签最多完成6题；5个重建的可",
+    "briefRetired": true,
+    "historicalSupplement": "本期补充研读\n\n此处仅列本月首发或有实质变化的重要修订；较早的研读吸收到长期专题。\n\n历史研读保留在专题与来源记录中；此处不重复列入本月动态。",
+    "industry": "2 条本月发布 · 0 条既有能力复核",
+    "industryTitles": [
+      "ExecuTorch流式ASR案例：QC8W精度与SME2执行路径",
+      "ReplaySSM技术文章：减少混合模型解码的循环状态写回"
+    ],
+    "ready": "资料已加载",
+    "url": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/?month=2026-10&scope=ic-2026-10-model-reviewed-20261029-v1#view-updates"
+  },
+  "original_entry": {
+    "requested": "https://c1b3ie6ayp-sworks-lrigit-tpc.ru.yxsbase.win/business_insight/cloud_core/index.html?month=2026-10#view-updates",
+    "resolved_to_same_ccn_reader": true,
+    "default_scope": "ic-2026-10-model-reviewed-20261029-v1",
+    "paper_count": 6,
+    "industry_count": 2
+  },
+  "console_errors": [],
+  "screenshot": "C:/Users/Huawei/Documents/ChatGPT/洞察/review/近90天推理压缩研读-20261029/线上发布验收-v25.png"
+}
