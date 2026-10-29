@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-29",
+  "status": "published_and_browser_verified",
+  "request": "Enter the cloud core workbench from the business insight homepage at information sources",
+  "entry_url": "https://c1b3ie6ayp-sworks-lrigit-tpc.ru.yxsbase.win/business_insight/index.html",
+  "clicked_label": "进入云核工作台 →",
+  "observed_url": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/#view-sources",
+  "observed_source_directories_loaded": "3/3",
+  "implementation": "Set the shared original-entry index route default to view-sources; explicit hash destinations retain priority. All three homepage buttons share this entry. Manual fallback also targets sources.",
+  "original_commit": "63421f5606bf8821ecee2dc7685a61076c2ae385",
+  "original_remote_synced": true,
+  "original_clean": true,
+  "original_changed_paths": [
+    "business_insight/cloud_core/archive.html",
+    "business_insight/cloud_core/canonical-reader.js",
+    "business_insight/cloud_core/canonical-reader.json",
+    "business_insight/cloud_core/foundations.html",
+    "business_insight/cloud_core/index.html",
+    "business_insight/cloud_core/monthly.html",
+    "business_insight/cloud_core/topic.html"
+  ],
+  "homepage_changed": false,
+  "ccn_reader_deployment_changed": false,
+  "checks": {
+    "entry_route_regression": "passed: bare directory and index entry; month/scope and explicit map hash; manual fallback; archive and other deep links",
+    "configured_topic_workflow": "passed",
+    "global_baseline": "pre-existing failure on conference_insights/index.html inline style, before any mutation; unchanged and retained under the previously approved seven-entry scoped publication exception",
+    "browser": "actual homepage button clicked; information sources selected and three source tables loaded"
+  },
+  "maintenance": "deployment/compression-entry.json and scripts/build_original_entry.py; never install generated original aliases in CCN dist",
+  "private_data_transferred": false
+}

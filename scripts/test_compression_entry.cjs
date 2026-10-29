@@ -29,7 +29,11 @@ try {
   assert(html.includes('canonical-reader-link'));assert(!html.includes('local-content/'));
   assert(html.includes('lri-shell-v18-cloud-report-navigation'));
  }
- assert.equal(new URL(run('https://original.example/business_insight/cloud_core/').redirects[0]).hash,'#view-topics');
+ for(const entry of ['','index.html','index.html?month=2026-10&scope=review']){
+  assert.equal(new URL(run('https://original.example/business_insight/cloud_core/'+entry).redirects[0]).hash,'#view-sources','Workbench entry must open information sources');
+ }
+ assert.equal(new URL(run('https://original.example/business_insight/cloud_core/index.html#view-topics').redirects[0]).hash,'#view-topics','Explicit technical-map links must retain their destination');
+ assert(fs.readFileSync(path.join(temp,'index.html'),'utf8').includes('index.html#view-sources'),'Manual fallback must open information sources too');
  const archive=new URL(run('https://original.example/business_insight/cloud_core/archive.html?month=2026-10&scope=review').redirects[0]);
  assert.equal(archive.pathname,new URL('index.html',config.canonical_reader).pathname,'Archive entry must use the adopted report archive, not the unmigrated legacy material library');
  assert.equal(archive.hash,'#view-reports');

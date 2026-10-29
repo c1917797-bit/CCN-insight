@@ -15,7 +15,7 @@ def build(out, shell_version='lri-shell-v18-cloud-report-navigation', style_vers
  if(!config.entrypoints.includes(file))return;
  const route=config.routes?.[file]||{},target=new URL(route.file||file,config.canonical_reader),query=new URLSearchParams(location.search);
  for(const key of config.query_allowlist)if(query.has(key))target.searchParams.set(key,query.get(key));
- target.hash=location.hash||route.default_hash||(file==='index.html'?'#view-topics':'');
+ target.hash=location.hash||route.default_hash||(file==='index.html'?'#view-sources':'');
  const link=document.getElementById('canonical-reader-link');if(link)link.href=target.href;
  if(location.origin!==target.origin||location.pathname!==target.pathname)location.replace(target.href);
 })();
