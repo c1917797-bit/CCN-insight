@@ -1,11 +1,27 @@
 {
-  "status": "local_browser_verified_pending_online",
+  "status": "published_and_online_verified",
   "change": "Compact grouped source entrypoints without changing canonical sources or URLs",
   "viewport_width": 1280,
-  "academic_group_order": ["papers", "reviews", "venues"],
-  "academic_group_labels": ["论文入口", "评审与版本", "学术会议"],
-  "core_sources_by_group": [2, 1, 9],
-  "all_sources_by_group": [2, 1, 11],
+  "academic_group_order": [
+    "papers",
+    "reviews",
+    "venues"
+  ],
+  "academic_group_labels": [
+    "论文入口",
+    "评审与版本",
+    "学术会议"
+  ],
+  "core_sources_by_group": [
+    2,
+    1,
+    9
+  ],
+  "all_sources_by_group": [
+    2,
+    1,
+    11
+  ],
   "conference_filter_only_shows_venues": true,
   "conference_filter_count": 9,
   "arxiv": {
@@ -14,13 +30,50 @@
     "before_row_height_px": 758.84375,
     "after_row_height_px": 455.734375,
     "all_12_links_preserved": true,
-    "subject_labels": ["cs.LG", "cs.CL", "cs.DC", "cs.AI", "cs.CV"],
+    "subject_labels": [
+      "cs.LG",
+      "cs.CL",
+      "cs.DC",
+      "cs.AI",
+      "cs.CV"
+    ],
     "rss_initially_closed": true,
     "rss_expand_and_collapse_checked": true,
     "all_5_feed_links_checked": true,
     "horizontal_page_overflow": false
   },
   "other_sources": "Show up to two ordinary entrypoints by default; keep additional links in one native details element",
-  "checks": ["node --check compression.js", "build.py", "verify.py", "verify_compression.py", "verify_original_reader.py", "verify_source_records.py", "test_reader_journey.cjs", "git diff --check"],
-  "scope": "Presentation only. Canonical tables, publication dates and research judgments unchanged. No new device-size override was used."
+  "checks": [
+    "node --check compression.js",
+    "build.py",
+    "verify.py",
+    "verify_compression.py",
+    "verify_original_reader.py",
+    "verify_source_records.py",
+    "test_reader_journey.cjs",
+    "git diff --check"
+  ],
+  "scope": "Presentation only. Canonical tables, publication dates and research judgments unchanged. No new device-size override was used.",
+  "verified_at": "2026-10-29T11:53:17.860205+00:00",
+  "site_version_number": 24,
+  "deployment_id": "appgdep_6ae332ab4e248191b4db13c7f0d98b09",
+  "site_url": "https://ccn-insight-four.sunshinepmy.chatgpt.site",
+  "online_qa": {
+    "academic_groups": [
+      "论文入口",
+      "评审与版本",
+      "学术会议"
+    ],
+    "core_group_sizes": [
+      2,
+      1,
+      9
+    ],
+    "arxiv_entry_area_height_px": 168.8828125,
+    "arxiv_all_12_links_retained": true,
+    "rss_default_closed": true,
+    "rss_open_5_links_and_close_checked": true,
+    "horizontal_overflow": false
+  },
+  "screenshot": "local-releases/qa/ccn-v24-source-groups-online-20261029.png"
 }
