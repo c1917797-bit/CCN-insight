@@ -1,6 +1,6 @@
 // Generated UI assets only; no HTML, table responses, credentials, or business facts.
-const CACHE="lri-cloud-ui-5c68b50c1ee119d9";
-const ASSETS={"../../assets/insight-executive.css?v=lri-content-contract-v11-compression-foundations":"7b57ab655c581343cebfe036d132a7f3c6996321b658e88ff552475d867db11f","../../assets/lri-shell.js?v=lri-shell-v18-cloud-report-navigation":"a841a5453eecfcb73e2f2835d3e839fc3acd2f180ee0b3c5449bcc5c9a6bc759","reader-entry.js?v=reader-content-2faf79c7fe8ef986":"2faf79c7fe8ef9861e415a1dfd55760535075f788d53c6ec2e2ff81f9548cf77","topic-entry.js?v=reader-content-e6b3def7e8cf6e74":"e6b3def7e8cf6e7470f2fbb37b1ec232b9933c3e1152099575b4477c24ec789b"};
+const CACHE="lri-cloud-ui-c0df659fe9a96f8f";
+const ASSETS={"../../assets/insight-executive.css?v=lri-content-contract-v11-compression-foundations":"7b57ab655c581343cebfe036d132a7f3c6996321b658e88ff552475d867db11f","../../assets/lri-shell.js?v=lri-shell-v18-cloud-report-navigation":"a841a5453eecfcb73e2f2835d3e839fc3acd2f180ee0b3c5449bcc5c9a6bc759","reader-entry.js?v=reader-content-83e8105d4fae874e":"83e8105d4fae874e2b9d16ac720b381e9a40f4c28b65110bc94a4eaffcd8c3f6","topic-entry.js?v=reader-content-282dfea1309f73de":"282dfea1309f73de6a7e3d939915091c86c2d901f6f626a6dc00f7a357e8a87a"};
 'use strict';
 // A strict immutable UI-code cache. Permission checks and all TableGit data stay on the network.
 const allowed=new Map(Object.entries(ASSETS).map(([path,digest])=>[new URL(path,self.registration.scope).href,digest]));
