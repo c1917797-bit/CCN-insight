@@ -132,10 +132,10 @@ body[data-compression-view="library"] #topic-title{display:none}
 .topic-reading-actions a:focus-visible,.topic-progress-nav a:focus-visible,.topic-breadcrumb a:focus-visible{outline:2px solid #397789;outline-offset:3px}
 
 /* The map explains the taxonomy; the library owns retrieval and evidence. */
-body[data-compression-view="topics"]:not([data-compression-topic]) #topic-title{display:none}
-body[data-compression-view="topics"]:not([data-compression-topic]) .wb-research-scope{display:none}
-body[data-compression-view="topics"]:not([data-compression-topic]) .analysis-pagebar{padding:0;margin:0}
-body[data-compression-view="topics"]:not([data-compression-topic]) #map{margin-top:16px}
+body[data-compression-view="topics"]:not([data-compression-topic="true"]) #topic-title{display:none}
+body[data-compression-view="topics"]:not([data-compression-topic="true"]) .wb-research-scope{display:none}
+body[data-compression-view="topics"]:not([data-compression-topic="true"]) .analysis-pagebar{padding:0;margin:0}
+body[data-compression-view="topics"]:not([data-compression-topic="true"]) #map{margin-top:16px}
 .compression-research-workbench #scientific-map{max-width:1180px;margin:0 auto}
 .compression-map-heading{padding:8px 0 22px}
 .compression-research-workbench .compression-map-heading h3{font-size:clamp(24px,2.7vw,34px)!important;line-height:1.35;letter-spacing:-.03em;margin:8px 0 10px!important;color:#203751}
