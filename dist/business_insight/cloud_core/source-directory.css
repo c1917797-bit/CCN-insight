@@ -96,3 +96,9 @@ body[data-compression-view="sources"] .wb-page-header{margin-bottom:0}
 .compression-research-workbench .source-register-table .source-links-more>summary{font-size:12px;line-height:1.7;color:#507387;cursor:pointer;padding:3px 0;min-height:28px}
 .source-links-more[open]>.source-links-expanded,.source-links-more[open]>.source-link-group{margin-top:8px;padding-left:11px;border-left:2px solid #dce9ef}
 .source-links-more~a{margin-top:9px}
+.compression-research-workbench .source-register-table tbody tr.source-category-row{background:#f2f6fa}
+.compression-research-workbench .source-register-table .source-category-row>td{padding:10px 12px;border-bottom:1px solid #e0e7ef}
+.source-category-title{display:flex;align-items:center;gap:12px;color:#486379;font-size:12px;line-height:1.7}
+.source-category-title strong{font-weight:650}
+.source-category-count{color:#7a8b9b;font-size:11px;font-weight:400}
+@media(max-width:900px){.compression-research-workbench .source-register-table tbody tr.source-category-row{display:block;padding:0}.compression-research-workbench .source-register-table .source-category-row>td:before{display:none}}

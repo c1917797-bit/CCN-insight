@@ -2959,10 +2959,15 @@ function renderChannels(){
 
   const paint=()=>{
    const catalog=LRIGroupedSources.catalog(state.data,{domain,important:saved.important,query:saved.query,searchText:row=>[row.title_zh,row.title_en,row.focus_zh,row.focus_en,sources.get(row.source_id)?.canonical_url].join(' ')});
-   const entries=catalog.rows.filter(group=>(!saved.ecosystem||group.ecosystem===saved.ecosystem)&&(!saved.category||group.family.category_key===saved.category));body.replaceChildren();
+   const entries=catalog.rows.filter(group=>(!saved.ecosystem||group.ecosystem===saved.ecosystem)&&(!saved.category||group.family.category_key===saved.category));
+   if(domain==='academic'){const order={papers:0,reviews:1,venues:2};entries.sort((a,b)=>(order[a.family.category_key]??3)-(order[b.family.category_key]??3));}body.replaceChildren();
    count.textContent=mapText('显示 ','Showing ')+entries.length+' / '+catalog.all.length+mapText(' 个来源 · ',' sources · ')+entries.reduce((n,g)=>n+g.entries.length,0)+mapText(' 个登记入口',' registered links');
    clear.disabled=!saved.query&&saved.important&&!saved.category&&!saved.ecosystem;
-   for(const group of entries){const tr=element('tr');tr.dataset.sourceFamily=group.family.family_id;
+   let academicCategory='';
+   for(const group of entries){
+    if(domain==='academic'&&group.family.category_key!==academicCategory){academicCategory=group.family.category_key;const divider=element('tr','','source-category-row'),cell=element('td'),heading=element('div','','source-category-title');cell.colSpan=columns.length;divider.dataset.sourceCategory=academicCategory;
+     const names={papers:['论文入口','Paper discovery'],reviews:['评审与版本','Reviews and versions'],venues:['学术会议','Academic conferences']};heading.append(element('strong',names[academicCategory]?mapText(...names[academicCategory]):enumLabel('source_category_academic_',academicCategory)),element('span',entries.filter(item=>item.family.category_key===academicCategory).length+mapText(' 个来源',' sources'),'source-category-count'));cell.append(heading);divider.append(cell);body.append(divider);}
+    const tr=element('tr');tr.dataset.sourceFamily=group.family.family_id;
     const name=element('td','','source-identity-cell'),urls=element('div','','source-entry-list'),purpose=element('td','','source-purpose-cell'),focus=element('td','','source-focus-cell');
     name.append(element('strong',title(group.family),'source-name'));const tags=element('div','','source-identity-tags');tags.append(element('span',mapText(group.rank<=1?'核心':'备用',group.rank<=1?'Core':'Reserve'),'source-tier'),element('span',enumLabel('source_category_'+domain+'_',group.family.category_key),'source-table-category'));name.append(tags);
     const papers=group.entries.filter(e=>e.entry_kind==='paper_reference'),mainEntries=group.entries.filter(e=>e.entry_kind!=='paper_reference'),displayEntries=mainEntries.length?mainEntries:group.entries;
