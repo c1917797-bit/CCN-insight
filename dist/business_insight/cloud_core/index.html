@@ -24,7 +24,7 @@
  let plan;
  if(view==='sources')plan=[table('source_families',[eq('ui_group','academic')]),table('channels',[eq('ui_group','academic'),{field:'priority',op:'in',value:['P0','P1']}]),{...table('channel_families'),limit:400,select:['business_id','topic_id','membership_id','channel_id','family_id','position']}];
  else if(view==='topics')plan=topic?[table('compression_topic_sections',[eq('compression_topic_id',topic),{field:'section_kind',op:'in',value:['problem','mechanism','boundary']}])]:[table('map_terms',[eq('facet_id','mechanism')])];
- else if(view==='updates')plan=[table('paper_summary_events',[eq('period_id',period)]),table('paper_summaries')];
+ else if(view==='updates')plan=[table('paper_summary_events',[eq('period_id',period)]),table('paper_summaries'),table('monthly_scopes',[eq('period_id',period)]),table('monthly_route_evidence',[eq('period_id',period)])];
  else plan=[table('insight_reports',[eq('period_id',period),eq('status','published')])];
  const ensure=(test,message)=>{if(!test)throw Error(message);};
  async function call(name,args){
@@ -83,7 +83,7 @@
   if(view==='sources'){for(const f of g.source_families)card(pick(f,'title'),[pick(f,'summary')]);}
   else if(view==='topics'&&!topic){for(const id of ['precision','selection','distillation','factorization']){const term=g.map_terms.find(row=>row.term_id===id);ensure(term?.facet_id==='mechanism'&&term.description_zh&&term.name_zh,'Unbound core research route');const url=new URL('index.html',location.href);if(params.has('month'))url.searchParams.set('month',period);if(scope)url.searchParams.set('scope',scope);url.hash='route-'+id;card(pick(term,'name'),[pick(term,'description')],url.href);}}
   else if(view==='topics'){ensure(g.compression_topic_sections.length===3,'Incomplete first research sections');for(const kind of ['problem','mechanism','boundary']){const section=g.compression_topic_sections.find(s=>s.section_kind===kind);ensure(section&&section.claim_kind==='literature_synthesis'&&section.reviewed_at&&section.evidence_url&&section.section_id===topic+'__'+kind,'Unreviewed first research section');card(pick(section,'heading'),[pick(section,'body')],section.evidence_url);}}
-  else if(view==='updates'){const events=new Map(g.paper_summary_events.map(e=>[e.summary_id,e])),selected=params.get('paper'),route=params.get('route');const papers=route?[]:g.paper_summaries.filter(s=>events.has(s.summary_id)&&(!selected||s.summary_id===selected));for(const s of papers.slice(0,6)){const e=events.get(s.summary_id);ensure(e.source_id===s.source_id&&e.observed_version===s.observed_version&&['primary_abstract_checked','method_results_checked'].includes(s.review_status)&&s.evidence_url&&s.one_sentence_zh,'Unreviewed current paper');card((en?'Reviewed paper · ':'论文原文 · ')+new URL(s.evidence_url).pathname.split('/').at(-1),[pick(s,'one_sentence'),pick(s,'results')],s.evidence_url);}}
+  else if(view==='updates'){const selectedScope=scope||[...(g.monthly_scopes||[])].sort((a,b)=>a.position-b.position)[0]?.scope_id;const eventIds=new Set((g.monthly_route_evidence||[]).filter(r=>r.scope_id===selectedScope).map(r=>r.evidence_id));const events=new Map(g.paper_summary_events.filter(e=>eventIds.has(e.evidence_id)).map(e=>[e.summary_id,e])),selected=params.get('paper'),route=params.get('route');const papers=route?[]:g.paper_summaries.filter(s=>events.has(s.summary_id)&&(!selected||s.summary_id===selected));for(const s of papers.slice(0,6)){const e=events.get(s.summary_id);ensure(e.source_id===s.source_id&&e.observed_version===s.observed_version&&['primary_abstract_checked','method_results_checked'].includes(s.review_status)&&s.evidence_url&&s.one_sentence_zh,'Unreviewed current paper');card((en?'Reviewed paper · ':'论文原文 · ')+new URL(s.evidence_url).pathname.split('/').at(-1),[pick(s,'one_sentence'),pick(s,'results')],s.evidence_url);}}
   else{for(const r of g.insight_reports)card(pick(r,'title'),[pick(r,'summary')],'index.html'+location.search+'#view-home');for(const r of (g.ascend_route_assessments||[]).sort((a,b)=>a.position-b.position).slice(0,3)){ensure(r.claim_status==='analyst_recommendation','Unsupported first-content recommendation');card(pick(r,'title'),[pick(r,'rationale'),pick(r,'recommendation')]);}}
   if(!count)return true;
   for(const panel of document.querySelectorAll('[data-view-panel]'))panel.hidden=panel.dataset.viewPanel!==view;
@@ -101,7 +101,7 @@
 <meta name="lri-page-translation" content="ui">
 <meta name="lri-shell-version" content="lri-shell-v18-cloud-report-navigation">
 <script type="module" src="../../assets/lri-shell.js?v=23a712ebdf5b6609"></script>
-<script type="application/lri-reader" data-lri-reader="reader-entry.js?v=reader-content-4b52af071d668b09"></script>
+<script type="application/lri-reader" data-lri-reader="reader-entry.js?v=reader-content-d45b974badbc9b1f"></script>
 <style>
 /* Compact introduction: keep the reading path visible without a full-height preamble. */
 .compression-research-workbench #reading-guide{margin:8px 0 18px;padding:14px 18px;background:#f5f8fa;border:1px solid #e1e7ec;border-radius:12px}

@@ -27,7 +27,23 @@ async function read(context){
  for(const r of g.insight_reports)check(r.scope_id===context.scope&&r.period_id===context.period,'Report scope mismatch');
  check(summaries.revision===context.revision&&summaries.records.length===summaryIds.length,'Incomplete paper probe evidence');owned(summaries.records);for(const p of summaries.records)check(['primary_abstract_checked','method_results_checked'].includes(p.review_status)&&p.evidence_locator&&/^\d{4}-\d{2}-\d{2}$/.test(p.reviewed_at)&&['one_sentence','innovation','results'].every(k=>typeof p[k+'_zh']==='string'&&p[k+'_zh'].trim()),'Incomplete paper review provenance');
  for(const r of g.monthly_route_evidence){const p=summaries.records.find(p=>p.summary_id===r.summary_id);check(p&&p.source_id===r.source_id&&p.observed_version===r.observed_version,'Paper probe version/source mismatch');url(p.evidence_url);}
- return {...g,sources:new Map(s.records.map(r=>[r.source_id,r])),paperSummaries:new Map(summaries.records.map(r=>[r.summary_id,r])),stories};
+ const sourceRows=[...s.records];let reportScope=context.scope,reportFallback=false;
+ // A new evidence batch does not imply that a new report/PPT was published.
+ // Keep the latest published report from the same month, with its own cutoff.
+ if(!g.insight_reports.some(r=>r.status==='published')){
+  const available=await LRITableGit.loadTablePage('ic_insight_reports',{filterField:'period_id',filterValue:context.period,expectedRevision:context.revision,limit:100,offset:0});
+  check(available.revision===context.revision&&!available.page.truncated,'Incomplete period report index');owned(available.records);
+  const latest=available.records.filter(r=>r.status==='published'&&r.period_id===context.period).sort((a,b)=>b.reviewed_at.localeCompare(a.reviewed_at)||b.report_id.localeCompare(a.report_id))[0];
+  if(latest){
+   reportScope=latest.scope_id;reportFallback=true;g.insight_reports=available.records.filter(r=>r.scope_id===reportScope&&r.period_id===context.period);
+   const reportIds=g.insight_reports.map(r=>r.report_id),[assets,papers]=await Promise.all([LRITableGit.loadRowsByValues('ic_insight_report_assets','report_id',reportIds,context.revision),LRITableGit.loadRowsByValues('ic_insight_report_papers','report_id',reportIds,context.revision)]);
+   check(assets.revision===context.revision&&papers.revision===context.revision,'Fallback report revision drift');owned(assets.records);owned(papers.records);
+   check([...assets.records,...papers.records].every(r=>reportIds.includes(r.report_id)),'Unbound fallback report asset');g.insight_report_assets=assets.records;g.insight_report_papers=papers.records;
+   const extraIds=[...new Set(papers.records.map(r=>r.source_id))].filter(id=>!sourceRows.some(r=>r.source_id===id));
+   if(extraIds.length){const extra=await LRITableGit.loadRowsByKeys('cloud_core_sources',extraIds,context.revision,['source_id','business_id','title','canonical_url']);check(extra.revision===context.revision&&extra.records.length===extraIds.length&&extra.records.every(r=>r.business_id==='cloud-core'),'Incomplete fallback report sources');extra.records.forEach(r=>url(r.canonical_url));sourceRows.push(...extra.records);}
+  }
+ }
+ return {...g,reportScope,reportFallback,sources:new Map(sourceRows.map(r=>[r.source_id,r])),paperSummaries:new Map(summaries.records.map(r=>[r.summary_id,r])),stories};
 }
 function selected(model,story){return !current.topicId||model.monthly_route_evidence.some(r=>r.story_id===story&&r.compression_topic_id===current.topicId);}
 function routePriority(row){return row.priority_zh==='优先穿刺'?ui('analysis_priority_research'):pick(row,'priority');}
@@ -222,7 +238,8 @@ function renderReports(m){
  const archive=current.view==='reports',word=(zh,en)=>current.locale==='en'?en:zh,version=r=>r.report_id.match(/-v\d+$/)?.[0].slice(1)||'',byDate=(a,b)=>b.reviewed_at.localeCompare(a.reviewed_at)||(Number(version(b).slice(1))||0)-(Number(version(a).slice(1))||0)||b.report_id.localeCompare(a.report_id);
  for(const id of archive?['insight-deck-archive']:['insight-deck-content']){
   const root=document.getElementById(id);if(!root)continue;for(const d of root.querySelectorAll('dialog[open]'))d.close();root.replaceChildren();
-  const scoped=m.insight_reports.filter(r=>r.scope_id===current.scope&&r.period_id===current.period&&(!archive||r.period_id>='2026-10')),rows=scoped.filter(r=>r.status==='published').sort(byDate),history=archive?scoped.filter(r=>r.status==='superseded').sort(byDate):[];
+  const scoped=m.insight_reports.filter(r=>r.scope_id===(m.reportScope||current.scope)&&r.period_id===current.period&&(!archive||r.period_id>='2026-10')),rows=scoped.filter(r=>r.status==='published').sort(byDate),history=archive?scoped.filter(r=>r.status==='superseded').sort(byDate):[];
+  if(m.reportFallback&&rows.length)root.append(el('p',word('这里保留本月已发布报告（核对日期：'+rows[0].reviewed_at+'）。本轮新增材料见本期动态，尚未重制PPT。','This is the published report for this month, checked on '+rows[0].reviewed_at+'. Newly added evidence is in current updates; the PPT has not been regenerated.'),'reader-note'));
   if(!rows.length&&!history.length){root.append(el('p',ui('deck_not_available'),'meta'));continue;}
   const assetUrl=a=>{check(a,'Missing report asset');const target=new URL(a.public_path,location.origin);check(target.origin===location.origin&&target.pathname.startsWith('/business_insight/cloud_core/reports/')&&/^[a-f0-9]{64}$/.test(a.content_sha256)&&a.binary_sha256===a.content_sha256,'Invalid report asset');return target.href;};
   const currentHost=archive?el('section','','analysis-archive-current'):root;
@@ -273,7 +290,7 @@ function renderMonthlyFrame(){
 function renderSignals(m){
  renderMonthlyFrame();
  const root=document.getElementById('current-hotspot-cards');if(!root)return;root.replaceChildren();
- const rows=m.current_signals.filter(r=>!current.topicId||m.signal_topics.some(l=>l.signal_id===r.signal_id&&l.compression_topic_id===current.topicId)).sort((a,b)=>a.position-b.position);
+ const rows=m.current_signals.filter(r=>(!current.windowStart||r.publication_date>=current.windowStart)&&(!current.windowEnd||r.publication_date<=current.windowEnd)&&(!current.topicId||m.signal_topics.some(l=>l.signal_id===r.signal_id&&l.compression_topic_id===current.topicId))).sort((a,b)=>a.position-b.position);
  const metric=document.getElementById('monthly-signal-metric');if(metric)metric.textContent=String(rows.length);root.append(el('p',current.locale==='en'?'Events that change deployment requirements; these are not compression benchmarks.':'影响部署需求的事件；与压缩算法的实测效果分开阅读。','reader-note'));
  for(const r of rows){const card=el('article','','card'),mappings=m.signal_topics.filter(l=>l.signal_id===r.signal_id);card.append(el('p',r.publication_date+' · '+ui('signal_date_'+r.date_kind)+' · '+ui('primary_text_checked'),'meta'),el('h3',pick(r,'title')));topics(card,mappings.map(l=>l.compression_topic_id),mappings);field(card,'signal_fact',pick(r,'fact'));field(card,'signal_relevance',pick(r,'relevance'));field(card,'decision_boundary',pick(r,'boundary'));const refs=el('div','','actions');primary(refs,m.sources.get(r.source_id),ui('signal_primary'));if(r.discovery_source_id!==r.source_id)primary(refs,m.sources.get(r.discovery_source_id),ui('signal_discovery'));card.append(refs,el('p',r.locator+' · '+r.reviewed_at,'meta'));root.append(card);}
  if(!rows.length)root.append(el('p',ui('current_signal_empty')));
@@ -284,7 +301,7 @@ function renderIndustry(reader){
  root.replaceChildren();const {snapshot,directory}=reader;
  const verified=new Set(snapshot.assessments.filter(r=>r.review_status==='verified').map(r=>r.link_id));
  const links=snapshot.links.filter(r=>verified.has(r.link_id)&&(!current.topicId||r.compression_topic_id===current.topicId)),ids=new Set(links.map(r=>r.update_id));
- const rows=snapshot.updates.filter(r=>ids.has(r.update_id)&&(r.release_date.startsWith(current.period)||r.checked_at.startsWith(current.period))).sort((a,b)=>b.release_date.localeCompare(a.release_date)||a.update_id.localeCompare(b.update_id));
+ const rows=snapshot.updates.filter(r=>ids.has(r.update_id)&&r.release_date.startsWith(current.period)&&(!current.windowStart||r.release_date>=current.windowStart)&&(!current.windowEnd||r.release_date<=current.windowEnd)).sort((a,b)=>b.release_date.localeCompare(a.release_date)||a.update_id.localeCompare(b.update_id));
  const published=rows.filter(r=>r.release_date.startsWith(current.period)),existing=rows.filter(r=>!r.release_date.startsWith(current.period));
  const metric=document.getElementById('monthly-release-metric');if(metric)metric.textContent=String(published.length);
  const word=(zh,en)=>current.locale==='en'?en:zh;

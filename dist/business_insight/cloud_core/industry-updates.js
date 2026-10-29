@@ -13,7 +13,7 @@
       requireThat(!updates.has(row.update_id) && families.has(row.family_id) && channels.has(row.channel_id), 'Invalid industry update identity');
       requireThat(directory.channel_families.some(link => link.family_id===row.family_id && link.channel_id===row.channel_id), 'Industry channel family mismatch');
       requireThat(kinds.has(row.release_kind), 'Unknown industry release kind');
-      requireThat(['release_note_heading','month_only','unknown'].includes(row.release_date_kind), 'Unknown release date provenance');
+      requireThat(['release_note_heading','official_publication','month_only','unknown'].includes(row.release_date_kind), 'Unknown release date provenance');
       requireThat(row.release_date_kind==='unknown' ? row.release_date==='' : row.release_date_kind==='month_only' ? /^\d{4}-\d{2}$/.test(row.release_date) : /^\d{4}-\d{2}-\d{2}$/.test(row.release_date), 'Invalid release date precision');
       requireThat(/^\d{4}-\d{2}-\d{2}$/.test(row.checked_at), 'Invalid industry review date');
       for (const field of ['title','summary','scope','dependencies','boundary']) for (const locale of ['zh','en']) requireThat(row[field+'_'+locale]?.trim(), 'Incomplete localized industry update');

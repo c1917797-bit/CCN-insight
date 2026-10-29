@@ -1329,7 +1329,7 @@ function renderReviewCard(model,compact=false){
 }
 async function fillReviews(root,ctx,ticket,compact=false){
  root.replaceChildren(el('p',ui('paper_review_loading'),'meta'));
- try{const rows=await reviewed(ctx);if(ticket!==epoch)return;root.replaceChildren();if(!rows.length)root.append(el('p',ui('paper_review_empty'),'reader-note'));else {const selected=new URLSearchParams(location.search).get('paper_review');const ordered=compact?rows:[...rows].sort((a,b)=>Number(b.intake.intake_id===selected)-Number(a.intake.intake_id===selected));for(const row of ordered)root.append(renderReviewCard(row,compact));}document.dispatchEvent(new Event('lri:sections-changed'));if(!compact)settleInitialAnchor();}
+ try{const all=await reviewed(ctx),rows=ctx.view==='updates'?all.filter(row=>row.publicationBucket==='current'):all;if(ticket!==epoch)return;root.replaceChildren();if(!rows.length)root.append(el('p',ctx.view==='updates'?(ctx.locale==='en'?'Historical reviews are retained in topics and source records. No additional current-month review is selected here.':'历史研读保留在专题与来源记录中；此处不重复列入本月动态。'):ui('paper_review_empty'),'reader-note'));else {const selected=new URLSearchParams(location.search).get('paper_review');const ordered=compact?rows:[...rows].sort((a,b)=>Number(b.intake.intake_id===selected)-Number(a.intake.intake_id===selected));for(const row of ordered)root.append(renderReviewCard(row,compact));}document.dispatchEvent(new Event('lri:sections-changed'));if(!compact)settleInitialAnchor();}
  catch(error){if(ticket!==epoch)return;root.replaceChildren(el('p',ui('paper_review_failed'),'reader-note'),button(ui('paper_review_retry'),()=>fillReviews(root,ctx,++epoch,compact)));console.error('Reviewed-paper intake unavailable',error);}
 }
 async function fillPending(root,ctx,ticket){
@@ -1502,7 +1502,7 @@ function update(ctx){
  if(!ctx.revision||!['sources','updates'].includes(ctx.view)){if(key){key='';epoch++;}return;}
  const newKey=JSON.stringify([ctx.revision,ctx.period,ctx.locale,ctx.view,ctx.scope]);if(key===newKey)return;key=newKey;context=ctx;epoch++;
  if(ctx.view==='sources'&&source)sourcePanel(source,ctx);
- if(ctx.view==='updates'&&target){target.replaceChildren(el('h3',ui('paper_review_supplementary')),el('p',ui('paper_review_history_help'),'reader-note'));const body=el('div','','wb-reading-list');target.append(body);fillReviews(body,ctx,++epoch);}
+ if(ctx.view==='updates'&&target){target.replaceChildren(el('h3',ui('paper_review_supplementary')),el('p',ctx.locale==='en'?'Only publications or substantive revisions from this month appear here. Earlier reviews are incorporated into topics.':'此处仅列本月首发或有实质变化的重要修订；较早的研读吸收到长期专题。','reader-note'));const body=el('div','','wb-reading-list');target.append(body);fillReviews(body,ctx,++epoch);}
 }
 globalThis.LRIImportedPaperReview=Object.freeze({update,reset,validateReview,read:reviewed});
 })();
@@ -1875,7 +1875,8 @@ globalThis.LRIImportedPaperReview=Object.freeze({update,reset,validateReview,rea
     }
 
     const topicPaperIds=new Set(refs.filter(ref=>!current.topicId||ref.compression_topic_id===current.topicId).map(ref=>ref.summary_id)),contextPaperCount=unique.size-topicPaperIds.size;
-    root.append(node('p',detail&&selectedPaper?t('论文详读 · 下文注明原文版本与实验条件','Paper review · Version and experimental conditions are listed below'):current.topicId?t(`截至 ${asOf} · ${relevant.length} 条相关路线 · ${topicPaperIds.size} 篇当前专题原文 · ${contextPaperCount} 篇关联背景原文`,`As of ${asOf} · ${relevant.length} relevant routes · ${topicPaperIds.size} topic papers · ${contextPaperCount} contextual papers`):t(`截至 ${asOf} · ${relevant.length} 条技术路线 · ${unique.size} 篇已审阅原文 · 当月截至目前的采集范围`,`As of ${asOf} · ${relevant.length} routes · ${unique.size} reviewed papers · collected month-to-date scope`),'meta'));
+    const sectionChecks=[...unique.keys()].filter(id=>model.reviewMap.get(id).review_status==='method_results_checked').length;
+    root.append(node('p',detail&&selectedPaper?t('论文详读 · 下文注明原文版本与实验条件','Paper review · Version and experimental conditions are listed below'):current.topicId?t(`截至 ${asOf} · ${relevant.length} 条相关进展 · ${topicPaperIds.size} 篇当前专题论文 · ${contextPaperCount} 篇关联背景论文`,`As of ${asOf} · ${relevant.length} relevant updates · ${topicPaperIds.size} topic papers · ${contextPaperCount} contextual papers`):t(`截至 ${asOf} · ${unique.size} 篇精选论文 · ${sectionChecks} 篇核对关键章节／${unique.size-sectionChecks} 篇仅摘要研读`,`As of ${asOf} · ${unique.size} selected papers · ${sectionChecks} selected-section checks / ${unique.size-sectionChecks} abstract-only reviews`),'meta'));
     if(current.topicId&&contextPaperCount)root.append(node('p',t('关联论文用于跨专题比较，单独列出，不计入当前专题的论文数量。','Related papers support comparisons across topics. They are listed separately and excluded from the selected topic’s paper count.'),'meta'));
     const cite=(parent,ref)=>{const a=node('a','['+ids.get(ref.summary_id)+']','monthly-route-citation');a.href=detail?'#monthly-evidence-'+ref.summary_id:readerUrl('',ref.summary_id);if(!detail)a.dataset.monthlyReader='true';
       a.addEventListener('click',()=>{if(!detail)return;const card=document.getElementById('monthly-evidence-'+ref.summary_id);if(card){card.open=true;card.focus?.();}});parent.append(document.createTextNode(' '),a);};
@@ -1988,7 +1989,7 @@ globalThis.LRIImportedPaperReview=Object.freeze({update,reset,validateReview,rea
       requireThat(!updates.has(row.update_id) && families.has(row.family_id) && channels.has(row.channel_id), 'Invalid industry update identity');
       requireThat(directory.channel_families.some(link => link.family_id===row.family_id && link.channel_id===row.channel_id), 'Industry channel family mismatch');
       requireThat(kinds.has(row.release_kind), 'Unknown industry release kind');
-      requireThat(['release_note_heading','month_only','unknown'].includes(row.release_date_kind), 'Unknown release date provenance');
+      requireThat(['release_note_heading','official_publication','month_only','unknown'].includes(row.release_date_kind), 'Unknown release date provenance');
       requireThat(row.release_date_kind==='unknown' ? row.release_date==='' : row.release_date_kind==='month_only' ? /^\d{4}-\d{2}$/.test(row.release_date) : /^\d{4}-\d{2}-\d{2}$/.test(row.release_date), 'Invalid release date precision');
       requireThat(/^\d{4}-\d{2}-\d{2}$/.test(row.checked_at), 'Invalid industry review date');
       for (const field of ['title','summary','scope','dependencies','boundary']) for (const locale of ['zh','en']) requireThat(row[field+'_'+locale]?.trim(), 'Incomplete localized industry update');
@@ -2119,7 +2120,23 @@ async function read(context){
  for(const r of g.insight_reports)check(r.scope_id===context.scope&&r.period_id===context.period,'Report scope mismatch');
  check(summaries.revision===context.revision&&summaries.records.length===summaryIds.length,'Incomplete paper probe evidence');owned(summaries.records);for(const p of summaries.records)check(['primary_abstract_checked','method_results_checked'].includes(p.review_status)&&p.evidence_locator&&/^\d{4}-\d{2}-\d{2}$/.test(p.reviewed_at)&&['one_sentence','innovation','results'].every(k=>typeof p[k+'_zh']==='string'&&p[k+'_zh'].trim()),'Incomplete paper review provenance');
  for(const r of g.monthly_route_evidence){const p=summaries.records.find(p=>p.summary_id===r.summary_id);check(p&&p.source_id===r.source_id&&p.observed_version===r.observed_version,'Paper probe version/source mismatch');url(p.evidence_url);}
- return {...g,sources:new Map(s.records.map(r=>[r.source_id,r])),paperSummaries:new Map(summaries.records.map(r=>[r.summary_id,r])),stories};
+ const sourceRows=[...s.records];let reportScope=context.scope,reportFallback=false;
+ // A new evidence batch does not imply that a new report/PPT was published.
+ // Keep the latest published report from the same month, with its own cutoff.
+ if(!g.insight_reports.some(r=>r.status==='published')){
+  const available=await LRITableGit.loadTablePage('ic_insight_reports',{filterField:'period_id',filterValue:context.period,expectedRevision:context.revision,limit:100,offset:0});
+  check(available.revision===context.revision&&!available.page.truncated,'Incomplete period report index');owned(available.records);
+  const latest=available.records.filter(r=>r.status==='published'&&r.period_id===context.period).sort((a,b)=>b.reviewed_at.localeCompare(a.reviewed_at)||b.report_id.localeCompare(a.report_id))[0];
+  if(latest){
+   reportScope=latest.scope_id;reportFallback=true;g.insight_reports=available.records.filter(r=>r.scope_id===reportScope&&r.period_id===context.period);
+   const reportIds=g.insight_reports.map(r=>r.report_id),[assets,papers]=await Promise.all([LRITableGit.loadRowsByValues('ic_insight_report_assets','report_id',reportIds,context.revision),LRITableGit.loadRowsByValues('ic_insight_report_papers','report_id',reportIds,context.revision)]);
+   check(assets.revision===context.revision&&papers.revision===context.revision,'Fallback report revision drift');owned(assets.records);owned(papers.records);
+   check([...assets.records,...papers.records].every(r=>reportIds.includes(r.report_id)),'Unbound fallback report asset');g.insight_report_assets=assets.records;g.insight_report_papers=papers.records;
+   const extraIds=[...new Set(papers.records.map(r=>r.source_id))].filter(id=>!sourceRows.some(r=>r.source_id===id));
+   if(extraIds.length){const extra=await LRITableGit.loadRowsByKeys('cloud_core_sources',extraIds,context.revision,['source_id','business_id','title','canonical_url']);check(extra.revision===context.revision&&extra.records.length===extraIds.length&&extra.records.every(r=>r.business_id==='cloud-core'),'Incomplete fallback report sources');extra.records.forEach(r=>url(r.canonical_url));sourceRows.push(...extra.records);}
+  }
+ }
+ return {...g,reportScope,reportFallback,sources:new Map(sourceRows.map(r=>[r.source_id,r])),paperSummaries:new Map(summaries.records.map(r=>[r.summary_id,r])),stories};
 }
 function selected(model,story){return !current.topicId||model.monthly_route_evidence.some(r=>r.story_id===story&&r.compression_topic_id===current.topicId);}
 function routePriority(row){return row.priority_zh==='优先穿刺'?ui('analysis_priority_research'):pick(row,'priority');}
@@ -2314,7 +2331,8 @@ function renderReports(m){
  const archive=current.view==='reports',word=(zh,en)=>current.locale==='en'?en:zh,version=r=>r.report_id.match(/-v\d+$/)?.[0].slice(1)||'',byDate=(a,b)=>b.reviewed_at.localeCompare(a.reviewed_at)||(Number(version(b).slice(1))||0)-(Number(version(a).slice(1))||0)||b.report_id.localeCompare(a.report_id);
  for(const id of archive?['insight-deck-archive']:['insight-deck-content']){
   const root=document.getElementById(id);if(!root)continue;for(const d of root.querySelectorAll('dialog[open]'))d.close();root.replaceChildren();
-  const scoped=m.insight_reports.filter(r=>r.scope_id===current.scope&&r.period_id===current.period&&(!archive||r.period_id>='2026-10')),rows=scoped.filter(r=>r.status==='published').sort(byDate),history=archive?scoped.filter(r=>r.status==='superseded').sort(byDate):[];
+  const scoped=m.insight_reports.filter(r=>r.scope_id===(m.reportScope||current.scope)&&r.period_id===current.period&&(!archive||r.period_id>='2026-10')),rows=scoped.filter(r=>r.status==='published').sort(byDate),history=archive?scoped.filter(r=>r.status==='superseded').sort(byDate):[];
+  if(m.reportFallback&&rows.length)root.append(el('p',word('这里保留本月已发布报告（核对日期：'+rows[0].reviewed_at+'）。本轮新增材料见本期动态，尚未重制PPT。','This is the published report for this month, checked on '+rows[0].reviewed_at+'. Newly added evidence is in current updates; the PPT has not been regenerated.'),'reader-note'));
   if(!rows.length&&!history.length){root.append(el('p',ui('deck_not_available'),'meta'));continue;}
   const assetUrl=a=>{check(a,'Missing report asset');const target=new URL(a.public_path,location.origin);check(target.origin===location.origin&&target.pathname.startsWith('/business_insight/cloud_core/reports/')&&/^[a-f0-9]{64}$/.test(a.content_sha256)&&a.binary_sha256===a.content_sha256,'Invalid report asset');return target.href;};
   const currentHost=archive?el('section','','analysis-archive-current'):root;
@@ -2365,7 +2383,7 @@ function renderMonthlyFrame(){
 function renderSignals(m){
  renderMonthlyFrame();
  const root=document.getElementById('current-hotspot-cards');if(!root)return;root.replaceChildren();
- const rows=m.current_signals.filter(r=>!current.topicId||m.signal_topics.some(l=>l.signal_id===r.signal_id&&l.compression_topic_id===current.topicId)).sort((a,b)=>a.position-b.position);
+ const rows=m.current_signals.filter(r=>(!current.windowStart||r.publication_date>=current.windowStart)&&(!current.windowEnd||r.publication_date<=current.windowEnd)&&(!current.topicId||m.signal_topics.some(l=>l.signal_id===r.signal_id&&l.compression_topic_id===current.topicId))).sort((a,b)=>a.position-b.position);
  const metric=document.getElementById('monthly-signal-metric');if(metric)metric.textContent=String(rows.length);root.append(el('p',current.locale==='en'?'Events that change deployment requirements; these are not compression benchmarks.':'影响部署需求的事件；与压缩算法的实测效果分开阅读。','reader-note'));
  for(const r of rows){const card=el('article','','card'),mappings=m.signal_topics.filter(l=>l.signal_id===r.signal_id);card.append(el('p',r.publication_date+' · '+ui('signal_date_'+r.date_kind)+' · '+ui('primary_text_checked'),'meta'),el('h3',pick(r,'title')));topics(card,mappings.map(l=>l.compression_topic_id),mappings);field(card,'signal_fact',pick(r,'fact'));field(card,'signal_relevance',pick(r,'relevance'));field(card,'decision_boundary',pick(r,'boundary'));const refs=el('div','','actions');primary(refs,m.sources.get(r.source_id),ui('signal_primary'));if(r.discovery_source_id!==r.source_id)primary(refs,m.sources.get(r.discovery_source_id),ui('signal_discovery'));card.append(refs,el('p',r.locator+' · '+r.reviewed_at,'meta'));root.append(card);}
  if(!rows.length)root.append(el('p',ui('current_signal_empty')));
@@ -2376,7 +2394,7 @@ function renderIndustry(reader){
  root.replaceChildren();const {snapshot,directory}=reader;
  const verified=new Set(snapshot.assessments.filter(r=>r.review_status==='verified').map(r=>r.link_id));
  const links=snapshot.links.filter(r=>verified.has(r.link_id)&&(!current.topicId||r.compression_topic_id===current.topicId)),ids=new Set(links.map(r=>r.update_id));
- const rows=snapshot.updates.filter(r=>ids.has(r.update_id)&&(r.release_date.startsWith(current.period)||r.checked_at.startsWith(current.period))).sort((a,b)=>b.release_date.localeCompare(a.release_date)||a.update_id.localeCompare(b.update_id));
+ const rows=snapshot.updates.filter(r=>ids.has(r.update_id)&&r.release_date.startsWith(current.period)&&(!current.windowStart||r.release_date>=current.windowStart)&&(!current.windowEnd||r.release_date<=current.windowEnd)).sort((a,b)=>b.release_date.localeCompare(a.release_date)||a.update_id.localeCompare(b.update_id));
  const published=rows.filter(r=>r.release_date.startsWith(current.period)),existing=rows.filter(r=>!r.release_date.startsWith(current.period));
  const metric=document.getElementById('monthly-release-metric');if(metric)metric.textContent=String(published.length);
  const word=(zh,en)=>current.locale==='en'?en:zh;
@@ -2765,7 +2783,8 @@ function findingCard(row,layer='conclusion') {
   const links=state.data.finding_evidence.filter(item=>item.finding_id===row.finding_id);
   const sources=[...new Map(links.map(link=>[link.source_id,sourceById(link.source_id)])).values()];
   const facts=element('div');facts.dataset.readingLayer='facts';
-  facts.append(element('p',enumLabel('finding_kind_',row.kind)+(row.change_date?' · '+row.change_date:''),'meta'),element('h3',sources.map(source=>source.title).join(' / ')));
+  facts.append(element('p',enumLabel('finding_kind_',row.kind)+(row.change_date?' · '+row.change_date:''),'meta'),element('h3',title(row)||sources.map(source=>source.title).join(' / ')));
+  facts.append(element('p',sources.map(source=>source.title).join(' / '),'meta'));
   field(facts,'source_facts',textOf(row,'change'));
   if(textOf(row,'mechanism')&&textOf(row,'mechanism')!==textOf(row,'change'))field(facts,'reported_mechanism',textOf(row,'mechanism'));
   const keywords=element('div','','wb-keywords');
@@ -2881,7 +2900,7 @@ function renderIndustryUpdates(card,familyId) {
     const block=element('article','','industry-update');block.dataset.industryUpdate=update.update_id;
     const kind=kindText[update.release_kind];
     block.append(element('p',mapText(...kind)+' · '+update.version_label,'industry-update-kind'),element('h6',title(update)),element('p',textOf(update,'summary')));
-    const date=update.release_date_kind==='unknown'?mapText('发布日期未确认','Publication date unconfirmed'):mapText(update.release_date_kind==='month_only'?'项目记录月份：':'版本说明日期：',update.release_date_kind==='month_only'?'Project log month: ':'Release-note date: ')+update.release_date;
+    const date=update.release_date_kind==='unknown'?mapText('发布日期未确认','Publication date unconfirmed'):mapText(update.release_date_kind==='official_publication'?'官方文章日期：':update.release_date_kind==='month_only'?'项目记录月份：':'版本说明日期：',update.release_date_kind==='official_publication'?'Official article date: ':update.release_date_kind==='month_only'?'Project log month: ':'Release-note date: ')+update.release_date;
     const meta=element('p',date+(update.platform_published_date?' · '+mapText('平台发布日期：','Platform publication: ')+update.platform_published_date:'')+' · '+mapText('核对：','Reviewed: ')+update.checked_at,'meta');
     sourceLink(meta,update.source_id);block.append(meta);
     const changes=ordered(snapshot.changes.filter(row=>row.update_id===update.update_id));
@@ -3101,7 +3120,7 @@ function validateResearch(data) {
 function refreshSynthesis() {
  if(topicPage()||!state.scopeReady||!state.revision||!['updates','home','reports'].includes(state.view))return;
  const revision=state.revision,epoch=state.epoch;
- globalThis.LRICompressionSynthesis?.refresh({revision,period:state.period,scope:state.scope,locale:state.locale,strings:state.packs[state.locale].strings,topics:state.data.compression_topics,topicId:state.focusTarget?compressionTopicId():'',view:state.view,loadIndustry:async()=>{
+ globalThis.LRICompressionSynthesis?.refresh({revision,period:state.period,scope:state.scope,windowStart:currentScope()?.window_start||'',windowEnd:currentScope()?.window_end||'',locale:state.locale,strings:state.packs[state.locale].strings,topics:state.data.compression_topics,topicId:state.focusTarget?compressionTopicId():'',view:state.view,loadIndustry:async()=>{
  const reader=await LRIIndustryUpdates.loadReader(revision);must(state.revision===revision&&state.epoch===epoch,'Industry context changed');return reader;
  }});
 }
@@ -3850,6 +3869,10 @@ function weightTopicRoutes(parent){
   weightTopicCitations(card,[route.supporting_card_id]);parent.append(card);
  }
 }
+function weightAdditionalCaseIds(dossier){
+ const represented=new Set(dossier.routes.map(route=>route.supporting_card_id));
+ return dossier.cards.filter(card=>card.section_kind==='papers'&&card.card_kind==='case'&&!represented.has(card.card_id)).sort((a,b)=>a.position-b.position||a.card_id.localeCompare(b.card_id)).map(card=>card.card_id);
+}
 
 function compressionFoundationHref(method=''){
  const anchors={precision:'quantization',selection:'pruning-sparsity',distillation:'distillation',factorization:'low-rank'};
@@ -3953,7 +3976,7 @@ function renderWeightQuantizationTopic(parent,topic,dossier){
  weightTopicCards(industry,['parameters-precision__industry_vllm','parameters-precision__msmodelslim_implementation','parameters-precision__industry_kernel','parameters-precision__industry_domain','parameters-precision__expert_evidence']);
  const routes=sub(sections.solutions,'routes',"代表案例：机制细读与原文效果","Research methods and experimental results");routes.hidden=!complete&&!selected&&!['mechanism','literature'].includes(view);if(selected)industry.hidden=true;
  const routesAlias=element('span');routesAlias.id='research-overview-routes';routes.append(routesAlias);
- weightTopicRoutes(routes);
+ weightTopicRoutes(routes);if(!selected)weightTopicCards(routes,weightAdditionalCaseIds(dossier));
  const academic=sub(sections.solutions,'academic','学术界进展','Academic research');
  const landscape=sections.solutions.querySelector('#direction-research-landscape');
  if(landscape)academic.append(landscape);academic.append(routes);

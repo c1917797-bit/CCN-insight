@@ -59,7 +59,7 @@ function renderReviewCard(model,compact=false){
 }
 async function fillReviews(root,ctx,ticket,compact=false){
  root.replaceChildren(el('p',ui('paper_review_loading'),'meta'));
- try{const rows=await reviewed(ctx);if(ticket!==epoch)return;root.replaceChildren();if(!rows.length)root.append(el('p',ui('paper_review_empty'),'reader-note'));else {const selected=new URLSearchParams(location.search).get('paper_review');const ordered=compact?rows:[...rows].sort((a,b)=>Number(b.intake.intake_id===selected)-Number(a.intake.intake_id===selected));for(const row of ordered)root.append(renderReviewCard(row,compact));}document.dispatchEvent(new Event('lri:sections-changed'));if(!compact)settleInitialAnchor();}
+ try{const all=await reviewed(ctx),rows=ctx.view==='updates'?all.filter(row=>row.publicationBucket==='current'):all;if(ticket!==epoch)return;root.replaceChildren();if(!rows.length)root.append(el('p',ctx.view==='updates'?(ctx.locale==='en'?'Historical reviews are retained in topics and source records. No additional current-month review is selected here.':'历史研读保留在专题与来源记录中；此处不重复列入本月动态。'):ui('paper_review_empty'),'reader-note'));else {const selected=new URLSearchParams(location.search).get('paper_review');const ordered=compact?rows:[...rows].sort((a,b)=>Number(b.intake.intake_id===selected)-Number(a.intake.intake_id===selected));for(const row of ordered)root.append(renderReviewCard(row,compact));}document.dispatchEvent(new Event('lri:sections-changed'));if(!compact)settleInitialAnchor();}
  catch(error){if(ticket!==epoch)return;root.replaceChildren(el('p',ui('paper_review_failed'),'reader-note'),button(ui('paper_review_retry'),()=>fillReviews(root,ctx,++epoch,compact)));console.error('Reviewed-paper intake unavailable',error);}
 }
 async function fillPending(root,ctx,ticket){
@@ -232,7 +232,7 @@ function update(ctx){
  if(!ctx.revision||!['sources','updates'].includes(ctx.view)){if(key){key='';epoch++;}return;}
  const newKey=JSON.stringify([ctx.revision,ctx.period,ctx.locale,ctx.view,ctx.scope]);if(key===newKey)return;key=newKey;context=ctx;epoch++;
  if(ctx.view==='sources'&&source)sourcePanel(source,ctx);
- if(ctx.view==='updates'&&target){target.replaceChildren(el('h3',ui('paper_review_supplementary')),el('p',ui('paper_review_history_help'),'reader-note'));const body=el('div','','wb-reading-list');target.append(body);fillReviews(body,ctx,++epoch);}
+ if(ctx.view==='updates'&&target){target.replaceChildren(el('h3',ui('paper_review_supplementary')),el('p',ctx.locale==='en'?'Only publications or substantive revisions from this month appear here. Earlier reviews are incorporated into topics.':'此处仅列本月首发或有实质变化的重要修订；较早的研读吸收到长期专题。','reader-note'));const body=el('div','','wb-reading-list');target.append(body);fillReviews(body,ctx,++epoch);}
 }
 globalThis.LRIImportedPaperReview=Object.freeze({update,reset,validateReview,read:reviewed});
 })();

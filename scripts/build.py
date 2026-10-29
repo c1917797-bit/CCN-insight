@@ -49,6 +49,7 @@ print(f'Built portal and source directory: {len(families)} families, {len(channe
 if (ROOT / 'data/compression/manifest.json').exists():
     subprocess.run([sys.executable, '-X', 'utf8', str(ROOT / 'compression_migration_preview.py')], cwd=ROOT, check=True)
 if (ROOT / 'original-reader/SOURCE-MANIFEST.json').exists():
+    subprocess.run([sys.executable, '-X', 'utf8', str(ROOT / 'scripts/sync_reader_bootstrap.py')], cwd=ROOT, check=True)
     subprocess.run([sys.executable, '-X', 'utf8', str(ROOT / 'scripts/build_original_reader.py')], cwd=ROOT, check=True)
 
 # Agent report shares this repository; existing public navigation stays unchanged.

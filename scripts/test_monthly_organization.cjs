@@ -12,9 +12,9 @@ vm.createContext(sandbox);vm.runInContext(text.slice(text.indexOf('function rend
 const render=()=>sandbox.renderIndustry({snapshot,directory:{source_families:[{family_id:'f',title_zh:'project'}]}});
 const flatten=n=>[n,...n.children.flatMap(flatten)];
 render();let cards=flatten(elements.get('current-industry-cards')).filter(n=>n.dataset.industryKey);
-assert.equal(cards.length,3,'One update linked to two topics must render once; unverified assessments are excluded');
+assert.equal(cards.length,1,'Only verified publications from this calendar month render; multiple topic links do not duplicate one event');
 assert.equal(cards.find(n=>n.dataset.industryKey==='new').dataset.releaseBucket,'published','Publication date, not review date, selects the new-release bucket');
-for(const id of ['old','unknown'])assert.equal(cards.find(n=>n.dataset.industryKey===id).dataset.releaseBucket,'reviewed-existing','A review this month does not make an old or undated release new');
+for(const id of ['old','unknown'])assert(!cards.some(n=>n.dataset.industryKey===id),'Older or undated material belongs to source records, not this month’s updates');
 assert.equal(elements.get('monthly-release-metric').textContent,'1');
 sandbox.current.topicId='b';render();cards=flatten(elements.get('current-industry-cards')).filter(n=>n.dataset.industryKey);assert.deepEqual(cards.map(n=>n.dataset.industryKey),['new']);
 sandbox.current.topicId='missing';render();assert.equal(elements.get('monthly-release-metric').textContent,'0','Filtering must reset summary counts');

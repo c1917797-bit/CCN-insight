@@ -31,6 +31,11 @@ const element=(tag,text='',cls='')=>({tagName:tag.toUpperCase(),textContent:text
 Object.assign(sandbox,{element,researchDossier:()=>dossier,URLSearchParams,location:{search:''},mapText:zh=>zh,title:row=>row.title_zh||row.name_zh,textOf:(row,key)=>row[key+'_zh']||'',expertCardTools(){},appendWeightStructuredText(node,text){node.append(element('p',text));},weightTopicCitations(){},researchHref:()=>''});
 vm.runInContext(extract(source,'function weightTopicRoutes(','function compressionFoundationHref('),sandbox);
 const container=element('div');sandbox.weightTopicRoutes(container);
+const additional=sandbox.weightAdditionalCaseIds(dossier);
+for(const card of dossier.cards.filter(c=>c.card_kind==='case'&&c.section_kind==='papers')){
+ assert(dossier.routes.some(r=>r.supporting_card_id===card.card_id)||additional.includes(card.card_id),'Every indexed paper case must have a rendered destination');
+}
+assert(!additional.some(id=>dossier.routes.some(r=>r.supporting_card_id===id)),'Additional cases must not duplicate route evidence');
 for(const route of dossier.routes){
  const card=container.children.find(n=>n.id==='research-card-'+route.supporting_card_id);
  assert(card&&card.tagName==='ARTICLE','Evidence navigation must land on the complete method card');
@@ -43,6 +48,15 @@ for(const name of ['index.html','topic.html','monthly.html']){
  const bootstrap=fs.readFileSync(path.join(base,'business_insight/cloud_core/reader-bootstrap.js'),'utf8').trim();
  assert(html.includes(bootstrap),'Inline startup routing must match the maintained source');
  assert(html.includes('dataset.cloudInitialView=view'),'Initial loading must retain the requested view');
+}
+// Browsers execute the delivery bundle. Checking only its editable source can
+// miss a corrected module that was never included in the actual reader.
+for(const bundleName of ['reader-entry.js','topic-entry.js']){
+ const bundle=fs.readFileSync(path.join(base,'business_insight/cloud_core',bundleName),'utf8').replace(/\r\n/g,'\n');
+ for(const name of ['current-synthesis.js','industry-updates.js','compression.js',...(bundleName==='reader-entry.js'?['paper-review.js','monthly-routes.js']:[])]){
+  const module=fs.readFileSync(path.join(base,'business_insight/cloud_core',name),'utf8').replace(/\r\n/g,'\n').trim();
+  assert(bundle.includes(module),'Delivery bundle must include current source: '+bundleName+' / '+name);
+ }
 }
 const frames=[],scrolls=[];
 Object.assign(sandbox,{state:{view:'home'},location:{hash:'#view-home'},topicPage:()=>false,$:id=>({hidden:false}),window:{scrollTo:options=>scrolls.push(options.top)},requestAnimationFrame:fn=>frames.push(fn)});

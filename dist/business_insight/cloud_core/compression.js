@@ -346,7 +346,8 @@ function findingCard(row,layer='conclusion') {
   const links=state.data.finding_evidence.filter(item=>item.finding_id===row.finding_id);
   const sources=[...new Map(links.map(link=>[link.source_id,sourceById(link.source_id)])).values()];
   const facts=element('div');facts.dataset.readingLayer='facts';
-  facts.append(element('p',enumLabel('finding_kind_',row.kind)+(row.change_date?' · '+row.change_date:''),'meta'),element('h3',sources.map(source=>source.title).join(' / ')));
+  facts.append(element('p',enumLabel('finding_kind_',row.kind)+(row.change_date?' · '+row.change_date:''),'meta'),element('h3',title(row)||sources.map(source=>source.title).join(' / ')));
+  facts.append(element('p',sources.map(source=>source.title).join(' / '),'meta'));
   field(facts,'source_facts',textOf(row,'change'));
   if(textOf(row,'mechanism')&&textOf(row,'mechanism')!==textOf(row,'change'))field(facts,'reported_mechanism',textOf(row,'mechanism'));
   const keywords=element('div','','wb-keywords');
@@ -462,7 +463,7 @@ function renderIndustryUpdates(card,familyId) {
     const block=element('article','','industry-update');block.dataset.industryUpdate=update.update_id;
     const kind=kindText[update.release_kind];
     block.append(element('p',mapText(...kind)+' · '+update.version_label,'industry-update-kind'),element('h6',title(update)),element('p',textOf(update,'summary')));
-    const date=update.release_date_kind==='unknown'?mapText('发布日期未确认','Publication date unconfirmed'):mapText(update.release_date_kind==='month_only'?'项目记录月份：':'版本说明日期：',update.release_date_kind==='month_only'?'Project log month: ':'Release-note date: ')+update.release_date;
+    const date=update.release_date_kind==='unknown'?mapText('发布日期未确认','Publication date unconfirmed'):mapText(update.release_date_kind==='official_publication'?'官方文章日期：':update.release_date_kind==='month_only'?'项目记录月份：':'版本说明日期：',update.release_date_kind==='official_publication'?'Official article date: ':update.release_date_kind==='month_only'?'Project log month: ':'Release-note date: ')+update.release_date;
     const meta=element('p',date+(update.platform_published_date?' · '+mapText('平台发布日期：','Platform publication: ')+update.platform_published_date:'')+' · '+mapText('核对：','Reviewed: ')+update.checked_at,'meta');
     sourceLink(meta,update.source_id);block.append(meta);
     const changes=ordered(snapshot.changes.filter(row=>row.update_id===update.update_id));
@@ -682,7 +683,7 @@ function validateResearch(data) {
 function refreshSynthesis() {
  if(topicPage()||!state.scopeReady||!state.revision||!['updates','home','reports'].includes(state.view))return;
  const revision=state.revision,epoch=state.epoch;
- globalThis.LRICompressionSynthesis?.refresh({revision,period:state.period,scope:state.scope,locale:state.locale,strings:state.packs[state.locale].strings,topics:state.data.compression_topics,topicId:state.focusTarget?compressionTopicId():'',view:state.view,loadIndustry:async()=>{
+ globalThis.LRICompressionSynthesis?.refresh({revision,period:state.period,scope:state.scope,windowStart:currentScope()?.window_start||'',windowEnd:currentScope()?.window_end||'',locale:state.locale,strings:state.packs[state.locale].strings,topics:state.data.compression_topics,topicId:state.focusTarget?compressionTopicId():'',view:state.view,loadIndustry:async()=>{
  const reader=await LRIIndustryUpdates.loadReader(revision);must(state.revision===revision&&state.epoch===epoch,'Industry context changed');return reader;
  }});
 }
@@ -1431,6 +1432,10 @@ function weightTopicRoutes(parent){
   weightTopicCitations(card,[route.supporting_card_id]);parent.append(card);
  }
 }
+function weightAdditionalCaseIds(dossier){
+ const represented=new Set(dossier.routes.map(route=>route.supporting_card_id));
+ return dossier.cards.filter(card=>card.section_kind==='papers'&&card.card_kind==='case'&&!represented.has(card.card_id)).sort((a,b)=>a.position-b.position||a.card_id.localeCompare(b.card_id)).map(card=>card.card_id);
+}
 
 function compressionFoundationHref(method=''){
  const anchors={precision:'quantization',selection:'pruning-sparsity',distillation:'distillation',factorization:'low-rank'};
@@ -1534,7 +1539,7 @@ function renderWeightQuantizationTopic(parent,topic,dossier){
  weightTopicCards(industry,['parameters-precision__industry_vllm','parameters-precision__msmodelslim_implementation','parameters-precision__industry_kernel','parameters-precision__industry_domain','parameters-precision__expert_evidence']);
  const routes=sub(sections.solutions,'routes',"代表案例：机制细读与原文效果","Research methods and experimental results");routes.hidden=!complete&&!selected&&!['mechanism','literature'].includes(view);if(selected)industry.hidden=true;
  const routesAlias=element('span');routesAlias.id='research-overview-routes';routes.append(routesAlias);
- weightTopicRoutes(routes);
+ weightTopicRoutes(routes);if(!selected)weightTopicCards(routes,weightAdditionalCaseIds(dossier));
  const academic=sub(sections.solutions,'academic','学术界进展','Academic research');
  const landscape=sections.solutions.querySelector('#direction-research-landscape');
  if(landscape)academic.append(landscape);academic.append(routes);
