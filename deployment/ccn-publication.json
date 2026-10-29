@@ -15,7 +15,7 @@
   "archive_files": 2265,
   "original_host_changed": true,
   "content_version": "compression-88882f33795d488da28c",
-  "reader_revision": "c0256050fd587356989e27621e330d7a5aa331ea",
+  "reader_revision": "6b311d006ce188996076b40c38685fd5e7e43637",
   "ui_revision": "3eda6dffb9de72ecb18f",
   "change": "Clarified core compression map; separate NVIDIA and Ascend hardware-format evolution tables in weight-quantization research background; preserve integer, floating-point, block-scale and operator/device boundaries",
   "validated": {

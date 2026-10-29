@@ -30,5 +30,6 @@
   },
   "change": "Clarified core compression map; separate NVIDIA and Ascend hardware-format evolution tables in weight-quantization research background; preserve integer, floating-point, block-scale and operator/device boundaries",
   "original_entry_changed": false,
-  "private_data_transferred": false
+  "private_data_transferred": false,
+  "reader_revision": "6b311d006ce188996076b40c38685fd5e7e43637"
 }
