@@ -83,7 +83,7 @@
   if(view==='sources'){for(const f of g.source_families)card(pick(f,'title'),[pick(f,'summary')]);}
   else if(view==='topics'&&!topic){for(const id of ['precision','selection','distillation','factorization']){const term=g.map_terms.find(row=>row.term_id===id);ensure(term?.facet_id==='mechanism'&&term.description_zh&&term.name_zh,'Unbound core research route');const url=new URL('index.html',location.href);if(params.has('month'))url.searchParams.set('month',period);if(scope)url.searchParams.set('scope',scope);url.hash='route-'+id;card(pick(term,'name'),[pick(term,'description')],url.href);}}
   else if(view==='topics'){ensure(g.compression_topic_sections.length===3,'Incomplete first research sections');for(const kind of ['problem','mechanism','boundary']){const section=g.compression_topic_sections.find(s=>s.section_kind===kind);ensure(section&&section.claim_kind==='literature_synthesis'&&section.reviewed_at&&section.evidence_url&&section.section_id===topic+'__'+kind,'Unreviewed first research section');card(pick(section,'heading'),[pick(section,'body')],section.evidence_url);}}
-  else if(view==='updates'){const events=new Map(g.paper_summary_events.map(e=>[e.summary_id,e]));for(const s of g.paper_summaries.filter(s=>events.has(s.summary_id)).slice(0,6)){const e=events.get(s.summary_id);ensure(e.source_id===s.source_id&&e.observed_version===s.observed_version&&['primary_abstract_checked','method_results_checked'].includes(s.review_status)&&s.evidence_url&&s.one_sentence_zh,'Unreviewed current paper');card((en?'Reviewed paper · ':'论文原文 · ')+new URL(s.evidence_url).pathname.split('/').at(-1),[pick(s,'one_sentence'),pick(s,'results')],s.evidence_url);}}
+  else if(view==='updates'){const events=new Map(g.paper_summary_events.map(e=>[e.summary_id,e])),selected=params.get('paper'),route=params.get('route');const papers=route?[]:g.paper_summaries.filter(s=>events.has(s.summary_id)&&(!selected||s.summary_id===selected));for(const s of papers.slice(0,6)){const e=events.get(s.summary_id);ensure(e.source_id===s.source_id&&e.observed_version===s.observed_version&&['primary_abstract_checked','method_results_checked'].includes(s.review_status)&&s.evidence_url&&s.one_sentence_zh,'Unreviewed current paper');card((en?'Reviewed paper · ':'论文原文 · ')+new URL(s.evidence_url).pathname.split('/').at(-1),[pick(s,'one_sentence'),pick(s,'results')],s.evidence_url);}}
   else{for(const r of g.insight_reports)card(pick(r,'title'),[pick(r,'summary')],'index.html'+location.search+'#view-home');for(const r of (g.ascend_route_assessments||[]).sort((a,b)=>a.position-b.position).slice(0,3)){ensure(r.claim_status==='analyst_recommendation','Unsupported first-content recommendation');card(pick(r,'title'),[pick(r,'rationale'),pick(r,'recommendation')]);}}
   if(!count)return true;
   for(const panel of document.querySelectorAll('[data-view-panel]'))panel.hidden=panel.dataset.viewPanel!==view;
@@ -101,9 +101,9 @@
 <meta name="lri-page-translation" content="ui">
 <meta name="lri-shell-version" content="lri-shell-v18-cloud-report-navigation">
 <script type="module" src="../../assets/lri-shell.js?v=a841a5453eecfcb7"></script>
-<script type="application/lri-reader" data-lri-reader="topic-entry.js?v=reader-content-044bce1d355ee86d"></script>
+<script type="application/lri-reader" data-lri-reader="topic-entry.js?v=reader-content-e6b3def7e8cf6e74"></script>
 <link rel="stylesheet" href="reader-editorial.css?v=20261022">
-<link rel="stylesheet" href="reader-refinement.css?v=66099ac28318383a">
+<link rel="stylesheet" href="reader-refinement.css?v=97585da47244bd04">
 <link rel="stylesheet" href="topic-studio.css?v=20261023-studio-1">
 <link rel="stylesheet" href="reader-atlas.css?v=80a2ca86e1c9a286">
 </head>

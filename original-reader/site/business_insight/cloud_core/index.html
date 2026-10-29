@@ -82,7 +82,7 @@
   if(view==='sources'){for(const f of g.source_families)card(pick(f,'title'),[pick(f,'summary')]);}
   else if(view==='topics'&&!topic){for(const id of ['precision','selection','distillation','factorization']){const term=g.map_terms.find(row=>row.term_id===id);ensure(term?.facet_id==='mechanism'&&term.description_zh&&term.name_zh,'Unbound core research route');const url=new URL('index.html',location.href);if(params.has('month'))url.searchParams.set('month',period);if(scope)url.searchParams.set('scope',scope);url.hash='route-'+id;card(pick(term,'name'),[pick(term,'description')],url.href);}}
   else if(view==='topics'){ensure(g.compression_topic_sections.length===3,'Incomplete first research sections');for(const kind of ['problem','mechanism','boundary']){const section=g.compression_topic_sections.find(s=>s.section_kind===kind);ensure(section&&section.claim_kind==='literature_synthesis'&&section.reviewed_at&&section.evidence_url&&section.section_id===topic+'__'+kind,'Unreviewed first research section');card(pick(section,'heading'),[pick(section,'body')],section.evidence_url);}}
-  else if(view==='updates'){const events=new Map(g.paper_summary_events.map(e=>[e.summary_id,e]));for(const s of g.paper_summaries.filter(s=>events.has(s.summary_id)).slice(0,6)){const e=events.get(s.summary_id);ensure(e.source_id===s.source_id&&e.observed_version===s.observed_version&&['primary_abstract_checked','method_results_checked'].includes(s.review_status)&&s.evidence_url&&s.one_sentence_zh,'Unreviewed current paper');card((en?'Reviewed paper · ':'论文原文 · ')+new URL(s.evidence_url).pathname.split('/').at(-1),[pick(s,'one_sentence'),pick(s,'results')],s.evidence_url);}}
+  else if(view==='updates'){const events=new Map(g.paper_summary_events.map(e=>[e.summary_id,e])),selected=params.get('paper'),route=params.get('route');const papers=route?[]:g.paper_summaries.filter(s=>events.has(s.summary_id)&&(!selected||s.summary_id===selected));for(const s of papers.slice(0,6)){const e=events.get(s.summary_id);ensure(e.source_id===s.source_id&&e.observed_version===s.observed_version&&['primary_abstract_checked','method_results_checked'].includes(s.review_status)&&s.evidence_url&&s.one_sentence_zh,'Unreviewed current paper');card((en?'Reviewed paper · ':'论文原文 · ')+new URL(s.evidence_url).pathname.split('/').at(-1),[pick(s,'one_sentence'),pick(s,'results')],s.evidence_url);}}
   else{for(const r of g.insight_reports)card(pick(r,'title'),[pick(r,'summary')],'index.html'+location.search+'#view-home');for(const r of (g.ascend_route_assessments||[]).sort((a,b)=>a.position-b.position).slice(0,3)){ensure(r.claim_status==='analyst_recommendation','Unsupported first-content recommendation');card(pick(r,'title'),[pick(r,'rationale'),pick(r,'recommendation')]);}}
   if(!count)return true;
   for(const panel of document.querySelectorAll('[data-view-panel]'))panel.hidden=panel.dataset.viewPanel!==view;
@@ -100,7 +100,7 @@
 <meta name="lri-page-translation" content="ui">
 <meta name="lri-shell-version" content="lri-shell-v18-cloud-report-navigation">
 <script type="module" src="../../assets/lri-shell.js?v=a841a5453eecfcb7"></script>
-<script type="application/lri-reader" data-lri-reader="reader-entry.js?v=reader-content-5cef0a60406cb69e"></script>
+<script type="application/lri-reader" data-lri-reader="reader-entry.js?v=reader-content-2e4c797c28203ce6"></script>
 <style>
 /* Compact introduction: keep the reading path visible without a full-height preamble. */
 .compression-research-workbench #reading-guide{margin:8px 0 18px;padding:14px 18px;background:#f5f8fa;border:1px solid #e1e7ec;border-radius:12px}
@@ -154,7 +154,7 @@
 .compression-research-workbench #monthly-route-report article p,.compression-research-workbench #supplementary-paper-reviews article p{line-height:1.75}
 </style>
 <link rel="stylesheet" href="reader-editorial.css?v=20261022">
-<link rel="stylesheet" href="reader-refinement.css?v=66099ac28318383a">
+<link rel="stylesheet" href="reader-refinement.css?v=97585da47244bd04">
 <link rel="stylesheet" href="reader-atlas.css?v=80a2ca86e1c9a286">
 <link rel="stylesheet" href="source-directory.css?v=79e5776af765dce3">
 </head>
@@ -223,14 +223,22 @@
 <button class="btn" type="button" id="scope-retry" data-dependent hidden disabled data-i18n-key="retry">重试</button>
 <details id="monthly-direction-filter"><summary data-i18n-key="paper_directions_filter">按技术方向筛选</summary><div id="monthly-directions"></div></details>
 
-<section class="section" id="current-streams" data-section-label="本期动态分类">
- <h3 data-i18n-key="current_streams"></h3><p class="reader-note" data-i18n-key="current_streams_help">热点资讯呈现需求变化，产业进展展示实现条件，学术论文介绍新方法；三类信息均关联技术地图。</p>
- <nav class="current-updates-navigation monthly-route-topics" aria-label="本期动态分类"><a href="#current-hotspots" data-i18n-key="current_hotspots"></a><a href="#current-industry" data-i18n-key="current_industry"></a><a href="#monthly-route-report" data-i18n-key="current_academic"></a><a href="#supplementary-paper-reviews" data-i18n-key="paper_review_supplementary"></a></nav>
- <details id="current-hotspots" open data-section-label="热点资讯"><summary><span data-i18n-key="current_hotspots"></span> · <span id="current-hotspot-count"></span></summary><div id="current-hotspot-cards"></div></details>
- <details id="current-industry" open data-section-label="产业进展"><summary><span data-i18n-key="current_industry"></span> · <span id="current-industry-count"></span></summary><div id="current-industry-cards"></div></details>
- </section><h3 data-i18n-key="current_academic"></h3><p data-i18n-key="current_papers_help">按技术方向整理本月已审阅论文，说明研究问题、方法、实验结果和后续价值。</p>
-<section id="monthly-route-report" class="monthly-route-report" aria-live="polite"></section>
-<section id="supplementary-paper-reviews" class="section" data-section-label="补充研读" data-section-label-en="Supplementary reading" aria-live="polite"></section>
+<section class="section current-month-overview" id="current-streams" data-section-label="本月速览" data-section-label-en="Month at a glance">
+ <p class="monthly-overview-intro">先看新方法与实验结果，再看实现条件和需求变化。论文按首投或修订日期归入本月；既有产业能力另列。</p>
+ <div class="monthly-stream-metrics" aria-label="本月收录范围">
+  <a href="#monthly-route-report"><strong id="monthly-academic-metric">—</strong><span>已研读论文</span></a>
+  <a href="#current-industry"><strong id="monthly-release-metric">—</strong><span>已核实的本月产业发布</span></a>
+  <a href="#current-hotspots"><strong id="monthly-signal-metric">—</strong><span>热点信号</span></a>
+ </div>
+ <p id="monthly-review-cutoff" class="meta" role="status"></p>
+ <nav class="current-updates-navigation monthly-route-topics" aria-label="本期阅读目录"><a href="#current-streams">本月速览</a><a href="#monthly-route-report" data-i18n-key="current_academic"></a><a href="#current-industry" data-i18n-key="current_industry"></a><a href="#current-hotspots" data-i18n-key="current_hotspots"></a><a href="#monthly-appendix">补充资料</a></nav>
+ <div id="monthly-key-changes" class="monthly-key-changes"></div>
+ </section>
+ <section id="monthly-route-report" class="monthly-route-report" aria-live="polite"></section>
+ <section id="current-industry" class="section monthly-stream-section" data-section-label="产业进展" data-section-label-en="Industry updates"><header><h2 data-i18n-key="current_industry"></h2><span id="current-industry-count" class="meta"></span></header><div id="current-industry-cards"></div></section>
+ <section id="current-hotspots" class="section monthly-stream-section" data-section-label="热点信号" data-section-label-en="Market signals"><header><h2>热点信号</h2><span id="current-hotspot-count" class="meta"></span></header><div id="current-hotspot-cards"></div></section>
+ <section id="monthly-appendix" class="section" data-section-label="补充资料" data-section-label-en="Further reading"><h2>补充资料</h2><p class="reader-note">补充研读与候选目录保留在这里，不与本月已核实进展混计。</p>
+<section id="supplementary-paper-reviews" data-section-outline="false" class="section" data-section-label="补充研读" data-section-label-en="Supplementary reading" aria-live="polite"></section>
 <details id="current-paper-index"><summary data-i18n-key="monthly_paper_index">逐篇摘要与待审阅候选</summary>
 <h3 data-i18n-key="monthly_evidence">本期论文与技术进展</h3><p id="evidence-status" role="status" aria-live="polite"></p><p id="paper-summary-status" class="meta" role="status" aria-live="polite"></p><div id="evidence-cards" class="wb-reading-list"></div>
 <div class="actions"><button class="btn" type="button" id="evidence-prev" data-dependent data-pagination="prev" disabled data-i18n-key="previous">上一页</button><button class="btn" type="button" id="evidence-next" data-dependent data-pagination="next" disabled data-i18n-key="next">下一页</button><button class="btn" type="button" id="evidence-retry" data-dependent hidden disabled data-i18n-key="retry">重试</button></div>
@@ -238,6 +246,7 @@
 <details id="current-source-readings"><summary>已整理的来源详读</summary><div id="update-finding-cards" class="wb-reading-list"></div>
 </details>
 <details id="scope-disclosure"><summary>采集范围与统计口径</summary><p id="selection-title" class="wb-selection-title"></p><p id="selection-status" class="meta" role="status"></p><p id="monthly-status" class="reader-note" role="status" aria-live="polite"></p><div id="scope-detail"></div></details>
+</section>
 <p class="wb-next"><a href="#view-home" data-i18n-key="next_insights">阅读本期洞察报告 →</a></p>
 </section>
 </div>

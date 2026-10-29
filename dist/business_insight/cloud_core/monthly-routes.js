@@ -191,31 +191,38 @@
   function notifyOutline() { document.dispatchEvent(new Event('lri:sections-changed')); }
   function render(model) {
     const root=mount();if(!root||!current)return;root.replaceChildren();
-    root.setAttribute('data-section-label',t('本月专题进展','Monthly topic updates'));
-    root.setAttribute('data-section-label-en','Monthly topic updates');root.setAttribute('data-section-level','3');
+    root.setAttribute('data-section-label',t('学术进展','Academic updates'));
+    root.setAttribute('data-section-label-en','Academic updates');root.setAttribute('data-section-level','3');
     const selectedRoute=new URLSearchParams(location.search).get('route'),selectedPaper=new URLSearchParams(location.search).get('paper'),detail=document.body.dataset.compressionMonthly==='true';
     const relevant=model.stories.filter(s=>(!current.topicId||model.refs.some(r=>r.story_id===s.story_id&&r.compression_topic_id===current.topicId))&&(!detail||(!selectedRoute||s.story_id===selectedRoute)&&(!selectedPaper||model.refs.some(r=>r.story_id===s.story_id&&r.summary_id===selectedPaper)))).sort((a,b)=>a.position-b.position||a.story_id.localeCompare(b.story_id));
     root.dataset.readerMode=detail?'detail':'overview';
     const activeTopic=current.topics.find(topic=>topic.compression_topic_id===current.topicId);
-    root.append(node('h2',current.period+' · '+(activeTopic?(pick(activeTopic,'name',current.locale)||pick(activeTopic,'title',current.locale))+t(' · 本期动态',' · Current updates'):t('本月专题进展','Monthly topic updates'))));
+    root.append(node('h2',current.period+' · '+(activeTopic?(pick(activeTopic,'name',current.locale)||pick(activeTopic,'title',current.locale))+t(' · 本期动态',' · Current updates'):t('学术进展','Academic updates'))));
     root.append(node('p',t('按技术地图查看本月论文进展：解决了什么问题、采用什么方法、效果如何。点击动态标题阅读全文，点击专题标签查看基础原理与长期研究。','Follow this month’s papers by technology-map topic: the problem, the method and the results. Open an update for the full review, or a topic for foundations and ongoing research.'),'meta'));
     const path=node('ol','','insight-reading-chain');
-    for(const [zh,en] of [['本月事件','Monthly events'],['技术增量','Technical increments'],['原文结果','Reported results'],['进入专题','Open the topic']])path.append(node('li',t(zh,en)));if(!selectedPaper)root.append(path);
+    for(const [zh,en] of [['本月事件','Monthly events'],['技术增量','Technical increments'],['原文结果','Reported results'],['进入专题','Open the topic']])path.append(node('li',t(zh,en)));if(detail&&!selectedPaper)root.append(path);
+    if(!detail){document.getElementById('monthly-key-changes')?.replaceChildren();const metric=document.getElementById('monthly-academic-metric');if(metric)metric.textContent='0';const cutoff=document.getElementById('monthly-review-cutoff');if(cutoff)cutoff.textContent=t('当前筛选范围暂无已研读路线。','No reviewed route matches the current filter.');}
     if(!relevant.length){root.append(node('p',t('当前范围暂无已审阅的路线分析。可查看下方候选论文，或切换月份与技术方向。','No reviewed route analyses match this scope. Browse the candidate papers below or change the month or topic.'),'meta'));notifyOutline();return;}
     if(detail){const back=node('a',t('← 本期动态总览','← Current updates overview'),'direction-back');back.href='index.html?month='+current.period+'&scope='+current.scope+'#view-updates';root.append(back);document.getElementById('topic-title').textContent=selectedPaper?model.sourceMap.get(model.reviewMap.get(selectedPaper)?.source_id)?.title||t('论文详读','Paper reader'):pick(relevant[0],'title',current.locale)+t('（',' (')+storyMapLabel(relevant[0],model)+t('）',')');document.title=document.getElementById('topic-title').textContent+' · '+current.period;}
     const refs=model.refs.filter(r=>relevant.some(s=>s.story_id===r.story_id)),unique=new Map();
     refs.forEach(r=>{if(!unique.has(r.summary_id))unique.set(r.summary_id,r)});
     const ids=new Map([...unique.keys()].map((id,i)=>[id,'E'+String(i+1).padStart(2,'0')]));
     const asOf=relevant.map(s=>s.checked_at).sort().at(-1);
+    if(!detail){
+      const metric=document.getElementById('monthly-academic-metric');if(metric)metric.textContent=String(unique.size);
+      const cutoff=document.getElementById('monthly-review-cutoff');if(cutoff)cutoff.textContent=t(`原文研读更新至 ${asOf} · 当前范围 ${relevant.length} 条路线 · 不是全领域收录总量`,`Paper reviews through ${asOf} · ${relevant.length} routes in this scope · not a field-wide total`);
+      const keyChanges=document.getElementById('monthly-key-changes');if(keyChanges){keyChanges.replaceChildren();for(const story of relevant){const a=node('a','','monthly-change-tile');a.href='#monthly-brief-'+story.story_id;a.append(node('strong',pick(story,'title',current.locale).split(/[：:]/)[0]),node('span',pick(story,'question',current.locale)));keyChanges.append(a);}}
+    }
+
     const topicPaperIds=new Set(refs.filter(ref=>!current.topicId||ref.compression_topic_id===current.topicId).map(ref=>ref.summary_id)),contextPaperCount=unique.size-topicPaperIds.size;
     root.append(node('p',detail&&selectedPaper?t('论文详读 · 下文注明原文版本与实验条件','Paper review · Version and experimental conditions are listed below'):current.topicId?t(`截至 ${asOf} · ${relevant.length} 条相关路线 · ${topicPaperIds.size} 篇当前专题原文 · ${contextPaperCount} 篇关联背景原文`,`As of ${asOf} · ${relevant.length} relevant routes · ${topicPaperIds.size} topic papers · ${contextPaperCount} contextual papers`):t(`截至 ${asOf} · ${relevant.length} 条技术路线 · ${unique.size} 篇已审阅原文 · 当月截至目前的采集范围`,`As of ${asOf} · ${relevant.length} routes · ${unique.size} reviewed papers · collected month-to-date scope`),'meta'));
     if(current.topicId&&contextPaperCount)root.append(node('p',t('关联论文用于跨专题比较，单独列出，不计入当前专题的论文数量。','Related papers support comparisons across topics. They are listed separately and excluded from the selected topic’s paper count.'),'meta'));
-    const cite=(parent,ref)=>{const a=node('a','['+ids.get(ref.summary_id)+']','monthly-route-citation');a.href='#monthly-evidence-'+ref.summary_id;
-      a.addEventListener('click',()=>{const card=document.getElementById('monthly-evidence-'+ref.summary_id);if(card){card.open=true;card.focus?.();}});parent.append(document.createTextNode(' '),a);};
+    const cite=(parent,ref)=>{const a=node('a','['+ids.get(ref.summary_id)+']','monthly-route-citation');a.href=detail?'#monthly-evidence-'+ref.summary_id:readerUrl('',ref.summary_id);if(!detail)a.dataset.monthlyReader='true';
+      a.addEventListener('click',()=>{if(!detail)return;const card=document.getElementById('monthly-evidence-'+ref.summary_id);if(card){card.open=true;card.focus?.();}});parent.append(document.createTextNode(' '),a);};
     const overview=chapter('section','monthly-fact-overview',t('本月进展概览','Monthly progress overview'),4);
-    overview.append(node('h3',t('本月进展概览','Monthly progress overview')),node('p',t('先看本月的关键进展，再比较技术方案。实验结果均保留原论文的模型、配置和适用条件。','Start with the month’s key developments, then compare methods. Results retain the models, configurations and conditions reported in the original papers.')));
+    overview.dataset.sectionOutline='false';
     for(const story of relevant){
-      const card=node('article','','monthly-direction-brief');card.dataset.monthlyBrief=story.story_id;
+      const card=node('article','','monthly-direction-brief');card.dataset.monthlyBrief=story.story_id;card.id='monthly-brief-'+story.story_id;
       card.append(routeHeading(story,model));
       const routeRefs=refs.filter(r=>r.story_id===story.story_id).sort((a,b)=>a.position-b.position),papers=new Map();routeRefs.forEach(r=>{if(!papers.has(r.summary_id))papers.set(r.summary_id,r)});
       card.append(node('p',pick(story,'question',current.locale),'monthly-route-question'));
@@ -224,24 +231,21 @@
       for(const ref of papers.values()){const summary=model.reviewMap.get(ref.summary_id),source=model.sourceMap.get(ref.source_id),event=model.eventMap.get(ref.evidence_id),li=node('li');li.dataset.readingLayer='facts';
         const title=node('a',source.title);title.href=safeUrl(summary.evidence_url);title.target='_blank';title.rel='noopener noreferrer';const heading=node('h5');heading.append(title);li.append(heading);
         li.append(node('span',event.event_date+' · '+ref.observed_version+' · '+t(event.date_kind==='revision'?'修订':'首投',event.date_kind==='revision'?'Revision':'First submission'),'meta'),node('span',t(summary.review_status==='method_results_checked'?'方法与结果已核对':'仅摘要已核对',summary.review_status==='method_results_checked'?'Methods/results checked':'Abstract only'),'monthly-review-badge'));
-        const p=paragraph(li,t('一句话总结','One-sentence summary'),pick(summary,'one_sentence',current.locale),'monthly-paper-summary');cite(p,ref);li.append(p);const summaryDetails=node('div','','monthly-paper-details');paperFields(summaryDetails,summary,model,ref.summary_id,{compact:true});li.append(summaryDetails);if(current.topicId&&!topicPaperIds.has(ref.summary_id)){li.prepend(node('p',t('关联背景原文','Contextual source'),'meta'));li.dataset.topicRelation='context';}else li.dataset.topicRelation='direct';list.append(li);}
+        const primaryLink=node('p','','monthly-paper-links');cite(primaryLink,ref);const detailLink=node('a',t('原文笔记 →','Source notes →'));detailLink.href=readerUrl('',ref.summary_id);detailLink.dataset.monthlyReader='true';primaryLink.append(detailLink);li.append(primaryLink);const summaryDetails=node('div','','monthly-paper-details');paperFields(summaryDetails,summary,model,ref.summary_id,{compact:true});li.append(summaryDetails);if(current.topicId&&!topicPaperIds.has(ref.summary_id)){li.prepend(node('p',t('关联背景原文','Contextual source'),'meta'));li.dataset.topicRelation='context';}else li.dataset.topicRelation='direct';list.append(li);}
       card.append(list);
-      const implication=paragraph(card,t('对路线研究的启示（编辑分析）','Implications for route research (editorial analysis)'),pick(story,'implication',current.locale));implication.dataset.readingLayer='analysis';
-      const report=node('a',t('查看本期综合判断 →','Open this period’s synthesis →'),'monthly-synthesis-link');report.href='index.html?month='+current.period+'&scope='+current.scope+'#view-home';card.append(report);
+      
+      const report=node('a',t('查看本期综合判断 →','Open this period’s synthesis →'),'monthly-synthesis-link');report.href='index.html?month='+current.period+'&scope='+current.scope+'#view-home';
       card.append(node('p',t(papers.size+' 篇原文 · 数字保留论文条件，不等于昇腾实测',papers.size+' primary papers · Results retain paper conditions, not Ascend measurements'),'meta'));
       const open=node('a',t('查看完整原文笔记 →','Read the full source notes →'),'monthly-story-open');open.href=readerUrl(story.story_id);open.dataset.monthlyReader='true';card.append(open);overview.append(card);
     }
     if(!detail)root.append(overview);
-    const directory=chapter('section','monthly-topic-directory',t('按技术地图查阅','Browse by technology map'),4);
-    directory.append(node('h3',t('按技术地图查阅','Browse by technology map')),node('p',t('选择专题查看本月相关论文；暂无已审阅论文的方向会单独标注。','Select a topic to view related papers from this month. Topics without reviewed papers are marked.')));
-    const grid=node('nav','','monthly-route-contents');grid.setAttribute('aria-label',t('本月十二个技术专题','Twelve monthly research topics'));
-    for(const topic of current.topics.filter(x=>x.catalog_kind==='matrix').sort((a,b)=>a.position-b.position)){
-      const topicRefs=model.refs.filter(r=>r.compression_topic_id===topic.compression_topic_id),n=new Set(topicRefs.map(r=>r.summary_id)).size;
-      const a=node('a',pick(topic,'name',current.locale)||pick(topic,'title',current.locale));const url=new URL('index.html',location.href);
-      url.searchParams.set('topic',topic.compression_topic_id);url.searchParams.set('month',current.period);url.searchParams.set('scope',current.scope);url.hash='view-updates';a.href=url.pathname+url.search+url.hash;
-      a.append(node('small',n?t(`${n} 篇已审阅论文`,`${n} reviewed papers`):t('暂无已审阅论文','No reviewed papers')));grid.append(a);}
-    directory.append(grid);if(!detail){const coverage=node('details','','monthly-reader-switcher');coverage.append(node('summary',t('按技术地图查阅 · 12 专题','Browse by technology map · 12 topics')),directory);root.append(coverage);}
-    const storyDirectory=node('nav','','monthly-story-directory');storyDirectory.setAttribute('aria-label',t('本期路线详读','Current route reviews'));for(const story of model.stories.slice().sort((a,b)=>a.position-b.position)){const a=node('a');a.append(node('strong',pick(story,'title',current.locale)),node('span',t('（',' (')+storyMapLabel(story,model)+t('）',')'),'monthly-route-map-label'));a.href=readerUrl(story.story_id);a.dataset.monthlyReader='true';if(detail&&selectedRoute===story.story_id)a.setAttribute('aria-current','page');a.append(node('p',pick(story,'question',current.locale)));storyDirectory.append(a);}if(detail){const switcher=node('details','','monthly-reader-switcher');switcher.append(node('summary',t('选择技术路线','Choose a research route')),storyDirectory);root.append(switcher);}else {const paths=node('details','','monthly-reader-switcher');paths.append(node('summary',t('技术路线目录','Research route index')),storyDirectory);root.append(paths);}
+    if(detail){
+      const storyDirectory=node('nav','','monthly-story-directory');storyDirectory.setAttribute('aria-label',t('本期路线详读','Current route reviews'));
+      for(const story of model.stories.slice().sort((a,b)=>a.position-b.position)){
+        const a=node('a',pick(story,'title',current.locale));a.href=readerUrl(story.story_id);a.dataset.monthlyReader='true';if(selectedRoute===story.story_id)a.setAttribute('aria-current','page');storyDirectory.append(a);
+      }
+      const switcher=node('details','','monthly-reader-switcher');switcher.append(node('summary',t('选择技术路线','Choose a research route')),storyDirectory);root.append(switcher);
+    }
     if(detail||document.body.dataset.compressionView==='updates'){document.body.dataset.lriReaderNavigation=detail?'.monthly-story-directory':'.current-updates-navigation';document.body.dataset.lriReaderNavigationLabel=detail?t('本期动态 · 技术路线','Current updates · Research routes'):t('本期动态 · 三类进展','Current updates · Three streams');}
     const routes=chapter('section','monthly-technical-routes',t('技术方案与研究判断','Methods and research assessment'),4,true);
     routes.append(node('h3',t('技术方案与研究判断','Methods and research assessment')),node('p',t('比较各项方案解决的问题、技术做法和实验结果，再判断哪些思路值得在昇腾上验证。','Compare the problems, methods and results, then assess which ideas warrant validation on Ascend.')));
@@ -272,7 +276,7 @@
     });if(detail&&!selectedPaper)root.append(routes);
     const evidence=chapter('section','monthly-evidence-index',t('参考论文与原文链接','References and primary sources'),4);
     evidence.append(node('h3',t('参考论文与原文链接','References and primary sources')),node('p',t('点击正文中的 [E##] 可查看论文版本、实验条件和原文链接；预印本的评审状态以发表记录为准。','Select [E##] in the text for the paper version, experimental conditions and source link. Check publication records for a preprint’s peer-review status.')));
-    for(const ref of unique.values()){if(detail&&selectedPaper&&ref.summary_id!==selectedPaper)continue;const summary=model.reviewMap.get(ref.summary_id),source=model.sourceMap.get(ref.source_id),event=model.eventMap.get(ref.evidence_id),card=node('details','','monthly-evidence-card');card.id='monthly-evidence-'+ref.summary_id;card.tabIndex=-1;
+    if(detail)for(const ref of unique.values()){if(detail&&selectedPaper&&ref.summary_id!==selectedPaper)continue;const summary=model.reviewMap.get(ref.summary_id),source=model.sourceMap.get(ref.source_id),event=model.eventMap.get(ref.evidence_id),card=node('details','','monthly-evidence-card');card.id='monthly-evidence-'+ref.summary_id;card.tabIndex=-1;
       card.append(node('summary','['+ids.get(ref.summary_id)+'] '+source.title),node('p',event.event_date+' · '+ref.observed_version+' · '+t(summary.review_status==='method_results_checked'?'关键方法/结果已审阅':'原始摘要已审阅',summary.review_status==='method_results_checked'?'Methods/results checked':'Primary abstract checked'),'meta'));
       paragraph(card,t('一句话总结','One-sentence summary'),pick(summary,'one_sentence',current.locale));
       const topics=[...new Set(refs.filter(r=>r.summary_id===ref.summary_id).map(r=>r.compression_topic_id))].map(id=>current.topics.find(t=>t.compression_topic_id===id)).filter(Boolean);
@@ -284,7 +288,7 @@
       paragraph(card,t('原文位置','Source location'),summary.evidence_locator+' · '+summary.reviewed_at,'meta');
       const original=node('a',t('打开已审阅版本原文 →','Open reviewed primary version →'));original.href=safeUrl(summary.evidence_url);original.target='_blank';original.rel='noopener noreferrer';card.append(original);if(detail&&selectedPaper)card.open=true;
       const tags=node('div','','monthly-route-topics');topics.forEach(x=>tags.append(topicLink(x.compression_topic_id)));card.append(tags);evidence.append(card);}
-    root.append(evidence,node('p',t('论文按原文版本归档，首次提交与修订分别标注。路线分析提供中英双语；部分论文摘要仅有中文。','Papers are archived by version, with first submissions and revisions identified separately. Route analyses are bilingual; some paper summaries are available only in Chinese.'),'meta'));
+    if(detail)root.append(evidence);
     notifyOutline();if(model.stories.length){globalThis.LRICloudFirstRetire?.();performance.mark('cloud-core-monthly-content');}
   }
   function refresh(context, force = false) {

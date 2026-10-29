@@ -1390,12 +1390,10 @@ function weightTopicCards(parent,ids){
  if(id!=='parameters-precision__principles_brief')card.append(element('h4',title(row)));
  if(['parameters-precision__hardware_nvidia','parameters-precision__hardware_ascend'].includes(id)){
   const lines=textOf(row,'body').split('\n'),rows=lines.filter(line=>line.includes('\t')).map(line=>line.split('\t'));
-  card.append(element('p',lines[0],'topic-takeaway'));
   const wrap=element('div','','weight-progress-scroll');wrap.tabIndex=0;wrap.setAttribute('role','region');wrap.setAttribute('aria-label',title(row));
-  const table=element('table','','weight-progress-table chip-format-table');table.append(element('caption',mapText('代表性芯片与格式变化；硬件能力、软件支持和实测收益分别判断。','Selected hardware formats; distinguish hardware capability, software support and measured gains.')));
+  const table=element('table','','weight-progress-table chip-format-table');table.append(element('caption',id.endsWith('nvidia')?mapText('单 GPU 理论峰值；数值依次为稠密 / 结构化稀疏','One-GPU theoretical peaks; dense / structured-sparse'):mapText('310P、910B：所列板卡官网峰值；950：所列配置的单芯片 Cube 峰值','310P and 910B: specified card peaks; 950: single-chip Cube peaks for the listed configuration')));
   const head=element('thead'),hr=element('tr');for(const label of rows[0]){const th=element('th',label);th.setAttribute('scope','col');hr.append(th);}head.append(hr);table.append(head);
-  const body=element('tbody');for(const cells of rows.slice(1)){const tr=element('tr');for(const [i,value]of cells.entries()){const cell=element(i===0?'th':'td');if(i===0)cell.setAttribute('scope','row');cell.append(element('p',value));tr.append(cell);}body.append(tr);}table.append(body);wrap.append(table);card.append(wrap);
-  for(const note of lines.slice(1).filter(line=>!line.includes('\t')))card.append(element('p',note,'reader-note'));
+  const body=element('tbody');for(const cells of rows.slice(1)){const tr=element('tr');for(const [i,value]of cells.entries()){const cell=element(i===0?'th':'td');if(i===0)cell.setAttribute('scope','row');for(const part of value.split(state.locale==='en'?'; ':'；'))cell.append(element('p',part));tr.append(cell);}body.append(tr);}table.append(body);wrap.append(table);card.append(wrap);
  }else appendWeightStructuredText(card,textOf(row,'body'));weightTopicCitations(card,[id]);renderTopicSourceStrip(card,row,dossier);parent.append(card);
  }
 }
@@ -1509,7 +1507,7 @@ function renderWeightQuantizationTopic(parent,topic,dossier){
  const sub=(host,id,zh,en)=>{const node=element('section','','quant-reader-section');node.id='direction-'+id;node.dataset.sectionOutline='false';node.append(element('h3',mapText(zh,en)));host.append(node);return node;};
  renderWeightExpertEntry(sections.brief,parent,dossier);
  const context=sub(sections.problem,'scope','研究问题：表示、质量与执行','Reducing weight storage and memory traffic');renderResearchFraming(context,'why');weightTopicCards(context,['parameters-precision__insight_scope']);const related=element('nav','','quantization-related-topics');related.setAttribute('aria-label',mapText('联合量化与缓存专题','Related joint-quantization and cache topics'));related.append(scientificLink('activations','precision',mapText('权重—激活联合量化 →','Joint W/A quantization →')),scientificLink('kv_cache','precision',mapText('KV Cache 量化 →','KV Cache quantization →')));context.append(related);
- const hardware=sub(sections.problem,'hardware-formats','芯片格式演进：英伟达与昇腾分别看','Hardware-format evolution: NVIDIA and Ascend separately');weightTopicCards(hardware,['parameters-precision__hardware_nvidia','parameters-precision__hardware_ascend']);
+ const hardware=sub(sections.problem,'hardware-formats','芯片支持格式与算力','Chip formats and compute');weightTopicCards(hardware,['parameters-precision__hardware_nvidia','parameters-precision__hardware_ascend']);
  const value=sub(sections.problem,'value','量化收益：理论容量与实际性能','Theoretical capacity and measured performance');renderResearchFraming(value,'value');
  const principle=sub(sections.basics,'principles-brief','量化改变了什么，为什么会影响结果','What quantization changes and why outputs change');weightTopicCards(principle,['parameters-precision__principles_brief']);const lesson=element('a',mapText('查看完整原理动画与编码示例 →','View the full animated principles and coding example →'),'science-route-link');lesson.href=compressionFoundationHref('precision');principle.append(lesson);
  const challenge=sub(sections.challenges,'challenges',"量化方案面临的四类挑战","Four challenges in quantization");
@@ -1821,6 +1819,12 @@ function selectCell(id,view='topics') {
   else{$('selection-title').setAttribute('tabindex','-1');$('selection-title').focus({preventScroll:true});}
   loadEvidence(0);
 }
+function selectMonthlyFocus(target='',mechanism=''){
+ if(!state.revision)return;
+ if(target){const cells=selectScientificFocus(target,mechanism);must(cells?.length,'Unavailable monthly topic');state.cell=cells[0].cell_id;state.object=cells[0].object_id;state.method=cells[0].method_id;state.all=false;}
+ else{state.focusTarget='';state.focusMechanism='';state.focusCells=[];state.cell='';state.object='';state.method='';state.all=true;}
+ state.directionMode=false;persistTopicScope();resetDetails();resetEvidence();renderSelectors();renderSelection();controls(true);showView('updates',true);renderEvidence();loadEvidence(0);
+}
 function renderMonthlyDirections() {
   const parent=$('monthly-directions'); parent.replaceChildren();parent.hidden=false;
   const targets=ordered(state.data.map_terms.filter(row=>row.facet_id==='target'&&!row.parent_term_id)),methods=ordered(state.data.map_terms.filter(row=>['mechanism','construction'].includes(row.facet_id)));
@@ -1828,8 +1832,8 @@ function renderMonthlyDirections() {
   coverage.append(element('h4',state.period+mapText(' · 技术地图相关动态',' · Technology-map updates')),element('p',mapText("按压缩对象浏览已收录进展。跨对象的研究可关联多个专题，已审阅资料与待审阅候选分别展示。","Browse developments by compression target. Work spanning several targets may link to multiple topics; reviewed material and candidates are shown separately."),'meta'));
   if(state.scopeReady){const summary=element('div','','direction-stats');for(const target of targets){const rows=(state.topicScopeLinks||[]).filter(row=>row.compression_topic_id.startsWith(target.term_id+'-')),all=new Set(rows.map(row=>row.evidence_id)),reviewed=new Set(rows.filter(row=>row.review_status==='primary_review').map(row=>row.evidence_id));const card=element('div');card.append(element('strong',title(target)),element('span',all.size+mapText(' 项已收录 · ',' collected · ')+reviewed.size+mapText(' 项已审阅',' reviewed')));summary.append(card);}coverage.append(summary);}parent.append(coverage);
   const grid=element('div','','wb-direction-filters');
-  for(const target of targets){const group=element('section');group.append(element('h4',title(target)));const ids=scientificTechniqueIds(target.term_id);for(const method of methods){if(!state.data.compression_topics?.some(row=>row.target_term_id===target.term_id&&row.method_term_id===method.term_id))continue;const select=button(title(method)+' · '+topicEventsFor(target.term_id+'-'+method.term_id).length,()=>{openScientificFocus(target.term_id,method.term_id,false);showView('updates',true);},true);select.dataset.monthlyScientific=target.term_id+'-'+method.term_id;select.setAttribute('aria-pressed',String(state.focusTarget===target.term_id&&state.focusMechanism===method.term_id));group.append(select);}grid.append(group);}parent.append(grid);
-  const reset=button(mapText('清除技术筛选','Clear technical filter'),()=>{state.focusTarget='';state.focusMechanism='';state.focusCells=[];state.cell='';state.object='';state.method='';state.directionMode=false;state.all=true;resetEvidence();renderSelectors();renderMap();renderSelection();showView('updates',true);},true);parent.append(reset);
+  for(const target of targets){const group=element('section');group.append(element('h4',title(target)));const ids=scientificTechniqueIds(target.term_id);for(const method of methods){if(!state.data.compression_topics?.some(row=>row.target_term_id===target.term_id&&row.method_term_id===method.term_id))continue;const select=button(title(method)+' · '+topicEventsFor(target.term_id+'-'+method.term_id).length,()=>selectMonthlyFocus(target.term_id,method.term_id),true);select.dataset.monthlyScientific=target.term_id+'-'+method.term_id;select.setAttribute('aria-pressed',String(state.focusTarget===target.term_id&&state.focusMechanism===method.term_id));group.append(select);}grid.append(group);}parent.append(grid);
+  const reset=button(mapText('清除技术筛选','Clear technical filter'),()=>selectMonthlyFocus(),true);parent.append(reset);
   if(state.cell)return;
   const legacy=disclosure('monthly-legacy-filter',mapText('旧版分类筛选','Legacy category filters'));parent.append(legacy);
   if(!state.scopeReady) { parent.append(element('p',label(state.scopeError?'scope_read_failed':state.scopeBusy?'loading':'no_scope'))); return; }
