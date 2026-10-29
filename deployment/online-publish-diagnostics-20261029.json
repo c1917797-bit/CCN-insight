@@ -48,5 +48,14 @@
     "no_deployment_started": true,
     "live_publication_receipt_unchanged": true
   },
-  "required_external_recovery": "The hosted Git/source service must recover. Reconcile its remote branch with the retained local commit, then run the official source/package, save-version and deploy flow for this same project. Do not use an old pushed SHA with the new archive."
+  "required_external_recovery": "The hosted Git/source service must recover. Reconcile its remote branch with the retained local commit, then run the official source/package, save-version and deploy flow for this same project. Do not use an old pushed SHA with the new archive.",
+  "publication_resolution": {
+    "published_at": "2026-10-29T11:23:33.236186+00:00",
+    "site_version_number": 23,
+    "site_version_id": "appgprj_6ad8b74cbb048191b7b6aaf46ad43a89~appgver_e5b4632690c88191a4778c0506c16c6b",
+    "deployment_id": "appgdep_6ae32b8a98108191821287cdc61cf299",
+    "status": "succeeded",
+    "source_commit": "0039c32dcc702f24520e949f48e996fedd3bb3f6",
+    "online_qa": "docs/ccn-v23-online-qa-20261029.json"
+  }
 }

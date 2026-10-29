@@ -16,7 +16,17 @@
   "recovery_attempt": "Refreshed same-project credential and retried official helper. Per-process HTTP postBuffer increased to 16 MiB once; no security, remote history or persistent Git settings changed.",
   "source_checkout": "local-releases/ccn-map-title-sites-20261029",
   "maintenance_checkout": "local-releases/ccn-map-title-20261029",
-  "checks": ["build.py", "verify.py", "verify_compression.py", "verify_original_reader.py", "test_monthly_organization.cjs", "test_reader_journey.cjs", "test_research_map.cjs", "test_report_reasoning.cjs", "git diff --check"],
+  "checks": [
+    "build.py",
+    "verify.py",
+    "verify_compression.py",
+    "verify_original_reader.py",
+    "test_monthly_organization.cjs",
+    "test_reader_journey.cjs",
+    "test_research_map.cjs",
+    "test_report_reasoning.cjs",
+    "git diff --check"
+  ],
   "browser_qa": {
     "monthly_reviewed_papers": 13,
     "monthly_routes": 6,
@@ -32,5 +42,14 @@
     "horizontal_page_overflow": false,
     "english_switch_and_paper_detail_link_checked": true
   },
-  "resume": "Use the same Sites project and source checkout. Refresh credentials, reopen and reconcile the remote state, then push the retained source commit with the official helper. Package and save only after remote SHA equality is verified. Preserve current public access. Do not change original-site entries or private TableGit data."
+  "resume": "Use the same Sites project and source checkout. Refresh credentials, reopen and reconcile the remote state, then push the retained source commit with the official helper. Package and save only after remote SHA equality is verified. Preserve current public access. Do not change original-site entries or private TableGit data.",
+  "publication_resolution": {
+    "published_at": "2026-10-29T11:23:33.236186+00:00",
+    "site_version_number": 23,
+    "site_version_id": "appgprj_6ad8b74cbb048191b7b6aaf46ad43a89~appgver_e5b4632690c88191a4778c0506c16c6b",
+    "deployment_id": "appgdep_6ae32b8a98108191821287cdc61cf299",
+    "status": "succeeded",
+    "source_commit": "0039c32dcc702f24520e949f48e996fedd3bb3f6",
+    "online_qa": "docs/ccn-v23-online-qa-20261029.json"
+  }
 }

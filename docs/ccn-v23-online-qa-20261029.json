@@ -1,0 +1,73 @@
+{
+  "verified_at": "2026-10-29T11:23:33.236186+00:00",
+  "site_version_number": 23,
+  "deployment_id": "appgdep_6ae32b8a98108191821287cdc61cf299",
+  "result": "passed",
+  "source_service_recovered": true,
+  "remote_source_commit_verified": "0039c32dcc702f24520e949f48e996fedd3bb3f6",
+  "browser_verified": {
+    "sources": {
+      "url": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/?month=2026-10#view-sources",
+      "order": [
+        "academic",
+        "industry",
+        "hotspot"
+      ],
+      "independent_tables": 3,
+      "table_column_counts": [
+        3,
+        4,
+        3
+      ],
+      "viewport_width": 1280,
+      "panel_left_px": 25.59375,
+      "horizontal_overflow": false
+    },
+    "monthly": {
+      "sections": [
+        "本月速览",
+        "学术进展",
+        "产业进展",
+        "热点信号",
+        "补充资料"
+      ],
+      "reviewed_papers_in_scope": 13,
+      "routes_in_scope": 6,
+      "verified_monthly_industry_releases_in_scope": 0,
+      "hotspot_signals": 3,
+      "review_cutoff": "2026-10-09",
+      "global_complete_coverage_claim": false
+    },
+    "weight_topic": {
+      "hardware_tables": 2,
+      "columns_each": 2,
+      "ascend_order": [
+        "910B",
+        "950PR",
+        "950DT",
+        "310P"
+      ],
+      "background_order": [
+        "direction-hardware-formats",
+        "direction-scope",
+        "direction-value"
+      ],
+      "progress_order": [
+        "direction-academic",
+        "direction-industry",
+        "direction-precision-progress",
+        "direction-recent-research"
+      ],
+      "comparison_academic_before_industry": true,
+      "horizontal_overflow": false
+    }
+  },
+  "screenshots": [
+    "local-releases/qa/ccn-v23-sources-online-20261029.png",
+    "local-releases/qa/ccn-v23-hardware-online-20261029.png"
+  ],
+  "limitations": [
+    "A direct unauthenticated Python request for compression-release.json returned HTTP 403; browser-rendered public reader checks passed.",
+    "The research-question/challenge/route mapping rewrite was paused before this publication and is not part of the deployed changes."
+  ]
+}
