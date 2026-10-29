@@ -4,6 +4,14 @@
 
 同轮用户要求论文点击展开：9个学术案例默认折叠，一次展开一个，完整机制/结果/引用仍挂载；检索、待读、原card/route锚点、引用往返自动展开正确案例。移除可见的重复研究范围卡，旧scope锚点和联合量化/KV链接保留；搜索索引不再登记该未展示卡。原研究背景、收益和芯片表保留。构建及三项主校验、15项topic-reader契约、reader_journey/expert_navigation通过。实际浏览器检查3/3/1、双向定位、部分视图、AWQ完整展开，390px无全页溢出并修复新锚点被顶栏遮挡。QA docs/weight-quantization-pyramid-qa-20261029.json。待本轮正式回执覆盖发布状态；不回写原站或上传独立演讲稿。
 
+# 月内论文数量矩阵与研究原则（2026-10-29）
+
+唯一新表 ic_monthly_paper_corpus / ic_monthly_corpus_snapshots 记录已登记 arXiv 官方快照的1,728篇10月首发候选；全部按原始摘要归类。463篇对应16专题（含扩展），四类根技术矩阵去重422篇；255邻接、64待核、946不纳入，其中195篇生成式扩散。本月总量仅指这条已保存检索，不是全领域或所有已登记来源。原始26页XML、4,843条摘要/首发日期与哈希已验证，其中月内首发1,728条。
+
+矩阵在本期洞察开头，点数字可查论文与归类理由，独立于下方旧16篇研读集合的scope筛选。新增runtime分页白名单仅限两张表，100行分页；读取失败不显示为零。信息来源页 research-principles 与阅读器页脚提供研究与编辑原则，包含来源、分类、计数、阅读深度、条件比较、精选、专题纳入和可纠错更新。摘要不足先补读原文，未核实不能自动入图。
+
+64篇原文核查、本轮最终精选、全来源覆盖与设备复现均尚未完成，不得宣传为全部全文已读。详见 docs/MONTHLY-PAPER-CORPUS.md 与 docs/monthly-paper-corpus-qa-20261029.json。发布回执以 deployment/ccn-publication.json 为准。已保留远端24ad2aa之前的背景/原则/范围与报告改进。
+
 # v32演讲准备关联修订已上线（2026-10-29）
 
 最终内容主仓24ad2aa575840670b0db9ef9ea40ece696c746d3，Sites源d12256a58f5defa23dcb369444de658570972a0a，v32部署appgdep_6ae384ff2dfc8191bf203a9ec3e5a619 succeeded。原网址和public权限不变，原站已有共源入口沿用本次内容。HTTP确认三页200及UI af66302ceeeddd9a24fc、内容compression-651c78ddf90575395cd7。正式浏览器确认范围位于原理后且只一个标题、calibration为问题/做法/10月/判断、A100稠密峰值与W4A16边界、当前报告16条论证且不自动挂旧slides。独立演讲稿最终16页已核验，不在网站仓库和发布包。回执deployment/speech-flow-publication-20261029.json；QA docs/speech-flow-online-qa-20261029.json。下方待发布文字为本轮历史过程。

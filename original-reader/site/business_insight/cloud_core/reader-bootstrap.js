@@ -9,7 +9,7 @@
  // First-paint reader. It fetches authorized TableGit rows; no facts are built into this file.
  const params=new URLSearchParams(location.search),topic=params.get('topic'),period=params.get('month')||new Date().toISOString().slice(0,7),scope=params.get('scope');
  const topicPage=/\/topic(?:\.html)?\/?$/.test(location.pathname),monthly=/\/monthly(?:\.html)?\/?$/.test(location.pathname);
- const match=/^#view-(sources|topics|library|updates|home|reports)/.exec(location.hash),mapRoute=/^#(?:map$|route-(?:precision|selection|distillation|factorization)$)/.test(location.hash),view=topicPage||mapRoute?'topics':monthly?'updates':match?.[1]||(['#expert-library','#knowledge','#representative-routes','#map-references'].includes(location.hash)?'library':location.hash==='#analysis-focus'?'home':location.hash==='#supplementary-paper-reviews'?'updates':'sources');
+ const match=/^#view-(sources|topics|library|updates|home|reports)/.exec(location.hash),mapRoute=/^#(?:map$|route-(?:precision|selection|distillation|factorization)$)/.test(location.hash),view=topicPage||mapRoute?'topics':monthly?'updates':match?.[1]||(['#expert-library','#knowledge','#representative-routes','#map-references'].includes(location.hash)?'library':location.hash==='#analysis-focus'?'home':['#supplementary-paper-reviews','#monthly-paper-matrix'].includes(location.hash)?'updates':'sources');
  document.documentElement.dataset.cloudInitialView=view;
  const en=document.documentElement.lang.startsWith('en'),pick=(r,k)=>r[k+(en?'_en':'_zh')]||r[k+'_zh']||r[k]||'',eq=(field,value)=>({field,op:'eq',value});
  const common=[eq('business_id','cloud-core'),eq('topic_id','cloud_core')];

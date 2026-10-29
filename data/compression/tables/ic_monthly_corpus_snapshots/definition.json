@@ -1,0 +1,179 @@
+{
+  "schema": "mcpgit.table.v2",
+  "description": "Acquisition, date, source-registry and review boundaries of a monthly paper corpus.",
+  "key_field": "snapshot_id",
+  "fields": {
+    "abstract_snapshot_sha256": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "acquired_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "acquisition_receipt_sha256": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "candidate_count": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "coverage_status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "cutoff": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "decisions_sha256": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "diffusion_policy": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "month_basis": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "period_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "query": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "review_depth": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "reviewed_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "revision_coverage": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "snapshot_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "string"
+    },
+    "source_family_ids_json": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "window_start": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    }
+  },
+  "required_fields": [
+    "abstract_snapshot_sha256",
+    "acquired_at",
+    "acquisition_receipt_sha256",
+    "business_id",
+    "candidate_count",
+    "coverage_status",
+    "cutoff",
+    "decisions_sha256",
+    "diffusion_policy",
+    "month_basis",
+    "period_id",
+    "query",
+    "review_depth",
+    "reviewed_at",
+    "revision_coverage",
+    "snapshot_id",
+    "source_family_ids_json",
+    "topic_id",
+    "window_start"
+  ],
+  "indexes": [
+    {
+      "field": "business_id",
+      "name": "idx_business_id"
+    },
+    {
+      "field": "topic_id",
+      "name": "idx_topic_id"
+    },
+    {
+      "field": "period_id",
+      "name": "idx_period_id"
+    },
+    {
+      "field": "snapshot_id",
+      "name": "idx_snapshot_id"
+    }
+  ]
+}

@@ -537,7 +537,7 @@
     "paper_summary_order": "已总结论文优先；结果为来源报告",
     "paper_citation": "打开该版本的原始论文",
     "paper_original_title": "论文 / 来源原题",
-    "paper_directions_filter": "按技术方向筛选",
+    "paper_directions_filter": "筛选下方精选进展（当前范围）",
     "monthly_paper_index": "逐篇摘要与待审阅候选",
     "source_selection_policy": "信源选择与审阅说明",
     "collection_health_details": "本轮采集状态",
@@ -796,6 +796,20 @@
     "editorial_historical_pptx": "下载历史范围 PPTX",
     "editorial_open_archive": "查看该范围的版本归档 →",
     "editorial_latest_saved_files": "最近保存的演示文件 · 历史范围",
-    "editorial_focus_empty": "当前专题没有重点研究条目；技术观察与边界案例见下方。"
+    "editorial_focus_empty": "当前专题没有重点研究条目；技术观察与边界案例见下方。",
+    "monthly_corpus_nav": "论文数量矩阵",
+    "research_principles_title": "研究与编辑原则",
+    "research_principles_intro": "可信性依靠可追溯的材料、明确的判断边界和可纠正的记录。下面是本站的维护标准；执行深度以每条材料的实际状态为准。",
+    "research_principle_sources": "来源有据：从已登记的信息源发现材料，优先核对论文原文、作者实现和官方发布。新闻用于提供线索，不代替实验依据；新增来源先说明定位与选择理由。",
+    "research_principle_classification": "归类看内容：先读原始摘要，依据实际贡献判断对象与方法，不按标题关键词填格。背景、基线和配套配置不自动成为贡献；对象不明时标待核实。本轮暂不纳入生成式扩散模型。 摘要不足时先补读原文方法、配置与实验，必要时查作者代码；仍不明确或原文不可取得，才保留待核实及具体缺口。",
+    "research_principle_counting": "统计可复算：区分检索候选、确认相关、已研读与精选。月内首发和旧文修订分开，版本去重；跨格关联不重复增加论文总量。说明来源、检索式、截止时间和覆盖缺口，不把未覆盖写成零篇。",
+    "research_principle_depth": "研读不夸大：分别记录标题候选、原始摘要、指定方法/结果章节、全文及独立复现。读摘要不能称全文已读，未执行实验不能称本地实测；每条重要结论保留来源版本和证据定位。",
+    "research_principle_results": "比较有条件：保留模型、硬件、运行栈、测试集、数值格式、负载和基线。区分理论容量、实测内存、吞吐、TTFT与TPOT；单算子或prefill耗时不改名为服务时延，组合收益不归给单个组件。",
+    "research_principle_selection": "精选有理由：优先研读新增机制、关键突破、重要反例和知识空白；核对方法与实验后，与同路线工作比较增量、证据强度和代表性。引用量、热度、单个最高加速数字不作唯一标准，也不以当前业务适配性代替研究价值。",
+    "research_principle_topics": "专题有增量：只有能补充原理、确立基线、改变路线判断或适用边界的证据，才沉淀到长期专题。短期消息留在动态；通过稳定引用复用同一论文，避免重复维护和重复计数。",
+    "research_principle_updates": "判断可修正：区分作者报告、编辑分析和待验证假设，保留反例、代价及未报告指标。新材料可以支持、收窄或推翻旧判断；记录变更理由、复核日期与发布版本，不把维护日期当发表日期。",
+    "research_principles_status": "本站同时保留标题候选、摘要研读和指定章节核对材料，不能统称全文已读；论文作者结果也不代表本站独立复现。",
+    "research_principles_inventory": "资料覆盖与阅读状态",
+    "research_principles_source_records": "来源核对记录"
   }
 }

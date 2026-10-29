@@ -3,12 +3,22 @@
   "topic": "parameters-precision",
   "publication_status": "validated locally; publication recorded separately",
   "canonical_content": "data/compression/tables/",
-  "content_version": "compression-18297f52433167a7c1f0",
-  "ui_revision": "8d9b153f2b1cf14abcdd",
+  "content_version": "compression-1eecdf6824e0c5f6086c",
+  "ui_revision": "23ddf1ba0280b9597fa7",
   "organization": {
-    "representation": ["representation", "codes", "float"],
-    "quality": ["calibration", "joint", "recovery"],
-    "execution": ["execution"],
+    "representation": [
+      "representation",
+      "codes",
+      "float"
+    ],
+    "quality": [
+      "calibration",
+      "joint",
+      "recovery"
+    ],
+    "execution": [
+      "execution"
+    ],
     "basis": "Primary contribution, not mutually exclusive algorithm classes. Complete representation, preparation and runtime costs are shared comparison conditions."
   },
   "changes": [
@@ -26,7 +36,8 @@
     "scripts/test_topic_reader_five_rounds.cjs (15 contracts)",
     "scripts/test_reader_journey.cjs",
     "scripts/test_expert_navigation.cjs",
-    "git diff --check"
+    "git diff --check",
+    "scripts/test_monthly_paper_corpus.cjs (retained incoming corpus update)"
   ],
   "browser_qa": {
     "local_origin": "http://127.0.0.1:8796",
@@ -36,5 +47,9 @@
     "screenshot": "docs/weight-quantization-pyramid-desktop.png",
     "earlier_case_walkthrough": "AWQ to GPTQ closes AWQ; Enter closes selected case. AWQ citation and return reopen the correct case; narrow-screen case title remains visible."
   },
-  "limits": "Editorial regrouping of existing cited content; no new scientific result or independent reproduction is claimed. Publication receipt supplies exact pushed source, archive and deployment identities."
+  "limits": "Editorial regrouping of existing cited content; no new scientific result or independent reproduction is claimed. Publication receipt supplies exact pushed source, archive and deployment identities.",
+  "concurrent_update": {
+    "retained_commit": "e4a686610e21a41d38c0819652b5e79dc55402a2",
+    "description": "Merged the incoming 1,728-candidate October corpus matrix and editorial principles before publishing; rebuilt generated delivery from combined canonical sources."
+  }
 }

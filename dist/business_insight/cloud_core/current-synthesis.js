@@ -370,7 +370,7 @@ function renderMonthlyFrame(){
  const set=(selector,zh,en)=>{const n=document.querySelector(selector);if(n)n.textContent=word(zh,en);};
  set('#monthly>h3',current.period+' · 本期动态',current.period+' · Current updates');
  set('.monthly-overview-intro','先看新方法与实验结果，再看实现条件和需求变化。论文按首投或修订日期归入本月；既有产业能力另列。','Read new methods and results, implementation conditions, then demand signals. Papers follow submission or revision dates; existing capabilities are listed separately.');
- const labels=[['当前精选论文','Papers in this selection'],['已收录的本月产业发布','Monthly releases included'],['热点信号','Market signals']];
+ const labels=[['既有研读论文','Previously reviewed papers'],['已收录的本月产业发布','Monthly releases included'],['热点信号','Market signals']];
  document.querySelectorAll('.monthly-stream-metrics>a>span').forEach((n,i)=>{n.textContent=word(...labels[i]);});
  set('.current-updates-navigation a[href="#current-streams"]','本月速览','Month at a glance');
  set('.current-updates-navigation a[href="#monthly-appendix"]','补充资料','Further reading');

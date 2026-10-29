@@ -15,7 +15,7 @@
  // First-paint reader. It fetches authorized TableGit rows; no facts are built into this file.
  const params=new URLSearchParams(location.search),topic=params.get('topic'),period=params.get('month')||new Date().toISOString().slice(0,7),scope=params.get('scope');
  const topicPage=/\/topic(?:\.html)?\/?$/.test(location.pathname),monthly=/\/monthly(?:\.html)?\/?$/.test(location.pathname);
- const match=/^#view-(sources|topics|library|updates|home|reports)/.exec(location.hash),mapRoute=/^#(?:map$|route-(?:precision|selection|distillation|factorization)$)/.test(location.hash),view=topicPage||mapRoute?'topics':monthly?'updates':match?.[1]||(['#expert-library','#knowledge','#representative-routes','#map-references'].includes(location.hash)?'library':location.hash==='#analysis-focus'?'home':location.hash==='#supplementary-paper-reviews'?'updates':'sources');
+ const match=/^#view-(sources|topics|library|updates|home|reports)/.exec(location.hash),mapRoute=/^#(?:map$|route-(?:precision|selection|distillation|factorization)$)/.test(location.hash),view=topicPage||mapRoute?'topics':monthly?'updates':match?.[1]||(['#expert-library','#knowledge','#representative-routes','#map-references'].includes(location.hash)?'library':location.hash==='#analysis-focus'?'home':['#supplementary-paper-reviews','#monthly-paper-matrix'].includes(location.hash)?'updates':'sources');
  document.documentElement.dataset.cloudInitialView=view;
  const en=document.documentElement.lang.startsWith('en'),pick=(r,k)=>r[k+(en?'_en':'_zh')]||r[k+'_zh']||r[k]||'',eq=(field,value)=>({field,op:'eq',value});
  const common=[eq('business_id','cloud-core'),eq('topic_id','cloud_core')];
@@ -102,9 +102,9 @@
 <meta name="lri-page-translation" content="ui">
 <meta name="lri-shell-version" content="lri-shell-v18-cloud-report-navigation">
 <script type="module" src="../../assets/lri-shell.js?v=616c07f4c5f09c57"></script>
-<script type="application/lri-reader" data-lri-reader="reader-entry.js?v=reader-content-271952b2dbb2c011"></script>
+<script type="application/lri-reader" data-lri-reader="reader-entry.js?v=reader-content-53405fe7de632c8b"></script>
 <link rel="stylesheet" href="reader-editorial.css?v=20261022">
-<link rel="stylesheet" href="reader-refinement.css?v=edd7df5bea10a70d">
+<link rel="stylesheet" href="reader-refinement.css?v=bcf10d401ff38050">
 <link rel="stylesheet" href="reader-atlas.css?v=dc0503e3c76de0b8">
 </head>
 <body data-compression-monthly="true" data-lri-section-visibility="visible" data-lri-shell="auto" data-lri-content-kind="report" data-topic-id="cloud_core">
@@ -173,7 +173,8 @@
 <h3 data-i18n-key="view_updates">本期动态</h3><p data-i18n-key="updates_help">按技术方向查看本月进展：各项工作解决什么问题、采用什么方法、取得什么结果，以及对后续研究有何启示。</p>
 
 <button class="btn" type="button" id="scope-retry" data-dependent hidden disabled data-i18n-key="retry">重试</button>
-<details id="monthly-direction-filter"><summary data-i18n-key="paper_directions_filter">按技术方向筛选</summary><div id="monthly-directions"></div></details>
+<section id="monthly-paper-matrix" class="section monthly-paper-matrix" data-section-label="论文数量矩阵" data-section-label-en="Paper-count matrix" aria-live="polite"></section>
+<details id="monthly-direction-filter"><summary data-i18n-key="paper_directions_filter">筛选下方精选进展（当前范围）</summary><div id="monthly-directions"></div></details>
 <p id="selection-title" class="wb-selection-title"></p><p id="selection-status" class="meta" role="status"></p>
 <p><a href="#supplementary-paper-reviews" data-i18n-key="paper_review_supplementary">本期补充研读</a></p>
 <section id="monthly-route-report" class="monthly-route-report" aria-live="polite"></section>
@@ -211,7 +212,7 @@
 <div id="legacy"><details id="legacy-panel"><summary>全量统计与历史模板</summary><p data-i18n-key="legacy_boundary">仅在月初与月末的统计范围一致时计算新增和增速。缺少可比记录的指标留空。</p><button class="btn" type="button" id="load-legacy" data-dependent disabled data-i18n-key="load_legacy">刷新统计</button><p id="legacy-status" role="status">展开后读取所选月份的已登记统计；缺少可比快照时说明缺口。</p><div id="legacy-table" class="table-wrap" hidden><table><thead><tr><th data-i18n-key="cell">技术方向</th><th data-i18n-key="start_count">月初</th><th data-i18n-key="end_count">月末</th><th data-i18n-key="new_count">新增</th><th data-i18n-key="growth">增速</th><th data-i18n-key="accepted">顶会录用</th><th data-i18n-key="github">GitHub新增</th><th data-i18n-key="stars">综合星级</th><th data-i18n-key="change">变化 / 核验</th></tr></thead><tbody id="monthly-rows"></tbody></table></div></details></div>
 <div id="governance"><details id="governance-disclosure"><summary>整理口径与待复核事项</summary><div id="review-notes"></div><p data-i18n-key="privacy">密码与敏感配置不导入；原Obsidian保持只读。</p><a class="btn" href="archive.html" data-i18n-key="archive">完整资料库与迁移治理</a></details></div></div>
 </div>
-<footer class="footer"><p data-i18n-key="footer">云核 · 推理压缩</p></footer>
+<footer class="footer"><p data-i18n-key="footer">云核 · 推理压缩</p><a href="index.html#research-principles" data-i18n-key="research_principles_title">研究与编辑原则</a></footer>
 </main></body></html>
 
 
