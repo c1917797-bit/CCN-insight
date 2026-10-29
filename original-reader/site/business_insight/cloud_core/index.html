@@ -102,7 +102,7 @@
 <meta name="lri-page-translation" content="ui">
 <meta name="lri-shell-version" content="lri-shell-v18-cloud-report-navigation">
 <script type="module" src="../../assets/lri-shell.js?v=58a5c84551dd6491"></script>
-<script type="application/lri-reader" data-lri-reader="reader-entry.js?v=reader-content-d4ecb0feadf9afad"></script>
+<script type="application/lri-reader" data-lri-reader="reader-entry.js?v=reader-content-7a664d4bd40e13df"></script>
 <style>
 /* Compact introduction: keep the reading path visible without a full-height preamble. */
 .compression-research-workbench #reading-guide{margin:8px 0 18px;padding:14px 18px;background:#f5f8fa;border:1px solid #e1e7ec;border-radius:12px}
@@ -233,11 +233,12 @@
 <section class="section current-month-overview" id="current-streams" data-section-label="本月速览" data-section-label-en="Month at a glance">
  <p class="monthly-overview-intro">先看新方法与实验结果，再看实现条件和需求变化。论文按首投或修订日期归入本月；既有产业能力另列。</p>
  <div class="monthly-stream-metrics" aria-label="本月收录范围">
-  <a href="#monthly-route-report"><strong id="monthly-academic-metric">—</strong><span>已研读论文</span></a>
-  <a href="#current-industry"><strong id="monthly-release-metric">—</strong><span>已核实的本月产业发布</span></a>
+  <a href="#monthly-route-report"><strong id="monthly-academic-metric">—</strong><span>当前精选论文</span></a>
+  <a href="#current-industry"><strong id="monthly-release-metric">—</strong><span>已收录的本月产业发布</span></a>
   <a href="#current-hotspots"><strong id="monthly-signal-metric">—</strong><span>热点信号</span></a>
  </div>
  <p id="monthly-review-cutoff" class="meta" role="status"></p>
+ <details id="scope-disclosure"><summary>如何筛选，覆盖到哪里</summary><p id="selection-title" class="wb-selection-title"></p><p id="selection-status" class="meta" role="status"></p><p id="monthly-status" class="reader-note" role="status" aria-live="polite"></p><div id="scope-detail"></div></details>
  <nav class="current-updates-navigation monthly-route-topics" aria-label="本期阅读目录"><a href="#current-streams">本月速览</a><a href="#monthly-route-report" data-i18n-key="current_academic"></a><a href="#current-industry" data-i18n-key="current_industry"></a><a href="#current-hotspots" data-i18n-key="current_hotspots"></a><a href="#monthly-appendix">补充资料</a></nav>
  <div id="monthly-key-changes" class="monthly-key-changes"></div>
  </section>
@@ -252,7 +253,6 @@
 </details>
 <details id="current-source-readings"><summary>已整理的来源详读</summary><div id="update-finding-cards" class="wb-reading-list"></div>
 </details>
-<details id="scope-disclosure"><summary>采集范围与统计口径</summary><p id="selection-title" class="wb-selection-title"></p><p id="selection-status" class="meta" role="status"></p><p id="monthly-status" class="reader-note" role="status" aria-live="polite"></p><div id="scope-detail"></div></details>
 </section>
 <p class="wb-next"><a href="#view-home" data-i18n-key="next_insights">阅读本期洞察报告 →</a></p>
 </section>

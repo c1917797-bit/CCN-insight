@@ -1,0 +1,132 @@
+{
+  "scope": {
+    "business_id": "cloud-core",
+    "topic_id": "cloud_core",
+    "scope_id": "ic-2026-10-model-reviewed-20261029-v1",
+    "period_id": "2026-10",
+    "window_start": "2026-10-01",
+    "window_end": "2026-10-29",
+    "collected_at": "2026-10-29",
+    "position": -10,
+    "title_zh": "2026-10 模型研读与重点核验精选",
+    "title_en": "2026-10 selected model-reviewed and section-checked evidence",
+    "status": "reviewed_sample",
+    "month_basis": "primary_event_date",
+    "source_pool": "live_arxiv_model_abstract_reading",
+    "source_revision": "live-arxiv-20261029; calendar-month-routing",
+    "selection_rule": "先读完整原始摘要，再由编辑逐项选择。首发与重要修订分别记录；长期专题吸收机制，月度动态记录新变化。",
+    "dedup_rule": "原始论文ID＋观察版本＋事件类别去重；一个成果关联多个方向但只形成一个月度事件。",
+    "coverage_note": "本轮精选6项论文事件；部分已核对指定章节，部分只读摘要并明确标注。未读、无关及证据矛盾项不自动采纳；这不是完整领域普查或本地实测。"
+  },
+  "review_index_sha256": "f3ce56f757611e674240aa47675f4eb38a8473c7013c8821479f6e9995cfe0e3",
+  "local_snapshot_records": 4843,
+  "local_candidate_routes": {
+    "monthly_new": 656,
+    "monthly_revision": 72
+  },
+  "local_candidate_method_tags_overlapping": {
+    "pruning": 287,
+    "low_rank": 84,
+    "quantization": 206,
+    "distillation": 293
+  },
+  "selected_papers": [
+    {
+      "title": "Capability Scaling-Down Laws for LLM Compression",
+      "url": "https://arxiv.org/html/2610.02462v1",
+      "review_status": "method_results_checked",
+      "locator": "§2.2、§5.1/5.2、§6",
+      "event_date": "2026-10-01",
+      "date_kind": "first_submission"
+    },
+    {
+      "title": "Broken on Arrival: Non-Functional Quantized LLM Artifacts in Public Model Registries and How to Catch Them",
+      "url": "https://arxiv.org/html/2609.05881v2",
+      "review_status": "method_results_checked",
+      "locator": "§III-A/B/C/D和§VI有效性威胁",
+      "event_date": "2026-10-25",
+      "date_kind": "revision"
+    },
+    {
+      "title": "ReCal: Calibrating Structured Pruning for On-Policy Distillation Recovery",
+      "url": "https://arxiv.org/abs/2610.11332v1",
+      "review_status": "primary_abstract_checked",
+      "locator": "Abstract; full methods and experiments not yet reviewed",
+      "event_date": "2026-10-08",
+      "date_kind": "first_submission"
+    },
+    {
+      "title": "GA-SVD: Generation-aware Singular Value Decomposition for LLM Compression",
+      "url": "https://arxiv.org/abs/2610.15398v1",
+      "review_status": "primary_abstract_checked",
+      "locator": "Abstract; full methods and experiments not yet reviewed",
+      "event_date": "2026-10-11",
+      "date_kind": "first_submission"
+    },
+    {
+      "title": "Fine-Grained Units, Flat Decisions: Hierarchical Micro-Expert Pruning for Mixture-of-Experts Models",
+      "url": "https://arxiv.org/html/2610.25717v1",
+      "review_status": "method_results_checked",
+      "locator": "§4.4、Table 3、Appendix A；同时核对相同剪枝率的十任务均分",
+      "event_date": "2026-10-19",
+      "date_kind": "first_submission"
+    },
+    {
+      "title": "Is 2:4 Sparsity Still Worth It?",
+      "url": "https://arxiv.org/html/2610.28947v1",
+      "review_status": "method_results_checked",
+      "locator": "§3.1、§6及Appendix A的位数记账与硬件条件",
+      "event_date": "2026-10-20",
+      "date_kind": "first_submission"
+    }
+  ],
+  "selected_topic_counts_overlapping": {
+    "parameters-distillation": 2,
+    "parameters-factorization": 1,
+    "parameters-precision": 3,
+    "parameters-selection": 4
+  },
+  "selected_review_depth": {
+    "method_results_checked": 4,
+    "primary_abstract_checked": 2
+  },
+  "selected_date_kinds": {
+    "first_submission": 5,
+    "revision": 1
+  },
+  "unselected_examples": [
+    {
+      "paper_id": "2610.04490",
+      "title": "BARQ: Balanced Codebook Refinement for Low-Bit LLM Quantization",
+      "url": "https://arxiv.org/abs/2610.04490v1",
+      "relevance_in_local_snapshot": "direct",
+      "primary_source_registered": true,
+      "selected_in_scope": false,
+      "evidence_level": "abstract notes in local snapshot; not a new full-paper review"
+    },
+    {
+      "paper_id": "2610.09212",
+      "title": "CurveTQ: Rotation-Free Trellis Quantization of LLM Weights via Curvature-Weighted Search",
+      "url": "https://arxiv.org/abs/2610.09212v1",
+      "relevance_in_local_snapshot": "direct",
+      "primary_source_registered": true,
+      "selected_in_scope": false,
+      "evidence_level": "abstract notes in local snapshot; not a new full-paper review"
+    },
+    {
+      "paper_id": "2610.20303",
+      "title": "SpectrumQuant: Spectrum Alignment for LLM Quantization",
+      "url": "https://arxiv.org/abs/2610.20303v2",
+      "relevance_in_local_snapshot": "direct",
+      "primary_source_registered": false,
+      "selected_in_scope": false,
+      "evidence_level": "abstract notes in local snapshot; not a new full-paper review"
+    }
+  ],
+  "limits": [
+    "Local relevance annotations are prior judgments, not independently validated precision/recall.",
+    "Revision dates alone do not prove a substantive change.",
+    "The snapshot covers an arXiv query, not every registered conference or industry source.",
+    "Selection is an editorial first batch; no field-wide representative ranking is recorded."
+  ]
+}

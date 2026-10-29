@@ -1870,8 +1870,9 @@ globalThis.LRIImportedPaperReview=Object.freeze({update,reset,validateReview,rea
     const asOf=relevant.map(s=>s.checked_at).sort().at(-1);
     if(!detail){
       const metric=document.getElementById('monthly-academic-metric');if(metric)metric.textContent=String(unique.size);
-      const cutoff=document.getElementById('monthly-review-cutoff');if(cutoff)cutoff.textContent=t(`原文研读更新至 ${asOf} · 当前范围 ${relevant.length} 条路线 · 不是全领域收录总量`,`Paper reviews through ${asOf} · ${relevant.length} routes in this scope · not a field-wide total`);
-      const keyChanges=document.getElementById('monthly-key-changes');if(keyChanges){keyChanges.replaceChildren();for(const story of relevant){const a=node('a','','monthly-change-tile');a.href='#monthly-brief-'+story.story_id;a.append(node('strong',pick(story,'title',current.locale).split(/[：:]/)[0]),node('span',pick(story,'question',current.locale)));keyChanges.append(a);}}
+      const checked=[...unique.keys()].filter(id=>model.reviewMap.get(id).review_status==='method_results_checked').length;
+      const cutoff=document.getElementById('monthly-review-cutoff');if(cutoff)cutoff.textContent=t(`更新至 ${asOf} · ${unique.size} 篇已选论文：${checked} 篇核对关键章节，${unique.size-checked} 篇仅摘要研读 · 此处数量不代表本月全部成果`,`Updated through ${asOf} · ${unique.size} selected papers: ${checked} selected-section checks, ${unique.size-checked} abstract-only reviews · not the total output for this month`);
+      const keyChanges=document.getElementById('monthly-key-changes');if(keyChanges){keyChanges.replaceChildren();for(const story of relevant){const a=node('a','','monthly-change-tile');a.href='#monthly-brief-'+story.story_id;a.append(node('strong',pick(story,'title',current.locale)),node('span',pick(story,'question',current.locale)));keyChanges.append(a);}}
     }
 
     const topicPaperIds=new Set(refs.filter(ref=>!current.topicId||ref.compression_topic_id===current.topicId).map(ref=>ref.summary_id)),contextPaperCount=unique.size-topicPaperIds.size;
@@ -2372,7 +2373,7 @@ function renderMonthlyFrame(){
  const set=(selector,zh,en)=>{const n=document.querySelector(selector);if(n)n.textContent=word(zh,en);};
  set('#monthly>h3',current.period+' · 本期动态',current.period+' · Current updates');
  set('.monthly-overview-intro','先看新方法与实验结果，再看实现条件和需求变化。论文按首投或修订日期归入本月；既有产业能力另列。','Read new methods and results, implementation conditions, then demand signals. Papers follow submission or revision dates; existing capabilities are listed separately.');
- const labels=[['已研读论文','Reviewed papers'],['已核实的本月产业发布','Verified monthly releases'],['热点信号','Market signals']];
+ const labels=[['当前精选论文','Papers in this selection'],['已收录的本月产业发布','Monthly releases included'],['热点信号','Market signals']];
  document.querySelectorAll('.monthly-stream-metrics>a>span').forEach((n,i)=>{n.textContent=word(...labels[i]);});
  set('.current-updates-navigation a[href="#current-streams"]','本月速览','Month at a glance');
  set('.current-updates-navigation a[href="#monthly-appendix"]','补充资料','Further reading');

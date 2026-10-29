@@ -210,8 +210,9 @@
     const asOf=relevant.map(s=>s.checked_at).sort().at(-1);
     if(!detail){
       const metric=document.getElementById('monthly-academic-metric');if(metric)metric.textContent=String(unique.size);
-      const cutoff=document.getElementById('monthly-review-cutoff');if(cutoff)cutoff.textContent=t(`原文研读更新至 ${asOf} · 当前范围 ${relevant.length} 条路线 · 不是全领域收录总量`,`Paper reviews through ${asOf} · ${relevant.length} routes in this scope · not a field-wide total`);
-      const keyChanges=document.getElementById('monthly-key-changes');if(keyChanges){keyChanges.replaceChildren();for(const story of relevant){const a=node('a','','monthly-change-tile');a.href='#monthly-brief-'+story.story_id;a.append(node('strong',pick(story,'title',current.locale).split(/[：:]/)[0]),node('span',pick(story,'question',current.locale)));keyChanges.append(a);}}
+      const checked=[...unique.keys()].filter(id=>model.reviewMap.get(id).review_status==='method_results_checked').length;
+      const cutoff=document.getElementById('monthly-review-cutoff');if(cutoff)cutoff.textContent=t(`更新至 ${asOf} · ${unique.size} 篇已选论文：${checked} 篇核对关键章节，${unique.size-checked} 篇仅摘要研读 · 此处数量不代表本月全部成果`,`Updated through ${asOf} · ${unique.size} selected papers: ${checked} selected-section checks, ${unique.size-checked} abstract-only reviews · not the total output for this month`);
+      const keyChanges=document.getElementById('monthly-key-changes');if(keyChanges){keyChanges.replaceChildren();for(const story of relevant){const a=node('a','','monthly-change-tile');a.href='#monthly-brief-'+story.story_id;a.append(node('strong',pick(story,'title',current.locale)),node('span',pick(story,'question',current.locale)));keyChanges.append(a);}}
     }
 
     const topicPaperIds=new Set(refs.filter(ref=>!current.topicId||ref.compression_topic_id===current.topicId).map(ref=>ref.summary_id)),contextPaperCount=unique.size-topicPaperIds.size;
