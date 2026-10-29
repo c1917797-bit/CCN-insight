@@ -1,0 +1,45 @@
+{
+  "site_url": "https://ccn-insight-four.sunshinepmy.chatgpt.site",
+  "method": "HTTP using owner-provided Site verification credential; no browser interaction",
+  "pages": {
+    "index.html": {
+      "http_status": 200,
+      "primary_navigation": [
+        "sources",
+        "topics",
+        "updates",
+        "library",
+        "reports"
+      ]
+    },
+    "topic.html": {
+      "http_status": 200,
+      "primary_navigation": [
+        "sources",
+        "topics",
+        "updates",
+        "library",
+        "reports"
+      ]
+    },
+    "monthly.html": {
+      "http_status": 200,
+      "primary_navigation": [
+        "sources",
+        "topics",
+        "updates",
+        "library",
+        "reports"
+      ]
+    }
+  },
+  "ui_revision": "056d45ef9a6a79715c17",
+  "content_version": "compression-b365aa870909543235dd",
+  "foundations_fallback_order": [
+    "sources",
+    "topics",
+    "updates",
+    "library",
+    "reports"
+  ]
+}

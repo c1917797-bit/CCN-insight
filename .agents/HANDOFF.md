@@ -1,3 +1,7 @@
+# v28 主导航顺序已发布（2026-10-29）
+
+信息来源→技术地图→本期洞察→技术专题→洞察归档，已同步 index/topic/monthly 和基础原理页 fallback。中英文顺序一致，原有链接和选中状态保持。build、verify.py、verify_original_reader.py 与 reader_journey（含基础原理 fallback）通过。内容主仓 ecf02f32dc42718eab99413ade09d7f9d1089469 已推送；Sites 源 e963c1d4089954d3a6ac3ff5971bfb3dc6cdc056 经官方 helper 推送并重开核对；v28 部署 appgdep_6ae376ebc3688191b0aeea220ffd2342 succeeded。正式站 HTTP 200 验证三页 HTML、原理页备用导航和 UI 版本 056d45ef9a6a79715c17。使用 Sites 返回的验证凭据，仅在内存/隐藏 stdin，未持久化。未进行浏览器点击验收。回执 deployment/nav-order-publication-20261029.json；证据 docs/nav-order-online-qa-20261029.json。
+
 # v27 已发布（2026-10-29）
 
 主仓 be0a2ec 已推送；Sites 镜像 99d6879c1deb22bbf0763fa45b574c9eaf7e064b 经官方 helper 推送与重开核对；归档保存 v27，部署 appgdep_6ae374a726948191b260102a1d2f85a0 succeeded。月度 16 篇论文/5 项产业发布、分层筛选、地图精简与权重量化背景恢复均已交付。public 权限不变。直接匿名请求版本文件返回 403，本轮未完成浏览器点击验收；不要沿用旧 QA 冒称新版已逐页实测。正式回执 deployment/ccn-publication.json。
