@@ -1,0 +1,90 @@
+{
+  "site_url": "https://ccn-insight-four.sunshinepmy.chatgpt.site",
+  "method": "HTTP using owner-provided Site verification credential; no browser interaction",
+  "pages": {
+    "index.html": {
+      "http_status": 200,
+      "primary_navigation": [
+        "sources",
+        "topics",
+        "updates",
+        "library",
+        "reports"
+      ]
+    },
+    "topic.html": {
+      "http_status": 200,
+      "primary_navigation": [
+        "sources",
+        "topics",
+        "updates",
+        "library",
+        "reports"
+      ]
+    },
+    "monthly.html": {
+      "http_status": 200,
+      "primary_navigation": [
+        "sources",
+        "topics",
+        "updates",
+        "library",
+        "reports"
+      ]
+    }
+  },
+  "ui_revision": "af66302ceeeddd9a24fc",
+  "content_version": "compression-651c78ddf90575395cd7",
+  "foundations_fallback_order": [
+    "sources",
+    "topics",
+    "updates",
+    "library",
+    "reports"
+  ],
+  "browser": {
+    "site_version": 32,
+    "locale": "zh",
+    "live_reader_verified": true,
+    "chapters": [
+      "速览与证据",
+      "研究背景",
+      "基本原理",
+      "研究问题与挑战",
+      "技术进展",
+      "比较判断",
+      "研究结论"
+    ],
+    "scope_chapter": "research-overview-challenges",
+    "scope_headings": [
+      "研究范围：表示、质量与执行"
+    ],
+    "calibration_labels": [
+      "问题",
+      "做法",
+      "10月进展",
+      "研究判断"
+    ],
+    "value_verified": [
+      "27B theoretical payload 54/27/13.5 GB",
+      "compact weight traffic",
+      "A100 dense INT8 624 TOPS / INT4 1248 TOPS",
+      "W4A16 floating-point execution boundary"
+    ],
+    "report": {
+      "selected_papers": 16,
+      "key": 6,
+      "watch": 9,
+      "boundary": 1,
+      "argument_nodes": 16,
+      "historical_slides_auto_mounted": 0,
+      "historical_attachment_label": true
+    },
+    "interaction_checks": [
+      "clicked report CurveTQ reasoning link on v31; target top 85px",
+      "clicked principles and research-background chapter links; final loaded target checked",
+      "reloaded final v32 and inspected current topic/report DOM"
+    ],
+    "screenshots": "Inspected live browser screenshots; not saved as repository image files."
+  }
+}
