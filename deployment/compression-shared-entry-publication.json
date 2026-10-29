@@ -1,0 +1,49 @@
+{
+  "status": "active",
+  "activated_on": "2026-10-29",
+  "recorded_at": "2026-10-29T06:53:05.462456+00:00",
+  "mode": "Two unchanged website homepages; original compression entry aliases open one canonical CCN reader",
+  "canonical_reader": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/",
+  "maintenance_repository": "https://github.com/c1917797-bit/CCN-insight",
+  "original_entry": "https://c1b3ie6ayp-sworks-lrigit-tpc.ru.yxsbase.win/business_insight/cloud_core/index.html#view-sources",
+  "original_repository": "works",
+  "previous_main": "137a1983c85792f5d44ebc5708a74e5c916c3496",
+  "release_commits": [
+    "09f4807303bf872a3f0dd05442f9e45f6ce284a0",
+    "c85a4ef4c8f0d6400821c17b402eb69b6a29850c"
+  ],
+  "final_entry_commit": "c85a4ef4c8f0d6400821c17b402eb69b6a29850c",
+  "latest_observed_main": "388da58a1318312d54a1a5616f68b34b421b19ee",
+  "remote_synced": true,
+  "changed_files": [
+    "business_insight/cloud_core/archive.html",
+    "business_insight/cloud_core/canonical-reader.js",
+    "business_insight/cloud_core/canonical-reader.json",
+    "business_insight/cloud_core/foundations.html",
+    "business_insight/cloud_core/index.html",
+    "business_insight/cloud_core/monthly.html",
+    "business_insight/cloud_core/topic.html"
+  ],
+  "main_clean": true,
+  "configured_validation_passed": true,
+  "global_validation_exception": "Maintainer explicitly approved publication of exactly seven entry files while retaining documented pre-existing whole-site validation failures. No validation or permission configuration changed.",
+  "other_columns_changed_by_this_release": false,
+  "private_tablegit_data_transferred": false,
+  "ccn_reader_version": 21,
+  "ccn_reader_deployment_changed_in_this_release": false,
+  "query_allowlist": [
+    "month",
+    "scope",
+    "topic",
+    "lang"
+  ],
+  "hash_preserved": true,
+  "archive_destination": "index.html#view-reports",
+  "online_qa": "docs/shared-compression-entry-online-qa-20261029.json",
+  "superseded_candidate": {
+    "topic": "be5431cf-c315-4222-869c-1e6b94ca357b",
+    "cleanup_commit": "436e1469f72cdf3b93ace12ed67fc27f48fa5d6c",
+    "published": false,
+    "instruction": "Do not publish this stale candidate; current main contains the completed release."
+  }
+}

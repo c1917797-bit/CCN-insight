@@ -16,7 +16,7 @@ try {
   assert.equal(result.redirects.length,1);
   const target=new URL(result.redirects[0]);
   assert.equal(target.origin,new URL(config.canonical_reader).origin);
-  assert.equal(target.pathname,new URL(file,config.canonical_reader).pathname);
+  assert.equal(target.pathname,new URL(config.routes?.[file]?.file||file,config.canonical_reader).pathname);
   assert.equal(target.hash,'#research-card-awq');
   assert.equal(target.searchParams.get('month'),'2026-10');
   assert.equal(target.searchParams.get('scope'),'review');
@@ -30,6 +30,10 @@ try {
   assert(html.includes('lri-shell-v18-cloud-report-navigation'));
  }
  assert.equal(new URL(run('https://original.example/business_insight/cloud_core/').redirects[0]).hash,'#view-topics');
+ const archive=new URL(run('https://original.example/business_insight/cloud_core/archive.html?month=2026-10&scope=review').redirects[0]);
+ assert.equal(archive.pathname,new URL('index.html',config.canonical_reader).pathname,'Archive entry must use the adopted report archive, not the unmigrated legacy material library');
+ assert.equal(archive.hash,'#view-reports');
+ assert.equal(archive.searchParams.get('month'),'2026-10');
  assert.equal(run('https://original.example/business_insight/cloud_core/unrelated.html').redirects.length,0);
  const marker=JSON.parse(fs.readFileSync(path.join(root,'dist/business_insight/cloud_core/compression-release.json'),'utf8'));
  const generated=JSON.parse(fs.readFileSync(path.join(root,'dist/original-reader-version.json'),'utf8'));

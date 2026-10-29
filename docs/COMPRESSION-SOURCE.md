@@ -1,5 +1,15 @@
 # 推理压缩唯一维护源
 
+## 2026-10-29：两个入口已在线上共用同一份内容
+
+原站和 CCN 的网站首页保持不变。原站的推理压缩 URL 现在会转到 CCN 唯一阅读器，保留月份、范围、课题和章节位置。已使用实际 c1b3ie6ayp 地址验证信息来源（有／无月份参数）、AWQ 案例、月度证据、基础原理、当前报告与报告归档。发布与范围见 `../deployment/compression-shared-entry-publication.json`，实测记录见 `shared-compression-entry-online-qa-20261029.json`。
+
+日常只维护本仓 `data/compression/tables/*/rows.jsonl`、登记附件及 `original-reader/site/business_insight/cloud_core/` 阅读器。完成构建、验证并发布 CCN 后，两个入口使用同一份线上内容，无须再向原站复制正文、图片或报告。只提交 GitHub 而没有发布 CCN，线上内容不会自动更新。
+
+原站七个转接文件由 `deployment/compression-entry.json` 和 `scripts/build_original_entry.py` 生成，原站只在入口规则变更时需要单独发布。`archive.html` 指向当前报告归档 `index.html#view-reports`；旧 CCN 资料库 archive 页面没有在本轮完整迁移，不作为推理压缩归档入口。两站其他栏目和旧 TableGit 历史数据未改动。
+
+维护者批准了仅七文件的局部发布，接受已说明的原站既有全库校验失败；本轮没有关闭检查或改动权限。原站实际发布提交为 c85a4ef4c8f0d6400821c17b402eb69b6a29850c，原生同步检查确认 main 与 origin/main 一致。以下“未切换”段落属于历史记录，不能作为当前状态。
+
 ## 2026-10-28：统一内容源与线上入口的实际状态
 
 唯一可编辑内容仍在 CCN-insight 的 `data/compression/tables/*/rows.jsonl`，阅读器在 `original-reader/site/business_insight/cloud_core/`。构建不从旧 TableGit 回填内容。GitHub 推送、CCN 部署和原站发布是三件不同的事。

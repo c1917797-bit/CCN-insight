@@ -122,3 +122,14 @@ CCN v21 已公开发布，GitHub 内容提交 912bb417705b4ab449261dfca10922b76b
 原站仍未切换，不得声称两个公网入口已共源。统一入口配置 deployment/compression-entry.json、生成 scripts/build_original_entry.py；原站候选 Topic be5431cf-c315-4222-869c-1e6b94ca357b，候选修订 a74282fe3a94b066007883a6e1d4192d9c3294c0。两项额外修复分别得到用户明确授权：OCP 单处 Shell 引用、provider 测试四处模拟响应 matched_count。完整全局检查之后仍失败于旧 topic guard 签名检查，未扩大范围或绕过发布门槛；禁止上传私人校验数据仍有效。详见 docs/COMPRESSION-DEMO-20261028.md、docs/COMPRESSION-SOURCE.md。下一次继续必须先读这些记录，保留原站现状。
 
 Sites 的 source 参数是官方工具此前打开仓库的结果，不是将要部署的提交；工具会 saveSource 后返回新的镜像 SHA。曾因基准 SHA 被自动审批误判，检查官方代码和镜像逐文件哈希后同一官方流程获准继续。最终只部署新返回的保存版本，不用 GitHub 的 SHA 替换不同仓库的镜像 SHA。
+
+
+## 两个入口线上共源已完成（2026-10-29）
+
+用户明确批准：仅发布七个推理压缩入口文件，接受已说明的原站既有全库校验失败，其他栏目不改。原站 works 基于最新 main 137a198（保留另一维护者的会议栏目更新）通过原生、精确路径和 revision fence 应用七文件；发布提交 09f4807303bf872a3f0dd05442f9e45f6ce284a0，归档落点修正 c85a4ef4c8f0d6400821c17b402eb69b6a29850c。随后另一维护者新增 Topic 元数据使 main 前进到 388da58；原生同步检查确认本地/远端一致且干净，七文件内容仍匹配。未强推、未修改全局校验或权限、未上传私人 TableGit 数据。
+
+两个网站首页地址保持不变；原站的推理压缩入口转到 CCN 唯一阅读器。实际 c1b3ie6ayp URL 的来源页（有/无 month/scope）、AWQ 案例、月度证据、基础原理和当前报告均已在浏览器验证；旧 archive.html 最初落到未迁移完整的资料库，现已在同一七文件范围内改为 index.html#view-reports 并实测当前报告/历史版本可见。旧 CCN archive 资料库本身没有在本轮迁移，不要误报已修好该独立旧页。
+
+唯一维护源仍是本仓 data/compression/tables 与 original-reader/site；构建并发布 CCN 一次后两个入口复用同一内容，不再复制正文到旧 TableGit。原站入口配置 deployment/compression-entry.json（archive 映射在 routes），生成器 scripts/build_original_entry.py，回归 scripts/test_compression_entry.cjs。不要把生成的原站入口安装进 CCN dist。CCN 阅读器仍为 v21，本轮不需要重发同一阅读器。回执 deployment/compression-shared-entry-publication.json；浏览器记录 docs/shared-compression-entry-online-qa-20261029.json。
+
+旧 Topic be5431cf-c315-4222-869c-1e6b94ca357b 已仅为清理未提交反向改动而保存为 436e1469f72cdf3b93ace12ed67fc27f48fa5d6c；没有发布这个旧分支，后续禁止误用它覆盖当前 main。上述已发布状态优先于下方/此前“尚未共源”的历史记录。

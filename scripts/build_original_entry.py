@@ -13,9 +13,9 @@ def build(out, shell_version='lri-shell-v18-cloud-report-navigation', style_vers
  'use strict';
  const config=CONFIG, file=location.pathname.split('/').pop()||'index.html';
  if(!config.entrypoints.includes(file))return;
- const target=new URL(file,config.canonical_reader),query=new URLSearchParams(location.search);
+ const route=config.routes?.[file]||{},target=new URL(route.file||file,config.canonical_reader),query=new URLSearchParams(location.search);
  for(const key of config.query_allowlist)if(query.has(key))target.searchParams.set(key,query.get(key));
- target.hash=location.hash||(file==='index.html'?'#view-topics':'');
+ target.hash=location.hash||route.default_hash||(file==='index.html'?'#view-topics':'');
  const link=document.getElementById('canonical-reader-link');if(link)link.href=target.href;
  if(location.origin!==target.origin||location.pathname!==target.pathname)location.replace(target.href);
 })();
@@ -23,7 +23,8 @@ def build(out, shell_version='lri-shell-v18-cloud-report-navigation', style_vers
     digest=hashlib.sha256(js.encode()).hexdigest()[:16]
     (out/'canonical-reader.js').write_bytes(js.encode())
     for name in config['entrypoints']:
-        target=config['canonical_reader']+name
+        route=config.get('routes',{}).get(name,{})
+        target=config['canonical_reader']+route.get('file',name)+route.get('default_hash','')
         html='''<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>推理压缩洞察 · 统一阅读入口</title><meta name="lri-page-translation" content="ui"><meta name="lri-shell-version" content="SHELL">
 <link rel="canonical" href="TARGET"><link rel="stylesheet" href="../../assets/insight-executive.css?v=STYLE"><script type="module" src="../../assets/lri-shell.js?v=SHELL"></script>

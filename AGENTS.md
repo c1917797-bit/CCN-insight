@@ -1,5 +1,11 @@
 # CCN 网站维护说明
 
+## 两站线上共源已完成（2026-10-29，优先于此前待发布记录）
+
+原站与 CCN 两个网站首页保持不变。原站 `business_insight/cloud_core/` 的七个入口文件已发布，推理压缩入口现在直接进入同一份 CCN 阅读器；以后只在本仓维护内容和阅读器，构建并发布 CCN 一次后两个入口共同使用。GitHub 推送本身仍不等于 CCN 部署。回执：`deployment/compression-shared-entry-publication.json`；浏览器实测：`docs/shared-compression-entry-online-qa-20261029.json`。
+
+原站发布仅限七文件，维护者明确接受已说明的既有全库校验失败；没有改变检查脚本、权限或其他栏目，没有传输私人校验数据。原站代码提交 c85a4ef4c8f0d6400821c17b402eb69b6a29850c 已远端同步。旧候选 Topic be5431cf-c315-4222-869c-1e6b94ca357b 已清理，禁止再发布旧分支覆盖当前 main。入口生成器 `scripts/build_original_entry.py` 与 `deployment/compression-entry.json` 只生成原站转接文件，绝不安装到 CCN `dist/`；archive.html 专门映射到 index.html#view-reports，避免进入未完整迁移的旧资料库。两站其他模块继续各自维护。
+
 ## 统一入口候选与展示修订（2026-10-28）
 
 继续维护前先读 `docs/COMPRESSION-DEMO-20261028.md` 和 `docs/COMPRESSION-SOURCE.md` 顶部。原站五入口转到单一 CCN 阅读器的方案已准备，但被原站既有全局检查阻挡，尚未正式切换；不得声称两个公网网站已共源。原站候选仅包含推理压缩入口，以及用户逐项批准的 OCP 版本引用和一个 provider 测试样本修复。禁止上传私人校验数据、扩大到其他业务栏目的修复或绕过失败的发布检查。CCN 的实际成功版本以 deployment/ccn-publication.json 为准。

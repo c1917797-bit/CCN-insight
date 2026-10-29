@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-29",
+  "checks": [
+    {
+      "entry": "index.html#view-sources",
+      "actual": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/?month=2026-10&scope=ic-2026-10-public-20261007-v1#view-sources",
+      "check": "three source tables visible"
+    },
+    {
+      "entry": "topic.html?topic=parameters-precision#research-card-parameters-precision__case_awq",
+      "actual": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/topic?month=2026-10&scope=ic-2026-10-public-20261007-v1&topic=parameters-precision#research-card-parameters-precision__case_awq",
+      "check": "AWQ method card visible"
+    },
+    {
+      "entry": "monthly.html#monthly-route-report",
+      "actual": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/monthly?month=2026-10&scope=ic-2026-10-public-20261007-v1#monthly-route-report",
+      "check": "monthly evidence articles visible"
+    },
+    {
+      "entry": "foundations.html#quantization",
+      "actual": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/foundations?month=2026-10&scope=ic-2026-10-public-20261007-v1#quantization",
+      "check": "quantization lesson visible"
+    },
+    {
+      "entry": "index.html#view-home",
+      "actual": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/?month=2026-10&scope=ic-2026-10-public-20261007-v1#view-home",
+      "check": "current canonical report conclusion visible"
+    },
+    {
+      "entry": "archive.html",
+      "actual": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/?month=2026-10&scope=ic-2026-10-public-20261007-v1#view-reports",
+      "check": "current report archive visible; legacy unmigrated library avoided"
+    },
+    {
+      "entry": "index.html#view-sources (no month or scope)",
+      "actual": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/#view-sources",
+      "check": "three source tables visible with current canonical defaults"
+    }
+  ],
+  "mode": "two unchanged website homepages; compression entry aliases to one public CCN reader",
+  "archive_issue": "legacy CCN material-library runtime is not migrated; original archive entry now maps to current report archive",
+  "original_site_release_commit": "c85a4ef4c8f0d6400821c17b402eb69b6a29850c",
+  "source_tables_verified": 3,
+  "archive_final_route": "index.html#view-reports",
+  "global_validation_status": "Pre-existing failures accepted by the maintainer for this seven-file scoped release; checks were not disabled or changed",
+  "screenshot": "Saved locally as 两站共源已发布-20261029.jpg"
+}

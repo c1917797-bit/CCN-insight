@@ -13,11 +13,11 @@
   "deployment_status": "succeeded",
   "archive_storage_hash": "sha256:93176a27134d7e1d70b9c09d558952a8d5bb8d3abcc3cc1b4927d97c947434b2",
   "archive_files": 2265,
-  "original_host_changed": false,
+  "original_host_changed": true,
   "content_version": "compression-c3dce1a489f4d9495b14",
   "reader_revision": "c0256050fd587356989e27621e330d7a5aa331ea",
   "ui_revision": "773ef6efad16014bec85",
-  "change": "Decision-first report overview, readable research-choice rows, stable main navigation and canonical summaries, mobile citations and anchor offsets; original canonical-entry candidate remains unpublished",
+  "change": "Decision-first report overview, readable research-choice rows, stable main navigation and canonical summaries, mobile citations and anchor offsets; original compression entry is now published and opens the same canonical CCN reader (2026-10-29)",
   "validated": {
     "compression_topics": 16,
     "compression_cards": 209,
@@ -28,5 +28,6 @@
   },
   "online_qa": "docs/ccn-v21-online-qa-20261028.json",
   "packaging": "Official helper committed, pushed and verified the exact mirror. Windows packaging failed; a validated manifest+dist tar from that clean pushed commit was used. Saved v20 was not deployed; final v21 includes the language-change correction.",
-  "original_publish_blocker": "TableGit provider missing topic guard: function loadTopicWorkbench(topicId)"
+  "original_publish_blocker": null,
+  "original_entry_publication": "deployment/compression-shared-entry-publication.json"
 }
