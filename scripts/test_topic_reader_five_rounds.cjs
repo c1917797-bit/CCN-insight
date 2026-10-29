@@ -138,7 +138,7 @@ check('Research blocks expose their content without details disclosure', () => {
   assert.equal(block.querySelectorAll('details').length, 0);
 });
 
-check('Weight background retains its explanation and hardware; scope remains a separate complete block', () => {
+check('Weight background retains its full explanation and hardware without another scope block', () => {
   currentTopic='parameters-precision';
   const frame=rows('ic_compression_research_frames').find(r=>r.compression_topic_id===currentTopic);
   currentDossier={frames:[frame],refs:refs.filter(r=>r.compression_topic_id===currentTopic),sources};
@@ -154,9 +154,153 @@ check('Weight background retains its explanation and hardware; scope remains a s
   assert.equal(host.querySelectorAll('details').length,0);
   assert(host.descendants().every(n=>!n.hidden),'Background should not be individually hidden');
   assert(intro.querySelector('.topic-dossier-citations').children.length>0,'Keep literature attribution');
-  const scope=element('section');context.renderWeightResearchScope(scope,sub);
-  assert.equal(scope.children[0].id,'direction-scope');
-  assert(!scope.textContent.includes(frame.why_zh),'Do not repeat the introduction in scope');
+});
+
+const weightGroups = {
+  representation: ['representation', 'codes', 'float'],
+  quality: ['calibration', 'joint', 'recovery'],
+  execution: ['execution'],
+};
+const weightFrame = rows('ic_compression_research_frames').find(row => row.compression_topic_id === 'parameters-precision');
+const weightLandscape = cards.filter(card => card.card_id.startsWith('parameters-precision__landscape_'));
+function renderWeightThreads(locale, view = 'overview') {
+  const dossier = {frames: [weightFrame], cards: cards.filter(card => card.compression_topic_id === 'parameters-precision'), refs, sources};
+  const page = new URL('http://localhost/business_insight/cloud_core/topic.html?topic=parameters-precision&month=2026-10&scope=ic-2026-10-model-reviewed-20261029-v1&view=' + view);
+  const local = {
+    element, URL, URLSearchParams, document: {createTextNode: text => element('#text', text)},
+    location: {href: page.href, search: page.search},
+    state: {period: page.searchParams.get('month'), scope: page.searchParams.get('scope')},
+    compressionTopicId: () => 'parameters-precision',
+    mapText: (zh, en) => locale === 'en' ? en : zh,
+    title: row => row['title_' + locale] || row.title_zh || '',
+    textOf: (row, field) => row?.[field + '_' + locale] || row?.[field + '_zh'] || '',
+    researchDossier: () => dossier, safeUrl: value => value,
+    bindResearchJump: (link, id) => { link.href = '#' + id; },
+    renderTopicSourceStrip: context.renderTopicSourceStrip,
+  };
+  vm.createContext(local);
+  vm.runInContext([
+    extract('function researchView(', 'function researchNav('),
+    extract('function appendResearchText(', 'function renderGroupedKnowledge('),
+    extract('function weightTopicCitations(', 'function configureWeightCase('),
+    extract('function weightTopicCards(', 'function weightTopicRoutes('),
+    extract('function renderWeightResearchBackground(', 'function renderWeightQuantizationTopic('),
+  ].join('\n'), local);
+  const root = element('main'), challenges = element('section'), landscape = element('section');
+  local.renderWeightChallenges(challenges, dossier);
+  local.renderWeightRouteLandscape(landscape, dossier);
+  root.append(challenges, landscape);
+  return {root, challenges, landscape, local, dossier};
+}
+
+check('Real weight research data covers three questions and all seven approaches once in both languages', () => {
+  assert(weightFrame, 'Keep the maintained weight research frame');
+  const expectedIds = Object.values(weightGroups).flat().map(slug => 'parameters-precision__landscape_' + slug);
+  assert.equal(weightLandscape.length, 7);
+  assert.deepEqual(weightLandscape.map(card => card.card_id).sort(), [...expectedIds].sort());
+  for (const [group, slugs] of Object.entries(weightGroups)) {
+    for (const slug of slugs) {
+      assert.equal(weightLandscape.find(card => card.card_id === 'parameters-precision__landscape_' + slug).challenge_group, group, 'Wrong primary contribution group: ' + slug);
+    }
+  }
+  for (const locale of ['zh', 'en']) {
+    assert.equal(weightFrame['challenge_' + locale].split(/\n+/).filter(Boolean).length, 3, 'Do not restore a fourth research route: ' + locale);
+    assert(weightFrame['technical_summary_' + locale]?.trim(), 'Keep the technical thesis: ' + locale);
+    assert(weightFrame['comparison_basis_' + locale]?.trim(), 'Keep shared complete-cost conditions: ' + locale);
+    const {local, dossier} = renderWeightThreads(locale), threads = local.weightResearchThreads(dossier);
+    assert.deepEqual(Array.from(threads, thread => thread.key), Object.keys(weightGroups));
+    assert.deepEqual(Array.from(threads, thread => thread.cards.length), [3, 3, 1]);
+    assert.deepEqual(Array.from(threads, thread => thread.number), ['01', '02', '03']);
+    const expectedTitles = locale === 'zh' ? ['表示与编码', '误差与质量', '执行协同'] : ['Representation and coding', 'Error and quality', 'Execution co-design'];
+    assert.deepEqual(Array.from(threads, thread => thread.title), expectedTitles);
+    assert(threads.every(thread => thread.problem.trim()), 'Each question must retain its explanation');
+    assert.deepEqual(Array.from(threads, thread => Array.from(thread.cards, card => card.card_id)).flat().sort(), [...expectedIds].sort());
+  }
+});
+
+check('Every weight challenge reaches its own approach cards and each group returns to the matching challenge', () => {
+  for (const locale of ['zh', 'en']) {
+    const {root, challenges, landscape} = renderWeightThreads(locale);
+    const map = challenges.querySelector('.weight-thread-map'), groups = landscape.querySelectorAll('.weight-route-thread');
+    assert.equal(map.children.length, 3);
+    assert.equal(groups.length, 3);
+    for (const [key, slugs] of Object.entries(weightGroups)) {
+      const question = root.querySelector('#weight-challenge-' + key), group = root.querySelector('#weight-thread-' + key);
+      assert(question && group, 'Missing stable question/group destination: ' + key);
+      assert.equal(question.dataset.challengeGroup, key);
+      assert.equal(group.dataset.challengeGroup, key);
+      const destinations = slugs.map(slug => '#research-card-parameters-precision__landscape_' + slug);
+      assert.deepEqual(question.querySelectorAll('a[href]').map(link => link.href), destinations);
+      for (const href of destinations) {
+        const target = root.querySelector(href);
+        assert(target, 'A challenge link lost its existing card anchor: ' + href);
+        assert.equal(target.parentElement, group, 'A challenge linked to the wrong contribution group: ' + href);
+        assert.equal(root.descendants().filter(node => node.id === href.slice(1)).length, 1, 'Do not duplicate the canonical card to create navigation');
+      }
+      const back = group.children[0].querySelector('a[href]');
+      assert.equal(back.href, '#' + question.id);
+      assert.equal(root.querySelector(back.href), question);
+    }
+    const cost = challenges.querySelector('#weight-comparison-basis');
+    assert(cost, 'Do not discard complete-cost accounting when merging four challenges into three');
+    assert.equal(cost.tagName, 'ASIDE');
+    assert.equal(cost.parentElement, challenges, 'Complete cost belongs outside the three-question map');
+    assert.equal(cost.dataset.challengeGroup, undefined, 'Complete cost is a common constraint, not a fourth route');
+    assert.equal(root.querySelectorAll('.weight-common-cost').length, 1);
+    for (const line of weightFrame['comparison_basis_' + locale].split(/\n+/).filter(Boolean)) assert(cost.textContent.includes(line), 'Lost a shared cost condition: ' + line);
+    assert(challenges.querySelector('.weight-technical-thesis').textContent.includes(weightFrame['technical_summary_' + locale]));
+  }
+});
+
+check('Partial weight views switch to the destination chapter without losing topic, month or scope', () => {
+  for (const locale of ['zh', 'en']) {
+    for (const view of ['background', 'mechanism']) {
+      const {root, challenges, landscape, local} = renderWeightThreads(locale, view);
+      const forward = challenges.querySelector('.weight-thread-map').querySelectorAll('a[href]');
+      const backward = landscape.querySelectorAll('.weight-route-thread').map(group => group.children[0].querySelector('a[href]'));
+      assert.equal(forward.length, 7, 'Every approach remains reachable from its challenge');
+      assert.equal(backward.length, 3, 'Every contribution group has a return to its own challenge');
+      for (const [links, destinationView, prefix] of [[forward, 'mechanism', '#research-card-parameters-precision__landscape_'], [backward, 'background', '#weight-challenge-']]) {
+        for (const link of links) {
+          const url = new URL(link.href, local.location.href);
+          assert.equal(link.dataset.compressionResearchView, destinationView, 'The reader must switch views before restoring a hidden-chapter anchor');
+          assert.equal(url.pathname, '/business_insight/cloud_core/topic.html');
+          assert.equal(url.searchParams.get('view'), destinationView);
+          assert.equal(url.searchParams.get('topic'), 'parameters-precision');
+          assert.equal(url.searchParams.get('month'), local.state.period);
+          assert.equal(url.searchParams.get('scope'), local.state.scope);
+          assert(url.hash.startsWith(prefix), 'The target must retain its exact card or challenge anchor');
+          assert(root.querySelector(url.hash), 'Partial-view navigation must resolve to an existing destination: ' + url.hash);
+        }
+      }
+    }
+  }
+});
+
+check('Real landscape cards keep group h4, card h5 and structured-part h6 headings with their own citations', () => {
+  for (const locale of ['zh', 'en']) {
+    const {landscape} = renderWeightThreads(locale);
+    for (const group of landscape.querySelectorAll('.weight-route-thread')) {
+      assert.equal(group.children[0].tagName, 'HEADER');
+      assert.equal(group.children[0].children[0].tagName, 'H4');
+      const ownCards = group.children.filter(node => node.dataset.researchCard);
+      for (const card of ownCards) {
+        const original = weightLandscape.find(row => row.card_id === card.dataset.researchCard);
+        assert(original, 'Grouped content must use an existing maintained card');
+        assert.equal(card.children[0].tagName, 'H5');
+        assert.equal(card.children[0].textContent, original['title_' + locale]);
+        assert.equal(card.querySelectorAll('h4').length, 0, 'A nested card must not jump back to its group heading level');
+        const parts = card.querySelectorAll('.weight-explanation-part');
+        if (locale === 'zh') assert(parts.length > 0, 'Render the real structured paragraphs, not a replacement summary');
+        for (const part of parts) assert.equal(part.children[0].tagName, 'H6', 'Structured paragraph headings must sit below the card title');
+        assert(card.descendants().every(node => !node.hidden));
+        assert.equal(card.querySelectorAll('details').length, 0, 'Route explanations stay readable; only representative paper cases fold');
+        const expectedSources = [...new Set(refs.filter(ref => ref.card_id === original.card_id).map(ref => findSource(ref.source_id).canonical_url))].sort();
+        assert(expectedSources.length > 0, 'Every landscape approach must retain its own evidence');
+        assert.deepEqual(card.querySelectorAll('.topic-dossier-citations a[href]').map(link => link.href).sort(), expectedSources);
+      }
+    }
+  }
 });
 
 check('Generic full topics keep seven readable chapters and mark analysis correctly', () => {

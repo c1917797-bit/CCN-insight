@@ -22,7 +22,7 @@ WEIGHT_TOPIC = "parameters-precision"
 # cards. Landscape/progress rows and route evidence are rendered by their own
 # loops. Do not index other weight cards just because they exist in the table.
 WEIGHT_DIRECT = frozenset({
-    "expert_brief", "insight_scope", "principles_brief", "expert_updates",
+    "expert_brief", "principles_brief", "expert_updates",
     "refresh_data", "refresh_mtp", "refresh_ascend", "refresh_watch",
     "refresh_coverage", "industry_vllm", "msmodelslim_implementation",
     "industry_kernel", "industry_domain", "expert_evidence", "audit_coverage",

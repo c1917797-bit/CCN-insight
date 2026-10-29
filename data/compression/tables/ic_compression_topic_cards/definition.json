@@ -91,6 +91,13 @@
       "role": "value",
       "source": null,
       "type": "string"
+    },
+    "challenge_group": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
     }
   },
   "indexes": [

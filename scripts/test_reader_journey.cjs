@@ -52,9 +52,18 @@ assert.equal(sandbox.chooseCurrentSection([],''),'');
 
 const rows=name=>fs.readFileSync(path.join(root,'data/compression/tables',name,'rows.jsonl'),'utf8').trim().split('\n').map(JSON.parse).filter(x=>!x.deleted).map(x=>x.row);
 const dossier={routes:rows('ic_compression_research_routes').filter(x=>x.compression_topic_id==='parameters-precision'),cards:rows('ic_compression_topic_cards').filter(x=>x.compression_topic_id==='parameters-precision')};
-const element=(tag,text='',cls='')=>({tagName:tag.toUpperCase(),textContent:text,className:cls,id:'',dataset:{},children:[],append(...nodes){this.children.push(...nodes);},setAttribute(){}});
-Object.assign(sandbox,{element,researchDossier:()=>dossier,URLSearchParams,location:{search:''},mapText:zh=>zh,title:row=>row.title_zh||row.name_zh,textOf:(row,key)=>row[key+'_zh']||'',expertCardTools(){},appendWeightStructuredText(node,text){node.append(element('p',text));},weightTopicCitations(){},researchHref:()=>''});
-vm.runInContext(extract(source,'function weightTopicRoutes(','function compressionFoundationHref('),sandbox);
+const element=(tag,text='',cls='')=>{
+ const node={tagName:tag.toUpperCase(),ownText:text,className:cls,id:'',dataset:{},children:[],parentElement:null,open:false,events:{},attributes:{},
+  get textContent(){return this.ownText+this.children.map(child=>child.textContent).join('');},
+  append(...nodes){for(const child of nodes){child.parentElement=this;this.children.push(child);}},
+  setAttribute(name,value){this.attributes[name]=String(value);},
+  addEventListener(name,callback){this.events[name]=callback;}};
+ node.classList={add(...names){node.className=[...new Set([...node.className.split(/\s+/).filter(Boolean),...names])].join(' ');},contains(name){return node.className.split(/\s+/).includes(name);}};
+ return node;
+};
+Object.assign(sandbox.state,{disclosureOpen:new Map()});
+Object.assign(sandbox,{element,researchDossier:()=>dossier,URLSearchParams,location:{search:''},mapText:zh=>zh,title:row=>row.title_zh||row.name_zh,textOf:(row,key)=>row[key+'_zh']||'',expertCardTools(){},appendWeightStructuredText(node,text){node.append(element('p',text));},weightTopicCitations(){},renderTopicSourceStrip(){},researchHref:()=>''});
+vm.runInContext(extract(source,'function configureWeightCase(','function compressionFoundationHref('),sandbox);
 const container=element('div');sandbox.weightTopicRoutes(container);
 const additional=sandbox.weightAdditionalCaseIds(dossier);
 for(const card of dossier.cards.filter(c=>c.card_kind==='case'&&c.section_kind==='papers')){
@@ -63,11 +72,46 @@ for(const card of dossier.cards.filter(c=>c.card_kind==='case'&&c.section_kind==
 assert(!additional.some(id=>dossier.routes.some(r=>r.supporting_card_id===id)),'Additional cases must not duplicate route evidence');
 for(const route of dossier.routes){
  const card=container.children.find(n=>n.id==='research-card-'+route.supporting_card_id);
- assert(card&&card.tagName==='ARTICLE','Evidence navigation must land on the complete method card');
+ assert(card&&card.tagName==='DETAILS','Evidence navigation must land on the complete expandable method card');
+ assert.equal(card.open,false,'Representative methods must start collapsed');
+ assert.equal(card.children[0].tagName,'SUMMARY','The method name must be the native disclosure control');
+ assert.equal(card.children[0].children[0].tagName,'H4');
+ assert.equal(card.children[0].textContent,sandbox.title(route),'The collapsed row must retain the method title');
  assert(card.children.some(n=>n.id==='weight-route-'+route.route_id),'Retain old route bookmarks');
- assert(card.children.some(n=>n.tagName==='H4'&&n.textContent===sandbox.title(route)),'Case title must precede the result');
  const box=card.children.find(n=>n.className==='quant-route-result');assert(box&&!box.id,'Do not duplicate the stable evidence anchor inside the result');
+ const evidence=dossier.cards.find(row=>row.card_id===route.supporting_card_id);
+ assert(box.textContent.includes(evidence.body_zh),'Collapsed methods must keep their complete evidence mounted');
 }
+sandbox.weightTopicCards(container,additional);
+const disclosures=container.children.filter(node=>node.classList.contains('quant-case-disclosure'));
+assert.equal(disclosures.length,dossier.routes.length+additional.length,'Additional paper cases use the same disclosure group');
+assert(disclosures.every(node=>node.open===false),'Every representative paper starts collapsed');
+assert(disclosures.every(node=>node.attributes.name==='weight-quantization-cases'),'Native disclosure grouping must cover every representative paper');
+for(const id of additional){
+ const node=disclosures.find(node=>node.dataset.researchCard===id),row=dossier.cards.find(row=>row.card_id===id);
+ assert.equal(node.children[0].textContent,sandbox.title(row),'Additional papers retain clickable titles');
+ assert(node.textContent.includes(row.body_zh),'Additional paper evidence must remain searchable while collapsed');
+}
+const first=disclosures[0],second=disclosures[1];
+first.open=true;first.events.toggle();
+second.open=true;second.events.toggle();
+assert.equal(first.open,false,'Opening another method must close its sibling');
+assert.equal(second.open,true);
+assert.equal(disclosures.filter(node=>node.open).length,1);
+const last=disclosures.at(-1);last.open=true;last.events.toggle();
+assert.equal(second.open,false,'Opening an additional paper must also close the prior method');
+assert.equal(disclosures.filter(node=>node.open).length,1);
+last.open=false;last.events.toggle();
+assert(disclosures.every(node=>node.open===false),'Readers can close the active case without opening a replacement');
+for(const route of dossier.routes){
+ sandbox.location.search='?route='+encodeURIComponent(route.route_id);
+ const selected=element('div');sandbox.weightTopicRoutes(selected);
+ const cases=selected.children.filter(node=>node.classList.contains('quant-case-disclosure'));
+ assert.equal(cases.length,1,'A route-specific URL must render only its selected route');
+ assert.equal(cases[0].id,'research-card-'+route.supporting_card_id);
+ assert.equal(cases[0].open,true,'A route-specific URL must open the complete selected method');
+}
+sandbox.location.search='';
 for(const name of ['index.html','topic.html','monthly.html']){
  const html=fs.readFileSync(path.join(base,'business_insight/cloud_core',name),'utf8');
  const bootstrap=fs.readFileSync(path.join(base,'business_insight/cloud_core/reader-bootstrap.js'),'utf8').trim();

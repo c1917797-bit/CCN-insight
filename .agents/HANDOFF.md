@@ -1,3 +1,9 @@
+# 权重量化的挑战与路线重组待发布（2026-10-29）
+
+用户要求按金字塔原理对应关键挑战与技术路线。唯一源中frame改为表示与编码、误差与质量、执行协同三条主线；七张landscape卡以可选challenge_group字段分成3/3/1，按主要贡献归位，不宣称互斥。表示/准备/运行完整成本作为共同条件，保留原来额外信息计量内容。页面三组标题复用同一frame，挑战直达七个原卡锚点并可返回；部分background/mechanism视图自动切换到可见目标，保留month/scope。
+
+同轮用户要求论文点击展开：9个学术案例默认折叠，一次展开一个，完整机制/结果/引用仍挂载；检索、待读、原card/route锚点、引用往返自动展开正确案例。移除可见的重复研究范围卡，旧scope锚点和联合量化/KV链接保留；搜索索引不再登记该未展示卡。原研究背景、收益和芯片表保留。构建及三项主校验、15项topic-reader契约、reader_journey/expert_navigation通过。实际浏览器检查3/3/1、双向定位、部分视图、AWQ完整展开，390px无全页溢出并修复新锚点被顶栏遮挡。QA docs/weight-quantization-pyramid-qa-20261029.json。待本轮正式回执覆盖发布状态；不回写原站或上传独立演讲稿。
+
 # v32演讲准备关联修订已上线（2026-10-29）
 
 最终内容主仓24ad2aa575840670b0db9ef9ea40ece696c746d3，Sites源d12256a58f5defa23dcb369444de658570972a0a，v32部署appgdep_6ae384ff2dfc8191bf203a9ec3e5a619 succeeded。原网址和public权限不变，原站已有共源入口沿用本次内容。HTTP确认三页200及UI af66302ceeeddd9a24fc、内容compression-651c78ddf90575395cd7。正式浏览器确认范围位于原理后且只一个标题、calibration为问题/做法/10月/判断、A100稠密峰值与W4A16边界、当前报告16条论证且不自动挂旧slides。独立演讲稿最终16页已核验，不在网站仓库和发布包。回执deployment/speech-flow-publication-20261029.json；QA docs/speech-flow-online-qa-20261029.json。下方待发布文字为本轮历史过程。
