@@ -1,0 +1,92 @@
+{
+  "published_at": "2026-10-29T18:12:26.696489+00:00",
+  "verified_at": "2026-10-29 18:16:27 UTC",
+  "site_url": "https://ccn-insight-four.sunshinepmy.chatgpt.site",
+  "access": "public (unchanged)",
+  "github_repository": "https://github.com/c1917797-bit/CCN-insight",
+  "github_content_commit": "e4a686610e21a41d38c0819652b5e79dc55402a2",
+  "sites_source_commit": "0b692345c15d6e644600bbd9f1cee984f45a8dc5",
+  "site_project_id": "appgprj_6ad8b74cbb048191b7b6aaf46ad43a89",
+  "site_version_id": "appgprj_6ad8b74cbb048191b7b6aaf46ad43a89~appgver_af98b46c398081918295f407be597304",
+  "site_version_number": 33,
+  "deployment_id": "appgdep_6ae38c6477a0819197397cc6f537e893",
+  "deployment_status": "succeeded",
+  "archive_storage_hash": "sha256:34ab428d6cdb5993165f68fd6782810b9634b5b9c0c3af97d07b5ad237b3415a",
+  "archive_files": 2524,
+  "compressed_archive_sha256": "882d903937e2fe6e49ea2ebdc1e61ae02a97a29afaa60a342e4d1866a83260eb",
+  "original_host_changed": false,
+  "content_version": "compression-df2c02f7ba76c166acbe",
+  "reader_revision": "a9f2d46d47d8a23ab1b16e44b00a3c31461ede97",
+  "ui_revision": "5717a24f7e7d3e71cf8e",
+  "change": "Monthly first-publication paper matrix from original-abstract decisions; separate from the prior 16 reviewed papers. Eight research/editorial principles and full-text follow-up gaps remain visible.",
+  "validated": {
+    "compression_topics": 16,
+    "compression_cards": 216,
+    "compression_references": 497,
+    "reader_source_files": 170,
+    "reader_tables": 93,
+    "reader_assets": 182,
+    "monthly_query_candidates": 1728,
+    "topic_assigned_unique": 463,
+    "four_root_matrix_unique": 422,
+    "related_unmapped": 255,
+    "pending": 64,
+    "excluded": 946,
+    "diffusion_excluded": 195
+  },
+  "coverage": "Saved query of already registered arXiv source only, first publications Oct 1–29; not a field-wide or all-source census. Full-text review of 64 pending papers and final selection from new corpus remain incomplete.",
+  "online_qa": "docs/monthly-paper-corpus-online-qa-20261029.json",
+  "packaging": "Official helper pushed and reopened 0b692345. Windows packaging failed; same immutable pushed Git blobs archived with core.autocrlf=false/core.eol=lf. Every one of 2524 archive files verified against its Git blob.",
+  "approval_review": "Initial opening-base mismatch rejection resolved by committing the verified mirror and obtaining a fresh formal opening result; approved official publishing flow used afterward.",
+  "original_entry_publication": "deployment/compression-shared-entry-publication.json",
+  "shared_entry_status": "Original and CCN compression entrypoints continue to use the same CCN reader.",
+  "production_browser": {
+    "url": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/?month=2026-10&scope=ic-2026-10-model-reviewed-20261029-v1#monthly-paper-matrix",
+    "matrix_counts": [
+      [
+        100,
+        81,
+        136,
+        17,
+        301
+      ],
+      [
+        40,
+        80,
+        3,
+        6,
+        126
+      ],
+      [
+        29,
+        1,
+        3,
+        9,
+        37
+      ]
+    ],
+    "extension_counts": [
+      15,
+      26,
+      3,
+      16
+    ],
+    "pending_64_list_and_specific_gaps": true,
+    "principles_open": true,
+    "principles_count": 8,
+    "principles_requires_full_text_followup": true,
+    "actual_width": 1280,
+    "horizontal_page_overflow": false,
+    "matrix_top": 83.8984375
+  },
+  "screenshots": [
+    "docs/screenshots/monthly-paper-matrix-online-20261029.png",
+    "docs/screenshots/research-principles-online-20261029.png"
+  ],
+  "limitations": [
+    "No mobile viewport check",
+    "No full-text verification of the 64 pending papers",
+    "No final selection from the newly classified full corpus",
+    "No independent hardware experiments"
+  ]
+}
