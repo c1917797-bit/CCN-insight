@@ -10,7 +10,7 @@ vm.runInContext(extract(shell,'function cloudViewHref(','function collectPageSec
 for(const filename of ['topic','topic.html','monthly','monthly.html','foundations','foundations.html']){
  const href='https://example.test/business_insight/cloud_core/'+filename+'?topic=parameters-precision&month=2026-10&scope=review&route=old';
  assert(sandbox.isCloudDetailPage(new URL(href).pathname));
- for(const view of ['sources','topics','updates','home','reports']){
+ for(const view of ['sources','topics','library','updates','home','reports']){
   const next=new URL(sandbox.cloudViewHref(view,href));
   assert.equal(next.pathname,'/business_insight/cloud_core/index.html');
   assert.equal(next.hash,'#view-'+view);
@@ -18,6 +18,25 @@ for(const filename of ['topic','topic.html','monthly','monthly.html','foundation
  }
 }
 assert(!sandbox.isCloudDetailPage('/business_insight/cloud_core/index.html'));
+// A topic directory is a distinct destination; two period views share one
+// primary navigation group without changing their existing deep-link URLs.
+Object.assign(sandbox,{state:{view:'sources'},topicPage:()=>false,$:()=>null});
+vm.runInContext(extract(source,'const viewIds=','function revealHashTarget('),sandbox);
+vm.runInContext(extract(source,'function primaryView(','function showView('),sandbox);
+for(const view of ['sources','topics','library','updates','home','reports'])assert.equal(sandbox.viewForTarget('view-'+view),view);
+assert.equal(sandbox.viewForTarget('expert-library'),'library','Retain the old research-search bookmark');
+for(const view of ['updates','home'])assert.equal(sandbox.primaryView(view),'updates');
+assert.equal(sandbox.primaryView('reports'),'reports','Archive remains an independent primary entry');
+assert.equal(sandbox.primaryView('topics'),'topics');assert.equal(sandbox.primaryView('library'),'library');
+sandbox.topicPage=()=>true;assert.equal(sandbox.primaryView('topics'),'library','A topic detail belongs to the topic directory');sandbox.topicPage=()=>false;
+for(const filename of ['index.html','topic.html','monthly.html']){
+ const html=fs.readFileSync(path.join(base,'business_insight/cloud_core',filename),'utf8');
+ const primary=html.match(/<nav class="wb-view-tabs"[\s\S]*?<\/nav>/)[0];
+ assert.deepEqual([...primary.matchAll(/data-view="([^"]+)"/g)].map(m=>m[1]),['sources','topics','library','updates','reports']);
+ const period=html.match(/<section id="period-navigation"[\s\S]*?<\/section>/)[0];
+ assert.deepEqual([...period.matchAll(/data-view="([^"]+)"/g)].map(m=>m[1]),['updates','home']);
+ assert(html.includes('id="topic-catalog"'),'The topic directory has a real content destination');
+}
 const peers=[{id:'map',top:-500,bottom:3000},{id:'precision',top:100,bottom:1200},{id:'selection',top:100,bottom:1200}];
 assert.equal(sandbox.chooseCurrentSection(peers,'precision'),'precision','Right-hand peer must not steal a quantization deep link');
 assert.equal(sandbox.chooseCurrentSection(peers,'selection'),'selection');

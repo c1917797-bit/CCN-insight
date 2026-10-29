@@ -97,10 +97,29 @@ body[data-compression-view="topics"] #map>h2{display:none}
 
 /* Keep the reader on the requested subject during asynchronous startup. */
 html[data-cloud-initial-view="topics"] [data-view-panel]:not([data-view-panel="topics"]),
+html[data-cloud-initial-view="library"] [data-view-panel]:not([data-view-panel="library"]),
 html[data-cloud-initial-view="sources"] [data-view-panel]:not([data-view-panel="sources"]),
 html[data-cloud-initial-view="updates"] [data-view-panel]:not([data-view-panel="updates"]),
 html[data-cloud-initial-view="home"] [data-view-panel]:not([data-view-panel="home"]),
 html[data-cloud-initial-view="reports"] [data-view-panel]:not([data-view-panel="reports"]){display:none!important}
+body[data-compression-view="library"] #topic-title{display:none}
+.topic-catalog-head{padding:22px 0 20px;border-bottom:1px solid #e0e7ef;margin-bottom:20px}
+.topic-catalog-head h3{font-size:30px!important;letter-spacing:-.03em;margin:6px 0 10px!important;color:#21364c}
+.topic-catalog-head>p:not(.science-eyebrow){font-size:14px;color:#66798d;line-height:1.8;max-width:78ch}
+.topic-catalog-head>a{display:inline-block;font-size:13px;color:#287486;text-decoration:none;margin-top:5px}
+.topic-catalog-controls{display:flex;align-items:center;flex-wrap:wrap;gap:9px;padding:15px;border:1px solid #e1e8f0;border-radius:11px;background:#f6f9fc}
+.topic-catalog-controls input,.topic-catalog-controls select,.topic-catalog-controls button{font:inherit;font-size:13px;border:1px solid #cfdce6;border-radius:7px;background:#fff;color:#34516a;padding:9px 12px;min-height:39px}
+.topic-catalog-controls input{flex:1 1 280px;min-width:160px}.topic-catalog-controls select{max-width:100%}.topic-catalog-controls button{cursor:pointer}.topic-catalog-controls button:disabled{opacity:.4;cursor:default}
+.topic-catalog-status{font-size:12px!important;color:#6c8092;margin:14px 0!important}
+.topic-catalog-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.topic-catalog-card{padding:21px;border:1px solid #dce6ee;border-radius:12px;background:linear-gradient(135deg,#fff,#f4f9fb);box-shadow:0 4px 16px #26475d05;min-width:0}
+.topic-catalog-card .topic-catalog-tags{font-size:11px!important;letter-spacing:.02em;color:#4d8493;margin:0 0 10px!important}
+.topic-catalog-card h4{margin:0 0 11px;font-size:19px!important;line-height:1.5}.topic-catalog-card h4 a{color:#203e57;text-decoration:none}.topic-catalog-card h4 a:hover{color:#087d85;text-decoration:underline;text-underline-offset:4px}
+.topic-catalog-card>p:not(.topic-catalog-tags){font-size:13px!important;line-height:1.8;color:#607689;margin:0 0 15px!important}.topic-catalog-card>small{display:block;color:#8293a2;font-size:11px}
+.period-navigation{margin:6px 0 24px;padding:0 0 18px;border-bottom:1px solid #dbe5ec}.period-navigation[hidden]{display:none}
+.period-navigation-heading{display:flex;align-items:baseline;gap:14px;margin-bottom:12px}.period-navigation-heading h2{font-size:27px;margin:0;color:#233b52}.period-navigation-heading>span{font:12px/1.6 ui-monospace,Consolas,monospace;color:#6a8493}
+.period-navigation nav{display:flex;flex-wrap:wrap;gap:8px}.period-navigation nav a{display:inline-block;border:1px solid #d2e1e8;border-radius:8px;padding:8px 17px;font-size:13px;font-weight:600;text-decoration:none;background:#fff;color:#526b7e}.period-navigation nav a[aria-current="page"]{background:#e5f3f3;color:#087887;border-color:#95c7cc}
+@media(max-width:1050px){.topic-catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:620px){.topic-catalog-grid{grid-template-columns:1fr}.topic-catalog-controls input{flex-basis:100%}.topic-catalog-controls select{flex:1 1 130px;min-width:0}.topic-catalog-card{padding:18px}}
 .topic-breadcrumb{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin:0 0 17px;font-size:13px;color:#67768b}
 .topic-breadcrumb a{color:#386b7b;text-decoration:none}.topic-breadcrumb a:hover{text-decoration:underline}
 .weight-topic .compression-topic-hero{padding:27px 30px;margin-bottom:26px}.weight-topic .compression-topic-hero h1{margin:8px 0 12px;font-size:clamp(25px,3vw,37px)}

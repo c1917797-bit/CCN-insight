@@ -34,11 +34,12 @@ function showLoadError(error,partial=false) {
   $('runtime-status').setAttribute('role','alert');
 }
 const element = (tag, text='', cls='') => { const el=document.createElement(tag); el.textContent=String(text); if(cls)el.className=cls; return el; };
-const viewIds={sources:['judgment-basis','channels-panel'],updates:['monthly'],topics:['map','knowledge'],home:['insight-overview','ascend'],reports:['reports','evidence','source-panel','document-detail','validation','appendix','legacy','governance']};
+const viewIds={library:['topic-catalog','expert-library'],sources:['judgment-basis','channels-panel'],updates:['monthly'],topics:['map','knowledge'],home:['insight-overview','ascend'],reports:['reports','evidence','source-panel','document-detail','validation','appendix','legacy','governance']};
 function viewForTarget(id) {
   if(!id)return 'sources';
+  if(id==='expert-library')return 'library';
   if(/^direction-[A-Z]_[A-Z]$/.test(id)||/^focus-[a-z_]+-[a-z_]+$/.test(id)||/^route-(precision|selection|distillation|factorization)$/.test(id))return 'topics';
-  if(/^view-(home|updates|topics|sources|reports)$/.test(id))return id.slice(5);
+  if(/^view-(home|updates|topics|library|sources|reports)$/.test(id))return id.slice(5);
   const panel=$(id)?.closest('[data-view-panel]');
   if(panel&&Object.hasOwn(viewIds,panel.dataset.viewPanel))return panel.dataset.viewPanel;
   return Object.keys(viewIds).find(key=>viewIds[key].includes(id))||state.view||'sources';
@@ -54,7 +55,7 @@ function revealHashTarget(id=location.hash.slice(1)) {
   showView(viewForTarget(id));
   for(let node=target;node;node=node.parentElement)if(node.tagName==='DETAILS')node.open=true;
   ensureOpenedDisclosuresLoaded();
-  if((topicPage()&&(/^(research-overview-|research-card-|direction-)/.test(id)))||/^route-(precision|selection|distillation|factorization)$/.test(id))requestAnimationFrame(()=>$(id)?.scrollIntoView({block:'start'}));
+  if((topicPage()&&(/^(research-overview-|research-card-|direction-)/.test(id)))||['expert-library','topic-catalog'].includes(id)||/^route-(precision|selection|distillation|factorization)$/.test(id))requestAnimationFrame(()=>$(id)?.scrollIntoView({block:'start'}));
 }
 function disclosure(key,summary) {
   const node=element('details');node.dataset.disclosureKey=key;
@@ -69,15 +70,18 @@ function scrollViewStart(view) {
     window.scrollTo({top:0,behavior:'auto'});
   }));
 }
+function primaryView(view=state.view){return topicPage()?'library':['updates','home'].includes(view)?'updates':view;}
 function showView(view,updateHash=false) {
   state.view=topicPage()?'topics':document.body.dataset.compressionMonthly==='true'?'updates':Object.hasOwn(viewIds,view)?view:'sources';
   document.documentElement.dataset.cloudInitialView=state.view;
-  $('reading-controls').hidden=topicPage()||['topics','sources'].includes(state.view);$('reading-context').hidden=topicPage()||['topics','sources'].includes(state.view);
-  $('judgment-basis').hidden=!['updates','topics','sources'].includes(state.view);
+  $('reading-controls').hidden=topicPage()||['topics','library','sources'].includes(state.view);$('reading-context').hidden=topicPage()||['topics','library','sources'].includes(state.view);
+  $('judgment-basis').hidden=!['updates','topics','library','sources'].includes(state.view);
   $('judgment-basis').dataset.sectionOutline=state.view==='updates'?'false':'true';
   document.querySelectorAll('[data-view-panel]').forEach(panel=>{panel.hidden=panel.dataset.viewPanel!==state.view;});
-  document.querySelectorAll('[data-view]').forEach(link=>{if(link.dataset.view===state.view)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');});
+  document.querySelectorAll('[data-view]').forEach(link=>{if(link.dataset.view===(link.hasAttribute('data-primary-view')?primaryView():state.view))link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');});
   if(!topicPage()){if(state.view==='home'&&document.querySelector('.analysis-reading-navigation')){document.body.dataset.lriReaderNavigation='.analysis-reading-navigation';document.body.dataset.lriReaderNavigationLabel=mapText('洞察报告 · 阅读目录','Insight report · Reading contents');}else if(state.view==='updates'&&document.querySelector('.current-updates-navigation')){document.body.dataset.lriReaderNavigation='.current-updates-navigation';document.body.dataset.lriReaderNavigationLabel=mapText('本期动态 · 三类进展','Current updates · Three streams');}else{delete document.body.dataset.lriReaderNavigation;delete document.body.dataset.lriReaderNavigationLabel;}}
+  const periodNav=$('period-navigation');if(periodNav){periodNav.hidden=topicPage()||!['updates','home'].includes(state.view);const date=$('period-navigation-date');if(date)date.textContent=state.period||new URLSearchParams(location.search).get('month')||'';}
+  if(state.view==='library')renderTopicCatalog();
   document.body.dataset.compressionView=state.view;
   document.body.dataset.lriContextItem='cloud-core-'+state.view;refreshSynthesis();refreshImportedPapers();
   document.dispatchEvent(new Event('lri:sections-changed'));
@@ -86,9 +90,9 @@ function showView(view,updateHash=false) {
   if(updateHash)scrollViewStart(state.view);
   if(!topicPage()&&state.readerMode==='sources'&&state.view!=='sources'){start(state.view);return;}
   if(!topicPage()&&state.readerMode==='current'&&!['updates','home'].includes(state.view)){start(state.view);return;}
-  if(!topicPage()&&state.readerMode==='map'&&state.view!=='topics'){start(state.view);return;}
+  if(!topicPage()&&state.readerMode==='map'&&!['topics','library'].includes(state.view)){start(state.view);return;}
   if(state.view==='sources'&&state.directoryDeferred&&state.profile){state.directoryDeferred=false;start('sources');return;}
-  if(state.view==='topics'&&!topicPage()&&!state.directionMode&&!state.focusTarget&&state.data.map_facets?.length&&!$('scientific-map')?.querySelector('.expert-library'))renderScientificMap();
+  if(state.view==='topics'&&!topicPage()&&!state.directionMode&&!state.focusTarget&&state.data.map_facets?.length&&!$('scientific-map')?.querySelector('.science-map-header'))renderScientificMap();
   if((!topicPage()&&['updates','home'].includes(state.view))&&state.profile&&state.scopeReady&&!state.evidencePage&&!state.evidenceBusy)loadEvidence(0);
   if(updateHash&&location.hash!=='#view-'+state.view)history.pushState(null,'','#view-'+state.view);
 }
@@ -1715,6 +1719,35 @@ function renderExpertLibrary(parent){
  const load=()=>{status.textContent=mapText('正在读取当前版本…','Reading current revision…');expertLibraryRead(revision).then(value=>{if(!root.isConnected||state.revision!==revision)return;index=value;counts.textContent=value.topics.length+mapText(' 个专题 · ',' topics · ')+value.cards.length+mapText(' 条可定位资料',' reachable entries');paint();document.dispatchEvent(new Event('lri:sections-changed'));}).catch(()=>{if(!root.isConnected)return;status.textContent=mapText('跨专题索引暂不可用，下方技术地图仍可正常阅读。','Cross-topic index unavailable; the map below remains available.');status.append(button(mapText('重试索引','Retry index'),()=>{status.replaceChildren();load();}));});};load();
 }
 
+const topicCatalogState={query:'',target:'',method:''};
+function renderTopicCatalog(){
+ const root=$('topic-catalog');
+ if(!root||topicPage()||!state.data.compression_topics?.length)return;
+ const context=[state.revision,state.locale,state.period,state.scope].join('|');
+ if(root.dataset.catalogContext===context&&root.children.length)return;
+ root.dataset.catalogContext=context;root.replaceChildren();
+ const heading=element('header','','topic-catalog-head');
+ heading.append(element('p',mapText('持续研究 · 专题目录','CONTINUOUS RESEARCH · TOPICS'),'science-eyebrow'),element('h3',mapText('技术专题','Research topics')),element('p',mapText('按研究问题查找专题，直接阅读原理、技术路线、原文结果与比较判断。','Find a topic by research question and open its principles, methods, primary results and comparisons.')));
+ const mapLink=element('a',mapText('查看技术地图 →','View the technology map →'));mapLink.href='#view-topics';mapLink.dataset.view='topics';heading.append(mapLink);root.append(heading);
+ const topics=ordered(state.data.compression_topics),controls=element('div','','topic-catalog-controls');
+ const search=element('input');search.type='search';search.id='topic-catalog-query';search.value=topicCatalogState.query;search.placeholder=mapText('搜索专题或研究问题，例如 权重、量化、KV','Search topics or questions, e.g. weights, quantization, KV');search.setAttribute('aria-label',mapText('搜索技术专题','Search research topics'));
+ const filter=(field,labelText,allText)=>{const select=element('select');select.setAttribute('aria-label',labelText);const all=element('option',allText);all.value='';select.append(all);const seen=new Set();for(const topic of topics){const id=topic[field];if(seen.has(id))continue;seen.add(id);const option=element('option',title(mapTerm(id)));option.value=id;select.append(option);}return select;};
+ const target=filter('target_term_id',mapText('专题压缩对象','Topic compression target'),mapText('全部对象','All targets')),method=filter('method_term_id',mapText('专题技术路线','Topic research method'),mapText('全部路线','All methods'));
+ target.value=topicCatalogState.target;method.value=topicCatalogState.method;
+ const reset=button(mapText('重置','Reset'),()=>{topicCatalogState.query='';topicCatalogState.target='';topicCatalogState.method='';search.value='';target.value='';method.value='';paint();});reset.setAttribute('aria-label',mapText('重置专题筛选','Reset topic filters'));
+ controls.append(search,target,method,reset);root.append(controls);
+ const status=element('p','','topic-catalog-status');status.setAttribute('role','status');status.setAttribute('aria-live','polite');const grid=element('div','','topic-catalog-grid');root.append(status,grid);
+ const paint=()=>{
+  const tokens=topicCatalogState.query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
+  const selected=topics.filter(topic=>(!topicCatalogState.target||topic.target_term_id===topicCatalogState.target)&&(!topicCatalogState.method||topic.method_term_id===topicCatalogState.method)&&tokens.every(token=>[title(topic),textOf(topic,'question'),title(mapTerm(topic.target_term_id)),title(mapTerm(topic.method_term_id))].join(' ').toLocaleLowerCase().includes(token)));
+  status.textContent=mapText('显示 ','Showing ')+selected.length+' / '+topics.length+mapText(' 个专题',' topics');grid.replaceChildren();reset.disabled=!topicCatalogState.query&&!topicCatalogState.target&&!topicCatalogState.method;
+  for(const topic of selected){const card=element('article','','topic-catalog-card');card.dataset.catalogTopic=topic.compression_topic_id;card.append(element('p',title(mapTerm(topic.target_term_id))+' · '+title(mapTerm(topic.method_term_id)),'topic-catalog-tags'));const titleNode=element('h4');titleNode.append(scientificLink(topic.target_term_id,topic.method_term_id,title(topic)+' →'));card.append(titleNode,element('p',textOf(topic,'question')));if(topic.reviewed_at)card.append(element('small',mapText('资料核对 ','Materials checked ')+topic.reviewed_at));grid.append(card);}
+  if(!selected.length)grid.append(element('p',mapText('没有匹配的专题，请调整关键词或筛选条件。','No matching topics. Adjust the keywords or filters.')));
+ };
+ search.addEventListener('input',()=>{topicCatalogState.query=search.value;paint();});target.addEventListener('change',()=>{topicCatalogState.target=target.value;paint();});method.addEventListener('change',()=>{topicCatalogState.method=method.value;paint();});paint();
+ renderExpertLibrary(root);document.dispatchEvent(new Event('lri:sections-changed'));
+}
+
 function renderScientificMap(){
  const parent=$('scientific-map');parent.replaceChildren();if(!state.data.map_facets?.length)return;
  const targets=ordered(state.data.map_terms.filter(row=>row.facet_id==='target'&&!row.parent_term_id));
@@ -1724,7 +1757,7 @@ function renderScientificMap(){
  const header=element('header','','science-map-header');
  header.append(element('p',mapText('推理压缩 · 根技术地图','Inference compression · Core research map'),'science-eyebrow'),element('h3',mapText('推理压缩的四类核心技术','Four core techniques for inference compression')),element('p',mapText('低比特量化减少数值表示位数；稀疏化与剪枝减少非零元素、参与计算的元素或模型结构；知识蒸馏向学生模型迁移知识；低秩分解用更小的因子矩阵近似原矩阵。按技术查找原理、代表方法、实验结果与适用条件。','Low-bit quantization reduces bits per value; sparsification and pruning reduce nonzeros, participating elements or model structures; distillation transfers knowledge to a student; low-rank factorization approximates matrices with smaller factors. Find principles, methods, experimental results and applicability by technique.')));
  const routeNav=element('nav','','map-route-navigation');routeNav.setAttribute('aria-label',mapText('四条根技术','Four core routes'));for(const [i,method] of methods.entries()){const a=element('a',String(i+1).padStart(2,'0')+' '+title(method));a.href='#route-'+method.term_id;routeNav.append(a);}header.append(routeNav);
- renderFoundationLink(header);const libraryJump=element('a',mapText('跨专题检索技术与原文 →','Search methods and primary sources →'),'map-library-link');libraryJump.href='#expert-library';header.append(libraryJump);parent.append(header);
+ renderFoundationLink(header);const libraryJump=element('a',mapText('跨专题检索技术与原文 →','Search methods and primary sources →'),'map-library-link');libraryJump.href='#view-library';libraryJump.dataset.view='library';header.append(libraryJump);parent.append(header);
  const filters=element('div','','research-map-filters');filters.setAttribute('role','group');filters.setAttribute('aria-label',mapText('按压缩对象筛选地图','Filter map by compression target'));
  filters.append(element('strong',mapText('压缩对象','Compression target')));
  for(const [id,name] of [['',mapText('全部对象','All targets')],...targets.map(row=>[row.term_id,title(row)])]){
@@ -1758,7 +1791,7 @@ function renderScientificMap(){
  const footer=element('section','','research-map-basis');footer.append(element('h4',mapText('阅读与归类说明','Reading and classification notes')),element('p',mapText('四类是研究路线，可以组合。一个成果可从多个对象入口找到；效果需要保留原始模型、测试集、配置与基线，不能跨专题重复累计。知识蒸馏以学生模型和监督方式组织，不将训练中的特征匹配直接当作推理张量压缩。','These research routes can be combined. Work may be found from several target entries; results retain their model, dataset, configuration and baseline and must not be counted twice. Distillation is organized around the student and supervision, rather than treating training feature matching as inference-tensor compression.')));
  external(footer,'https://aclanthology.org/2024.tacl-1.85/',mapText('四类路线参考：TACL 模型压缩综述 ↗','Four-route reference: TACL model-compression survey ↗'));
  external(footer,'https://arxiv.org/abs/2412.19442',mapText('状态管理参考：KV Cache 管理综述 ↗','State-management reference: KV Cache survey ↗'));parent.append(footer);
- if(state.view==='topics'&&!state.focusTarget&&!topicPage())renderExpertLibrary(parent);
+
  hydrateMapKnowledge(parent);
  document.dispatchEvent(new Event('lri:sections-changed'));
 }
@@ -1812,7 +1845,7 @@ function renderScope() {
   field(detail,'collected_at',scope.collected_at); field(detail,'review_status',enumLabel('status_',scope.status));
 }
 function renderMap() {
-  renderLineages();renderScientificMap();renderDirectionDetail();
+  renderLineages();renderScientificMap();if(state.view==='library')renderTopicCatalog();renderDirectionDetail();
 }
 function renderSelection() {
   renderOverview(); renderMonthlyDirections();renderReadingContext();
@@ -2411,7 +2444,7 @@ async function startTopicReader(request,metadata) {
   data.primarySources=sources.records;state.data=data;state.profile=profiles[0];state.revision=revision;state.referencePending=fast;
   $('topic-title').textContent=state.profile['payload_'+state.locale].title;$('topic-summary').textContent=state.profile['payload_'+state.locale].summary;
   state.period=params.get('month')||[...data.trend_periods].sort((a,b)=>b.month.localeCompare(a.month))[0]?.period_id||'';state.scope=params.get('scope')||'';
-  if(id){const [target,method]=id.split('-');openScientificFocus(target,method,false);}else{renderSelectors();renderMap();renderSelection();showView('topics');revealHashTarget();(globalThis.LRICloudFirstRetire?.(),performance.mark('cloud-core-map-content'));document.dispatchEvent(new Event('lri:sections-changed'));}
+  if(id){const [target,method]=id.split('-');openScientificFocus(target,method,false);}else{renderSelectors();renderMap();renderSelection();showView(state.view==='library'?'library':'topics');revealHashTarget();(globalThis.LRICloudFirstRetire?.(),performance.mark('cloud-core-map-content'));document.dispatchEvent(new Event('lri:sections-changed'));}
   $('runtime-status').textContent=label('snapshot_ready');controls(true);
   performance.mark('cloud-core-topic-content');
   await dossier;
@@ -2458,7 +2491,7 @@ async function startCurrentReader(request,metadata) {
 }
 
 function readerMatchesView(){
- return state.readerMode==='sources'?state.view==='sources':state.readerMode==='map'?state.view==='topics':state.readerMode==='current'?['updates','home'].includes(state.view):true;
+ return state.readerMode==='sources'?state.view==='sources':state.readerMode==='map'?['topics','library'].includes(state.view):state.readerMode==='current'?['updates','home'].includes(state.view):true;
 }
 async function start(preferredView='') {
   state.view=preferredView||(topicPage()?'topics':document.body.dataset.compressionMonthly==='true'?'updates':viewFromHash());
@@ -2467,13 +2500,13 @@ async function start(preferredView='') {
   const openingView=state.view;
   const request=++state.epoch,preferredPeriod=state.period,preferredScope=state.scope; state.periodEpoch++; state.scopeEpoch++; state.legacyEpoch++; state.revision=''; state.profile=null; state.directoryReady=false;state.directoryPartial=false;state.directoryDeferred=false; state.directoryData=null;state.directoryRevision=''; state.scopeReady=false; state.scopeBusy=false; state.scopeError=false; state.scopes=[]; state.reviews=[]; state.legacy=[]; state.legacyPeriod=''; state.legacyBusy=false; clear(); $('topic-title').textContent=mapText('推理压缩洞察','Inference compression insights'); renderViewPurpose(); controls(false); $('scope-retry').hidden=true;$('runtime-status').setAttribute('role','status'); $('runtime-status').textContent=label('loading');
   try {
-    const anchor=state.view==='sources'&&!topicPage()?LRITableGit.loadTablePage('ic_channels',{filterField:'ui_group',filterValue:state.domain,offset:0,limit:100}):['topics','updates','home'].includes(state.view)?(globalThis.LRICloudFirstRead?globalThis.LRICloudFirstRead.then(result=>({revision:result.revision})).catch(()=>LRITableGit.loadTableMetadata('ic_compression_topics')):LRITableGit.loadTableMetadata('ic_compression_topics')):null;
+    const anchor=state.view==='sources'&&!topicPage()?LRITableGit.loadTablePage('ic_channels',{filterField:'ui_group',filterValue:state.domain,offset:0,limit:100}):['topics','library','updates','home'].includes(state.view)?(globalThis.LRICloudFirstRead?globalThis.LRICloudFirstRead.then(result=>({revision:result.revision})).catch(()=>LRITableGit.loadTableMetadata('ic_compression_topics')):LRITableGit.loadTableMetadata('ic_compression_topics')):null;
     if(anchor)anchor.catch(()=>{}); // The request is awaited below; prevent an early rejected promise.
     if(!state.packs.zh&&globalThis.LRICloudUIPacks)state.packs=globalThis.LRICloudUIPacks;
     if(!state.packs.zh) { const packs=await Promise.all(['zh','en'].map(async locale=>{const response=await fetch(document.querySelector('meta[name="lri-page-i18n"]').content.replace('{lang}',locale));if(!response.ok)throw new Error('UI locale unavailable');return response.json();})); state.packs={zh:packs[0],en:packs[1]}; }
     if(request!==state.epoch)return;
     if(state.view!==openingView){start(state.view);return;}
-    if(topicPage()||state.view==='topics'){await startTopicReader(request,await anchor);if(request===state.epoch&&!readerMatchesView())start(state.view);return;}
+    if(topicPage()||['topics','library'].includes(state.view)){await startTopicReader(request,await anchor);if(request===state.epoch&&!readerMatchesView())start(state.view);return;}
     if(state.view==='sources'){await startSourceReader(request,await anchor);if(request===state.epoch&&!readerMatchesView())start(state.view);return;}
     if(['updates','home'].includes(state.view)){await startCurrentReader(request,await anchor);if(request===state.epoch&&!readerMatchesView())start(state.view);return;}
     state.readerMode='full';
@@ -2564,10 +2597,10 @@ document.addEventListener('click',event=>{
   if(link.dataset.scientificTarget){event.preventDefault();openScientificFocus(link.dataset.scientificTarget,link.dataset.scientificMechanism);return;}
   if(link.dataset.directionCell){event.preventDefault();openDirection(link.dataset.directionCell);return;}
   if(id==='view-topics'&&state.directionMode){state.directionMode=false;state.focusTarget='';state.focusMechanism='';state.focusCells=[];state.object='';state.cell='';state.method='';state.all=true;resetEvidence();renderSelectors();renderMap();renderSelection();}
-  if(link.dataset.view){event.preventDefault();showView(link.dataset.view,true);}
+  if(link.dataset.view){event.preventDefault();if(topicPage()||document.body.dataset.compressionMonthly==='true'){location.assign(mainReaderHref(link.dataset.view));return;}showView(link.dataset.view,true);}
   else if($(id)){showView(viewForTarget(id));revealHashTarget(id);}
 });
-window.addEventListener('hashchange',()=>{const view=/^#view-(sources|topics|updates|home|reports)$/.exec(location.hash);if(topicPage()&&view){location.replace(mainReaderHref(view[1]));return;}showView(viewFromHash());revealHashTarget();if(view)scrollViewStart(view[1]);});
+window.addEventListener('hashchange',()=>{const view=/^#view-(sources|topics|library|updates|home|reports)$/.exec(location.hash);if((topicPage()||document.body.dataset.compressionMonthly==='true')&&view){location.replace(mainReaderHref(view[1]));return;}showView(viewFromHash());revealHashTarget();if(view)scrollViewStart(view[1]);});
 window.addEventListener('popstate',()=>{restoreTopicNodes();document.body.dataset.compressionTopic=String(/\/topic(?:\.html)?\/?$/.test(location.pathname));const topic=requestedTopic();if(topic&&state.revision){const [target,method]=topic.split('-');openScientificFocus(target,method,false);if(!topicPage())showView(viewFromHash());}else{showView(viewFromHash());revealHashTarget();}document.dispatchEvent(new Event('lri:sections-changed'));});
 document.querySelectorAll('[data-domain]').forEach(tab=>{
   tab.addEventListener('click',()=>{state.domain=tab.dataset.domain;state.channelCategory='';state.channelOffset=0;state.industryOffsets={ascend:0,general:0};if(state.readerMode==='sources'){if(!state.sourceGroups.has(state.revision+'__'+state.domain)){for(const item of document.querySelectorAll('[data-domain]')){const active=item.dataset.domain===state.domain;item.setAttribute('aria-selected',String(active));item.tabIndex=active?0:-1;}$('channel-cards').textContent=mapText('正在读取','Loading ')+enumLabel('domain_',state.domain)+mapText('信源…',' sources…');$('channel-status').textContent=enumLabel('domain_',state.domain)+' · '+mapText('读取中','Loading');$('channel-category').replaceChildren();$('channel-category').disabled=true;$('channel-prev').disabled=true;$('channel-next').disabled=true;}showSourceGroup(state.domain).catch(error=>showLoadError(error,true));}else renderChannels();});

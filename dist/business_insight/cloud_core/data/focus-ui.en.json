@@ -763,6 +763,9 @@
     "funnel_decisions_detail": " — retain evidence-backed, business-relevant techniques with executable validation paths; no paper quota.",
     "funnel_gate": "Recommendation gate: identify the bottleneck, evidence conditions, Ascend adaptation and stop criteria. Below 1% quality loss is a business acceptance target requiring an agreed metric; reviewed does not mean qualified.",
     "funnel_current_badge": "Published or revised this month · substantive changes require primary-source confirmation",
-    "funnel_background_badge": "Background research · topic knowledge, not a new publication this month"
+    "funnel_background_badge": "Background research · topic knowledge, not a new publication this month",
+    "view_library": "Research topics",
+    "view_insights": "Current insights",
+    "period_navigation": "Current insight sections"
   }
 }

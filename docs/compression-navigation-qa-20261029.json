@@ -1,0 +1,29 @@
+{
+  "status": "local_verified_pending_publication",
+  "primary_navigation": ["信息来源", "技术地图", "技术专题", "本期洞察", "洞察归档"],
+  "primary_routes": ["sources", "topics", "library", "updates", "reports"],
+  "period_sections": ["本期动态", "洞察报告"],
+  "archive_independent": true,
+  "legacy_hashes_preserved": ["view-sources", "view-topics", "view-updates", "view-home", "view-reports", "expert-library"],
+  "checks": ["build.py", "verify.py", "verify_original_reader.py", "verify_compression.py", "test_reader_journey.cjs", "test_research_map.cjs", "test_monthly_organization.cjs", "test_report_reasoning.cjs", "git diff --check"],
+  "browser_qa": {
+    "viewport_width": 1280,
+    "cold_topic_directory_loaded": true,
+    "topic_count": 16,
+    "search_weights_quantization_results": ["parameters-precision"],
+    "target_and_method_filter_results": ["parameters-precision"],
+    "reset_topic_count": 16,
+    "map_to_complete_weight_topic_direct": true,
+    "directory_to_complete_weight_topic_direct": true,
+    "topic_header_returns_to_directory": true,
+    "month_and_scope_preserved": true,
+    "report_primary_selection": "本期洞察",
+    "report_secondary_selection": "洞察报告",
+    "archive_primary_selection": "洞察归档",
+    "period_navigation_hidden_in_archive": true,
+    "browser_back_checked": true,
+    "horizontal_overflow": false
+  },
+  "content_policy": "Navigation and retrieval presentation only; canonical research content and existing reports are retained.",
+  "screenshots": ["local-releases/qa/five-nav-topics-local-20261029.png", "local-releases/qa/five-nav-insights-local-20261029.png"]
+}

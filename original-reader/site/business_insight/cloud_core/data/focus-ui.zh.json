@@ -763,6 +763,9 @@
     "funnel_decisions_detail": "：只留下有证据、有业务价值、有具体验证路径的技术，不凑篇数。",
     "funnel_gate": "推荐门槛：说明解决的瓶颈、证据条件、昇腾适配点和停止条件。精度损失小于 1% 是业务验收目标，必须先约定指标口径；论文已研读不等于已达标。",
     "funnel_current_badge": "本月发布或修订 · 是否有实质技术增量仍以原文为准",
-    "funnel_background_badge": "历史研究补充 · 用于专题积累，不计入本月新增论文"
+    "funnel_background_badge": "历史研究补充 · 用于专题积累，不计入本月新增论文",
+    "view_library": "技术专题",
+    "view_insights": "本期洞察",
+    "period_navigation": "本期洞察栏目"
   }
 }

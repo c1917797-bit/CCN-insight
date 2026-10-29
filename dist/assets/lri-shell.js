@@ -500,7 +500,7 @@ class LRISiteShell extends HTMLElement {
     const cloudPage = location.pathname.startsWith('/business_insight/cloud_core/');
     const cloudViewItems = Array.from(document.querySelectorAll('.wb-view-tabs a')).map(a => ({view:a.dataset.view,label:a.textContent.trim(),current:a.getAttribute('aria-current')==='page'}));
     if (document.body.dataset.compressionFoundations === 'true' && !cloudViewItems.length) {
-      for (const [view,zh,en] of [['sources','信息来源','Sources'],['topics','技术地图','Technology map'],['updates','本期动态','Updates'],['home','洞察报告','Insight report'],['reports','洞察归档','Archive']]) cloudViewItems.push({view,label:this.locale==='en'?en:zh,current:view==='topics'});
+      for (const [view,zh,en] of [['sources','信息来源','Sources'],['topics','技术地图','Technology map'],['library','技术专题','Research topics'],['updates','本期洞察','Current insights'],['reports','洞察归档','Archive']]) cloudViewItems.push({view,label:this.locale==='en'?en:zh,current:view==='library'});
     }
     const sourcePanel = document.getElementById('view-sources');
     const sourceVisible = sourcePanel && !sourcePanel.closest('[hidden]');
