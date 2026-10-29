@@ -1,0 +1,31 @@
+{
+  "status": "blocked_before_version_save",
+  "verified_at": "2026-10-29",
+  "site_project_id": "appgprj_6ad8b74cbb048191b7b6aaf46ad43a89",
+  "github_content_commit": "4f5cb353be9f7c9d29c853d4f57ae91adff375a1",
+  "github_order_commit": "d1e0811fd616b1b39c984e3054131f7ed8b441e8",
+  "sites_local_commit_not_confirmed_remote": "0039c32dcc702f24520e949f48e996fedd3bb3f6",
+  "sites_remote_commit_last_verified": "2e147fd1b9af7238bb66ba5483b3ee644aa3abd6",
+  "last_live_version_number": 22,
+  "content_version": "compression-1e2305465731f94c949a",
+  "failure": "Official Sites Git push still returned HTTP 500. No unpushed source was saved as a Site version or deployed. Public site remains on the previous publication.",
+  "changes": [
+    "Ascend rows: 910B, 950PR, 950DT, 310P; original facts unchanged",
+    "Technical progress: academic research before industry; comparison-table columns follow the same order",
+    "Research background: chip formats and compute before scope, then capacity and performance",
+    "Sources page: remove nested centering; scoped shell rule releases width only for Cloud Core report pages without an outline"
+  ],
+  "browser_qa": {
+    "research_background_order": ["direction-hardware-formats", "direction-scope", "direction-value"],
+    "progress_order": ["direction-academic", "direction-industry", "direction-precision-progress", "direction-recent-research"],
+    "comparison_academic_column_before_industry": true,
+    "hardware_card_order_confirmed": true,
+    "wide_viewport": 1920,
+    "old_sources_left_edge_px": 310,
+    "new_sources_left_edge_px": 32,
+    "horizontal_page_overflow": false,
+    "temporary_viewport_reset": true
+  },
+  "checks": ["build.py", "verify.py", "verify_compression.py", "verify_original_reader.py", "test_reader_journey.cjs", "git diff --check"],
+  "resume": "Reconcile the same Sites mirror and remote source before retrying. Maintain canonical content in GitHub CCN-insight; do not publish the original TableGit copy or alter access controls. See prior monthly-formats-publication-20261029.json for the earlier pending changes included in this build."
+}
