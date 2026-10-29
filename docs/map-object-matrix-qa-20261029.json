@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-29",
+  "scope": "Technology map object-to-topic correspondence",
+  "preview_url": "http://127.0.0.1:8793/business_insight/cloud_core/index.html?month=2026-10&scope=ic-2026-10-model-reviewed-20261029-v1#view-topics",
+  "source": "ic_compression_topics and ic_map_terms; labels are rendered from the existing canonical topic records",
+  "rendered": {"root_techniques": 4, "compression_targets": 3, "matrix_cells": 12, "related_topics": 4, "unique_topic_names": 16, "onward_links_in_map": 1},
+  "checked": [
+    "Four existing technique descriptions and legacy route anchors preserved",
+    "Every canonical topic appears once under its correct target and method",
+    "Distillation caveat remains explicit; feature matching does not establish smaller tensors or caches",
+    "Actual browser click: map -> research topic directory -> weight quantization",
+    "Weight quantization research-background explanation is visible in full",
+    "Responsive viewport reset after testing"
+  ],
+  "desktop": {"inner_width": 1280, "page_scroll_width": 1265, "matrix_viewport_width": 1176.484375},
+  "narrow": {"inner_width": 390, "page_scroll_width": 375, "matrix_viewport_width": 355, "table_width": 680, "whole_page_horizontal_overflow": false},
+  "screenshot": "docs/screenshots/map-object-matrix-20261029.png",
+  "limit": "This is local browser QA. Production verification and deployment status are recorded separately. Keyboard scroll movement was not established by the single arrow-key probe."
+}

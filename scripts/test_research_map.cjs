@@ -102,6 +102,22 @@ assert.equal(links[0].href,'#view-library','The map has one clear onward destina
 assert.equal(walk(map).filter(item=>item.dataset.mapRoute).length,4);
 assert(!walk(map).some(item=>['BUTTON','INPUT','SELECT','DETAILS'].includes(item.tagName)),'The complete map is readable without filters or disclosures');
 assert(!walk(map).some(item=>item.dataset.mapTopic),'Detailed topic entries belong to the library');
+const correspondence=walk(map).filter(item=>item.dataset.mapCorrespondence);
+assert.equal(correspondence.length,topics.length,'Map includes every canonical topic once');
+assert.deepEqual(correspondence.map(item=>item.dataset.mapCorrespondence).sort(),topics.map(topic=>topic.compression_topic_id).sort());
+for(const topic of topics){
+ const name=correspondence.find(item=>item.dataset.mapCorrespondence===topic.compression_topic_id);
+ assert.equal(name.textContent,topic.title_zh,'Use the topic title without a second editable label');
+ if(routes.includes(topic.method_term_id)){
+  assert.equal(name.parentElement.dataset.mapObject,topic.target_term_id,'Do not transpose compression targets');
+  assert.equal(name.parentElement.dataset.mapMethod,topic.method_term_id,'Do not transpose methods');
+ }
+}
+const matrixRows=walk(map).filter(item=>item.tagName==='TR'&&item.dataset.mapObject);
+assert.deepEqual(matrixRows.map(item=>item.dataset.mapObject),['parameters','activations','kv_cache']);
+assert.equal(walk(map).filter(item=>item.tagName==='TD').length,12,'Three targets by four core techniques');
+assert(walk(map).some(item=>item.textContent===terms.find(t=>t.term_id==='distillation').boundary_zh),'Explain the training/structure boundary for distillation');
+assert(walk(map).some(item=>item.className==='compression-map-matrix-scroll'&&item.attributes.tabindex==='0'),'Allow keyboard scrolling on narrow screens');
 for(const route of routes){
  const term=terms.find(t=>t.term_id===route),card=walk(map).find(n=>n.dataset.mapRoute===route);
  for(const field of ['map_summary_zh','map_caveat_zh','map_notation_zh'])assert(walk(card).some(n=>n.textContent===term[field]),'Map copy must come from the maintained taxonomy');
@@ -154,4 +170,4 @@ for(const name of ['index.html','topic.html','monthly.html']){
  assert(!mapPanel.includes('id="representative-routes"')&&!mapPanel.includes('id="knowledge"'),'Map contains no second research catalogue');
  assert(libraryPanel.includes('id="representative-routes"')&&libraryPanel.includes('id="knowledge"'),'Preserve detailed references in the library');
 }
-console.log('PASS: four readable routes, one onward link, canonical summaries, legacy routes/history and preserved research references');
+console.log('PASS: four routes, three compression targets, all 16 canonical topic names, distillation boundary, one onward link and legacy history');

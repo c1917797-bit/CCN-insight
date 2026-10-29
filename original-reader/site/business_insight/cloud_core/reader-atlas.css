@@ -158,6 +158,31 @@ body[data-compression-view="topics"]:not([data-compression-topic="true"]) #map{m
 .compression-map-caveat{font-size:12px!important;line-height:1.9;color:#667b8c;margin:13px 0 0!important}
 .compression-map-figure figcaption{font-size:12px;line-height:1.9;color:#667e90;margin:17px 0 0;text-align:center}
 .compression-map-related{font-size:12px!important;color:#718498;line-height:1.9;margin:14px 2px!important}
+.compression-map-objects{margin:26px 0 0;min-width:0}
+.compression-research-workbench .compression-map-objects h4{font-size:20px!important;line-height:1.5;margin:0 0 7px!important;color:#233c54}
+.compression-map-matrix-intro{font-size:13px!important;color:#667e90;line-height:1.8;margin:0 0 14px!important}
+.compression-map-matrix-scroll{max-width:100%;overflow:auto;border:1px solid #d8e5ec;border-radius:12px;background:#fff;scrollbar-width:thin}
+.compression-map-matrix-scroll:focus-visible{outline:3px solid #168b9e;outline-offset:3px}
+.compression-research-workbench .compression-map-matrix{width:100%;min-width:680px;border-collapse:separate;border-spacing:0;table-layout:fixed;margin:0}
+.compression-map-matrix caption{text-align:left;padding:11px 15px;font-size:12px;line-height:1.7;color:#667e90;background:#f7fafc;caption-side:bottom}
+.compression-research-workbench .compression-map-matrix th,.compression-research-workbench .compression-map-matrix td{padding:17px 15px;text-align:left;vertical-align:middle;border:0;border-right:1px solid #e2eaf0;border-bottom:1px solid #e2eaf0;font-size:13px;line-height:1.75;overflow-wrap:anywhere}
+.compression-research-workbench .compression-map-matrix thead th{background:#edf5f8;color:#34596e;font-weight:650;font-size:13px}
+.compression-map-matrix thead th:first-child{width:13%}
+.compression-map-matrix tbody th{background:#f4f8fb;color:#2e536d;position:sticky;left:0;z-index:1;box-shadow:2px 0 4px #243f5710}
+.compression-map-matrix td{background:#fff;color:#264a61}
+.compression-map-matrix tbody tr:nth-child(2) td{background:#fbfdfe}
+.compression-map-matrix tr>:last-child{border-right:0!important}
+.compression-map-matrix tbody tr:last-child>*{border-bottom:0!important}
+.compression-map-topic-name{display:block;font-weight:550}
+.compression-map-matrix-empty{color:#8999a6;font-weight:400}
+.compression-map-matrix-note{font-size:12px!important;color:#6b7f90;line-height:1.85;margin:12px 1px 0!important}
+.compression-map-object-extensions{margin-top:17px;padding:15px 17px;background:#f6f9fb;border:1px solid #e0e8ef;border-radius:10px}
+.compression-map-object-extensions h5{font-size:13px!important;color:#4a687d;margin:0 0 10px!important}
+.compression-map-extension-row{display:flex;gap:18px;font-size:12px;line-height:1.8;color:#536f83;margin-top:8px}
+.compression-map-extension-row>strong{flex:0 0 70px;color:#3e5f74}
+.compression-map-extension-row>div{display:flex;flex-wrap:wrap;gap:6px 16px;min-width:0}
+.compression-map-extension-row .compression-map-topic-name{font-weight:400}
+@media(max-width:600px){.compression-map-objects{margin-top:21px}.compression-map-extension-row{gap:10px}.compression-map-extension-row>strong{flex-basis:65px}}
 .compression-map-next{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-top:22px;padding-top:20px;border-top:1px solid #dce6ed}
 .compression-map-next p{font-size:13px!important;line-height:1.8;color:#617c8d;margin:0!important}
 .compression-map-next a{white-space:nowrap;padding:10px 19px;background:#136f7c;color:#fff;border-radius:8px;font-size:14px;text-decoration:none;font-weight:600}

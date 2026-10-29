@@ -1756,6 +1756,27 @@ function renderTopicCatalog(){
  document.dispatchEvent(new Event('lri:sections-changed'));
 }
 
+function renderMapObjectMatrix(parent,methods){
+ const topics=ordered(state.data.compression_topics||[]),methodIds=new Set(methods.map(row=>row.term_id));
+ const targets=ordered(state.data.map_terms.filter(row=>row.facet_id==='target'&&topics.some(topic=>topic.target_term_id===row.term_id)));
+ const section=element('section','','compression-map-objects');section.setAttribute('aria-labelledby','map-object-matrix-title');
+ section.append(element('h4',mapText('压缩对象 × 根技术','Compression targets × core techniques')));section.children[0].id='map-object-matrix-title';
+ section.append(element('p',mapText('横向看采用什么技术，纵向看压缩什么对象；格内名称与技术专题一致。','Read across for the technique and down for the compression target. Cell names match the research topics.'),'compression-map-matrix-intro'));
+ const wrap=element('div','','compression-map-matrix-scroll');wrap.setAttribute('role','region');wrap.setAttribute('aria-labelledby','map-object-matrix-title');wrap.setAttribute('tabindex','0');
+ const table=element('table','','compression-map-matrix');
+ const caption=element('caption',mapText('对象与技术的交叉关系；这是专题对应表，不表示各项技术成熟度相同。','Target–technique correspondence; entries do not imply equal technical maturity.'));table.append(caption);
+ const head=element('thead'),headRow=element('tr'),corner=element('th',mapText('压缩对象','Compression target'));corner.setAttribute('scope','col');headRow.append(corner);
+ for(const method of methods){const th=element('th',title(method));th.setAttribute('scope','col');th.dataset.mapMethod=method.term_id;headRow.append(th);}head.append(headRow);table.append(head);
+ const body=element('tbody');
+ const topicName=topic=>{const name=element('span',title(topic),'compression-map-topic-name');name.dataset.mapCorrespondence=topic.compression_topic_id;return name;};
+ for(const target of targets){
+  const tr=element('tr');tr.dataset.mapObject=target.term_id;const label=element('th');label.setAttribute('scope','row');label.append(element('strong',title(target)));tr.append(label);
+  for(const method of methods){const td=element('td');td.dataset.mapObject=target.term_id;td.dataset.mapMethod=method.term_id;const matches=topics.filter(topic=>topic.target_term_id===target.term_id&&topic.method_term_id===method.term_id);if(matches.length)for(const topic of matches)td.append(topicName(topic));else td.append(element('span',mapText('暂无对应专题','No topic yet'),'compression-map-matrix-empty'));tr.append(td);}body.append(tr);
+ }table.append(body);wrap.append(table);section.append(wrap);
+ const distillation=mapTerm('distillation');if(distillation)section.append(element('p',textOf(distillation,'boundary'),'compression-map-matrix-note'));
+ const extra=topics.filter(topic=>!methodIds.has(topic.method_term_id));
+ if(extra.length){const extensions=element('div','','compression-map-object-extensions');extensions.append(element('h5',mapText('关联方向','Related directions')));for(const target of targets){const matches=extra.filter(topic=>topic.target_term_id===target.term_id);if(!matches.length)continue;const row=element('div','','compression-map-extension-row');row.append(element('strong',title(target)));const list=element('div');for(const topic of matches)list.append(topicName(topic));row.append(list);extensions.append(row);}section.append(extensions);}parent.append(section);
+}
 function renderScientificMap(){
  const parent=$('scientific-map');parent.replaceChildren();if(!state.data.map_facets?.length)return;
  const methods=['precision','selection','distillation','factorization'].map(mapTerm).filter(Boolean);
@@ -1771,7 +1792,7 @@ function renderScientificMap(){
   card.append(element('div',textOf(method,'map_notation'),'compression-map-notation'),element('p',textOf(method,'map_caveat')||textOf(method,'boundary'),'compression-map-caveat'));grid.append(card);
  }figure.append(grid);
  const caption=element('figcaption',mapText('四类技术可组合：例如用蒸馏恢复量化或剪枝后的质量。模型表示、模型结构与训练方法属于不同层面。','The techniques can combine: distillation can recover quality after quantization or pruning. Representation, architecture and training operate at different levels.'));caption.id='compression-map-caption';figure.append(caption);parent.append(figure);
- const related=element('p',mapText('关联方向：','Related directions: ')+ordered(state.data.map_terms.filter(row=>row.facet_id==='construction')).map(title).join(' · '),'compression-map-related');related.id='map-related-topics';related.dataset.sectionOutline='false';parent.append(related);
+ renderMapObjectMatrix(parent,methods);
  const next=element('div','','compression-map-next');next.append(element('p',mapText('查原理、方法、论文和效果，进入技术专题。','Open research topics for principles, methods, papers and results.')));const link=element('a',mapText('进入技术专题 →','Explore research topics →'));link.href='#view-library';link.dataset.view='library';next.append(link);parent.append(next);
  document.dispatchEvent(new Event('lri:sections-changed'));
 }
