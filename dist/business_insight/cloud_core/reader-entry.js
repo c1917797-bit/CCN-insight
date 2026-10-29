@@ -2399,7 +2399,7 @@ globalThis.LRICompressionSynthesis=Object.freeze({refresh});
 const $ = id => document.getElementById(id);
 const state = {
   industrySnapshot:null,industryRevision:'',industryEpoch:-1,industryBusy:false,industryError:'',
-  mapTargetFilter:'',focusTarget:"",focusMechanism:"",focusCells:[],directionMode:false, locale:'zh', revision:'', profile:null, data:{}, directoryReady:false, directoryPartial:false, directoryDeferred:false, directoryData:null, directoryRevision:'', packs:{}, object:'', method:'', cell:'', all:true, view:'sources', domain:'hotspot', channelQuery:'', channelImportant:true, channelOffset:0, channelTotal:0, channelCategory:'', industryOffsets:{ascend:0,general:0},
+  mapTargetFilter:'',focusTarget:"",focusMechanism:"",focusCells:[],directionMode:false, locale:'zh', revision:'', profile:null, data:{}, directoryReady:false, directoryPartial:false, directoryDeferred:false, directoryData:null, directoryRevision:'', packs:{}, object:'', method:'', cell:'', all:true, view:'sources', domain:'academic', channelQuery:'', channelImportant:true, channelOffset:0, channelTotal:0, channelCategory:'', industryOffsets:{ascend:0,general:0},
   period:'', scope:'', scopes:[], reviews:[], scopeReady:false, scopeBusy:false, scopeError:false,
   evidence:[], evidencePage:null, evidenceOffset:0, evidenceBusy:false, evidenceError:false, evidenceProgress:null, relatedCache:null, paperIndexCache:null, paperSummaryError:'',
   legacy:[], legacyPeriod:'', legacyBusy:false, document:null, documentListKey:'', documentPending:null, disclosureOpen:new Map(),
@@ -2901,14 +2901,14 @@ function renderChannels(){
  const coverageLink=element('a',mapText('查看资料覆盖与阅读状态 →','View collection and review coverage →'),'source-coverage-link');coverageLink.href='#source-inventory-audit';parent.append(coverageLink);
  state.sourceTableFilters=state.sourceTableFilters||{};
  $('channel-prev').parentElement.hidden=true;
- const loaded=['hotspot','industry','academic'].filter(group=>state.data.source_families.some(row=>row.ui_group===group));
+ const loaded=['academic','industry','hotspot'].filter(group=>state.data.source_families.some(row=>row.ui_group===group));
  $('channel-status').textContent=mapText('三个独立目录 · 已载入 ','Three separate registers · Loaded ')+loaded.length+'/3';
  $('source-subject-overview').textContent=mapText('按来源主体维护，原始入口、定位、跟踪重点与核对记录分开保存。三个表格独立筛选；产业界通过生态列区分昇腾和跨平台来源。','Maintain source identities, entrypoints, purpose and review records separately. Each register filters independently; industry uses an ecosystem column.');
  const sources=new Map(state.data.primarySources.map(row=>[row.source_id,row]));
- for(const domain of ['hotspot','industry','academic']){
+ for(const domain of ['academic','industry','hotspot']){
   const section=element('section','','source-domain-register');section.id='source-register-'+domain;section.dataset.sectionLabel=enumLabel('domain_',domain);section.dataset.sectionLabelEn={hotspot:'News and signals',industry:'Industry',academic:'Academic'}[domain];section.dataset.sectionLevel='4';
   const heading=element('div','','source-domain-heading'),headingCopy=element('div');
-  headingCopy.append(element('p',mapText({hotspot:'01 / 发现变化',industry:'02 / 跟踪实现',academic:'03 / 深入研究'}[domain],{hotspot:'01 / DISCOVER',industry:'02 / IMPLEMENT',academic:'03 / RESEARCH'}[domain]),'source-domain-kicker'),element('h4',enumLabel('domain_',domain)));
+  headingCopy.append(element('p',mapText({hotspot:'03 / 发现变化',industry:'02 / 跟踪实现',academic:'01 / 深入研究'}[domain],{hotspot:'03 / DISCOVER',industry:'02 / IMPLEMENT',academic:'01 / RESEARCH'}[domain]),'source-domain-kicker'),element('h4',enumLabel('domain_',domain)));
   headingCopy.append(element('p',mapText({hotspot:'从资讯发现线索，再回到原始材料。',industry:'跟踪框架、工具与硬件的实现能力。',academic:'沿论文、会议与研究团队查找方法和证据。'}[domain],{hotspot:'Discover signals, then trace the original material.',industry:'Track implementation in frameworks, tools and hardware.',academic:'Find methods and evidence through papers, venues and research groups.'}[domain]),'source-domain-description'));heading.append(headingCopy);section.append(heading);
   if(!loaded.includes(domain)){const error=state.sourceGroupErrors?.get(domain);section.append(element('p',error?mapText('该目录暂未读入，可重试。','This register is unavailable. Retry to load it.'):mapText('正在载入目录…','Loading register…'),'meta'));if(error)section.append(button(mapText('重试目录','Retry register'),()=>showSourceGroup(domain).catch(()=>{})));parent.append(section);continue;}
   const saved=state.sourceTableFilters[domain]||(state.sourceTableFilters[domain]={query:'',important:true,ecosystem:'',category:''});
@@ -4655,7 +4655,7 @@ async function showSourceGroup(group,first=null){
     const data=await state.sourcePending.get(key);if(!data||request!==state.epoch)return;state.sourceGroups.set(key,data);
   }
   if(request!==state.epoch||revision!==state.revision||state.readerMode!=='sources')return;
-  const data=state.sourceGroups.get(key),discovery={collection_runs:state.data.collection_runs||[],collection_run_id:state.data.collection_run_id||'',collection_retrievals:state.data.collection_retrievals||[]},groups=['hotspot','industry','academic'].map(name=>state.sourceGroups.get(revision+'__'+name)).filter(Boolean),combined={...emptyReaderData(),...discovery};
+  const data=state.sourceGroups.get(key),discovery={collection_runs:state.data.collection_runs||[],collection_run_id:state.data.collection_run_id||'',collection_retrievals:state.data.collection_retrievals||[]},groups=['academic','industry','hotspot'].map(name=>state.sourceGroups.get(revision+'__'+name)).filter(Boolean),combined={...emptyReaderData(),...discovery};
   const sourceKeys={channels:r=>r.channel_id,source_families:r=>r.family_id,channel_families:r=>r.membership_id||r.channel_id+'__'+r.family_id,industry_source_scopes:r=>r.family_id,primarySources:r=>r.source_id,channel_categories:r=>r.link_id||r.channel_id+'__'+r.category_id,source_categories:r=>r.category_id};
   for(const [field,keyOf] of Object.entries(sourceKeys))combined[field]=[...new Map(groups.flatMap(g=>g[field]||[]).map(row=>[keyOf(row),row])).values()];
   LRIGroupedSources.validate(combined);state.data=combined;if(data.profiles){state.profile=data.profiles[0];$('topic-summary').textContent=state.profile['payload_'+state.locale].summary;}state.directoryData=state.data;state.directoryRevision=revision;state.directoryReady=true;state.directoryPartial=!state.sourceStatusReady;
@@ -4677,7 +4677,7 @@ async function startSourceReader(request,first){
     state.profile=rows[0];$('topic-title').textContent=state.profile['payload_'+state.locale].title;$('topic-summary').textContent=state.profile['payload_'+state.locale].summary;
   }).catch(error=>{if(request===state.epoch)showLoadError(error,true);});
   await showSourceGroup(state.domain,first.records.every(row=>row.ui_group===state.domain)?first:null);if(request!==state.epoch)return;refreshImportedPapers();
-  state.sourceGroupErrors=new Map();await Promise.all(['hotspot','industry','academic'].filter(group=>group!==state.domain).map(async group=>{try{await showSourceGroup(group);}catch(error){if(request===state.epoch){state.sourceGroupErrors.set(group,String(error.message||error));renderChannels();}}}));
+  state.sourceGroupErrors=new Map();await Promise.all(['academic','industry','hotspot'].filter(group=>group!==state.domain).map(async group=>{try{await showSourceGroup(group);}catch(error){if(request===state.epoch){state.sourceGroupErrors.set(group,String(error.message||error));renderChannels();}}}));
   if(document.querySelector('.wb-collection-audit')?.open)await ensureSourceStatus();
   if($('source-collection-details')?.open)await ensureSourceScans();
 }

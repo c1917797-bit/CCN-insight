@@ -21,7 +21,7 @@
  const common=[eq('business_id','cloud-core'),eq('topic_id','cloud_core')];
  const table=(name,filters=[])=>({name,table:'ic_'+name,filters:[...common,...filters]});
  let plan;
- if(view==='sources')plan=[table('source_families',[eq('ui_group','hotspot')]),table('channels',[eq('ui_group','hotspot'),{field:'priority',op:'in',value:['P0','P1']}]),{...table('channel_families'),limit:400,select:['business_id','topic_id','membership_id','channel_id','family_id','position']}];
+ if(view==='sources')plan=[table('source_families',[eq('ui_group','academic')]),table('channels',[eq('ui_group','academic'),{field:'priority',op:'in',value:['P0','P1']}]),{...table('channel_families'),limit:400,select:['business_id','topic_id','membership_id','channel_id','family_id','position']}];
  else if(view==='topics')plan=topic?[table('compression_topic_sections',[eq('compression_topic_id',topic),{field:'section_kind',op:'in',value:['problem','mechanism','boundary']}])]:[table('map_terms',[eq('facet_id','mechanism')])];
  else if(view==='updates')plan=[table('paper_summary_events',[eq('period_id',period)]),table('paper_summaries')];
  else plan=[table('insight_reports',[eq('period_id',period),eq('status','published')])];
@@ -45,7 +45,7 @@
   const r=value.result;ensure(value.skill_id==='table.query'&&value.skill_version==='2.3.0'&&value.operation==='table_relation_query'&&value.outcome==='executed'&&r&&!r.truncated&&Array.isArray(r.bindings)&&r.bindings.length===3&&Array.isArray(r.rows)&&r.rows.length<=20&&JSON.stringify(r.columns)===JSON.stringify(['key','row_version','row_json'])&&Number.isSafeInteger(r.output_bytes)&&r.output_bytes<=65536,'Invalid first-source relation');
   const revision=r.bindings[0]?.revision;ensure(/^[a-f0-9]{40}$/.test(revision||''),'Missing first-source revision');
   const aliases=new Set();for(const b of r.bindings){const requested=sourceBindings.find(x=>x.alias===b.alias);ensure(requested&&!aliases.has(b.alias)&&b.repo===requested.repo&&b.path===requested.path&&b.revision===revision&&b.include_deleted===false&&requested.source_query.filters.every(f=>b.source_query?.filters?.some(v=>v.field===f.field&&v.op===f.op&&JSON.stringify(v.value)===JSON.stringify(f.value))),'First-source binding mismatch');aliases.add(b.alias);}
-  const seen=new Set(),rows=r.rows.map(tuple=>{ensure(Array.isArray(tuple)&&tuple.length===3&&tuple[0].type==='text'&&tuple[1].type==='integer'&&Number.isSafeInteger(tuple[1].value)&&tuple[1].value>0&&tuple[2].type==='text','Invalid first-source row');const row=JSON.parse(tuple[2].value);ensure(row.family_id===tuple[0].value&&!seen.has(row.family_id)&&row.business_id==='cloud-core'&&row.topic_id==='cloud_core'&&row.ui_group==='hotspot'&&!row.deleted,'First-source row outside scope');seen.add(row.family_id);return row;});
+  const seen=new Set(),rows=r.rows.map(tuple=>{ensure(Array.isArray(tuple)&&tuple.length===3&&tuple[0].type==='text'&&tuple[1].type==='integer'&&Number.isSafeInteger(tuple[1].value)&&tuple[1].value>0&&tuple[2].type==='text','Invalid first-source row');const row=JSON.parse(tuple[2].value);ensure(row.family_id===tuple[0].value&&!seen.has(row.family_id)&&row.business_id==='cloud-core'&&row.topic_id==='cloud_core'&&row.ui_group==='academic'&&!row.deleted,'First-source row outside scope');seen.add(row.family_id);return row;});
   return {revision,groups:{source_families:rows},view,period,scope,topic};
  }
  const requests=view==='sources'?[sourceRelation()]:plan.map(spec=>call('skill_run_read',{skill_id:'table.query',skill_version:'2.3.0',operation:'table_query',arguments:{repo:'works',path:'data/tables/'+spec.table,filters:spec.filters,limit:spec.limit||100,offset:0,...(spec.select?{select:spec.select}:{})}}));
@@ -100,7 +100,7 @@
 <meta name="lri-page-translation" content="ui">
 <meta name="lri-shell-version" content="lri-shell-v18-cloud-report-navigation">
 <script type="module" src="../../assets/lri-shell.js?v=a841a5453eecfcb7"></script>
-<script type="application/lri-reader" data-lri-reader="topic-entry.js?v=reader-content-e0eaf508132f3fd7"></script>
+<script type="application/lri-reader" data-lri-reader="topic-entry.js?v=reader-content-fd4d19dc2b04384c"></script>
 <link rel="stylesheet" href="reader-editorial.css?v=20261022">
 <link rel="stylesheet" href="reader-refinement.css?v=06990f24a5dc8b2f">
 <link rel="stylesheet" href="topic-studio.css?v=20261023-studio-1">
@@ -132,7 +132,7 @@
 
 <div data-view-panel="sources" id="view-sources">
 <div class="section" id="channels-panel" data-section-label="信息来源" data-section-label-en="Information sources" data-section-level="3" data-section-number="1.1" data-reading-layer="facts"><h3 data-i18n-key="view_sources">信息来源</h3><p data-i18n-key="sources_help">热点资讯帮助发现值得关注的变化，产业资料展示实现与部署进展，学术来源提供研究论文。点击信源名称可访问原站。</p>
-<nav class="source-register-navigation" aria-label="信息源目录"><a href="#source-register-hotspot">热点资讯</a><a href="#source-register-industry">产业界</a><a href="#source-register-academic">学术界</a></nav>
+<nav class="source-register-navigation" aria-label="信息源目录"><a href="#source-register-academic">学术界</a><a href="#source-register-industry">产业界</a><a href="#source-register-hotspot">热点资讯</a></nav>
 <details class="wb-source-policy"><summary data-i18n-key="source_selection_policy">信源选择与审阅说明</summary><p data-i18n-key="collection_discovery_boundary">采集列表用于发现候选资料，技术内容经原文核对后再纳入分析。标题相关或页面标注日期，仅作为筛选线索。</p>
 
 <p data-i18n-key="source_priority_help">优先选择与推理压缩相关、提供一手资料且持续更新的来源。</p>
