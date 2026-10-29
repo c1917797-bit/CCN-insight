@@ -1,3 +1,7 @@
+# v29 压缩对象矩阵已发布（2026-10-29）
+
+主仓 2d6de56737b1070a48a24f91d13dbaccfbe5acd1 已推送；Sites 源 c4cbe00fbd25b7473cbe77c8a1d6b8395ab63bb4 经官方 helper 推送并重开核对；v29 部署 appgdep_6ae378ff91f48191aef41b8bd414baad succeeded。原网址与 public 权限保留，原站已存在的共源入口沿用本次内容。3×4 对象矩阵与4个关联方向对应全部16专题。正式站浏览器已确认三行四列矩阵、16 个唯一专题名称、一个目录入口；实点进入专题目录，确认 16 项及权重量化链接保留 month/scope。 回执 deployment/map-object-publication-20261029.json。
+
 # 技术地图增加压缩对象矩阵（2026-10-29）
 
 用户要求地图能按压缩对象划分并对应技术专题。四条根技术说明保持，在下面增加“压缩对象 × 根技术”矩阵：权重/激活/KV 三行、量化/稀疏剪枝/蒸馏/低秩四列。名称与归属直接读取既有 ic_compression_topics、ic_map_terms，不建立第二份目录。12 个主矩阵专题和 4 个关联方向共覆盖现有全部 16 专题；地图仍只保留一个进入专题目录的链接。蒸馏边界直接读取已维护的 taxonomy，避免把特征监督等同直接张量压缩。真实浏览器已实点地图→目录→权重量化；390 窄屏没有全页横向溢出。验收 docs/map-object-matrix-qa-20261029.json 和截图；矩阵/归属/去重、旧锚点、reader_journey、expert_navigation、build、verify 与 original_reader 检查通过。发布状态以正式回执为准。

@@ -1,0 +1,22 @@
+{
+  "verified_at": "2026-10-29T16:51:33Z",
+  "site_version": 29,
+  "url": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/?month=2026-10&scope=ic-2026-10-model-reviewed-20261029-v1#view-topics",
+  "deployment_status": "succeeded",
+  "targets": [
+    "parameters",
+    "activations",
+    "kv_cache"
+  ],
+  "matrix_cells": 12,
+  "related_topics": 4,
+  "unique_canonical_topic_names": 16,
+  "map_onward_links": 1,
+  "topic_directory_cards_after_actual_click": 16,
+  "weight_quantization_link": "topic.html?topic=parameters-precision&month=2026-10&scope=ic-2026-10-model-reviewed-20261029-v1",
+  "actual_viewport": {
+    "inner_width": 845,
+    "page_scroll_width": 826
+  },
+  "screenshot": "docs/screenshots/map-object-matrix-online-20261029.png"
+}
