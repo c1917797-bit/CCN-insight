@@ -144,6 +144,7 @@ function renderEditorialAnalysis(m,rows){
   }overview.append(grid);
  }
  if(focus){
+  if(!priorities.length)focus.append(el('p',ui('editorial_focus_empty'),'reader-note'));
   const seen=new Set();for(const story of priorities)for(const ref of editorialRefs(m,story)){
    if(seen.has(ref.summary_id))continue;seen.add(ref.summary_id);const summary=m.paperSummaries.get(ref.summary_id),source=m.sources.get(ref.source_id),card=el('article','','analysis-focus-card analysis-source-index-row');card.dataset.sectionOutline='false';card.dataset.storyId=story.story_id;card.dataset.sourceId=ref.source_id;card.dataset.summaryId=ref.summary_id;card.dataset.claimKind='analyst_synthesis';
    const heading=el('h4'),link=el('a',source.title);link.href=url(summary.evidence_url);link.target='_blank';link.rel='noopener noreferrer';heading.append(link);card.append(heading,el('span',ref.observed_version,'analysis-source-index-version'),el('p',editorialReview(summary),'meta'));
@@ -188,7 +189,7 @@ function renderReportChoices(m,rows,root){
 function renderResearchFocus(m,rows){
  const root=document.getElementById('analysis-focus-cards');if(!root)return;root.replaceChildren();
  root.dataset.sectionOutline='false';
- const word=(zh,en)=>current.locale==='en'?en:zh,chapter=document.getElementById('analysis-focus'),heading=chapter?.querySelector?.('h3'),note=chapter?.querySelector?.('.reader-note');if(heading)heading.textContent=word('重点论文原文索引','Selected-paper source index');if(note)note.textContent=word('查阅同一版本的原文事实，或直达对应论证与验证建议。','Read facts for the cited paper version, or jump to its reasoning and proposed validation.');
+ const word=(zh,en)=>current.locale==='en'?en:zh,chapter=document.getElementById('analysis-focus'),heading=chapter?.querySelector?.('h3'),note=chapter?.querySelector?.('.reader-note');if(heading){heading.removeAttribute('data-i18n-key');heading.textContent=word('重点论文原文索引','Selected-paper source index');}if(note){note.removeAttribute('data-i18n-key');note.textContent=word('查阅同一版本的原文事实，或直达对应论证与验证建议。','Read facts for the cited paper version, or jump to its reasoning and proposed validation.');}
  const {selection,priorities}=reportResearchChoices(m,rows);
  if(!priorities.length){root.append(el('p',ui('analysis_focus_empty'),'reader-note'));return;}
  for(const {assessment:a,ref,paper} of priorities){
@@ -341,7 +342,7 @@ function renderReports(m){
    if(figures.length)check(papers.filter(p=>p.selection_status==='illustrated').every(p=>['tech','results'].every(kind=>figures.some(a=>a.format==='figure-'+String(p.slide_number).padStart(2,'0')+'-'+kind))),'Incomplete original figures');
    check(r.status==='published'&&papers.length===r.candidate_count&&papers.filter(p=>p.selection_status==='illustrated').length===r.paper_count,'Incomplete report selection');
    const slides=assets.filter(a=>/^slide-\d{2}$/.test(a.format)).sort((a,b)=>a.format.localeCompare(b.format));check(slides.length===r.page_count&&['pdf','pptx'].every(f=>assets.some(a=>a.format===f)),'Incomplete report assets');
-   const card=el('article','','card analysis-report-card');card.dataset.reportId=r.report_id;card.dataset.reportStatus=r.status;if(archive)card.append(el('p',word('当前版本','Current version')+(version(r)?' · '+version(r):''),'analysis-archive-badge'));card.append(el('h3',pick(r,'title')));const reportScope=el('details','','analysis-report-scope');reportScope.append(el('summary',ui('deck_report_scope')),el('p',pick(r,'summary')));card.append(reportScope,el('p',r.reviewed_at+' · '+r.paper_count+' '+ui('deck_papers')+' / '+r.candidate_count+' '+ui('deck_candidates')+' · '+r.page_count+' '+ui('deck_pages')+' · '+ui('deck_zh'),'meta'));
+   const card=el('article','','card analysis-report-card');card.dataset.reportId=r.report_id;card.dataset.reportStatus=r.status;if(archive)card.append(el('p',(m.reportFallback?ui('editorial_latest_saved_files'):word('当前版本','Current version'))+(version(r)?' · '+version(r):''),'analysis-archive-badge'));card.append(el('h3',pick(r,'title')));const reportScope=el('details','','analysis-report-scope');reportScope.append(el('summary',ui('deck_report_scope')),el('p',pick(r,'summary')));card.append(reportScope,el('p',r.reviewed_at+' · '+r.paper_count+' '+ui('deck_papers')+' / '+r.candidate_count+' '+ui('deck_candidates')+' · '+r.page_count+' '+ui('deck_pages')+' · '+ui('deck_zh'),'meta'));
    const actions=el('div','','actions analysis-report-actions'),viewer=el('div','','analysis-report-viewer');
    const pdf=assets.find(a=>a.format==='pdf'),ppt=assets.find(a=>a.format==='pptx');
    const pageTitles=slides.map((_,i)=>{const p=papers.find(p=>p.selection_status==='illustrated'&&p.slide_number===i+1);return p?m.sources.get(p.source_id).title:'';});

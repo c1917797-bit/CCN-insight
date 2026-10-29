@@ -787,7 +787,7 @@
     "editorial_source_index": "重点论文原文索引",
     "editorial_source_help": "同一论文按版本列出原文、审阅位置和本期事实入口；论证保留其实际阅读深度。",
     "editorial_judgments": "本期研究判断与证据边界",
-    "editorial_judgments_help": "沿用本期已维护的机制分析、技术判断与适用条件。摘要证据与关键章节核对分别标明，尚未登记的新实验方案不作补写。",
+    "editorial_judgments_help": "结合本期证据比较机制、收益条件与仍需核对的问题。摘要与选定关键章节的审阅深度分别标明；研究判断仍需目标平台验证。",
     "editorial_empty": "当前专题没有纳入本期精选的研究判断，可查看其他专题或本期动态。",
     "editorial_attachment_title": "历史演示附件",
     "editorial_attachment_hint": "保留已保存版本及其原有材料范围",
@@ -795,6 +795,7 @@
     "editorial_historical_pdf": "阅读历史范围 PDF ↗",
     "editorial_historical_pptx": "下载历史范围 PPTX",
     "editorial_open_archive": "查看该范围的版本归档 →",
-    "editorial_latest_saved_files": "最近保存的演示文件 · 历史范围"
+    "editorial_latest_saved_files": "最近保存的演示文件 · 历史范围",
+    "editorial_focus_empty": "当前专题没有重点研究条目；技术观察与边界案例见下方。"
   }
 }

@@ -787,7 +787,7 @@
     "editorial_source_index": "Key-paper source index",
     "editorial_source_help": "Each paper version links to its primary source, reviewed locations and current facts. Its reasoning retains the actual review depth.",
     "editorial_judgments": "Current research judgments and evidence limits",
-    "editorial_judgments_help": "Uses this selection’s maintained mechanism analysis, judgments and conditions. Abstract evidence is distinguished from selected-section review; no unrecorded experimental protocol is added.",
+    "editorial_judgments_help": "Compare mechanisms, benefit conditions and remaining evidence gaps. Review depth distinguishes primary abstracts from selected key sections; research judgments still require validation on the target platform.",
     "editorial_empty": "No research assessment from this selection is linked to this topic. Open another topic or current updates.",
     "editorial_attachment_title": "Historical presentation files",
     "editorial_attachment_hint": "Saved versions retain their original evidence scope",
@@ -795,6 +795,7 @@
     "editorial_historical_pdf": "Read the earlier-scope PDF ↗",
     "editorial_historical_pptx": "Download the earlier-scope PPTX",
     "editorial_open_archive": "Open this scope’s version archive →",
-    "editorial_latest_saved_files": "Latest saved presentation files · Earlier scope"
+    "editorial_latest_saved_files": "Latest saved presentation files · Earlier scope",
+    "editorial_focus_empty": "No key-research entry is linked to this topic; see technical-watch and boundary cases below."
   }
 }

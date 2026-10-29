@@ -1,3 +1,11 @@
+# 演讲准备发现的阅读与报告问题已修复，待发布（2026-10-29）
+
+独立演讲稿位于主仓外的 deliverables/推理压缩演讲稿-20261029，不放入网站或发布镜像。网站研究背景先解释权重量化的容量、搬运与有条件的执行价值，再给芯片事实和研究范围；保留原有背景说明。非权重专题返回技术专题目录，阅读指南与五个主入口一致。
+
+当前月度报告直接复用已维护的 monthly_route_insights 与同版本事实引用，显示16篇、6重点/9观察/1边界及4关键章节/12摘要的实际审阅深度；旧PDF/PPT保留为历史附件，不自动当作当前精选报告。新增 scripts/test_current_report_synthesis.cjs 验证真实表关联、中英文、来源版本、锚点和历史隔离。
+
+权重量化三张路线卡区分10月进展与前期工作：ReQuant为8月前期进展，XOR-Trellis按9月30日首投；Beyond 4 Bits、StagQ/CurveTQ、OSFP4的10月事件仍沿既有引用。10月29日是核对日期，不能将补读写成首发。未新造论文或宣称完成新一轮全网检索/全文研读。构建、主校验、压缩/原版阅读器校验及报告/归档/导航定向检查通过。此处待发布状态以最新正式回执替代。
+
 # v30 芯片表稠密口径已发布（2026-10-29）
 
 主仓 6bd13524fd5c25b5ab968e8a6a4c577c54f44bb6 已推送；Sites 源 3bd6594a94e990e0577c523464bfd00f4c89be28 经官方 helper 推送并重开核对。v30 部署 appgdep_6ae37b9bbe2081918ca516c164906559 succeeded。正式站浏览器确认 NVIDIA 表每种格式只有一个稠密峰值，A100 INT4 为1,248 TOPS；caption 明确排除结构化稀疏折算。对象矩阵和16专题对应关系仍在。截图及QA见 docs/dense-chip-peaks-online-qa-20261029.json；回执 deployment/dense-chip-publication-20261029.json。本次发布从已验收主仓提交读取不可变dist blobs，未包含同期尚未提交的 current-synthesis/focus-ui 编辑。
