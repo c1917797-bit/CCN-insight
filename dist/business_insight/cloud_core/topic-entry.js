@@ -3235,7 +3235,16 @@ function weightTopicCards(parent,ids){
   const row=dossier.cards.find(c=>c.card_id===id);if(!row)continue;
   const card=element('article','','quant-article-card');card.id='research-card-'+id;card.dataset.researchCard=id;card.dataset.claimKind=row.claim_kind;
  if(row.card_kind==='case')expertCardTools(card,row,dossier);
- if(id!=='parameters-precision__principles_brief')card.append(element('h4',title(row)));appendWeightStructuredText(card,textOf(row,'body'));weightTopicCitations(card,[id]);renderTopicSourceStrip(card,row,dossier);parent.append(card);
+ if(id!=='parameters-precision__principles_brief')card.append(element('h4',title(row)));
+ if(['parameters-precision__hardware_nvidia','parameters-precision__hardware_ascend'].includes(id)){
+  const lines=textOf(row,'body').split('\n'),rows=lines.filter(line=>line.includes('\t')).map(line=>line.split('\t'));
+  card.append(element('p',lines[0],'topic-takeaway'));
+  const wrap=element('div','','weight-progress-scroll');wrap.tabIndex=0;wrap.setAttribute('role','region');wrap.setAttribute('aria-label',title(row));
+  const table=element('table','','weight-progress-table chip-format-table');table.append(element('caption',mapText('代表性芯片与格式变化；硬件能力、软件支持和实测收益分别判断。','Selected hardware formats; distinguish hardware capability, software support and measured gains.')));
+  const head=element('thead'),hr=element('tr');for(const label of rows[0]){const th=element('th',label);th.setAttribute('scope','col');hr.append(th);}head.append(hr);table.append(head);
+  const body=element('tbody');for(const cells of rows.slice(1)){const tr=element('tr');for(const [i,value]of cells.entries()){const cell=element(i===0?'th':'td');if(i===0)cell.setAttribute('scope','row');cell.append(element('p',value));tr.append(cell);}body.append(tr);}table.append(body);wrap.append(table);card.append(wrap);
+  for(const note of lines.slice(1).filter(line=>!line.includes('\t')))card.append(element('p',note,'reader-note'));
+ }else appendWeightStructuredText(card,textOf(row,'body'));weightTopicCitations(card,[id]);renderTopicSourceStrip(card,row,dossier);parent.append(card);
  }
 }
 function weightTopicRoutes(parent){
@@ -3282,7 +3291,7 @@ function renderEditorialTakeaway(hero){
 function renderWeightProgress(parent,dossier){
  const cards=dossier.cards.filter(c=>c.card_id.startsWith('parameters-precision__progress_')).sort((a,b)=>a.position-b.position);if(!cards.length)return;
  const section=element('section','','quant-reader-section weight-progress');section.id='direction-precision-progress';section.dataset.sectionOutline='false';
- section.append(element('h3',mapText('W8、W4、W2：产业应用与研究进展','W8, W4 and W2: deployment and research')));
+ section.append(element('h3',mapText('量化进展：按位宽与具体数值格式区分','Quantization progress by bit width and numerical format')));
  section.append(element('p',mapText('位宽用于检索，技术主线是误差控制、表示设计与执行协同。先理解各路线新增了什么能力，再按变化的应用需求选择。','Use bit width for retrieval; organize research by error control, representation and execution. Understand new capabilities before selecting them for changing applications.'),'topic-takeaway'));
  section.append(element('p',mapText('核对日期：2026-10-23 · 代表性进展，非全量榜单。学术界同时列出经典方法与近期代表工作，标明年份/月份；“近期”不代表都是10月新论文。','Checked 2026-10-23 · Selected evidence, not an exhaustive ranking. Foundational and recent research are both included, with dates; recent work is not necessarily published in October.'),'meta'));
  const wrap=element('div','','weight-progress-scroll');wrap.tabIndex=0;wrap.setAttribute('role','region');wrap.setAttribute('aria-label',mapText('量化进展对照表，可横向滚动','Quantization progress table; scroll horizontally'));
@@ -3348,6 +3357,7 @@ function renderWeightQuantizationTopic(parent,topic,dossier){
  const sub=(host,id,zh,en)=>{const node=element('section','','quant-reader-section');node.id='direction-'+id;node.dataset.sectionOutline='false';node.append(element('h3',mapText(zh,en)));host.append(node);return node;};
  renderWeightExpertEntry(sections.brief,parent,dossier);
  const context=sub(sections.problem,'scope','研究问题：表示、质量与执行','Reducing weight storage and memory traffic');renderResearchFraming(context,'why');weightTopicCards(context,['parameters-precision__insight_scope']);const related=element('nav','','quantization-related-topics');related.setAttribute('aria-label',mapText('联合量化与缓存专题','Related joint-quantization and cache topics'));related.append(scientificLink('activations','precision',mapText('权重—激活联合量化 →','Joint W/A quantization →')),scientificLink('kv_cache','precision',mapText('KV Cache 量化 →','KV Cache quantization →')));context.append(related);
+ const hardware=sub(sections.problem,'hardware-formats','芯片格式演进：英伟达与昇腾分别看','Hardware-format evolution: NVIDIA and Ascend separately');weightTopicCards(hardware,['parameters-precision__hardware_nvidia','parameters-precision__hardware_ascend']);
  const value=sub(sections.problem,'value','量化收益：理论容量与实际性能','Theoretical capacity and measured performance');renderResearchFraming(value,'value');
  const principle=sub(sections.basics,'principles-brief','量化改变了什么，为什么会影响结果','What quantization changes and why outputs change');weightTopicCards(principle,['parameters-precision__principles_brief']);const lesson=element('a',mapText('查看完整原理动画与编码示例 →','View the full animated principles and coding example →'),'science-route-link');lesson.href=compressionFoundationHref('precision');principle.append(lesson);
  const challenge=sub(sections.challenges,'challenges',"量化方案面临的四类挑战","Four challenges in quantization");
@@ -3531,7 +3541,7 @@ function renderScientificMap(){
  const topics=ordered(state.data.compression_topics),selected=state.mapTargetFilter;
  const matches=row=>!selected||row.target_term_id===selected;
  const header=element('header','','science-map-header');
- header.append(element('p',mapText('推理压缩 · 根技术地图','Inference compression · Core research map'),'science-eyebrow'),element('h3',mapText('从压缩原理，到值得追踪的技术','From compression principles to useful research')),element('p',mapText('四条根技术回答四个问题：数值用多少位、哪些结构可以删、能力如何迁移、矩阵能否降秩。每个专题串起挑战、方法、原文结果和研究判断。','Four core routes ask how many bits to use, what to remove, how to transfer capability, and which matrices admit lower-rank representations. Each topic connects challenges, mechanisms, primary results and research judgment.')));
+ header.append(element('p',mapText('推理压缩 · 根技术地图','Inference compression · Core research map'),'science-eyebrow'),element('h3',mapText('推理压缩的四类核心技术','Four core techniques for inference compression')),element('p',mapText('低比特量化减少数值表示位数；稀疏化与剪枝减少非零元素、参与计算的元素或模型结构；知识蒸馏向学生模型迁移知识；低秩分解用更小的因子矩阵近似原矩阵。按技术查找原理、代表方法、实验结果与适用条件。','Low-bit quantization reduces bits per value; sparsification and pruning reduce nonzeros, participating elements or model structures; distillation transfers knowledge to a student; low-rank factorization approximates matrices with smaller factors. Find principles, methods, experimental results and applicability by technique.')));
  const routeNav=element('nav','','map-route-navigation');routeNav.setAttribute('aria-label',mapText('四条根技术','Four core routes'));for(const [i,method] of methods.entries()){const a=element('a',String(i+1).padStart(2,'0')+' '+title(method));a.href='#route-'+method.term_id;routeNav.append(a);}header.append(routeNav);
  renderFoundationLink(header);const libraryJump=element('a',mapText('跨专题检索技术与原文 →','Search methods and primary sources →'),'map-library-link');libraryJump.href='#expert-library';header.append(libraryJump);parent.append(header);
  const filters=element('div','','research-map-filters');filters.setAttribute('role','group');filters.setAttribute('aria-label',mapText('按压缩对象筛选地图','Filter map by compression target'));

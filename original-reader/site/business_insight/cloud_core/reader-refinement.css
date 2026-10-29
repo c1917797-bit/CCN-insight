@@ -23,6 +23,8 @@
 .weight-progress-table th,.weight-progress-table td{padding:18px 15px;vertical-align:top;border-bottom:1px solid #e1e9ed;border-right:1px solid #e1e9ed;overflow-wrap:anywhere}
 .weight-progress-table thead th{background:#eaf4f4;color:#155e65;text-align:left;font-size:14px}
 .weight-progress-table th:first-child{width:90px;background:#f4f8fa;color:#17354b}
+.chip-format-table th:first-child{width:150px;text-align:left}
+.chip-format-table th p{margin:0;font-size:14px;line-height:1.85}
 .weight-progress-table td p{margin:0!important;font-size:14px!important;line-height:1.85!important}
 .weight-progress-table tr:last-child>*{border-bottom:0}
 .weight-progress-table td:last-child{background:#f4faf8;border-right:0}

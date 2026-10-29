@@ -28,6 +28,7 @@ WEIGHT_DIRECT = frozenset({
     "industry_kernel", "industry_domain", "expert_evidence", "audit_coverage",
     "audit_awq", "audit_alignquant", "audit_compensation", "dossier_3",
     "dossier_4", "dossier_5", "dossier_6", "expert_questions",
+    "hardware_nvidia", "hardware_ascend",
 })
 WEIGHT_PREFIXES = (WEIGHT_TOPIC + "__landscape_", WEIGHT_TOPIC + "__progress_")
 DEFAULT_OUTPUT = ROOT / "dist/business_insight/cloud_core/local-content"
