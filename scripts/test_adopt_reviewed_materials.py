@@ -124,6 +124,16 @@ class AdoptionPreflightTest(unittest.TestCase):
             with self.subTest(choices=choices):
                 self.rejects_before_staging(lambda d: d.update(choices=choices), 'nonempty decisions list')
 
+    def test_editorial_tier_requires_an_explicit_reason(self):
+        self.rejects_before_staging(lambda d: d['choices'][-1].update(selection_tier='top_by_citations'), 'Unknown editorial tier')
+        self.rejects_before_staging(lambda d: d['choices'][-1].update(selection_tier='key_progress'), 'Missing selection reason')
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);acquired,reviewed,data=self.fixture(root)
+            data['choices'][-1].update(selection_tier='technical_watch',selection_reason_zh='机制相关，实验条件尚需核对。',selection_reason_en='Relevant mechanism; experimental conditions need checking.')
+            decisions=self.write(acquired,reviewed,data)
+            _,_,_,choices=adoption.validate_selected_inputs(acquired,reviewed,decisions,'2026-10-29')
+            self.assertEqual(choices[-1]['selection_tier'],'technical_watch')
+
 
 if __name__ == '__main__':
     unittest.main()

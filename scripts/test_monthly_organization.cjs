@@ -36,18 +36,34 @@ console.log('PASS: monthly filter preserves the selected topic without entering 
 
 // Overview must preserve technical notation and distinguish selection from coverage.
 const monthly=fs.readFileSync(path.join(base,'monthly-routes.js'),'utf8');
-const overviewNodes=new Map(['monthly-academic-metric','monthly-review-cutoff','monthly-key-changes'].map(id=>[id,new Node()]));
+const overviewNodes=new Map(['monthly-academic-metric','monthly-review-cutoff','monthly-selection-summary','monthly-object-coverage','monthly-key-changes'].map(id=>[id,new Node()]));
 const overview={document:{getElementById:id=>overviewNodes.get(id)},detail:false,asOf:'2026-10-29',
  current:{locale:'zh'},unique:new Map([['p1',{}],['p2',{}]]),
  model:{reviewMap:new Map([['p1',{review_status:'method_results_checked'}],['p2',{review_status:'primary_abstract_checked'}]])},
+ refs:[{summary_id:'p1',compression_topic_id:'parameters-precision'},{summary_id:'p1',compression_topic_id:'parameters-selection'},{summary_id:'p2',compression_topic_id:'kv_cache-precision'}],
  relevant:[{story_id:'s1',title_zh:'2:4与量化如何取舍：先算索引',question_zh:'question'},{story_id:'s2',title_zh:'ReCal：恢复质量',question_zh:'question'}],
  t:zh=>zh,pick:(r,k)=>r[k+'_zh'],node:(tag,text,cls)=>{const n=new Node(tag,text);n.className=cls;return n;}};
 vm.createContext(overview);
 vm.runInContext(monthly.slice(monthly.indexOf('    if(!detail){\n      const metric'),monthly.indexOf('    const topicPaperIds=')),overview);
 assert.equal(overviewNodes.get('monthly-academic-metric').textContent,'2');
 assert.match(overviewNodes.get('monthly-review-cutoff').textContent,/1 篇核对关键章节，1 篇仅摘要研读/);
+assert.match(overviewNodes.get('monthly-object-coverage').textContent,/权重 1 · 激活 0 · KV Cache 1/,'Coverage deduplicates multiple methods on one object');
 assert.equal(overviewNodes.get('monthly-key-changes').children[0].children[0].textContent,'2:4与量化如何取舍：先算索引');
 assert.equal(overviewNodes.get('monthly-key-changes').children[1].children[0].textContent,'ReCal：恢复质量');
 assert.equal((html.match(/id="scope-disclosure"/g)||[]).length,1);
 assert(html.indexOf('id="scope-disclosure"')<html.indexOf('id="monthly-key-changes"'),'Selection boundary is accessible before the selected stories');
 console.log('PASS: 2:4 notation, meaningful full titles, review-depth counts and visible selection explanation');
+
+overview.relevant[0].selection_tier='key_progress';overview.relevant[0].selection_reason_zh='相同成本下比较稀疏与位宽';
+overview.relevant[1].selection_tier='technical_watch';
+overview.relevant.push({story_id:'s3',title_zh:'可重建但不可用',question_zh:'边界案例',selection_tier:'boundary_case'});
+const overviewCode=monthly.slice(monthly.indexOf('    if(!detail){\n      const metric'),monthly.indexOf('    const topicPaperIds='));
+vm.runInContext(overviewCode,overview);
+assert.equal(overviewNodes.get('monthly-key-changes').children.length,1,'Watch and boundary items remain outside the headline selection');
+assert.match(overviewNodes.get('monthly-selection-summary').textContent,/1 项重点进展 · 1 项技术观察 · 1 项边界案例/);
+assert.equal(overviewNodes.get('monthly-key-changes').children[0].children[1].textContent,'相同成本下比较稀疏与位宽');
+overview.relevant=overview.relevant.filter(s=>s.selection_tier==='technical_watch');
+vm.runInContext(overviewCode,overview);
+assert.equal(overviewNodes.get('monthly-key-changes').children.length,0,'A watch-only filter must not retain stale highlights');
+assert.match(overviewNodes.get('monthly-selection-summary').textContent,/0 项重点进展 · 1 项技术观察 · 0 项边界案例/);
+console.log('PASS: editorial tiers, selection rationale and filtered highlights remain consistent');

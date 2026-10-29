@@ -1,0 +1,390 @@
+{
+  "date": "2026-10-29",
+  "scope_id": "ic-2026-10-model-reviewed-20261029-v1",
+  "status": "canonical_applied_not_published",
+  "content_version": "compression-b365aa870909543235dd",
+  "previous_state": "docs/monthly-selection-audit-20261029.json",
+  "candidate_pool_note": "656 first-submission and 72 revision candidates are prior relevance annotations, not a verified census or an exhaustive ranking.",
+  "review_depth": {
+    "primary_abstract_checked": 12,
+    "method_results_checked": 4
+  },
+  "selection_tiers": {
+    "boundary_case": 1,
+    "technical_watch": 9,
+    "key_progress": 6
+  },
+  "object_coverage_overlapping": {
+    "parameters-": 12,
+    "activations-": 1,
+    "kv_cache-": 4
+  },
+  "paper_decisions": [
+    {
+      "paper_id": "2610.13767",
+      "destination": "monthly",
+      "topics": [
+        "parameters-precision",
+        "activations-precision"
+      ],
+      "cells": [
+        "W_Q",
+        "A_Q"
+      ],
+      "selection_tier": "key_progress",
+      "selection_reason_zh": "补上激活量化与真实执行这一缺口；入选依据是 W/A 耦合机制和打包实现，而不是只看最高加速倍数。",
+      "source_url": "https://arxiv.org/abs/2610.13767v1",
+      "versioned_id": "2610.13767v1",
+      "abstract_sha256": "9390a55117d0a12a89f100c9ac6c161928393299a5831deb5b39ff91fdf49473",
+      "published": "2026-10-09T15:51:38Z",
+      "updated": "2026-10-09T15:51:38Z"
+    },
+    {
+      "paper_id": "2610.09212",
+      "destination": "monthly",
+      "topics": [
+        "parameters-precision"
+      ],
+      "cells": [
+        "W_Q"
+      ],
+      "selection_tier": "key_progress",
+      "selection_reason_zh": "同时改变搜索目标与解码路径，并明确比较 QTIP/Proteus，能支撑对两比特量化路线的技术取舍。",
+      "source_url": "https://arxiv.org/abs/2610.09212v1",
+      "versioned_id": "2610.09212v1",
+      "abstract_sha256": "5a4ae616c9bb389573a2ca072ce4ddbb68f4395f542eb8f266757ccc03fc18ac",
+      "published": "2026-10-06T23:14:06Z",
+      "updated": "2026-10-06T23:14:06Z"
+    },
+    {
+      "paper_id": "2610.20686",
+      "destination": "monthly",
+      "topics": [
+        "kv_cache-precision"
+      ],
+      "cells": [
+        "K_Q"
+      ],
+      "selection_tier": "key_progress",
+      "selection_reason_zh": "补齐此前完全缺失的 KV 量化，并把格式误差与具体注意力结构、执行实现联系起来。",
+      "source_url": "https://arxiv.org/abs/2610.20686v1",
+      "versioned_id": "2610.20686v1",
+      "abstract_sha256": "4c43926e860aa9ed7514a8dfa8a933c267d095e1f512efaad93bc51b645c4984",
+      "published": "2026-10-14T16:46:48Z",
+      "updated": "2026-10-14T16:46:48Z"
+    },
+    {
+      "paper_id": "2610.28895",
+      "destination": "monthly",
+      "topics": [
+        "parameters-distillation"
+      ],
+      "cells": [
+        "W_D"
+      ],
+      "selection_tier": "key_progress",
+      "selection_reason_zh": "填补独立蒸馏缺口，研究问题清楚：在不要求相同分词器的情况下扩大小模型可用教师范围。",
+      "source_url": "https://arxiv.org/abs/2610.28895v1",
+      "versioned_id": "2610.28895v1",
+      "abstract_sha256": "0bb8122f8e177f41cecd3fa16f42fec966eb5ef96230dea68b30b600a9546e97",
+      "published": "2026-10-20T20:18:46Z",
+      "updated": "2026-10-20T20:18:46Z"
+    },
+    {
+      "paper_id": "2610.25717",
+      "destination": "monthly",
+      "topics": [
+        "parameters-selection"
+      ],
+      "cells": [
+        "W_P"
+      ],
+      "selection_tier": "key_progress",
+      "selection_reason_zh": "将专家宽度分配与通道选择拆开，并提供同剪枝率的质量及服务时延证据；补充MoE内部结构压缩这一主线。",
+      "source_url": "https://arxiv.org/abs/2610.25717v1",
+      "versioned_id": "2610.25717v1",
+      "abstract_sha256": "14a2f850e9da445bb734fc65449d13112b7288e9a8ce18e6c85381bb8d0d8704",
+      "published": "2026-10-19T03:10:28Z",
+      "updated": "2026-10-19T03:10:28Z"
+    },
+    {
+      "paper_id": "2610.28947",
+      "destination": "monthly",
+      "topics": [
+        "parameters-precision",
+        "parameters-selection"
+      ],
+      "cells": [
+        "W_Q",
+        "W_P"
+      ],
+      "selection_tier": "key_progress",
+      "selection_reason_zh": "把稀疏索引开销纳入与位宽的共同预算，回答继续降位宽还是叠加2:4稀疏的取舍；价值在可比较条件，而非单一压缩率。",
+      "source_url": "https://arxiv.org/abs/2610.28947v1",
+      "versioned_id": "2610.28947v1",
+      "abstract_sha256": "86f6239b789480822ebce1dbc4fe5595fac008c8df3892ca0024e7a9ec87caee",
+      "published": "2026-10-20T21:48:45Z",
+      "updated": "2026-10-20T21:48:45Z"
+    },
+    {
+      "paper_id": "2610.04490",
+      "destination": "monthly",
+      "topics": [
+        "parameters-precision"
+      ],
+      "cells": [
+        "W_Q"
+      ],
+      "selection_tier": "technical_watch",
+      "selection_reason_zh": "补充码本利用率这一不同于旋转的误差控制机制；因为具体实验条件未展开，暂不作为已验证领先方案。",
+      "source_url": "https://arxiv.org/abs/2610.04490v1",
+      "versioned_id": "2610.04490v1",
+      "abstract_sha256": "ad2b6b50167fd51ebd63662ccd9c85c7f1e07fe754bf884b0c25bf78bd1d0fb4",
+      "published": "2026-10-03T12:45:15Z",
+      "updated": "2026-10-03T12:45:15Z"
+    },
+    {
+      "paper_id": "2610.20303",
+      "destination": "monthly",
+      "topics": [
+        "parameters-precision"
+      ],
+      "cells": [
+        "W_Q"
+      ],
+      "selection_tier": "technical_watch",
+      "selection_reason_zh": "保留与免旋转路线的对照，避免只报道一个方向而把研究取舍误写成确定答案。",
+      "source_url": "https://arxiv.org/abs/2610.20303v2",
+      "versioned_id": "2610.20303v2",
+      "abstract_sha256": "05ace25b8c4dbbd5d4a701abfa8f448f9998a65550fda95a15913d31e9378d13",
+      "published": "2026-10-14T14:54:16Z",
+      "updated": "2026-10-23T07:16:32Z"
+    },
+    {
+      "paper_id": "2610.17966",
+      "destination": "monthly",
+      "topics": [
+        "kv_cache-factorization",
+        "kv_cache-precision"
+      ],
+      "cells": [
+        "K_L",
+        "K_Q"
+      ],
+      "selection_tier": "technical_watch",
+      "selection_reason_zh": "补齐低秩技术在 KV 对象上的应用，与权重 GA-SVD 形成对象维度的对照；组合数字保留原有限定。",
+      "source_url": "https://arxiv.org/abs/2610.17966v1",
+      "versioned_id": "2610.17966v1",
+      "abstract_sha256": "9882a65d3ebe2186b2b0f38464294c3ab0dcaf2cc14425a9c6b9604e04846d5b",
+      "published": "2026-10-13T08:42:38Z",
+      "updated": "2026-10-13T08:42:38Z"
+    },
+    {
+      "paper_id": "2610.36950",
+      "destination": "monthly",
+      "topics": [
+        "kv_cache-precision"
+      ],
+      "cells": [
+        "K_Q"
+      ],
+      "selection_tier": "technical_watch",
+      "selection_reason_zh": "引入联合率失真编码这一新机制，同时明确其存储目标，防止巨大压缩倍数掩盖运行路径差异。",
+      "source_url": "https://arxiv.org/abs/2610.36950v1",
+      "versioned_id": "2610.36950v1",
+      "abstract_sha256": "7fac7fbaf63d0f46f177ccc4b8fad931161e68699ca240a7cf63e4057cce85d0",
+      "published": "2026-10-27T10:11:04Z",
+      "updated": "2026-10-27T10:11:04Z"
+    },
+    {
+      "paper_id": "2610.22130",
+      "destination": "monthly",
+      "topics": [
+        "kv_cache-kv_eviction"
+      ],
+      "cells": [
+        "K_S"
+      ],
+      "selection_tier": "technical_watch",
+      "selection_reason_zh": "保留一条与低比特 KV 不同的选择/驱逐路线，并用内核到端到端的收益落差说明执行成本。",
+      "source_url": "https://arxiv.org/abs/2610.22130v1",
+      "versioned_id": "2610.22130v1",
+      "abstract_sha256": "1b535ced82f8fa55a396b6f16760ab37e6e6bac250f5390f2267071d7b36ca2c",
+      "published": "2026-10-15T16:05:17Z",
+      "updated": "2026-10-15T16:05:17Z"
+    },
+    {
+      "paper_id": "2610.15398",
+      "destination": "monthly",
+      "topics": [
+        "parameters-factorization"
+      ],
+      "cells": [
+        "W_L"
+      ],
+      "selection_tier": "technical_watch",
+      "selection_reason_zh": "用生成行为改进低秩白化和秩分配，补充重建误差之外的优化目标；实验条件尚需进一步核对。",
+      "source_url": "https://arxiv.org/abs/2610.15398v1",
+      "versioned_id": "2610.15398v1",
+      "abstract_sha256": "92f77d504fa2ff47ae1dac3053466c26142b06f73b3f780c20d64ae0a72886f1",
+      "published": "2026-10-11T06:53:27Z",
+      "updated": "2026-10-11T06:53:27Z"
+    },
+    {
+      "paper_id": "2610.11332",
+      "destination": "monthly",
+      "topics": [
+        "parameters-selection",
+        "parameters-distillation"
+      ],
+      "cells": [
+        "W_P",
+        "W_D"
+      ],
+      "selection_tier": "technical_watch",
+      "selection_reason_zh": "关注剪枝破坏预测轨迹后如何恢复，作为稀疏与蒸馏的交叉路线；不能代表独立蒸馏全貌，当前仅核对摘要。",
+      "source_url": "https://arxiv.org/abs/2610.11332v1",
+      "versioned_id": "2610.11332v1",
+      "abstract_sha256": "9876f1219d858cfe122976661ffe79b6ed345e81a70d5a6d22d6f230c242bf18",
+      "published": "2026-10-08T06:28:38Z",
+      "updated": "2026-10-08T06:28:38Z"
+    },
+    {
+      "paper_id": "2610.24424",
+      "destination": "monthly",
+      "topics": [
+        "parameters-distillation"
+      ],
+      "cells": [
+        "W_D"
+      ],
+      "selection_tier": "technical_watch",
+      "selection_reason_zh": "补充 LLM 之外的具体领域证据，并展示组件压缩与整模型收益的区别。",
+      "source_url": "https://arxiv.org/abs/2610.24424v1",
+      "versioned_id": "2610.24424v1",
+      "abstract_sha256": "13d50d72367ab93e95923a5ed4ebeb4730fd58fad888520df4aaecc407e17b45",
+      "published": "2026-10-17T03:40:43Z",
+      "updated": "2026-10-17T03:40:43Z"
+    },
+    {
+      "paper_id": "2610.02462",
+      "destination": "monthly",
+      "topics": [
+        "parameters-precision",
+        "parameters-selection",
+        "parameters-distillation"
+      ],
+      "cells": [
+        "W_Q",
+        "W_P",
+        "W_D"
+      ],
+      "selection_tier": "technical_watch",
+      "selection_reason_zh": "尝试用压缩缩放关系减少配置搜索，连接多种压缩机制；模型拟合和外推适用范围仍需逐设置判断。",
+      "source_url": "https://arxiv.org/abs/2610.02462v1",
+      "versioned_id": "2610.02462v1",
+      "abstract_sha256": "85424ec2f0b3ae7eef009477299b1534602fde87fba4d4c258f4b28b41d1f276",
+      "published": "2026-10-01T20:35:12Z",
+      "updated": "2026-10-01T20:35:12Z"
+    },
+    {
+      "paper_id": "2609.05881",
+      "destination": "topic_and_monthly_revision",
+      "topics": [
+        "parameters-precision"
+      ],
+      "cells": [
+        "W_Q"
+      ],
+      "selection_tier": "boundary_case",
+      "selection_reason_zh": "区分产物重建与任务可用性，保留为交付正确性的反例；不把单一产物审计当作本月量化主线。",
+      "source_url": "https://arxiv.org/abs/2609.05881v2",
+      "versioned_id": "2609.05881v2",
+      "abstract_sha256": "ccee791e2a94f5e3a251cbcaa300756450e4f3c21245c7b627a360e1bb1064f2",
+      "published": "2026-09-05T05:05:51Z",
+      "updated": "2026-10-25T17:46:27Z"
+    },
+    {
+      "paper_id": "2609.01962",
+      "destination": "topic",
+      "topics": [
+        "parameters-precision"
+      ],
+      "cells": [
+        "W_Q"
+      ],
+      "source_url": "https://arxiv.org/abs/2609.01962v1",
+      "versioned_id": "2609.01962v1",
+      "abstract_sha256": "67987ef46a51a45780a855e0b3c0f5699c7213f736dfc8c8a9cd0777e000f8bf",
+      "published": "2026-09-02T00:42:54Z",
+      "updated": "2026-09-02T00:42:54Z"
+    }
+  ],
+  "new_industry_decisions": [
+    {
+      "id": "industry-update-vllm-ascend-030rc1",
+      "source_url": "https://github.com/vllm-project/vllm-ascend/releases/tag/v0.30.0rc1",
+      "release_date": "2026-10-12",
+      "reading_level": "selected_official_release_passages",
+      "acquired_at": "2026-10-29T08:14:46.906893+00:00",
+      "source_response_sha256": "dc09888383a92115c5aa5f751bbcd4bbc181a00c0c630588ea2f10eb7d4db627",
+      "selected_reason": "补充昇腾侧真实软件适配范围，把格式支持落到具体模型和设备。",
+      "locator": "Highlights; Features; Hardware and Operator Support; Performance"
+    },
+    {
+      "id": "industry-update-ncnn-20261020",
+      "source_url": "https://github.com/Tencent/ncnn/releases/tag/20261020",
+      "release_date": "2026-10-20",
+      "reading_level": "selected_official_release_passages",
+      "acquired_at": "2026-10-29T08:14:35.778147+00:00",
+      "source_response_sha256": "840edde49a0b2b210d5c51f578ddd4e0bd75ce00bb3d76187ebdd0ee960335ab",
+      "selected_reason": "补充端侧 CPU 低比特执行和导出边界，不把投影量化写成完整 Attention 量化。",
+      "locator": "量化与模型工具; x86 CPU 后端; ARM CPU 后端; 通用算子与模型能力"
+    },
+    {
+      "id": "industry-update-cutlass-481",
+      "source_url": "https://github.com/NVIDIA/cutlass/releases/tag/v4.8.1",
+      "release_date": "2026-10-21",
+      "reading_level": "selected_official_release_passages",
+      "acquired_at": "2026-10-29T08:14:36.086193+00:00",
+      "source_response_sha256": "70bcf9cae96a3c2aa63e1d5e85cdb787f875ea48526622f5e9a3f744a2af941c",
+      "selected_reason": "保留影响低比特结果可信度的官方反例，部署验证须绑定指令与工具链。",
+      "locator": "CuTe DSL > Known issues"
+    },
+    {
+      "id": "vllm-ascend-v0.30.0rc2",
+      "disposition": "not_separate_algorithm_update",
+      "reason": "仅镜像构建和CANN依赖修复，附于rc1版本条件，不另计算法进展。",
+      "source_url": "https://github.com/vllm-project/vllm-ascend/releases/tag/v0.30.0rc2"
+    }
+  ],
+  "deferred_after_comparison": [
+    {
+      "paper_id": "2610.25679",
+      "source_url": "https://arxiv.org/abs/2610.25679v1",
+      "reason": "LOOP 与已保留的剪枝后恢复路线有重叠；先保留为候选，后续比较恢复成本与同压缩比例质量，不因日期较新自动替换。"
+    }
+  ],
+  "root_primary_abstracts_read_this_pass": [
+    "2610.04490",
+    "2610.09212",
+    "2610.20303",
+    "2610.36950",
+    "2610.11332",
+    "2610.15398",
+    "2610.13767",
+    "2610.20686",
+    "2610.22130",
+    "2610.17966",
+    "2610.28895",
+    "2610.24424",
+    "2610.25679"
+  ],
+  "not_claimed": [
+    "exhaustive full-source scan",
+    "all candidate papers reread in this pass",
+    "full-text review for abstract-only entries",
+    "local reproduction",
+    "published deployment"
+  ]
+}

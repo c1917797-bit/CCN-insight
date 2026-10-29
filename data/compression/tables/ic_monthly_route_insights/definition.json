@@ -154,6 +154,27 @@
       "role": "value",
       "source": null,
       "type": "text"
+    },
+    "selection_tier": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "selection_reason_zh": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "selection_reason_en": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "text"
     }
   },
   "indexes": [

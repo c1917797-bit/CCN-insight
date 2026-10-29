@@ -3135,7 +3135,7 @@ function renderResearchFraming(parent,field){
  const box=element('article','','research-framing');box.dataset.researchFraming=field;
  appendWeightStructuredText(box,textOf(frame,field));
  const sourceNote=element('p',frame.claim_status==='research_question'?mapText('待建立直接证据的研究问题','Research question requiring direct evidence'):mapText("基于所引文献分析，实际收益取决于具体实现与测试条件。","Analysis based on the cited literature; practical gains depend on implementation and test conditions."),'meta');if(field==='why'&&compressionTopicId()!=='parameters-precision')box.append(sourceNote);
- const links=element('div','','topic-dossier-citations');for(const ref of dossier.refs.filter(r=>r.card_id===frame.supporting_card_id)){const source=dossier.sources.find(s=>s.source_id===ref.source_id);external(links,source.canonical_url,source.title.split(':')[0]+' ↗');}if(compressionTopicId()==='parameters-precision'&&field==='why'&&box.children.length>=2)box.insertBefore(links,box.children[2]||null);else box.append(links);parent.append(box);
+ const links=element('div','','topic-dossier-citations');for(const ref of dossier.refs.filter(r=>r.card_id===frame.supporting_card_id)){const source=dossier.sources.find(s=>s.source_id===ref.source_id);external(links,source.canonical_url,source.title.split(':')[0]+' ↗');}box.append(links);parent.append(box);
 }
 function renderResearchRoutes(parent){
  const dossier=researchDossier();if(!dossier?.routes?.length)return;
@@ -3376,6 +3376,13 @@ function renderWeightExpertEntry(host,parent,dossier){
  };input.addEventListener('input',refreshSearch);tools.append(label,input,shortcuts,results);host.append(tools);requestAnimationFrame(()=>{if(tools.isConnected)refreshSearch();});
  // Detailed updates live with technical progress, keeping the brief concise.
 }
+function renderWeightResearchBackground(host,sub){
+ const overview=sub(host,'background-overview','为什么研究权重量化','Why study weight quantization');renderResearchFraming(overview,'why');
+ const hardware=sub(host,'hardware-formats','芯片支持格式与算力','Chip formats and compute');weightTopicCards(hardware,['parameters-precision__hardware_nvidia','parameters-precision__hardware_ascend']);
+ const context=sub(host,'scope','研究范围：表示、质量与执行','Research scope: representation, quality and execution');weightTopicCards(context,['parameters-precision__insight_scope']);
+ const related=element('nav','','quantization-related-topics');related.setAttribute('aria-label',mapText('联合量化与缓存专题','Related joint-quantization and cache topics'));related.append(scientificLink('activations','precision',mapText('权重—激活联合量化 →','Joint W/A quantization →')),scientificLink('kv_cache','precision',mapText('KV Cache 量化 →','KV Cache quantization →')));context.append(related);
+ const value=sub(host,'value','量化收益：理论容量与实际性能','Theoretical capacity and measured performance');renderResearchFraming(value,'value');
+}
 function renderWeightQuantizationTopic(parent,topic,dossier){
  if(topicPage()&&['#research-overview-principles','#direction-quantization-principles'].includes(location.hash)){location.replace(compressionFoundationHref('precision'));return;}
  parent.classList.add('research-topic-report','weight-topic');
@@ -3399,7 +3406,7 @@ function renderWeightQuantizationTopic(parent,topic,dossier){
  ];
  const view=researchView(),complete=view==='overview',selected=new URLSearchParams(location.search).get('route'),nav=element('nav','','research-reader-tabs');nav.setAttribute('aria-label',mapText('权重量化阅读顺序','Weight quantization reading order'));
  if(!complete){const a=element('a',mapText('完整专题','Complete topic'));a.href=researchHref('overview');nav.append(a);}
- for(const [key,zh,en,views]of stages){const a=element('a',mapText(zh,en));a.href=complete?'#research-overview-'+key:researchHref(views[0],({problem:'scope',principles:'mechanism',challenges:'challenges',solutions:'routes',comparison:'comparison',implications:'implications'})[key]);if(!complete)a.dataset.compressionResearchView=views[0];nav.append(a);}parent.append(nav);
+ for(const [key,zh,en,views]of stages){const a=element('a',mapText(zh,en));a.href=complete?'#research-overview-'+key:researchHref(views[0],({problem:'background-overview',principles:'mechanism',challenges:'challenges',solutions:'routes',comparison:'comparison',implications:'implications'})[key]);if(!complete)a.dataset.compressionResearchView=views[0];nav.append(a);}parent.append(nav);
  document.body.dataset.lriReaderNavigation='.research-reader-tabs';document.body.dataset.lriReaderNavigationLabel=mapText('权重量化 · 阅读顺序','Weight quantization · Reading order');
  hero.append(element('p',mapText('按问题查路线，按原文核对效果；背景与原理可随时回看。','Find approaches by problem, inspect original results, and return to context or principles when needed.'),'reader-note'));
  if(!dossier){const error=dossierErrors.get(state.revision+'__'+compressionTopicId());if(error)parent.append(element('p',error,'direction-gap'),button(mapText('重试专题','Retry topic'),()=>{dossierErrors.delete(state.revision+'__'+compressionTopicId());renderDirectionDetail();}));return;}
@@ -3415,9 +3422,7 @@ function renderWeightQuantizationTopic(parent,topic,dossier){
  for(const [id,zh,en]of [['academic','学术界进展','Academic research'],['industry','业界进展','Industry developments'],['precision-progress','位宽与格式对照','Bits and formats'],['recent-research','近期材料与审阅范围','Recent materials and review scope']]){const a=element('a',mapText(zh,en));a.href='#direction-'+id;progressNav.append(a);}sections.solutions.append(progressNav);
  const sub=(host,id,zh,en)=>{const node=element('section','','quant-reader-section');node.id='direction-'+id;node.dataset.sectionOutline='false';node.append(element('h3',mapText(zh,en)));host.append(node);return node;};
  renderWeightExpertEntry(sections.brief,parent,dossier);
- const hardware=sub(sections.problem,'hardware-formats','芯片支持格式与算力','Chip formats and compute');weightTopicCards(hardware,['parameters-precision__hardware_nvidia','parameters-precision__hardware_ascend']);
- const context=sub(sections.problem,'scope','研究问题：表示、质量与执行','Reducing weight storage and memory traffic');renderResearchFraming(context,'why');weightTopicCards(context,['parameters-precision__insight_scope']);const related=element('nav','','quantization-related-topics');related.setAttribute('aria-label',mapText('联合量化与缓存专题','Related joint-quantization and cache topics'));related.append(scientificLink('activations','precision',mapText('权重—激活联合量化 →','Joint W/A quantization →')),scientificLink('kv_cache','precision',mapText('KV Cache 量化 →','KV Cache quantization →')));context.append(related);
- const value=sub(sections.problem,'value','量化收益：理论容量与实际性能','Theoretical capacity and measured performance');renderResearchFraming(value,'value');
+ renderWeightResearchBackground(sections.problem,sub);
  const principle=sub(sections.basics,'principles-brief','量化改变了什么，为什么会影响结果','What quantization changes and why outputs change');weightTopicCards(principle,['parameters-precision__principles_brief']);const lesson=element('a',mapText('查看完整原理动画与编码示例 →','View the full animated principles and coding example →'),'science-route-link');lesson.href=compressionFoundationHref('precision');principle.append(lesson);
  const challenge=sub(sections.challenges,'challenges',"量化方案面临的四类挑战","Four challenges in quantization");
  const frame=dossier.frames[0],challengeGrid=element('div','','quant-challenge-grid');

@@ -1,6 +1,6 @@
 {
-  "content_version": "compression-fa85cd62577ac5676b94",
-  "local_revision": "c2939d66805c389967f18b751253b3328bc38b60",
+  "content_version": "compression-b365aa870909543235dd",
+  "local_revision": "61f46cfa6b90bdb900ddb29598838509113b0c26",
   "original_code_revision": "f05a5be81551fdfc98065080d08414121c70eacc",
   "files": [
     {
@@ -190,7 +190,7 @@
     },
     {
       "path": "business_insight/cloud_core/compression.js",
-      "sha256": "e75151ec71379771230698bafa1e8b388009d94fc3f8bb6a58c23f25145b98ee",
+      "sha256": "0df9ffc898e78bf5c751ac0339b709e2ea8b5c8091f6eeb7e61dbfaac51f5214",
       "transport_injected": false
     },
     {
@@ -225,7 +225,7 @@
     },
     {
       "path": "business_insight/cloud_core/foundations.html",
-      "sha256": "e32fa65b277531b88079abe565a117b7f1752fab631fa7604450a23bb26c6a4e",
+      "sha256": "2165dde3224bb1802aa5cf3327e27a3bfc3906c8ca88604a053d44f4775f5e79",
       "transport_injected": true
     },
     {
@@ -235,7 +235,7 @@
     },
     {
       "path": "business_insight/cloud_core/index.html",
-      "sha256": "8ac10ba78877dd32a441ce49ba3c91d54f4c377b26ec25a2f1fc1808e0a57fb6",
+      "sha256": "2751de7f6eead64ed205690ce14701caa979df0edf4da46ca4670bdc6edca64a",
       "transport_injected": true
     },
     {
@@ -245,12 +245,12 @@
     },
     {
       "path": "business_insight/cloud_core/monthly-routes.js",
-      "sha256": "c5de02a6fae7d319406f396d1008424b62792dccfc7b541a1752ae0639687fcc",
+      "sha256": "4c33dafd2562670f8d100ff9450d1fdaa6b94b3db5e9d64c67e1650ed6ecece5",
       "transport_injected": false
     },
     {
       "path": "business_insight/cloud_core/monthly.html",
-      "sha256": "2311eda7c14131b73e0718e75864850a8039f869d2a1ef1bde9f0a02010ec12a",
+      "sha256": "f510a82fbfede9b7e39a37ebd785a22e662a25f35f91292d817bca5d859fc851",
       "transport_injected": true
     },
     {
@@ -275,17 +275,17 @@
     },
     {
       "path": "business_insight/cloud_core/reader-entry.js",
-      "sha256": "7a664d4bd40e13df32681affe27071eeb0c2b2f35b3a40ac81beb6f6fa7e1baf",
+      "sha256": "e8eac8d4e374976c9bead821721eeed61d4468f88c2de94ecf4e72baabe1f7e6",
       "transport_injected": false
     },
     {
       "path": "business_insight/cloud_core/reader-refinement.css",
-      "sha256": "97585da47244bd044e383341b967b2e31fa2b7f6eeb9b6bea5873067e24683f4",
+      "sha256": "4035eac61f7e21c446542752a9851af2c4139a7f6f1fc76107b44785d9b20279",
       "transport_injected": false
     },
     {
       "path": "business_insight/cloud_core/reader-ui-cache.js",
-      "sha256": "d12c8b406b5616745d2603a908695727dc65f245d43161da703ba92461783a4a",
+      "sha256": "afff3ca4b6c6111127bb9fe664d0c3e051f882ea069476e8d142af9b1043ff6f",
       "transport_injected": false
     },
     {
@@ -315,7 +315,7 @@
     },
     {
       "path": "business_insight/cloud_core/topic-entry.js",
-      "sha256": "b630eb4556ea9f851d293e5a5b9a8f2330157668d83d8df2ad7c1654c045940f",
+      "sha256": "541ba9796b434e62f44000a46cd0243fdd7df63395db4bc1298a5ca3e634f24d",
       "transport_injected": false
     },
     {
@@ -330,7 +330,7 @@
     },
     {
       "path": "business_insight/cloud_core/topic.html",
-      "sha256": "a308b0aee4b17b7860a5a2c64b225e58a7869a77d3f4355f4f553ec0e02d1103",
+      "sha256": "9184c9a58b32e85ff50a90b733691c4c9807148c5c0e5523e9cb1267b4ef6711",
       "transport_injected": true
     },
     {

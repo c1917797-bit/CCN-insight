@@ -33,6 +33,10 @@ def validate_selected_inputs(acquired,reviewed,decisions,today):
         require(re.fullmatch(r'(?:\d{2}(?:0[1-9]|1[0-2])\.\d{4,5}|[A-Za-z][A-Za-z.-]*/\d{2}(?:0[1-9]|1[0-2])\d{3})',pid) is not None,'Invalid arXiv paper_id',pid)
         require(pid not in selected,'Duplicate selected paper',pid);selected.add(pid)
         require(decision.get('destination') in {'topic','topic_and_monthly_revision','monthly'},'Unknown destination',pid)
+        if 'selection_tier' in decision:
+            require(decision['selection_tier'] in {'key_progress','technical_watch','boundary_case'},'Unknown editorial tier',pid)
+            for language in ['zh','en']:
+                require(text(decision,'selection_reason_'+language),'Missing selection reason',pid)
         for lang in ['zh','en']:
             for field in ['title','background','mechanism','results','boundary','next']:
                 require(text(decision,field+'_'+lang),'Missing decision text '+field+'_'+lang,pid)
@@ -170,6 +174,8 @@ def adopt(acquired,reviewed,decisions,out,apply=False):
         put('ic_paper_summary_events',{**BASE,'evidence_id':eid,'source_id':sid,'summary_id':summary_id,'observed_version':version,'period_id':month})
         story_id=scope+'__'+p['paper_id'].replace('.','-')
         story={**BASE,'story_id':story_id,'scope_id':scope,'period_id':month,'position':decision_position,'claim_status':'analyst_synthesis','checked_at':today}
+        if 'selection_tier' in d:
+            for field in ['selection_tier','selection_reason_zh','selection_reason_en']:story[field]=d[field]
         for lang in ['zh','en']:
             story['title_'+lang]=d['title_'+lang]
             for key in ['question','context']:story[key+'_'+lang]=d['background_'+lang]
