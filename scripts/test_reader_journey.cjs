@@ -32,10 +32,16 @@ sandbox.topicPage=()=>true;assert.equal(sandbox.primaryView('topics'),'library',
 for(const filename of ['index.html','topic.html','monthly.html']){
  const html=fs.readFileSync(path.join(base,'business_insight/cloud_core',filename),'utf8');
  const primary=html.match(/<nav class="wb-view-tabs"[\s\S]*?<\/nav>/)[0];
- assert.deepEqual([...primary.matchAll(/data-view="([^"]+)"/g)].map(m=>m[1]),['sources','topics','library','updates','reports']);
+ assert.deepEqual([...primary.matchAll(/data-view="([^"]+)"/g)].map(m=>m[1]),['sources','topics','updates','library','reports']);
  const period=html.match(/<section id="period-navigation"[\s\S]*?<\/section>/)[0];
  assert.deepEqual([...period.matchAll(/data-view="([^"]+)"/g)].map(m=>m[1]),['updates','home']);
  assert(html.includes('id="topic-catalog"'),'The topic directory has a real content destination');
+}
+const foundationNavigation=extract(shell,"    if (document.body.dataset.compressionFoundations === 'true'",'    const sourcePanel =');
+for(const locale of ['zh','en']){
+ const items=vm.runInNewContext('(function(){const cloudViewItems=[];'+foundationNavigation+'return cloudViewItems;}).call({locale:'+JSON.stringify(locale)+'})',{document:{body:{dataset:{compressionFoundations:'true'}}}});
+ assert.deepEqual(Array.from(items,item=>item.view),['sources','topics','updates','library','reports']);
+ assert.equal(items.find(item=>item.current).view,'library','Foundations remain part of research topics');
 }
 const peers=[{id:'map',top:-500,bottom:3000},{id:'precision',top:100,bottom:1200},{id:'selection',top:100,bottom:1200}];
 assert.equal(sandbox.chooseCurrentSection(peers,'precision'),'precision','Right-hand peer must not steal a quantization deep link');
