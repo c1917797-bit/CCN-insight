@@ -372,3 +372,57 @@ body[data-compression-view="updates"] #reading-controls{margin-bottom:8px}
 body[data-compression-view="updates"] .wb-header{margin-bottom:12px}
 
 @media(min-width:761px){body[data-compression-view="updates"] .wb-header{display:grid;grid-template-columns:1fr auto;gap:4px 20px;align-items:center}body[data-compression-view="updates"] #topic-title{font-size:22px;margin:0 0 6px}body[data-compression-view="updates"] .wb-research-scope{grid-column:1;margin:0}body[data-compression-view="updates"] .wb-runtime{grid-column:2;grid-row:1/3;margin:0}}
+
+/* Monthly corpus: a first-publication count, separate from editorial selections. */
+#monthly-paper-matrix{--corpus-accent:#197f8b;border:1px solid #d9e6ed;border-radius:18px;background:linear-gradient(120deg,#f0f7fb,#f7f7ff 80%);padding:clamp(18px,3vw,32px);margin:12px 0 22px;min-width:0;box-shadow:0 12px 35px #20364b06}
+#monthly-paper-matrix[hidden]{display:none}
+#monthly-paper-matrix .corpus-eyebrow{font-size:12px;letter-spacing:.08em;color:#4e6d86;margin:0 0 6px}
+#monthly-paper-matrix .corpus-heading h2{font-size:clamp(22px,2.3vw,32px);line-height:1.35;color:#183749;margin:0 0 8px;border:0}
+#monthly-paper-matrix .corpus-heading>p:last-child{font-size:14px;color:#536d80;line-height:1.65;margin:0 0 20px}
+#monthly-paper-matrix button{font:inherit;cursor:pointer;touch-action:manipulation}
+#monthly-paper-matrix button:focus-visible,#monthly-paper-matrix a:focus-visible,#monthly-paper-matrix input:focus-visible{outline:3px solid #2095ab;outline-offset:3px}
+#monthly-paper-matrix .corpus-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0}
+#monthly-paper-matrix .corpus-metrics button{display:flex;align-items:center;gap:14px;text-align:left;background:#ffffffb8;color:#3b586d;border:1px solid #dce5ef;border-radius:12px;padding:14px 18px;min-width:0}
+#monthly-paper-matrix .corpus-metrics strong{font-size:30px;line-height:1.15;color:#256b86;font-variant-numeric:tabular-nums}
+#monthly-paper-matrix .corpus-metrics span{font-size:14px}
+#monthly-paper-matrix .corpus-matrix-scroll{overflow-x:auto;overscroll-behavior-x:contain;border:1px solid #dbe5ee;border-radius:12px;background:#fff}
+#monthly-paper-matrix .corpus-matrix{width:100%;min-width:620px;border-collapse:separate;border-spacing:0;font-size:14px;table-layout:fixed;margin:0;background:#fff}
+#monthly-paper-matrix caption{text-align:left;padding:12px 16px;font-size:12px;color:#566b7b;background:#f9fbfe;caption-side:top}
+#monthly-paper-matrix .corpus-matrix th,#monthly-paper-matrix .corpus-matrix td{padding:12px 8px;border:0;border-bottom:1px solid #e6edf2;text-align:center;vertical-align:middle;line-height:1.5}
+#monthly-paper-matrix .corpus-matrix thead th{background:#eef5f8;font-weight:600;color:#405d71}
+#monthly-paper-matrix .corpus-matrix th:first-child{text-align:left;padding-left:16px;width:110px;position:sticky;left:0;background:#f5f8fc;z-index:1}
+#monthly-paper-matrix .corpus-matrix td{background:#fff}
+#monthly-paper-matrix .corpus-count{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:40px;border:1px solid #d7e9ed;border-radius:8px;background:#edf7f8;color:#147480;font-weight:700;font-size:22px;font-variant-numeric:tabular-nums;transition:background .15s,box-shadow .15s}
+#monthly-paper-matrix .corpus-count:hover{background:#d8f0f2;box-shadow:0 0 0 3px #16859214}
+#monthly-paper-matrix .corpus-total .corpus-count,#monthly-paper-matrix tfoot .corpus-count{color:#4f58a4;background:#f0f0ff;border-color:#e0dff4}
+#monthly-paper-matrix .corpus-matrix tfoot th{background:#f4f5fb;width:auto}
+#monthly-paper-matrix .corpus-matrix tfoot th,#monthly-paper-matrix .corpus-matrix tfoot td{border-bottom:0}
+#monthly-paper-matrix .corpus-count-note{font-size:12px;line-height:1.7;color:#5c7182;margin:12px 0}
+#monthly-paper-matrix .corpus-extensions{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:16px 0}
+#monthly-paper-matrix .corpus-extensions strong{font-size:13px;color:#4d6578;margin-right:8px}
+#monthly-paper-matrix .corpus-extensions button,#monthly-paper-matrix .corpus-audit>button,#monthly-paper-matrix .corpus-close,#monthly-paper-matrix .corpus-pager button{border:1px solid #d8e2ee;border-radius:7px;background:#fff;padding:8px 12px;color:#3b6079;font-size:13px}
+#monthly-paper-matrix .corpus-audit{border-top:1px solid #dbe5ef;padding-top:14px;font-size:13px;color:#536b7c}
+#monthly-paper-matrix .corpus-audit summary{cursor:pointer;font-weight:600;color:#42627a}
+#monthly-paper-matrix .corpus-audit p{font-size:13px;line-height:1.8;overflow-wrap:anywhere}
+#monthly-paper-matrix .corpus-audit a{margin-right:18px}
+#monthly-paper-matrix .corpus-audit>button{margin:0 8px 12px 0}
+#monthly-paper-matrix .corpus-paper-list{background:#fff;border:1px solid #dce5ee;border-radius:12px;padding:20px;margin:20px 0 0;scroll-margin-top:110px}
+#monthly-paper-matrix .corpus-list-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+#monthly-paper-matrix .corpus-list-heading h3{font-size:18px;line-height:1.55;margin:0 0 16px;color:#21495f}
+#monthly-paper-matrix input{box-sizing:border-box;width:100%;font:inherit;border:1px solid #cfdde8;border-radius:7px;padding:10px 12px;background:#f9fbfd;font-size:14px}
+#monthly-paper-matrix .corpus-paper{padding:18px 0;border-bottom:1px solid #e5edf2}
+#monthly-paper-matrix .corpus-paper h4{font-size:16px;line-height:1.6;margin:0 0 7px}
+#monthly-paper-matrix .corpus-paper h4 a{color:#225e79;text-decoration:none}
+#monthly-paper-matrix .corpus-paper h4 a:hover{text-decoration:underline}
+#monthly-paper-matrix .corpus-paper p{font-size:14px;line-height:1.8;margin:8px 0}
+#monthly-paper-matrix .corpus-paper .meta{font-size:12px;color:#718598}
+#monthly-paper-matrix .corpus-paper-tags{color:#16818b}
+#monthly-paper-matrix .corpus-pager{display:flex;gap:14px;justify-content:center;align-items:center;margin-top:18px;font-size:13px}
+#monthly-paper-matrix .corpus-pager button:disabled{opacity:.45;cursor:default}
+@media(max-width:760px){#monthly-paper-matrix{border-radius:12px;padding:16px}#monthly-paper-matrix .corpus-metrics{gap:7px}#monthly-paper-matrix .corpus-metrics button{flex-direction:column;gap:6px;align-items:flex-start;padding:12px 10px}#monthly-paper-matrix .corpus-metrics strong{font-size:25px}#monthly-paper-matrix .corpus-metrics span{font-size:11px}#monthly-paper-matrix .corpus-list-heading{flex-wrap:wrap}#monthly-paper-matrix .corpus-paper-list{padding:14px}}
+body[data-compression-view="updates"] #monthly>h3{display:none}
+#monthly-paper-matrix{scroll-margin-top:84px}
+body[data-compression-view="updates"] #monthly{margin-top:12px;padding-top:0}
+.research-principles li{max-width:90ch;line-height:1.85;padding:8px 0}
+.research-principles-evidence{display:flex;gap:16px;flex-wrap:wrap;margin:18px 0}
+.research-principles-evidence a{font-size:14px}

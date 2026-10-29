@@ -21,6 +21,7 @@ jobs:
       - run: python scripts/verify_expert_topics.py
       - run: python scripts/verify_expert_index.py --self-test
       - run: node scripts/test_report_reasoning.cjs
+      - run: node scripts/test_monthly_paper_corpus.cjs
       - run: node scripts/test_expert_navigation.cjs
       - run: node scripts/test_reader_journey.cjs
       - run: node scripts/test_compression_entry.cjs

@@ -6,6 +6,7 @@
     ...['objects','methods','cells','techniques','placements','trend_periods','tasks','review_notes','evaluation_dimensions','source_refs','flywheel_stages','lineages','lineage_nodes','lineage_relations','lineage_cells','source_scans','source_screenings','channels','source_categories','channel_categories','channel_provenance','channel_checks','findings','finding_evidence','finding_cells','finding_techniques','finding_keywords','finding_scopes','measurements','decisions','collection_runs','channel_retrievals','channel_entries','evidence_items','evidence_placements','evidence_keywords','trend_scopes','trend_reviews'].map(name => 'ic_' + name)]);
   for (const name of ['monthly_route_insights','monthly_route_evidence','paper_summaries','paper_summary_keywords','paper_summary_events','source_families','channel_families','industry_source_scopes','collection_entries','monthly_evidence_cells','monthly_scopes','monthly_cell_reviews','trend_observations']) tables.add('ic_' + name);
   for (const name of ['modules','flywheel_stages','stage_gates','constraints','metrics','experiments','import_runs','measurements','import_issues']) tables.add('cloud_core_' + name);
+  for (const name of ['ic_monthly_paper_corpus','ic_monthly_corpus_snapshots']) tables.add(name);
   let id = 0, contract, revision = '';
   async function call(name, args) {
     const request = {

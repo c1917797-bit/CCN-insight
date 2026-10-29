@@ -1941,6 +1941,52 @@
       "import_sha256": "9c4701a8aee954244ee182833023274d6c0ec6e681b9d94734f7f87368a399fa",
       "key_field": "topic_id",
       "purpose": "Original reader compatibility"
+    },
+    {
+      "name": "ic_monthly_paper_corpus",
+      "path": "data/tables/ic_monthly_paper_corpus",
+      "revision": "local-abstract-corpus-20261029",
+      "source_row_count": 1728,
+      "exported_rows": 1728,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_monthly_paper_corpus/rows.jsonl",
+      "import_sha256": "68f2594314b3d687b92835a1ee82c4a67c2556baf615bc08a185df45bf9e2b4a",
+      "key_field": "corpus_id",
+      "provenance_kind": "local_registered_source_abstract_review"
+    },
+    {
+      "name": "ic_monthly_corpus_snapshots",
+      "path": "data/tables/ic_monthly_corpus_snapshots",
+      "revision": "local-abstract-corpus-20261029",
+      "source_row_count": 1,
+      "exported_rows": 1,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_monthly_corpus_snapshots/rows.jsonl",
+      "import_sha256": "da58cadb147ac6f33c93330c040d58232448df9fb5d87b99c344009cc701b37a",
+      "key_field": "snapshot_id",
+      "provenance_kind": "local_registered_source_abstract_review"
     }
   ],
   "errors": [],

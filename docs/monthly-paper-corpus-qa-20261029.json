@@ -1,0 +1,56 @@
+{
+  "snapshot_id": "corpus-2026-10-arxiv-20261029-abstract-v1",
+  "source_family_id": "source-family-arxiv",
+  "coverage": "Exact saved query of registered arXiv source; not all registered sources and not a field-wide census.",
+  "candidate_first_publications": 1728,
+  "classification_statuses": {
+    "excluded": 946,
+    "related_unmapped": 255,
+    "pending": 64,
+    "classified": 463
+  },
+  "four_root_matrix_unique": 422,
+  "diffusion_excluded": 195,
+  "date_basis": "first publication in October through acquired snapshot; older-paper revisions excluded",
+  "abstract_review_only": true,
+  "raw_verification": {
+    "response_pages_verified": 26,
+    "unique_original_XML_abstracts_and_first_dates_verified": 4843,
+    "monthly_first_publications_matched": 1728
+  },
+  "boundary_corrections": [
+    "Calibration activations alone do not establish activation quantization",
+    "SVD rank truncation is not independently counted as pruning",
+    "Cross-depth KV sharing is not GQA/MQA",
+    "Pause-token cache encoding is not independently counted as eviction",
+    "Codec RVQ level truncation is not automatically model activation pruning"
+  ],
+  "browser_local": {
+    "viewport_width": 1280,
+    "page_horizontal_overflow": false,
+    "matrix_rendered": true,
+    "count_to_list": true,
+    "paper_id_search": "2610.25675 resolved to one exact paper",
+    "pending_64_queue_and_specific_gaps": true,
+    "principles_footer_navigation_and_auto_open": true
+  },
+  "not_completed": [
+    "Full-text verification of 64 pending papers",
+    "Final selection from the full new corpus",
+    "All-registered-source monthly coverage",
+    "Independent experiments",
+    "Mobile viewport verification"
+  ],
+  "checks": [
+    "build.py",
+    "verify.py",
+    "verify_compression.py",
+    "verify_original_reader.py",
+    "test_monthly_paper_corpus.cjs",
+    "test_monthly_organization.cjs",
+    "test_current_report_synthesis.cjs",
+    "test_reader_journey.cjs",
+    "test_research_map.cjs",
+    "test_expert_navigation.cjs"
+  ]
+}

@@ -3,7 +3,7 @@ from pathlib import Path
 import argparse,json,hashlib,re
 ROOT=Path(__file__).resolve().parents[2]
 BASE=ROOT/'business_insight/cloud_core'
-SOURCES=['runtime/mcp-table-read.js','runtime/tablegit.js','source-directory.js','paper-review.js','topic-dossier.js','research-visuals.js','route-evidence.js','monthly-routes.js','industry-updates.js','current-synthesis.js','compression.js']
+SOURCES=['runtime/mcp-table-read.js','runtime/tablegit.js','source-directory.js','paper-review.js','topic-dossier.js','research-visuals.js','route-evidence.js','monthly-routes.js','industry-updates.js','current-synthesis.js','monthly-corpus.js','compression.js']
 def build(topic=False):
     names=[s for s in SOURCES if not(topic and s in ['monthly-routes.js','paper-review.js'])]
     packs={lang:json.loads((BASE/f'data/focus-ui.{lang}.json').read_text()) for lang in ['zh','en']}

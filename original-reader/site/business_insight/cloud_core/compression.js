@@ -55,7 +55,7 @@ function revealHashTarget(id=location.hash.slice(1)) {
   showView(viewForTarget(id));
   for(let node=target;node;node=node.parentElement)if(node.tagName==='DETAILS')node.open=true;
   ensureOpenedDisclosuresLoaded();
-  if((topicPage()&&(/^(research-overview-|research-card-|direction-)/.test(id)))||['expert-library','topic-catalog'].includes(id)||/^route-(precision|selection|distillation|factorization)$/.test(id))requestAnimationFrame(()=>$(id)?.scrollIntoView({block:'start'}));
+  if((topicPage()&&(/^(research-overview-|research-card-|direction-)/.test(id)))||['expert-library','topic-catalog','monthly-paper-matrix'].includes(id)||/^route-(precision|selection|distillation|factorization)$/.test(id))requestAnimationFrame(()=>$(id)?.scrollIntoView({block:'start'}));
 }
 function disclosure(key,summary) {
   const node=element('details');node.dataset.disclosureKey=key;
@@ -690,6 +690,8 @@ function validateResearch(data) {
   for(const row of channels.values())must(data.channel_categories.some(link=>link.channel_id===row.channel_id),'Channel missing original classification');
 }
 function refreshSynthesis() {
+ if(!topicPage()&&state.revision&&state.period&&state.view==='updates')globalThis.LRICompressionMonthlyCorpus?.refresh({revision:state.revision,period:state.period,locale:state.locale});
+ else globalThis.LRICompressionMonthlyCorpus?.reset();
  if(topicPage()||!state.scopeReady||!state.revision||!['updates','home','reports'].includes(state.view))return;
  const revision=state.revision,epoch=state.epoch;
  globalThis.LRICompressionSynthesis?.refresh({revision,period:state.period,scope:state.scope,windowStart:currentScope()?.window_start||'',windowEnd:currentScope()?.window_end||'',locale:state.locale,strings:state.packs[state.locale].strings,topics:state.data.compression_topics,topicId:state.focusTarget?compressionTopicId():'',view:state.view,loadIndustry:async()=>{

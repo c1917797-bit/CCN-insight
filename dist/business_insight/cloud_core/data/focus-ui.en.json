@@ -537,7 +537,7 @@
     "paper_summary_order": "Reviewed summaries first; results are reported by the source",
     "paper_citation": "Open reviewed paper version",
     "paper_original_title": "Original paper / source title",
-    "paper_directions_filter": "Filter by technical direction",
+    "paper_directions_filter": "Filter selected developments below (current scope)",
     "monthly_paper_index": "Individual paper summaries and pending candidates",
     "source_selection_policy": "Source selection and review",
     "collection_health_details": "Current collection health",
@@ -796,6 +796,20 @@
     "editorial_historical_pptx": "Download the earlier-scope PPTX",
     "editorial_open_archive": "Open this scope’s version archive →",
     "editorial_latest_saved_files": "Latest saved presentation files · Earlier scope",
-    "editorial_focus_empty": "No key-research entry is linked to this topic; see technical-watch and boundary cases below."
+    "editorial_focus_empty": "No key-research entry is linked to this topic; see technical-watch and boundary cases below.",
+    "monthly_corpus_nav": "Paper-count matrix",
+    "research_principles_title": "Research and editorial principles",
+    "research_principles_intro": "Trust rests on traceable evidence, explicit boundaries and correctable records. These are our maintenance standards; each item’s recorded status determines the review actually completed.",
+    "research_principle_sources": "Traceable sources: discover material through the registered directory and prioritize papers, author implementations and official releases. News provides leads, not experimental evidence; new sources need a stated role and rationale.",
+    "research_principle_classification": "Content-based classification: read original abstracts and classify actual contributions by object and method. Title keywords, background, baselines and incidental configurations are insufficient. Unclear objects remain unresolved; generative diffusion models are excluded this round. If an abstract is insufficient, inspect original methods, configurations and experiments, then author code if needed. Retain unresolved status with a specific gap only when evidence remains unclear or unavailable.",
+    "research_principle_counting": "Recomputable counts: distinguish query candidates, confirmed relevance, reviewed papers and selections. Separate first publications from revisions, deduplicate versions and cross-cell associations, and disclose sources, query, cutoff and coverage gaps. Uncovered does not mean zero.",
+    "research_principle_depth": "Honest review depth: distinguish title candidates, abstracts, specified method/results sections, full texts and independent reproduction. Abstract review is not full-text review, and unperformed experiments are not local measurements. Keep source versions and evidence locations.",
+    "research_principle_results": "Conditional comparisons: retain models, hardware, software, datasets, numeric formats, workloads and baselines. Separate theoretical capacity, measured memory, throughput, TTFT and TPOT. Kernel or prefill timing is not service latency; combined gains cannot be assigned to one component.",
+    "research_principle_selection": "Justified selection: prioritize new mechanisms, important breakthroughs, counterexamples and knowledge gaps. After checking methods and experiments, compare increments, evidence and representativeness within the route. Citations, popularity, peak speedups or fit to one current business are not sufficient.",
+    "research_principle_topics": "Durable topic evidence: retain material that adds a principle or baseline, or changes a route assessment or its applicability. Date-specific news stays in updates. Reuse stable references instead of duplicating papers or counts.",
+    "research_principle_updates": "Correctable assessments: separate author-reported findings, editorial analysis and hypotheses. Retain counterevidence, costs and missing metrics. New evidence may support, narrow or overturn a view; record reasons, review dates and publication versions without confusing them with paper dates.",
+    "research_principles_status": "This site retains title candidates, abstract reviews and specified-section reviews. They are not all full-text reviews, and author-reported results are not independent reproductions by this site.",
+    "research_principles_inventory": "Coverage and review status",
+    "research_principles_source_records": "Source verification records"
   }
 }
