@@ -52,6 +52,35 @@
 .weight-topic .quant-route-steps{margin:0 0 24px;padding-left:24px}
 .weight-topic .quant-route-steps li{padding:7px 0;line-height:1.85}
 .weight-topic .quant-route-card>.weight-explanation-part{margin:0}
+.weight-topic .weight-technical-thesis{max-width:75ch;font-size:19px!important;line-height:1.85!important;font-weight:650;color:#193d53}
+.weight-topic .weight-thread-map{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.weight-topic :is([id^="weight-challenge-"],[id^="weight-thread-"]){scroll-margin-top:85px}
+.weight-topic .weight-thread-map>article{min-width:0;display:flex;flex-direction:column;padding:22px!important;border-top:3px solid #24868d!important}
+.weight-topic .weight-thread-map h4{font-size:19px!important;margin:10px 0!important}
+.weight-topic .weight-thread-map p{font-size:15px!important;line-height:1.85!important}
+.weight-topic .weight-thread-links{display:flex;flex-direction:column;gap:8px;margin-top:auto;padding-top:14px;border-top:1px solid #dfe9ee}
+.weight-topic .weight-thread-links a{font-size:14px;line-height:1.6;text-decoration:none}
+.weight-topic .weight-thread-links a:hover{text-decoration:underline}
+.weight-topic .weight-common-cost{margin:22px 0;padding:20px 24px;border:1px solid #dbe6eb;border-radius:12px;background:#f4f8fa}
+.weight-topic .weight-common-cost h4{font-size:17px!important;margin:0 0 12px!important}
+.weight-topic .weight-common-cost p{font-size:15px!important;line-height:1.9!important;margin:8px 0!important}
+.weight-topic .weight-route-thread{margin:30px 0 40px}
+.weight-topic .weight-route-thread>header{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:0 0 12px;border-bottom:2px solid #b9d9dd}
+.weight-topic .weight-route-thread>header h4{font-size:22px!important;margin:0!important;color:#126d75}
+.weight-topic .weight-route-thread>header a{font-size:14px;text-decoration:none}
+.weight-topic .weight-route-thread>.quant-article-card>h5{font-size:19px!important;line-height:1.7!important;margin:0 0 16px!important;color:#203b51}
+@media(max-width:1000px){.weight-topic .weight-thread-map{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:760px){.weight-topic :is([id^="weight-challenge-"],[id^="weight-thread-"]){scroll-margin-top:180px!important}.weight-topic .weight-technical-thesis{font-size:17px!important}.weight-topic .weight-thread-map>article{padding:18px!important}.weight-topic .weight-common-cost{padding:18px}.weight-topic .weight-route-thread>header h4{font-size:20px!important}}
+.weight-topic details.quant-route-card.quant-case-disclosure,.weight-topic details.quant-article-card.quant-case-disclosure{padding:0!important;margin:10px 0}
+.weight-topic details.quant-case-disclosure>summary{display:flex;align-items:center;gap:18px;padding:16px 20px;cursor:pointer;list-style:none;color:#203b51}
+.weight-topic details.quant-case-disclosure>summary::-webkit-details-marker{display:none}
+.weight-topic details.quant-case-disclosure>summary::after{content:'+';flex:none;font-size:22px;font-weight:400;color:#397f86;line-height:1}
+.weight-topic details.quant-case-disclosure[open]>summary::after{content:'−'}
+.weight-topic details.quant-case-disclosure>summary>h4{flex:1;margin:0!important;font-size:17px!important;line-height:1.6!important;color:inherit!important}
+.weight-topic details.quant-case-disclosure>summary:focus-visible{outline:2px solid #16828a;outline-offset:3px;border-radius:8px}
+.weight-topic details.quant-route-card.quant-case-disclosure[open],.weight-topic details.quant-article-card.quant-case-disclosure[open]{padding:0 22px 22px!important}
+.weight-topic details.quant-case-disclosure[open]>summary{margin:0 -22px 20px;border-bottom:1px solid #e0e9ed;background:#f4f8fa;border-radius:10px 10px 0 0}
+@media(max-width:760px){.weight-topic details.quant-case-disclosure>summary{padding:14px 16px}.weight-topic details.quant-case-disclosure>summary>h4{font-size:16px!important}.weight-topic details.quant-route-card.quant-case-disclosure[open],.weight-topic details.quant-article-card.quant-case-disclosure[open]{padding:0 16px 16px!important}.weight-topic details.quant-case-disclosure[open]>summary{margin:0 -16px 16px}}
 .weight-topic .quant-route-result{padding:18px 22px;background:#f6f9fb;border-radius:10px;border:1px solid #dce7ee}
 @media(max-width:760px){.weight-topic .weight-explanation-part{padding:15px 0}.weight-topic .quant-route-result{padding:16px}.weight-topic .weight-equations{padding:12px}}
 .expert-retrieval{padding:22px;background:#eef6f6;border:1px solid #cfe2e5;border-radius:12px;margin:20px 0 28px}

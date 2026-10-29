@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-29",
+  "topic": "parameters-precision",
+  "publication_status": "validated locally; publication recorded separately",
+  "canonical_content": "data/compression/tables/",
+  "content_version": "compression-1eecdf6824e0c5f6086c",
+  "ui_revision": "23ddf1ba0280b9597fa7",
+  "organization": {
+    "representation": [
+      "representation",
+      "codes",
+      "float"
+    ],
+    "quality": [
+      "calibration",
+      "joint",
+      "recovery"
+    ],
+    "execution": [
+      "execution"
+    ],
+    "basis": "Primary contribution, not mutually exclusive algorithm classes. Complete representation, preparation and runtime costs are shared comparison conditions."
+  },
+  "changes": [
+    "Three canonical challenges and seven classified landscape cards, with an explicit technical thesis and shared comparison basis in both languages.",
+    "Challenge links target their own original research-card IDs; groups link back to their corresponding challenge, including background/mechanism partial views.",
+    "Nine academic paper cases collapsed by default; one active case at a time. Complete evidence remains mounted, with existing citations, saved-reading IDs and legacy route anchors.",
+    "Removed the redundant visible research-scope card; retained old scope anchors and related W/A and KV Cache links. Removed the unrendered scope card from the search index.",
+    "Landscape headings use group h4, approach h5 and explanation h6; shared cost accounting is outside the three-group map."
+  ],
+  "checks": [
+    "scripts/build.py",
+    "scripts/verify.py",
+    "scripts/verify_compression.py",
+    "scripts/verify_original_reader.py",
+    "scripts/test_topic_reader_five_rounds.cjs (15 contracts)",
+    "scripts/test_reader_journey.cjs",
+    "scripts/test_expert_navigation.cjs",
+    "git diff --check",
+    "scripts/test_monthly_paper_corpus.cjs (retained incoming corpus update)"
+  ],
+  "browser_qa": {
+    "local_origin": "http://127.0.0.1:8796",
+    "desktop": "Three groups contain 3/3/1 cards; all nine paper cases initially closed; no visible scope heading; AWQ click opens its full evidence.",
+    "navigation": "Clicked quality challenge to calibration, then group back to quality challenge. Also clicked the same path in partial background/mechanism views; view and visible target matched.",
+    "mobile": "390 x 844: one-column challenge grid, no whole-page horizontal overflow, quality target top 179.98 px after sticky-header offset repair.",
+    "screenshot": "docs/weight-quantization-pyramid-desktop.png",
+    "earlier_case_walkthrough": "AWQ to GPTQ closes AWQ; Enter closes selected case. AWQ citation and return reopen the correct case; narrow-screen case title remains visible."
+  },
+  "limits": "Editorial regrouping of existing cited content; no new scientific result or independent reproduction is claimed. Publication receipt supplies exact pushed source, archive and deployment identities.",
+  "concurrent_update": {
+    "retained_commit": "e4a686610e21a41d38c0819652b5e79dc55402a2",
+    "description": "Merged the incoming 1,728-candidate October corpus matrix and editorial principles before publishing; rebuilt generated delivery from combined canonical sources."
+  }
+}

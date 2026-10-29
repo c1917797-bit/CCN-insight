@@ -19,12 +19,13 @@ function extract(start, end) {
   return source.slice(from, to);
 }
 function element(tag, text = '') {
-  return {
+  const node = {
     tagName: tag.toUpperCase(), textContent: text, id: '', dataset: {}, children: [],
-    hidden: false, parentElement: null, scrollCount: 0, focusCount: 0, events: {}, classList: {add() {}},
+    className: '', attributes: {}, open: false,
+    hidden: false, parentElement: null, scrollCount: 0, focusCount: 0, events: {},
     append(...items) { for (const item of items) { item.parentElement = this; this.children.push(item); } },
     insertBefore(item, before) { item.parentElement = this; this.children.splice(this.children.indexOf(before), 0, item); },
-    setAttribute() {},
+    setAttribute(name, value) { this.attributes[name] = String(value); },
     addEventListener(name, callback) { this.events[name] = callback; },
     querySelector(selector) {
       const data = /^\[data-([a-z-]+)="([^"]*)"\]$/.exec(selector);
@@ -34,9 +35,19 @@ function element(tag, text = '') {
       return walk(this).find(node => node.dataset[key] === data[2]) || null;
     },
     closest() { return null; },
-    scrollIntoView(options) { this.scrollCount++; this.scrollOptions = options; },
+    scrollIntoView(options) {
+      this.scrollCount++; this.scrollOptions = options; this.visibleAtScroll = true;
+      for (let ancestor = this; ancestor; ancestor = ancestor.parentElement) {
+        if (ancestor.tagName === 'DETAILS' && !ancestor.open) this.visibleAtScroll = false;
+      }
+    },
     focus(options) { this.focusCount++; this.focusOptions = options; },
   };
+  node.classList = {
+    add(...names) { node.className = [...new Set([...node.className.split(/\s+/).filter(Boolean), ...names])].join(' '); },
+    contains(name) { return node.className.split(/\s+/).includes(name); },
+  };
+  return node;
 }
 const parent = element('div'), target = element('article');
 target.id = targetId;
@@ -45,6 +56,7 @@ const state = {
   revision: 'test-revision', locale: 'zh', period: '2026-10', scope: '',
   focusTarget: topic.target_term_id, focusMechanism: topic.method_term_id,
   referencePending: false,
+  disclosureOpen: new Map(),
   data: {compression_topics: [topic], compression_topic_concepts: [], source_refs: []},
 };
 const context = {
@@ -73,8 +85,10 @@ const context = {
 };
 vm.createContext(context);
 vm.runInContext([
+  extract('function openResearchTarget(', 'function revealHashTarget('),
   extract('function revealHashTarget(', 'function disclosure('),
   extract('function bindResearchJump(', '// Topic facts stay'),
+  extract('function configureWeightCase(', 'function weightTopicCards('),
   extract('function renderCompressionTopic(', 'function validateTopicEvent('),
 ].join('\n'), context);
 
@@ -110,6 +124,76 @@ check('A same-page evidence jump reaches and focuses the exact real source card'
   assert.equal(target.focusCount, 1, 'Jump must transfer keyboard focus');
   assert.equal(target.focusOptions.preventScroll, true);
   assert(context.history.url.endsWith('#' + targetId));
+});
+
+// Use actual weight-route identities: an external bookmark, the evidence
+// navigator and a citation return must all reveal the same complete case.
+const weightRoutes = rows('ic_compression_research_routes').filter(row => row.compression_topic_id === 'parameters-precision');
+assert(weightRoutes.length >= 2, 'Exercise two actual weight methods in one accordion');
+const weightContainer = element('section'), weightTargets = new Map();
+const weightCases = weightRoutes.slice(0, 2).map(route => {
+  const node = element('details');
+  node.id = 'research-card-' + route.supporting_card_id;
+  node.dataset.researchCard = route.supporting_card_id;
+  context.configureWeightCase(node, route.title_zh);
+  const alias = element('span'); alias.id = 'weight-route-' + route.route_id; node.append(alias);
+  const quote = element('a'); quote.id = 'research-cite-' + route.route_id; node.append(quote);
+  weightContainer.append(node);
+  for (const target of [node, alias, quote]) weightTargets.set(target.id, target);
+  return {node, alias, quote};
+});
+context.$ = id => weightTargets.get(id) || (id === targetId ? target : null);
+context.document.getElementById = context.$;
+const resetWeightCases = () => {
+  for (const {node, alias, quote} of weightCases) {
+    node.open = false;
+    for (const target of [node, alias, quote]) { target.scrollCount = 0; target.focusCount = 0; }
+  }
+};
+for (const anchorKind of ['node', 'alias']) {
+  check('A direct ' + (anchorKind === 'node' ? 'research-card' : 'weight-route') + ' hash opens the exact collapsed method before scrolling', () => {
+    resetWeightCases();
+    const [previous, current] = weightCases;
+    previous.node.open = true;
+    const destination = current[anchorKind];
+    context.location.hash = '#' + destination.id;
+    context.revealHashTarget();
+    assert.equal(current.node.open, true, 'Hash destination remains inside a closed case');
+    assert.equal(previous.node.open, false, 'Hash navigation must close the previously open sibling');
+    assert.equal(destination.scrollCount, 1, 'Both old anchors must remain exact scroll destinations');
+    assert.equal(destination.visibleAtScroll, true, 'Open the disclosure before attempting to scroll');
+    assert.equal(destination.scrollOptions.block, 'start');
+  });
+}
+check('Evidence and saved-case links reveal a collapsed weight method and transfer focus', () => {
+  resetWeightCases();
+  const [previous, current] = weightCases; previous.node.open = true;
+  const link = element('a'); context.bindResearchJump(link, current.node.id);
+  let prevented = false, stopped = false;
+  link.events.click({button: 0, preventDefault() { prevented = true; }, stopPropagation() { stopped = true; }});
+  assert(prevented && stopped, 'The evidence navigator must handle its jump once');
+  assert.equal(current.node.open, true);
+  assert.equal(previous.node.open, false);
+  assert.equal(current.node.visibleAtScroll, true, 'Evidence navigation must reveal its destination before scrolling');
+  assert.equal(current.node.scrollCount, 1);
+  assert.equal(current.node.focusCount, 1);
+  assert.equal(current.node.focusOptions.preventScroll, true);
+  assert(context.history.url.endsWith('#' + current.node.id));
+});
+vm.runInContext('function handleCitationClick(event){\n' + extract(' const citation=(event.composedPath?.()', '  if(!event.defaultPrevented') + '\n}', context);
+check('Returning from a bibliography entry opens the cited method before focusing its inline reference', () => {
+  resetWeightCases();
+  const [previous, current] = weightCases; previous.node.open = true;
+  const back = element('a'); back.hash = '#' + current.quote.id; back.dataset.researchCitation = 'true';
+  let prevented = false;
+  context.handleCitationClick({button: 0, composedPath: () => [back], preventDefault() { prevented = true; }});
+  assert(prevented, 'The real citation-return handler must intercept the internal reference');
+  assert.equal(current.node.open, true);
+  assert.equal(previous.node.open, false);
+  assert.equal(current.quote.visibleAtScroll, true, 'The citation must be visible before it receives focus');
+  assert.equal(current.quote.scrollCount, 1);
+  assert.equal(current.quote.scrollOptions.block, 'center');
+  assert.equal(current.quote.focusCount, 1);
 });
 
 // A full reader can already hold map data while still showing another view.
@@ -177,4 +261,4 @@ check('Focused topic and unloaded taxonomy do not rebuild the map', () => {
   assert.equal(mapRenderCount, before, 'Standalone topic reader must not initialize the map library');
 });
 assert.equal(failures.length, 0, failures.join('\n'));
-console.log('PASS: exact card hash navigation; library mounts after view changes, reuses existing content and stays isolated from sources');
+console.log('PASS: exact card and legacy route hashes; collapsed evidence and citation returns; library mounts after view changes and stays isolated from sources');
