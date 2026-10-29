@@ -1,0 +1,52 @@
+{
+  "site_project_id": "appgprj_6ad8b74cbb048191b7b6aaf46ad43a89",
+  "site_url": "https://ccn-insight-four.sunshinepmy.chatgpt.site",
+  "requested_outcome": "Publish all pending monthly, hardware-format, reading-order and layout updates",
+  "result": "blocked_by_hosted_source_service_http_500",
+  "current_live_version_number_confirmed": 22,
+  "current_access": "public",
+  "current_user_role_confirmed": "owner",
+  "github_maintenance_head": "2da0546f29bbedf326f03758a19a43fe555b0512",
+  "github_content_commit": "4f5cb353be9f7c9d29c853d4f57ae91adff375a1",
+  "retained_sites_local_commit": "0039c32dcc702f24520e949f48e996fedd3bb3f6",
+  "public_build_files_checked": 2264,
+  "mirror_build_matches_github": true,
+  "repository": "appgprj_6ad8b74cbb048191b7b6aaf46ad43a89",
+  "source_provider": "cloudflare_artifact",
+  "source_service_host": "git.chatgpt-team.site",
+  "diagnostics": [
+    {
+      "operation": "Official Sites source opening with newly minted credentials",
+      "result": "HTTP 500 Internal Server Error"
+    },
+    {
+      "operation": "Read-only GET info/refs?service=git-upload-pack using an independent HTTP client",
+      "status": 500,
+      "content_type": "text/plain; charset=UTF-8",
+      "body": "Internal Server Error",
+      "request_id": "a5216332a87ddbc9-FRA"
+    },
+    {
+      "operation": "Read-only GET info/refs?service=git-receive-pack using an independent HTTP client",
+      "status": 500,
+      "content_type": "text/plain; charset=UTF-8",
+      "body": "Internal Server Error",
+      "request_id": "a52163407f0e0db6-FRA"
+    }
+  ],
+  "attempted_transport_diagnostics": [
+    "HTTP/1.1 with a bounded HTTP POST buffer",
+    "No delta compression for the current Git process only",
+    "Independent read-only HTTP request without Git packing or protocol negotiation"
+  ],
+  "security_and_state": {
+    "tls_verification_preserved": true,
+    "credentials_refreshed_and_kept_in_memory_only": true,
+    "remote_history_not_rewritten": true,
+    "site_access_unchanged": true,
+    "unconfirmed_source_not_saved_as_site_version": true,
+    "no_deployment_started": true,
+    "live_publication_receipt_unchanged": true
+  },
+  "required_external_recovery": "The hosted Git/source service must recover. Reconcile its remote branch with the retained local commit, then run the official source/package, save-version and deploy flow for this same project. Do not use an old pushed SHA with the new archive."
+}
