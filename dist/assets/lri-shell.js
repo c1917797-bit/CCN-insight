@@ -613,6 +613,7 @@ class LRISiteShell extends HTMLElement {
         .cloud-core-header{display:flex;min-height:48px;padding:6px 16px;gap:12px}.cloud-core-header .header-actions{margin-left:auto}.cloud-core-header .brand-mark{background:#0f766e;font-size:12px}.cloud-core-header .brand b{font-size:16px}
         .cloud-primary-nav{display:flex;align-items:center;gap:6px;margin-left:24px;min-width:0;overflow:auto}.cloud-primary-nav a{padding:9px 16px;border-radius:9px;text-decoration:none;white-space:nowrap;font-size:14px;font-weight:650;color:#476071}.cloud-primary-nav a:hover{background:#edf6f7}.cloud-primary-nav a[aria-current="page"]{background:#e3f3f3;color:#086e78;box-shadow:inset 0 -2px #118893}.cloud-primary-nav a:focus-visible{outline:2px solid #118893;outline-offset:2px}@media(max-width:1050px){.cloud-core-header{flex-wrap:wrap}.cloud-primary-nav{display:flex;order:3;flex-basis:100%;width:100%;margin:0;scrollbar-width:thin}.cloud-primary-nav a{padding:7px 10px;font-size:13px}}
         :host([data-cloud-no-outline]) .shell{grid-template-columns:minmax(0,1fr) min(var(--lri-right-track,44px),32vw)}:host([data-cloud-no-outline]) .left,:host([data-cloud-no-outline]) .left-toggle{display:none}.cloud-local-path{margin-top:12px}
+        :host([data-cloud-no-outline][data-content-kind="report"]) ::slotted([slot="content"]){max-width:none!important;margin-inline:0!important}
       </style>
       <div class="shell">
         <header class="${location.pathname.startsWith('/business_insight/cloud_core/') ? 'cloud-core-header' : ''}">

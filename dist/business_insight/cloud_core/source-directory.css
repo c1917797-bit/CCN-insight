@@ -1,6 +1,10 @@
 /* Source-directory presentation only. Facts and URLs stay in canonical tables. */
 body[data-compression-view="sources"] #topic-title{display:none}
 .compression-research-workbench #channels-panel{max-width:1240px;margin-inline:auto}
+/* The source registry has no left outline: use the freed width once, rather
+   than centering both the main reader and its table inside each other. */
+body[data-compression-view="sources"] .compression-research-workbench{width:100%!important;max-width:none!important;margin-inline:0!important;padding-inline:clamp(16px,2vw,32px)!important}
+body[data-compression-view="sources"] #channels-panel{max-width:none;margin-inline:0}
 .compression-research-workbench #channels-panel>h3{font-size:30px;letter-spacing:-.035em;color:#202d44;margin:8px 0 9px}
 .compression-research-workbench #channels-panel>p[data-i18n-key="sources_help"]{font-size:14px;line-height:1.8;color:#5c6c7e;max-width:84ch;margin:0 0 20px}
 .compression-research-workbench .source-register-navigation{gap:8px;padding:0 0 18px;border-bottom:1px solid #e3e8f0;margin:0 0 14px}
