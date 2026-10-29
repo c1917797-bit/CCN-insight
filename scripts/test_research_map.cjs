@@ -96,22 +96,16 @@ context.expertLibraryRead=async()=>JSON.parse(fs.readFileSync(path.join(root,'di
 context.renderExpertLibrary=()=>{};
 
 context.renderScientificMap();
-const topicLinks = () => walk(map).filter(item => item.dataset.compressionTopicRoute);
-const byTopic = new Map(topicLinks().map(link => [link.dataset.compressionTopicRoute, link]));
-assert.equal(topicLinks().length, 16);
-assert.equal(byTopic.size, 16, 'Every legacy topic must have one reachable entry');
-for (const topic of topics) {
-  const link = byTopic.get(topic.compression_topic_id);
-  assert(link, `Missing topic: ${topic.compression_topic_id}`);
-  const url = new URL(link.href, 'https://ccn.example/business_insight/cloud_core/index.html');
-  assert.equal(url.pathname, '/business_insight/cloud_core/topic.html');
-  assert.equal(url.searchParams.get('topic'), topic.compression_topic_id);
-  assert.equal(url.searchParams.get('month'), state.period);
-  assert.equal(url.searchParams.get('scope'), state.scope);
+const links=walk(map).filter(item=>item.tagName==='A');
+assert.equal(links.length,1,'A map must not duplicate the topic directory or paper links');
+assert.equal(links[0].href,'#view-library','The map has one clear onward destination');
+assert.equal(walk(map).filter(item=>item.dataset.mapRoute).length,4);
+assert(!walk(map).some(item=>['BUTTON','INPUT','SELECT','DETAILS'].includes(item.tagName)),'The complete map is readable without filters or disclosures');
+assert(!walk(map).some(item=>item.dataset.mapTopic),'Detailed topic entries belong to the library');
+for(const route of routes){
+ const term=terms.find(t=>t.term_id===route),card=walk(map).find(n=>n.dataset.mapRoute===route);
+ for(const field of ['map_summary_zh','map_caveat_zh','map_notation_zh'])assert(walk(card).some(n=>n.textContent===term[field]),'Map copy must come from the maintained taxonomy');
 }
-assert.equal(walk(map).filter(item => item.className.split(' ').includes('research-map-primary')).length, 1);
-assert.equal(walk(map).find(item => item.className.split(' ').includes('research-map-primary')).dataset.compressionTopicRoute, 'parameters-distillation');
-assert(byTopic.has('activations-distillation') && byTopic.has('kv_cache-distillation'));
 for (const route of routes) {
   assert(walk(map).some(item => item.id === 'route-' + route));
   assert.equal(context.viewForTarget('route-' + route), 'topics', 'Cold route hash must select the topic reader before DOM lookup');
@@ -125,32 +119,6 @@ for (const route of routes) {
   assert.equal(cold.selectedView, 'topics', 'First-paint bootstrap must request map data for cold route links');
 }
 assert(!walk(map).some(item => item.tagName === 'DETAILS'), 'Core and extended map routes must stay expanded');
-
-// Changing any map filter must leave evidence, monthly scope and legacy filters intact.
-for (const target of ['parameters', 'activations', 'kv_cache', '']) {
-  const button = map.querySelector('[data-map-target-filter="' + target + '"]');
-  assert(button, `Missing map filter: ${target}`);
-  assert.equal(button.disabled, false, 'Map filter must work without a monthly scope');
-  assert(!Object.hasOwn(button.dataset, 'scopeDependent'));
-  const before = JSON.parse(JSON.stringify(state));
-  const countBefore = {...counts};
-  button.events.click();
-  before.mapTargetFilter = target;
-  assert.deepEqual(JSON.parse(JSON.stringify(state)), before, 'Filter must only change mapTargetFilter');
-  assert.equal(counts.selectors, countBefore.selectors);
-  assert.equal(counts.map, countBefore.map);
-  assert.equal(counts.selection, countBefore.selection);
-  assert(counts.sections > countBefore.sections, 'Filter must redraw the map and refresh its outline');
-  const selected = map.querySelector('[data-map-target-filter="' + target + '"]');
-  assert.equal(selected.attributes['aria-pressed'], 'true');
-  assert.equal(selected.focusCount, 1, 'Redraw must restore keyboard focus to the active filter');
-  if (target) {
-    for (const link of topicLinks()) {
-      assert(link.dataset.scientificTarget === target || link.dataset.compressionTopicRoute === 'parameters-distillation',
-        'Filtering may retain the cross-target distillation main topic, but no unrelated cases');
-    }
-  }
-}
 
 // Simulate the state left by SPA topic navigation, followed by browser back.
 for (const hash of ['view-topics', 'map', ...routes.map(route => 'route-' + route)]) {
@@ -177,18 +145,13 @@ for (const hash of ['view-topics', 'map', ...routes.map(route => 'route-' + rout
   }
 }
 
-(async()=>{
- state.mapTargetFilter='';context.renderScientificMap();
- await new Promise(resolve=>setImmediate(resolve));
- assert.equal(map.dataset.mapKnowledgeReady,'true','Map evidence must be hydrated from the revision-bound index');
- const index=await context.expertLibraryRead();
- for(const item of map.querySelectorAll('[data-map-topic]')){
-  const expected=index.cards.filter(c=>c.topic===item.dataset.mapTopic&&c.kind==='case');
-  const coverage=walk(item).find(n=>n.className==='map-topic-coverage');
-  assert(coverage&&coverage.textContent.startsWith(String(expected.length)+' '),'Case count must come from actual topic evidence');
-  const shortcuts=walk(item).filter(n=>n.tagName==='A'&&n.parentElement?.className==='map-topic-methods');
-  assert.equal(shortcuts.length,Math.min(3,expected.length));
-  for(const link of shortcuts){const url=new URL(link.href,'http://localhost');assert.equal(url.searchParams.get('topic'),item.dataset.mapTopic);assert.equal(url.searchParams.get('scope'),state.scope);assert(expected.some(c=>url.hash==='#'+c.anchor),'Shortcut must land on an existing case');}
- }
- console.log('PASS: 16 reachable topics, four cold routes, isolated filters, history restoration and source-derived map shortcuts');
-})().catch(error=>{console.error(error);process.exitCode=1;});
+// Legacy deep links to detailed references now belong to the topic library.
+for(const id of ['expert-library','representative-routes','knowledge','map-references'])assert.equal(context.viewForTarget(id),'library');
+for(const name of ['index.html','topic.html','monthly.html']){
+ const html=fs.readFileSync(path.join(root,'original-reader/site/business_insight/cloud_core',name),'utf8');
+ const mapPanel=html.split('<div data-view-panel="topics"')[1].split('<div data-view-panel="library"')[0];
+ const libraryPanel=html.split('<div data-view-panel="library"')[1].split('<div data-view-panel="updates"')[0];
+ assert(!mapPanel.includes('id="representative-routes"')&&!mapPanel.includes('id="knowledge"'),'Map contains no second research catalogue');
+ assert(libraryPanel.includes('id="representative-routes"')&&libraryPanel.includes('id="knowledge"'),'Preserve detailed references in the library');
+}
+console.log('PASS: four readable routes, one onward link, canonical summaries, legacy routes/history and preserved research references');

@@ -16,7 +16,7 @@
  // First-paint reader. It fetches authorized TableGit rows; no facts are built into this file.
  const params=new URLSearchParams(location.search),topic=params.get('topic'),period=params.get('month')||new Date().toISOString().slice(0,7),scope=params.get('scope');
  const topicPage=/\/topic(?:\.html)?\/?$/.test(location.pathname),monthly=/\/monthly(?:\.html)?\/?$/.test(location.pathname);
- const match=/^#view-(sources|topics|library|updates|home|reports)/.exec(location.hash),mapRoute=/^#(?:map$|route-(?:precision|selection|distillation|factorization)$)/.test(location.hash),view=topicPage||mapRoute?'topics':monthly?'updates':match?.[1]||(location.hash==='#analysis-focus'?'home':location.hash==='#supplementary-paper-reviews'?'updates':'sources');
+ const match=/^#view-(sources|topics|library|updates|home|reports)/.exec(location.hash),mapRoute=/^#(?:map$|route-(?:precision|selection|distillation|factorization)$)/.test(location.hash),view=topicPage||mapRoute?'topics':monthly?'updates':match?.[1]||(['#expert-library','#knowledge','#representative-routes','#map-references'].includes(location.hash)?'library':location.hash==='#analysis-focus'?'home':location.hash==='#supplementary-paper-reviews'?'updates':'sources');
  document.documentElement.dataset.cloudInitialView=view;
  const en=document.documentElement.lang.startsWith('en'),pick=(r,k)=>r[k+(en?'_en':'_zh')]||r[k+'_zh']||r[k]||'',eq=(field,value)=>({field,op:'eq',value});
  const common=[eq('business_id','cloud-core'),eq('topic_id','cloud_core')];
@@ -83,7 +83,7 @@
   const card=(heading,paragraphs,url)=>{const article=node('article','','card');article.append(url?link(heading,url):node('h3',heading));for(const text of paragraphs.filter(Boolean)){const paragraph=node('p',text);if(count===0&&!article.querySelector?.('p'))paragraph.setAttribute('elementtiming','cloud-core-native-first');article.append(paragraph);}grid.append(article);count++;};
   if(view==='sources'){for(const f of g.source_families)card(pick(f,'title'),[pick(f,'summary')]);}
   else if(view==='library'){for(const row of g.compression_topics){const u=new URL('topic.html',location.href);u.searchParams.set('topic',row.compression_topic_id);if(params.has('month'))u.searchParams.set('month',period);if(scope)u.searchParams.set('scope',scope);card(pick(row,'title'),[pick(row,'question')],u.href);}}
-  else if(view==='topics'&&!topic){for(const id of ['precision','selection','distillation','factorization']){const term=g.map_terms.find(row=>row.term_id===id);ensure(term?.facet_id==='mechanism'&&term.description_zh&&term.name_zh,'Unbound core research route');const url=new URL('index.html',location.href);if(params.has('month'))url.searchParams.set('month',period);if(scope)url.searchParams.set('scope',scope);url.hash='route-'+id;card(pick(term,'name'),[pick(term,'description')],url.href);}}
+  else if(view==='topics'&&!topic){for(const id of ['precision','selection','distillation','factorization']){const term=g.map_terms.find(row=>row.term_id===id);ensure(term?.facet_id==='mechanism'&&term.description_zh&&term.name_zh,'Unbound core research route');const url=new URL('index.html',location.href);if(params.has('month'))url.searchParams.set('month',period);if(scope)url.searchParams.set('scope',scope);url.hash='route-'+id;card(pick(term,'name'),[pick(term,'map_summary')||pick(term,'description')]);}}
   else if(view==='topics'){ensure(g.compression_topic_sections.length===3,'Incomplete first research sections');for(const kind of ['problem','mechanism','boundary']){const section=g.compression_topic_sections.find(s=>s.section_kind===kind);ensure(section&&section.claim_kind==='literature_synthesis'&&section.reviewed_at&&section.evidence_url&&section.section_id===topic+'__'+kind,'Unreviewed first research section');card(pick(section,'heading'),[pick(section,'body')],section.evidence_url);}}
   else if(view==='updates'){const selectedScope=scope||[...(g.monthly_scopes||[])].sort((a,b)=>a.position-b.position)[0]?.scope_id;const eventIds=new Set((g.monthly_route_evidence||[]).filter(r=>r.scope_id===selectedScope).map(r=>r.evidence_id));const events=new Map(g.paper_summary_events.filter(e=>eventIds.has(e.evidence_id)).map(e=>[e.summary_id,e])),selected=params.get('paper'),route=params.get('route');const papers=route?[]:g.paper_summaries.filter(s=>events.has(s.summary_id)&&(!selected||s.summary_id===selected));for(const s of papers.slice(0,6)){const e=events.get(s.summary_id);ensure(e.source_id===s.source_id&&e.observed_version===s.observed_version&&['primary_abstract_checked','method_results_checked'].includes(s.review_status)&&s.evidence_url&&s.one_sentence_zh,'Unreviewed current paper');card((en?'Reviewed paper · ':'论文原文 · ')+new URL(s.evidence_url).pathname.split('/').at(-1),[pick(s,'one_sentence'),pick(s,'results')],s.evidence_url);}}
   else{for(const r of g.insight_reports)card(pick(r,'title'),[pick(r,'summary')],'index.html'+location.search+'#view-home');for(const r of (g.ascend_route_assessments||[]).sort((a,b)=>a.position-b.position).slice(0,3)){ensure(r.claim_status==='analyst_recommendation','Unsupported first-content recommendation');card(pick(r,'title'),[pick(r,'rationale'),pick(r,'recommendation')]);}}
@@ -103,11 +103,11 @@
 <meta name="lri-page-translation" content="ui">
 <meta name="lri-shell-version" content="lri-shell-v18-cloud-report-navigation">
 <script type="module" src="../../assets/lri-shell.js?v=58a5c84551dd6491"></script>
-<script type="application/lri-reader" data-lri-reader="topic-entry.js?v=reader-content-1a25cea95d87a545"></script>
+<script type="application/lri-reader" data-lri-reader="topic-entry.js?v=reader-content-b4d1c879a39e1610"></script>
 <link rel="stylesheet" href="reader-editorial.css?v=20261022">
 <link rel="stylesheet" href="reader-refinement.css?v=97585da47244bd04">
 <link rel="stylesheet" href="topic-studio.css?v=20261023-studio-1">
-<link rel="stylesheet" href="reader-atlas.css?v=a84c566230e00eda">
+<link rel="stylesheet" href="reader-atlas.css?v=d62b4d15177085aa">
 </head>
 <body data-lri-section-visibility="visible" data-lri-shell="auto" data-lri-content-kind="topic" data-topic-id="cloud_core" data-compression-topic="true">
 <main class="wrap compression-research-workbench">
@@ -155,19 +155,19 @@
 </div>
 </div>
 <div data-view-panel="topics" id="view-topics" hidden>
-<div class="section" id="map" data-section-label="技术地图" data-section-label-en="Technology map" data-section-level="3" data-section-number="1.2" data-reading-layer="analysis">
-<h3 data-i18n-key="view_topics">技术地图</h3><p data-i18n-key="topics_help">沿四条研究路线阅读原理、挑战与进展，再按压缩对象查找具体专题。相关月度新增证据见“本期动态”。</p>
+<div class="section" id="map" data-section-outline="false" data-section-label="技术地图" data-section-label-en="Technology map" data-section-level="3" data-section-number="1.2" data-reading-layer="analysis">
+
 <div id="scientific-map"></div>
 <div id="direction-detail" class="direction-topic" hidden aria-live="polite"></div>
-<details id="representative-routes"><summary>代表技术路线</summary><p data-i18n-key="lineage_help">按技术方向查看代表工作的演进。论文首投日期保留原始时间；各路线的关系和引用版本可进一步查看。</p>
-<div id="lineage-cards" class="wb-reading-list"></div>
-</details>
-</div>
-<div class="section" id="knowledge" data-section-label="技术参考" data-section-label-en="Technical references"><details id="technique-disclosure"><summary>相关技术参考</summary><div id="technique-cards" class="wb-reading-list"></div></details></div>
 
-<p class="wb-next"><a href="#view-updates" data-i18n-key="next_updates">查看相关本期动态 →</a></p>
 </div>
-<div data-view-panel="library" id="view-library" hidden><section class="section" id="topic-catalog" data-section-label="技术专题" data-section-label-en="Research topics" data-section-level="3"></section></div>
+
+
+
+</div>
+<div data-view-panel="library" id="view-library" hidden><section class="section" id="topic-catalog" data-section-label="技术专题" data-section-label-en="Research topics" data-section-level="3"></section><section class="topic-library-legacy" data-section-outline="false"><details id="representative-routes"><summary>代表技术路线</summary><p data-i18n-key="lineage_help">按技术方向查看代表工作的演进。论文首投日期保留原始时间；各路线的关系和引用版本可进一步查看。</p>
+<div id="lineage-cards" class="wb-reading-list"></div>
+</details><div class="section" id="knowledge" data-section-label="技术参考" data-section-label-en="Technical references"><details id="technique-disclosure"><summary>相关技术参考</summary><div id="technique-cards" class="wb-reading-list"></div></details></div></section></div>
 <div data-view-panel="updates" id="view-updates" hidden>
 <div class="section" id="monthly" data-section-outline="false" data-section-label="本期动态" data-section-label-en="Current updates" data-section-level="3" data-section-number="1.3" data-reading-layer="facts">
 <h3 data-i18n-key="view_updates">本期动态</h3><p data-i18n-key="updates_help">按技术方向查看本月进展：各项工作解决什么问题、采用什么方法、取得什么结果，以及对后续研究有何启示。</p>

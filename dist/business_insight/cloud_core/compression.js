@@ -34,10 +34,10 @@ function showLoadError(error,partial=false) {
   $('runtime-status').setAttribute('role','alert');
 }
 const element = (tag, text='', cls='') => { const el=document.createElement(tag); el.textContent=String(text); if(cls)el.className=cls; return el; };
-const viewIds={library:['topic-catalog','expert-library'],sources:['judgment-basis','channels-panel'],updates:['monthly'],topics:['map','knowledge'],home:['insight-overview','ascend'],reports:['reports','evidence','source-panel','document-detail','validation','appendix','legacy','governance']};
+const viewIds={library:['topic-catalog','expert-library','representative-routes','knowledge','map-references'],sources:['judgment-basis','channels-panel'],updates:['monthly'],topics:['map'],home:['insight-overview','ascend'],reports:['reports','evidence','source-panel','document-detail','validation','appendix','legacy','governance']};
 function viewForTarget(id) {
   if(!id)return 'sources';
-  if(id==='expert-library')return 'library';
+  if(['expert-library','representative-routes','knowledge','map-references'].includes(id))return 'library';
   if(/^direction-[A-Z]_[A-Z]$/.test(id)||/^focus-[a-z_]+-[a-z_]+$/.test(id)||/^route-(precision|selection|distillation|factorization)$/.test(id))return 'topics';
   if(/^view-(home|updates|topics|library|sources|reports)$/.test(id))return id.slice(5);
   const panel=$(id)?.closest('[data-view-panel]');
@@ -76,7 +76,7 @@ function showView(view,updateHash=false) {
   document.documentElement.dataset.cloudInitialView=state.view;
   $('reading-controls').hidden=topicPage()||['topics','library','sources'].includes(state.view);$('reading-context').hidden=topicPage()||['topics','library','sources'].includes(state.view);
   $('judgment-basis').hidden=!['updates','topics','library','sources'].includes(state.view);
-  $('judgment-basis').dataset.sectionOutline=state.view==='updates'?'false':'true';
+  $('judgment-basis').dataset.sectionOutline=['updates','topics'].includes(state.view)?'false':'true';
   document.querySelectorAll('[data-view-panel]').forEach(panel=>{panel.hidden=panel.dataset.viewPanel!==state.view;});
   document.querySelectorAll('[data-view]').forEach(link=>{if(link.dataset.view===(link.hasAttribute('data-primary-view')?primaryView():state.view))link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');});
   if(!topicPage()){if(state.view==='home'&&document.querySelector('.analysis-reading-navigation')){document.body.dataset.lriReaderNavigation='.analysis-reading-navigation';document.body.dataset.lriReaderNavigationLabel=mapText('洞察报告 · 阅读目录','Insight report · Reading contents');}else if(state.view==='updates'&&document.querySelector('.current-updates-navigation')){document.body.dataset.lriReaderNavigation='.current-updates-navigation';document.body.dataset.lriReaderNavigationLabel=mapText('本期动态 · 三类进展','Current updates · Three streams');}else{delete document.body.dataset.lriReaderNavigation;delete document.body.dataset.lriReaderNavigationLabel;}}
@@ -92,7 +92,7 @@ function showView(view,updateHash=false) {
   if(!topicPage()&&state.readerMode==='current'&&!['updates','home'].includes(state.view)){start(state.view);return;}
   if(!topicPage()&&state.readerMode==='map'&&!['topics','library'].includes(state.view)){start(state.view);return;}
   if(state.view==='sources'&&state.directoryDeferred&&state.profile){state.directoryDeferred=false;start('sources');return;}
-  if(state.view==='topics'&&!topicPage()&&!state.directionMode&&!state.focusTarget&&state.data.map_facets?.length&&!$('scientific-map')?.querySelector('.science-map-header'))renderScientificMap();
+  if(state.view==='topics'&&!topicPage()&&!state.directionMode&&!state.focusTarget&&state.data.map_facets?.length&&!$('scientific-map')?.querySelector('.compression-map-heading'))renderScientificMap();
   if((!topicPage()&&['updates','home'].includes(state.view))&&state.profile&&state.scopeReady&&!state.evidencePage&&!state.evidenceBusy)loadEvidence(0);
   if(updateHash&&location.hash!=='#view-'+state.view)history.pushState(null,'','#view-'+state.view);
 }
@@ -1716,7 +1716,7 @@ function renderExpertLibrary(parent){
   if(!cards.length)results.append(element('p',mode==='saved'?mapText('尚未保存案例。可在任意专题或检索结果中加入待读。','No saved items. Save a case from any topic or result.'):mode==='changed'?mapText('已打开的资料暂无内容变化；未打开的资料不计入此范围。','No content changes among opened items; unopened material is outside this range.'):mapText('当前资料中没有匹配项；可切换“全部知识”或调整关键词。没有命中不代表该技术不存在。','No match in this material. Try All knowledge or another term. This is not evidence that a technique does not exist.'),'expert-library-empty'));
  };
  search.addEventListener('input',()=>{expertLibraryState.query=search.value;expertLibraryState.limit=12;paint();});root.addEventListener('click',e=>{if(e.target.closest('[data-save-card]'))requestAnimationFrame(paint);});
- const load=()=>{status.textContent=mapText('正在读取当前版本…','Reading current revision…');expertLibraryRead(revision).then(value=>{if(!root.isConnected||state.revision!==revision)return;index=value;counts.textContent=value.topics.length+mapText(' 个专题 · ',' topics · ')+value.cards.length+mapText(' 条可定位资料',' reachable entries');paint();document.dispatchEvent(new Event('lri:sections-changed'));}).catch(()=>{if(!root.isConnected)return;status.textContent=mapText('跨专题索引暂不可用，下方技术地图仍可正常阅读。','Cross-topic index unavailable; the map below remains available.');status.append(button(mapText('重试索引','Retry index'),()=>{status.replaceChildren();load();}));});};load();
+ const load=()=>{status.textContent=mapText('正在读取当前版本…','Reading current revision…');expertLibraryRead(revision).then(value=>{if(!root.isConnected||state.revision!==revision)return;index=value;counts.textContent=value.topics.length+mapText(' 个专题 · ',' topics · ')+value.cards.length+mapText(' 条可定位资料',' reachable entries');paint();document.dispatchEvent(new Event('lri:sections-changed'));}).catch(()=>{if(!root.isConnected)return;status.textContent=mapText('跨专题索引暂不可用，上方专题目录仍可正常使用。','Cross-topic index unavailable; the topic directory above remains available.');status.append(button(mapText('重试索引','Retry index'),()=>{status.replaceChildren();load();}));});};load();
 }
 
 const topicCatalogState={query:'',target:'',method:''};
@@ -1745,78 +1745,30 @@ function renderTopicCatalog(){
   if(!selected.length)grid.append(element('p',mapText('没有匹配的专题，请调整关键词或筛选条件。','No matching topics. Adjust the keywords or filters.')));
  };
  search.addEventListener('input',()=>{topicCatalogState.query=search.value;paint();});target.addEventListener('change',()=>{topicCatalogState.target=target.value;paint();});method.addEventListener('change',()=>{topicCatalogState.method=method.value;paint();});paint();
- renderExpertLibrary(root);document.dispatchEvent(new Event('lri:sections-changed'));
+ renderExpertLibrary(root);
+ const references=element('footer','','topic-library-references');references.id='map-references';references.dataset.sectionOutline='false';renderFoundationLink(references);
+ for(const id of ['precision','kv_eviction']){const term=mapTerm(id);if(term?.source_url)external(references,term.source_url,mapText(id==='precision'?'模型压缩分类综述 ↗':'KV Cache 管理综述 ↗',id==='precision'?'Model-compression taxonomy survey ↗':'KV cache management survey ↗'));}root.append(references);
+ document.dispatchEvent(new Event('lri:sections-changed'));
 }
 
 function renderScientificMap(){
  const parent=$('scientific-map');parent.replaceChildren();if(!state.data.map_facets?.length)return;
- const targets=ordered(state.data.map_terms.filter(row=>row.facet_id==='target'&&!row.parent_term_id));
  const methods=['precision','selection','distillation','factorization'].map(mapTerm).filter(Boolean);
- const topics=ordered(state.data.compression_topics),selected=state.mapTargetFilter;
- const matches=row=>!selected||row.target_term_id===selected;
- const header=element('header','','science-map-header');
- header.append(element('p',mapText('推理压缩 · 根技术地图','Inference compression · Core research map'),'science-eyebrow'),element('h3',mapText('推理压缩的四类核心技术','Four core techniques for inference compression')),element('p',mapText('低比特量化减少数值表示位数；稀疏化与剪枝减少非零元素、参与计算的元素或模型结构；知识蒸馏向学生模型迁移知识；低秩分解用更小的因子矩阵近似原矩阵。按技术查找原理、代表方法、实验结果与适用条件。','Low-bit quantization reduces bits per value; sparsification and pruning reduce nonzeros, participating elements or model structures; distillation transfers knowledge to a student; low-rank factorization approximates matrices with smaller factors. Find principles, methods, experimental results and applicability by technique.')));
- const routeNav=element('nav','','map-route-navigation');routeNav.setAttribute('aria-label',mapText('四条根技术','Four core routes'));for(const [i,method] of methods.entries()){const a=element('a',String(i+1).padStart(2,'0')+' '+title(method));a.href='#route-'+method.term_id;routeNav.append(a);}header.append(routeNav);
- renderFoundationLink(header);const libraryJump=element('a',mapText('跨专题检索技术与原文 →','Search methods and primary sources →'),'map-library-link');libraryJump.href='#view-library';libraryJump.dataset.view='library';header.append(libraryJump);parent.append(header);
- const filters=element('div','','research-map-filters');filters.setAttribute('role','group');filters.setAttribute('aria-label',mapText('按压缩对象筛选地图','Filter map by compression target'));
- filters.append(element('strong',mapText('压缩对象','Compression target')));
- for(const [id,name] of [['',mapText('全部对象','All targets')],...targets.map(row=>[row.term_id,title(row)])]){
-  const control=button(name,()=>{state.mapTargetFilter=id;renderScientificMap();$('scientific-map').querySelector('[data-map-target-filter="'+id+'"]')?.focus({preventScroll:true});});
-  control.dataset.mapTargetFilter=id;control.setAttribute('aria-pressed',String(id===selected));filters.append(control);
- }parent.append(filters);
- const status=element('p',selected?mapText('正在查看：','Showing: ')+title(mapTerm(selected)):mapText('全部对象 · 四条核心研究路线，关联专题在下方直接展示。','All targets · Four core research routes, with related topics below.'),'research-map-status');status.setAttribute('role','status');status.setAttribute('aria-live','polite');parent.append(status);
- const grid=element('div','','research-map-grid');
+ const header=element('header','','compression-map-heading');
+ header.append(element('p',mapText('INFERENCE COMPRESSION · 技术全景','INFERENCE COMPRESSION · LANDSCAPE'),'science-eyebrow'),element('h3',mapText('推理压缩的四类核心技术','Four core techniques for inference compression')),element('p',mapText('看清压缩从哪里发生，以及四类技术之间的区别。','See what each technique changes and how the four approaches differ.')));parent.append(header);
+ const figure=element('figure','','compression-map-figure');figure.setAttribute('aria-labelledby','compression-map-caption');
+ const root=element('div',mapText('推理压缩','Inference compression'),'compression-map-root');figure.append(root);
+ const grid=element('div','','compression-map-branches');
  for(const [index,method] of methods.entries()){
-  const card=element('section','','research-map-route');card.id='route-'+method.term_id;card.dataset.mapRoute=method.term_id;card.dataset.sectionLabel=title(method);card.dataset.sectionLabelEn=method.name_en;card.dataset.sectionLevel='4';card.setAttribute('aria-labelledby',card.id+'-title');
-  const top=element('div','','research-map-route-top');top.append(element('span',String(index+1).padStart(2,'0'),'research-map-number'),LRICompressionVisuals.icon(method.term_id,32));card.append(top);
-  const heading=element('h4',title(method));heading.id=card.id+'-title';card.append(heading,element('p',textOf(method,'description'),'research-map-description'));
-  const condition=element('div','','research-map-value');condition.append(element('strong',mapText('关键分界','Key distinction')),element('p',textOf(method,'boundary')));card.append(condition);
-  const links=element('div','','research-map-topic-links'),rows=topics.filter(row=>row.method_term_id===method.term_id&&matches(row));
-  if(method.term_id==='distillation'){
-   const primary=topics.find(row=>row.compression_topic_id==='parameters-distillation');
-   if(primary)links.append(mapTopicEntry(primary,true));
-   const cases=rows.filter(row=>row.target_term_id!=='parameters');
-   if(cases.length){links.append(element('span',mapText('关联案例','Related cases'),'research-map-link-label'));for(const row of cases)links.append(mapTopicEntry(row));}
-   card.append(element('p',mapText('以教师—学生能力迁移为主线；学生结构决定部署开销。蒸馏也可用于其他压缩路线的质量恢复，不预设无损。','Follow teacher–student capability transfer. Student structure determines deployment cost; distillation may recover quality in other compression routes, without a lossless guarantee.'),'research-map-boundary'));
-  }else for(const row of rows)links.append(mapTopicEntry(row));
-  if(!rows.length)links.append(element('p',mapText('该对象暂未建立独立专题。','No standalone topic for this target yet.'),'meta'));
-  card.append(links);grid.append(card);
- }parent.append(grid);
- const related=element('section','','research-map-related');related.id='map-related-topics';related.dataset.sectionLabel=mapText('关联专题','Related topics');related.dataset.sectionLabelEn='Related topics';related.dataset.sectionLevel='4';related.append(element('h4',mapText('关联专题 · 合并、共享与状态管理','Related topics · Merging, sharing and state management')),element('p',mapText('以下方向保留独立入口，与四条主线交叉关联。Token 合并、状态共享和架构改造分别说明，不统称为剪枝。','These directions retain independent entries and links to the four core routes. Token merging, state sharing and architecture changes keep distinct explanations.')));
- const extensions=element('div','','research-map-related-grid');
- for(const method of ordered(state.data.map_terms.filter(row=>row.facet_id==='construction'))){
-  const rows=topics.filter(row=>row.method_term_id===method.term_id&&matches(row));if(!rows.length)continue;
-  const box=element('article');box.append(element('h5',title(method)),element('p',textOf(method,'description')));for(const row of rows)box.append(mapTopicEntry(row));extensions.append(box);
- }if(!extensions.children.length)extensions.append(element('p',mapText('该对象暂未收录独立的关联专题。','No related standalone topic for this target yet.'),'meta'));related.append(extensions);parent.append(related);
- const footer=element('section','','research-map-basis');footer.append(element('h4',mapText('阅读与归类说明','Reading and classification notes')),element('p',mapText('四类是研究路线，可以组合。一个成果可从多个对象入口找到；效果需要保留原始模型、测试集、配置与基线，不能跨专题重复累计。知识蒸馏以学生模型和监督方式组织，不将训练中的特征匹配直接当作推理张量压缩。','These research routes can be combined. Work may be found from several target entries; results retain their model, dataset, configuration and baseline and must not be counted twice. Distillation is organized around the student and supervision, rather than treating training feature matching as inference-tensor compression.')));
- external(footer,'https://aclanthology.org/2024.tacl-1.85/',mapText('四类路线参考：TACL 模型压缩综述 ↗','Four-route reference: TACL model-compression survey ↗'));
- external(footer,'https://arxiv.org/abs/2412.19442',mapText('状态管理参考：KV Cache 管理综述 ↗','State-management reference: KV Cache survey ↗'));parent.append(footer);
-
- hydrateMapKnowledge(parent);
+  const card=element('section','','compression-map-branch');card.id='route-'+method.term_id;card.dataset.mapRoute=method.term_id;card.dataset.sectionOutline='false';card.setAttribute('aria-labelledby',card.id+'-title');
+  const top=element('div','','compression-map-branch-top');top.append(element('span',String(index+1).padStart(2,'0'),'compression-map-number'),LRICompressionVisuals.icon(method.term_id,28));card.append(top);
+  const heading=element('h4',title(method));heading.id=card.id+'-title';card.append(heading,element('p',textOf(method,'map_summary')||textOf(method,'description'),'compression-map-summary'));
+  card.append(element('div',textOf(method,'map_notation'),'compression-map-notation'),element('p',textOf(method,'map_caveat')||textOf(method,'boundary'),'compression-map-caveat'));grid.append(card);
+ }figure.append(grid);
+ const caption=element('figcaption',mapText('四类技术可组合：例如用蒸馏恢复量化或剪枝后的质量。模型表示、模型结构与训练方法属于不同层面。','The techniques can combine: distillation can recover quality after quantization or pruning. Representation, architecture and training operate at different levels.'));caption.id='compression-map-caption';figure.append(caption);parent.append(figure);
+ const related=element('p',mapText('关联方向：','Related directions: ')+ordered(state.data.map_terms.filter(row=>row.facet_id==='construction')).map(title).join(' · '),'compression-map-related');related.id='map-related-topics';related.dataset.sectionOutline='false';parent.append(related);
+ const next=element('div','','compression-map-next');next.append(element('p',mapText('查原理、方法、论文和效果，进入技术专题。','Open research topics for principles, methods, papers and results.')));const link=element('a',mapText('进入技术专题 →','Explore research topics →'));link.href='#view-library';link.dataset.view='library';next.append(link);parent.append(next);
  document.dispatchEvent(new Event('lri:sections-changed'));
-}
-
-// The map shows current knowledge, derived from the same cited topic index.
-// No paper result is maintained in the map renderer.
-function mapTopicEntry(topic,primary=false){
- const item=element('article','','map-topic-entry'+(primary?' map-topic-primary':''));item.dataset.mapTopic=topic.compression_topic_id;
- const link=scientificLink(topic.target_term_id,topic.method_term_id,mapTopicLabel(topic)+' →');link.className=primary?'map-topic-title research-map-primary':'map-topic-title';item.append(link);
- if(textOf(topic,'question'))item.append(element('p',textOf(topic,'question'),'map-topic-question'));
- const signal=element('div',mapText('正在读取专题证据状态…','Loading topic evidence…'),'map-topic-knowledge');signal.dataset.mapKnowledge='true';item.append(signal);return item;
-}
-function hydrateMapKnowledge(parent){
- const revision=state.revision;
- expertLibraryRead(revision).then(index=>{
-  if(!parent.isConnected||state.revision!==revision)return;
-  for(const host of parent.querySelectorAll('[data-map-topic]')){
-   const topic=host.dataset.mapTopic,cards=index.cards.filter(c=>c.topic===topic),cases=cards.filter(c=>c.kind==='case'),refs=cards.flatMap(c=>c.sources),latest=refs.map(s=>s.checked_at).filter(Boolean).sort().at(-1),brief=cards.find(c=>c.id===topic+'__expert_brief');
-   const status=host.querySelector('[data-map-knowledge]');if(!status)continue;status.replaceChildren();
-   if(brief)status.append(element('span',title(brief),'map-topic-judgment'));
-   const meta=element('span',cases.length+mapText(' 个原文案例',' primary cases')+(latest?mapText(' · 最近核对 ',' · Last checked ')+latest:''),'map-topic-coverage');status.append(meta);
-   const sources=element('div','','map-topic-methods');for(const c of cases.slice(0,3)){const a=element('a',title(c).split(/[：:]/)[0]),url=new URL('topic.html',location.href);url.searchParams.set('topic',topic);if(state.period)url.searchParams.set('month',state.period);if(state.scope)url.searchParams.set('scope',state.scope);url.hash=c.anchor;a.href=url.pathname+url.search+url.hash;a.title=title(c);sources.append(a);}if(cases.length)sources.prepend(element('span',mapText('直接看：','Go to: ')));status.append(sources);
-  }
-  parent.dataset.mapKnowledgeReady='true';document.dispatchEvent(new Event('lri:sections-changed'));
- }).catch(()=>{for(const node of parent.querySelectorAll('[data-map-knowledge]'))node.textContent=mapText('证据状态暂不可用，专题内容仍可打开。','Evidence status unavailable; the topic remains accessible.');});
 }
 
 function renderSelectors() {

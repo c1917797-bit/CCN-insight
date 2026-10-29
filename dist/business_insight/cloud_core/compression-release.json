@@ -1,8 +1,8 @@
 {
   "schema": "ccn.compression-release.v1",
-  "content_version": "compression-dbdb11902f6af265fc8d",
-  "reader_revision": "afac8a042589199cd9039f90fcfd726edfc95c5c",
-  "ui_revision": "50daeeb20f9e5e390238",
+  "content_version": "compression-fa85cd62577ac5676b94",
+  "reader_revision": "c2939d66805c389967f18b751253b3328bc38b60",
+  "ui_revision": "cb08437c4484483377d2",
   "source_repository": "https://github.com/c1917797-bit/CCN-insight",
   "canonical_reader": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/"
 }

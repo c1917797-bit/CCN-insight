@@ -118,7 +118,7 @@ check('A same-page evidence jump reaches and focuses the exact real source card'
 const viewNodes = new Map(['reading-controls', 'reading-context', 'judgment-basis', 'scientific-map']
   .map(id => [id, element('div')]));
 let hasLibrary = false, mapRenderCount = 0, standaloneTopic = false;
-viewNodes.get('scientific-map').querySelector = selector => selector === '.expert-library' && hasLibrary ? element('section') : null;
+viewNodes.get('scientific-map').querySelector = selector => selector === '.compression-map-heading' && hasLibrary ? element('section') : null;
 const viewState = {
   view: 'updates', revision: 'loaded-revision', readerMode: 'full', directionMode: false,
   focusTarget: '', data: {map_facets: [{}]}, profile: {}, scopeReady: true,

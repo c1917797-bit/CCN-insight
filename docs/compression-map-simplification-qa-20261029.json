@@ -1,0 +1,10 @@
+{
+  "date": "2026-10-29",
+  "status": "local verification passed; publication pending",
+  "change": "Map is a four-branch overview with one onward link. Topic retrieval and evidence remain in the independent library.",
+  "map": {"core_branches": 4, "content_links": 1, "topic_cards": 0, "filters": 0, "paper_shortcuts": 0},
+  "preserved": {"topics": 16, "complete_cards": 216, "resolved_citations": 497, "legacy_route_anchors": true, "reference_sections": "moved to library", "main_tabs": 5},
+  "browser": {"desktop_width": 1280, "mobile_width": 390, "horizontal_overflow": false, "map_to_library": "clicked", "topic_search": "权重 量化 returns one of 16", "topic_detail": "clicked and full dossier visible", "detail_to_map": "clicked", "viewport_override": "reset"},
+  "checks": ["build.py", "verify.py", "verify_original_reader.py", "verify_compression.py", "test_research_map.cjs", "test_reader_journey.cjs", "test_expert_navigation.cjs"],
+  "scope": "Layout, taxonomy summaries and reading navigation only. No new paper claims, hardware results or model measurements."
+}

@@ -105,6 +105,48 @@
       "role": "value",
       "source": null,
       "type": "string"
+    },
+    "map_summary_zh": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "map_summary_en": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "map_caveat_zh": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "map_caveat_en": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "map_notation_zh": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "map_notation_en": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "text"
     }
   },
   "indexes": [
