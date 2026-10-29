@@ -138,22 +138,25 @@ check('Research blocks expose their content without details disclosure', () => {
   assert.equal(block.querySelectorAll('details').length, 0);
 });
 
-check('Weight background keeps the full explanation before hardware and research scope', () => {
+check('Weight background retains its explanation and hardware; scope remains a separate complete block', () => {
   currentTopic='parameters-precision';
   const frame=rows('ic_compression_research_frames').find(r=>r.compression_topic_id===currentTopic);
   currentDossier={frames:[frame],refs:refs.filter(r=>r.compression_topic_id===currentTopic),sources};
   context.weightTopicCards=(host,ids)=>ids.forEach(id=>{const card=cards.find(c=>c.card_id===id);assert(card,'Missing background card '+id);host.append(element('article',card.body_zh));});
   context.scientificLink=(target,method,label)=>{const a=element('a',label);a.href='topic.html?topic='+target+'-'+method;return a;};
   const host=element('section');
-  context.renderWeightResearchBackground(host,(parent,id,zh)=>{const section=element('section');section.id='direction-'+id;section.append(element('h3',zh));parent.append(section);return section;});
-  assert.deepEqual(host.children.map(n=>n.id),['direction-background-overview','direction-value','direction-hardware-formats','direction-scope']);
+  const sub=(parent,id,zh)=>{const section=element('section');section.id='direction-'+id;section.append(element('h3',zh));parent.append(section);return section;};
+  context.renderWeightResearchBackground(host,sub);
+  assert.deepEqual(host.children.map(n=>n.id),['direction-background-overview','direction-value','direction-hardware-formats']);
   const intro=host.children[0];
   for(const paragraph of frame.why_zh.split('\n'))assert(intro.textContent.includes(paragraph),'Missing background paragraph');
   assert(intro.textContent.includes('舍入与裁剪造成的偏差'));
   assert.equal(host.querySelectorAll('details').length,0);
   assert(host.descendants().every(n=>!n.hidden),'Background should not be individually hidden');
   assert(intro.querySelector('.topic-dossier-citations').children.length>0,'Keep literature attribution');
-  assert(!host.children[3].textContent.includes(frame.why_zh),'Do not repeat the introduction in scope');
+  const scope=element('section');context.renderWeightResearchScope(scope,sub);
+  assert.equal(scope.children[0].id,'direction-scope');
+  assert(!scope.textContent.includes(frame.why_zh),'Do not repeat the introduction in scope');
 });
 
 check('Generic full topics keep seven readable chapters and mark analysis correctly', () => {
