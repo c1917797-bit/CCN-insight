@@ -2,6 +2,12 @@
   "status": "local_browser_verified_pending_online",
   "change": "Compact grouped source entrypoints without changing canonical sources or URLs",
   "viewport_width": 1280,
+  "academic_group_order": ["papers", "reviews", "venues"],
+  "academic_group_labels": ["论文入口", "评审与版本", "学术会议"],
+  "core_sources_by_group": [2, 1, 9],
+  "all_sources_by_group": [2, 1, 11],
+  "conference_filter_only_shows_venues": true,
+  "conference_filter_count": 9,
   "arxiv": {
     "before_entry_area_height_px": 605.0625,
     "after_entry_area_height_px": 168.8828125,
