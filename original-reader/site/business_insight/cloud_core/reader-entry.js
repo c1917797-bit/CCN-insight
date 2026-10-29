@@ -3957,7 +3957,7 @@ function weightTopicCards(parent,ids){
   const row=dossier.cards.find(c=>c.card_id===id);if(!row)continue;
   const card=element('article','','quant-article-card');card.id='research-card-'+id;card.dataset.researchCard=id;card.dataset.claimKind=row.claim_kind;
  if(row.card_kind==='case')expertCardTools(card,row,dossier);
- if(id!=='parameters-precision__principles_brief')card.append(element('h4',title(row)));
+ if(!['parameters-precision__principles_brief','parameters-precision__insight_scope'].includes(id))card.append(element('h4',title(row)));
  if(['parameters-precision__hardware_nvidia','parameters-precision__hardware_ascend'].includes(id)){
   const lines=textOf(row,'body').split('\n'),rows=lines.filter(line=>line.includes('\t')).map(line=>line.split('\t'));
   const wrap=element('div','','weight-progress-scroll');wrap.tabIndex=0;wrap.setAttribute('role','region');wrap.setAttribute('aria-label',title(row));
