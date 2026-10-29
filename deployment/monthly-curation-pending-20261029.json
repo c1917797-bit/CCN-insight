@@ -1,22 +1,48 @@
 {
-  "status": "built_and_checked_locally_not_published",
+  "status": "published_v27",
   "date": "2026-10-29",
   "site_project_id": "appgprj_6ad8b74cbb048191b7b6aaf46ad43a89",
   "site_url": "https://ccn-insight-four.sunshinepmy.chatgpt.site/",
   "scope_id": "ic-2026-10-model-reviewed-20261029-v1",
   "content_version": "compression-b365aa870909543235dd",
   "selected_papers": 16,
-  "selection_tiers": {"key_progress": 6, "technical_watch": 9, "boundary_case": 1},
-  "review_depth": {"selected_sections": 4, "abstract_only": 12},
+  "selection_tiers": {
+    "key_progress": 6,
+    "technical_watch": 9,
+    "boundary_case": 1
+  },
+  "review_depth": {
+    "selected_sections": 4,
+    "abstract_only": 12
+  },
   "selected_industry_releases": 5,
-  "also_included": ["Previously pending simplified technology map", "Restored full weight-quantization research background before chip tables"],
-  "last_confirmed_live_version": 26,
-  "blockers": [
-    "Sites metadata and credential connector: HTTP transport connection failure",
-    "GitHub fetch: getaddrinfo thread failed; escalated execution did not start because automatic approval timed out",
-    "Browser QA: automatic approval timed out; no successful new browser verification"
+  "also_included": [
+    "Previously pending simplified technology map",
+    "Restored full weight-quantization research background before chip tables"
   ],
+  "last_confirmed_live_version": 26,
+  "blockers": [],
   "source_decisions": "docs/monthly-selection-curation-20261029.json",
-  "checks_passed": ["build", "verify", "verify_compression", "verify_original_reader", "verify_expert_index --self-test", "audit_compression_inventory --self-test", "monthly_organization", "industry_reader with canonical data", "reader_journey", "research_map", "expert_navigation", "reader_round2", "report_reasoning", "topic_reader_five_rounds", "adopt_reviewed_materials", "reading_routing", "git diff --check"],
-  "resume": "Fetch/reconcile GitHub, push latest main commit, open official Sites workflow with fresh credential, sync the latest dist to its existing source mirror, verify exact pushed SHA, package/save/deploy and check production. Do not reuse the old map-only archive or change successful publication receipt before confirmed deployment."
+  "checks_passed": [
+    "build",
+    "verify",
+    "verify_compression",
+    "verify_original_reader",
+    "verify_expert_index --self-test",
+    "audit_compression_inventory --self-test",
+    "monthly_organization",
+    "industry_reader with canonical data",
+    "reader_journey",
+    "research_map",
+    "expert_navigation",
+    "reader_round2",
+    "report_reasoning",
+    "topic_reader_five_rounds",
+    "adopt_reviewed_materials",
+    "reading_routing",
+    "git diff --check"
+  ],
+  "resume": "Fetch/reconcile GitHub, push latest main commit, open official Sites workflow with fresh credential, sync the latest dist to its existing source mirror, verify exact pushed SHA, package/save/deploy and check production. Do not reuse the old map-only archive or change successful publication receipt before confirmed deployment.",
+  "deployment_id": "appgdep_6ae374a726948191b260102a1d2f85a0",
+  "site_version_number": 27
 }
