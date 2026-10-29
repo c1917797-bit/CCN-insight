@@ -1,0 +1,28 @@
+{
+  "verified_at": "2026-10-29T18:23:10.967Z",
+  "url": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/topic.html?topic=parameters-precision&month=2026-10#research-overview-challenges",
+  "version": 34,
+  "checks": {
+    "challenge_titles": [
+      "表示与编码",
+      "误差与质量",
+      "执行协同"
+    ],
+    "group_card_counts": [
+      3,
+      3,
+      1
+    ],
+    "paper_case_count": 9,
+    "initially_open_case_count": 0,
+    "visible_research_scope_heading": false,
+    "clicked_challenge_to_calibration": true,
+    "calibration_heading": "尺度、裁剪与舍入：同样的位数，怎样少损失信息？",
+    "clicked_awq": true,
+    "only_open_case": "parameters-precision__case_awq",
+    "original_awq_evidence_present": true
+  },
+  "screenshot": "docs/weight-quantization-pyramid-online.png",
+  "local_qa": "docs/weight-quantization-pyramid-qa-20261029.json",
+  "verification_limit": "Production desktop click walkthrough; mobile and partial-view checks performed on identical local delivery before deployment. No independent model benchmark performed."
+}

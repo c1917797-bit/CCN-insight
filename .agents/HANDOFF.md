@@ -1,4 +1,8 @@
-# 权重量化的挑战与路线重组待发布（2026-10-29）
+# v34 权重量化三条主线与论文折叠已上线（2026-10-29）
+
+主仓内容 c332bd371d3bd7f387eb6c3c336e9227b190ce8e 已推送；Sites 源 298fab9629bbc3ef7a80eab0e0cf09821ae9fa28 经官方 helper 推送并重开核对，v34 部署 appgdep_6ae38eb2fe148191a0f8396607e44371 succeeded。发布前完整合并 e4a6866 的月内论文总表和 2adecbc 的 v33 回执，保留1,728候选与研究原则；合并后构建、三项主校验、15项阅读器契约、导航和月度总表测试均通过。正式站实际检查三主线/七卡3-3-1、9案例默认关闭、无重复范围标题，并点击挑战→校准和AWQ展开原文证据。手机和部分视图在本地同一交付源验收。UI 23ddf1ba0280b9597fa7，内容 compression-1eecdf6824e0c5f6086c。回执 deployment/weight-quantization-pyramid-publication-20261029.json；线上QA docs/weight-quantization-pyramid-online-qa-20261029.json。原网址和公开权限保持，原站既有共源入口继续使用本次 CCN 内容；没有回写原站、上传私人资料或演讲稿。
+
+# 权重量化的挑战与路线重组过程（2026-10-29）
 
 用户要求按金字塔原理对应关键挑战与技术路线。唯一源中frame改为表示与编码、误差与质量、执行协同三条主线；七张landscape卡以可选challenge_group字段分成3/3/1，按主要贡献归位，不宣称互斥。表示/准备/运行完整成本作为共同条件，保留原来额外信息计量内容。页面三组标题复用同一frame，挑战直达七个原卡锚点并可返回；部分background/mechanism视图自动切换到可见目标，保留month/scope。
 
