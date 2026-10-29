@@ -15,6 +15,14 @@ async function read(context){
  const b=await LRICloudSemanticRead('synthesis',context.revision,{scope:context.scope,period:context.period});
  check(b.revision===context.revision,'Insight revision drift');const g=b.groups;Object.values(g).forEach(owned);
  const stories=new Map(g.monthly_route_insights.map(r=>[r.story_id,r])),topicIds=new Set(context.topics.map(r=>r.compression_topic_id));
+ check(stories.size===g.monthly_route_insights.length,'Duplicate insight narrative');
+ for(const r of g.monthly_route_insights){
+  check(r.scope_id===context.scope&&r.period_id===context.period&&r.claim_status==='analyst_synthesis','Insight narrative scope mismatch');
+  if(r.selection_tier){
+   check(['key_progress','technical_watch','boundary_case'].includes(r.selection_tier)&&/^\d{4}-\d{2}-\d{2}$/.test(r.checked_at),'Invalid editorial insight tier or review date');
+   check(['title','question','synthesis','viewpoint','implication','boundary','selection_reason'].every(k=>['zh','en'].every(locale=>typeof r[k+'_'+locale]==='string'&&r[k+'_'+locale].trim())),'Incomplete editorial insight');
+  }
+ }
  for(const a of g.ascend_route_assessments){check(stories.has(a.story_id)&&a.scope_id===context.scope&&a.period_id===context.period&&a.claim_status==='analyst_recommendation','Unbound analyst judgment');}
  for(const p of g.ascend_validation_probes)check(g.ascend_route_assessments.some(a=>a.assessment_id===p.assessment_id)&&p.status==='proposed_not_measured'&&p.scope_id===context.scope&&p.period_id===context.period,'Unbound or promoted proposed probe');
  for(const r of g.monthly_route_evidence)check(stories.has(r.story_id)&&topicIds.has(r.compression_topic_id)&&r.scope_id===context.scope&&r.period_id===context.period,'Invalid judgment evidence/map relation');
@@ -27,6 +35,7 @@ async function read(context){
  for(const r of g.insight_reports)check(r.scope_id===context.scope&&r.period_id===context.period,'Report scope mismatch');
  check(summaries.revision===context.revision&&summaries.records.length===summaryIds.length,'Incomplete paper probe evidence');owned(summaries.records);for(const p of summaries.records)check(['primary_abstract_checked','method_results_checked'].includes(p.review_status)&&p.evidence_locator&&/^\d{4}-\d{2}-\d{2}$/.test(p.reviewed_at)&&['one_sentence','innovation','results'].every(k=>typeof p[k+'_zh']==='string'&&p[k+'_zh'].trim()),'Incomplete paper review provenance');
  for(const r of g.monthly_route_evidence){const p=summaries.records.find(p=>p.summary_id===r.summary_id);check(p&&p.source_id===r.source_id&&p.observed_version===r.observed_version,'Paper probe version/source mismatch');url(p.evidence_url);}
+ check(g.monthly_route_insights.every(r=>g.monthly_route_evidence.some(ref=>ref.story_id===r.story_id)),'Insight narrative without direct evidence');
  const sourceRows=[...s.records];let reportScope=context.scope,reportFallback=false;
  // A new evidence batch does not imply that a new report/PPT was published.
  // Keep the latest published report from the same month, with its own cutoff.
@@ -88,6 +97,78 @@ function bindReportArgumentJump(link,id){
  link.href='#'+id;link.addEventListener('click',event=>{if(event.ctrlKey||event.metaKey||event.shiftKey||event.altKey||event.button)return;const target=document.getElementById(id);if(!target)return;event.preventDefault();event.stopPropagation();const appendix=document.getElementById('ascend');if(appendix?.tagName==='DETAILS')appendix.open=true;history.replaceState(null,'',location.pathname+location.search+'#'+id);target.tabIndex=-1;target.scrollIntoView({block:'start'});target.focus({preventScroll:true});});
 }
 function reportExcerpt(value){const text=value.trim(),end=text.search(/[。！？]|[.!?](?=\s|$)/);return end<0?text:text.slice(0,end+1);}
+// A later evidence selection can have a current web synthesis before a new
+// slide report exists. Keep its revisioned judgments separate from old files.
+function editorialSelection(m){
+ if((m.insight_reports||[]).some(r=>r.status==='published'&&r.scope_id===current.scope&&r.period_id===current.period))return null;
+ const rows=(m.monthly_route_insights||[...(m.stories?.values()||[])]).filter(r=>r.scope_id===current.scope&&r.period_id===current.period&&r.selection_tier);
+ return rows.length?{rows:rows.filter(r=>selected(m,r.story_id)).sort((a,b)=>a.position-b.position||a.story_id.localeCompare(b.story_id))}:null;
+}
+function editorialRefs(m,story){return [...new Map(m.monthly_route_evidence.filter(r=>r.story_id===story.story_id).map(r=>[r.summary_id,r])).values()];}
+function editorialReview(summary){return ui(summary.review_status==='method_results_checked'?'editorial_review_sections':'editorial_review_abstract')+' · '+summary.evidence_locator+' · '+summary.reviewed_at;}
+function analysisFrame(editorial){
+ const labels=[
+  ['#insight-report-presentation [data-i18n-key="deck_title"]','deck_title'],
+  ['#insight-report-presentation [data-i18n-key="analysis_report_hint"]','analysis_report_hint'],
+  ['#insight-report-presentation [data-i18n-key="deck_relation"]','deck_relation'],
+  ['.analysis-reading-navigation a[href="#insight-report-presentation"]','analysis_report_link'],
+  ['.analysis-reading-navigation a[href="#analysis-focus"]','analysis_overview_link'],
+  ['.analysis-reading-navigation a[href="#ascend"]','analysis_decisions_link'],
+  ['#ascend .analysis-section-heading h3','analysis_route_title'],
+  ['#ascend .analysis-section-note','analysis_route_note']
+ ];
+ const replacements={deck_title:'editorial_attachment_title',analysis_report_hint:'editorial_attachment_hint',deck_relation:'editorial_attachment_relation',analysis_report_link:'editorial_attachment_title',analysis_overview_link:'editorial_source_index',analysis_decisions_link:'editorial_judgments',analysis_route_title:'editorial_judgments',analysis_route_note:'editorial_judgments_help'};
+ for(const [selector,key] of labels){const node=document.querySelector?.('[data-analysis-frame-key="'+key+'"]')||document.querySelector?.(selector);if(node){node.dataset.analysisFrameKey=key;node.setAttribute('data-i18n-key',editorial?replacements[key]:key);node.textContent=ui(editorial?replacements[key]:key);}}
+ const section=document.getElementById('insight-report-presentation');if(section){section.dataset.sectionLabel=editorial?'历史演示附件':'洞察报告';section.dataset.sectionLabelEn=editorial?'Historical presentation files':'Current insight report';}
+}
+function renderEditorialAnalysis(m,rows){
+ const root=document.getElementById('ascend-cards'),overview=document.getElementById('analysis-summary'),focus=document.getElementById('analysis-focus-cards'),meta=document.getElementById('analysis-meta');
+ root.replaceChildren();overview?.replaceChildren();focus?.replaceChildren();if(overview)delete overview.dataset.reportId;
+ const priorities=rows.filter(r=>r.selection_tier==='key_progress'),uniqueRefs=[...new Map(rows.flatMap(r=>editorialRefs(m,r)).map(r=>[r.summary_id,r])).values()];
+ const title=document.getElementById('home-judgement');if(title){title.textContent=ui('editorial_report_title');title.dataset.synthesisContext=[current.revision,current.scope,current.period,current.locale].join('|');}
+ const intro=document.querySelector?.('#insight-overview .analysis-intro');if(intro){intro.removeAttribute('data-i18n-key');intro.textContent=ui('editorial_report_intro');}
+ const reviewed=rows.map(r=>r.checked_at).sort().at(-1)||'';
+ if(meta)meta.textContent=current.period+' · '+ui('analysis_reviewed')+' '+reviewed+' · '+uniqueRefs.length+' '+ui('editorial_selected_papers')+' · '+['key_progress','technical_watch','boundary_case'].map(tier=>rows.filter(r=>r.selection_tier===tier).length+' '+ui('editorial_tier_'+tier)).join(' / ');
+ const focusHeading=document.querySelector?.('#analysis-focus>h3'),focusHelp=document.querySelector?.('#analysis-focus>.reader-note');if(focusHeading){focusHeading.textContent=ui('editorial_source_index');focusHeading.setAttribute('data-i18n-key','editorial_source_index');}if(focusHelp){focusHelp.textContent=ui('editorial_source_help');focusHelp.setAttribute('data-i18n-key','editorial_source_help');}
+ if(!rows.length){root.append(el('p',ui('editorial_empty'),'reader-note'));return;}
+ if(overview){
+  const header=el('header','','analysis-choice-heading');header.append(el('h3',ui('editorial_key_choices')),el('p',ui('editorial_key_help')));overview.append(header);
+  const grid=el('div','','analysis-choice-grid');
+  for(const [index,story] of priorities.entries()){
+   const refs=editorialRefs(m,story),card=el('article','','analysis-choice-card');card.dataset.sectionOutline='false';card.dataset.storyId=story.story_id;card.dataset.claimKind='analyst_synthesis';
+   const identity=el('div','','analysis-choice-identity');identity.append(el('p',String(index+1).padStart(2,'0')+' · '+ui('editorial_tier_key_progress'),'analysis-choice-meta'));const heading=el('h4'),link=el('a',pick(story,'title'));bindReportArgumentJump(link,story.story_id);heading.append(link);identity.append(heading);card.append(identity);
+   const reason=el('div','','analysis-choice-why');reason.append(el('strong',ui('editorial_selection_reason')),el('p',pick(story,'selection_reason'),'analysis-choice-reason'));card.append(reason);
+   const gate=el('p','','analysis-choice-gate');gate.append(el('strong',ui('editorial_viewpoint')+'：'),document.createTextNode(pick(story,'viewpoint')));card.append(gate);
+   const reviews=[...new Set(refs.map(ref=>ui(m.paperSummaries.get(ref.summary_id).review_status==='method_results_checked'?'editorial_review_sections':'editorial_review_abstract')))];card.append(el('p',reviews.join(' · '),'meta'));
+   const links=el('div','','analysis-choice-links'),detail=el('a',ui('editorial_read_argument'));bindReportArgumentJump(detail,story.story_id);links.append(detail);for(const ref of refs){const facts=el('a',ui('editorial_read_facts'));facts.href=reportFactsHref(ref);links.append(facts);}card.append(links);grid.append(card);
+  }overview.append(grid);
+ }
+ if(focus){
+  const seen=new Set();for(const story of priorities)for(const ref of editorialRefs(m,story)){
+   if(seen.has(ref.summary_id))continue;seen.add(ref.summary_id);const summary=m.paperSummaries.get(ref.summary_id),source=m.sources.get(ref.source_id),card=el('article','','analysis-focus-card analysis-source-index-row');card.dataset.sectionOutline='false';card.dataset.storyId=story.story_id;card.dataset.sourceId=ref.source_id;card.dataset.summaryId=ref.summary_id;card.dataset.claimKind='analyst_synthesis';
+   const heading=el('h4'),link=el('a',source.title);link.href=url(summary.evidence_url);link.target='_blank';link.rel='noopener noreferrer';heading.append(link);card.append(heading,el('span',ref.observed_version,'analysis-source-index-version'),el('p',editorialReview(summary),'meta'));
+   const actions=el('div','','analysis-source-index-links'),facts=el('a',ui('editorial_read_facts')),argument=el('a',ui('editorial_read_argument'));facts.href=reportFactsHref(ref);bindReportArgumentJump(argument,story.story_id);actions.append(facts,argument);card.append(actions);focus.append(card);
+  }
+ }
+ let groupIndex=0;
+ for(const tier of ['key_progress','technical_watch','boundary_case']){
+  const stories=rows.filter(r=>r.selection_tier===tier);if(!stories.length)continue;
+  const group=el('section','','analysis-route-group');group.id='analysis-priority-'+(++groupIndex);group.dataset.sectionLabel=({key_progress:'重点研究',technical_watch:'技术观察',boundary_case:'边界案例'})[tier];group.dataset.sectionLabelEn=({key_progress:'Key research',technical_watch:'Technical watch',boundary_case:'Boundary cases'})[tier];group.dataset.sectionLevel='3';
+  const heading=el('div','','analysis-group-heading');heading.append(el('h4',ui('editorial_tier_'+tier)),el('span',String(stories.length),'analysis-count'));group.append(heading);
+  for(const story of stories){
+   const refs=editorialRefs(m,story),allRefs=m.monthly_route_evidence.filter(r=>r.story_id===story.story_id),shell=el('article','','analysis-route-shell'),card=el('section','','analysis-route');shell.dataset.sectionOutline='false';card.id=story.story_id;card.dataset.sectionOutline='false';card.dataset.storyId=story.story_id;card.dataset.editorialTier=tier;card.dataset.claimKind='analyst_synthesis';
+   const header=el('header','','analysis-route-summary'),headline=el('div','','analysis-route-headline');headline.append(el('h5',pick(story,'title')));header.append(el('span',String(story.position+1).padStart(2,'0'),'analysis-route-number'),headline);card.append(header);
+   const body=el('div','','analysis-route-body'),grid=el('div','','analysis-reason-grid');
+   for(const [key,value] of [['editorial_mechanism',pick(story,'synthesis')],['editorial_viewpoint',pick(story,'viewpoint')]]){const block=el('section','','analysis-reason-block');block.dataset.sectionOutline='false';block.append(el('h6',ui(key)),el('p',value));grid.append(block);}body.append(grid);
+   if(pick(story,'implication')!==pick(story,'viewpoint')){const next=el('section','','analysis-reason-block');next.dataset.sectionOutline='false';next.append(el('h6',ui('editorial_next_check')),el('p',pick(story,'implication')));body.append(next);}
+   const boundary=el('div','','analysis-boundary');boundary.append(el('h6',ui('decision_boundary')),el('p',pick(story,'boundary')));body.append(boundary);
+   const evidence=el('section','','analysis-proof');evidence.dataset.sectionOutline='false';evidence.append(el('h6',ui('editorial_evidence_depth')));
+   for(const ref of refs){const summary=m.paperSummaries.get(ref.summary_id),source=m.sources.get(ref.source_id),entry=el('article','','analysis-paper-probe');entry.id=story.story_id+'--'+ref.summary_id;entry.dataset.sectionOutline='false';entry.dataset.sourceId=ref.source_id;entry.dataset.summaryId=ref.summary_id;entry.dataset.reviewStatus=summary.review_status;entry.append(el('h6',source.title+' · '+ref.observed_version,'analysis-paper-heading'));const link=el('a',ui('signal_primary'));link.href=url(summary.evidence_url);link.target='_blank';link.rel='noopener noreferrer';const facts=el('a',ui('editorial_read_facts'));facts.href=reportFactsHref(ref);const actions=el('div','','analysis-choice-links');actions.append(link,facts);entry.append(el('p',editorialReview(summary),'meta'),actions);evidence.append(entry);}body.append(evidence);card.append(body);shell.append(card);
+   const map=el('div','','analysis-route-map');topics(map,allRefs.map(r=>r.compression_topic_id));shell.append(map);group.append(shell);
+  }root.append(group);
+ }
+ notify();
+}
 function renderReportChoices(m,rows,root){
  if(!root)return;const word=(zh,en)=>current.locale==='en'?en:zh,{selection,priorities}=reportResearchChoices(m,rows);root.replaceChildren();
  if(selection)root.dataset.reportId=selection.report.report_id;else delete root.dataset.reportId;
@@ -123,6 +204,7 @@ function renderAnalysis(m){
  const root=document.getElementById('ascend-cards');if(!root)return;
  root.dataset.sectionOutline='false';root.dataset.sectionLabel='研究取舍与论证';root.dataset.sectionLabelEn='Research decisions and reasoning';
  const appendix=document.getElementById('ascend');if(appendix){appendix.dataset.sectionId=appendix.id;appendix.dataset.sectionLabel='研究取舍与论证';appendix.dataset.sectionLabelEn='Research decisions and reasoning';appendix.dataset.sectionLevel='2';}
+ const editorial=editorialSelection(m);analysisFrame(Boolean(editorial));if(editorial){renderEditorialAnalysis(m,editorial.rows);return;}
  root.replaceChildren();
  const rows=m.ascend_route_assessments.filter(a=>selected(m,a.story_id)).sort((a,b)=>a.position-b.position);
  const overview=document.getElementById('analysis-summary'),meta=document.getElementById('analysis-meta'),prioritySources=reportPrioritySources(m);overview?.replaceChildren();renderResearchFocus(m,rows);
@@ -166,7 +248,7 @@ function restoreReportAnchor(m){
  if(current?.view!=='home')return;
  const hash=location.hash;let id;
  try{id=decodeURIComponent(hash.slice(1));}catch{return;}
- const ownedAnchor=id==='analysis-focus'||id==='ascend'||/^analysis-priority-\d+$/.test(id)||(m.ascend_route_assessments||[]).some(a=>id===a.assessment_id||m.monthly_route_evidence.some(r=>r.story_id===a.story_id&&id===a.assessment_id+'--'+r.summary_id));
+ const ownedAnchor=id==='analysis-focus'||id==='ascend'||/^analysis-priority-\d+$/.test(id)||(m.ascend_route_assessments||[]).some(a=>id===a.assessment_id||m.monthly_route_evidence.some(r=>r.story_id===a.story_id&&id===a.assessment_id+'--'+r.summary_id))||(m.monthly_route_insights||[]).some(story=>id===story.story_id||m.monthly_route_evidence.some(ref=>ref.story_id===story.story_id&&id===story.story_id+'--'+ref.summary_id));
  if(!ownedAnchor||!document.getElementById(id))return;
  const contextKey=current.key||[current.revision,current.scope,current.period].join('|'),key=contextKey+'|'+hash;
  if(restoredReportAnchors.has(key))return;
@@ -239,11 +321,19 @@ function renderReports(m){
  for(const id of archive?['insight-deck-archive']:['insight-deck-content']){
   const root=document.getElementById(id);if(!root)continue;for(const d of root.querySelectorAll('dialog[open]'))d.close();root.replaceChildren();
   const scoped=m.insight_reports.filter(r=>r.scope_id===(m.reportScope||current.scope)&&r.period_id===current.period&&(!archive||r.period_id>='2026-10')),rows=scoped.filter(r=>r.status==='published').sort(byDate),history=archive?scoped.filter(r=>r.status==='superseded').sort(byDate):[];
-  if(m.reportFallback&&rows.length)root.append(el('p',word('这里保留本月已发布报告（核对日期：'+rows[0].reviewed_at+'）。本轮新增材料见本期动态，尚未重制PPT。','This is the published report for this month, checked on '+rows[0].reviewed_at+'. Newly added evidence is in current updates; the PPT has not been regenerated.'),'reader-note'));
   if(!rows.length&&!history.length){root.append(el('p',ui('deck_not_available'),'meta'));continue;}
   const assetUrl=a=>{check(a,'Missing report asset');const target=new URL(a.public_path,location.origin);check(target.origin===location.origin&&target.pathname.startsWith('/business_insight/cloud_core/reports/')&&/^[a-f0-9]{64}$/.test(a.content_sha256)&&a.binary_sha256===a.content_sha256,'Invalid report asset');return target.href;};
+  if(m.reportFallback&&rows.length&&!archive){
+   root.append(el('p',ui('editorial_attachment_relation'),'reader-note'));
+   for(const r of rows){
+    const card=el('article','','analysis-archive-version');card.dataset.reportId=r.report_id;card.dataset.reportStatus=r.status;card.dataset.historicalAttachment='true';card.dataset.reportScope=r.scope_id;card.append(el('p',ui('editorial_attachment_title')+' · '+r.reviewed_at+' · '+version(r),'analysis-archive-badge'),el('h3',pick(r,'title')),el('p',pick(r,'summary'),'analysis-archive-summary'));
+    const assets=m.insight_report_assets.filter(a=>a.report_id===r.report_id&&['pdf','pptx'].includes(a.format));check(assets.length===2&&new Set(assets.map(a=>a.format)).size===2,'Incomplete historical report files');
+    const actions=el('div','','analysis-archive-links');for(const format of ['pdf','pptx']){const asset=assets.find(a=>a.format===format),link=el('a',ui(format==='pdf'?'editorial_historical_pdf':'editorial_historical_pptx'));link.href=assetUrl(asset);link.target='_blank';link.rel='noopener noreferrer';if(format==='pptx')link.download=asset.public_path.split('/').pop();actions.append(link);}
+    const archiveLink=el('a',ui('editorial_open_archive'));const target=new URL('index.html',location.href);target.searchParams.set('month',current.period);target.searchParams.set('scope',r.scope_id);target.hash='view-reports';archiveLink.href=target.pathname+target.search+target.hash;actions.append(archiveLink);card.append(actions);root.append(card);
+   }continue;
+  }
   const currentHost=archive?el('section','','analysis-archive-current'):root;
-  if(archive&&rows.length){currentHost.append(el('h3',word('当前报告','Current report')),el('p',word('本期采用的版本。历史版本保留在下方，供回看当时的内容；不作为当前结论。','The version used for this period. Earlier versions below preserve their original content and are not the current assessment.'),'analysis-archive-note'));root.append(currentHost);}
+  if(archive&&rows.length){currentHost.append(el('h3',m.reportFallback?ui('editorial_latest_saved_files'):word('当前报告','Current report')),el('p',m.reportFallback?ui('editorial_attachment_relation'):word('本期采用的版本。历史版本保留在下方，供回看当时的内容；不作为当前结论。','The version used for this period. Earlier versions below preserve their original content and are not the current assessment.'),'analysis-archive-note'));root.append(currentHost);}
   for(const r of rows){
    const papers=m.insight_report_papers.filter(p=>p.report_id===r.report_id).sort((a,b)=>a.position-b.position);
    const assets=m.insight_report_assets.filter(a=>a.report_id===r.report_id),figures=assets.filter(a=>/^figure-\d{2}-(tech|results)$/.test(a.format));

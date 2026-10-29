@@ -104,9 +104,9 @@ function renderReadingGuide(){
  root.append(element('h3',mapText('如何使用这份洞察','Reading guide')));
  const rows=[
  ['信息来源：查找原始资料与跟踪入口。','Sources: source coverage and selection criteria.'],
- ['技术地图：理解原理、挑战与解决路线。','Technology map: background, challenges, mechanisms and research directions.'],
- ['本期动态：了解本月新增了哪些证据。','Current updates: this month’s papers, industry developments and news.'],
- ['洞察报告：判断哪些技术值得验证。','Insight report: synthesis, technical priorities and business recommendations.'],
+ ['技术地图：查看四类根技术与权重、激活、KV Cache的对应关系。','Technology map: four root techniques and their relationships to weights, activations and KV cache.'],
+ ['本期洞察：先看本月进展，再读综合判断及其原文依据。','Current insights: this month’s progress, followed by research assessments and their evidence.'],
+ ['技术专题：按对象、路线或问题检索16个专题，深入理解原理、方法与结果。','Research topics: find the 16 dossiers by object, method or problem, then examine mechanisms, approaches and results.'],
  ['洞察归档：回看各期判断及其变化。','Archive: previous reports and changes in assessment.']
  ];
  const list=element('ul');for(const row of rows)list.append(element('li',mapText(...row)));root.append(list);
@@ -1414,7 +1414,7 @@ function weightTopicCards(parent,ids){
  if(['parameters-precision__hardware_nvidia','parameters-precision__hardware_ascend'].includes(id)){
   const lines=textOf(row,'body').split('\n'),rows=lines.filter(line=>line.includes('\t')).map(line=>line.split('\t'));
   const wrap=element('div','','weight-progress-scroll');wrap.tabIndex=0;wrap.setAttribute('role','region');wrap.setAttribute('aria-label',title(row));
-  const table=element('table','','weight-progress-table chip-format-table');table.append(element('caption',id.endsWith('nvidia')?mapText('单 GPU 理论峰值；数值依次为稠密 / 结构化稀疏','One-GPU theoretical peaks; dense / structured-sparse'):mapText('310P、910B：所列板卡官网峰值；950：所列配置的单芯片 Cube 峰值','310P and 910B: specified card peaks; 950: single-chip Cube peaks for the listed configuration')));
+  const table=element('table','','weight-progress-table chip-format-table');table.append(element('caption',id.endsWith('nvidia')?mapText('单 GPU 稠密 Tensor Core 理论峰值；每种格式一个数值，不含结构化稀疏折算','One-GPU dense Tensor Core theoretical peaks; one value per format, excluding sparse-equivalent throughput'):mapText('310P、910B：所列板卡官网峰值；950：所列配置的单芯片 Cube 峰值','310P and 910B: specified card peaks; 950: single-chip Cube peaks for the listed configuration')));
   const head=element('thead'),hr=element('tr');for(const label of rows[0]){const th=element('th',label);th.setAttribute('scope','col');hr.append(th);}head.append(hr);table.append(head);
   const body=element('tbody');for(const cells of rows.slice(1)){const tr=element('tr');for(const [i,value]of cells.entries()){const cell=element(i===0?'th':'td');if(i===0)cell.setAttribute('scope','row');for(const part of value.split(state.locale==='en'?'; ':'；'))cell.append(element('p',part));tr.append(cell);}body.append(tr);}table.append(body);wrap.append(table);card.append(wrap);
  }else appendWeightStructuredText(card,textOf(row,'body'));weightTopicCitations(card,[id]);renderTopicSourceStrip(card,row,dossier);parent.append(card);
@@ -1496,10 +1496,10 @@ function renderWeightExpertEntry(host,parent,dossier){
 }
 function renderWeightResearchBackground(host,sub){
  const overview=sub(host,'background-overview','为什么研究权重量化','Why study weight quantization');renderResearchFraming(overview,'why');
+ const value=sub(host,'value','量化收益：理论容量与实际性能','Theoretical capacity and measured performance');renderResearchFraming(value,'value');
  const hardware=sub(host,'hardware-formats','芯片支持格式与算力','Chip formats and compute');weightTopicCards(hardware,['parameters-precision__hardware_nvidia','parameters-precision__hardware_ascend']);
  const context=sub(host,'scope','研究范围：表示、质量与执行','Research scope: representation, quality and execution');weightTopicCards(context,['parameters-precision__insight_scope']);
  const related=element('nav','','quantization-related-topics');related.setAttribute('aria-label',mapText('联合量化与缓存专题','Related joint-quantization and cache topics'));related.append(scientificLink('activations','precision',mapText('权重—激活联合量化 →','Joint W/A quantization →')),scientificLink('kv_cache','precision',mapText('KV Cache 量化 →','KV Cache quantization →')));context.append(related);
- const value=sub(host,'value','量化收益：理论容量与实际性能','Theoretical capacity and measured performance');renderResearchFraming(value,'value');
 }
 function renderWeightQuantizationTopic(parent,topic,dossier){
  if(topicPage()&&['#research-overview-principles','#direction-quantization-principles'].includes(location.hash)){location.replace(compressionFoundationHref('precision'));return;}
@@ -1584,7 +1584,7 @@ function renderCompressionTopic(parent,cell){
  const id=compressionTopicId(),topic=state.data.compression_topics.find(row=>row.compression_topic_id===id),techniques=techniquesForCell(cell),routes=linkedLineages(cell),dossier=researchDossier();ensureResearchDossier();
  if(id==='parameters-precision'){renderWeightQuantizationTopic(parent,topic,dossier);return;}
  parent.classList.add('research-topic-report','structured-topic');
- const back=element('a',mapText('← 技术地图 · 全部专题','← Technology map · All topics'),'direction-back');back.href='index.html'+(state.period?'?month='+state.period+(state.scope?'&scope='+state.scope:''):'')+'#view-topics';back.dataset.compressionTopicBack='true';parent.append(back);
+ const back=element('a',mapText('← 全部技术专题','← All research topics'),'direction-back');back.href='index.html'+(state.period?'?month='+state.period+(state.scope?'&scope='+state.scope:''):'')+'#view-library';back.dataset.compressionTopicBack='true';parent.append(back);
  const hero=element('header','','direction-hero compression-topic-hero'),badges=element('div','','direction-badges');
  badges.append(element('span',mapText('推理压缩 · 持续研究专题','Inference compression · Living research topic')),element('span',id==='parameters-distillation'?mapText('知识蒸馏 · 主专题','Knowledge distillation · Main topic'):topic.method_term_id==='distillation'?mapText('知识蒸馏 · 关联案例','Knowledge distillation · Related case'):topic.catalog_kind==='matrix'?title(mapTerm(topic.method_term_id)):mapText('关联专题','Related topic')));
  hero.append(badges,element(topicPage()?'h1':'h2',title(topic)),element('p',textOf(topic,'question'),'direction-lead'));

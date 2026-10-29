@@ -1,3 +1,7 @@
+# 芯片峰值的展示口径（2026-10-29）
+
+用户指出每种格式并列两个算力值容易混淆，要求统一数值。英伟达主表改为单 GPU、稠密 Tensor Core 理论峰值，每种格式仅列一个数字，不并列结构化稀疏折算峰值；不同格式仍分别列出。A100 INT4 主表为 1,248 TOPS，不使用 2,496 TOPS。已重新核对 NVIDIA A100 Jun20 数据手册 p1 SYSTEM SPECIFICATIONS：INT4 1,248 / 2,496 TOPS，后者脚注 Structural sparsity enabled；结构条件核对 NVIDIA Ampere 架构官方说明的 2:4 模式。原文和引用保留，两列表格不变。只是统一主表展示口径，没有重新测量算力或承诺实际推理加速。
+
 # v29 压缩对象矩阵已发布（2026-10-29）
 
 主仓 2d6de56737b1070a48a24f91d13dbaccfbe5acd1 已推送；Sites 源 c4cbe00fbd25b7473cbe77c8a1d6b8395ab63bb4 经官方 helper 推送并重开核对；v29 部署 appgdep_6ae378ff91f48191aef41b8bd414baad succeeded。原网址与 public 权限保留，原站已存在的共源入口沿用本次内容。3×4 对象矩阵与4个关联方向对应全部16专题。正式站浏览器已确认三行四列矩阵、16 个唯一专题名称、一个目录入口；实点进入专题目录，确认 16 项及权重量化链接保留 month/scope。 回执 deployment/map-object-publication-20261029.json。

@@ -146,14 +146,14 @@ check('Weight background keeps the full explanation before hardware and research
   context.scientificLink=(target,method,label)=>{const a=element('a',label);a.href='topic.html?topic='+target+'-'+method;return a;};
   const host=element('section');
   context.renderWeightResearchBackground(host,(parent,id,zh)=>{const section=element('section');section.id='direction-'+id;section.append(element('h3',zh));parent.append(section);return section;});
-  assert.deepEqual(host.children.map(n=>n.id),['direction-background-overview','direction-hardware-formats','direction-scope','direction-value']);
+  assert.deepEqual(host.children.map(n=>n.id),['direction-background-overview','direction-value','direction-hardware-formats','direction-scope']);
   const intro=host.children[0];
   for(const paragraph of frame.why_zh.split('\n'))assert(intro.textContent.includes(paragraph),'Missing background paragraph');
   assert(intro.textContent.includes('舍入与裁剪造成的偏差'));
   assert.equal(host.querySelectorAll('details').length,0);
   assert(host.descendants().every(n=>!n.hidden),'Background should not be individually hidden');
   assert(intro.querySelector('.topic-dossier-citations').children.length>0,'Keep literature attribution');
-  assert(!host.children[2].textContent.includes(frame.why_zh),'Do not repeat the introduction in scope');
+  assert(!host.children[3].textContent.includes(frame.why_zh),'Do not repeat the introduction in scope');
 });
 
 check('Generic full topics keep seven readable chapters and mark analysis correctly', () => {
