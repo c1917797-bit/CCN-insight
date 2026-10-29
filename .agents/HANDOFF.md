@@ -1,3 +1,9 @@
+# v33月内矩阵与研究原则已公开发布（2026-10-29）
+
+主仓e4a686610e21a41d38c0819652b5e79dc55402a2，Sites源0b692345c15d6e644600bbd9f1cee984f45a8dc5；v33部署appgdep_6ae38c6477a0819197397cc6f537e893 succeeded。正式浏览器确认463归入16专题、四根技术去重422、64待核清单及逐条缺口，八项研究原则可从页脚打开，并要求摘要不足时补查原文；1280宽无全页横向溢出。回执deployment/monthly-paper-corpus-publication-20261029.json及在线QA。64篇原文核查、全新候选的最终精选和全来源覆盖仍未完成，不能因发布成功提升证据深度。
+
+本次自动审批把主仓SHA与镜像opening base混淆而拒绝两次；未改写成错误SHA。先本地固化逐文件验证的镜像，正式helper重开得到新的0b692345 opening result后通过同一正式流程推送。Windows打包失败后对同一已推送提交做git archive；发现Git archive受core.autocrlf影响，使用 -c core.autocrlf=false -c core.eol=lf 后2524个归档文件全部匹配Git blob哈希，才保存并部署。后续不要省略这个一致性检查。
+
 # 月内论文数量矩阵与研究原则（2026-10-29）
 
 唯一新表 ic_monthly_paper_corpus / ic_monthly_corpus_snapshots 记录已登记 arXiv 官方快照的1,728篇10月首发候选；全部按原始摘要归类。463篇对应16专题（含扩展），四类根技术矩阵去重422篇；255邻接、64待核、946不纳入，其中195篇生成式扩散。本月总量仅指这条已保存检索，不是全领域或所有已登记来源。原始26页XML、4,843条摘要/首发日期与哈希已验证，其中月内首发1,728条。
