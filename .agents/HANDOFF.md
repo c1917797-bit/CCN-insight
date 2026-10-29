@@ -1,3 +1,13 @@
+# CCN v26 导航调整已上线（2026-10-29）
+
+按维护者最终要求保留五个主入口：信息来源、技术地图、技术专题、本期洞察、洞察归档。技术专题是独立检索视图#view-library，16个专题支持问题搜索、压缩对象/技术路线筛选；地图仍一跳直达完整专题。研究速查复用原索引，移到专题目录下，不另建内容源。
+
+本期洞察内只有本期动态#view-updates和洞察报告#view-home；归档#view-reports独立，不放在本期的子页签。旧hash、年月范围、PDF/PPT入口保留。index/topic/monthly及基础原理页头一致；详细页返回目录会清理topic参数。新增兼容、选中态及入口数量回归检查，浏览器已实点目录/地图到正文、筛选重置、本期两栏、归档独立及返回。
+
+主仓内容f199e3533b9d5b0fafd61136bd5917beef6392b7；Sites源52ca42b10bd9870f19aeba4fcf0feb8c99157816；v26部署appgdep_6ae33c24178c81919a5a74535fb51ece succeeded。保留v25最新研读材料，内容版本compression-dbdb11902f6af265fc8d，UI版本50daeeb20f9e5e390238。回执deployment/ccn-publication.json及deployment/navigation-publication-20261029.json；验收docs/compression-navigation-qa-20261029.json。未重制PPT、未改原站入口或TableGit。
+
+既有研究问题—挑战—路线映射整理不在本轮导航范围。
+
 # CCN v24 已上线（2026-10-29，优先于下方记录）
 
 信息源入口已紧凑化：主页保留完整地址，学科按短标签排列，RSS默认收起，其他多入口来源默认显示两个，其余在单层展开中保留。arXiv入口区在1280宽由605.1px缩至168.9px，全部12个链接（含17篇文献的记录入口）保留；RSS五个入口已实际展开核对。学术表按论文入口、评审与版本、学术会议三组稳定排列，核心组数2/1/9、全目录2/1/11；会议筛选实际返回9项。
