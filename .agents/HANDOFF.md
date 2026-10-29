@@ -1,3 +1,7 @@
+# v30 芯片表稠密口径已发布（2026-10-29）
+
+主仓 6bd13524fd5c25b5ab968e8a6a4c577c54f44bb6 已推送；Sites 源 3bd6594a94e990e0577c523464bfd00f4c89be28 经官方 helper 推送并重开核对。v30 部署 appgdep_6ae37b9bbe2081918ca516c164906559 succeeded。正式站浏览器确认 NVIDIA 表每种格式只有一个稠密峰值，A100 INT4 为1,248 TOPS；caption 明确排除结构化稀疏折算。对象矩阵和16专题对应关系仍在。截图及QA见 docs/dense-chip-peaks-online-qa-20261029.json；回执 deployment/dense-chip-publication-20261029.json。本次发布从已验收主仓提交读取不可变dist blobs，未包含同期尚未提交的 current-synthesis/focus-ui 编辑。
+
 # 芯片峰值的展示口径（2026-10-29）
 
 用户指出每种格式并列两个算力值容易混淆，要求统一数值。英伟达主表改为单 GPU、稠密 Tensor Core 理论峰值，每种格式仅列一个数字，不并列结构化稀疏折算峰值；不同格式仍分别列出。A100 INT4 主表为 1,248 TOPS，不使用 2,496 TOPS。已重新核对 NVIDIA A100 Jun20 数据手册 p1 SYSTEM SPECIFICATIONS：INT4 1,248 / 2,496 TOPS，后者脚注 Structural sparsity enabled；结构条件核对 NVIDIA Ampere 架构官方说明的 2:4 模式。原文和引用保留，两列表格不变。只是统一主表展示口径，没有重新测量算力或承诺实际推理加速。

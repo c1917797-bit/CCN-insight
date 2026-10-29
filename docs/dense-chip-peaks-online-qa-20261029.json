@@ -1,0 +1,23 @@
+{
+  "verified_at": "2026-10-29T17:02:18Z",
+  "version": 30,
+  "deployment_id": "appgdep_6ae37b9bbe2081918ca516c164906559",
+  "status": "succeeded",
+  "url": "https://ccn-insight-four.sunshinepmy.chatgpt.site/business_insight/cloud_core/topic?topic=parameters-precision&month=2026-10&scope=ic-2026-10-model-reviewed-20261029-v1#direction-hardware-formats",
+  "browser_verified": true,
+  "caption": "单 GPU 稠密 Tensor Core 理论峰值；每种格式一个数值，不含结构化稀疏折算",
+  "a100": [
+    "FP16 / BF16：312 TFLOPS",
+    "INT8：624 TOPS",
+    "INT4：1,248 TOPS"
+  ],
+  "removed_sparse_equivalent_pairs": true,
+  "preserved_formats": true,
+  "preserved_two_columns": true,
+  "primary_evidence": [
+    "https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/a100/pdf/nvidia-a100-datasheet.pdf",
+    "https://developer.nvidia.com/blog/nvidia-ampere-architecture-in-depth/"
+  ],
+  "source_scope": "A100 Jun20 SYSTEM SPECIFICATIONS and structural-sparsity footnote; other unchanged original chip references retained.",
+  "screenshot": "docs/screenshots/dense-chip-peaks-online-20261029.png"
+}
