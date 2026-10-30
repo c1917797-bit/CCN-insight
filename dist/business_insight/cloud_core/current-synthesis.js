@@ -125,10 +125,12 @@ function renderEditorialAnalysis(m,rows){
  const root=document.getElementById('ascend-cards'),overview=document.getElementById('analysis-summary'),focus=document.getElementById('analysis-focus-cards'),meta=document.getElementById('analysis-meta');
  root.replaceChildren();overview?.replaceChildren();focus?.replaceChildren();if(overview)delete overview.dataset.reportId;
  const priorities=rows.filter(r=>r.selection_tier==='key_progress'),uniqueRefs=[...new Map(rows.flatMap(r=>editorialRefs(m,r)).map(r=>[r.summary_id,r])).values()];
- const title=document.getElementById('home-judgement');if(title){title.textContent=ui('editorial_report_title');title.dataset.synthesisContext=[current.revision,current.scope,current.period,current.locale].join('|');}
- const intro=document.querySelector?.('#insight-overview .analysis-intro');if(intro){intro.removeAttribute('data-i18n-key');intro.textContent=ui('editorial_report_intro');}
- const reviewed=rows.map(r=>r.checked_at).sort().at(-1)||'';
- if(meta)meta.textContent=current.period+' · '+ui('analysis_reviewed')+' '+reviewed+' · '+uniqueRefs.length+' '+ui('editorial_selected_papers')+' · '+['key_progress','technical_watch','boundary_case'].map(tier=>rows.filter(r=>r.selection_tier===tier).length+' '+ui('editorial_tier_'+tier)).join(' / ');
+ const priorCollection=current.scope==='ic-2026-10-model-reviewed-20261029-v1';
+ const title=document.getElementById('home-judgement');if(title){title.textContent=ui(priorCollection?'editorial_prior_collection_title':'editorial_report_title');title.dataset.synthesisContext=[current.revision,current.scope,current.period,current.locale].join('|');}
+ const intro=document.querySelector?.('#insight-overview .analysis-intro');if(intro){intro.removeAttribute('data-i18n-key');intro.textContent=ui(priorCollection?'editorial_prior_collection_intro':'editorial_report_intro');}
+ const reviewed=[...rows.map(r=>r.checked_at),...uniqueRefs.map(ref=>m.paperSummaries.get(ref.summary_id).reviewed_at)].sort().at(-1)||'';
+ const sectionChecks=uniqueRefs.filter(ref=>m.paperSummaries.get(ref.summary_id).review_status==='method_results_checked').length;
+ if(meta)meta.textContent=current.period+' · '+ui('analysis_reviewed')+' '+reviewed+' · '+uniqueRefs.length+' '+ui('editorial_selected_papers')+' · '+['key_progress','technical_watch','boundary_case'].map(tier=>rows.filter(r=>r.selection_tier===tier).length+' '+ui('editorial_tier_'+tier)).join(' / ')+' · '+sectionChecks+' '+ui('editorial_review_sections')+' / '+(uniqueRefs.length-sectionChecks)+' '+ui('editorial_review_abstract');
  const focusHeading=document.querySelector?.('#analysis-focus>h3'),focusHelp=document.querySelector?.('#analysis-focus>.reader-note');if(focusHeading){focusHeading.textContent=ui('editorial_source_index');focusHeading.setAttribute('data-i18n-key','editorial_source_index');}if(focusHelp){focusHelp.textContent=ui('editorial_source_help');focusHelp.setAttribute('data-i18n-key','editorial_source_help');}
  if(!rows.length){root.append(el('p',ui('editorial_empty'),'reader-note'));return;}
  if(overview){

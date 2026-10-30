@@ -1,0 +1,83 @@
+{
+  "date": "2026-10-30",
+  "status": "local_verified_pending_publication",
+  "content_version": "compression-6d3c3de69a99ce641d45",
+  "reader_revision": "43ac78ce4d89a70191dd09cda65060b124509255",
+  "ui_revision": "364f2344d8283c5a0f40",
+  "counts": {
+    "candidate_count": 1728,
+    "statuses": {
+      "excluded": 945,
+      "related_unmapped": 255,
+      "pending": 63,
+      "classified": 465
+    },
+    "map_related_unique": 465,
+    "root_unique": 424,
+    "extension_unique": 59,
+    "overlap_unique": 18,
+    "extension_only_unique": 41,
+    "reconciliation": "465 = 424 + 41 = 424 + 59 - 18",
+    "related_papers_outside_prior_collection": 450
+  },
+  "reading_collection": {
+    "scope_id": "ic-2026-10-model-reviewed-20261029-v1",
+    "paper_count": 16,
+    "first_publication_corpus_overlap": 15,
+    "outside_first_publication_corpus": [
+      "2609.05881"
+    ],
+    "tiers": {
+      "key_progress": 6,
+      "technical_watch": 9,
+      "boundary_case": 1
+    },
+    "review_depth": {
+      "primary_abstract_checked": 10,
+      "method_results_checked": 6
+    }
+  },
+  "checks": [
+    "build.py",
+    "verify.py",
+    "verify_compression.py",
+    "verify_original_reader.py",
+    "test_monthly_paper_corpus.cjs",
+    "test_monthly_corpus_import.py",
+    "audit_monthly_corpus.py",
+    "test_current_report_synthesis.cjs",
+    "test_monthly_organization.cjs",
+    "test_reader_journey.cjs",
+    "test_research_map.cjs",
+    "test_expert_navigation.cjs",
+    "test_topic_reader_five_rounds.cjs"
+  ],
+  "browser": {
+    "matrix_counts_and_reconciliation": "verified",
+    "extension_only_41_click": "verified first12/pagination41",
+    "spectrum_section_review_and_W_A_KV_tags": "verified exactversionv2",
+    "csd_section_review_and_distillation_tag": "verified exactversionv1",
+    "prior_collection_origin_and_6_10_depth": "verified",
+    "viewport_checks": [
+      {
+        "width": 1280,
+        "document_width": 1265
+      },
+      {
+        "width": 390,
+        "document_width": 375
+      }
+    ],
+    "viewport_override_reset": true
+  },
+  "screenshots": [
+    "docs/screenshots/monthly-corpus-reconciliation-local-20261030.png",
+    "docs/screenshots/prior-reading-collection-local-20261030.png"
+  ],
+  "limitations": [
+    "No full-corpus final curation; 450 related first-publication papers outside prior collection remain unranked.",
+    "63 unresolved abstract decisions remain; 2 targeted checks completed, not all original papers read.",
+    "Saved registered arXiv query only; acquisition cutoff remains 2026-10-29.",
+    "No independent reproduction or Ascend service measurements."
+  ]
+}

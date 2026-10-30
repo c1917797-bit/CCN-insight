@@ -8,7 +8,11 @@ const tables=Object.fromEntries(['ic_monthly_route_insights','ic_monthly_route_e
 const selectedStories=tables.ic_monthly_route_insights.filter(r=>r.scope_id===scope).sort((a,b)=>a.position-b.position),keyStories=selectedStories.filter(r=>r.selection_tier==='key_progress');
 assert.equal(selectedStories.length,16);assert.equal(keyStories.length,6);
 const currentRefs=tables.ic_monthly_route_evidence.filter(r=>r.scope_id===scope);
-assert.equal(currentRefs.length,22,'Use actual cross-object associations, rather than assuming one row per paper');
+assert.equal(currentRefs.length,24,'Preserve explicit W/A/KV associations, rather than assuming one row per paper');
+const expectedSummaries=[...new Set(currentRefs.map(r=>r.summary_id))].map(id=>tables.ic_paper_summaries.find(r=>r.summary_id===id));
+const expectedDepth=status=>expectedSummaries.filter(r=>r.review_status===status).length;
+const keySummaryIds=new Set(currentRefs.filter(r=>keyStories.some(s=>s.story_id===r.story_id)).map(r=>r.summary_id));
+const expectedKeyDepth=status=>expectedSummaries.filter(r=>keySummaryIds.has(r.summary_id)&&r.review_status===status).length;
 assert.equal(new Set(currentRefs.map(r=>r.summary_id)).size,16);
 const all=node=>[node,...node.children.flatMap(all)],text=node=>node.textContent+node.children.map(text).join(' ');
 const scrolls=[],frames=[];
@@ -88,13 +92,17 @@ function assertFactsLink(link,summaryId){const href=new URL(link.href,context.lo
   for(const story of selectedStories){const card=argumentsList.find(n=>n.dataset.storyId===story.story_id);for(const field of ['synthesis','viewpoint','boundary','implication'])assert(text(card).includes(story[field+'_'+locale]),'Keep exact maintained '+field);}
   const evidence=all(roots.get('ascend-cards')).filter(n=>n.dataset.reviewStatus);
   assert.equal(evidence.length,16,'Cross-object relations must not duplicate papers');
-  assert.equal(evidence.filter(n=>n.dataset.reviewStatus==='primary_abstract_checked').length,12);
-  assert.equal(evidence.filter(n=>n.dataset.reviewStatus==='method_results_checked').length,4);
+  assert.equal(evidence.filter(n=>n.dataset.reviewStatus==='primary_abstract_checked').length,expectedDepth('primary_abstract_checked'));
+  assert.equal(evidence.filter(n=>n.dataset.reviewStatus==='method_results_checked').length,expectedDepth('method_results_checked'));
   for(const entry of evidence){const summary=model.paperSummaries.get(entry.dataset.summaryId);assert(text(entry).includes(summary.observed_version));assert(text(entry).includes(summary.evidence_locator));assert(text(entry).includes(summary.reviewed_at));const links=all(entry).filter(n=>n.tagName==='A');assert(links.some(n=>n.href===summary.evidence_url),'Versioned original remains directly accessible');assertFactsLink(links.find(n=>new URL(n.href,context.location.href).searchParams.has('paper')),summary.summary_id);}
   assert(!nodes().some(n=>n.dataset.probeStatus==='proposed_not_measured'),'Do not invent a new experimental protocol');
   const index=roots.get('analysis-focus-cards').children;assert.equal(index.length,6);
-  assert.equal(index.filter(n=>model.paperSummaries.get(n.dataset.summaryId).review_status==='primary_abstract_checked').length,4);
-  assert.equal(index.filter(n=>model.paperSummaries.get(n.dataset.summaryId).review_status==='method_results_checked').length,2);
+  assert.equal(index.filter(n=>model.paperSummaries.get(n.dataset.summaryId).review_status==='primary_abstract_checked').length,expectedKeyDepth('primary_abstract_checked'));
+  assert.equal(index.filter(n=>model.paperSummaries.get(n.dataset.summaryId).review_status==='method_results_checked').length,expectedKeyDepth('method_results_checked'));
+  assert.equal(roots.get('home-judgement').textContent,state.strings.editorial_prior_collection_title);
+  assert.equal(selectors.get('#insight-overview .analysis-intro').textContent,state.strings.editorial_prior_collection_intro);
+  assert(text(roots.get('analysis-meta')).includes(expectedDepth('method_results_checked')+' '+state.strings.editorial_review_sections));
+  assert(text(roots.get('analysis-meta')).includes(expectedDepth('primary_abstract_checked')+' '+state.strings.editorial_review_abstract));
   assert(text(roots.get('analysis-meta')).includes('16'));assert.equal(selectors.get('#insight-report-presentation [data-i18n-key="deck_title"]').textContent,state.strings.editorial_attachment_title);
   assert.equal(selectors.get('.analysis-reading-navigation a[href="#ascend"]').textContent,state.strings.editorial_judgments);
   api.renderReports(model);const files=roots.get('insight-deck-content');
@@ -106,7 +114,7 @@ function assertFactsLink(link,summaryId){const href=new URL(link.href,context.lo
   const archive=links.map(n=>new URL(n.href,context.location.href)).find(u=>u.hash==='#view-reports');assert(archive);assert.equal(archive.searchParams.get('scope'),saved.scope_id);
   api.setCurrent({...state,view:'reports'});api.renderReports(model);assert.equal(all(roots.get('insight-deck-archive')).filter(n=>n.dataset.reportId).length,6,'All six saved file versions remain available');assert.equal(mounts.length,0);
  }
- api.setCurrent({...current('zh'),topicId:'activations-precision'});api.renderAnalysis(model);assert.equal(all(roots.get('ascend-cards')).filter(n=>n.dataset.editorialTier).length,1,'Topic filter follows real cross-object associations');assert.equal(roots.get('analysis-focus-cards').children.length,1);
+ api.setCurrent({...current('zh'),topicId:'activations-precision'});api.renderAnalysis(model);assert.equal(all(roots.get('ascend-cards')).filter(n=>n.dataset.editorialTier).length,new Set(currentRefs.filter(r=>r.compression_topic_id==='activations-precision').map(r=>r.story_id)).size,'Topic filter follows real cross-object associations');assert.equal(roots.get('analysis-focus-cards').children.length,1);
  api.setCurrent(current('zh'));api.renderAnalysis(model);
  const evidenceId=all(roots.get('ascend-cards')).find(n=>n.dataset.reviewStatus).id;
  for(const id of [selectedStories[0].story_id,evidenceId]){context.location.hash='#'+id;api.restoreReportAnchor(model);assert.equal(frames.length,1);frames.shift()();assert.equal(frames.length,1);frames.shift()();assert.equal(scrolls.at(-1).id,id);api.restoreReportAnchor(model);assert.equal(frames.length,0,'Repeated draw preserves reader position');}
@@ -114,5 +122,5 @@ function assertFactsLink(link,summaryId){const href=new URL(link.href,context.lo
  mutateBatch=batch=>{batch.groups.monthly_route_insights[0].boundary_en='';};await assert.rejects(()=>api.read(current('zh')),/Incomplete editorial insight/);
  mutateBatch=batch=>{batch.groups.monthly_route_insights[0].claim_status='primary_text_checked';};await assert.rejects(()=>api.read(current('zh')),/Insight narrative scope mismatch/);
  mutateBatch=batch=>{batch.groups.monthly_route_evidence[0].observed_version='v999';};await assert.rejects(()=>api.read(current('zh')),/Paper probe version\/source mismatch/);
- console.log('PASS: current selection reads and renders 16 unique papers as 6 key / 9 watch / 1 boundary; exact judgments, 12 abstract / 4 section reviews, versioned facts, working deep links, and six archived versions isolated from the current web report (zh/en)');
+ console.log('PASS: current selection reads and renders 16 unique papers as 6 key / 9 watch / 1 boundary; exact judgments, dynamically counted abstract / section reviews, versioned facts, working deep links, and six archived versions isolated from the current web report (zh/en)');
 })().catch(error=>{console.error(error);process.exitCode=1;});

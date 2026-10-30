@@ -1,0 +1,337 @@
+{
+  "snapshot_id": "corpus-2026-10-arxiv-20261029-abstract-v1",
+  "acquired_at": "2026-10-29T08:15:13.095349+00:00",
+  "first_publication_cutoff": "2026-10-29",
+  "reviewed_at": "2026-10-30",
+  "candidate_count": 1728,
+  "statuses": {
+    "excluded": 945,
+    "related_unmapped": 255,
+    "pending": 63,
+    "classified": 465
+  },
+  "map_related_unique": 465,
+  "root_unique": 424,
+  "extension_unique": 59,
+  "overlap_unique": 18,
+  "extension_only_unique": 41,
+  "reconciliation": "465 = 424 + 41 = 424 + 59 - 18",
+  "extension_only_paper_ids": [
+    "2610.03007",
+    "2610.03109",
+    "2610.03135",
+    "2610.03198",
+    "2610.05885",
+    "2610.06286",
+    "2610.06479",
+    "2610.06813",
+    "2610.07643",
+    "2610.07729",
+    "2610.09051",
+    "2610.10118",
+    "2610.11214",
+    "2610.11784",
+    "2610.12133",
+    "2610.12582",
+    "2610.14754",
+    "2610.17530",
+    "2610.17959",
+    "2610.18026",
+    "2610.18140",
+    "2610.18654",
+    "2610.19210",
+    "2610.20641",
+    "2610.21126",
+    "2610.22130",
+    "2610.23787",
+    "2610.23939",
+    "2610.24499",
+    "2610.25431",
+    "2610.25933",
+    "2610.26825",
+    "2610.28577",
+    "2610.30206",
+    "2610.31098",
+    "2610.31574",
+    "2610.32233",
+    "2610.33360",
+    "2610.34436",
+    "2610.34991",
+    "2610.36520"
+  ],
+  "root_extension_overlap_paper_ids": [
+    "2610.04225",
+    "2610.04473",
+    "2610.04727",
+    "2610.04753",
+    "2610.05685",
+    "2610.06833",
+    "2610.07987",
+    "2610.09013",
+    "2610.09476",
+    "2610.12060",
+    "2610.16744",
+    "2610.18039",
+    "2610.18690",
+    "2610.31235",
+    "2610.31633",
+    "2610.33688",
+    "2610.34545",
+    "2610.35023"
+  ],
+  "prior_reading_collection": {
+    "scope_id": "ic-2026-10-model-reviewed-20261029-v1",
+    "paper_count": 16,
+    "first_publication_corpus_overlap": 15,
+    "outside_first_publication_corpus": [
+      "2609.05881"
+    ],
+    "tiers": {
+      "key_progress": 6,
+      "technical_watch": 9,
+      "boundary_case": 1
+    },
+    "review_depth": {
+      "primary_abstract_checked": 10,
+      "method_results_checked": 6
+    },
+    "choices": [
+      {
+        "paper_id": "2610.13767",
+        "story_id": "ic-2026-10-model-reviewed-20261029-v1__2610-13767",
+        "selection_tier": "key_progress",
+        "selection_reason_zh": "补上激活量化与真实执行这一缺口；入选依据是 W/A 耦合机制和打包实现，而不是只看最高加速倍数。",
+        "review_status": "primary_abstract_checked",
+        "reviewed_at": "2026-10-29",
+        "evidence_url": "https://arxiv.org/abs/2610.13767v1",
+        "evidence_locator": "Abstract; full methods and experiments not yet reviewed",
+        "topics": [
+          "activations-precision",
+          "parameters-precision"
+        ],
+        "in_first_publication_corpus": true
+      },
+      {
+        "paper_id": "2610.09212",
+        "story_id": "ic-2026-10-model-reviewed-20261029-v1__2610-09212",
+        "selection_tier": "key_progress",
+        "selection_reason_zh": "同时改变搜索目标与解码路径，并明确比较 QTIP/Proteus，能支撑对两比特量化路线的技术取舍。",
+        "review_status": "primary_abstract_checked",
+        "reviewed_at": "2026-10-29",
+        "evidence_url": "https://arxiv.org/abs/2610.09212v1",
+        "evidence_locator": "Abstract; full methods and experiments not yet reviewed",
+        "topics": [
+          "parameters-precision"
+        ],
+        "in_first_publication_corpus": true
+      },
+      {
+        "paper_id": "2610.20686",
+        "story_id": "ic-2026-10-model-reviewed-20261029-v1__2610-20686",
+        "selection_tier": "key_progress",
+        "selection_reason_zh": "补齐此前完全缺失的 KV 量化，并把格式误差与具体注意力结构、执行实现联系起来。",
+        "review_status": "primary_abstract_checked",
+        "reviewed_at": "2026-10-29",
+        "evidence_url": "https://arxiv.org/abs/2610.20686v1",
+        "evidence_locator": "Abstract; full methods and experiments not yet reviewed",
+        "topics": [
+          "kv_cache-precision"
+        ],
+        "in_first_publication_corpus": true
+      },
+      {
+        "paper_id": "2610.28895",
+        "story_id": "ic-2026-10-model-reviewed-20261029-v1__2610-28895",
+        "selection_tier": "key_progress",
+        "selection_reason_zh": "填补独立蒸馏缺口，研究问题清楚：在不要求相同分词器的情况下扩大小模型可用教师范围。",
+        "review_status": "method_results_checked",
+        "reviewed_at": "2026-10-30",
+        "evidence_url": "https://arxiv.org/html/2610.28895v1",
+        "evidence_locator": "Sections 3 and 4.1–4.5; Tables 1, 2, 4, 5; Figure 2; Appendix E.3 timing protocol",
+        "topics": [
+          "parameters-distillation"
+        ],
+        "in_first_publication_corpus": true
+      },
+      {
+        "paper_id": "2610.25717",
+        "story_id": "ic-2026-10-model-reviewed-20261029-v1__2610-25717",
+        "selection_tier": "key_progress",
+        "selection_reason_zh": "将专家宽度分配与通道选择拆开，并提供同剪枝率的质量及服务时延证据；补充MoE内部结构压缩这一主线。",
+        "review_status": "method_results_checked",
+        "reviewed_at": "2026-10-29",
+        "evidence_url": "https://arxiv.org/html/2610.25717v1",
+        "evidence_locator": "§4.4、Table 3、Appendix A；同时核对相同剪枝率的十任务均分",
+        "topics": [
+          "parameters-selection"
+        ],
+        "in_first_publication_corpus": true
+      },
+      {
+        "paper_id": "2610.28947",
+        "story_id": "ic-2026-10-model-reviewed-20261029-v1__2610-28947",
+        "selection_tier": "key_progress",
+        "selection_reason_zh": "把稀疏索引开销纳入与位宽的共同预算，回答继续降位宽还是叠加2:4稀疏的取舍；价值在可比较条件，而非单一压缩率。",
+        "review_status": "method_results_checked",
+        "reviewed_at": "2026-10-29",
+        "evidence_url": "https://arxiv.org/html/2610.28947v1",
+        "evidence_locator": "§3.1、§6及Appendix A的位数记账与硬件条件",
+        "topics": [
+          "parameters-precision",
+          "parameters-selection"
+        ],
+        "in_first_publication_corpus": true
+      },
+      {
+        "paper_id": "2610.04490",
+        "story_id": "ic-2026-10-model-reviewed-20261029-v1__2610-04490",
+        "selection_tier": "technical_watch",
+        "selection_reason_zh": "补充码本利用率这一不同于旋转的误差控制机制；因为具体实验条件未展开，暂不作为已验证领先方案。",
+        "review_status": "primary_abstract_checked",
+        "reviewed_at": "2026-10-29",
+        "evidence_url": "https://arxiv.org/abs/2610.04490v1",
+        "evidence_locator": "Abstract; full methods and experiments not yet reviewed",
+        "topics": [
+          "parameters-precision"
+        ],
+        "in_first_publication_corpus": true
+      },
+      {
+        "paper_id": "2610.20303",
+        "story_id": "ic-2026-10-model-reviewed-20261029-v1__2610-20303",
+        "selection_tier": "technical_watch",
+        "selection_reason_zh": "保留与免旋转路线的对照，避免只报道一个方向而把研究取舍误写成确定答案。",
+        "review_status": "method_results_checked",
+        "reviewed_at": "2026-10-30",
+        "evidence_url": "https://arxiv.org/html/2610.20303v2",
+        "evidence_locator": "Sections 5.1–5.2; Figure 4; Table 2 (W4-A4-KV4)",
+        "topics": [
+          "activations-precision",
+          "kv_cache-precision",
+          "parameters-precision"
+        ],
+        "in_first_publication_corpus": true
+      },
+      {
+        "paper_id": "2610.17966",
+        "story_id": "ic-2026-10-model-reviewed-20261029-v1__2610-17966",
+        "selection_tier": "technical_watch",
+        "selection_reason_zh": "补齐低秩技术在 KV 对象上的应用，与权重 GA-SVD 形成对象维度的对照；组合数字保留原有限定。",
+        "review_status": "primary_abstract_checked",
+        "reviewed_at": "2026-10-29",
+        "evidence_url": "https://arxiv.org/abs/2610.17966v1",
+        "evidence_locator": "Abstract; full methods and experiments not yet reviewed",
+        "topics": [
+          "kv_cache-factorization",
+          "kv_cache-precision"
+        ],
+        "in_first_publication_corpus": true
+      },
+      {
+        "paper_id": "2610.36950",
+        "story_id": "ic-2026-10-model-reviewed-20261029-v1__2610-36950",
+        "selection_tier": "technical_watch",
+        "selection_reason_zh": "引入联合率失真编码这一新机制，同时明确其存储目标，防止巨大压缩倍数掩盖运行路径差异。",
+        "review_status": "primary_abstract_checked",
+        "reviewed_at": "2026-10-29",
+        "evidence_url": "https://arxiv.org/abs/2610.36950v1",
+        "evidence_locator": "Abstract; full methods and experiments not yet reviewed",
+        "topics": [
+          "kv_cache-precision"
+        ],
+        "in_first_publication_corpus": true
+      },
+      {
+        "paper_id": "2610.22130",
+        "story_id": "ic-2026-10-model-reviewed-20261029-v1__2610-22130",
+        "selection_tier": "technical_watch",
+        "selection_reason_zh": "保留一条与低比特 KV 不同的选择/驱逐路线，并用内核到端到端的收益落差说明执行成本。",
+        "review_status": "primary_abstract_checked",
+        "reviewed_at": "2026-10-29",
+        "evidence_url": "https://arxiv.org/abs/2610.22130v1",
+        "evidence_locator": "Abstract; full methods and experiments not yet reviewed",
+        "topics": [
+          "kv_cache-kv_eviction"
+        ],
+        "in_first_publication_corpus": true
+      },
+      {
+        "paper_id": "2610.15398",
+        "story_id": "ic-2026-10-model-reviewed-20261029-v1__2610-15398",
+        "selection_tier": "technical_watch",
+        "selection_reason_zh": "用生成行为改进低秩白化和秩分配，补充重建误差之外的优化目标；实验条件尚需进一步核对。",
+        "review_status": "primary_abstract_checked",
+        "reviewed_at": "2026-10-29",
+        "evidence_url": "https://arxiv.org/abs/2610.15398v1",
+        "evidence_locator": "Abstract; full methods and experiments not yet reviewed",
+        "topics": [
+          "parameters-factorization"
+        ],
+        "in_first_publication_corpus": true
+      },
+      {
+        "paper_id": "2610.11332",
+        "story_id": "ic-2026-10-model-reviewed-20261029-v1__2610-11332",
+        "selection_tier": "technical_watch",
+        "selection_reason_zh": "关注剪枝破坏预测轨迹后如何恢复，作为稀疏与蒸馏的交叉路线；不能代表独立蒸馏全貌，当前仅核对摘要。",
+        "review_status": "primary_abstract_checked",
+        "reviewed_at": "2026-10-29",
+        "evidence_url": "https://arxiv.org/abs/2610.11332v1",
+        "evidence_locator": "Abstract; full methods and experiments not yet reviewed",
+        "topics": [
+          "parameters-distillation",
+          "parameters-selection"
+        ],
+        "in_first_publication_corpus": true
+      },
+      {
+        "paper_id": "2610.24424",
+        "story_id": "ic-2026-10-model-reviewed-20261029-v1__2610-24424",
+        "selection_tier": "technical_watch",
+        "selection_reason_zh": "补充 LLM 之外的具体领域证据，并展示组件压缩与整模型收益的区别。",
+        "review_status": "primary_abstract_checked",
+        "reviewed_at": "2026-10-29",
+        "evidence_url": "https://arxiv.org/abs/2610.24424v1",
+        "evidence_locator": "Abstract; full methods and experiments not yet reviewed",
+        "topics": [
+          "parameters-distillation"
+        ],
+        "in_first_publication_corpus": true
+      },
+      {
+        "paper_id": "2610.02462",
+        "story_id": "ic-2026-10-model-reviewed-20261029-v1__2610-02462",
+        "selection_tier": "technical_watch",
+        "selection_reason_zh": "尝试用压缩缩放关系减少配置搜索，连接多种压缩机制；模型拟合和外推适用范围仍需逐设置判断。",
+        "review_status": "method_results_checked",
+        "reviewed_at": "2026-10-29",
+        "evidence_url": "https://arxiv.org/html/2610.02462v1",
+        "evidence_locator": "§2.2、§5.1/5.2、§6",
+        "topics": [
+          "parameters-distillation",
+          "parameters-precision",
+          "parameters-selection"
+        ],
+        "in_first_publication_corpus": true
+      },
+      {
+        "paper_id": "2609.05881",
+        "story_id": "ic-2026-10-model-reviewed-20261029-v1__2609-05881",
+        "selection_tier": "boundary_case",
+        "selection_reason_zh": "区分产物重建与任务可用性，保留为交付正确性的反例；不把单一产物审计当作本月量化主线。",
+        "review_status": "method_results_checked",
+        "reviewed_at": "2026-10-29",
+        "evidence_url": "https://arxiv.org/html/2609.05881v2",
+        "evidence_locator": "§III-A/B/C/D和§VI有效性威胁",
+        "topics": [
+          "parameters-precision"
+        ],
+        "in_first_publication_corpus": false
+      }
+    ]
+  },
+  "related_papers_outside_prior_collection": 450,
+  "full_corpus_final_selection_completed": false,
+  "selection_boundary": "The prior reading collection was created to fill editorial coverage gaps before this corpus classification. It is not the top-ranked result of a systematic comparison of all corpus papers.",
+  "count_boundary": "Unique stable paper IDs within the saved registered arXiv query and publication window; not all sources or the whole field. Related classification is not topic-prose adoption."
+}

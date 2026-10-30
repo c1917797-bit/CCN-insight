@@ -10,6 +10,21 @@ from compression_store import ROOT,DATA,rows,clear_cache
 
 TOPICS={t+'-'+m for t in ['parameters','activations','kv_cache'] for m in ['precision','selection','distillation','factorization']}|{'activations-merging','kv_cache-kv_eviction','kv_cache-sharing','kv_cache-compact_architecture'}
 STATUSES={'classified','related_unmapped','pending','excluded'}
+DECISION_HASH_FIELDS=['paper_id','abstract_sha256','classification_status','topic_ids_json','basis_zh','uncertainties_zh','reason_code','review_basis','review_locator','review_url','reviewed_at']
+
+def guard_abstract_reimport(existing,snapshot_id):
+    """Never downgrade a later source-section correction to the old abstract decision."""
+    corrected=sorted(r['paper_id'] for r in existing if r.get('snapshot_id')==snapshot_id and r.get('review_basis')=='original_sections')
+    if corrected:
+        raise RuntimeError(
+            'Refusing abstract reimport: snapshot '+snapshot_id+' already contains original_sections reviews for '+', '.join(corrected)+'. '
+            'No tables were written. Preserve these version-bound review decisions and their review_url, review_locator and reviewed_at; '
+            'apply a targeted canonical correction, or prepare a separately identified acquisition snapshot with explicit reviewed decisions. '
+            'Do not remove section evidence to force this abstract-only import.')
+
+def decision_hash(values):
+    payload=[{k:r[k] for k in DECISION_HASH_FIELDS} for r in sorted(values,key=lambda r:r['paper_id'])]
+    return hashlib.sha256(json.dumps(payload,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()
 def digest(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 def jsonl(path):return [json.loads(line) for line in path.read_text(encoding='utf-8').splitlines() if line.strip()]
 def write_table(name,key,values,description,integer_fields=()):
@@ -25,9 +40,12 @@ def write_table(name,key,values,description,integer_fields=()):
     path.write_bytes((json.dumps(manifest,ensure_ascii=False,indent=2)+'\n').encode('utf-8'))
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--decisions',type=Path,required=True);parser.add_argument('--acquisition',type=Path,required=True);args=parser.parse_args()
+    period='2026-10';cutoff='2026-10-29';snapshot_id='corpus-2026-10-arxiv-20261029-abstract-v1'
+    try:existing=rows('ic_monthly_paper_corpus')
+    except FileNotFoundError:existing=[]
+    guard_abstract_reimport(existing,snapshot_id)
     receipt_path=args.acquisition/'original-records/arxiv/receipt.json';receipt=json.loads(receipt_path.read_text(encoding='utf-8'))
     abstract_path=args.acquisition/'original-records/arxiv/abstracts.jsonl';abstracts={r['paper_id']:r for r in jsonl(abstract_path)}
-    period='2026-10';cutoff='2026-10-29';snapshot_id='corpus-2026-10-arxiv-20261029-abstract-v1'
     source_family='source-family-arxiv';family=next(r for r in rows('ic_source_families') if r['family_id']==source_family)
     assert family['ui_group']=='academic' and family['business_id']=='cloud-core'
     candidates={id:r for id,r in abstracts.items() if r['published'].startswith(period) and r['published'][:10]<=cutoff}
@@ -46,12 +64,10 @@ def main():
         assert d['basis_zh'].strip() and isinstance(d.get('uncertainties_zh',''),str)
         reason=d.get('reason_code','')
         assert reason!='diffusion_out_of_scope' or (status=='excluded' and not topics)
-        row={'corpus_id':snapshot_id+'__'+a['paper_id'],'snapshot_id':snapshot_id,'business_id':'cloud-core','topic_id':'cloud_core','period_id':period,'paper_id':a['paper_id'],'title':a['title'],'canonical_url':'https://arxiv.org/abs/'+a['paper_id'],'versioned_id':a['versioned_id'],'first_published':a['published'],'last_updated':a['updated'],'source_family_id':source_family,'abstract_sha256':a['abstract_sha256'],'review_basis':'original_abstract','reviewed_at':cutoff,'classification_status':status,'topic_ids_json':json.dumps(sorted(topics),ensure_ascii=False,separators=(',',':')),'basis_zh':d['basis_zh'],'uncertainties_zh':d.get('uncertainties_zh',''),'reason_code':reason}
+        row={'corpus_id':snapshot_id+'__'+a['paper_id'],'snapshot_id':snapshot_id,'business_id':'cloud-core','topic_id':'cloud_core','period_id':period,'paper_id':a['paper_id'],'title':a['title'],'canonical_url':'https://arxiv.org/abs/'+a['paper_id'],'versioned_id':a['versioned_id'],'first_published':a['published'],'last_updated':a['updated'],'source_family_id':source_family,'abstract_sha256':a['abstract_sha256'],'review_basis':'original_abstract','review_locator':'','review_url':'','reviewed_at':cutoff,'classification_status':status,'topic_ids_json':json.dumps(sorted(topics),ensure_ascii=False,separators=(',',':')),'basis_zh':d['basis_zh'],'uncertainties_zh':d.get('uncertainties_zh',''),'reason_code':reason}
         output.append(row)
-    decision_fields=['paper_id','abstract_sha256','classification_status','topic_ids_json','basis_zh','uncertainties_zh','reason_code']
-    decision_payload=[{k:r[k] for k in decision_fields} for r in sorted(output,key=lambda r:r['paper_id'])]
-    decisions_hash=hashlib.sha256(json.dumps(decision_payload,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()
-    snapshot={'snapshot_id':snapshot_id,'business_id':'cloud-core','topic_id':'cloud_core','period_id':period,'window_start':period+'-01','cutoff':cutoff,'month_basis':'first_publication','diffusion_policy':'excluded','source_family_ids_json':json.dumps([source_family]),'candidate_count':len(output),'acquired_at':receipt['completed_at'],'reviewed_at':cutoff,'query':receipt['query'],'abstract_snapshot_sha256':digest(abstract_path),'acquisition_receipt_sha256':digest(receipt_path),'decisions_sha256':decisions_hash,'coverage_status':'registered_arxiv_query_only','revision_coverage':'not_established','review_depth':'abstract_only'}
+    decisions_hash=decision_hash(output)
+    snapshot={'snapshot_id':snapshot_id,'business_id':'cloud-core','topic_id':'cloud_core','period_id':period,'window_start':period+'-01','cutoff':cutoff,'month_basis':'first_publication','diffusion_policy':'excluded','source_family_ids_json':json.dumps([source_family]),'candidate_count':len(output),'acquired_at':receipt['completed_at'],'reviewed_at':cutoff,'query':receipt['query'],'abstract_snapshot_sha256':digest(abstract_path),'acquisition_receipt_sha256':digest(receipt_path),'decisions_sha256':decisions_hash,'decision_hash_fields_json':json.dumps(DECISION_HASH_FIELDS,separators=(',',':')),'coverage_status':'registered_arxiv_query_only','revision_coverage':'not_established','review_depth':'abstract_only'}
     # Keep previous months in the same canonical tables when a later snapshot is added.
     for name,key,new,description,ints in [('ic_monthly_paper_corpus','corpus_id',output,'Monthly first-publication candidates and individual original-abstract classification decisions; not a full-field census.',()),('ic_monthly_corpus_snapshots','snapshot_id',[snapshot],'Acquisition, date, source-registry and review boundaries of a monthly paper corpus.',('candidate_count',))]:
         try:prior=rows(name)

@@ -1,6 +1,6 @@
 {
   "schema": "mcpgit.table.v2",
-  "description": "Monthly first-publication candidates and individual original-abstract classification decisions; not a full-field census.",
+  "description": "Monthly first-publication candidates, original-abstract decisions and explicitly located supplementary section checks; not a full-field census.",
   "key_field": "corpus_id",
   "fields": {
     "abstract_sha256": {
@@ -139,6 +139,20 @@
     "versioned_id": {
       "projection": "default",
       "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "review_locator": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "review_url": {
+      "projection": "default",
+      "required": false,
       "role": "value",
       "source": null,
       "type": "string"

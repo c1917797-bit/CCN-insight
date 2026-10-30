@@ -2,20 +2,33 @@
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict'),crypto=require('node:crypto');
 const root=path.resolve(__dirname,'..'),base=path.join(root,'original-reader/site/business_insight/cloud_core');
 const source=fs.readFileSync(path.join(base,'monthly-corpus.js'),'utf8');
-class Node{constructor(tag='',text=''){this.tagName=tag;this.textContent=text;this.children=[];this.dataset={};this.hidden=false;}append(...n){this.children.push(...n);}replaceChildren(...n){this.children=n;}setAttribute(){}addEventListener(){}focus(){}scrollIntoView(){}}
-const host=new Node('section'),sandbox={document:{createElement:tag=>new Node(tag),createTextNode:t=>new Node('',t),getElementById:id=>id==='monthly-paper-matrix'?host:null,dispatchEvent(){},querySelector(){return null;}},Event:class{},console:{error(){}},LRITableGit:{}};
+class Node{constructor(tag='',text=''){this.tagName=tag;this.textContent=text;this.children=[];this.dataset={};this.hidden=false;this.value='';this.listeners={};}append(...n){this.children.push(...n);}replaceChildren(...n){this.children=n;}setAttribute(){}addEventListener(event,action){this.listeners[event]=action;}click(){this.listeners.click?.();}focus(){}scrollIntoView(){}}
+const flatten=n=>[n,...n.children.flatMap(flatten)];
+const host=new Node('section'),sandbox={document:{createElement:tag=>new Node(tag),createTextNode:t=>new Node('',t),getElementById:id=>id==='monthly-paper-matrix'?host:flatten(host).find(n=>n.id===id),dispatchEvent(){},querySelector(){return null;}},location:{hash:''},Event:class{},console:{error(){}},LRITableGit:{}};
 vm.createContext(sandbox);vm.runInContext(source,sandbox);const api=sandbox.LRICompressionMonthlyCorpus;
-const snapshot={snapshot_id:'s',business_id:'cloud-core',topic_id:'cloud_core',period_id:'2026-10',window_start:'2026-10-01',cutoff:'2026-10-29',month_basis:'first_publication',diffusion_policy:'excluded',source_family_ids_json:'["registered-arxiv"]',candidate_count:5,query:'saved query',acquired_at:'2026-10-29T08:15:13Z',reviewed_at:'2026-10-29',abstract_snapshot_sha256:'b'.repeat(64),decisions_sha256:'c'.repeat(64)};
-const make=(id,topics=[],status=topics.length?'classified':'pending')=>({snapshot_id:'s',period_id:'2026-10',business_id:'cloud-core',topic_id:'cloud_core',paper_id:id,canonical_url:'https://arxiv.org/abs/'+id,versioned_id:id+'v1',first_published:'2026-10-10T00:00:00Z',source_family_id:'registered-arxiv',review_basis:'original_abstract',abstract_sha256:'a'.repeat(64),classification_status:status,topic_ids_json:JSON.stringify(topics),basis_zh:'摘要明确的实际贡献',title:'Paper '+id,reason_code:'',uncertainties_zh:''});
-const records=[make('2610.00001',['parameters-precision','activations-precision']),make('2610.00002',['parameters-precision','parameters-factorization']),make('2610.00003'),make('2610.00004',[],'related_unmapped'),{...make('2610.00005',[],'excluded'),reason_code:'diffusion_out_of_scope'}];
+const snapshot={snapshot_id:'s',business_id:'cloud-core',topic_id:'cloud_core',period_id:'2026-10',window_start:'2026-10-01',cutoff:'2026-10-29',month_basis:'first_publication',diffusion_policy:'excluded',source_family_ids_json:'["registered-arxiv"]',candidate_count:7,query:'saved query',acquired_at:'2026-10-29T08:15:13Z',reviewed_at:'2026-10-30',abstract_snapshot_sha256:'b'.repeat(64),decisions_sha256:'c'.repeat(64)};
+const make=(id,topics=[],status=topics.length?'classified':'pending')=>({snapshot_id:'s',period_id:'2026-10',business_id:'cloud-core',topic_id:'cloud_core',paper_id:id,canonical_url:'https://arxiv.org/abs/'+id,versioned_id:id+'v1',first_published:'2026-10-10T00:00:00Z',source_family_id:'registered-arxiv',review_basis:'original_abstract',reviewed_at:'2026-10-29',abstract_sha256:'a'.repeat(64),classification_status:status,topic_ids_json:JSON.stringify(topics),basis_zh:'摘要明确的实际贡献',title:'Paper '+id,reason_code:'',uncertainties_zh:''});
+const sections={...make('2610.00007',['kv_cache-precision','kv_cache-kv_eviction']),review_basis:'original_sections',review_locator:'Section 3; Table 2',review_url:'https://arxiv.org/html/2610.00007v1#S3',reviewed_at:'2026-10-30',basis_zh:'方法章节明确量化对象与缓存淘汰'};
+const records=[make('2610.00001',['parameters-precision','activations-precision']),make('2610.00002',['parameters-precision','parameters-factorization']),make('2610.00003'),make('2610.00004',[],'related_unmapped'),{...make('2610.00005',[],'excluded'),reason_code:'diffusion_out_of_scope'},make('2610.00006',['activations-merging','kv_cache-kv_eviction']),sections];
 const model=api.aggregate(records,snapshot,new Set(['registered-arxiv']));
 assert.equal(model.byTopic.get('parameters-precision').size,2);
 assert.equal(model.objectTotals.get('parameters').size,2,'Multi-method paper is counted once in its object total');
-assert.equal(model.rootUnion.size,2,'Multi-object and multi-method papers do not inflate the grand total');
+assert.equal(model.rootUnion.size,3,'Multi-object and multi-method papers do not inflate the root total');
+const ids=set=>[...set].sort();
+assert.deepEqual(ids(model.classifiedUnion),['2610.00001','2610.00002','2610.00006','2610.00007']);
+assert.deepEqual(ids(model.extensionUnion),['2610.00006','2610.00007'],'A paper assigned to two extension mechanisms is counted once');
+assert.deepEqual(ids(model.extensionOnly),['2610.00006']);assert.deepEqual(ids(model.rootExtensionOverlap),['2610.00007']);assert.deepEqual(ids(model.rootOnly),['2610.00001','2610.00002']);
+assert.equal(model.classifiedUnion.size,model.rootUnion.size+model.extensionOnly.size);
+assert.equal(model.classifiedUnion.size,model.rootUnion.size+model.extensionUnion.size-model.rootExtensionOverlap.size);
+assert.equal(model.byReviewBasis.get('original_sections').size,1);assert.equal(model.byReviewBasis.get('original_abstract').size,6);
 assert.equal(model.byStatus.get('pending').size,1);assert.equal(model.byStatus.get('related_unmapped').size,1);
-assert.equal(model.byTopic.get('kv_cache-precision').size,0,'A confirmed empty cell stays distinct from unresolved records');
-assert.equal(api.aggregate([...records,{...records[0],versioned_id:'2610.00001v2'}],snapshot,new Set(['registered-arxiv'])).rootUnion.size,2,'Versions with identical abstract decisions deduplicate by paper identity');
+assert.equal(model.byTopic.get('kv_cache-factorization').size,0,'A confirmed empty cell stays distinct from unresolved records');
+assert.equal(api.aggregate([...records,{...records[0],versioned_id:'2610.00001v2'}],snapshot,new Set(['registered-arxiv'])).rootUnion.size,3,'Versions with identical evidence decisions deduplicate by paper identity');
 assert.throws(()=>api.aggregate([...records,{...records[0],topic_ids_json:'["kv_cache-precision"]'}],snapshot,new Set(['registered-arxiv'])),/Conflicting versions/);
+assert.throws(()=>api.aggregate([...records,{...sections,review_locator:'Section 5'}],snapshot,new Set(['registered-arxiv'])),/Conflicting versions/,'Conflicting evidence provenance cannot silently deduplicate');
+for(const patch of [{review_locator:''},{review_url:''},{review_url:'https://arxiv.org/html/2610.99999v1'},{review_url:'https://arxiv.org/html/2610.00007v2'},{review_url:'https://arxiv.org/html/2610.00007'},{review_url:'javascript:alert(1)'},{reviewed_at:''},{reviewed_at:'2026-02-30'},{reviewed_at:'2026-10-09'}]){
+ assert.throws(()=>api.aggregate([...records.slice(0,-1),{...sections,...patch}],snapshot,new Set(['registered-arxiv'])),'Section-reviewed decisions require a real locator, matching original-paper URL and valid review date');
+}
 for(const patch of [{first_published:'2026-09-02T00:00:00Z'},{first_published:'2026-11-02T00:00:00Z'},{source_family_id:'new-unregistered-source'},{review_basis:'title_only'},{abstract_sha256:''},{reason_code:'diffusion_out_of_scope'},{classification_status:'pending'},{paper_id:'not-a-paper'}]){
  assert.throws(()=>api.aggregate([{...records[0],...patch},...records.slice(1)],snapshot,new Set(['registered-arxiv'])),'Invalid dates, source, title-only classification or unresolved status must fail instead of changing counts');
 }
@@ -23,12 +36,26 @@ assert.throws(()=>api.aggregate(records.slice(1),snapshot,new Set(['registered-a
 assert.throws(()=>api.aggregate(records,snapshot,new Set()),/Unregistered/);
 // A slow previous month must not overwrite the newly selected month.
 const waits=new Map();sandbox.LRITableGit.loadTablePage=(_,args)=>new Promise(resolve=>waits.set(args.filterValue,()=>resolve({revision:args.expectedRevision,records:[],page:{offset:0,total:0,truncated:false}})));
-const flatten=n=>[n,...n.children.flatMap(flatten)];
 (async()=>{
  const old=api.refresh({period:'2026-09',revision:'r',locale:'zh'}),next=api.refresh({period:'2026-11',revision:'r',locale:'zh'});
  waits.get('2026-11')();await next;waits.get('2026-09')();await old;
  assert(flatten(host).some(n=>n.textContent==='2026-11 · 论文数量矩阵'));assert(!flatten(host).some(n=>n.textContent==='2026-09 · 论文数量矩阵'));
  api.reset();assert(host.hidden&&host.children.length===0,'Reader reset removes stale corpus results');
+ // Exercise the reconciliation controls and the evidence shown after a reader clicks.
+ sandbox.LRITableGit.loadTablePage=async(table,args)=>{const rows=table==='ic_monthly_corpus_snapshots'?[snapshot]:records;return {revision:args.expectedRevision,records:rows,page:{offset:0,total:rows.length,truncated:false}};};
+ sandbox.LRITableGit.loadRowsByKeys=async(_table,_ids,revision)=>({revision,records:[{family_id:'registered-arxiv',business_id:'cloud-core',topic_id:'cloud_core',ui_group:'academic'}]});
+ await api.refresh({period:'2026-10',revision:'render-fixture',locale:'zh'});
+ let nodes=flatten(host);assert(nodes.some(n=>n.textContent==='四类根技术去重'));assert(!nodes.some(n=>n.textContent==='全矩阵去重'||n.textContent==='已归入专题'));
+ assert(nodes.some(n=>n.textContent==='与技术地图相关'));
+ assert(nodes.some(n=>n.textContent.includes('4 篇相关论文 = 3 篇根技术论文 + 1 篇仅扩展机制论文')),'The visible reconciliation must explain the difference without adding overlapping groups');
+ assert(nodes.some(n=>n.textContent.includes('6 篇依据原始摘要判断，1 篇补充核对了原文章节')),'Review-depth counts derive from records, not snapshot prose');
+ nodes.find(n=>n.dataset.corpusScope==='extension-only').click();
+ let list=sandbox.document.getElementById('monthly-corpus-papers');assert(!list.hidden);assert(flatten(list).some(n=>n.textContent==='Paper 2610.00006 ↗'));assert(!flatten(list).some(n=>n.textContent==='Paper 2610.00007 ↗'));
+ nodes.find(n=>n.dataset.corpusScope==='overlap').click();list=sandbox.document.getElementById('monthly-corpus-papers');
+ assert(flatten(list).some(n=>n.href===sections.review_url));assert(flatten(list).some(n=>n.textContent.includes('原文章节核对 · Section 3; Table 2 · 2026-10-30')));
+ assert(!flatten(list).some(n=>n.textContent.includes('依据：arXiv 原始摘要')),'Section-reviewed papers must not be misrepresented as abstract-only');
+ nodes.find(n=>n.dataset.corpusScope==='extension-only').click();assert(flatten(list).some(n=>n.textContent.includes('依据：arXiv 原始摘要')),'Unchanged abstract decisions retain their own evidence depth');
+ api.reset();
  const folder=path.join(root,'data/compression/tables');
  if(fs.existsSync(path.join(folder,'ic_monthly_paper_corpus/rows.jsonl'))){
   const read=name=>fs.readFileSync(path.join(folder,name,'rows.jsonl'),'utf8').trim().split('\n').map(JSON.parse).filter(r=>!r.deleted).map(r=>r.row);
@@ -37,15 +64,36 @@ const flatten=n=>[n,...n.children.flatMap(flatten)];
    const rows=read('ic_monthly_paper_corpus').filter(r=>r.snapshot_id===s.snapshot_id),m=api.aggregate(rows,s,registry),allIds=new Set(rows.map(r=>r.paper_id));
    assert.equal(allIds.size,s.candidate_count);assert.equal(rows.length,allIds.size);
    assert(rows.every(r=>JSON.parse(r.topic_ids_json).every(id=>topicIds.has(id))),'Every assignment must resolve to a maintained topic');
-   const fields=['paper_id','abstract_sha256','classification_status','topic_ids_json','basis_zh','uncertainties_zh','reason_code'].sort(),payload=[...rows].sort((a,b)=>a.paper_id.localeCompare(b.paper_id)).map(r=>Object.fromEntries(fields.map(k=>[k,r[k]])));
+   const legacyFields=['paper_id','abstract_sha256','classification_status','topic_ids_json','basis_zh','uncertainties_zh','reason_code'],fields=(s.decision_hash_fields_json?JSON.parse(s.decision_hash_fields_json):legacyFields).sort();
+   assert(Array.isArray(fields)&&new Set(fields).size===fields.length&&legacyFields.every(k=>fields.includes(k)),'The hash field declaration must retain all classification decision fields');
+   if(rows.some(r=>r.review_basis==='original_sections'))assert(['review_basis','review_locator','review_url','reviewed_at'].every(k=>fields.includes(k)),'A mixed-depth snapshot hash must bind review provenance as well as labels');
+   const payload=[...rows].sort((a,b)=>a.paper_id.localeCompare(b.paper_id)).map(r=>Object.fromEntries(fields.map(k=>[k,r[k]??''])));
    assert.equal(crypto.createHash('sha256').update(JSON.stringify(payload)).digest('hex'),s.decisions_sha256,'Snapshot hash must identify the actual canonical classification decisions');
    assert.equal([...m.byStatus.values()].reduce((a,v)=>a+v.size,0),allIds.size,'All corpus decisions partition the candidate set');
    const oracle=new Set(rows.filter(r=>r.classification_status==='classified'&&JSON.parse(r.topic_ids_json).some(id=>/^\w+-(precision|selection|distillation|factorization)$/.test(id))).map(r=>r.paper_id));
-   assert.equal(m.rootUnion.size,oracle.size,'Published aggregate must match independently derived canonical identity union');
-   console.log(JSON.stringify({snapshot:s.snapshot_id,candidates:allIds.size,assigned:m.byStatus.get('classified').size,matrix_unique:m.rootUnion.size,unmapped:m.byStatus.get('related_unmapped').size,pending:m.byStatus.get('pending').size,excluded:m.byStatus.get('excluded').size}));
+   const extensionTopics=new Set(['activations-merging','kv_cache-kv_eviction','kv_cache-sharing','kv_cache-compact_architecture']),extensionOracle=new Set(rows.filter(r=>r.classification_status==='classified'&&JSON.parse(r.topic_ids_json).some(id=>extensionTopics.has(id))).map(r=>r.paper_id));
+   assert.deepEqual(ids(m.rootUnion),ids(oracle),'Published root aggregate must match independently derived canonical identity union');
+   assert.deepEqual(ids(m.extensionUnion),ids(extensionOracle));assert.deepEqual(ids(m.extensionOnly),ids(new Set([...extensionOracle].filter(id=>!oracle.has(id)))));assert.deepEqual(ids(m.rootExtensionOverlap),ids(new Set([...oracle].filter(id=>extensionOracle.has(id)))));
+   assert.deepEqual(ids(m.classifiedUnion),ids(new Set([...oracle,...extensionOracle])),'All related papers equal the root and extension union');
+   assert.equal(m.classifiedUnion.size,m.rootUnion.size+m.extensionOnly.size);assert.equal(m.classifiedUnion.size,m.rootUnion.size+m.extensionUnion.size-m.rootExtensionOverlap.size);
+   assert.equal([...m.byReviewBasis.values()].reduce((a,v)=>a+v.size,0),allIds.size);
+   sandbox.LRITableGit.loadTablePage=async(table,args)=>{const result=table==='ic_monthly_corpus_snapshots'?[s]:rows;return {revision:args.expectedRevision,records:result,page:{offset:0,total:result.length,truncated:false}};};
+   sandbox.LRITableGit.loadRowsByKeys=async(_table,ids,revision)=>({revision,records:ids.map(family_id=>({family_id,business_id:'cloud-core',topic_id:'cloud_core',ui_group:'academic'}))});
+   await api.refresh({period:s.period_id,revision:'canonical-test:'+s.snapshot_id,locale:'zh'});
+   const actualNodes=flatten(host);
+   assert(actualNodes.some(n=>n.textContent.includes(`采集完成：${s.acquired_at} · 归类核对更新：${s.reviewed_at}`)),'The displayed acquisition and review dates retain their distinct canonical values');
+   assert(actualNodes.some(n=>n.textContent.includes(`${m.byReviewBasis.get('original_abstract').size} 篇依据原始摘要判断，${m.byReviewBasis.get('original_sections').size} 篇补充核对了原文章节`)),'Canonical mixed-depth counts must appear in the reader');
+   for(const reviewed of rows.filter(r=>r.review_basis==='original_sections')){
+    actualNodes.find(n=>n.dataset.corpusScope==='all').click();
+    const paperList=sandbox.document.getElementById('monthly-corpus-papers'),search=flatten(paperList).find(n=>n.tagName==='input');search.value=reviewed.paper_id;search.listeners.input();
+    assert(flatten(paperList).some(n=>n.href===reviewed.review_url));assert(flatten(paperList).some(n=>n.textContent.includes(`原文章节核对 · ${reviewed.review_locator} · ${reviewed.reviewed_at}`)));
+    assert(!flatten(paperList).some(n=>n.textContent.includes('依据：arXiv 原始摘要')),'A corrected canonical decision must render its section evidence instead of the old abstract-only label');
+   }
+   api.reset();
+   console.log(JSON.stringify({snapshot:s.snapshot_id,candidates:allIds.size,map_related:m.classifiedUnion.size,root_unique:m.rootUnion.size,extension_unique:m.extensionUnion.size,extension_only:m.extensionOnly.size,root_extension_overlap:m.rootExtensionOverlap.size,abstract_reviews:m.byReviewBasis.get('original_abstract').size,section_reviews:m.byReviewBasis.get('original_sections').size,unmapped:m.byStatus.get('related_unmapped').size,pending:m.byStatus.get('pending').size,excluded:m.byStatus.get('excluded').size}));
   }
  }
  const html=fs.readFileSync(path.join(base,'index.html'),'utf8');assert(html.indexOf('id="monthly-paper-matrix"')<html.indexOf('id="current-streams"'),'The monthly matrix leads the selected updates');
  assert(!source.includes('LRICloudSemanticRead')&&!source.includes('context.scope'),'Monthly counts cannot depend on the 16-paper editorial scope');
- console.log('PASS: first-publication dates, abstract/source provenance, version dedup, multi-cell totals, exclusions, incomplete reads and stale-month race');
+ console.log('PASS: first-publication dates, mixed review provenance, version dedup, root/extension reconciliation and clickable subsets, exclusions, canonical decision hashes, incomplete reads and stale-month race');
 })().catch(e=>{console.error(e);process.exitCode=1;});

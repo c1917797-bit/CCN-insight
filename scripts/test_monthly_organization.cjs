@@ -38,7 +38,7 @@ console.log('PASS: monthly filter preserves the selected topic without entering 
 const monthly=fs.readFileSync(path.join(base,'monthly-routes.js'),'utf8');
 const overviewNodes=new Map(['monthly-academic-metric','monthly-review-cutoff','monthly-selection-summary','monthly-object-coverage','monthly-key-changes'].map(id=>[id,new Node()]));
 const overview={document:{getElementById:id=>overviewNodes.get(id)},detail:false,asOf:'2026-10-29',
- current:{locale:'zh'},unique:new Map([['p1',{}],['p2',{}]]),
+ current:{locale:'zh'},priorCollection:true,unique:new Map([['p1',{}],['p2',{}]]),
  model:{reviewMap:new Map([['p1',{review_status:'method_results_checked'}],['p2',{review_status:'primary_abstract_checked'}]])},
  refs:[{summary_id:'p1',compression_topic_id:'parameters-precision'},{summary_id:'p1',compression_topic_id:'parameters-selection'},{summary_id:'p2',compression_topic_id:'kv_cache-precision'}],
  relevant:[{story_id:'s1',title_zh:'2:4与量化如何取舍：先算索引',question_zh:'question'},{story_id:'s2',title_zh:'ReCal：恢复质量',question_zh:'question'}],
@@ -67,3 +67,23 @@ vm.runInContext(overviewCode,overview);
 assert.equal(overviewNodes.get('monthly-key-changes').children.length,0,'A watch-only filter must not retain stale highlights');
 assert.match(overviewNodes.get('monthly-selection-summary').textContent,/0 项重点进展 · 1 项技术观察 · 0 项边界案例/);
 console.log('PASS: editorial tiers, selection rationale and filtered highlights remain consistent');
+
+// Earlier editorial choices must not be presented as the result of full-corpus ranking.
+assert.match(overviewNodes.get('monthly-selection-summary').textContent,/前期研读集合/);
+assert.match(overviewNodes.get('monthly-selection-summary').textContent,/尚未完成与新增月度论文库的全面比较/);
+const collectionRoot=new Node(),collection={...overview,root:collectionRoot,unique:new Map([['p1',{evidence_id:'e1'}],['p2',{evidence_id:'e2'}]]),
+ model:{eventMap:new Map([['e1',{date_kind:'first_submission'}],['e2',{date_kind:'revision'}]])},
+ node:(tag,text,cls)=>{const n=new Node(tag,text);n.className=cls;n.setAttribute=(key,value)=>{n[key]=value;};return n;}};
+vm.createContext(collection);
+const collectionCode=monthly.slice(monthly.indexOf('    if(priorCollection&&!detail){'),monthly.indexOf('    if(current.topicId&&contextPaperCount)'));
+vm.runInContext(collectionCode,collection);
+const words=n=>n.textContent+' '+n.children.map(words).join(' '),notice=collectionRoot.children[0];
+assert.equal(notice.dataset.collectionOrigin,'prior-editorial');
+assert.match(words(notice),/1 篇本月首发、1 篇旧文修订/);
+assert.match(words(notice),/修订论文不计入本月首发矩阵/);
+assert.match(words(notice),/相关性归类也不代表已优先阅读、核实入选或吸收到专题/);
+assert.equal(flatten(notice).filter(n=>n.tagName==='li').length,4);
+assert.match(words(notice),/每篇“入选理由”是编辑判断/);
+assert.match(words(notice),/“阅读深度”来自该版本的原文核对记录/);
+collection.priorCollection=false;collectionRoot.replaceChildren();vm.runInContext(collectionCode,collection);assert.equal(collectionRoot.children.length,0,'Do not mislabel other scopes as the prior collection');
+console.log('PASS: prior editorial collection, independent curation stages and revision/first-submission boundary');

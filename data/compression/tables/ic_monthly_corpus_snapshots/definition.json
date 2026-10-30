@@ -135,6 +135,13 @@
       "role": "value",
       "source": null,
       "type": "string"
+    },
+    "decision_hash_fields_json": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "text"
     }
   },
   "required_fields": [

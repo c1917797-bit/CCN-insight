@@ -1,6 +1,6 @@
 {
   "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
-  "content_version": "compression-18297f52433167a7c1f0",
+  "content_version": "compression-6d3c3de69a99ce641d45",
   "changed_since_import": [
     "ic_ascend_route_assessments",
     "cloud_core_documents",
@@ -86,10 +86,12 @@
     "cloud_core_modules",
     "topic_entity_refs",
     "topic_workbench_items",
-    "topic_workbench_profiles"
+    "topic_workbench_profiles",
+    "ic_monthly_paper_corpus",
+    "ic_monthly_corpus_snapshots"
   ],
-  "tables": 91,
-  "rows": 65077,
+  "tables": 93,
+  "rows": 66814,
   "checked_relationships": 24,
   "errors": [],
   "deferred_content": [],
