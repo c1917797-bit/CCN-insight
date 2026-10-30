@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-30",
+  "scope": "independent acquisition, neural-inference-compression domain and maintained-map accounting",
+  "content_version": "compression-688f00676e9ac2316eb1",
+  "counts": {"acquired": 4843, "month_first_publications": 1728, "domain_confirmed": 604, "map_assigned": 465, "root_matrix": 424, "domain_without_map": 139},
+  "independent_read_only_audit": "passed: raw abstract IDs/hashes/dates/versions; disjoint domain partition; map subset; root-extension union; 16-field decision hash; generated audit document equality",
+  "checks_passed": [
+    "test_monthly_paper_corpus.cjs",
+    "test_monthly_funnel.cjs including canonical data and exact clickable subsets",
+    "test_monthly_corpus_import.py: 3 tests",
+    "audit_monthly_corpus.py",
+    "scripts/build.py",
+    "scripts/verify.py",
+    "scripts/verify_compression.py",
+    "scripts/verify_original_reader.py",
+    "test_monthly_organization.cjs",
+    "test_current_report_synthesis.cjs",
+    "test_reader_journey.cjs",
+    "test_expert_navigation.cjs"
+  ],
+  "new_funnel_browser_visual_qa": "not performed: available browser plugin lacks its required browser-client.mjs module; no alternate controller used",
+  "claim_boundaries": [
+    "Only the saved registered arXiv query plus 18 explicit classic seeds is quantified; other registered sources are not zero.",
+    "Requested cutoff October 29; latest saved first publication October 27. Neither full-month completeness nor exhaustive search recall is established.",
+    "Domain confirmation is an abstract-level relevance decision, not full-text review or measured deployment benefit.",
+    "Final comparative curation of this corpus is not completed; the prior 16-paper reading collection remains separate."
+  ]
+}

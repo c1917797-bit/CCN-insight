@@ -414,6 +414,19 @@ body[data-compression-view="updates"] .wb-header{margin-bottom:12px}
 #monthly-paper-matrix .corpus-metrics button{display:flex;align-items:center;gap:14px;text-align:left;background:#ffffffb8;color:#3b586d;border:1px solid #dce5ef;border-radius:12px;padding:14px 18px;min-width:0}
 #monthly-paper-matrix .corpus-metrics strong{font-size:30px;line-height:1.15;color:#256b86;font-variant-numeric:tabular-nums}
 #monthly-paper-matrix .corpus-metrics span{font-size:14px}
+#monthly-paper-matrix .corpus-acquisition{border:1px solid #d3e6ec;border-radius:10px;padding:14px 18px;background:#f7fcfd;margin:18px 0;color:#3f6175;font-size:13px}
+#monthly-paper-matrix .corpus-acquisition summary{cursor:pointer;font-size:15px;font-weight:650;color:#245f75}
+#monthly-paper-matrix .corpus-acquisition p{font-size:13px;line-height:1.8}
+#monthly-paper-matrix .corpus-funnel{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;list-style:none;padding:0;margin:20px 0;counter-reset:corpus-step}
+#monthly-paper-matrix .corpus-funnel li{margin:0;min-width:0;counter-increment:corpus-step}
+#monthly-paper-matrix .corpus-funnel button{display:flex;flex-direction:column;align-items:flex-start;gap:10px;width:100%;height:100%;border:1px solid #d5e3ef;border-radius:11px;background:#fff;padding:18px;color:#386078;text-align:left;cursor:pointer}
+#monthly-paper-matrix .corpus-funnel button:before{content:'0' counter(corpus-step);font-size:11px;letter-spacing:1px;color:#7c8fa6}
+#monthly-paper-matrix .corpus-funnel button:hover{border-color:#218491;background:#f5fcfd}
+#monthly-paper-matrix .corpus-funnel strong{font-size:32px;color:#167883;line-height:1.15;font-variant-numeric:tabular-nums}
+#monthly-paper-matrix .corpus-funnel span{font-size:13px;line-height:1.55}
+#monthly-paper-matrix .corpus-funnel li:nth-child(n+3) button{background:#f8f8ff}
+#monthly-paper-matrix .corpus-domain-breakdown{margin-bottom:18px}
+@media(max-width:760px){#monthly-paper-matrix .corpus-funnel{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}#monthly-paper-matrix .corpus-funnel button{padding:13px}#monthly-paper-matrix .corpus-funnel strong{font-size:28px}}
 #monthly-paper-matrix .corpus-matrix-scroll{overflow-x:auto;overscroll-behavior-x:contain;border:1px solid #dbe5ee;border-radius:12px;background:#fff}
 #monthly-paper-matrix .corpus-matrix{width:100%;min-width:620px;border-collapse:separate;border-spacing:0;font-size:14px;table-layout:fixed;margin:0;background:#fff}
 #monthly-paper-matrix caption{text-align:left;padding:12px 16px;font-size:12px;color:#566b7b;background:#f9fbfe;caption-side:top}

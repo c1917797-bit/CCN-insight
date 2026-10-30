@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-30",
+  "snapshot_id": "corpus-2026-10-arxiv-20261029-abstract-v1",
+  "before_content_version": "compression-6d3c3de69a99ce641d45",
+  "after_content_version": "compression-688f00676e9ac2316eb1",
+  "domain_policy": "inference-compression-nondiffusion-v1",
+  "independent_abstract_domain_reviews": 1068,
+  "inherited_evidence_counts": {
+    "diffusion_policy_exclusion": 195,
+    "map_confirmed": 465
+  },
+  "domain_counts": {
+    "out_of_scope": 282,
+    "adjacent": 796,
+    "unresolved": 46,
+    "in_scope": 604
+  },
+  "map_unique": 465,
+  "domain_confirmed_without_map": 139,
+  "decisions_sha256": "f2413577f08862a4a030bb168250581282816b7d8dd47c3d3d8d2cb5fbd7152d",
+  "domain_is_not_map_assignment": true,
+  "fulltext_review_implied": false,
+  "selection_completed": false
+}

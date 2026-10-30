@@ -46,8 +46,9 @@ const waits=new Map();sandbox.LRITableGit.loadTablePage=(_,args)=>new Promise(re
  sandbox.LRITableGit.loadRowsByKeys=async(_table,_ids,revision)=>({revision,records:[{family_id:'registered-arxiv',business_id:'cloud-core',topic_id:'cloud_core',ui_group:'academic'}]});
  await api.refresh({period:'2026-10',revision:'render-fixture',locale:'zh'});
  let nodes=flatten(host);assert(nodes.some(n=>n.textContent==='四类根技术去重'));assert(!nodes.some(n=>n.textContent==='全矩阵去重'||n.textContent==='已归入专题'));
- assert(nodes.some(n=>n.textContent==='与技术地图相关'));
- assert(nodes.some(n=>n.textContent.includes('4 篇相关论文 = 3 篇根技术论文 + 1 篇仅扩展机制论文')),'The visible reconciliation must explain the difference without adding overlapping groups');
+ assert(nodes.some(n=>n.textContent.includes('本快照尚未单独核对推理压缩领域归属')),'An older snapshot without domain decisions must show unknown domain coverage, not a zero or the map count');
+ assert(!nodes.some(n=>n.dataset.funnelStage),'Do not fabricate a domain funnel from legacy map classifications');
+ assert(nodes.some(n=>n.textContent.includes('4 篇地图内论文 = 3 篇根技术论文 + 1 篇仅扩展机制论文')),'The visible reconciliation must explain the difference without adding overlapping groups');
  assert(nodes.some(n=>n.textContent.includes('6 篇依据原始摘要判断，1 篇补充核对了原文章节')),'Review-depth counts derive from records, not snapshot prose');
  nodes.find(n=>n.dataset.corpusScope==='extension-only').click();
  let list=sandbox.document.getElementById('monthly-corpus-papers');assert(!list.hidden);assert(flatten(list).some(n=>n.textContent==='Paper 2610.00006 ↗'));assert(!flatten(list).some(n=>n.textContent==='Paper 2610.00007 ↗'));

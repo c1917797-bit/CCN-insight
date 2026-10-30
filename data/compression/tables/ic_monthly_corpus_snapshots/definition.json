@@ -142,6 +142,76 @@
       "role": "value",
       "source": null,
       "type": "text"
+    },
+    "domain_policy": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "acquired_unique_count": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "acquired_query_count": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "acquired_seed_count": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "acquired_outside_period_count": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "acquisition_window_start": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "acquisition_window_end": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "acquisition_latest_publication": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "acquisition_verified_pages": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "integer"
+    },
+    "curation_status": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
     }
   },
   "required_fields": [

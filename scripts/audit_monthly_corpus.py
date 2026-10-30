@@ -47,7 +47,7 @@ def audit(snapshot_id, scope_id):
         choices.append({'paper_id':pid,'story_id':story['story_id'],'selection_tier':story['selection_tier'],'selection_reason_zh':story['selection_reason_zh'],'review_status':summary['review_status'],'reviewed_at':summary['reviewed_at'],'evidence_url':summary['evidence_url'],'evidence_locator':summary['evidence_locator'],'topics':sorted(topics),'in_first_publication_corpus':pid in corpus})
     selected={r['paper_id'] for r in choices}
     assert len(selected)==len(choices),'One editorial story per stable paper ID'
-    return {
+    result={
         'snapshot_id':snapshot_id,'acquired_at':snapshot['acquired_at'],'first_publication_cutoff':snapshot['cutoff'],'reviewed_at':snapshot['reviewed_at'],
         'candidate_count':len(corpus),'statuses':dict(Counter(r['classification_status'] for r in corpus.values())),
         'map_related_unique':len(related),'root_unique':len(root),'extension_unique':len(ext),'overlap_unique':len(root&ext),'extension_only_unique':len(ext-root),
@@ -59,6 +59,16 @@ def audit(snapshot_id, scope_id):
         'selection_boundary':'The prior reading collection was created to fill editorial coverage gaps before this corpus classification. It is not the top-ranked result of a systematic comparison of all corpus papers.',
         'count_boundary':'Unique stable paper IDs within the saved registered arXiv query and publication window; not all sources or the whole field. Related classification is not topic-prose adoption.'
     }
+    if snapshot.get('domain_policy'):
+        statuses=Counter(r['domain_status'] for r in corpus.values())
+        domain={pid for pid,r in corpus.items() if r['domain_status']=='in_scope'}
+        assert sum(statuses.values())==len(corpus) and related<=domain
+        result['domain_review']={'policy':snapshot['domain_policy'],'counts':dict(statuses),'confirmed_unique':len(domain),'confirmed_without_map_unique':len(domain-related),'confirmed_without_map_ids':sorted(domain-related),'route_pending_within_domain':sum(corpus[pid]['classification_status']=='pending' for pid in domain-related),'papers_outside_prior_collection':len(domain-selected),'abstract_review_does_not_imply_fulltext':True}
+    if snapshot.get('acquired_unique_count') is not None:
+        acq={k:snapshot[k] for k in ['acquired_unique_count','acquired_query_count','acquired_seed_count','acquired_outside_period_count','acquisition_window_start','acquisition_window_end','acquisition_latest_publication','acquisition_verified_pages']}
+        assert acq['acquired_unique_count']==acq['acquired_query_count']+acq['acquired_seed_count']==len(corpus)+acq['acquired_outside_period_count']
+        result['acquisition']=acq
+    return result
 
 def main():
     parser=argparse.ArgumentParser()

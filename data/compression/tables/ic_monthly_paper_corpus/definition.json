@@ -156,6 +156,41 @@
       "role": "value",
       "source": null,
       "type": "string"
+    },
+    "domain_status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "domain_basis_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "domain_uncertainties_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "domain_review_basis": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
+    },
+    "domain_reviewed_at": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "string"
     }
   },
   "required_fields": [
@@ -178,7 +213,12 @@
     "topic_id",
     "topic_ids_json",
     "uncertainties_zh",
-    "versioned_id"
+    "versioned_id",
+    "domain_status",
+    "domain_basis_zh",
+    "domain_uncertainties_zh",
+    "domain_review_basis",
+    "domain_reviewed_at"
   ],
   "indexes": [
     {
