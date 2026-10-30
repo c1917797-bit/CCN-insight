@@ -1,4 +1,8 @@
-# 月内计数对账与精选来源纠正（2026-10-30，发布回执待更新）
+# v35 月内计数与精选来源已上线（2026-10-30）
+
+主仓内容 cf6a25a5177c2659ddc72ce8b11aaeef2cc2fbb2 已推送；Sites 镜像35a7967a7b1d456ff63022c5e39630875e43125e 经正式helper推送并重开核对。v35 部署appgdep_6ae43854def481919f2cf6f0e0fba9ac于2026-10-30T06:25:53.331323+00:00 succeeded，原网址和public权限保持。内容compression-6d3c3de69a99ce641d45，UI364f2344d8283c5a0f40，保留v34全部量化读者改进。发布前本地实点和窄屏已验收；发布后工具切换，Browser插件缺少browser-client.mjs，未做线上点击复测；匿名HTTP版本端点403不当作正文校验。原生发布成功是上线证据。详见deployment/monthly-corpus-reconciliation-publication-20261030.json与对应publication-qa，不能冒称本轮已在线逐页点击。两站既有共源入口沿用此次CCN发布，无需回写原站。
+
+# 月内计数对账与精选来源纠正（2026-10-30，以下为过程）
 
 用户追问463与422的差异及后续精选来源。旧数应解释为463＝422根技术并集＋41仅扩展；扩展并集59、与根技术重叠18。核对发现CSD被摘要分类排除、SpectrumQuant待核，与旧研读集合不一致。补查精确版本原文章节后，CSD归模型蒸馏，SpectrumQuant明确W4-A4-KV4并关联W/A/KV；两条均仅升至所列方法/结果章节核对，未宣称全文阅读或独立复现。
 

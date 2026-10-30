@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-30",
+  "site_url": "https://ccn-insight-four.sunshinepmy.chatgpt.site",
+  "native_deployment_status": "succeeded",
+  "version_number": 35,
+  "version_id": "appgprj_6ad8b74cbb048191b7b6aaf46ad43a89~appgver_23ad21803a948191b7693e4a3150c76b",
+  "deployment_id": "appgdep_6ae43854def481919f2cf6f0e0fba9ac",
+  "sites_source_commit": "35a7967a7b1d456ff63022c5e39630875e43125e",
+  "github_content_commit": "cf6a25a5177c2659ddc72ce8b11aaeef2cc2fbb2",
+  "content_version": "compression-6d3c3de69a99ce641d45",
+  "reader_revision": "43ac78ce4d89a70191dd09cda65060b124509255",
+  "ui_revision": "364f2344d8283c5a0f40",
+  "local_qa": "docs/monthly-corpus-reconciliation-qa-20261030.json",
+  "local_browser_click_checks_passed": true,
+  "local_desktop_and_narrow_width_checks_passed": true,
+  "online_browser_click_checks_completed": false,
+  "online_browser_limitation": "Browser tools changed after local QA. The installed Browser skill points to a missing scripts/browser-client.mjs; no substitute browser controller was used.",
+  "anonymous_http_version_check": 403,
+  "anonymous_http_boundary": "The static version endpoint rejected anonymous executor HTTP; this was not treated as publication failure or claimed as a content check.",
+  "deployment_verified_by": "Native Sites deploy_site_version terminal succeeded response",
+  "counting": "465 = 424 + 41 = 424 + 59 - 18",
+  "prior_reading_collection": "16 (15 first publications + 1 earlier paper revised this month); 6 targeted method/results reviews + 10 abstract-only reviews",
+  "final_full_corpus_selection_completed": false
+}
+
