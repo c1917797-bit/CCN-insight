@@ -1,0 +1,44 @@
+{
+  "date": "2026-11-13",
+  "status": "implemented_and_checked_locally_not_published",
+  "content_version": "compression-9c04cc6de7156010a5d6",
+  "reader_revision": "fe7db75393048e213fb5a58596668a6c947ab214",
+  "ui_revision": "ae62743fe7026e3f68b5",
+  "canonical_table": "data/compression/tables/ic_paper_experiments/rows.jsonl",
+  "local_preview": {"port": 8802, "topic_http_status": 200, "experiment_data_http_status": 200, "panel_handoff": "queued"},
+  "coverage": {"papers": 7, "experiments": 8, "metrics": 13, "topics_with_experiments": 4, "topic_readers_supported": 16},
+  "checks_passed": [
+    "scripts/build.py",
+    "scripts/verify.py",
+    "scripts/verify_compression.py",
+    "scripts/verify_original_reader.py",
+    "scripts/verify_tablegit_migration.py",
+    "scripts/verify_expert_index.py --self-test",
+    "scripts/test_compression_depth.cjs",
+    "scripts/test_reader_journey.cjs",
+    "scripts/test_expert_navigation.cjs",
+    "scripts/test_topic_reader_five_rounds.cjs (15 contracts)",
+    "scripts/test_paper_effects.cjs (13 contracts)",
+    "scripts/test_paper_experiments.py (19 data contracts)",
+    "node --check compression.js",
+    "git diff --check"
+  ],
+  "verification_limits": [
+    "DOM tests use the actual component in a semantic fixture; no live browser control was available.",
+    "No real mobile or desktop visual/click acceptance was performed.",
+    "Paper results are author reports from specified sections and tables, not independent reproductions.",
+    "This batch is not a complete review or selection of the monthly 604 domain-relevant candidates."
+  ],
+  "publication": {
+    "last_confirmed_site_version": 36,
+    "new_version_saved": false,
+    "new_version_deployed": false,
+    "github_remote_reconciled": false,
+    "source_opened": false,
+    "initial_credential_error": "409 sites_git_client_upgrade_required",
+    "retry_credential_result": "codex_auth repository access returned; no token exposed or persisted",
+    "source_helper_error": "Sites 1.1.6 helper accepts work_proxy/http_extra_header but returned codex_auth is unsupported",
+    "github_error": "fetch/ls-remote unable to connect to github.com",
+    "next_step": "Reconcile remote GitHub main and use an officially compatible Sites source workflow before saving/deploying. Do not disguise authorization mode."
+  }
+}

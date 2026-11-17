@@ -62,6 +62,13 @@ for binding in rows('ic_paper_summary_events'):
     event = next(x for x in rows('ic_evidence_items') if x['evidence_id']==binding['evidence_id'])
     if not (binding['source_id']==summary['source_id']==event['source_id'] and binding['observed_version']==summary['observed_version']==event['observed_version']):
         errors.append(('ic_paper_summary_events', 'version/source mismatch', binding['evidence_id']))
+
+if any(t['name'] == 'ic_paper_experiments' for t in metadata['tables']):
+    from paper_experiments import validate_canonical
+    try:
+        validate_canonical()
+    except (ValueError, TypeError, KeyError) as error:
+        errors.append(('ic_paper_experiments', str(error)))
 deferred = [str(p.relative_to(ROOT)) for p in DATA.rglob('rows.jsonl') if '"content_ref"' in p.read_text(encoding='utf-8')]
 assert not deferred, deferred
 assets = json.loads((DATA / 'assets.json').read_text(encoding='utf-8')) if (DATA / 'assets.json').exists() else {'assets':[]}

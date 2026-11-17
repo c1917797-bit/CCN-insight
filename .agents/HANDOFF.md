@@ -1,3 +1,13 @@
+# 论文效果对照发布准备（2026-11-17）
+
+远端GitHub main已核对为a098d5f，与本地主分支一致；正式Sites helper已打开同一项目与92fd33f镜像。使用官方http_extra_header授权，无需改变授权类型。重新构建、四项校验、13项效果交互和19项数据契约通过；本地1280×720实点实验快捷入口、AWQ搜索和条件展开。7篇论文/8实验/13数值指标，4个关联专题，16阅读器共用组件。新版尚待推送和原生部署，不能将下面旧阻挡或准备完成当作已发布。详见docs/paper-effects-publication-qa-20261117.json。既有用户CSV仅换行变化，本次不纳入提交。
+
+# 论文效果对照本地修复（2026-11-13，尚未发布）
+
+新增唯一表ic_paper_experiments：7篇原文、8实验、13数值指标，显式关联4专题；全16专题共用比较章表格和首屏快捷入口。按source分页、revision校验，不同实验分行、联合W/A/KV只存一次。方法按钮展开完整条件，模型/格式/文本筛选；检索复用可见原卡。新实验均指定章节核对，旧摘要层级不变；AlignQuant激活范围和QuaRot权重联合路线补两条真实来源引用。没有全量精选604篇或独立复现。维护规范见docs/PAPER-EXPERIMENTS.md，证据见paper-experiment-evidence-20261113.md。
+
+本地构建、三项主校验、原16专题loader、15阅读器契约、13效果交互契约、19数据契约、导航和索引自检通过。无浏览器控制工具，本次未做真实页面点击/窄屏视觉验收。部署仍是v36；本轮不改旧正式回执。Sites首次409升级提示，重试拿到codex_auth，但本机Sites1.1.6 helper只接受work_proxy/http_extra_header，正式open在输入契约处拒绝，尚未写Sites源。GitHub fetch也连接失败，未完成远端对账、推送与部署。不要改授权类型骗过helper；修复客户端兼容后从正式open继续，并先核对远端。原站共源入口无需回写。既有scheduling-points.csv用户改动保留，不纳入本次内容。
+
 # v35 月内计数与精选来源已上线（2026-10-30）
 
 主仓内容 cf6a25a5177c2659ddc72ce8b11aaeef2cc2fbb2 已推送；Sites 镜像35a7967a7b1d456ff63022c5e39630875e43125e 经正式helper推送并重开核对。v35 部署appgdep_6ae43854def481919f2cf6f0e0fba9ac于2026-10-30T06:25:53.331323+00:00 succeeded，原网址和public权限保持。内容compression-6d3c3de69a99ce641d45，UI364f2344d8283c5a0f40，保留v34全部量化读者改进。发布前本地实点和窄屏已验收；发布后工具切换，Browser插件缺少browser-client.mjs，未做线上点击复测；匿名HTTP版本端点403不当作正文校验。原生发布成功是上线证据。详见deployment/monthly-corpus-reconciliation-publication-20261030.json与对应publication-qa，不能冒称本轮已在线逐页点击。两站既有共源入口沿用此次CCN发布，无需回写原站。

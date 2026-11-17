@@ -1,0 +1,44 @@
+{
+  "date": "2026-11-17",
+  "status": "validated_for_publication",
+  "content_version": "compression-9c04cc6de7156010a5d6",
+  "reader_revision": "fe7db75393048e213fb5a58596668a6c947ab214",
+  "ui_revision": "ae62743fe7026e3f68b5",
+  "github_base_commit": "a098d5f53cc76b52d4b9e36e9669d818cce48f62",
+  "coverage": {
+    "papers": 7,
+    "experiments": 8,
+    "numeric_metrics": 13,
+    "topics_with_records": 4,
+    "readers_supported": 16
+  },
+  "checks_rerun": [
+    "scripts/build.py",
+    "scripts/verify.py",
+    "scripts/verify_compression.py",
+    "scripts/verify_original_reader.py",
+    "scripts/verify_tablegit_migration.py",
+    "scripts/test_paper_effects.cjs (13 contracts)",
+    "scripts/test_paper_experiments.py (19 contracts)",
+    "git diff --check"
+  ],
+  "browser_checks": {
+    "environment": "local 127.0.0.1:8802",
+    "viewport": [
+      1280,
+      720
+    ],
+    "paper_table_rendered": true,
+    "shortcut_scrolls_to_table": true,
+    "search_AWQ_matches": "1 / 5 experiments, 1 paper",
+    "AWQ_expands_full_conditions": true,
+    "narrow_viewport_tested": false,
+    "production_click_tested": false
+  },
+  "limits": [
+    "Specified primary-paper sections and results tables, not independent reproduction.",
+    "Not a complete review or curation of the 604 monthly domain-relevant candidates.",
+    "This check covers the table and AWQ interaction on desktop; no fresh all-page or mobile visual acceptance."
+  ],
+  "publication_tracking": "deployment/paper-effects-publication-20261117.json is written after native deployment succeeds."
+}

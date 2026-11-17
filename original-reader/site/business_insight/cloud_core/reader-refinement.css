@@ -468,3 +468,38 @@ body[data-compression-view="updates"] #monthly{margin-top:12px;padding-top:0}
 .research-principles li{max-width:90ch;line-height:1.85;padding:8px 0}
 .research-principles-evidence{display:flex;gap:16px;flex-wrap:wrap;margin:18px 0}
 .research-principles-evidence a{font-size:14px}
+.research-topic-report a.paper-effect-shortcut{display:inline-flex;align-items:center;min-height:36px;box-sizing:border-box;margin:4px 0 14px;padding:7px 12px;border:1px solid #bdd9dd;border-radius:7px;background:#edf7f7;color:#116874;font-size:13px;font-weight:600;line-height:1.6;text-decoration:none}
+.research-topic-report .topic-reading-actions a.paper-effect-shortcut{margin:0}
+.research-topic-report a.paper-effect-shortcut:hover{background:#dceff0;border-color:#83b9c0}
+.research-topic-report a.paper-effect-shortcut:focus-visible{outline:3px solid #4ea6ae;outline-offset:3px}
+.paper-effect-section{min-width:0;margin:12px 0 30px;border:1px solid #d9e4e9;border-radius:12px;background:#fff;padding:20px}
+.paper-effect-section h3{margin:0 0 12px!important;font-size:20px!important;line-height:1.5}
+.paper-effect-note,.paper-effect-status{font-size:13px!important;line-height:1.75;color:#536c7b;max-width:100ch}
+.paper-effect-controls{display:grid;grid-template-columns:minmax(200px,1.5fr) minmax(150px,1fr) minmax(180px,1.2fr) auto;align-items:end;gap:12px;margin:20px 0 10px}
+.paper-effect-controls label{display:flex;flex-direction:column;gap:6px;min-width:0;font-size:12px;color:#496477}
+.paper-effect-controls input,.paper-effect-controls select{box-sizing:border-box;width:100%;min-width:0;height:42px;padding:8px 10px;border:1px solid #cbdce4;border-radius:7px;background:#fff;color:#254558;font:inherit;font-size:14px;text-overflow:ellipsis}
+.paper-effect-controls>button{min-height:42px;padding:8px 12px;border:1px solid #cbdce4;border-radius:7px;background:#f6fafb;color:#245c6a;font-size:13px;cursor:pointer}
+.paper-effect-scroll{max-width:100%;overflow:auto;border:1px solid #dce6ec;border-radius:8px;overscroll-behavior-x:contain}
+.paper-effect-table{width:100%;min-width:1460px;border-collapse:collapse;table-layout:fixed;font-size:13px;line-height:1.65;text-align:left}
+.paper-effect-table caption{caption-side:top;text-align:left;padding:12px;background:#f6fafb;font-size:12px;color:#607789}
+.paper-effect-table th,.paper-effect-table td{padding:14px 12px;border-bottom:1px solid #e0e9ee;vertical-align:top;overflow-wrap:anywhere}
+.paper-effect-table thead th{background:#eef5f7;color:#294c60;font-size:13px;position:sticky;top:0;z-index:1}
+.paper-effect-table th:nth-child(1){width:135px}.paper-effect-table th:nth-child(2){width:135px}.paper-effect-table th:nth-child(3){width:210px}
+.paper-effect-table td p{font-size:13px!important;line-height:1.65;margin:0 0 7px!important;max-width:none!important}
+.paper-effect-method{padding:0;border:0;background:none;color:#096e7a;font:inherit;font-weight:700;text-align:left;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.paper-effect-method::before{content:'▸';display:inline-block;width:14px;text-decoration:none}
+.paper-effect-method[aria-expanded="true"]::before{content:'▾'}
+.paper-effect-kind{display:block;margin-top:7px;font-size:11px;font-weight:400;color:#647c8b}
+.paper-effect-metric+.paper-effect-metric{margin-top:12px;padding-top:10px;border-top:1px solid #e5edf1}
+.paper-effect-metric small{display:block;color:#637b89;font-size:11px;line-height:1.6}
+.paper-effect-missing{font-size:12px;color:#6d7e89}
+.paper-effect-links{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:12px}
+.paper-effect-expanded>th,.paper-effect-expanded>td{background:#f0f8f8;border-bottom-color:transparent}
+.paper-effect-detail>td{padding:0 20px 20px;background:#f0f8f8}
+.paper-effect-detail[hidden]{display:none}
+.paper-effect-detail dl{display:grid;grid-template-columns:160px minmax(0,1fr);gap:8px 20px;margin:0;max-width:1100px;font-size:13px;line-height:1.75}
+.paper-effect-detail dt{font-weight:600;color:#31576a}.paper-effect-detail dd{margin:0;color:#3d5868}
+.paper-effect-method:focus-visible,.paper-effect-controls :focus-visible,.paper-effect-scroll:focus-visible{outline:3px solid #4ea6ae;outline-offset:3px}
+.paper-effect-table tr[id]{scroll-margin-top:100px}
+@media(max-width:900px){.paper-effect-controls{grid-template-columns:repeat(2,minmax(0,1fr))}.paper-effect-controls label:first-child{grid-column:1/-1}}
+@media(max-width:600px){.paper-effect-section{padding:14px;border-radius:9px}.paper-effect-controls{grid-template-columns:minmax(0,1fr)}.paper-effect-controls label:first-child{grid-column:auto}.paper-effect-section h3{font-size:18px!important}}

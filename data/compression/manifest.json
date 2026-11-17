@@ -1987,6 +1987,29 @@
       "import_sha256": "da58cadb147ac6f33c93330c040d58232448df9fb5d87b99c344009cc701b37a",
       "key_field": "snapshot_id",
       "provenance_kind": "local_registered_source_abstract_review"
+    },
+    {
+      "name": "ic_paper_experiments",
+      "path": "data/tables/ic_paper_experiments",
+      "revision": "local-primary-experiments-20261113",
+      "source_row_count": 8,
+      "exported_rows": 8,
+      "filters": [
+        {
+          "field": "business_id",
+          "op": "eq",
+          "value": "cloud-core"
+        },
+        {
+          "field": "topic_id",
+          "op": "eq",
+          "value": "cloud_core"
+        }
+      ],
+      "rows_file": "data/compression/tables/ic_paper_experiments/rows.jsonl",
+      "import_sha256": "3f7b666d4892f90e652beb6ea65e8143c508a6e628d0f891a69dfa7a46e93b54",
+      "key_field": "experiment_id",
+      "provenance_kind": "local_primary_paper_section_review"
     }
   ],
   "errors": [],

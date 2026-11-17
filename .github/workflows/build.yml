@@ -29,6 +29,8 @@ jobs:
       - run: node scripts/test_reader_journey.cjs
       - run: node scripts/test_compression_entry.cjs
       - run: node scripts/test_topic_reader_five_rounds.cjs
+      - run: python scripts/test_paper_experiments.py
+      - run: node scripts/test_paper_effects.cjs
       - run: python scripts/audit_compression_inventory.py --self-test
       - uses: actions/upload-artifact@v4
         with:

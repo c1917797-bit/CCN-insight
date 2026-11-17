@@ -9,7 +9,7 @@ globalThis.LRICloudUIPacks={"zh":{"locale":"zh","page_title":"推理压缩洞察
     ...['objects','methods','cells','techniques','placements','trend_periods','tasks','review_notes','evaluation_dimensions','source_refs','flywheel_stages','lineages','lineage_nodes','lineage_relations','lineage_cells','source_scans','source_screenings','channels','source_categories','channel_categories','channel_provenance','channel_checks','findings','finding_evidence','finding_cells','finding_techniques','finding_keywords','finding_scopes','measurements','decisions','collection_runs','channel_retrievals','channel_entries','evidence_items','evidence_placements','evidence_keywords','trend_scopes','trend_reviews'].map(name => 'ic_' + name)]);
   for (const name of ['monthly_route_insights','monthly_route_evidence','paper_summaries','paper_summary_keywords','paper_summary_events','source_families','channel_families','industry_source_scopes','collection_entries','monthly_evidence_cells','monthly_scopes','monthly_cell_reviews','trend_observations']) tables.add('ic_' + name);
   for (const name of ['modules','flywheel_stages','stage_gates','constraints','metrics','experiments','import_runs','measurements','import_issues']) tables.add('cloud_core_' + name);
-  for (const name of ['ic_monthly_paper_corpus','ic_monthly_corpus_snapshots']) tables.add(name);
+  for (const name of ['ic_monthly_paper_corpus','ic_monthly_corpus_snapshots','ic_paper_experiments']) tables.add(name);
   let id = 0, contract, revision = '';
   async function call(name, args) {
     const request = {
@@ -2790,12 +2790,14 @@ function viewForTarget(id) {
 }
 function viewFromHash() { return viewForTarget(location.hash.slice(1))||'sources'; }
 function openResearchTarget(target){
+ if(typeof target?.openPaperExperiment==='function')target.openPaperExperiment();
  let active=null;for(let node=target;node;node=node.parentElement)if(node.classList?.contains('quant-case-disclosure')){active=node;break;}
  if(active)for(const sibling of active.parentElement?.children||[])if(sibling!==active&&sibling.classList?.contains('quant-case-disclosure'))sibling.open=false;
  for(let node=target;node;node=node.parentElement)if(node.tagName==='DETAILS')node.open=true;
 }
 function revealHashTarget(id=location.hash.slice(1)) {
   if(/^source-(review|paper-entries)-source-family-[a-z0-9_-]+$/.test(id)){location.replace(sourceRecordHref(id));return;}
+  if((id==='direction-paper-effects'||id.startsWith('research-card-experiment-'))&&topicPage()&&state.revision&&(!['overview','comparison'].includes(researchView())||new URLSearchParams(location.search).has('route'))){const url=new URL(researchHref('comparison'),location.href);url.hash=id;history.replaceState(null,'',url.pathname+url.search+url.hash);renderDirectionDetail();return;}
   if(/^route-(precision|selection|distillation|factorization)$/.test(id)&&state.mapTargetFilter){state.mapTargetFilter='';renderScientificMap();}
   const focusMatch=/^focus-([a-z_]+)-([a-z_]+)$/.exec(id);if(focusMatch){if(state.revision)openScientificFocus(focusMatch[1],focusMatch[2],false);return;}
   if(/^direction-[A-Z]_[A-Z]$/.test(id)){if(state.revision)openDirection(id.slice(10),false);return;}
@@ -3843,7 +3845,7 @@ function renderTopicOverview(parent,topic,dossier){
   const label=topic.compression_topic_id==='parameters-precision'?quantLabels[key]:[zh,en];
   node.append(element('h2',String(root.children.length+1).padStart(2,'0')+' · '+mapText(...label)));root.append(node);
  }
- const brief=root.querySelector('#research-overview-brief');
+ const brief=root.querySelector('#research-overview-brief');brief.append(paperEffectShortcut());
  const judgment=dossier.cards.find(r=>r.card_id===topic.compression_topic_id+'__dossier_5')||dossier.cards.find(r=>r.section_kind==='implication');
  const hasExpertEntry=renderExpertTopicEntry(brief,topic,dossier);
  if(judgment&&!hasExpertEntry){const box=element('article','','topic-brief-judgment');box.append(element('h3',mapText('核心判断','Core judgment')),element('p',textOf(judgment,'body').split('\n').filter(Boolean)[0].replace(/^[^：:]{1,24}[：:]\s*/,''),'weight-section-lead'));weightTopicCitations(box,[judgment.card_id]);brief.append(box);}
@@ -4025,6 +4027,145 @@ function renderResearchRoutes(parent){
   const ref=dossier.refs.find(r=>r.card_id===route.supporting_card_id&&r.source_id===route.source_id);const proof=researchBlock('research-route-proof-'+route.route_id,mapText('证据与审阅范围','Evidence and review scope'));proof.append(element('p',textOf(ref,'locator')+' · '+(ref.review_depth==='section_review'?mapText('章节核对','Section review'):mapText('摘要核对','Abstract review'))+' · '+ref.checked_at,'meta'));card.append(proof);
   if(!selected){const url=new URL(researchHref('mechanism','routes'),location.origin);url.searchParams.set('route',route.route_id);const detail=element('a',mapText('单独阅读此路线 →','Read this route →'),'research-route-open');detail.href=url.pathname+url.search+url.hash;detail.dataset.compressionResearchView='mechanism';card.append(detail);}grid.append(card);
  }parent.append(grid);
+}
+
+// Experiments are maintained once per paper/configuration, then shared by explicit topic IDs.
+const paperEffectReaders=new Map(),paperEffectPending=new Map(),paperEffectErrors=new Map(),paperEffectFilters=new Map();
+function paperEffectShortcut(){
+ const link=element('a',mapText('实验效果对照 →','Compare experimental results →'),'paper-effect-shortcut');link.href=researchHref('comparison','paper-effects');link.dataset.compressionResearchView='comparison';link.dataset.paperEffectsLink='true';return link;
+}
+function paperEffectFormatSummary(value){
+ const raw=String(value);
+ if(/not applicable|不适用/i.test(raw))return mapText('不适用','Not applicable');
+ if(/unstructured.*sparsity|非结构化.*稀疏/i.test(raw)){const ratio=raw.match(/\d+(?:\.\d+)?%/)?.[0]||'',dtype=raw.match(/\b(?:INT|BF|FP)\d+\b/i)?.[0],unspecified=/dtype not separately|dtype未单列/i.test(raw);return ratio+mapText(' 非结构化稀疏',' unstructured sparsity')+(unspecified?mapText(' · dtype未单列','; dtype unspecified'):dtype?' · '+dtype:'');}
+ if(/nuq4-1%/i.test(raw))return mapText('nuq4-1% · 4位码本＋1%旁路','nuq4-1% · 4-bit codes + 1% outliers');
+ const formats=[...new Set(raw.match(/\b(?:INT|BF|FP)\d+\b/gi)||[])];let summary=formats[0]||raw.match(/\bA16\b|\b4-bit\b/i)?.[0];
+ if(!summary&&/not separately (?:specified|itemized)|未单列/i.test(raw))return /KV only|仅改变KV/i.test(raw)?mapText('未单列 · 仅改变KV','Not specified; KV-only change'):mapText('未单列','Not specified');
+ if(!summary){const first=raw.split(/[;；]/)[0];return first.length>52?first.slice(0,52)+'…':first;}
+ if(/mixed tiles/i.test(raw))summary=formats.join('/')+mapText(' 混合',' mixed');
+ if(/per-channel/i.test(raw))summary+=mapText('/通道','/channel');else if(/per-token/i.test(raw))summary+='/token';
+ const group=/group(?:_size)?\s*=\s*(\d+)/i.exec(raw)?.[1],residual=/residual(?:_length)?\s*=\s*(\d+)/i.exec(raw)?.[1];if(group)summary+='/g'+group;if(residual)summary+=mapText(' · 高精度残留',' · high-precision residual ')+residual;
+ if(/asymmetric/i.test(raw))summary+=mapText(' · 非对称',' · asymmetric');
+ if(/mixed tiles/i.test(raw)){const share=/(\d+(?:\.\d+)?%)\s*INT4/i.exec(raw)?.[1];if(share)summary+=' · '+share+' INT4';}
+ else if(formats.length>1)summary+=/accumulation/i.test(raw)?mapText(' · 累加见详情','; accumulation in details'):mapText(' · 例外见详情','; exceptions in details');
+ if(summary==='A16')summary+=mapText(' · 编码未单列','; encoding unspecified');
+ return summary;
+}
+function paperEffectCheck(ok,message){if(!ok)throw new Error('Paper experiments: '+message);}
+function validatePaperExperiments(rows,dossier){
+ const sources=new Map(dossier.sources.map(source=>[source.source_id,source])),seen=new Set();
+ const topicIds=new Set(state.data.compression_topics.map(topic=>topic.compression_topic_id));
+ return rows.map(row=>{
+  paperEffectCheck(row&&row.business_id==='cloud-core'&&row.topic_id==='cloud_core'&&/^[a-zA-Z0-9_.:-]+$/.test(row.experiment_id||'')&&!seen.has(row.experiment_id),'foreign or duplicate experiment');seen.add(row.experiment_id);
+  paperEffectCheck(sources.has(row.source_id)&&typeof row.card_id==='string'&&row.card_id&&Number.isInteger(row.year)&&row.year>=1900&&Number.isInteger(row.position),'missing experiment identity');
+  let topics;try{topics=JSON.parse(row.topic_ids_json);}catch(_){paperEffectCheck(false,'invalid topic list');}
+  paperEffectCheck(Array.isArray(topics)&&topics.length>0&&topics.length<=16&&new Set(topics).size===topics.length&&topics.every(id=>topicIds.has(id)),'invalid topic assignment');
+  paperEffectCheck(['PTQ','QAT','pruning','distillation','factorization','other'].includes(row.process_type)&&['quality','system','kernel','memory'].includes(row.experiment_kind)&&row.review_depth==='section_review','invalid experiment or review type');
+  for(const key of ['method','model','w_format','a_format','k_format','v_format','observed_version'])paperEffectCheck(typeof row[key]==='string'&&row[key].trim(),'missing '+key);
+  for(const key of ['config','baseline','dataset','hardware','runtime','workload','protocol','locator'])for(const lang of ['zh','en'])paperEffectCheck(typeof row[key+'_'+lang]==='string'&&row[key+'_'+lang].trim(),'missing '+key+'_'+lang);
+  paperEffectCheck(/^\d{4}-\d{2}-\d{2}$/.test(row.checked_at||'')&&!Number.isNaN(Date.parse(row.checked_at))&&new Date(row.checked_at).toISOString().slice(0,10)===row.checked_at,'missing check date');
+  const sourceURL=new URL(row.source_url),canonical=new URL(sources.get(row.source_id).canonical_url);
+  paperEffectCheck(sourceURL.protocol==='https:'&&!sourceURL.username&&!sourceURL.password&&!['localhost','127.0.0.1','::1'].includes(sourceURL.hostname),'unsafe source URL');
+  for(const key of sourceURL.searchParams.keys())paperEffectCheck(!/token|password|secret|credential|api.?key|signature|bearer/i.test(key),'unsafe source parameter');
+  if(canonical.hostname==='arxiv.org'){
+   const id=/^\/(?:abs|html|pdf)\/(\d{4}\.\d{4,5})/.exec(canonical.pathname)?.[1],version=/^(?:\d{4}\.\d{4,5})?(v[1-9]\d*)$/.exec(row.observed_version)?.[1];
+   paperEffectCheck(id&&version&&sourceURL.hostname==='arxiv.org'&&new RegExp('^/(?:abs|html|pdf)/'+id.replace('.','\\.')+version+'(?:\\.pdf)?/?$').test(sourceURL.pathname),'source identity/version mismatch');
+   if(!row.observed_version.startsWith('v'))paperEffectCheck(row.observed_version===id+version,'observed paper identity mismatch');
+  }
+  const metrics={};
+  for(const kind of ['quality','performance','memory']){
+   let values;try{values=JSON.parse(row[kind+'_metrics_json']);}catch(_){paperEffectCheck(false,'invalid '+kind+' metrics');}
+   const status=row[kind+'_status'];paperEffectCheck(['reported','not_reported','not_checked','not_applicable'].includes(status)&&Array.isArray(values)&&values.length<=30&&(status==='reported'?values.length>0:values.length===0),'metric status mismatch');
+   for(const value of values)paperEffectCheck(value&&typeof value.metric==='string'&&value.metric.trim()&&typeof value.baseline==='number'&&Number.isFinite(value.baseline)&&typeof value.result==='number'&&Number.isFinite(value.result)&&typeof value.unit==='string'&&value.unit.trim()&&['lower','higher'].includes(value.better)&&['zh','en'].every(lang=>typeof value['scope_'+lang]==='string'&&value['scope_'+lang].trim()),'invalid '+kind+' measurement');
+   metrics[kind]=values;
+  }
+  return {...row,topics,metrics};
+ }).filter(row=>row.topics.includes(dossier.topic)).sort((a,b)=>a.position-b.position||a.experiment_id.localeCompare(b.experiment_id));
+}
+async function loadPaperExperiments(dossier,api=LRITableGit){
+ const ids=[...new Set(dossier.refs.map(ref=>ref.source_id))].sort(),rows=[],seen=new Set();
+ for(let start=0;start<ids.length;start+=100){
+  const sources=ids.slice(start,start+100);let offset=0,total=null;
+  for(;;){
+   const result=await api.loadRowsByValuesPage('ic_paper_experiments','source_id',sources,dossier.revision,{offset,limit:100}),page=result.page;
+   paperEffectCheck(result.revision===dossier.revision&&Array.isArray(result.records)&&result.records.length<=100,'revision or page mismatch');
+   paperEffectCheck(page&&Number.isSafeInteger(page.total)&&page.total>=0&&page.total<=10000&&page.offset===offset&&typeof page.truncated==='boolean','invalid pagination');
+   if(total===null)total=page.total;else paperEffectCheck(total===page.total,'page total changed');
+   for(const row of result.records){paperEffectCheck(sources.includes(row.source_id)&&!seen.has(row.experiment_id),'foreign or duplicate page row');seen.add(row.experiment_id);rows.push(row);}
+   const next=offset+result.records.length;paperEffectCheck(next<=total&&page.truncated===(next<total),'incomplete pagination');
+   if(!page.truncated)break;
+   paperEffectCheck(result.records.length>0&&page.nextOffset===next,'stalled pagination');offset=next;
+  }
+ }
+ return {revision:dossier.revision,topic:dossier.topic,rows:validatePaperExperiments(rows,dossier)};
+}
+function ensurePaperEffects(dossier){
+ const key=dossier.revision+'__'+dossier.topic;if(paperEffectReaders.has(key)||paperEffectPending.has(key)||paperEffectErrors.has(key))return;
+ const pending=loadPaperExperiments(dossier).then(snapshot=>{paperEffectReaders.set(key,snapshot);while(paperEffectReaders.size>20)paperEffectReaders.delete(paperEffectReaders.keys().next().value);}).catch(error=>paperEffectErrors.set(key,error.message)).finally(()=>{
+  paperEffectPending.delete(key);if(state.revision===dossier.revision&&compressionTopicId()===dossier.topic&&state.directionMode){renderDirectionDetail();requestAnimationFrame(()=>{if(/^#(?:direction-paper-effects|research-card-experiment-)/.test(location.hash))revealHashTarget();});}
+ });paperEffectPending.set(key,pending);
+}
+function paperEffectNumber(value,delta=false){return delta?Number(value.toPrecision(12)).toString():String(value);}
+function paperEffectMetricText(metric,kind='quality'){
+ const unit=metric.unit,delta=metric.result-metric.baseline,points=kind==='quality'&&unit==='%';
+ const suffix=unit==='%'?'%':' '+unit,changeUnit=points?mapText(' 个百分点',' percentage points'):suffix;
+ return metric.metric+' · '+paperEffectNumber(metric.baseline)+suffix+' → '+paperEffectNumber(metric.result)+suffix+' · Δ '+(delta>0?'+':'')+paperEffectNumber(delta,true)+changeUnit;
+}
+function paperEffectStatus(status){return ({reported:mapText('原文已报告','Reported'),not_reported:mapText('本实验未报告','Not reported for this experiment'),not_checked:mapText('尚未核对','Not checked'),not_applicable:mapText('不适用','Not applicable')})[status];}
+function paperEffectCase(row,dossier){
+ const visible=card=>!card.card_id.endsWith('__expert_brief')&&(dossier.topic!=='parameters-precision'||card.card_kind==='case'||/__audit_/.test(card.card_id));
+ const primary=dossier.cards.find(card=>card.card_id===row.card_id&&visible(card));if(primary)return primary;
+ const own=dossier.cards.filter(card=>visible(card)&&dossier.refs.some(ref=>ref.card_id===card.card_id&&ref.source_id===row.source_id));
+ return own.find(card=>card.card_kind==='case')||own[0]||null;
+}
+function paperEffectCaseLink(row,dossier){
+ const card=paperEffectCase(row,dossier);
+ if(!card){const primaryTopic=/^([a-z_]+-[a-z_]+)__/.exec(row.card_id)?.[1];if(!state.data.compression_topics.some(topic=>topic.compression_topic_id===primaryTopic))return null;const link=element('a',mapText('查看主案例','Read primary case')),url=new URL(researchHref('literature'),location.href);url.searchParams.set('topic',primaryTopic);url.hash='research-card-'+row.card_id;link.href=url.pathname+url.search+url.hash;return link;}
+ const link=element('a',card.card_kind==='case'?mapText('查看案例','Read case'):mapText('相关内容','Related content')),id='research-card-'+card.card_id;
+ if(researchView()==='overview')bindResearchJump(link,id);else{const view=card.section_kind==='papers'?'literature':researchSectionView(card.section_kind==='implication'?'implications':card.section_kind),url=new URL(researchHref(view),location.href);url.hash=id;link.href=url.pathname+url.search+url.hash;link.dataset.compressionResearchView=view;}
+ return link;
+}
+function renderPaperEffectTable(parent,dossier=researchDossier()){
+ if(!dossier)return;
+ if(/^#(?:direction-paper-effects|research-card-experiment-)/.test(location.hash)&&(!['overview','comparison'].includes(researchView())||new URLSearchParams(location.search).has('route')))requestAnimationFrame(()=>revealHashTarget());
+ const root=element('section','','paper-effect-section');root.id='direction-paper-effects';root.dataset.readingLayer='facts';root.dataset.claimKind='author_result';root.dataset.sectionOutline='false';
+ root.append(element('h3',mapText('论文效果对照：模型、配置与实验条件','Paper results: models, configurations and test conditions')),element('p',mapText('一行是一项原文实验；同一论文可有多行。Δ = 结果 − 基线；PPL 越低越好，准确率百分数之差用百分点。各行条件不同，不作跨条件排名。点击方法展开本实验条件。','Each row is one reported experiment; a paper may have several rows. Δ = result − baseline. Lower perplexity is better; changes in percentage accuracy use percentage points. Conditions differ across rows, so this is not a ranking. Select a method to inspect its conditions.'),'paper-effect-note'));parent.append(root);
+ const key=dossier.revision+'__'+dossier.topic;if(['overview','comparison'].includes(researchView())&&!new URLSearchParams(location.search).has('route'))ensurePaperEffects(dossier);
+ const snapshot=paperEffectReaders.get(key),error=paperEffectErrors.get(key);
+ if(!snapshot){const note=element('p',error?mapText('实验对照暂不可用：','Experiment comparison unavailable: ')+error:mapText('正在读取已整理的原文实验…','Loading reviewed paper experiments…'),'paper-effect-status');note.setAttribute('role',error?'alert':'status');root.append(note);if(error)root.append(button(mapText('重试实验对照','Retry experiments'),()=>{paperEffectErrors.delete(key);renderDirectionDetail();}));return;}
+ root.dataset.experimentCount=String(snapshot.rows.length);
+ if(!snapshot.rows.length){root.append(element('p',mapText('本专题尚未整理规范实验对照；这不表示相关论文没有效果。现有案例与原文仍可阅读。','Structured experiments have not yet been compiled for this topic. This does not mean the papers have no results; existing cases and sources remain available.'),'paper-effect-status'));return;}
+ let filters=paperEffectFilters.get(dossier.topic);if(!filters){filters={query:'',model:'',format:'',open:new Set(),hash:''};paperEffectFilters.set(dossier.topic,filters);}
+ const hash=location.hash.slice(1);if(hash.startsWith('research-card-experiment-')&&hash!==filters.hash){filters.query='';filters.model='';filters.format='';filters.open.add(hash.slice('research-card-experiment-'.length));filters.hash=hash;}
+ const controls=element('div','','paper-effect-controls'),query=element('input');query.type='search';query.value=filters.query;query.placeholder=mapText('方法、论文、指标或测试条件','Method, paper, metric or test condition');
+ const control=(text,input)=>{const label=element('label',text);label.append(input);controls.append(label);};control(mapText('检索实验','Search experiments'),query);
+ const model=element('select'),format=element('select');
+ const option=(select,value,label)=>{const node=element('option',label);node.value=value;select.append(node);};
+ option(model,'',mapText('全部模型','All models'));for(const name of [...new Set(snapshot.rows.map(row=>row.model))].sort())option(model,name,name);if(filters.model&&!snapshot.rows.some(row=>row.model===filters.model))filters.model='';model.value=filters.model;
+ option(format,'',mapText('全部格式','All formats'));const formats=new Map();for(const row of snapshot.rows)for(const key of ['w_format','a_format','k_format','v_format'])formats.set(JSON.stringify([key,row[key]]),key[0].toUpperCase()+' · '+row[key]);for(const [value,label]of [...formats].sort((a,b)=>a[1].localeCompare(b[1])))option(format,value,label);if(filters.format&&!formats.has(filters.format))filters.format='';format.value=filters.format;
+ control(mapText('模型','Model'),model);control(mapText('W / A / K / V 格式','W / A / K / V format'),format);
+ const reset=button(mapText('清除筛选','Clear filters'),()=>{filters.query='';filters.model='';filters.format='';query.value='';model.value='';format.value='';paint();});controls.append(reset);root.append(controls);
+ const count=element('p','','paper-effect-status');count.setAttribute('role','status');count.setAttribute('aria-live','polite');root.append(count);
+ const wrap=element('div','','paper-effect-scroll');wrap.tabIndex=0;wrap.setAttribute('role','region');wrap.setAttribute('aria-label',mapText('论文效果对照表，可横向滚动','Paper result comparison; scroll horizontally'));
+ const table=element('table','','paper-effect-table'),head=element('thead'),header=element('tr');table.append(element('caption',mapText('原文实验记录；未报告、未核对与不适用分别标注','Reported experiments; missing, unchecked and inapplicable metrics are distinct')));
+ for(const name of [mapText('方法','Method'),mapText('模型','Model'),mapText('具体格式','Exact formats'),mapText('质量变化','Quality'),mapText('性能','Performance'),mapText('内存','Memory'),mapText('条件与来源','Conditions and sources')]){const th=element('th',name);th.scope='col';header.append(th);}head.append(header);table.append(head);const body=element('tbody');table.append(body);wrap.append(table);root.append(wrap);
+ const sourceTitles=new Map(dossier.sources.map(source=>[source.source_id,source.title||''])),searchTexts=new Map(snapshot.rows.map(row=>[row.experiment_id,(JSON.stringify(row)+' '+sourceTitles.get(row.source_id)).toLocaleLowerCase()]));
+ const metricsCell=(row,kind)=>{const td=element('td');if(row[kind+'_status']!=='reported')td.append(element('span',paperEffectStatus(row[kind+'_status']),'paper-effect-missing'));else for(const metric of row.metrics[kind]){const item=element('div','','paper-effect-metric');item.append(element('p',paperEffectMetricText(metric,kind)),element('small',textOf(metric,'scope')));td.append(item);}return td;};
+ const paint=()=>{
+  const tokens=filters.query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean),selected=filters.format?JSON.parse(filters.format):null;
+  const rows=snapshot.rows.filter(row=>(!filters.model||row.model===filters.model)&&(!selected||row[selected[0]]===selected[1])&&tokens.every(token=>searchTexts.get(row.experiment_id).includes(token)));
+  count.textContent=rows.length+mapText(' / ',' / ')+snapshot.rows.length+mapText(' 项实验 · ',' experiments · ')+new Set(rows.map(row=>row.source_id)).size+mapText(' 篇论文',' papers');body.replaceChildren();
+  for(const row of rows){
+   const tr=element('tr');tr.id='research-card-experiment-'+row.experiment_id;tr.dataset.paperExperiment=row.experiment_id;
+   const th=element('th');th.scope='row';const toggle=button(row.method,()=>{filters.open.has(row.experiment_id)?filters.open.delete(row.experiment_id):filters.open.add(row.experiment_id);sync();});toggle.className='paper-effect-method';toggle.setAttribute('aria-controls','experiment-conditions-'+row.experiment_id);toggle.setAttribute('aria-label',row.method+' · '+row.model+' · '+mapText('展开或收起实验条件','Show or hide experiment conditions'));th.append(toggle,element('small',row.year+' · '+row.process_type+' · '+({quality:mapText('质量实验','Quality'),system:mapText('系统实验','System'),kernel:mapText('内核微测','Kernel'),memory:mapText('内存实验','Memory')})[row.experiment_kind],'paper-effect-kind'));tr.append(th,element('td',row.model));
+   const representation=element('td');for(const [name,key]of [['W','w_format'],['A','a_format'],['K','k_format'],['V','v_format']]){const format=element('p',name+' · '+paperEffectFormatSummary(row[key]));format.title=row[key];representation.append(format);}tr.append(representation,metricsCell(row,'quality'),metricsCell(row,'performance'),metricsCell(row,'memory'));
+   const provenance=element('td');provenance.append(element('p',textOf(row,'hardware')),element('p',textOf(row,'locator'),'meta'));const links=element('div','','paper-effect-links'),caseLink=paperEffectCaseLink(row,dossier);if(caseLink)links.append(caseLink);external(links,row.source_url,mapText('原文 ↗','Source ↗'));provenance.append(links);tr.append(provenance);
+   const detail=element('tr','','paper-effect-detail');detail.id='experiment-conditions-'+row.experiment_id;const cell=element('td');cell.colSpan=7;const facts=element('dl');for(const [name,key]of [['W','w_format'],['A','a_format'],['K','k_format'],['V','v_format']])facts.append(element('dt',name+mapText(' 完整格式',' complete format')),element('dd',row[key]));for(const [key,zh,en]of [['config','具体配置','Configuration'],['baseline','对照基线','Baseline'],['dataset','数据集与任务','Dataset and task'],['hardware','硬件','Hardware'],['runtime','运行栈','Runtime'],['workload','负载','Workload'],['protocol','测量与校准协议','Measurement and calibration protocol']]){facts.append(element('dt',mapText(zh,en)),element('dd',textOf(row,key)));}cell.append(element('p',sourceTitles.get(row.source_id),'paper-effect-source-title'),facts,element('p',mapText('指定章节核对 · ','Selected sections checked · ')+row.observed_version+' · '+row.checked_at+' · '+textOf(row,'locator'),'meta'));detail.append(cell);
+   const sync=()=>{const open=filters.open.has(row.experiment_id);detail.hidden=!open;toggle.setAttribute('aria-expanded',String(open));tr.classList.toggle('paper-effect-expanded',open);};tr.openPaperExperiment=()=>{filters.open.add(row.experiment_id);sync();};sync();body.append(tr,detail);
+  }
+  if(!rows.length){const tr=element('tr'),td=element('td',mapText('没有符合当前筛选的实验。可清除筛选查看本专题全部记录。','No experiments match these filters. Clear filters to view all records in this topic.'));td.colSpan=7;tr.append(td);body.append(tr);}
+ };
+ query.addEventListener('input',()=>{filters.query=query.value;paint();});model.addEventListener('change',()=>{filters.model=model.value;paint();});format.addEventListener('change',()=>{filters.format=format.value;paint();});paint();
 }
 
 const routeEvidenceReaders=new Map(),routeEvidencePending=new Map(),routeEvidenceErrors=new Map();
@@ -4309,7 +4450,7 @@ function renderWeightQuantizationTopic(parent,topic,dossier){
  const reviewed=dossier?dossier.cards.map(r=>r.reviewed_at).filter(Boolean).sort().at(-1):topic.reviewed_at;
  const status=element('p',dossier?mapText('资料核对至 ','Sources checked through ')+reviewed:mapText('正在读取本专题资料…','Loading the topic…'),'meta');status.dataset.dossierReady=String(Boolean(dossier));hero.append(status);if(!dossier?.cards.some(card=>card.card_id==='parameters-precision__expert_brief'))renderEditorialTakeaway(hero);parent.append(hero);
  const quick=element('nav','','topic-reading-actions');quick.setAttribute('aria-label',mapText('量化专题快速阅读','Quantization quick reading'));
- for(const [href,zh,en]of [['#research-overview-comparison','先看比较判断','Compare the evidence'],['#direction-recent-research','近期变化与核对范围','Recent materials and review scope'],['#direction-precision-progress','查位宽与格式','Find bits and formats'],[compressionFoundationHref('precision'),'量化原理与动画','Principles and animation']]){const a=element('a',mapText(zh,en));a.href=href;quick.append(a);}hero.append(quick);
+ quick.append(paperEffectShortcut());for(const [href,zh,en]of [['#research-overview-comparison','先看比较判断','Compare the evidence'],['#direction-recent-research','近期变化与核对范围','Recent materials and review scope'],['#direction-precision-progress','查位宽与格式','Find bits and formats'],[compressionFoundationHref('precision'),'量化原理与动画','Principles and animation']]){const a=element('a',mapText(zh,en));a.href=href;quick.append(a);}hero.append(quick);
  const stages=[
  ['brief','速览与证据','Overview and evidence',['background','comparison']],
  ['problem','研究背景','Research context',['background']],
@@ -4336,7 +4477,7 @@ function renderWeightQuantizationTopic(parent,topic,dossier){
  progressNav.hidden=Boolean(selected)||!complete;
  for(const [id,zh,en]of [['academic','学术界进展','Academic research'],['industry','业界进展','Industry developments'],['precision-progress','位宽与格式对照','Bits and formats'],['recent-research','近期材料与审阅范围','Recent materials and review scope']]){const a=element('a',mapText(zh,en));a.href='#direction-'+id;progressNav.append(a);}sections.solutions.append(progressNav);
  const sub=(host,id,zh,en)=>{const node=element('section','','quant-reader-section');node.id='direction-'+id;node.dataset.sectionOutline='false';node.append(element('h3',mapText(zh,en)));host.append(node);return node;};
- renderWeightExpertEntry(sections.brief,parent,dossier);
+ sections.brief.append(paperEffectShortcut());renderWeightExpertEntry(sections.brief,parent,dossier);
  renderWeightResearchBackground(sections.problem,sub);
  const principle=sub(sections.basics,'principles-brief','量化改变了什么，为什么会影响结果','What quantization changes and why outputs change');weightTopicCards(principle,['parameters-precision__principles_brief']);const lesson=element('a',mapText('查看完整原理动画与编码示例 →','View the full animated principles and coding example →'),'science-route-link');lesson.href=compressionFoundationHref('precision');principle.append(lesson);
  renderWeightRelatedTopics(principle);
@@ -4359,6 +4500,7 @@ function renderWeightQuantizationTopic(parent,topic,dossier){
  sections.solutions.insertBefore(academic,progressNav.nextSibling);
  sections.solutions.insertBefore(industry,academic.nextSibling);
  sections.solutions.append(recent);
+ renderPaperEffectTable(sections.comparison,dossier);
  const audit=sub(sections.comparison,'evidence-audit','可追溯对照：哪些结果可比，哪些仍有缺口','Traceable comparisons: comparable results and remaining gaps');weightTopicCards(audit,['parameters-precision__audit_coverage','parameters-precision__audit_awq','parameters-precision__audit_alignquant','parameters-precision__audit_compensation']);
  const compare=sub(sections.comparison,'comparison',"跨路线比较：新增能力、代价与证据边界","Cross-route interpretation: capabilities, costs and evidence");
  weightTopicCards(compare,['parameters-precision__dossier_3','parameters-precision__dossier_4']);
@@ -4391,7 +4533,7 @@ function renderCompressionTopic(parent,cell){
  const status=element('p','','topic-dossier-status');status.setAttribute('role','status');
  if(dossier){const latest=dossier.refs.map(r=>r.checked_at).filter(Boolean).sort().at(-1)||topic.reviewed_at;status.textContent=mapText('研究资料 · ','Research dossier · ')+dossier.cards.length+mapText(' 条内容 · 最近来源核对 ',' cards · Latest source check ')+latest;status.dataset.dossierReady='true';}
  else {const error=dossierErrors.get(state.revision+'__'+id);status.textContent=error?mapText('专题资料读取失败：','Dossier read failed: ')+error:mapText('正在读取当前专题的研究资料…','Loading this topic’s research dossier…');if(error)status.append(button(mapText('重试专题资料','Retry dossier'),()=>{dossierErrors.delete(state.revision+'__'+id);renderDirectionDetail();}));}hero.append(status);
- renderFoundationLink(hero,topic.method_term_id);parent.append(hero);researchNav(parent);
+ hero.append(paperEffectShortcut());renderFoundationLink(hero,topic.method_term_id);parent.append(hero);researchNav(parent);
  const sections=[['scope','研究对象与问题','Research scope and problem'],['value','价值来源与评价目标','Value and evaluation goals'],['challenges','挑战与失效条件','Challenges and failure conditions'],['mechanism','原理与执行过程','Principles and execution'],['routes','学术路线与代表机制','Research routes and mechanisms'],['industry','产业实现与适配','Industry implementation and adaptation'],['papers','原文结果与条件','Reported results and conditions'],['comparison','跨路线比较','Cross-route comparison'],['boundary','适用条件与证据缺口','Conditions and evidence gaps'],['implications','判断与技术取舍','Judgments and trade-offs'],['watch','下一步研究与验证','Further research and validation'],['sources','参考文献与审阅范围','References and review scope']];
  // Shared Shell owns the reader path; avoid a second full outline above every subpage.
  renderTopicOverview(parent,topic,dossier);
@@ -4409,7 +4551,7 @@ function renderCompressionTopic(parent,cell){
  if(state.referencePending)papers.append(element('p',state.referenceError?mapText('补充技术索引暂不可用：','Supplementary technique index unavailable: ')+state.referenceError:mapText('专题原文已加载，正在补充跨专题的代表技术索引。','Topic sources are ready; supplementing the cross-topic technique index.'),'meta'));
  if(!techniques.length&&!state.referencePending)papers.append(element('div',mapText("该组合尚待补充直接文献。下方相关蒸馏或低秩工作用于解释相近原理，其适用性仍需进一步确认。","Direct references are still needed for this combination. Related distillation or low-rank work below explains adjacent principles; applicability requires further review."),'direction-gap'));
  if(techniques.length){const index=element('nav','','topic-method-source-index');index.setAttribute('aria-label',mapText('代表方法的原文与比较','Method sources and comparison'));index.append(element('h4',mapText('其他代表方法：原文与横向比较','Other representative methods: sources and comparison')));for(const row of techniques){const item=element('div'),jump=element('a',title(row)+mapText(' · 查看机制与边界',' · Mechanism and limits'));bindResearchJump(jump,'research-card-technique-'+row.technique_id);item.append(jump);for(const ref of state.data.source_refs.filter(ref=>ref.technique_id===row.technique_id)){const source=sourceById(ref.source_id);if(source)external(item,source.canonical_url,mapText('原文 ↗','Source ↗'));}index.append(item);}papers.append(index);}
- const comparison=section('comparison'),primaryComparison=renderRouteEvidence(comparison),comparisonContent=primaryComparison?.supplement||comparison;renderDossierCards(comparisonContent,'comparison');if(!dossier)paragraph(comparisonContent,'comparison');if(primaryComparison)comparison.querySelector('.topic-report-part').textContent=mapText('路线与原文证据','Routes and primary evidence');
+ const comparison=section('comparison');renderPaperEffectTable(comparison,dossier);const primaryComparison=renderRouteEvidence(comparison),comparisonContent=primaryComparison?.supplement||comparison;renderDossierCards(comparisonContent,'comparison');if(!dossier)paragraph(comparisonContent,'comparison');if(primaryComparison)comparison.querySelector('.topic-report-part').textContent=mapText('路线与原文证据','Routes and primary evidence');
  if(techniques.length){const wrap=element('div','','table-wrap'),table=element('table','','topic-comparison-table'),head=element('thead'),tr=element('tr');for(const text of [mapText('代表方法','Method'),mapText('机制差异','Mechanism'),mapText('适用条件与限制','Conditions and limits')])tr.append(element('th',text));head.append(tr);table.append(head);const body=element('tbody');for(const row of techniques){const tr=element('tr');tr.id='research-card-technique-'+row.technique_id;tr.append(element('th',title(row)),element('td',row.mechanism),element('td',row.boundary));body.append(tr);}table.append(body);wrap.append(table);comparisonContent.append(wrap);}else if(!state.referencePending)comparisonContent.append(element('p',mapText("现有资料的实验条件尚不足以支持同条件排名。","Available evidence does not yet support a ranking under matched conditions."),'direction-gap'));
  comparisonContent.append(element('p',mapText("比较时需核对模型与任务、位宽或压缩配置、输入长度与批量、硬件和运行栈，并在一致的基线下评估质量与成本。","Check model and task, compression settings, input length, batch size, hardware and runtime, then compare quality and cost against a consistent baseline."),'topic-metric-contract'));
  const boundary=section('boundary');renderDossierCards(boundary,'boundary');if(!dossier)paragraph(boundary,'boundary');if(primaryComparison)boundary.append(primaryComparison.decisions);
@@ -4506,13 +4648,13 @@ function renderExpertLibrary(parent){
   if(!index)return;const saved=expertSavedIds(),opened=expertOpenedCards(),q=expertLibraryState.query.trim().toLocaleLowerCase(),tokens=q.split(/\s+/).filter(Boolean),topicMap=new Map(index.topics.map(t=>[t.id,t]));
   for(const b of buttons)b.setAttribute('aria-pressed',String(b.dataset.libraryMode===expertLibraryState.mode));
   const mode=expertLibraryState.mode;if(mode==='all'&&!q){status.textContent=mapText('输入方法、论文或问题跨专题查找；也可直接浏览案例与待读。','Search across topics by method, paper or question, or browse cases and saved items.');results.replaceChildren();more.hidden=true;return;}let cards=index.cards.filter(c=>mode==='all'||mode==='cases'&&c.kind==='case'||mode==='saved'&&saved.has(c.id)||mode==='changed'&&opened[c.id]&&opened[c.id]!==c.hash);
-  cards=cards.map(c=>{const topic=topicMap.get(c.topic),head=(title(c)+' '+title(topic)).toLocaleLowerCase(),body=(textOf(c,'body')+' '+c.sources.map(s=>s.title).join(' ')).toLocaleLowerCase();return {c,score:tokens.reduce((n,t)=>n+(head.includes(t)?4:body.includes(t)?1:0),0),matches:tokens.every(t=>head.includes(t)||body.includes(t))};}).filter(r=>r.matches).sort((a,b)=>b.score-a.score||a.c.topic.localeCompare(b.c.topic)||a.c.title_zh.localeCompare(b.c.title_zh));
+   cards=cards.map(c=>{const topic=topicMap.get(c.topic),head=(title(c)+' '+title(topic)).toLocaleLowerCase(),body=(textOf(c,'body')+' '+textOf(c,'search_text')+' '+c.sources.map(s=>s.title).join(' ')).toLocaleLowerCase();return {c,score:tokens.reduce((n,t)=>n+(head.includes(t)?4:body.includes(t)?1:0),0),matches:tokens.every(t=>head.includes(t)||body.includes(t))};}).filter(r=>r.matches).sort((a,b)=>b.score-a.score||a.c.topic.localeCompare(b.c.topic)||a.c.title_zh.localeCompare(b.c.title_zh));
   status.textContent=cards.length+mapText(' 项匹配 · 显示 ',' matches · Showing ')+Math.min(cards.length,expertLibraryState.limit);results.replaceChildren();more.hidden=cards.length<=expertLibraryState.limit;
   for(const {c}of cards.slice(0,expertLibraryState.limit)){
    const topic=topicMap.get(c.topic),item=element('article','','expert-library-result'),top=element('div','','expert-library-result-top');top.append(element('span',title(topic),'expert-library-topic'));
    const depth=element('span',c.review_depth==='sections'?mapText('含章节核对','Selected sections checked'):mapText('摘要级记录','Abstract-level record'),'expert-proof-badge');depth.dataset.depth=c.review_depth==='sections'?'section':'abstract';top.append(depth);if(opened[c.id]&&opened[c.id]!==c.hash)top.append(element('span',mapText('资料已更新','Material changed'),'expert-library-updated'));item.append(top);
    const link=element('a',title(c),'expert-library-title'),url=new URL('topic.html',location.href);url.searchParams.set('topic',c.topic);if(state.period)url.searchParams.set('month',state.period);if(state.scope)url.searchParams.set('scope',state.scope);url.hash=c.anchor;link.href=url.pathname+url.search+url.hash;link.addEventListener('click',()=>rememberExpertOpen(c));item.append(link);
-   const lines=textOf(c,'body').split('\n').filter(Boolean),matching=lines.find(t=>tokens.length&&tokens.some(q=>t.toLocaleLowerCase().includes(q)))||lines[0]||'';item.append(element('p',matching.length>230?matching.slice(0,230)+'…':matching,'expert-library-excerpt'));
+    const lines=(textOf(c,'body')+'\n'+textOf(c,'search_text')).split('\n').filter(Boolean),matching=lines.find(t=>tokens.length&&tokens.some(q=>t.toLocaleLowerCase().includes(q)))||lines[0]||'';item.append(element('p',matching.length>230?matching.slice(0,230)+'…':matching,'expert-library-excerpt'));
    const bottom=element('div','','expert-library-result-bottom'),sources=element('div','','expert-library-sources');for(const source of c.sources.slice(0,2)){const a=element('a',source.title+' ↗');a.href=safeUrl(source.url);a.target='_blank';a.rel='noopener noreferrer';a.title=(state.locale==='en'?source.locator_en:source.locator_zh)+' · '+source.checked_at;sources.append(a);}if(c.sources.length>2)sources.append(element('span','+'+(c.sources.length-2)+mapText(' 个依据',' sources'),'meta'));bottom.append(sources,expertSaveButton(c.id));item.append(bottom);results.append(item);
   }
   if(!cards.length)results.append(element('p',mode==='saved'?mapText('尚未保存案例。可在任意专题或检索结果中加入待读。','No saved items. Save a case from any topic or result.'):mode==='changed'?mapText('已打开的资料暂无内容变化；未打开的资料不计入此范围。','No content changes among opened items; unopened material is outside this range.'):mapText('当前资料中没有匹配项；可切换“全部知识”或调整关键词。没有命中不代表该技术不存在。','No match in this material. Try All knowledge or another term. This is not evidence that a technique does not exist.'),'expert-library-empty'));

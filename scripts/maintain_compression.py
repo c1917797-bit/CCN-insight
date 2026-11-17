@@ -34,11 +34,12 @@ class Handler(SimpleHTTPRequestHandler):
                 table=query.get('table',['ic_compression_topic_cards'])[0];table_info(table)
                 topic=query.get('topic',[''])[0];search=query.get('q',[''])[0].lower()
                 data=[r for r in records(table) if not r.get('deleted')]
-                if topic:data=[r for r in data if r['row'].get('compression_topic_id')==topic]
+                if topic:
+                    data=[r for r in data if (topic in json.loads(r['row']['topic_ids_json']) if table=='ic_paper_experiments' else r['row'].get('compression_topic_id')==topic)]
                 if search:data=[r for r in data if search in json.dumps(r['row'],ensure_ascii=False).lower()]
                 result=[]
                 for r in data[:100]:
-                    row=r['row'];label=next((row[k] for k in ('title_zh','title','label_zh','one_sentence_zh','name_zh') if row.get(k)),r['key'])
+                    row=r['row'];label=(row['method']+' · '+row['model']+' · '+row['experiment_kind']) if table=='ic_paper_experiments' else next((row[k] for k in ('title_zh','title','label_zh','one_sentence_zh','name_zh') if row.get(k)),r['key'])
                     result.append({'key':r['key'],'label':str(label)[:180]})
                 return self.answer({'records':result,'total':len(data),'limited':len(data)>100})
             if request.path=='/api/record':

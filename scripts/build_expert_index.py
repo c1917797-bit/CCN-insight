@@ -8,6 +8,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 from pathlib import Path
 import re
 import sys
@@ -83,6 +84,92 @@ def anchor_for(card: dict) -> str:
     return "research-card-" + card["card_id"]
 
 
+def paper_experiments(topics: dict, cards: dict, sources: dict,
+                      by_card: dict[str, list[dict]], route_cards: set[str]) -> dict[str, list[dict]]:
+    """Bind canonical experiments to existing, reachable cards without copying facts.
+
+    An experiment may belong to several topics. Each projection must still cite
+    that experiment's own source; another card's references cannot lend proof.
+    Older source-less builds have no experimental supplement, rather than rows
+    inferred from prose. Once the table exists, invalid records fail the build.
+    """
+    try:
+        experiments = unique_rows("ic_paper_experiments", "experiment_id")
+    except FileNotFoundError:
+        return {}
+    fields = ("config", "baseline", "dataset", "hardware", "runtime", "workload", "protocol", "locator")
+    visible = {cid: card for cid, card in cards.items() if omission_reason(card, route_cards) is None}
+    bound: dict[str, list[dict]] = {}
+    for experiment in sorted(experiments.values(), key=lambda row: (row.get("position", 0), row["experiment_id"])):
+        eid, sid, primary = experiment["experiment_id"], experiment.get("source_id"), experiment.get("card_id")
+        require(isinstance(eid, str) and bool(eid.strip()), "missing experiment identity")
+        require(experiment.get("business_id") == "cloud-core" and experiment.get("topic_id") == "cloud_core",
+                "foreign paper experiment " + eid)
+        require(sid in sources and primary in cards, "experiment has unknown source/card " + eid)
+        require(any(ref["source_id"] == sid for ref in by_card[primary]), "experiment primary card cites another source " + eid)
+        try:
+            topic_ids = json.loads(experiment["topic_ids_json"])
+        except (KeyError, TypeError, ValueError) as error:
+            raise ValueError("Expert index: invalid experiment topic list " + eid) from error
+        require(isinstance(topic_ids, list) and bool(topic_ids) and all(isinstance(tid, str) and tid in topics for tid in topic_ids)
+                and len(set(topic_ids)) == len(topic_ids), "unknown or repeated experiment topic " + eid)
+        require(cards[primary]["compression_topic_id"] in topic_ids, "experiment omits its primary card topic " + eid)
+        require(experiment.get("process_type") in {"PTQ", "QAT", "pruning", "distillation", "factorization", "other"}
+                and experiment.get("experiment_kind") in {"quality", "system", "kernel", "memory"}, "unknown experiment type " + eid)
+        require(type(experiment.get("year")) is int and type(experiment.get("position")) is int,
+                "experiment year/order must be integers " + eid)
+        require(all(isinstance(experiment.get(key), str) and experiment[key].strip()
+                    for key in ("method", "model", "observed_version", "w_format", "a_format", "k_format", "v_format", "checked_at")),
+                "missing experiment configuration/version " + eid)
+        require(all(isinstance(experiment.get(field + "_" + language), str)
+                    and experiment[field + "_" + language].strip()
+                    for field in fields for language in ("zh", "en")), "incomplete localized experiment conditions " + eid)
+        require(experiment.get("review_depth") == "section_review", "unqualified experiment evidence " + eid)
+        source_url(experiment.get("source_url"))
+        for family in ("quality", "performance", "memory"):
+            try:
+                metrics = json.loads(experiment[family + "_metrics_json"])
+            except (KeyError, TypeError, ValueError) as error:
+                raise ValueError("Expert index: invalid experiment metrics " + eid) from error
+            status = experiment.get(family + "_status")
+            require(status in {"reported", "not_reported", "not_checked", "not_applicable"}
+                    and isinstance(metrics, list) and bool(metrics) == (status == "reported"),
+                    "experiment metric/status mismatch " + eid)
+            for metric in metrics:
+                require(isinstance(metric, dict) and metric.get("better") in {"lower", "higher"}
+                        and all(isinstance(metric.get(key), str) and metric[key].strip()
+                                for key in ("metric", "unit", "scope_zh", "scope_en"))
+                        and all(type(metric.get(key)) in (int, float) and math.isfinite(metric[key])
+                                for key in ("baseline", "result")), "invalid experiment metric contract " + eid)
+        for tid in topic_ids:
+            candidates = [card for cid, card in visible.items() if card["compression_topic_id"] == tid
+                          and any(ref["source_id"] == sid for ref in by_card[cid])]
+            require(bool(candidates), "experiment topic has no visible card citing its source " + eid + " / " + tid)
+            preferred = next((card for card in candidates if card["card_id"] == primary), None)
+            if preferred is None:
+                preferred = min(candidates, key=lambda card: (card["card_kind"] != "case", card["position"], card["card_id"]))
+            bound.setdefault(preferred["card_id"], []).append(experiment)
+    return bound
+
+
+def experiment_search_text(experiments: list[dict], language: str) -> str:
+    """Project original values and metric scopes for retrieval, never infer wins."""
+    lines = []
+    for experiment in experiments:
+        lines.append(" · ".join(str(experiment[key]) for key in (
+            "method", "year", "process_type", "experiment_kind", "model", "observed_version")))
+        lines.append(" · ".join(label + "=" + experiment[key] for label, key in (
+            ("W", "w_format"), ("A", "a_format"), ("K", "k_format"), ("V", "v_format"))))
+        lines.extend(experiment[field + "_" + language]
+                     for field in ("config", "baseline", "dataset", "hardware", "runtime", "workload", "protocol", "locator"))
+        for family in ("quality", "performance", "memory"):
+            for metric in json.loads(experiment[family + "_metrics_json"]):
+                lines.append(f"{metric['metric']} {str(metric['baseline'])} → {str(metric['result'])} {metric['unit']} · "
+                             + metric["scope_" + language])
+        lines.append(experiment["source_url"] + " · " + experiment["checked_at"])
+    return "\n".join(dict.fromkeys(lines))
+
+
 def make_index() -> dict:
     version = content_version()
     # Build hooks may be called repeatedly in one interpreter after table edits.
@@ -109,6 +196,7 @@ def make_index() -> dict:
                 "route supporting card belongs to another topic")
         if route["compression_topic_id"] == WEIGHT_TOPIC:
             route_cards.add(route["supporting_card_id"])
+    experiments_by_card = paper_experiments(topics, cards, sources, by_card, route_cards)
     indexed: list[dict] = []
     omitted: list[dict] = []
     for card in sorted(cards.values(), key=lambda c: (c["compression_topic_id"], c["position"], c["card_id"])):
@@ -138,6 +226,14 @@ def make_index() -> dict:
             "review_depth": "sections" if any(r["review_depth"] == "section_review" for r in by_card[cid]) else "abstract",
             "sources": linked, "anchor": anchor_for(card),
         }
+        experiments = experiments_by_card.get(cid)
+        if experiments:
+            item.update({
+                "search_text_zh": experiment_search_text(experiments, "zh"),
+                "search_text_en": experiment_search_text(experiments, "en"),
+                "experiment_ids": [experiment["experiment_id"] for experiment in experiments],
+                "experiment_hash": hashlib.sha256(canonical_json(experiments).encode("utf-8")).hexdigest(),
+            })
         item["hash"] = card_hash(item)
         indexed.append(item)
     require(content_version() == version, "canonical content changed during index generation; retry")

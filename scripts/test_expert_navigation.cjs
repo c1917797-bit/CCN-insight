@@ -75,7 +75,7 @@ const context = {
   mapTerm: id => ({name_zh: id}), scientificLink: () => element('a'),
   researchBlock: () => element('div'),
   renderDossierCards(host, kind) { if (kind === 'papers') host.append(target); },
-  renderRouteEvidence: () => null,
+  renderRouteEvidence: () => null, renderPaperEffectTable() {}, paperEffectShortcut: () => element('a'),
   requestAnimationFrame(callback) { callback(); },
   showView() {}, ensureOpenedDisclosuresLoaded() {}, ensureResearchDossier() {},
   renderFoundationLink() {}, researchNav() {}, renderTopicOverview() {},
