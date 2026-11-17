@@ -1,6 +1,6 @@
 {
   "date": "2026-11-17",
-  "status": "validated_for_publication",
+  "status": "published_native_deployment_succeeded",
   "content_version": "compression-9c04cc6de7156010a5d6",
   "reader_revision": "fe7db75393048e213fb5a58596668a6c947ab214",
   "ui_revision": "ae62743fe7026e3f68b5",
@@ -40,5 +40,15 @@
     "Not a complete review or curation of the 604 monthly domain-relevant candidates.",
     "This check covers the table and AWQ interaction on desktop; no fresh all-page or mobile visual acceptance."
   ],
-  "publication_tracking": "deployment/paper-effects-publication-20261117.json is written after native deployment succeeds."
+  "publication_tracking": "deployment/paper-effects-publication-20261117.json is written after native deployment succeeds.",
+  "publication": {
+    "site_version_number": 37,
+    "site_version_id": "appgprj_6ad8b74cbb048191b7b6aaf46ad43a89~appgver_9c446f53bdac81918c69ea2dfc00acf3",
+    "deployment_id": "appgdep_6afbec5604ac8191b6e0b9ce38aceac1",
+    "status": "succeeded",
+    "published_at": "2026-11-17T05:56:44.233263+00:00",
+    "github_content_commit": "9d6ed8d500515afaa0a09b5ff03f2646c8cfae3d",
+    "sites_source_commit": "9d3a0ba6a4c29b3e2dc14b349f196506d823681b",
+    "public_url": "https://ccn-insight-four.sunshinepmy.chatgpt.site"
+  }
 }
