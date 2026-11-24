@@ -40,3 +40,12 @@ yuanrong-session-affinity,mapping,cost,官方机制基线,先把sessionId、租�
 temporal-go-150,workflow,list,版本接口依据,先分离任务等待拉取、已拉取待执行与实际执行耗时；只有poller覆盖是瓶颈时才验证按组自动扩缩，避免盲目增加下游在途量。 SDK发布说明确认能力存在；没有本地测量结果，poller数量不是Worker或GPU数量。
 ray-259-backpressure,sharing,quota,版本接口依据,给任务入口区分服务故障与可重试过载；拒绝、退避、截止时间及幂等键需联动，才能限制失败重试对系统的放大。 这是准入和运行时反馈的实现接口，不是资源扩容或GPU调度收益的证据。
 strands-box-preview,sharing,quota,准入约束,历史相关的调用额度决定工具调用是否可行；不作为资源公平或GPU排程性能的证据。
+fairway,sharing,service,直接调度,成本与相对等待提供公平信号；算法动作是实例等待队列的准入次序，不是跨实例选址。
+prefix-metastability,sharing,quota,直接调度,把并发预算从请求数推进到活跃会话工作集；恢复控制不能只作用于新到达流量。
+caas,workflow,list,直接调度,CAAS排序环境动作，以已观察轮数启发式推进长链；不是已知完整DAG的关键路径最优算法。
+duru,sharing,service,直接调度,公平对象从独立请求上移到Agent；归一化慢化统一路由、准入和实例排序的反馈。
+llmd-trace-replay-nov,workflow,adaptive,研究基础,为动态依赖排程提供可回放的因果输入，不把压测器本身当作调度算法。
+ascend-032rc1-nov,mapping,cost,工程前提,Prefill亲和及KV传输改变副本复用的可用条件；发布页不是完整Agent调度策略或性能证明。
+llmd-async-qos-nov,sharing,quota,工程对照,提供租户预算、借用与背压的可解释基线；与Duru的任务慢化反馈属于不同控制方式。
+llmd-sglang-tiered-nov,mapping,cost,工程对照,分层缓存改变副本命中与回载成本；不能只以命中率排名路由，也不能把扩卡收益记为算法收益。
+kinference-launch-nov,mapping,cost,需求信号,表明模型服务控制面的产品化需求，不作为缓存路由或Agent调度性能的实证。

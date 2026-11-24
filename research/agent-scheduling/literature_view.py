@@ -7,8 +7,9 @@ from report_contract import CUTOFF, START
 from research_gates import gate_fields
 from team_strategy import evidence_index, portfolio
 from architect_view import evidence_lens, updates_lens, decision_review
-from weekly_view import weekly_digest, weekly_decisions
-from insight_cycle import verified_additions, decision_changes, discovery_note
+from weekly_view import weekly_digest
+from insight_cycle import decision_changes, discovery_note
+from monthly_report import month_guide, monthly_synthesis
 
 
 def period_kind(p):
@@ -103,9 +104,11 @@ def updates():
     current=[p for p in pubs.values() if period_kind(p) in ('本期首发','本期修订')]
     earlier=[p for p in academic if period_kind(p)=='历史补录']
     dated_industry=[p for p in industry if period_kind(p)=='历史补录']
+    dated_news=[p for p in news if period_kind(p)=='历史补录']
     capabilities=[p for p in industry if period_kind(p)=='能力资料']
     groups=[('updates-new','本期发表与修订',current),('updates-recent','历史补录 · 学术论文',earlier),
             ('updates-industry','历史补录 · 产业进展',dated_industry),
+            ('updates-news-history','历史补录 · 热点事件',dated_news),
             ('updates-ascend','能力资料 · 昇腾生态',[p for p in capabilities if p['ecosystem']=='昇腾生态']),
             ('updates-capabilities','能力资料 · 通用调度生态',[p for p in capabilities if p['ecosystem']!='昇腾生态'])]
     pending=[p for p in pubs.values() if period_kind(p)=='日期待核']
@@ -115,13 +118,14 @@ def updates():
     for k,label,rows in groups:
         content=''.join(entry(p) for p in sort(rows)) or '<p class="note">本次筛选尚未收录符合此时间口径的资料，不代表该领域没有进展。</p>'
         if k=='updates-new':
+            content=''.join(f'<h4 class="current-kind-heading" id="updates-{kind}-current">{title} · {sum(p["kind"]==kind for p in rows)} 项</h4>'+''.join(entry(p) for p in sort(rows) if p['kind']==kind) for kind,title in [('academic','学术界 · 调度新方法'),('industry','产业界 · 机制与版本'),('news','热点资讯 · 官方事件')])
             body+=f'<div id="{k}" class="literature-group" data-update-group><h3>{label}</h3><p data-update-group-empty hidden>所选方向本期尚未收录条目，可查看下方历史资料；这不代表该方向没有进展。</p>{content}</div>'
         else:
             body+=f'<details id="{k}" class="literature-group history-group" data-update-group><summary><span>{label}</span><small data-update-count>{len(rows)} 项 · 展开阅读</small></summary><p class="history-reminder">以下为既有证据和实现背景，不计入本期新增。</p>{content}</details>'
     filters='<div class="update-filter"><label for="update-area">只看我的研究方向</label><select id="update-area"><option value="">全部方向</option>'+''.join(f'<option value="{a["id"]}">{e(a["title"])}</option>' for a in read('research-areas.csv'))+f'</select><button type="button" id="update-reset">显示全部</button><p id="update-filter-status" role="status">本期 {len(current)} 项 · 累计 {len(pubs)} 项（含历史和能力资料）</p></div>'
     return f'''<section id="updates"><p class="eyebrow">03 / 本期动态</p><h2>读清新进展的机制、条件与架构影响</h2>
 <p>观察期 <strong>{START}—{CUTOFF}</strong>。累计证据包括 {len(academic)} 篇论文、{len(industry)} 项工程资料、{len(news)} 项追溯原始发布的热点事件。每条先呈现原文机制与条件，再说明它改变哪个决策。当前 {len(current)} 项属于期内首发或修订；本轮核验与原始发布日期分别记录。</p>
-{verified_additions()}{weekly_digest()}<div class="period-summary"><div><strong>{len(current)} 项</strong><span>期内首发或修订</span></div><div><strong>{len(earlier)+len(dated_industry)} 项</strong><span>历史资料补录</span></div><div><strong>{len(capabilities)} 项</strong><span>无发布日期的能力资料</span></div></div>
+{month_guide()}{weekly_digest()}<div class="period-summary"><div><strong>{len(current)} 项</strong><span>期内首发或修订</span></div><div><strong>{len(earlier)+len(dated_industry)+len(dated_news)} 项</strong><span>历史资料补录</span></div><div><strong>{len(capabilities)} 项</strong><span>无发布日期的能力资料</span></div></div>
 <p class="note">按需采集公开候选，原文经人工核验后才进入正文，未设置定时运行。媒体报道日期不替代官方事件日期；订阅公告日期不替代论文首发日期。论文结果、工程能力和本报告判断分别标注；当前无云核实测结果。</p>{filters}{tabs}
 <details class="scope-index"><summary>读前小词典：KV、prefill、decode、TTFT、JCT</summary><p>KV缓存保存模型先前计算的上下文；prefill是处理输入，decode是逐步生成输出；TTFT是首个token的等待时间，JCT是整项任务从到达到完成的时间。本页最终看任务完成，不把首token变快等同于整单变快。</p></details>{body}{evidence_index()}</section>'''
 
@@ -173,4 +177,4 @@ def analysis():
         conditions=''.join(f'<dt>{label}</dt><dd>{e(r[field])}</dd>' for label,field in [('成立条件','condition'),('适用边界','boundary')])+gate_fields(r['area_id'])
         cards.append(f'''<article id="analysis-{r['area_id']}" class="structured-advice"><p class="analysis-path">0{i} / <a href="{BASE}research-{r['area_id']}.html#route-{r['route_id']}">{e(areas[r['area_id']]['title'])} · {e(routes[r['route_id']]['title'])}</a></p><h3>{e(r['title'])}</h3><dl>{fields}</dl><details class="decision-conditions" open><summary>适用条件与继续／停止标准</summary><dl>{conditions}</dl></details><div class="analysis-evidence"><strong>支撑判断的原始资料 · 详细事实见本期动态</strong>{citations}</div></article>''')
     overview='<nav class="analysis-overview" aria-label="按研究方向阅读判断">'+''.join(f'<a href="#analysis-{r["area_id"]}">{e(areas[r["area_id"]]["short"])}<small>{e(r["title"])}</small></a>' for r in records)+'</nav>'
-    return f'''<section id="analysis"><p class="eyebrow">04 / 分析结论</p><h2>以瓶颈选课题，以对照决定是否投入</h2><p>当前判断：先构筑任务身份、可回放轨迹与代价计量，再针对已观测的等待链选择算法。研究价值要体现为同质量、同资源条件下更多任务达标完成，而非单独追求更高并发、命中率或 token 吞吐。以下为本报告建议，尚待云核实验检验。</p>{decision_changes()}{decision_review()}<div class="analysis-section-head"><p class="eyebrow">三项研究取舍</p><h3>明确穿刺对象、对照方法与退出条件</h3><p>先固定工作负载和可行动作，一次隔离一个策略变量；先证明单项净收益，再研究跨层联合优化。</p></div>{overview}<div class="analysis-cards">{''.join(cards)}</div><details class="source-policy"><summary>候选课题与投入门槛</summary>{research_agenda()}</details>{portfolio()}<p class="note">共同验收以端到端任务有效吞吐为主，达标完成率为护栏，容量拒绝、超时、预算与质量损失纳入统计。存在在线／后台资源竞争时，再评估{cite('learnsched','LearnSched的实验边界')}。</p><div class="reading-next"><a href="#updates">回看本期事实与原文 →</a><a href="#archive">查看研究积累与归档状态 →</a></div></section>'''
+    return f'''<section id="analysis"><p class="eyebrow">04 / 分析结论</p><h2>11月研究取舍：预算保稳定，排程促完成，公平守底线</h2><p>事实与结果条件集中在本期动态；本页给出研究判断、穿刺对象和改变判断的条件，尚待云核实验检验。</p>{monthly_synthesis()}<div class="analysis-section-head"><p class="eyebrow">三项研究取舍</p><h3>明确穿刺对象、对照方法与退出条件</h3><p>先固定工作负载和可行动作，一次隔离一个策略变量；先证明单项净收益，再研究跨层联合优化。</p></div>{overview}<div class="analysis-cards">{''.join(cards)}</div>{decision_changes()}<details class="source-policy"><summary>长期架构决策与候选课题</summary>{decision_review()}{research_agenda()}{portfolio()}</details><p class="note">共同验收以端到端任务有效吞吐为主，达标完成率为护栏，容量拒绝、超时、预算与质量损失纳入统计。现有研究基线与11月新增事实分别标记。</p><div class="reading-next"><a href="#updates">回看本期事实与原文 →</a><a href="#archive">查看研究积累与归档状态 →</a></div></section>'''

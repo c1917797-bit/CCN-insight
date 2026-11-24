@@ -706,5 +706,8 @@
   "继续演示": "Resume demo",
   "收起全景 ×": "Exit expanded view",
   "恢复宽度": "Fit width",
-  "按宽度阅读": "Fit width"
+  "按宽度阅读": "Fit width",
+  "研究预览 · 截至 2026-11-24": "Research preview · As of 2026-11-24",
+  "研究快照 2026-11-24 · 本期窗口 2026-11-01—2026-11-24 · 累计 34 项论文与官方资料 · 人工精选，云核实验尚待开展。": "Research snapshot 2026-11-24 · Period 2026-11-01–2026-11-24 · 34 papers and official records · Curated selection; Cloud Core experiments remain pending.",
+  "架构编排 · 2026-11-24 · 动态证据截至 2026-11-24 · 人工整理与发布 · 尚无云核实测结论": "Architecture and orchestration · 2026-11-24 · Evidence as of 2026-11-24 · Manually curated and published · No measured Cloud Core results yet"
 }

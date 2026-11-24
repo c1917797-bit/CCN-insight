@@ -1,0 +1,10 @@
+publication_id,period,purpose,question
+fairway,2026-11,直接调度,缓存优先何时必须让位给等待保护？
+prefix-metastability,2026-11,直接调度,系统拥塞后，应限制新请求还是调整已接纳会话？
+caas,2026-11,直接调度,工具队列是否应理解整项任务进度？
+duru,2026-11,直接调度,任务公平是否需要跨入口和实例共同记账？
+llmd-trace-replay-nov,2026-11,研究基础,我们比较的是完整任务还是孤立模型请求？
+ascend-032rc1-nov,2026-11,工程前提,昇腾缓存亲和实验可以基于哪一组明确版本？
+llmd-async-qos-nov,2026-11,工程对照,空闲容量如何借用，过载时谁等待、谁拒绝？
+llmd-sglang-tiered-nov,2026-11,工程对照,共享缓存是为稳态时延还是为故障恢复付费？
+kinference-launch-nov,2026-11,需求信号,是否需要可替换策略的推理控制面？

@@ -24,3 +24,12 @@ yuanrong-session-affinity,yuanrong
 temporal-go-150,temporal
 ray-259-backpressure,ray
 strands-box-preview,aws-strands
+fairway,arxiv
+prefix-metastability,arxiv
+caas,arxiv
+duru,arxiv
+llmd-trace-replay-nov,llmd
+ascend-032rc1-nov,ascend
+llmd-async-qos-nov,llmd
+llmd-sglang-tiered-nov,llmd
+kinference-launch-nov,buoyant
