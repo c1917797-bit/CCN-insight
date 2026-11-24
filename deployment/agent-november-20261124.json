@@ -1,0 +1,48 @@
+{
+  "date": "2026-11-24",
+  "repository": "https://github.com/c1917797-bit/CCN-insight",
+  "content_commit": "33ffe1ab3a59a4eb26f688475d3fac8ac8474d2e",
+  "source_commit": "2ff3edf84bdf201c3520b8f03a53f7357d49b6cb",
+  "project_id": "appgprj_6acf4d01d4a48191a167ab0a3ff7b192",
+  "version": 39,
+  "version_id": "appgprj_6acf4d01d4a48191a167ab0a3ff7b192~appgver_5184252411308191a7276b0178abf00b",
+  "deployment_id": "appgdep_6b055181e0a481918dbcf43d5a51744e",
+  "status": "succeeded",
+  "published_at": "2026-11-24T08:57:49.242612+00:00",
+  "url": "https://cloud-core-agent-scheduling-preview.sunshinepmy.chatgpt.site",
+  "period": [
+    "2026-11-01",
+    "2026-11-24"
+  ],
+  "new_items": {
+    "academic": 4,
+    "industry": 4,
+    "news": 1
+  },
+  "total_evidence": 34,
+  "source_channels": 28,
+  "new_source_checks": 4,
+  "audience": "public (unchanged)",
+  "archive": {
+    "files": 83,
+    "sha256": "7fc4cfd470c50457428d41d671fc1fa0a0cd2fbf2b47379b4aac40d0da2d5ed9",
+    "verified_against_pushed_source": true,
+    "packaging_note": "Helper pushed the exact mirror commit. Its archive contained CRLF changes in 39 retained historical hashed assets; repacked the same commit with git archive core.autocrlf=false/core.eol=lf. All 83 archive files then matched Git blobs. Saved and deployed this verified archive."
+  },
+  "online_qa": {
+    "reload_original_url": "November 24 cutoff and 9 current records displayed",
+    "three_research_topics": "All opened via published evidence links; November entries present",
+    "source_to_month_navigation": "Passed; vLLM Ascend source shows Nov24 audit",
+    "monthly_synthesis": "Visible with 3 specific paper/mechanism research recommendations",
+    "console_errors": [],
+    "viewport": {
+      "width": 848,
+      "document_width": 833
+    }
+  },
+  "limits": [
+    "Selection through November 24; not full-month exhaustive coverage",
+    "Specified primary sections reviewed; no independent reproduction",
+    "No measured Cloud Core/Ascend end-to-end results"
+  ]
+}
