@@ -3,7 +3,7 @@ from html import escape as e
 from operator_platform import render_taxonomy, render_coupling, render_library, render_judgment_log
 
 
-def render_overview(corpus, structure, guide, changes, index, citations, hero, section, references, shell, boundaries, sources, events):
+def render_overview(corpus, structure, guide, changes, index, citations, hero, section, references, shell, boundaries, sources, events, monthly=None):
     def p(text, cls=''):
         return '<p'+(' class="'+cls+'"' if cls else '')+'>'+e(text)+'</p>'
     routes={r['id']:r for b in corpus['branches'] for r in b['routes']}
@@ -23,12 +23,29 @@ def render_overview(corpus, structure, guide, changes, index, citations, hero, s
         compare+='<div class="op-coupling-origin"><a href="operators-'+rid+'.html">'+e(routes[rid]['title'])+' →</a></div>'+render_coupling(structure['routes'][rid],routes,citations)
     panels['topics']+=section('principles','02','跨机制比较',compare)
     panels['topics']+=section('evidence-library','03','研究速查',p('完整资料在这里按机制、硬件、证据层级与指标查找；原始记录保留实验条件、结果和边界。经典文献和产业实现不会因本轮核对而成为本月新闻。')+render_library(index))
-    current=p(events['scope'],'op-note')
+    current=''
+    if monthly:
+        current+='<div class="op-monthly-intro"><div><span class="op-kicker">2026 / 11 · 截至11月24日</span><h3>从本期资料中，找到值得验证的技术</h3>'+p(monthly['judgment'])+'</div><aside><b>本期范围</b>'+p(monthly['scope'])+'</aside></div>'
+        current+='<nav class="op-route-jumps op-monthly-nav" aria-label="本期阅读直达"><a href="#november-priorities">本期判断</a><a href="#november-events">技术进展</a><a href="#november-actions">验证方向</a><a href="#october-events">10月动态</a></nav>'
+        priority=[x for x in monthly['events'] if x['priority']=='重点研读']
+        current+='<div id="november-priorities" class="op-monthly-highlights"><h3>优先关注</h3><div class="op-monthly-highlight-list">'+''.join('<a href="#nov-event-'+e(x['id'],quote=True)+'"><span>'+e(x['platform'].split(' · ')[0])+'</span><b>'+e(x['title'])+'</b><small>'+e(x['route'])+'</small></a>' for x in priority)+'</div></div>'
+        current+='<div id="november-events" class="op-monthly-events"><div class="op-monthly-heading"><div><span class="op-kicker">TECHNOLOGY SIGNALS</span><h3>11月技术进展</h3></div><p>按来源保留事件、效果与适用边界；技术启示为本站分析。</p></div>'
+        ordered=sorted(monthly['events'],key=lambda x:x['date'],reverse=True)
+        for event in ordered:
+            current+='<article class="op-monthly-card" id="nov-event-'+e(event['id'],quote=True)+'"><div class="op-evidence-meta"><b>'+e(event['kind'])+'</b><span>'+e(event['date'])+' · '+e(event['date_basis'])+'</span><span>'+e(event['priority'])+'</span></div><h4>'+e(event['title'])+'</h4><p class="op-monthly-route"><b>技术地图</b> '+e(event['route'])+' <span>·</span> '+e(event['challenge'])+'</p><p class="op-monthly-platform">'+e(event['platform'])+'</p><div class="op-monthly-facts"><div><b>关键技术</b>'+p(event['mechanism'])+'</div><div><b>原始结果 / 发布内容</b>'+p(event['result'])+'</div><div><b>研究判断</b>'+p(event['insight'])+'</div><div><b>适用边界</b>'+p(event['boundary'])+'</div></div><div class="op-route-jumps"><a href="'+e(event['topic'],quote=True)+'">'+e(event['topic_label'])+' →</a><a href="'+e(event['source'],quote=True)+'" target="_blank" rel="noopener noreferrer">原始资料 ↗</a>'
+            if event.get('date_source'):
+                current+='<a href="'+e(event['date_source'],quote=True)+'" target="_blank" rel="noopener noreferrer">日期依据 ↗</a>'
+            current+='</div>'+p('核对范围：'+event['locator'],'op-note')+'</article>'
+        current+='</div><div id="november-actions" class="op-monthly-actions"><div class="op-monthly-heading"><div><span class="op-kicker">RESEARCH DIRECTIONS</span><h3>接下来验证什么</h3></div><p>以下是研究方案，预期价值与实际设备结果分别判断。</p></div><div class="op-monthly-action-grid">'
+        for x in monthly['experiments']:
+            current+='<article><h4>'+e(x['title'])+'</h4><dl><div><dt>对照</dt><dd>'+e(x['compare'])+'</dd></div><div><dt>为什么</dt><dd>'+e(x['reason'])+'</dd></div><div><dt>判断依据</dt><dd>'+e(x['success'])+'</dd></div></dl></article>'
+        current+='</div></div>'
+    current+='<div id="october-events" class="op-monthly-archive"><h3>10月动态</h3>'+p(events['scope'],'op-note')
     for event in events['events']:
         record=records[event['record_id']]
         current+='<article class="op-progress-item" id="event-'+e(event['id'])+'"><div class="op-evidence-meta"><b>'+e(event['event_kind'])+'</b><span>'+e(event['event_on'])+' · '+e(event['version'])+'</span></div><h3>'+e(record['title'])+'</h3>'+p(event['delta'])+'<div class="op-view"><strong>对专题的启示</strong>'+p(event['implication'])+'</div><div class="op-route-jumps"><a href="'+e(record['url'])+'">'+e(record['route_title'])+' · 研究记录 →</a><a href="'+e(event['event_url'],quote=True)+'" target="_blank" rel="noopener noreferrer">原始版本记录 ↗</a></div>'+p('日期依据：'+event['date_locator'],'op-note')+'</article>'
-    current+=p('产业界材料目前保留在长期专题中；尚无独立核对发布日期与版本变化的本月事件条目。','op-note')+'<a href="#evidence-library">查阅全部研究与产业实现 →</a>'
-    panels['current']=section('current-events',events['month'],'本期动态',current)
+    current+=p('10月产业界材料保留在长期专题中；当期尚无独立核对发布日期与版本变化的产业事件条目。','op-note')+'</div><a href="#evidence-library">查阅全部研究与产业实现 →</a>'
+    panels['current']=section('current-events',monthly['month'] if monthly else events['month'],'本期动态',current)
     focus='<div class="op-frontier-grid">'
     for row in guide['frontier']:
         record=records[row['record_id']]
@@ -36,7 +53,22 @@ def render_overview(corpus, structure, guide, changes, index, citations, hero, s
     focus+='</div>'
     judgment='<div class="cg-conclusions">'+''.join('<article><h3>'+e(r['title'])+'</h3>'+p(r['text'])+citations(r['source_ids'])+'</article>' for r in corpus['overview']['conclusions'])+'</div>'
     judgment+=section('frontier','依据','哪些证据影响当前判断',focus,3)
-    panels['report']=section('conclusion','判断','洞察报告',p('综合解释哪些执行机制值得跟踪、收益在何种条件下成立，以及哪些证据会改变判断。具体实验条件与结果回到对应技术记录核对。')+judgment)
+    month_report=''
+    if monthly:
+        monthly_records={row['id']:row for row in monthly['events']}
+        themes=[
+            ('减少无效搜索','先用目标资源约束构造初始配置，再把设备评估留给困难形状；需比较同预算下的有效覆盖。','helion-heuristics'),
+            ('在目标硬件重建融合策略','图表示可复用，切分、资源模型和后端执行需要按芯片重建；融合仍要对照强实现。','mirage-ascend'),
+            ('通信策略随负载改变','小批量优先观察固定开销和缓冲组织，较大负载还要比较计算通信重叠。','nvlink-one-sided'),
+        ]
+        month_report='<div class="op-report-month"><span class="op-kicker">2026 / 11 · 定向筛选</span><h3>本期研究判断</h3>'+p(monthly['judgment'])+'<div class="op-report-month-grid">'
+        for title,view,event_id in themes:
+            if event_id not in monthly_records:
+                continue
+            row=monthly_records[event_id]
+            month_report+='<article><h4>'+e(title)+'</h4>'+p(view)+'<a href="#nov-event-'+e(event_id,quote=True)+'">依据：'+e(row['title'])+'</a></article>'
+        month_report+='</div><p class="op-note">截至'+e(monthly['reviewed_at'])+'的定向资料核对，不代表全信息源扫描或设备复现。</p><a href="#november-actions">查看本期具体验证方向 →</a></div>'
+    panels['report']=section('conclusion','判断','洞察报告',month_report+p('综合解释哪些执行机制值得跟踪、收益在何种条件下成立，以及哪些证据会改变判断。具体实验条件与结果回到对应技术记录核对。')+judgment)
     panels['archive']=section('updates','记录','判断修订记录',p('当前保留的是有原始依据的编辑修订，尚未建立独立的月度报告版本归档。修订日期不作为论文或产品发布日期。','op-note')+p(changes['scope'])+render_judgment_log(changes,records,citations))
     appendix=section('hardware','硬件','GPU与昇腾NPU的实现边界',p('CUDA GPU的线程/warp、存储与异步指令，和具体昇腾SoC的Host Tiling、Vector/Cube、搬运与同步约束分别核对。部分新代际昇腾提供SIMT能力，不能把GPU/NPU标签当作完整支持矩阵。')+citations(['cuda-programming-model','ascend-3510-architecture'])+'<a href="operators-1.html#cannbot">从Add数据流看硬件映射 →</a>',3)
     appendix+=section('automatic','方法','横向方法：自动生成与调优',p('编译、参数搜索、经验检索和LLM/Agent帮助形成实现。开发效率与运行收益分别评价；它们承接加速机制，不另设为第三条加速主线。')+'<a class="op-text-link" href="operators-codegen.html">进入方法体系、GPU/NPU证据与能力判断 →</a>',3)
@@ -58,4 +90,6 @@ def render_overview(corpus, structure, guide, changes, index, citations, hero, s
     for key in ['sources','topics','current','report','archive']:
         body+='<div id="'+aliases[key]+'" data-operator-view="'+key+'">'+panels[key]+'</div>'
     outline=[('sources-directory','来源目录'),('references','资料与证据范围'),('routes','01 技术地图'),('compute-map','计算算子'),('communication-map','通信算子'),('principles','02 跨机制比较'),('evidence-library','03 研究速查'),('scope','附录：范围与方法'),('current-events','本期动态'),('conclusion','研究判断'),('frontier','支撑判断的证据'),('updates','判断修订记录')]
-    return shell('算子定制加速',body,outline)
+    page=shell('算子定制加速',body,outline)
+    # The hub combines materials with different review dates; each entry carries its own date.
+    return page.replace('资料核对 2026-10-23','来源按各条记录核对')
