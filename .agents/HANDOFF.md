@@ -6,6 +6,10 @@
 
 见 `docs/MONTHLY-INSIGHT-UPDATE.md`、采集审计与本地QA。真实浏览器查11月动态/报告/归档、10月历史附件、中文与英文、QDA笔记；390宽无整页横溢。检查通过不表示全领域穷尽检索或独立复现。用户scheduling-points.csv换行变化保留不提交；原站共源入口不回写。正式状态随后记录到本期deployment回执。
 
+# v39 算子11月洞察已上线（2026-11-24）
+
+GitHub内容 d2a53fa397109f0bce0eda16079ad48a9f329b9c；Sites源码 08f3f2006e3b9dc3f2567144d0c4a4b10ed5d42f，v39部署成功。12条定向核对的11月动态与4项验证方向已加入本期动态、长期专题和洞察报告；保留10月。线上确认12条动态及事件直达，未独立复现，非全量信息源扫描。维护源 research/ai-infra/operator-monthly-202611.json；详情见 deployment/operator-november-publication-20261124.json。Windows打包失败后使用仓库构建回退。
+
 # v38 算子自动生成专题已上线（2026-11-24）
 
 GitHub内容32c6d8d0ab8a8afa94f489e17711cae40c74c7c3已推送，保留同期Agent语言切换bbce695。Sites源码53263217347575d4adae0a5fefc5555074c8f618经官方helper推送并重开确认。v38部署appgdep_6b05486e8d5081919c4a440c543cfc00 succeeded；正式浏览器确认17条证据、10系统、2026-11-24核对日期、CAKE搜索定位，390px无整页溢出。

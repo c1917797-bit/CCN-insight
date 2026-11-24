@@ -1,0 +1,14 @@
+{
+  "scope": "2026-11-01 through 2026-11-24; targeted primary-source checks, not a comprehensive scan",
+  "content_commit": "d2a53fa397109f0bce0eda16079ad48a9f329b9c",
+  "events": 12,
+  "validation_directions": 4,
+  "checks": [
+    "scripts/verify_operator_november.py",
+    "scripts/verify_operator_research.py",
+    "scripts/verify_operator_platform.py",
+    "scripts/verify.py"
+  ],
+  "local_browser": "12 events, report and topic-to-event navigation checked",
+  "limits": "No independent hardware reproduction; author results retain their original conditions."
+}
