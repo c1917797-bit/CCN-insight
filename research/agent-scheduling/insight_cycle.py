@@ -39,7 +39,7 @@ def source_overview(channels,provenance):
            (f'{len(populated)}/{len(channels)}','已收录研究依据','与入口核查分开；含媒体线索追溯'),
            (f'{len(pending)}','机器筛选候选','标题与关键词命中，尚未成为事实')]
     cells=''.join(f'<div class="signal-stat"><strong>{value}</strong><span>{label}</span><small>{note}</small></div>' for value,label,note in stats)
-    return f'''<details class="insight-loop"><summary>从信源到决策：这份目录如何使用</summary><p>优先看工作流与执行引擎，再按问题下钻模型服务和设备资源。信源代表发布角色；调度关联说明它能帮助回答什么。</p><ol><li><strong>持续来源</strong><span>稳定入口与更新渠道</span></li><li><strong>原文核验</strong><span>日期、机制、条件与边界</span></li><li><strong>研究归属</strong><span>排程、映射与资源分配</span></li><li><strong>决策复核</strong><span>改变什么，何时重新判断</span></li></ol><p class="source-health">本轮核查 {CUTOFF} · 支持按需抓取公开候选，当前未设置定时采集。采集成功不等于内容已核验；没有新条目也不代表没有进展。<a href="#source-monitor">查看覆盖与待补缺口 →</a></p></details><div class="coverage-strip">{cells}</div>'''
+    return f'''<details class="insight-loop"><summary>从信源到决策：这份目录如何使用</summary><p>优先看工作流与执行引擎，再按问题下钻模型服务和设备资源。信源代表发布角色；调度关联说明它能帮助回答什么。</p><ol><li><strong>持续来源</strong><span>稳定入口与更新渠道</span></li><li><strong>原文核验</strong><span>日期、机制、条件与边界</span></li><li><strong>研究归属</strong><span>排程、映射与资源分配</span></li><li><strong>决策复核</strong><span>改变什么，何时重新判断</span></li></ol><p class="source-health">报告截至 {CUTOFF} · 来源逐项核验日期见各行记录 · 支持按需抓取公开候选，当前未设置定时采集。采集成功不等于内容已核验；没有新条目也不代表没有进展。<a href="#source-monitor">查看覆盖与待补缺口 →</a></p></details><div class="coverage-strip">{cells}</div>'''
 
 def source_health(channel_id,selected):
     runs,_=collection_state()
@@ -65,7 +65,7 @@ def verified_additions():
     findings={p['publication_id']:p for p in read('research-findings.csv')}
     rows=read('evidence-batch-20261023.csv')
     cards=''.join(f'''<article class="signal-card"><span class="evidence-confidence" data-kind="fact">{e(r['label'])}</span><h4><a href="#publication-{r['publication_id']}">{e(findings[r['publication_id']]['headline'])}</a></h4><p>{e(r['decision_delta'])}</p><small>原文：{e(pubs[r['publication_id']]['published'] or '无明确发布日期')} · 本轮核验：{pubs[r['publication_id']]['checked']}</small><a href="#publication-{r['publication_id']}">读机制与适用条件 →</a></article>''' for r in rows)
-    return f'''<div id="updates-verified" class="verified-batch"><p class="eyebrow">本轮补充核验 / {CUTOFF}</p><h3>把工作流、执行映射与工具准入的盲区补齐</h3><p>以下 {len(rows)} 项是本轮新核验的资料，不等于近一周新发布。日期按原始事件保留；无发布日期的机制文档单独标注。</p><div class="monitor-board">{cards}</div></div>'''
+    return f'''<div class="verified-batch"><p class="eyebrow">历史补充核验 / 2026-10-23</p><h3>把工作流、执行映射与工具准入的盲区补齐</h3><p>以下 {len(rows)} 项在10月23日补充核验，不计为11月新增。日期按原始事件保留；无发布日期的机制文档单独标注。</p><div class="monitor-board">{cards}</div></div>'''
 
 def decision_changes():
     rows=read('decision-watchlist.csv')
@@ -82,4 +82,4 @@ def discovery_note(key):
 
 def archive_delta():
     audit_record = '<article class="archive-record"><span class="eyebrow">2026-10-23 · 信源逐项核验</span><h3>27个来源有记录，读取结果与研究依据分开</h3><p>本轮逐项访问27个持续来源，21个可读、6个部分可读；保留替代原文、核对范围和未确认条件。每个来源新增核验发现、独立记录入口及下一步复核动作。新线索尚未扩充为已审论文，已有25项资料和60条待审候选的统计不变。</p><a href="#sources">查看信源核验目录 →</a></article>'
-    return audit_record + '''<article class="archive-record"><span class="eyebrow">2026-10-23 · 来源到决策闭环</span><h3>补齐执行层依据，记录何时需要改判断</h3><p>补充 Temporal、Ray、元戎和工具准入的官方依据；来源目录保持三张总表。新增按需公开候选采集、去重、失败记录与决策复核条件。本轮内容补录与原始事件日期分开，不计作全量覆盖。</p><a href="#updates-verified">本轮核验 →</a> · <a href="#decision-watchlist">判断变化 →</a></article>'''
+    return audit_record + '''<article class="archive-record"><span class="eyebrow">2026-10-23 · 来源到决策闭环</span><h3>补齐执行层依据，记录何时需要改判断</h3><p>补充 Temporal、Ray、元戎和工具准入的官方依据；来源目录保持三张总表。新增按需公开候选采集、去重、失败记录与决策复核条件。本轮内容补录与原始事件日期分开，不计作全量覆盖。</p><a href="#updates-verified">当时补充资料 →</a> · <a href="#october-judgments">当时研究判断 →</a></article><details class="archive-record" id="updates-verified"><summary>2026-10-23 · 当时补充核验的6项资料</summary>'''+verified_additions()+'</details>'

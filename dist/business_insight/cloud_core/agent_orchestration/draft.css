@@ -1347,3 +1347,18 @@ details.insight-loop>.source-health{color:#c8e3e9;background:#103244;border-colo
 .map-reading-english .cs-console-top{flex-wrap:wrap}
 .map-reading-english .cs-controls{flex-wrap:wrap}
 @media(max-width:700px){.map-section-top{top:58px}.map-language-control{gap:.5rem}#map-language-toggle{min-width:78px}.map-reading-english .reading-flow{display:flex;overflow-x:auto;scrollbar-width:thin}.map-reading-english .reading-flow a{font-size:.875rem;flex:0 0 116px;max-width:116px;white-space:normal;padding:10px 6px}.map-reading-english .reading-flow b{font-size:.875rem;line-height:1.4}.map-reading-english .cs-controls>span{white-space:normal}}
+
+/* Monthly evidence and decisions use the existing light research canvas. */
+.month-guide,.month-report{margin:24px 0 32px;border:1px solid #c6dce6;border-radius:18px;padding:28px;background:linear-gradient(125deg,#f0f8fc,#fff 64%);color:#28495f}
+.month-guide h3,.month-report>h3{font-size:clamp(23px,2.2vw,31px);line-height:1.4;color:#123d56;margin:9px 0 17px}
+.month-guide nav{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}.month-guide nav a{padding:10px 15px;border:1px solid #b8d4e1;border-radius:9px;background:#fff;color:#1f637b;font-size:16px;font-weight:650;text-decoration:none}
+.month-guide nav a:hover,.month-guide nav a:focus-visible{background:#e0f0f7;outline:2px solid #498aa3;outline-offset:2px}
+.month-thesis{font-size:18px;line-height:1.8;max-width:80ch}.month-judgments{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:24px 0}
+.month-judgments article{border:1px solid #d1e1e9;border-top:3px solid #378098;border-radius:11px;background:#fff;padding:22px;min-width:0}
+.month-judgments article>span{font-size:14px;font-weight:650;color:#33738a}.month-judgments h4{font-size:21px;line-height:1.5;color:#173f55;margin:11px 0}
+.month-judgments p,.month-priorities li,.month-boundaries p{font-size:16px;line-height:1.85}.month-judgments a{font-size:15px;color:#1d667d;font-weight:650}
+.month-priorities{padding:22px 24px;border-radius:12px;background:#eaf3f7}.month-priorities h4{font-size:21px;margin:0 0 16px;color:#173e53}.month-priorities ol{padding-left:24px}.month-priorities li{margin:12px 0}.month-priorities>p{font-size:15px;line-height:1.85}
+.month-boundaries{margin:22px 0 0;padding:17px 0;border-top:1px solid #c9dce5}.month-boundaries summary{cursor:pointer;font-size:16px;font-weight:650}
+.current-kind-heading{padding-top:16px;border-top:1px solid #c6dce6;color:#1d526a;font-size:23px}
+@media(max-width:1050px){.month-judgments{grid-template-columns:1fr}.month-judgments article{padding:20px}.month-judgments h4{font-size:22px}}
+@media(max-width:600px){.month-guide,.month-report{padding:20px 17px}.month-guide nav{display:grid;grid-template-columns:1fr 1fr}.month-guide nav a{font-size:14px;padding:10px}.month-priorities{padding:20px 16px}.month-thesis{font-size:17px}}

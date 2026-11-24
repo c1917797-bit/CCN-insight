@@ -1,0 +1,658 @@
+(() => {
+  // A citation can point inside a collapsed evidence block; expose its ancestors.
+  function revealAnchoredDetails() {
+    if (!/^#[a-zA-Z][\w-]*$/.test(location.hash)) return;
+    const target = document.querySelector(location.hash);
+    let parent = target && target.parentElement;
+    let opened = false;
+    while (parent) {
+      if (parent.tagName === 'DETAILS' && !parent.open) { parent.open = true; opened = true; }
+      parent = parent.parentElement;
+    }
+    if (opened && target) target.scrollIntoView({block:'start', behavior:'auto'});
+  }
+  window.addEventListener('hashchange', revealAnchoredDetails);
+  revealAnchoredDetails();
+  function revealScopeIndex() {
+    const hash = location.hash;
+    const scope = document.querySelector('#scope-index');
+    const isScope = /^#(?:scope-index|decision-scope|decision-(?:admission|ordering|dispatch|allocation)|scheduling-(?:directions|roots|feedback|dimensions)|root-[a-z-]+)$/.test(hash);
+    if (scope && isScope) {
+      const wasClosed = !scope.open;
+      scope.open = true;
+      const target = document.querySelector(hash);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+      if (wasClosed && target) target.scrollIntoView({block: 'start', behavior: 'auto'});
+    }
+  }
+  window.addEventListener('hashchange', revealScopeIndex);
+  revealScopeIndex();
+  const demoDisclosure = document.querySelector('#demo-section');
+  function revealDemo() {
+    const hash = location.hash;
+    if (demoDisclosure && (hash === '#agent-demo' || hash === '#demo-coverage' || /^#point-[a-z-]+$/.test(hash))) {
+      const wasClosed = !demoDisclosure.open;
+      demoDisclosure.open = true;
+      const target = document.querySelector(hash);
+      if (wasClosed && target) target.scrollIntoView({block: 'start', behavior: 'auto'});
+    }
+  }
+  window.addEventListener('hashchange', revealDemo);
+  revealDemo();
+
+  function revealPublication() {
+    if (!/^#publication-[a-z0-9-]+$/.test(location.hash)) return;
+    const entry = document.querySelector(location.hash);
+    const details = entry && entry.querySelector('.literature-details');
+    if (details) details.open = true;
+  }
+  window.addEventListener('hashchange', revealPublication);
+  revealPublication();
+  function mark() {
+    const hash = location.hash || '#map';
+    const isTopic = document.body && document.body.dataset.pageKind === 'topic';
+    let section = /^#[a-zA-Z][\w-]*$/.test(hash) ? document.querySelector(hash) : null;
+    while (section && section.tagName !== 'SECTION') section = section.parentElement;
+    const localKey = section && section.id ? '#' + section.id : hash;
+    const key = hash.startsWith('#analysis-') ? '#analysis' : hash.startsWith('#verification-') || hash.startsWith('#channel-') || hash.startsWith('#sources-') ? '#sources' : hash.startsWith('#publication-') || hash.startsWith('#updates-') ? '#updates' : hash.startsWith('#point-') || hash.startsWith('#root-') || hash.startsWith('#decision-') || hash.startsWith('#research-') || hash === '#scope-index' || ['#runtime-loop','#coffee-task','#north-star','#scheduling-essence','#research-directions','#demo-coverage','#agent-demo','#scheduling-roots','#scheduling-directions','#scheduling-decisions','#scheduling-feedback','#scheduling-dimensions'].includes(hash) ? '#map' : hash;
+    document.querySelectorAll('.rail nav a').forEach(a => {
+      const current = a.dataset.navScope === 'primary' ? (isTopic ? '#map' : key) : (isTopic ? localKey : key);
+      if (a.hash === current || (!isTopic && a.hash === hash)) a.setAttribute('aria-current', 'location');
+      else a.removeAttribute('aria-current');
+    });
+  }
+  window.addEventListener('hashchange', mark);
+  mark();
+  document.querySelectorAll('[data-coffee-policy]').forEach(button => {
+    button.addEventListener('click', () => {
+      const policy = button.dataset.coffeePolicy;
+      document.querySelectorAll('[data-coffee-policy]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+      document.querySelectorAll('[data-coffee-plan]').forEach(plan => { plan.hidden = plan.dataset.coffeePlan !== policy; });
+    });
+  });
+  // The figure and all its descriptions are rendered before JS runs.
+  const figure = document.querySelector('.agent-map');
+  if (!figure) return;
+  const points = [...document.querySelectorAll('[data-point-detail]')];
+  const selectors = [...document.querySelectorAll('[data-point-select]')];
+  function selectPoint(id, scroll) {
+    const point = points.find(p => p.dataset.pointDetail === id);
+    if (!point) return;
+    points.forEach(p => { p.open = p === point; });
+    selectors.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.pointSelect === id)));
+    figure.querySelectorAll('[data-map-point]').forEach(n => {
+      n.classList.toggle('point-selected', n.dataset.mapPoint === id);
+    });
+    if (scroll) point.scrollIntoView({block: 'start', behavior: 'auto'});
+  }
+  selectors.forEach(b => b.addEventListener('click', () => selectPoint(b.dataset.pointSelect, true)));
+  points.forEach(point => point.addEventListener('toggle', () => {
+    // Native summary clicks must keep the selector's accessible state truthful.
+    selectors.forEach(b => {
+      const panel = points.find(p => p.dataset.pointDetail === b.dataset.pointSelect);
+      b.setAttribute('aria-pressed', String(panel.open));
+    });
+    figure.querySelectorAll('[data-map-point]').forEach(n => {
+      const panel = points.find(p => p.dataset.pointDetail === n.dataset.mapPoint);
+      n.classList.toggle('point-selected', panel.open);
+    });
+  }));
+  figure.querySelectorAll('[data-map-point]').forEach(n => {
+    n.addEventListener('click', () => selectPoint(n.dataset.mapPoint, false));
+  });
+  function pointFromHash() {
+    if (location.hash.startsWith('#point-')) selectPoint(location.hash.slice(7), false);
+  }
+  window.addEventListener('hashchange', pointFromHash);
+  selectPoint('workflow', false);
+  pointFromHash();
+
+  const steps = [...document.querySelectorAll('[data-map-step]')];
+  const playButton = document.querySelector('[data-map-action="play"]');
+  const previous = document.querySelector('[data-map-action="previous"]');
+  const next = document.querySelector('[data-map-action="next"]');
+  const message = document.querySelector('[data-map-message]');
+  const progress = document.querySelector('[data-map-progress]');
+  const timeline = [...document.querySelectorAll('[data-step-select]')];
+  const zoom = document.querySelector('[data-map-action="zoom"]');
+  const reducedMotion = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
+  const tokens = [...figure.querySelectorAll('[data-flow-token]')];
+  const routes = [...figure.querySelectorAll('[data-map-edge]')];
+  const svgStatus = figure.querySelector('[data-map-svg-status]');
+  const phaseBits = [...figure.querySelectorAll('[data-phase-bit]')];
+  const initialMessage = message.textContent;
+  let step = -1;
+  let timer = null;
+  let animation = null;
+  let activePackets = [];
+  function stopMotion() {
+    if (animation !== null) window.cancelAnimationFrame(animation);
+    animation = null;
+  }
+  function placePacket(packet, fraction) {
+    const p = packet.route.getPointAtLength(packet.length * fraction);
+    packet.token.setAttribute('transform', `translate(${p.x} ${p.y})`);
+    packet.trails.forEach(trail => {
+      const behind = packet.route.getPointAtLength(Math.max(0, packet.length*fraction - Number(trail.dataset.packetTrail)*10));
+      trail.setAttribute('cx',String(behind.x-p.x));
+      trail.setAttribute('cy',String(behind.y-p.y));
+    });
+  }
+  function startMotion() {
+    stopMotion();
+    if (reducedMotion || !activePackets.length || !window.requestAnimationFrame) return;
+    let started = null;
+    function frame(time) {
+      if (timer === null || document.hidden) { animation = null; return; }
+      if (started === null) started = time;
+      activePackets.forEach((packet,i) => placePacket(packet, ((time-started+i*180)%1800)/1800));
+      animation = window.requestAnimationFrame(frame);
+    }
+    animation = window.requestAnimationFrame(frame);
+  }
+  function pause() {
+    if (timer !== null) window.clearInterval(timer);
+    timer = null;
+    stopMotion();
+    figure.classList.toggle('is-playing', false);
+    playButton.textContent = '播放演示';
+    playButton.setAttribute('aria-pressed', 'false');
+  }
+  function show(index) {
+    stopMotion();
+    step = Math.max(-1, Math.min(index, steps.length - 1));
+    const current = steps[step];
+    const nodes = current ? current.dataset.nodes.split(' ') : [];
+    const edges = current ? current.dataset.edges.split(' ') : [];
+    figure.querySelectorAll('[data-map-node]').forEach(n => n.classList.toggle('flow-active', nodes.includes(n.dataset.mapNode)));
+    figure.querySelectorAll('[data-map-edge]').forEach(n => n.classList.toggle('flow-active', edges.includes(n.dataset.mapEdge)));
+    activePackets = [];
+    tokens.forEach(token => {
+      const route = routes.find(p => p.dataset.mapEdge === token.dataset.flowToken);
+      const active = edges.includes(token.dataset.flowToken) && route && typeof route.getTotalLength === 'function';
+      token.classList.toggle('packet-active', Boolean(active));
+      if (active) {
+        const packet = {token, route, length:route.getTotalLength(), trails:token.querySelectorAll ? [...token.querySelectorAll('[data-packet-trail]')] : []};
+        placePacket(packet, .08);
+        activePackets.push(packet);
+      }
+    });
+    timeline.forEach(b => b.setAttribute('aria-pressed',String(Number(b.dataset.stepSelect)===step)));
+    if (svgStatus) svgStatus.textContent = current ? current.querySelector('strong').textContent.slice(3) : '等待播放';
+    phaseBits.forEach(bit => {
+      bit.classList.toggle('phase-active', Number(bit.dataset.phaseBit)===step);
+      bit.classList.toggle('phase-done', Number(bit.dataset.phaseBit)<step);
+    });
+    steps.forEach((s, i) => s.classList.toggle('step-current', i === step));
+    message.textContent = current ? current.querySelector('p').textContent : initialMessage;
+    progress.textContent = current ? `${step + 1} / ${steps.length} · ${current.querySelector('strong').textContent.slice(3)}` : '系统结构 · 尚未播放';
+    previous.disabled = step < 0;
+    next.disabled = step === steps.length - 1;
+    if (timer !== null) startMotion();
+  }
+  playButton.addEventListener('click', () => {
+    if (timer !== null) { pause(); return; }
+    if (step === steps.length - 1) show(-1);
+    show(step + 1);
+    playButton.textContent = '暂停演示';
+    playButton.setAttribute('aria-pressed', 'true');
+    figure.classList.toggle('is-playing', true);
+    timer = window.setInterval(() => {
+      if (step === steps.length - 1) { pause(); return; }
+      show(step + 1);
+    }, 5000);
+    startMotion();
+  });
+  previous.addEventListener('click', () => { pause(); show(step - 1); });
+  next.addEventListener('click', () => { pause(); show(step + 1); });
+  document.querySelector('[data-map-action="reset"]').addEventListener('click', () => { pause(); show(-1); });
+  timeline.forEach(b => b.addEventListener('click', () => { pause(); show(Number(b.dataset.stepSelect)); }));
+  if (zoom) zoom.addEventListener('click', () => {
+    const expanded = zoom.getAttribute('aria-pressed') !== 'true';
+    figure.classList.toggle('map-zoomed', expanded);
+    zoom.setAttribute('aria-pressed',String(expanded));
+    zoom.textContent = expanded ? '适配宽度' : '放大图';
+  });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) pause(); });
+  window.addEventListener('pagehide', pause);
+  if (demoDisclosure) demoDisclosure.addEventListener('toggle', () => {
+    if (!demoDisclosure.open) pause();
+  });
+  // Never autoplay. Manual steps also work when reduced motion is requested.
+  show(-1);
+})();
+/* Source directory controls: progressive enhancement of the complete HTML registry. */
+(() => {
+  const root=document.querySelector('[data-source-directory]');
+  if(!root)return;
+  const one=s=>root.querySelector(s), all=s=>[...root.querySelectorAll(s)];
+  const cards=all('.source-table-row'),tabs=all('[data-source-tab]');
+  const category=one('#channel-category'),priority=one('#channel-priority'),query=one('#channel-query'),ecosystem=one('#channel-ecosystem');
+  const area=one('#channel-area'), evidence=one('#channel-evidence'),verification=one('#channel-verification');
+  const offsets={news:0,industry:0,academic:0};
+  let domain='news';
+  function reset(){for(const k of Object.keys(offsets))offsets[k]=0;}
+  function inDomain(){return cards.filter(c=>c.dataset.sourceDomain===domain);}
+  function matches(c){return (priority.value!=='important'||c.dataset.sourcePriority==='core')&&(!category.value||category.value===c.dataset.sourceCategory)&&(!area.value||c.dataset.sourceAreas.split(' ').includes(area.value))&&(!evidence.value||c.dataset.sourceReviewed===evidence.value)&&(!verification.value||c.dataset.sourceAccess===verification.value)&&(domain!=='industry'||!ecosystem.value||ecosystem.value===c.dataset.sourceEcosystem)&&c.dataset.sourceSearch.toLocaleLowerCase().includes(query.value.trim().toLocaleLowerCase());}
+  function categories(){
+    const previous=category.value;
+    category.replaceChildren();
+    const option=(value,label)=>{const o=document.createElement('option');o.value=value;o.textContent=label;category.append(o);};
+    option('','全部二级分类');
+    const names=[...new Set(inDomain().map(c=>c.dataset.sourceCategory))];
+    for(const name of names)option(name,name+' · '+inDomain().filter(c=>c.dataset.sourceCategory===name).length);
+    category.value=names.includes(previous)?previous:'';
+  }
+  function render(){
+    const rows=inDomain().filter(matches),size=20;
+    offsets[domain]=Math.min(offsets[domain],Math.max(0,Math.floor((rows.length-1)/size)*size));
+    tabs.forEach(t=>{const selected=t.dataset.sourceTab===domain;t.setAttribute('aria-selected',String(selected));t.tabIndex=selected?0:-1;});
+    one('#channel-cards').setAttribute('aria-labelledby','source-tab-'+domain);
+    one('#channel-ecosystem-field').hidden=domain!=='industry';
+    all('[data-source-panel]').forEach(p=>p.hidden=p.dataset.sourcePanel!==domain);
+    cards.forEach(c=>c.hidden=true);
+    rows.slice(offsets[domain],offsets[domain]+size).forEach(c=>c.hidden=false);
+    syncDetails();
+    const active=[category.value,priority.value==='important',ecosystem.value,evidence.value,verification.value].filter(Boolean).length;
+    one('#channel-filter-count').textContent=active?' · '+active+' 项已启用':'';
+    all('[data-source-subcategory]').forEach(g=>{
+      const count=[...g.querySelectorAll('.source-table-row')].filter(c=>!c.hidden).length;
+      g.hidden=count===0;
+      g.querySelector('[data-source-group-count]').textContent=count+' 个信息源';
+    });
+    all('[data-source-group-link]').forEach(a=>{if(a.dataset.sourceGroupLink===category.value)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current');});
+    one('#channel-empty').hidden=rows.length>0;
+    one('#channel-pagination').hidden=rows.length<=size;
+    one('#channel-range').textContent=`${rows.length?offsets[domain]+1:0}–${Math.min(offsets[domain]+size,rows.length)} / ${rows.length}`;
+    one('#channel-prev').disabled=offsets[domain]===0;
+    one('#channel-next').disabled=offsets[domain]+size>=rows.length;
+    const label=tabs.find(t=>t.dataset.sourceTab===domain).textContent;
+    one('#channel-status').textContent=`${label} · ${rows.length} 个信源 · 人工整理，具体进展见本期动态`;
+  }
+  function syncDetails(){
+    all('.source-detail-row').forEach(row=>{
+      const owner=document.getElementById(row.dataset.sourceOwner),record=row.querySelector('.verification-record');
+      row.hidden=owner.hidden||!record.open;
+      const toggle=owner.querySelector('[data-audit-toggle]');
+      toggle.setAttribute('aria-expanded',String(record.open));
+      toggle.textContent=record.open?'收起核验记录 ↑':'展开核验记录 →';
+    });
+  }
+  all('[data-audit-toggle]').forEach(a=>a.addEventListener('click',event=>{
+    event.preventDefault();
+    const record=document.getElementById(a.getAttribute('aria-controls'));
+    record.open=!record.open;syncDetails();
+  }));
+  all('.verification-record').forEach(record=>record.addEventListener('toggle',syncDetails));
+  function choose(key){domain=key;category.value='';ecosystem.value='';query.value='';reset();categories();render();}
+  function clearResearchFilters(){area.value='';evidence.value='';verification.value='';}
+  one('#channel-reset').addEventListener('click',()=>{priority.value='all';clearResearchFilters();choose(domain);});
+  tabs.forEach((tab,index)=>{
+    tab.addEventListener('click',()=>choose(tab.dataset.sourceTab));
+    tab.addEventListener('keydown',event=>{
+      let i;if(event.key==='ArrowRight')i=(index+1)%tabs.length;else if(event.key==='ArrowLeft')i=(index+tabs.length-1)%tabs.length;else if(event.key==='Home')i=0;else if(event.key==='End')i=tabs.length-1;else return;
+      event.preventDefault();choose(tabs[i].dataset.sourceTab);tabs[i].focus();
+    });
+  });
+  for(const control of [category,priority,query,ecosystem,area,evidence,verification])control.addEventListener(control===query?'input':'change',()=>{reset();render();});
+  for(const direction of ['prev','next'])one('#channel-'+direction).addEventListener('click',()=>{offsets[domain]+=direction==='prev'?-20:20;render();one('#channel-status').scrollIntoView({block:'nearest'});});
+  function deepLink(){
+    const record=all('.verification-record').find(d=>'#'+d.id===location.hash);
+    if(record){
+      const source=document.getElementById(record.closest('.source-detail-row').dataset.sourceOwner);
+      clearResearchFilters();priority.value='all';choose(source.dataset.sourceDomain);
+      record.open=true;syncDetails();record.scrollIntoView({block:'start'});return;
+    }
+    const hash=location.hash,target=cards.find(c=>'#'+c.id===hash);
+    if(target){
+      clearResearchFilters();
+      if(target.dataset.sourcePriority!=='core')priority.value='all';
+      choose(target.dataset.sourceDomain);
+      offsets[domain]=Math.floor(inDomain().filter(matches).indexOf(target)/20)*20;
+      render();target.scrollIntoView({block:'start'});return;
+    }
+    const layer=all('[data-source-subcategory]').find(g=>'#'+g.id===hash||g.dataset.sourceLegacyAnchor&&'#'+g.dataset.sourceLegacyAnchor===hash);
+    if(layer){
+      clearResearchFilters();
+      choose(layer.closest('[data-source-panel]').dataset.sourcePanel);
+      category.value=layer.dataset.sourceSubcategory;
+      if(!inDomain().some(matches))priority.value='all';
+      render();layer.scrollIntoView({block:'start'});return;
+    }
+    const legacy=hash==='#industry-sources-ascend'?'ascend':hash==='#industry-sources-general'?'general':null;
+    if(legacy){clearResearchFilters();choose('industry');ecosystem.value=legacy;render();one('#sources-industry').scrollIntoView({block:'start'});return;}
+    const tab=tabs.find(t=>hash==='#sources-'+t.dataset.sourceTab);
+    if(tab){clearResearchFilters();choose(tab.dataset.sourceTab);one('#sources-'+domain).scrollIntoView({block:'start'});}
+  }
+  categories();render();deepLink();window.addEventListener('hashchange',deepLink);
+})();
+
+/* Deterministic teaching simulator. Ticks are illustrative, never benchmarks. */
+(function (host) {
+  const definitions = [
+    {id:'menu',code:'C01.1',name:'查菜单',deps:[],service:'tool',duration:2,why:'门店已确定，可直接查询菜单。'},
+    {id:'offer',code:'C01.2',name:'查优惠',deps:[],service:'tool',duration:4,why:'本例优惠查询不依赖菜单，可与菜单并行。'},
+    {id:'compare',code:'C01.3',name:'比较方案',deps:['menu','offer'],service:'model',duration:3,why:'汇合点：必须拿到菜单和优惠两份结果。'},
+    {id:'authorize',code:'C01.4',name:'确认授权',deps:['compare'],service:'human',duration:0,why:'等待用户同意方案；等待期间不占执行名额。'},
+    {id:'order',code:'C01.5',name:'提交订单',deps:['authorize'],service:'tool',duration:2,why:'只有授权已完成，才能发起购买操作。'},
+    {id:'verify',code:'C01.6',name:'核验订单',deps:['order'],service:'tool',duration:2,why:'读取订单状态，核对商品、金额及订单标识。'},
+    {id:'receipt',code:'C01.7',name:'返回回执',deps:['verify'],service:'local',duration:1,why:'核验通过后，把回执交回原任务 C01。'}
+  ];
+  class Simulation {
+    constructor(slots=2,slow=false){this.slots=slots;this.slow=slow;this.reset();}
+    reset(){this.time=0;this.phase='incoming';this.nodes=definitions.map(d=>({...d,deps:[...d.deps],state:'unplanned',elapsed:0,duration:d.duration+(d.id==='offer'&&this.slow?4:0)}));this.events=[];this.record('收到委托 C01：帮我点一杯咖啡。');}
+    record(text){this.events.push({time:this.time,text});}
+    get done(){return this.phase==='done';}
+    get authorizationRequired(){return this.nodes.find(n=>n.id==='authorize').state==='waiting';}
+    get running(){return this.nodes.filter(n=>n.state==='running');}
+    refresh(){for(const n of this.nodes){if(n.state!=='blocked')continue;if(n.deps.every(id=>this.nodes.find(p=>p.id===id).state==='success')){n.state=n.service==='human'?'waiting':'ready';n.readyAt=this.time;this.record(n.code+' '+n.name+(n.state==='waiting'?'：等待用户确认，不占执行名额。':'：依赖已满足，进入就绪集合。'));}}}
+    tick(){
+      if(this.done||this.authorizationRequired)return false;
+      this.time++;
+      if(this.phase==='incoming'){this.phase='assigned';this.record('S1：委托交给能力与权限匹配的 Agent A（本例固定选择）。');return true;}
+      if(this.phase==='assigned'){this.phase='planned';this.nodes.forEach(n=>n.state='blocked');this.record('Agent 将 C01 拆成七个步骤，建立依赖图；规划给出调度输入。');this.refresh();return true;}
+      this.phase='running';
+      for(const n of this.running){n.elapsed++;if(n.elapsed>=n.duration){n.state='success';this.record(n.code+' '+n.name+'完成，结果写回 C01。');}}
+      this.refresh();
+      let free=this.slots-this.running.length;
+      for(const n of [...this.nodes].sort((a,b)=>(a.readyAt??Infinity)-(b.readyAt??Infinity))){if(n.state==='ready'&&free>0){n.state='running';n.started=this.time;free--;this.record('S2：启动 '+n.code+' '+n.name+'，占用一个执行名额。');}}
+      if(this.nodes.every(n=>n.state==='success')){this.phase='done';this.record('C01 完成：订单回执已核验；不代表咖啡已经送达。');}
+      return true;
+    }
+    authorize(){if(!this.authorizationRequired)return false;const n=this.nodes.find(n=>n.id==='authorize');n.state='success';this.record('演示用户确认方案；下单获授权。');this.refresh();return true;}
+  }
+  const api={Simulation,definitions};if(typeof module!=='undefined'&&module.exports)module.exports=api;else host.CoffeeSimulation=api;
+})(globalThis);
+
+/* State-driven controls for the coffee DAG. No external requests or purchases. */
+(() => {
+ const root=document.querySelector('[data-coffee-scene]');if(!root)return;
+ const q=s=>root.querySelector(s), all=s=>[...root.querySelectorAll(s)];
+ const labels={unplanned:'尚未生成',blocked:'等待依赖',ready:'就绪待排程',running:'执行中',waiting:'等待用户授权',success:'已完成'};
+ const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+ let sim=new CoffeeSimulation.Simulation(),timer=null,selected=null,selectedGate=null;
+ const text=(s,t)=>{q(s).textContent=t;};
+ function render(){
+   for(const n of sim.nodes){const el=q(`[data-dag-node="${n.id}"]`);el.dataset.state=n.state;el.setAttribute('aria-label',`${n.code} ${n.name}，${labels[n.state]}，查看步骤说明`);el.setAttribute('aria-pressed',String(selected===n.id));text(`[data-node-state="${n.id}"]`,labels[n.state]);q(`[data-node-progress="${n.id}"]`).setAttribute('width',n.state==='success'?126:n.state==='running'?Math.max(8,126*n.elapsed/n.duration):0);}
+   all('[data-dag-from]').forEach(e=>{const done=sim.nodes.find(n=>n.id===e.dataset.dagFrom).state==='success';e.classList.toggle('is-satisfied',done);e.classList.toggle('is-active',done&&sim.nodes.find(n=>n.id===e.dataset.dagTo).state==='running');});
+   all('[data-origin]').forEach(e=>e.classList.toggle('is-reached',e.dataset.origin==='incoming'||(e.dataset.origin==='assigned'&&sim.phase!=='incoming')||(e.dataset.origin==='planned'&&!['incoming','assigned'].includes(sim.phase))));
+   const ready=sim.nodes.filter(n=>n.state==='ready');
+   const modelWork=sim.running.find(n=>n.service==='model');
+   const currentGate=sim.phase==='assigned'?'S1':ready.length?'S2':modelWork?['M1','S3','S4'][Math.min(modelWork.elapsed,2)]:sim.running.some(n=>n.service==='tool')?'S5':null;
+   all('[data-card-link]').forEach(e=>e.classList.toggle('is-active',!!modelWork&&modelWork.elapsed===2&&e.dataset.cardLink==='A'));
+   all('[data-model-stage]').forEach(e=>e.classList.toggle('is-active',!!modelWork&&e.dataset.modelStage===['semantic','replica','batch'][Math.min(modelWork.elapsed,2)]));
+   const shownGate=selectedGate||currentGate||'S2';
+   all('[data-scheduling-gate]').forEach(e=>{e.classList.toggle('is-current',e.dataset.schedulingGate===currentGate);e.classList.toggle('is-selected',e.dataset.schedulingGate===selectedGate);e.setAttribute('aria-pressed',String(e.dataset.schedulingGate===shownGate));});
+   all('[data-decision-select]').forEach(e=>e.setAttribute('aria-pressed',String(e.dataset.decisionSelect===shownGate)));
+   all('[data-decision-panel]').forEach(e=>e.hidden=e.dataset.decisionPanel!==shownGate);
+
+   text('[data-global-queue]',`${sim.running.length} / ${sim.slots} 个名额占用 · ${ready.length} 步就绪待选`);
+   text('[data-global-running]',sim.running.length?'执行：'+sim.running.map(n=>n.code+' '+n.name).join(' / '):sim.authorizationRequired?'等待用户授权 · 不占执行名额':sim.done?'C01 已核验完成':'等待可执行步骤');
+   all('[data-call-node]').forEach(e=>e.classList.toggle('is-active',sim.nodes.find(n=>n.id===e.dataset.callNode).state==='running'));
+   all('[data-assignment-flow]').forEach(e=>e.classList.toggle('is-active',sim.phase==='assigned'));
+   q('[data-agent-instance="A"]').classList.toggle('is-active',sim.phase!=='incoming');
+   q('[data-final-return]').classList.toggle('is-active',sim.done);
+   all('[data-resource]').forEach(e=>e.classList.toggle('is-active',e.dataset.resource==='model'?sim.running.some(n=>n.service==='model'):e.dataset.resource==='cpu'?sim.phase!=='incoming':e.dataset.resource==='network'?sim.running.some(n=>n.service==='tool'):false));
+   text('[data-ready-list]',ready.length?'就绪集合：'+ready.map(n=>n.code+' '+n.name).join('、'):(sim.phase==='incoming'||sim.phase==='assigned'?'执行计划尚未生成。':'就绪集合：暂无可启动步骤。'));
+   text('[data-slot-state]',`正在执行 ${sim.running.length} / ${sim.slots} · ${sim.running.map(n=>n.name).join('、')||'无占用'}（授权等待不占名额）`);
+   let caption=sim.phase==='incoming'?'准备就绪：先把整项委托交给 Agent。':sim.phase==='assigned'?'Agent A 已接手 C01，下一步先形成执行计划。':sim.phase==='planned'?'计划已生成：两项查询已就绪，比较方案还在等输入。':sim.done?'C01 已完成：核验回执后返回用户，未模拟咖啡送达。':sim.authorizationRequired?'方案已生成：等待你模拟授权，下单尚未开始。':sim.nodes.find(n=>n.id==='menu').state==='success'&&sim.nodes.find(n=>n.id==='offer').state!=='success'?'菜单已返回，优惠还没回来：比较方案不能提前开始。':sim.running.length?'正在执行：'+sim.running.map(n=>n.name).join('、')+'；完成后才解锁后续步骤。':'已获得授权，下一个调度拍将安排提交订单。';
+   text('[data-cs-caption]',caption);text('[data-cs-progress]',`演示时钟 T+${sim.time} · 完成 ${sim.nodes.filter(n=>n.state==='success').length} / 7 · 非实测时间`);
+   q('[data-authorization]').hidden=!sim.authorizationRequired;
+   q('[data-cs-action="next"]').disabled=sim.authorizationRequired||sim.done;
+   q('[data-cs-action="play"]').disabled=sim.authorizationRequired;
+   for(const service of ['tool','model']){
+     const running=sim.running.filter(n=>n.service===service), active=running.length>0;
+     q(`[data-service="${service}"]`).classList.toggle('is-active',active);
+     q(`[data-service-flow="${service}"]`).classList.toggle('is-active',active&&running.some(n=>n.elapsed===0));
+     q(`[data-response-flow="${service}"]`).classList.toggle('is-active',active&&running.some(n=>n.elapsed===n.duration-1));
+     text(`[data-${service}-flow]`,active?running.map(n=>n.code).join(' / ')+' · '+(service==='model'?['语义路由：示例选模型 R','副本路由：示例选 R1','R1 排批次 → A0/A1 协同执行 → 返回方案'][Math.min(running[0].elapsed,2)]:running.some(n=>n.elapsed===0)?'发出请求 → 商家 API':running.some(n=>n.elapsed===n.duration-1)?'响应返回 → Agent C01':'等待商家接口响应'):'当前无在途请求');
+   }
+   if(selected){const n=sim.nodes.find(n=>n.id===selected);text('[data-inspector-code]',n.code+' · '+labels[n.state]);text('[data-inspector-title]',n.name);const missing=n.deps.filter(id=>sim.nodes.find(p=>p.id===id).state!=='success').map(id=>sim.nodes.find(p=>p.id===id).name);text('[data-inspector-body]',n.why+(missing.length?' 尚未完成的前置步骤：'+missing.join('、')+'。':'')+(n.state==='ready'?' 依赖已满足，等待 S2 分配执行名额。':''));}
+   const log=q('[data-cs-log]');log.replaceChildren(...[...sim.events].reverse().map(e=>{const li=document.createElement('li');li.textContent=`T+${e.time} · ${e.text}`;return li;}));
+   q('[data-cs-action="play"]').textContent=timer?'暂停演示':sim.done?'再看一遍':sim.time?'继续演示':'开始演示';q('[data-cs-action="play"]').setAttribute('aria-pressed',String(!!timer));
+ }
+ function stop(){if(timer)clearInterval(timer);timer=null;root.classList.remove('is-playing');}
+ function advance(){sim.tick();if(sim.done||sim.authorizationRequired)stop();render();}
+ function reset(){stop();sim=new CoffeeSimulation.Simulation(Number(q('[data-cs-slots]').value),q('[data-cs-slow]').checked);selected=null;selectedGate=null;text('[data-inspector-code]','C01 · 整项委托');text('[data-inspector-title]','运行时负责把选中的步骤真正执行');text('[data-inspector-body]','它读取输入、调用模型或工具、记录结果；不是另一个替用户点单的 Agent。');render();}
+ q('[data-cs-action="play"]').addEventListener('click',()=>{if(timer){stop();render();return;}if(sim.done)reset();timer=setInterval(advance,1400);root.classList.add('is-playing');advance();});
+ q('[data-cs-action="next"]').addEventListener('click',()=>{stop();advance();});
+ q('[data-cs-action="reset"]').addEventListener('click',reset);
+ q('[data-cs-action="authorize"]').addEventListener('click',()=>{if(!sim.authorize())return;timer=setInterval(advance,1400);root.classList.add('is-playing');advance();});
+ q('[data-cs-slots]').addEventListener('change',reset);q('[data-cs-slow]').addEventListener('change',reset);
+ all('[data-dag-node]').forEach(el=>{const select=()=>{selected=el.dataset.dagNode;render();};el.addEventListener('click',select);el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select();}});});
+ all('[data-scheduling-gate], [data-decision-select]').forEach(el=>{const select=()=>{selectedGate=el.dataset.schedulingGate||el.dataset.decisionSelect;render();};el.addEventListener('click',select);if(el.dataset.schedulingGate)el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select();}});});
+ q('[data-cs-action="contention"]').addEventListener('click',()=>{q('[data-cs-slots]').value='1';reset();selectedGate='S2';for(let i=0;i<3;i++)sim.tick();render();if(q('.cs-console').classList.contains('is-expanded'))q('.cs-console').scrollTop=0;else q('.cs-viewport').scrollIntoView({block:'start'});});
+ q('[data-cs-action="model-tour"]').addEventListener('click',()=>{reset();for(let i=0;i<20&&!sim.running.some(n=>n.service==='model');i++)sim.tick();render();if(q('.cs-console').classList.contains('is-expanded'))q('.cs-console').scrollTop=0;else q('.cs-viewport').scrollIntoView({block:'start'});});
+ document.addEventListener('visibilitychange',()=>{if(document.hidden){stop();render();}});reduced.addEventListener('change',()=>{if(reduced.matches){stop();render();}});
+ if('IntersectionObserver' in window)new IntersectionObserver(entries=>{if(!entries[0].isIntersecting){stop();render();}},{threshold:0}).observe(q('.cs-console'));
+ const consolePanel=q('.cs-console'), expand=q('[data-cs-action="expand"]'), zoom=q('[data-cs-action="zoom"]'), overview=q('[data-cs-action="overview"]');
+ let expanded=false,zoomed=false,overviewMode=false;
+ function expandView(value){expanded=value;consolePanel.classList.toggle('is-expanded',value);expand.textContent=value?'收起全景 ×':'展开全景 ↗';expand.setAttribute('aria-pressed',String(value));if(value)consolePanel.scrollTop=0;}
+ expand.addEventListener('click',()=>expandView(!expanded));
+ function syncView(){
+  consolePanel.classList.toggle('is-zoomed',zoomed);consolePanel.classList.toggle('is-overview',overviewMode);
+  zoom.textContent=zoomed?'恢复宽度':'放大细节';zoom.setAttribute('aria-pressed',String(zoomed));
+  overview.textContent=overviewMode?'按宽度阅读':'查看全图';overview.setAttribute('aria-pressed',String(overviewMode));
+  q('.cs-viewport').scrollLeft=0;
+ }
+ zoom.addEventListener('click',()=>{zoomed=!zoomed;overviewMode=false;syncView();});
+ overview.addEventListener('click',()=>{overviewMode=!overviewMode;zoomed=false;syncView();});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&expanded)expandView(false);});
+ render();
+})();
+
+/* A report view contains one primary chapter. Hash links remain shareable. */
+(() => {
+  if (document.body.dataset.pageKind !== 'index') return;
+  const ids = ['sources', 'map', 'updates', 'analysis', 'archive'];
+  const chapters = ids.map(id => document.getElementById(id));
+  if (chapters.some(node => !node)) return; // Complete document remains readable.
+  const nav = document.querySelector('.reading-flow');
+  const mapNav = document.querySelector('[aria-label="技术地图阅读"]');
+  let previous = '';
+  function show(scroll) {
+    let key = '';
+    try { key = decodeURIComponent(location.hash.slice(1)); } catch (_) {}
+    const target = key ? document.getElementById(key) : null;
+    const chapter = chapters.find(node => node === target || node.contains(target));
+    const selected = chapter ? chapter.id : (key === 'main-content' || key === 'report-top' ? previous || 'sources' : 'sources');
+    chapters.forEach(node => { node.hidden = node.id !== selected; });
+    document.body.dataset.reportView = selected;
+    if (mapNav) { mapNav.hidden = selected !== 'map'; if (mapNav.previousElementSibling) mapNav.previousElementSibling.hidden = selected !== 'map'; }
+    document.querySelectorAll('[data-nav-scope="primary"],.reading-flow>a').forEach(link => {
+      const active = link.hash === '#' + selected;
+      link.classList.toggle('active', active);
+      if (active) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current');
+    });
+    if (selected !== previous) document.dispatchEvent(new CustomEvent('reportviewchange', {detail: selected}));
+    previous = selected;
+    if (target) {
+      if (target.tagName === 'DETAILS') target.open = true;
+      for (let parent = target.parentElement; parent; parent = parent.parentElement) if (parent.tagName === 'DETAILS') parent.open = true;
+      if (scroll) requestAnimationFrame(() => target.scrollIntoView({block:'start',behavior:'instant'}));
+    }
+  }
+  document.body.classList.add('report-views-ready');
+  show(!!location.hash);
+  window.addEventListener('hashchange', () => show(true));
+  document.addEventListener('click', event => {
+    const link=event.target.closest('a[href]');
+    if (event.defaultPrevented || !link || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    const url = new URL(link.href, location.href);
+    if (url.origin === location.origin && url.pathname === location.pathname && url.hash && url.hash === location.hash) show(true);
+  });
+})();
+
+/* Filter evidence by its existing, explicit research-area relationships. */
+(() => {
+  const root=document.getElementById('updates'), filter=document.getElementById('update-area');
+  if (!root || !filter) return;
+  const items=[...root.querySelectorAll('.literature-entry')];
+  function apply(){
+    const area=filter.value;
+    items.forEach(item=>{item.hidden=!!area&&!item.dataset.updateAreas.split(' ').includes(area);});
+    const visible=items.filter(item=>!item.hidden), current=visible.filter(item=>item.dataset.updateCurrent==='true');
+    root.querySelector('#update-filter-status').textContent=`本期 ${current.length} 项 · 累计 ${visible.length} 项（含历史和能力资料）`;
+    root.querySelectorAll('[data-update-group]').forEach(group=>{
+      const count=[...group.querySelectorAll('.literature-entry')].filter(item=>!item.hidden).length;
+      if(group.tagName==='DETAILS') {group.hidden=count===0;group.querySelector('[data-update-count]').textContent=count+' 项 · 展开阅读';}
+      else group.querySelector('[data-update-group-empty]').hidden=count>0;
+    });
+  }
+  function reveal(){
+    const hash=location.hash.slice(1);
+    const target=document.getElementById(hash);
+    if(!target || !root.contains(target))return;
+    if(target.classList.contains('literature-entry') || target.hasAttribute('data-update-group')){
+      // Keep an explicit reader filter unless it conceals the requested citation.
+      if(target.hidden){filter.value='';apply();}
+      if(target.tagName==='DETAILS')target.open=true;
+    }
+  }
+  filter.addEventListener('change',apply);
+  document.getElementById('update-reset').addEventListener('click',()=>{filter.value='';apply();});
+  window.addEventListener('hashchange',reveal);
+  apply();reveal();
+})();
+
+/* Lightweight reading assistance; all research content is already in the HTML. */
+(() => {
+  const bar = document.querySelector('.reading-progress span');
+  const isTopic = document.body.dataset.pageKind === 'topic';
+  const links = isTopic ? [...document.querySelectorAll('[aria-label="本页章节"] a')] : [];
+  const sections = links.map(a => document.getElementById(a.hash.slice(1))).filter(Boolean);
+  let scheduled = false;
+  function update() {
+    scheduled = false;
+    const extent = Math.max(0, document.documentElement.scrollHeight - innerHeight);
+    if (bar) bar.style.transform = `scaleX(${extent ? Math.min(1, scrollY / extent) : 0})`;
+    if (!sections.length) return;
+    const active = [...sections].reverse().find(s => s.getBoundingClientRect().top <= 160) || sections[0];
+    for (const link of links) {
+      if (link.hash === '#' + active.id) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    }
+  }
+  function requestUpdate() {
+    if (!scheduled) { scheduled = true; requestAnimationFrame(update); }
+  }
+  window.addEventListener('scroll', requestUpdate, {passive: true});
+  window.addEventListener('resize', requestUpdate, {passive: true});
+  document.addEventListener('toggle', requestUpdate, true);
+  document.addEventListener('reportviewchange', requestUpdate);
+  window.addEventListener('hashchange', requestUpdate);
+  update();
+})();
+
+/* Authored map translations. Text is changed in place; the simulator keeps its state. */
+(() => {
+  const map = document.getElementById('map');
+  const button = document.getElementById('map-language-toggle');
+  if (!map || !button) return;
+  const dictionary = {"云核 / 调度研究": "Cloud Core / Scheduling Research", "任务 · 服务 · 资源": "Tasks · Services · Resources", "阅读路径": "Reading path", "01 信息来源": "01 Sources", "02 技术地图": "02 Technology Map", "03 本期动态": "03 Current Updates", "04 分析结论": "04 Analysis & Conclusions", "05 洞察归档": "05 Insight Archive", "技术地图": "Technology Map", "技术地图阅读": "Technology map contents", "调度概念": "Scheduling basics", "咖啡样例": "Coffee example", "研究方向": "Research directions", "比较口径": "Comparison criteria", "重点深读": "In-depth reading", "系统边界": "System boundaries", "评价指标": "Evaluation metrics", "独立只读预览": "Read-only preview", "持链接者可访问，未加入首页导航。文献事实、研究判断与教学演示分别标注。": "Accessible by direct link; not listed on the homepage. Literature facts, research judgments and teaching simulations are labeled separately.", "云核 / 技术研究": "Cloud Core / Technical Research", "研究预览 · 截至 2026-10-23": "Research preview · As of 2026-10-23", "Agent 调度研究报告": "Agent Scheduling Research Report", "提升整任务有效吞吐，": "Improve end-to-end task goodput;", "把排程、映射与分配做成可验证的技术能力。": "build scheduling, mapping and allocation into testable technical capabilities.", "面向 Agent 架构师与调度研究者，以": "For Agent architects and scheduling researchers, use ", "依赖感知排程、状态感知映射、干扰感知分配": "dependency-aware scheduling, state-aware mapping and interference-aware allocation ", "连接任务、模型／工具服务与卡资源。先辨认关键等待和资源约束，再读机制、结果与代价，形成面向昇腾的研究取舍。": "to connect tasks, model/tool services and accelerator resources. Identify critical waits and resource constraints, then examine mechanisms, results and costs to guide research choices for Ascend.", "架构师阅读入口": "Architect reading entries", "定位研究问题": "Locate a research problem", "再读事实与变化": "Read the facts and changes", "最后看路线取舍": "Review the research choices", "持续信源": "ongoing sources", "核心技术": "core research areas", "累计资料": "collected references", "本期首发／修订": "new/revised this period", "研究快照 2026-10-23 · 本期窗口 2026-10-01—2026-10-23 · 累计 25 项论文与官方资料 · 人工精选，云核实验尚待开展。": "Research snapshot: 2026-10-23 · Period: 2026-10-01–2026-10-23 · 25 papers and official references · Manually curated; Cloud Core experiments remain to be conducted.", "洞察阅读逻辑": "Insight reading flow", "信息来源": "Sources", "持续看哪里": "Where to keep looking", "研究什么": "What to research", "本期动态": "Current Updates", "发生什么": "What has changed", "分析结论": "Analysis & Conclusions", "如何取舍": "How to choose", "洞察归档": "Insight Archive", "判断如何积累": "How judgments accumulate", "02 / 技术地图": "02 / TECHNOLOGY MAP", "一句话理解调度": "Scheduling in one sentence", "把待办工作，安排给有限的执行资源": "Assign pending work to limited execution resources", "调度要决定：": "Scheduling decides: ", "工作什么时候做、交给谁做、能用多少资源": "when work runs, who executes it, and how much resource it receives", "；执行中情况变化了，就重新调整安排。": "; revise the assignment when execution conditions change.", "看例子": "See an example", "咖啡任务怎样完成": "How the coffee task completes", "定目标": "Set the objective", "怎样才算完成得好": "What counts as a good outcome", "拆技术": "Explore the methods", "需要哪三类调度决策": "Three kinds of scheduling decisions", "三个角色：": "Three roles: ", "规划确定“要做哪些步骤”；调度安排“这些步骤怎样执行”；运行时负责“执行并记录结果”。同一套Agent系统可以同时承担这些职责。": "Planning determines the steps; scheduling arranges their execution; the runtime executes them and records results. One Agent system may implement all three roles.", "调度对象、调度资源与运行时的关系": "How work, resources and the runtime relate", "输入一 / 调度对象": "INPUT 1 / WORK TO SCHEDULE", "待执行的工作": "Pending work", "用户任务、工作流子任务、模型请求、工具请求、部署作业。": "User tasks, workflow subtasks, model requests, tool requests and deployment jobs.", "携带依赖、状态、期限、优先级、资源需求和授权条件。": "Each carries dependencies, state, deadlines, priorities, resource needs and authorization requirements.", "输入二 / 调度资源": "INPUT 2 / EXECUTION RESOURCES", "可用能力与容量": "Available capabilities and capacity", "可执行工作的Agent、模型与工具服务，以及其可用并发、CPU／GPU／NPU、内存和网络容量。": "Agents, model and tool services that can execute work, plus their available concurrency, CPU/GPU/NPU, memory and network capacity.", "外部API额度是受限服务容量；硬件容量与服务额度不是同一种计量单位。": "External API quotas limit service capacity. Hardware capacity and service quotas use different units.", "调度决策 / 把工作与资源联系起来": "SCHEDULING DECISIONS / CONNECT WORK TO RESOURCES", "何时执行 · 交给谁 · 用多少资源": "When to run · Where to run · How much to allocate", "输出顺序、启动时机、执行归属和资源预算。依赖、权限与容量决定可行性，代价和服务目标决定如何取舍。": "Output the order, start time, execution assignment and resource budget. Dependencies, permissions and capacity determine feasibility; costs and service objectives determine trade-offs.", "运行时管理 / 执行安排并维护状态": "RUNTIME MANAGEMENT / EXECUTE AND MAINTAIN STATE", "启动执行、记录进度、处理完成与异常": "Start execution, track progress, handle completion and failures", "运行时跟踪任务与调用状态，落实并发和资源限制；在具备相应能力时提供暂停、取消、检查点与恢复。观测到的耗时、容量和故障返回调度器，必要时触发重新调度。": "The runtime tracks tasks and calls, enforces concurrency and resource limits, and provides pause, cancellation, checkpoints and recovery where supported. Observed duration, capacity and failures feed back to the scheduler and may trigger rescheduling.", "查看运行反馈与恢复 →": "Runtime feedback and recovery", "执行状态与资源变化 → 更新决策依据 → 必要时重新安排": "Execution state and resource changes → update decision inputs → reschedule when needed", "对象、执行载体与资源，按所在层级区分。": "Distinguish work, execution entities and resources at each layer.", "同一个Agent实例，接收用户任务时是执行载体；部署这个Agent服务时，待部署副本又成为调度对象。模型名称表示能力，模型服务副本承接请求，底层卡与内存提供容量，不能把这三者当作同一种资源。": "An Agent instance executes a user task; when deploying that Agent service, its pending replica becomes the work being scheduled. A model name identifies a capability, a model-service replica accepts requests, and accelerators and memory provide capacity. These are distinct entities.", "任务规划产生或修改工作；调度安排工作如何执行；运行时管理落实安排并维护生命周期。它们在实现中可以位于同一个系统，但职责不同。运行时管理也不等于调度算法。": "Planning creates or changes work; scheduling arranges execution; runtime management implements the arrangement and maintains its lifecycle. They may share an implementation but have different responsibilities. Runtime management is broader than a scheduling algorithm.", "本页采用面向Agent全流程的工作定义。工程参照：": "This page uses a working definition covering the Agent execution lifecycle. Engineering references: ", "Kubernetes的Pod到节点调度": "Kubernetes Pod-to-node scheduling", "LangGraph的状态持久化与检查点": "LangGraph persistence and checkpoints", "。两者分别说明位置决策与运行状态机制，不是统一Agent调度分类标准。": ". These illustrate placement decisions and runtime state mechanisms; they do not define a universal Agent scheduling taxonomy.", "咖啡样例 · 从完整工作流理解调度位置": "Coffee example · Locate scheduling in a complete workflow", "从一杯咖啡看懂调度": "Understand scheduling through a coffee order", "一张图，看全 Agent 任务如何完成。": "One diagram of the complete Agent task.", "可运行的教学模拟 · 非真实交易": "Interactive teaching simulation · No real transaction", "用户只说“帮我点一杯咖啡”。Agent 先把目标变成有依赖的步骤；调度再决定": "The user only says, “Order me a coffee.” The Agent turns that goal into dependent steps; scheduling then determines ", "哪一步现在能做、交给谁、用多少资源": "which step can run now, who runs it and how much resource it receives", "。沿着 C01 看下去，每一个结果都属于最初的这项委托。": ". Follow C01: every result belongs to the original request.", "COFFEE / 同一任务的运行现场": "COFFEE / ONE TASK IN EXECUTION", "用户 → Agent → 模型 / 工具 → 卡与资源": "User → Agent → Model / Tool → Accelerators & Resources", "开始演示": "Start demo", "推进一拍": "Step forward", "重新开始": "Restart", "执行名额": "Execution slots", "2 个 · 可并行": "2 slots · Parallel", "1 个 · 需排队": "1 slot · Queued", "优惠返回更慢": "Slower offer response", "准备就绪：先把整项委托交给 Agent。": "Ready: assign the complete request to an Agent first.", "演示时钟 T+0 · 非实测时间": "Demo clock T+0 · Not measured time", "从任务分派到服务执行": "From task assignment to service execution", "金色：调度决策　青色流动：请求　绿色流动：结果　点线：资源承载": "Gold: decisions · Cyan flow: requests · Green flow: results · Dotted lines: resource support", "查看全图": "Fit whole diagram", "放大细节": "Zoom in", "展开全景 ↗": "Expand view", "Agent 调度全景图，默认按宽度阅读，可上下浏览；窄屏可横向滚动，也可切换全图或放大": "Agent scheduling overview: fits the available width with vertical scrolling; narrow screens can scroll horizontally, fit the whole diagram or zoom in", "Agent 点咖啡：任务、工作流、模型工具和卡资源全景图": "Agent coffee order: tasks, workflow, model/tool services and accelerator resources", "用户请求经过 S1 分配给 Agent A。Agent 内部七节点 DAG 经 S2 就绪排程，由运行时调用模型或工具。模型请求经 M1 语义路由选择模型，再经 S3 选择副本、S4 安排批次，在卡上执行。资源层展示 P1 多模型放置与 P2 共卡共享；工具经 S5 获取额度后调用商家 API。服务结果返回任务状态，最终回执返回用户。点线表示部署承载，不是任务执行顺序。": "S1 assigns the request to Agent A. S2 schedules ready nodes of the Agent's seven-node DAG; the runtime calls a model or tool. Model calls pass through M1 model selection, S3 replica routing and S4 batching before accelerator execution. P1 illustrates model placement and P2 co-location. S5 grants tool-call capacity before invoking the merchant API. Service results update task state; the receipt returns to the user. Dotted lines show hosting relationships, not execution order.", "⑥ 核验完成 · C01 回执返回原用户": "⑥ Verified · C01 receipt returns to the user", "① 用户目标 · 委托 C01": "① User goal · Request C01", "帮我点一杯咖啡": "Order me a coffee", "已确定门店 · 非真实交易": "Store selected · No real purchase", "S1 交给哪个 Agent？": "S1 Which Agent takes the task?", "S1 · 任务分派": "S1 · Task assignment", "交给哪个 Agent？": "Which Agent takes the task?", "匹配能力与权限，结合负载分派": "Match capability and permissions; consider load", "Agent 实例池 · 本例固定选 A": "Agent pool · A is fixed in this example", "Agent A · 负责 C01": "Agent A · Owns C01", "维护计划与任务状态": "Maintains plan and task state", "Agent B · 其他可选实例": "Agent B · Alternative instance", "未分配本项委托": "Not assigned this request", "② Agent A 内部 · C01 的完整执行计划": "② Inside Agent A · Complete C01 plan", "规划生成步骤与依赖 → 调度选择就绪步骤 → 运行时执行并保存结果": "Plan steps and dependencies → schedule ready steps → execute and save results", "同一用户目标拆成七步；每步都标记 C01.x": "One user goal, seven steps; each labeled C01.x", "S2 哪些就绪步骤先做、哪些并行？": "S2 Which ready steps run first or in parallel?", "S2 · 就绪排程": "S2 · Ready-step scheduling", "哪些就绪步骤先做、哪些并行？": "Which ready steps run first?", "就绪步骤争用有限执行名额": "Ready steps compete for execution slots", "依赖满足后进入就绪集合，按可用名额安排执行": "Dependencies satisfied → ready set → run within slot limits", "0 / 2 个名额占用": "0 / 2 slots occupied", "等齐两份结果": "Wait for both results", "授权后才可下单": "Order only after authorization", "核验成功再返回": "Return after verification", "运行时 · 调用服务 / 接收结果 / 更新 C01 状态": "Runtime · Call services / receive results / update C01", "尚无执行中的步骤": "No steps running yet", "C01.1 查菜单，查看步骤说明": "C01.1 Query menu; view step details", "C01.1 · 工具": "C01.1 · Tool", "查菜单": "Query menu", "尚未生成": "Not planned", "C01.2 查优惠，查看步骤说明": "C01.2 Query offers; view step details", "C01.2 · 工具": "C01.2 · Tool", "查优惠": "Query offers", "C01.3 比较方案，查看步骤说明": "C01.3 Compare options; view step details", "C01.3 · 模型": "C01.3 · Model", "比较方案": "Compare options", "C01.4 确认授权，查看步骤说明": "C01.4 Confirm authorization; view step details", "C01.4 · 用户": "C01.4 · User", "确认授权": "Confirm authorization", "C01.5 提交订单，查看步骤说明": "C01.5 Submit order; view step details", "C01.5 · 工具": "C01.5 · Tool", "提交订单": "Submit order", "C01.6 核验订单，查看步骤说明": "C01.6 Verify order; view step details", "C01.6 · 工具": "C01.6 · Tool", "核验订单": "Verify order", "C01.7 返回回执，查看步骤说明": "C01.7 Return receipt; view step details", "C01.7 · 本地": "C01.7 · Local", "返回回执": "Return receipt", "请求 ↓  结果 ↑": "Request ↓  Result ↑", "③ 模型调用 · 选模型 → 选副本 → 排批次 → 卡上执行": "③ Model call · Model → Replica → Batch → Accelerator", "M1 用哪种模型？": "M1 Which model should handle it?", "M1 · 语义路由": "M1 · Model selection", "用哪种模型？": "Which model should handle it?", "按能力、质量与成本约束选择": "Match capability, quality and cost constraints", "S3 发给哪个副本？": "S3 Which replica receives it?", "S3 · 副本路由": "S3 · Replica routing", "发给哪个副本？": "Which replica receives it?", "看排队、缓存与可用容量": "Consider queues, cache and available capacity", "S4 本轮处理哪些请求？": "S4 Which requests enter this batch?", "S4 · 批次调度": "S4 · Batch scheduling", "本轮处理哪些请求？": "Which requests enter this batch?", "按 token / KV 预算排批次": "Batch within token / KV budgets", "模型能力池": "Model capability pool", "轻量模型 L · 简单任务候选": "Small model L · Simple-task candidate", "推理模型 R · 本例比较方案": "Reasoning model R · Compares options here", "示意策略，非能力评测结论": "Illustrative policy, not a model benchmark", "所选模型 R 的副本": "Replicas of selected model R", "R1 · 设备 A 的双卡实例": "R1 · Two-card instance on device A", "R2 · 设备 B 的双卡实例": "R2 · Two-card instance on device B", "L1 属于模型 L，不混为副本": "L1 belongs to L, not a replica of R", "R1 实例内的队列": "Queue inside replica R1", "C01.3 + 其他用户请求": "C01.3 + other users' requests", "选取本轮请求与处理预算": "Choose batch requests and processing budget", "各模型实例独立排批次": "Each model instance batches independently", "本例路径：比较方案 → 模型 R → 副本 R1 → 本轮批次": "Example path: compare options → model R → replica R1 → current batch", "等待模型请求": "Waiting for a model request", "④ 工具调用 · 排队与放行": "④ Tool call · Queue and admit", "S5 哪些调用现在放行？": "S5 Which tool calls can start now?", "S5 · 工具排程": "S5 · Tool scheduling", "哪些调用现在放行？": "Which tool calls can start now?", "并发 / 速率受限，按额度放行": "Admit within concurrency / rate limits", "工具程序 → 商家 API": "Tool program → Merchant API", "查菜单 / 查优惠 / 下单 / 核验": "Menu / offers / order / verification", "遵守授权与幂等约束": "Respect authorization and idempotency", "调用结果写回原任务 C01": "Write results back to original task C01", "CPU、网络与接口配额支撑": "Supported by CPU, network and API quotas", "等待工具请求": "Waiting for a tool request", "⑤ 多设备资源池 · 先选设备与卡组，再协调组内共享": "⑤ Device pool · Place on a card group, then coordinate sharing", "P1 模型放在哪个设备与卡组？": "P1 Which device and card group hosts the model?", "P1 · 模型放置": "P1 · Model placement", "模型放在哪个设备与卡组？": "Which device hosts the model?", "容量、拓扑、并行方式与可用性": "Capacity, topology, parallelism and availability", "P2 卡组与共卡模型如何协同？": "P2 How should co-located models share resources?", "P2 · 共卡调度": "P2 · Shared-card scheduling", "卡组与共卡模型如何协同？": "How should co-located models share?", "兼顾组内通信、共享预算与尾延迟": "Balance communication, budgets and tail latency", "设备 A · 计算节点 / 服务器": "Device A · Compute node / server", "模型 R · R1 · 张量并行 TP = 2": "Model R · R1 · Tensor parallelism TP = 2", "R1 的分片 0": "R1 shard 0", "+ 模型 L 的实例 L1": "+ Model L instance L1", "R1 的分片 1": "R1 shard 1", "同一副本跨两卡；A0 另与 L1 共卡": "R1 spans two cards; A0 also hosts L1", "设备 B · 计算节点 / 服务器": "Device B · Compute node / server", "模型 R · R2 · 张量并行 TP = 2": "Model R · R2 · Tensor parallelism TP = 2", "R2 的分片 0": "R2 shard 0", "R2 的分片 1": "R2 shard 1", "同一副本跨两卡；与设备 A 的副本独立接收请求": "R2 spans two cards; accepts requests independently of R1", "设备间互联 · 本例 R1 / R2 为独立副本，非一次推理跨两台设备": "Inter-device link · R1 / R2 are independent replicas; one inference does not span both devices here", "GPU / NPU 为可选后端示意；同一并行组需兼容硬件、通信库与运行时": "GPU / NPU are illustrative backend options; a parallel group needs compatible hardware, communication libraries and runtime", "CPU / 内存": "CPU / Memory", "各节点支撑 Agent 与工具": "Host Agent and tool processes", "网络 / 接口配额": "Network / API quotas", "集群互联与外部 API 配额": "Cluster links and external API quotas", "点线：部署与物理连接": "Dotted lines: deployment / physical links", "亮线：当前请求执行路径": "Bright lines: current request path", "共卡需评估显存与干扰": "Check memory capacity and interference", "演示：两项查询，一个名额": "Demo: two queries, one slot", "演示：一次模型调用": "Demo: one model call", "全图包含用户、Agent 内部 DAG、模型副本、工具服务及卡资源。点击调度节点查看约束与决策；点击步骤查看等待原因。": "The diagram includes the user, Agent DAG, model replicas, tools and accelerator resources. Select a scheduling node for its constraints and decisions, or a step to see why it waits.", "查看调度关口": "Explore scheduling gates", "S1 Agent 任务分配": "S1 Agent assignment", "S2 就绪步骤排程": "S2 Ready-step scheduling", "M1 语义路由选模型": "M1 Model selection", "S3 模型副本路由": "S3 Replica routing", "S4 副本内批次调度": "S4 In-replica batching", "S5 工具调用调度": "S5 Tool-call scheduling", "P1 设备与卡组放置": "P1 Device / card-group placement", "P2 多卡与共卡协调": "P2 Multi-card / shared-card coordination", "S1 · 这项委托交给哪个 Agent？": "S1 · Which Agent takes this request?", "约束条件：": "Constraints: ", "有多个能力与权限匹配的实例，需要决定由谁接手。": "Several instances match the required capability and permissions; one must take ownership.", "决策输入": "Decision inputs", "候选 Agent、可用状态、负载与会话归属": "Candidate Agents, availability, load and session affinity", "决策输出": "Decision output", "选定 Agent 实例，将整项委托 C01 交给它。": "Select an Agent instance and assign the complete C01 request to it.", "S2 · 哪些就绪步骤先做、哪些并行？": "S2 · Which ready steps run first or in parallel?", "可开始的步骤多于执行名额，不能同时启动所有步骤。": "More steps can start than there are execution slots; they cannot all start together.", "依赖已满足的步骤、优先级和执行名额": "Dependency-satisfied steps, priorities and execution slots", "选出本次启动的步骤，其余就绪步骤继续等待。": "Select steps to start now; the remaining ready steps wait.", "M1 · 这一步需要哪种模型能力？": "M1 · What model capability does this step need?", "候选模型的能力、质量、时延和成本不同；先满足任务要求再做取舍。": "Models differ in capability, quality, latency and cost. Satisfy task requirements before optimizing trade-offs.", "任务语义、上下文、模型能力评估及质量与成本约束": "Task semantics, context, model capability evaluations, quality and cost constraints", "选定模型种类；本例固定以模型 R 比较方案，简单任务可考虑模型 L，实际选择需评测验证。": "Select a model type. This example fixes model R for comparing options; model L may suit simple tasks, subject to evaluation.", "S3 · 这次推理发给哪个模型副本？": "S3 · Which model replica receives this inference?", "同一模型有多个兼容副本，需要选择请求落点。": "Several compatible replicas serve the same model; choose the request destination.", "兼容副本、队列负载、缓存、设备健康与预计等待": "Compatible replicas, queue load, cache, device health and estimated waiting time", "把请求送入一个逻辑副本；本例 R1 在设备 A 的 A0/A1 上张量并行，R2 在设备 B 的 B0/B1 上张量并行。一个副本可以使用多张卡。": "Route to one logical replica. R1 uses tensor parallelism across A0/A1 on device A; R2 uses B0/B1 on device B. A replica can use several cards.", "S4 · 本轮推进哪些推理请求？": "S4 · Which inference requests advance in this round?", "副本内多个请求共享有限 token 预算与 KV 容量。": "Requests inside one replica share a finite token budget and KV capacity.", "待处理及运行中的请求、token 预算、KV 容量": "Pending and running requests, token budget and KV capacity", "选择本轮推进的请求并分配处理预算。": "Choose requests to advance and allocate the processing budget for this round.", "S5 · 哪些工具请求现在能放行？": "S5 · Which tool requests can be admitted now?", "工具接口有并发或速率限制，额度不足时需要排队。": "Tool APIs have concurrency or rate limits; requests queue when capacity is unavailable.", "待调用请求、接口额度、优先级和幂等约束": "Pending calls, API quotas, priorities and idempotency constraints", "放行获准请求，其余等待；不能绕过购买授权。": "Admit permitted calls and queue the rest; purchasing authorization must still be satisfied.", "P1 · 模型副本放在哪个设备与卡组？": "P1 · Which device and card group hosts each replica?", "单卡容量或吞吐可能不足，需要多卡并行；放置同时受容量、拓扑和通信代价约束。": "One card may lack capacity or throughput. Multi-card placement is constrained by capacity, topology and communication costs.", "权重、KV、工作区需求；设备与卡容量、互联拓扑、TP/PP方案与健康状态": "Weights, KV and workspace needs; device/card capacity, interconnect topology, TP/PP plan and health", "为每个副本分配兼容的设备与卡组，并协调多卡资源可用性。本例 R1 使用 A0/A1，R2 使用 B0/B1；L1 与 R1 的一个分片共驻 A0。跨节点切分也是可选方案，但本图未演示，不等于跨节点复制副本。": "Assign each replica to compatible devices and card groups and coordinate availability. R1 uses A0/A1; R2 uses B0/B1; L1 shares A0 with one R1 shard. Cross-node sharding is another option, but is not shown here and differs from cross-node replication.", "P2 · 多卡并行和多模型共卡如何协调？": "P2 · How should parallel shards and co-located models coordinate?", "并行分片需要协同推进；某张卡上的共驻模型还会争用算力、显存及带宽。": "Parallel shards must progress together; co-located models also compete for compute, memory capacity and bandwidth.", "组内通信与各分片进度、模型队列、SLO、显存占用及共卡干扰": "Group communication, shard progress, model queues, SLOs, memory occupancy and interference", "协调并行组与共驻模型的并发、执行机会和资源预算，避免单卡争用拖慢整组；共卡只在容量与运行时支持条件下可行，不保证并发收益。": "Coordinate concurrency, execution opportunities and resource budgets across parallel groups and co-located models. Contention on one card can delay the whole group. Co-location requires sufficient capacity and runtime support and does not guarantee a concurrency benefit.", "架构依据：": "Architecture references: ", "vLLM Semantic Router · 模型选择": "vLLM Semantic Router · Model selection", "Triton · 跨模型执行资源管理": "Triton · Cross-model execution resource management", "vLLM · 多卡与多节点并行": "vLLM · Multi-card and multi-node parallelism", "。这些资料为实现参考，昇腾需核对对应运行时能力。": ". These are implementation references; corresponding Ascend runtime capabilities require verification.", "○ 等待依赖": "○ Waiting for dependencies", "● 就绪待排程": "● Ready, awaiting scheduling", "● 执行中": "● Running", "◇ 等待授权": "◇ Awaiting authorization", "✓ 已完成": "✓ Completed", "S2 · 就绪队列与执行名额": "S2 · Ready queue and execution slots", "依赖满足 ≠ 立即执行": "Dependencies satisfied ≠ immediate execution", "先生成执行计划，再找出就绪步骤。": "Generate the execution plan, then identify ready steps.", "执行名额：0 / 2": "Execution slots: 0 / 2", "C01 · 整项委托": "C01 · Complete request", "运行时负责把选中的步骤真正执行": "The runtime executes the selected steps", "它读取输入、调用模型或工具、记录结果；不是另一个替用户点单的 Agent。": "It reads inputs, calls a model or tool and records results; it is not another Agent ordering on the user's behalf.", "方案已生成，现在等用户确认": "The proposal is ready; awaiting user confirmation", "授权不是调度算法。未确认时，下单保持阻塞，等待不占执行名额。": "Authorization is a business constraint. Until confirmed, ordering remains blocked; waiting uses no execution slot.", "模拟授权并继续": "Simulate authorization and continue", "本例实际运行 DAG 依赖、就绪排程、名额限制与授权等待。模型调用按示意策略依次展示选模型 R、选副本 R1、排批次与卡上执行；不进行真实模型推理。多设备放置、多卡并行和共卡调度展示系统职责，不模拟硬件隔离、资源份额或性能收益。": "This example executes DAG dependencies, ready-step scheduling, slot limits and authorization waits. Model selection R, replica R1, batching and accelerator execution are illustrated; no real inference runs. Device placement, multi-card parallelism and co-location show responsibilities, without simulating hardware isolation, resource shares or performance gains.", "任务轨迹 · 最新在前，全部归属 C01": "Task trace · Newest first; all events belong to C01", "T+0 · 收到委托 C01：帮我点一杯咖啡。": "T+0 · Received request C01: order me a coffee.", "试着改一个条件": "Try changing one condition", "切换到 1 个执行名额，两项查询会排队；勾选“优惠返回更慢”，菜单先完成，比较方案仍要等待。每次调整会重置演示。模拟确认授权后，才会启动下单。所有时长仅用于教学，不能当作性能数据。": "Select one execution slot to queue the two queries. Enable the slower offer response: the menu returns first, but comparison still waits. Each change resets the demo. Ordering starts only after simulated authorization. All durations are illustrative, not performance measurements.", "先看清决策位置，再研究怎么选": "Locate the decisions before studying the policies", "当多人点单、执行名额有限或存在多个副本时，需要在这些关口作出选择。S1–S5 标记任务与服务调度位置；M1 补充模型选择，P1/P2 表示资源放置与共享。它们是不同层面的决策位置，不是八类互斥的根技术。": "Multiple users, limited slots or multiple replicas require choices at these gates. S1–S5 identify task/service scheduling positions; M1 adds model selection and P1/P2 cover placement and sharing. These are decision positions at different layers, not eight mutually exclusive root technologies.", "展开候选算法、教学示例与原始依据": "Expand candidate algorithms, examples and original references", "以下是可研究的策略，并非演示已执行的算法；示例数字均为假设。": "These are candidate research policies, not algorithms executed by the demo. All numeric examples are hypothetical.", "横向滚动表格": "Horizontally scrollable table", "位置 → 输入状态 → 候选策略与适用边界": "Position → Input state → Candidate policies and applicability", "调度位置": "Scheduling position", "算法读取什么": "Algorithm inputs", "怎样决策": "Decision method", "Agent 实例选择": "Agent instance selection", "满足能力与权限的实例集合及当前负载": "Instances satisfying capability and permissions, plus their current load", "最少在途请求／加权轮询": "Least in-flight requests / Weighted round robin", "教学示例：假设 A 有 4 个在途任务、B 有 1 个且能力与容量相同；按最少在途策略选择 B。": "Teaching example: assume A has four in-flight tasks and B has one, with identical capabilities and capacity. Least-in-flight selects B.", "在途数只是负载代理；任务耗时差异大时不能把它当作预计完成时间。": "In-flight count is only a load proxy. With varying task durations, it is not an estimate of completion time.", "Envoy 负载均衡策略 ↗": "Envoy load-balancing policies", "就绪任务排程": "Ready-task scheduling", "C01 计划中依赖、输入与权限已满足的步骤，以及可用执行名额": "C01 steps with satisfied dependencies, inputs and permissions, plus available execution slots", "FIFO／优先级；有代价估计时可研究关键路径优先": "FIFO / Priority; critical-path-first when cost estimates are available", "教学示例：菜单与优惠都已就绪；有 2 个名额可并行。只有 1 个名额时按 FIFO 先处理更早入队的任务。": "Teaching example: menu and offer queries are ready. Two slots permit parallel execution; one slot uses FIFO to run the earlier arrival first.", "DAG 只描述依赖；顺序由排程策略决定。不能为提高优先级而跳过依赖或授权。": "A DAG specifies dependencies; a scheduling policy chooses order. Priority cannot bypass dependencies or authorization.", "Airflow 队列优先级 ↗": "Airflow queue priorities", "模型副本路由": "Model replica routing", "模型兼容性及各副本负载或等待时间估计": "Model compatibility and per-replica load or estimated waiting time", "最少在途请求；可研究预计等待与缓存感知": "Least in-flight; estimated-wait and cache-aware routing are research candidates", "教学示例：假设副本 M1 和 M2 能力相同且分别有 5、2 个在途请求；按最少在途策略选择 M2。": "Teaching example: assume replicas M1 and M2 are equivalent, with five and two in-flight requests. Least-in-flight selects M2.", "这里只选服务副本；本轮处理哪些请求由副本内部的 S4 决定。": "This chooses a service replica. S4 inside that replica chooses requests for the current round.", "Ray Serve 请求与副本队列 ↗": "Ray Serve request and replica queues", "实例内批次排程": "In-instance batch scheduling", "副本内等待和运行中的请求及本轮 token 预算与可用 KV 容量": "Waiting/running requests, the current token budget and available KV capacity", "FCFS／优先级；在 token 与 KV 容量约束下组批": "FCFS / Priority; batch under token and KV capacity constraints", "教学示例：多个咖啡任务的推理请求汇入同一副本；按策略选择本轮可推进的请求并分配 token 预算。": "Teaching example: inference requests from multiple coffee tasks enter one replica. A policy selects requests to advance and assigns token budgets.", "连续批处理是执行机制；FCFS 或优先级决定次序。单请求动画不能证明吞吐或公平收益。": "Continuous batching is an execution mechanism; FCFS or priority determines order. A single-request animation cannot demonstrate throughput or fairness gains.", "vLLM 调度策略与预算 ↗": "vLLM scheduling policies and budgets", "工具请求排程": "Tool-request scheduling", "就绪且已授权的工具请求及接口可用额度": "Ready, authorized tool requests and available API capacity", "FIFO／优先级排队；令牌桶限速＋并发额度控制": "FIFO / Priority queues; token-bucket rate limiting plus concurrency caps", "教学示例：假设只有 1 个可用并发名额且令牌充足；按 FIFO 放行队首请求。没有令牌或并发名额时继续等待。": "Teaching example: assume one concurrency slot is free and enough tokens remain. FIFO admits the head request; no tokens or slots means waiting.", "令牌桶控制调用速率而非任务次序；授权和幂等核验属于业务正确性约束。": "A token bucket controls call rate, not task order. Authorization and idempotency checks constrain business correctness.", "Envoy 令牌桶限流 ↗": "Envoy token-bucket rate limiting", "部署与故障时还有两类触发：": "Two further triggers arise during deployment or failures:", "新增服务副本时，": "when adding a service replica,", "资源放置": "resource placement", "选择设备；失败或阻塞时，": "chooses devices; when execution fails or blocks,", "运行时管理": "runtime management", "决定恢复与重新调度。它们按事件触发，不是每次点单都要经过的步骤。": "determines recovery and rescheduling. These are event-triggered, not mandatory steps for every coffee order.", "演示假设与技术边界": "Simulation assumptions and technical boundaries", "本例固定门店，菜单与优惠可独立查询；实际业务的依赖应以接口和规则为准。执行计划为一次正常路径的 DAG，真实 Agent 还可重新规划、循环或分支。示例就绪步骤按进入就绪集合的顺序选择，同拍按步骤编号；执行名额是运行时允许的在途步骤数，不等于 CPU 核或 GPU 张数。": "The store is fixed and menu/offer queries are independent here; real dependencies follow API contracts and business rules. The plan is a DAG of one normal execution path; real Agents may replan, loop or branch. Ready steps are chosen by ready-arrival order, then step ID for ties. Slots count in-flight runtime steps, not CPU cores or GPU cards.", "授权等待不占执行名额；下单、核验分别建模。演示假设 API 正常返回。生产系统还需要超时、取消、幂等、状态持久化与故障恢复；响应不确定时应先查订单状态，不能盲目重试支付。回执核验完成仅表示下单任务完成，不表示咖啡送达。": "Authorization waits occupy no execution slot. Ordering and verification are separate steps. APIs are assumed to respond normally. Production needs timeouts, cancellation, idempotency, persistence and recovery. After an uncertain response, check order status before retrying payment. A verified receipt completes the ordering task, not delivery of the coffee.", "服务通常已部署，模型依赖 GPU/NPU 单卡或兼容的多卡组，工具通常使用 CPU、网络和外部 API。这里按职责分层，不要求 Agent 与执行程序独立部署。": "Services are usually already deployed. Models use a GPU/NPU card or compatible multi-card group; tools typically use CPU, network and external APIs. This is a responsibility model and does not require separate deployment of the Agent and executor.", "查看完整系统关系 →": "View complete system relationships", "按执行层查找调度方法": "Find scheduling methods by execution layer", "Agent接入调度 →": "Agent ingress scheduling", "决策：": "Decision: ", "选择能力与权限匹配的Agent实例": "Select an Agent matching capability and permissions", "候选方法：": "Candidate methods: ", "加权轮询、最少在途请求、一致性哈希": "Weighted round robin, least in-flight requests, consistent hashing", "负载均衡只处理可用候选的分流；不能代替能力匹配、授权或任务验收。": "Load balancing distributes traffic among available candidates; it does not replace capability matching, authorization or task acceptance checks.", "工作流任务调度 →": "Workflow task scheduling", "选择可运行节点及执行器并控制并发": "Select runnable nodes and executors, and control concurrency", "FIFO、优先级调度、关键路径优先": "FIFO, priority scheduling, critical-path-first", "咖啡用DAG演示一个无环片段；一般Agent任务图可以有条件分支与循环。HEFT是另一个异构排程案例并不等同A06。": "The coffee DAG shows an acyclic fragment; general Agent graphs may include conditional branches and loops. HEFT is a separate heterogeneous scheduling example, not identical to A06.", "模型路由调度 →": "Model routing scheduling", "选择已部署且模型能力匹配的推理服务实例": "Select a deployed inference-service instance with matching model capability", "最少在途请求、预计等待最短、缓存感知": "Least in-flight, shortest estimated wait, cache-aware routing", "路由选的是服务实例；不在这里选择本轮token批次或重新放置设备。缓存感知是候选策略需要实际缓存可观测性。": "Routing selects a service instance; it neither forms the current token batch nor relocates devices. Cache-aware routing needs observable cache state.", "推理批次调度 →": "Inference batch scheduling", "在token预算与KV容量内选择本轮推进的请求": "Choose requests to advance within token budgets and KV capacity", "FIFO、优先级调度": "FIFO, priority scheduling", "单个咖啡任务只能标出此调度点；吞吐、公平性与KV压力需要多请求负载验证。实际策略以具体推理引擎实现为准。": "One coffee task only locates this decision. Throughput, fairness and KV pressure need multi-request validation. Actual policies depend on the inference engine.", "工具调用调度 →": "Tool-call scheduling", "安排执行顺序并取得并发额度与调用许可": "Order execution and obtain concurrency capacity and call permissions", "FIFO、优先级调度、令牌桶": "FIFO, priority scheduling, token bucket", "令牌桶是限流算法而不是任务放置算法。超时后要查询业务状态再决定重试不能盲目再次扣款。": "A token bucket is a rate-limiting algorithm, not a placement algorithm. After timeout, inspect business state before deciding to retry; never blindly charge again.", "资源放置调度 →": "Resource placement scheduling", "筛选可行节点再按资源与拓扑等约束评分": "Filter feasible nodes, then score resource and topology constraints", "装箱、分散、拓扑感知、成组调度": "Bin packing, spreading, topology-aware policies, gang scheduling", "Filter–Score是框架；成组、拓扑等属于按负载选用的策略。普通咖啡请求复用服务不逐次部署模型。": "Filter–Score is a framework; gang and topology policies depend on workload. Routine coffee requests reuse services rather than redeploying a model each time.", "运行重调度 →": "Runtime rescheduling", "按故障类型暂停、重试、恢复或重新调度": "Pause, retry, recover or reschedule according to failure type", "优先级调度、多级反馈队列": "Priority scheduling, multilevel feedback queues", "状态迁移需要检查点和兼容环境；多级反馈队列只是一种候选排队策略不能自动解决外部副作用或任务质量。": "State migration needs checkpoints and a compatible environment. A multilevel feedback queue is only a candidate queue policy; it cannot itself resolve external side effects or task quality.", "演示边界 · 单人、并发与故障分别覆盖什么": "Demo coverage · Single task, concurrency and failures", "场景扩展 / 单人流程 → 多人并发 → 故障恢复": "SCENARIO EXTENSIONS / SINGLE TASK → CONCURRENCY → RECOVERY", "同一个咖啡场景，逐层覆盖调度问题": "Extend one coffee scenario across scheduling problems", "结论：": "Assessment: ", "多人同时点咖啡可以覆盖并发调度，不必为了讲并发另换业务。单人讲清执行链，多人引入资源竞争，再加入负载差异与故障解释调度取舍。需要区分“能构造这种测试”与“已经验证有效”：当前动画仍是单任务教学演示，下面的多人及故障扩展是设计方案。": "Concurrent coffee orders can illustrate concurrent scheduling without changing the business scenario. A single task explains execution; multiple tasks introduce contention; varying costs and failures expose trade-offs. A test design is distinct from a validated result: this animation remains a single-task teaching demo, while concurrency and failure extensions below are proposed designs.", "覆盖判断是设计分析；多人并发、压力与故障方案尚未实测。": "Coverage is a design analysis; concurrency, stress and failure scenarios have not been measured.", "技术问题": "Technical question", "单人咖啡演示": "Single-user coffee demo", "多人咖啡可以扩展什么": "Possible multi-user extensions", "需要明确的测试条件": "Required test conditions", "工作流依赖与并行": "Workflow dependencies and parallelism", "查询分支、汇合、授权与结果返回": "Query branches, joins, authorization and result return", "多份任务图同时推进，竞争Agent与工具名额": "Multiple task graphs progress while competing for Agent/tool slots", "不同商品、门店与约束；观察单任务和整体完成情况": "Vary products, stores and constraints; observe individual and aggregate completion", "Agent与模型分流": "Agent and model traffic routing", "标出任务与推理请求的路由位置": "Locate task and inference routing decisions", "可比较分流、排队、优先级与租户公平性": "Compare routing, queueing, priority and tenant fairness", "改变到达率、任务复杂度与实例容量，不能只增加用户图标": "Vary arrival rate, task complexity and instance capacity; adding user icons alone is insufficient", "推理批次与KV资源": "Inference batching and KV resources", "标出实例内批次调度位置": "Locate in-instance batching", "模型请求重叠时可形成批次与容量竞争": "Overlapping model calls can compete for batch and memory capacity", "明确每任务的模型调用量、输入／输出长度与KV容量；多人不必然形成KV压力": "Specify model calls per task, input/output lengths and KV capacity; more users do not necessarily create KV pressure", "工具额度与副作用": "Tool quotas and side effects", "查询、支付授权、幂等与状态核验": "Queries, payment authorization, idempotency and state verification", "同一门店或支付接口的额度、并发与重复操作": "Quota, concurrency and duplicate operations at a shared store/payment API", "注入429、超时或不确定响应；核验业务状态与恢复时间": "Inject 429s, timeouts or uncertain responses; verify business state and recovery time", "放置与拓扑约束": "Placement and topology constraints", "解释服务部署与请求路由的区别": "Distinguish service deployment from request routing", "负载上升可用于设计扩容与副本放置测试": "Use increasing load to design scaling and replica-placement tests", "要设置资源不足、异构设备或成组拓扑需求；人数增加不会自动产生这些约束": "Specify insufficient capacity, heterogeneous devices or gang/topology requirements; user count alone does not create them", "长期恢复与验收": "Long-running recovery and acceptance", "订单与支付回执的简化验收": "Simplified validation of order and payment receipts", "部分任务失败、取消或重启后继续完成其他任务": "Continue other tasks after partial failure, cancellation or restart", "明确检查点、故障注入与长时等待；咖啡到手还需配送及到手核验": "Specify checkpoints, fault injection and long waits; receiving coffee also needs delivery confirmation", "01 / 单人执行": "01 / SINGLE-TASK EXECUTION", "讲清任务流程": "Explain task flow", "展示依赖、并行查询、模型与工具调用、授权和结果返回。当前六步演示已提供。": "Show dependencies, parallel queries, model/tool calls, authorization and result return. The existing demo provides this flow.", "02 / 多人并发": "02 / CONCURRENT USERS", "讲清资源竞争": "Explain resource contention", "拟让多人同时或突发点单，设定不同优先级、任务代价与预算；比较排队、公平性、完成时间和吞吐。": "Propose simultaneous or bursty orders with different priorities, task costs and budgets; compare queues, fairness, completion time and throughput.", "03 / 故障扩展": "03 / FAILURE EXTENSIONS", "讲清恢复取舍": "Explain recovery trade-offs", "拟加入接口限流、模型过载、执行器故障与用户取消；观察重试、幂等、降级与状态恢复。": "Propose API throttling, model overload, executor failure and user cancellation; observe retries, idempotency, fallback and state recovery.", "边界：": "Boundary: ", "并发人数增加不等于KV满载、拓扑受限或成组调度。它们需要对应的模型负载与资源约束。优先复用咖啡场景；只有当它无法合理体现实际研究负载时，再补充代码或资料任务。": "More users do not automatically saturate KV, constrain topology or require gang scheduling. These need explicit model workloads and resource constraints. Reuse the coffee scenario first; add coding or research tasks only when necessary to represent the actual workload.", "其他任务形态的可选参照：": "Optional references for other task types:", "与": "and", "。不是本页调度效果的证据，也不意味着必须改用这些场景。": ". These are not evidence of scheduling gains on this page and do not require changing scenarios.", "从样例到研究 / 问题 → 机制 → 证据 → 取舍": "FROM EXAMPLE TO RESEARCH / PROBLEM → MECHANISM → EVIDENCE → CHOICE", "从任务瓶颈，定位三项调度研究": "Locate three research directions from task bottlenecks", "咖啡样例展示了任务如何经过 Agent、模型与工具服务，最终使用设备资源。下面把其中的调度问题归为三项研究：工作": "The example shows a task passing through Agent, model/tool services and device resources. Organize its scheduling questions by ", "何时执行、交给谁执行、获得多少资源": "when work runs, who executes it and how much resource it receives", "。三项研究共同服务于整任务的完成效果。": ". All three directions serve end-to-end task completion.", "共同目标：提高端到端任务有效吞吐": "Shared objective: improve end-to-end task goodput", "固定资源预算和任务分布，统计单位时间内质量、时限与成本同时达标的完成任务数。": "Hold resource budget and task distribution fixed; count tasks meeting quality, deadline and cost requirements per unit time.", "查看完整口径 →": "View the full definition", "三项研究方向，分别改变一种主要决策": "Three directions, each changing one primary decision", "每个专题按研究问题、技术机制、原始依据、路线比较和研究建议展开。以下是团队的研究组织方式，边界由决策变量划分。": "Each topic covers the research problem, technical mechanisms, original evidence, route comparison and recommendations. This is the team's research structure, divided by decision variables.", "依赖感知排程 →": "Dependency-aware scheduling", "减少整任务的关键等待": "Reduce critical waits across the whole task", "关键问题": "Key problem", "模型队列只看单次请求，容易忽略它对整项任务进度的影响；局部调用变快，任务未必更早完成。": "Model queues see individual calls and can miss their effect on the whole task. Faster local calls do not necessarily complete the task sooner.", "调度决策": "Scheduling decision", "在已知依赖和就绪条件下，决定哪些步骤先运行、何时启动、哪些可以并行。": "With known dependencies and readiness conditions, choose which steps run first, when they start and which can run in parallel.", "候选路线": "Candidate routes", "就绪列表与关键路径 → 程序级服务量排序 → 动态反馈与学习辅助": "Ready lists and critical paths → program-level service-volume ordering → dynamic feedback and learning assistance", "代表资料": "Representative references", "Agentix · 程序级调度": "Agentix · Program-level scheduling", "生产工作流轨迹 · 负载依据": "Production workflow traces · Workload evidence", "状态感知映射 →": "State-aware mapping", "把工作交给合适的位置": "Assign work to a suitable execution location", "缓存命中可能节省计算，也可能把请求集中到热点；最少在途数不等于最短剩余工作量。": "Cache hits can save computation but also concentrate load. Fewest in-flight requests does not mean least remaining work.", "在能力与权限满足的候选中选择模型、副本或设备；请求路由与部署放置分别建模。": "Select a model, replica or device among candidates satisfying capability and permissions. Model request routing and deployment placement separately.", "负载与代价感知路由 → 约束筛选与放置评分 → 匹配与联合优化": "Load/cost-aware routing → constraint filtering and placement scoring → matching and joint optimization", "llm-d · 推理请求路由": "llm-d · Inference request routing", "llm-d · Flow 调度": "llm-d · Flow scheduling", "干扰感知分配 →": "Interference-aware allocation", "让有限资源支撑服务保障": "Use limited resources to meet service objectives", "按请求数均分不能反映实际服务成本；显存装得下也不能证明多个模型共卡运行达标。": "Equal request counts do not reflect actual service cost. Fitting models into memory does not establish SLO compliance under co-location.", "决定任务或租户获得多少执行额度、资源份额与服务容量，并根据干扰调整。": "Assign execution quotas, resource shares and service capacity to tasks or tenants; adjust for interference.", "服务成本计量与公平分配 → 共卡干扰与配置优化 → 容量预测与弹性控制": "Service-cost accounting and fair allocation → co-location interference and configuration optimization → capacity prediction and elasticity", "Justitia · 服务公平": "Justitia · Service fairness", "Murakkab · 资源编排与弹性": "Murakkab · Resource orchestration and elasticity", "先隔离变量，再研究跨层协同": "Isolate variables before studying cross-layer coordination", "排程、映射和分配会相互影响。首轮实验固定其他决策，识别单项机制的净收益；有了稳定基线，再比较联合策略。": "Scheduling, mapping and allocation interact. First hold other decisions fixed to identify each mechanism's net benefit; compare joint strategies after establishing stable baselines.", "三项调度研究方向比较，可横向滚动": "Comparison of three scheduling research directions; horizontally scrollable", "研究比较口径 · 尚非实测结果": "Research comparison design · Not measured results", "首先固定什么": "What to hold fixed first", "观察什么收益与代价": "Benefits and costs to observe", "依赖感知排程": "Dependency-aware scheduling", "执行位置、服务容量与任务质量要求": "Execution location, service capacity and task-quality requirements", "整任务累计排队、尾部完成时延；同时检查长任务与低优先级租户是否退化。": "Cumulative task queueing and tail completion latency; also check for regressions in long tasks and low-priority tenants.", "状态感知映射": "State-aware mapping", "先固定模型、精度、副本池及批次策略，再比较路由；选模型和部署放置另设实验。": "Fix model, precision, replica pool and batching before comparing routing. Study model selection and deployment placement separately.", "缓存节省与排队、传输代价的净变化；检查状态过期与路由自身开销。": "Net cache savings versus queueing/transfer costs; check stale state and routing overhead.", "干扰感知分配": "Interference-aware allocation", "任务到达轨迹、设备预算与服务保障；共卡实验另设独占对照。": "Task-arrival trace, device budget and service objectives; use an exclusive-device baseline for co-location tests.", "总体与分租户达标吞吐、共卡慢化、单位达标成本；包含失败和重配置开销。": "Aggregate/per-tenant goodput, co-location slowdown and cost per compliant task; include failure and reconfiguration costs.", "三项技术不等于完整 Agent 产品。规划、授权、幂等与业务结果核验提供输入或约束；调度负责在这些约束内安排执行。": "These three areas do not constitute a complete Agent product. Planning, authorization, idempotency and business-result verification supply inputs or constraints; scheduling arranges execution within them.", "沿着一个具体问题，读透一份代表研究": "Follow a concrete question through a representative study", "重点深读 · 历史论文": "IN-DEPTH READING · EARLIER PAPER", "Murakkab：多模型工作流怎样减少资源需求？": "Murakkab: how can multi-model workflows reduce resource needs?", "从任务分解、模型放置和弹性机制读起，再核对 Figure 6、Table 2 的比较条件。区分论文测量、作者解释与面向云核的研究判断。": "Start with task decomposition, model placement and elasticity, then check comparison conditions in Figure 6 and Table 2. Distinguish measurements, authors' explanations and Cloud Core research judgments.", "阅读机制、原图与证据边界 →": "Read mechanisms, original figures and evidence boundaries", "系统边界 · 任务、Agent、服务与设备如何关联": "System boundaries · Tasks, Agents, services and devices", "架构全景 / 先确认职责，再选择算法": "ARCHITECTURE / CLARIFY RESPONSIBILITIES BEFORE CHOOSING ALGORITHMS", "任务执行链与调度控制边界": "Task execution and scheduling control boundaries", "任务运行时维护依赖与状态，调度控制面产生次序、绑定和份额决策；模型、工具及设备执行动作并反馈。规划负责生成工作，调度负责在约束内安排执行。": "The task runtime maintains dependencies and state. The scheduling control plane decides order, bindings and shares; models, tools and devices execute and feed back state. Planning generates work; scheduling arranges feasible execution.", "调度架构职责图，可横向滚动": "Scheduling architecture responsibilities; horizontally scrollable", "Agent任务的执行链与调度控制边界": "Agent execution chain and scheduling control boundaries", "任务约束进入Agent规划和运行时，运行时提交模型或工具调用。调度控制面输出排程、映射、分配。执行状态反馈给控制面，部署控制独立处理模型实例和卡资源。": "Task constraints feed Agent planning and runtime, which submits model/tool calls. The scheduling control plane handles ordering, mapping and allocation. Execution state feeds back; deployment control separately places model instances and accelerator resources.", "任务约束": "Task constraints", "Agent 规划与运行时": "Agent planning / runtime", "模型 / 工具服务": "Model / Tool services", "任务验收": "Task acceptance", "质量 · 期限 · 预算": "Quality · Deadline · Budget", "租户 · 权限 · 成功条件": "Tenant · Permission · Success", "生成步骤与依赖，记录状态": "Create steps, dependencies and state", "记录动态步骤与运行轨迹": "Record dynamic steps and traces", "选择模型 → 副本 → 批次": "Model → Replica → Batch", "工具队列 → API → 回执": "Tool queue → API → Receipt", "结果与约束均达标": "Result and constraints satisfied", "失败／取消亦记录": "Record failures / cancellations", "就绪事件与任务约束 ↓": "Ready events / constraints ↓", "执行动作 ↑": "Execution actions ↑", "调度控制面 · 统一状态与策略边界": "Scheduling control plane · State and policy boundaries", "① 排程：何时做": "① Schedule: when", "② 映射：交给谁": "② Map: where", "③ 分配：给多少": "③ Allocate: how much", "依赖与优先级 → 就绪工作": "Dependencies / priorities → Ready work", "资格与代价 → 模型／副本": "Eligibility / cost → Model or replica", "容量与公平 → 预算／额度": "Capacity / fairness → Budgets / quotas", "可观测与持久化": "Observe / Persist", "任务／步骤／尝试身份": "Task / Step / Attempt IDs", "检查点与执行事件": "Checkpoints and events", "部署与资源面": "Deployment and resource plane", "模型实例 / 工具进程 → 节点与卡组 · 显存、算力、网络、CPU、接口配额各自计量": "Model instances / tool processes → nodes and card groups · Account separately for memory, compute, network, CPU and API quotas", "部署 / 扩缩容按事件触发，并非每次请求重新放置": "Deployment / scaling is event-triggered; requests do not each trigger placement", "本图是建议的职责划分：上方为任务执行路径，中部为决策职责，底部为承载关系；三个策略可以耦合求解。咖啡 DAG 是教学计划，真实 Agent 可能产生动态分支、循环和多 Agent 协作。": "This is a proposed responsibility model: task execution above, decisions in the middle, hosting below. The three policies may be solved jointly. The coffee DAG is a teaching plan; real Agents may have dynamic branches, loops and multi-Agent collaboration.", "查看架构依据与适用边界 · 4 项原始资料": "Architecture evidence and boundaries · 4 original references", "将程序上下文引入LLM调用调度以优化端到端程序时延。": "Use program context in LLM-call scheduling to optimize end-to-end program latency.", "会议页支持研究问题与机制概述；此处不新增实验外推。核对 2026-10-23。": "The conference page supports the problem and mechanism overview; no additional extrapolation is made here. Checked 2026-10-23.", "检查点保存线程图状态；长期存储与线程级状态分别管理。": "Checkpoints save thread graph state; long-term storage and thread-level state are managed separately.", "状态持久化本身不保证外部工具调用恰好执行一次。核对 2026-10-23。": "Persistence alone does not guarantee exactly-once execution of external tool calls. Checked 2026-10-23.", "Filter筛选可行节点；Score排序；Reserve与Unreserve维护预留状态。": "Filter finds feasible nodes; Score ranks them; Reserve and Unreserve manage reservation state.", "这是Pod调度框架；不是Agent工作流调度器。核对 2026-10-23。": "This is a Pod scheduling framework, not an Agent workflow scheduler. Checked 2026-10-23.", "跨模型控制实例执行并用资源计数和优先级约束并发。": "Control execution across model instances using resource counts and priorities to constrain concurrency.", "资源计数机制不等同于GPU硬隔离或昇腾兼容性。核对 2026-10-23。": "Resource counting does not imply GPU hard isolation or Ascend compatibility. Checked 2026-10-23.", "评价口径 · 怎样判断调度真正有效": "Evaluation · How to assess useful scheduling", "共同尺度 / 固定条件下比较": "COMMON CRITERIA / COMPARE UNDER FIXED CONDITIONS", "主指标：端到端任务有效吞吐": "Primary metric: end-to-end task goodput", "观察窗口内，同时满足质量、时限与成本要求的完成任务数 ÷ 窗口秒数。用于衡量固定资源下系统交付有效任务的能力。": "Tasks completed within the observation window that meet quality, deadline and cost requirements, divided by window duration in seconds. Measures useful delivery under fixed resources.", "质量与成功": "QUALITY & SUCCESS", "任务达标完成率": "Task compliance rate", "同一到达批次中达标任务数 ÷ 全部有效任务数。容量拒绝、超时、失败不能静默删除。": "Compliant tasks divided by all valid tasks in the same arrival cohort. Capacity rejections, timeouts and failures must remain in the accounting.", "体验与公平": "EXPERIENCE & FAIRNESS", "尾延迟与最长等待": "Tail latency and maximum wait", "报告成功任务的 P95／P99，同时报告超时、失败与拒绝率；按租户和难度分组。": "Report P95/P99 for successful tasks alongside timeout, failure and rejection rates; group by tenant and difficulty.", "资源与代价": "RESOURCES & COST", "单位达标任务成本": "Cost per compliant task", "同批次全部尝试成本 ÷ 达标任务数，包含失败、重试、迁移与调度开销；分母为零时不可计算。": "All attempt costs in the cohort divided by compliant completions, including failures, retries, migration and scheduling. Undefined when no task qualifies.", "统计口径与实验边界": "Metric definitions and experimental boundaries", "吞吐按完成时间计入固定窗口，注明预热、排空和窗口长度；完成率按到达批次等到评估期限届满后计算，两者分母不同。": "Count throughput by completion time within a fixed window; specify warm-up, drain and window duration. Compute compliance rate for an arrival cohort after its evaluation deadline. The denominators differ.", "固定模型质量、资源预算、任务组合和到达负载，并扫描多个负载水平。需求不足时吞吐受需求限制，不能据此宣称系统容量领先。": "Fix model quality, resource budget, task mix and arrival load, and sweep several load levels. Under low demand, throughput is demand-limited and does not establish superior capacity.", "一个原始任务只计一次。取消与无效请求的规则事先确定；计入被容量拒绝的有效任务，防止挑选容易任务。": "Count each original task once. Define cancellation/invalid-request rules in advance; include valid tasks rejected for capacity to avoid selecting only easy work.", "咖啡案例以核验订单回执为终点，不代表已送达。工具和用户等待保留在端到端时间中并单独归因。": "The coffee task ends at a verified order receipt, not delivery. Retain tool/user waits in end-to-end time and attribute them separately.", "当前无云核实测数据，不预设领先百分比；业务 SLO 与公平下限需在实验前约定。": "No Cloud Core measurements exist here. Do not assume a leading margin; agree business SLOs and fairness floors before experiments.", "指标口径为本报告研究建议。": "These metric definitions are research recommendations for this report.", "提供模型服务 goodput 的研究参照；这里扩展到任务验收，不直接套用其请求级结果。": "Provides a model-serving goodput reference. This report extends evaluation to task acceptance; request-level results do not transfer directly.", "共用基础 · 观测、决策、反馈与恢复": "Shared foundations · Observe, decide, feed back and recover", "用同一条任务轨迹连接三项研究": "Connect three research areas through one task trace", "统一 task_id 与依赖事件，记录就绪、排队、执行和结果核验时间；将模型状态、工具额度与卡资源分开计量。决策后写回状态、校准代价估计，并记录失败与恢复成本。": "Use consistent task_id and dependency events; record readiness, queueing, execution and result verification times. Account separately for model state, tool quotas and accelerator resources. Update state after decisions, calibrate cost estimates and record failure/recovery costs.", "这些是后续算法复用的工程基础。目前页面提供研究设计与教学演示，尚未接入真实运行时。": "These are engineering foundations for reusable algorithms. This page provides research designs and teaching simulations; it is not connected to a production runtime.", "阅读运行反馈与恢复专题 →": "Read runtime feedback and recovery", "应用索引 · 按执行对象与决策查找": "Application index · Find work units and decisions", "以下是三项研究的应用索引；执行层和决策类型分别组织，不增加新的根技术。": "This indexes applications of the three research areas. Execution layers and decision types are separate axes, not additional root technologies.", "技术地图 / 一张表定位研究问题": "TECHNOLOGY MAP / LOCATE A RESEARCH QUESTION", "调度对象 × 调度决策": "Work unit × Scheduling decision", "先选一行工作对象，再选一列决策。点击交叉点，进入专题中对应的决策说明。": "Choose a row for the work unit and a column for the decision. Open an intersection to read its explanation in the relevant topic.", "调度对象与决策矩阵，窄屏可横向滚动": "Work-unit and scheduling-decision matrix; horizontally scrollable on narrow screens", "各行表示不同层级的工作单元；同一用户任务可产生多个子任务与请求。各列区分决策结果，不表示决策彼此独立。这里是研究索引，非已实现能力清单。": "Rows represent work units at different layers; one user task may generate many subtasks and requests. Columns distinguish decision outputs, not independent decisions. This is a research index, not a list of implemented capabilities.", "调度什么": "What is scheduled", "工作所在层级": "Execution layer", "任务准入": "Admission", "接不接？": "Accept it?", "执行时序": "Execution order", "何时执行？": "When to run?", "执行分派": "Assignment", "交给谁？": "Who runs it?", "资源分配": "Resource allocation", "用多少？": "How much?", "用户任务": "User task", "一次端到端任务的接入层": "Ingress of an end-to-end task", "Agent接入调度 ↗": "Agent ingress scheduling", "用户任务 · 任务准入：接纳或拒绝新任务": "User task · Admission: accept or reject a new task", "接纳或拒绝新任务": "Accept or reject a new task", "查看专题": "View topic", "用户任务 · 执行时序：确定等待任务的顺序": "User task · Order: sequence waiting tasks", "确定等待任务的顺序": "Sequence waiting tasks", "用户任务 · 执行分派：选择Agent实例": "User task · Assignment: select an Agent instance", "选择Agent实例": "Select an Agent instance", "用户任务 · 资源分配：分配用户并发份额": "User task · Allocation: assign user concurrency shares", "分配用户并发份额": "Assign user concurrency shares", "工作流子任务": "Workflow subtask", "任务图中的一次待执行操作": "One pending operation in a task graph", "工作流任务调度 ↗": "Workflow task scheduling", "工作流子任务 · 任务准入：接纳新生成的子任务": "Workflow subtask · Admission: accept a generated subtask", "接纳新生成的子任务": "Accept a generated subtask", "工作流子任务 · 执行时序：安排就绪节点的时序": "Workflow subtask · Order: sequence ready nodes", "安排就绪节点的时序": "Sequence ready nodes", "工作流子任务 · 执行分派：选择子任务执行器": "Workflow subtask · Assignment: select a subtask executor", "选择子任务执行器": "Select a subtask executor", "工作流子任务 · 资源分配：配置工作流并行度": "Workflow subtask · Allocation: set workflow parallelism", "配置工作流并行度": "Set workflow parallelism", "模型请求": "Model request", "一次模型调用及其实例内推进": "One model call and its in-instance progress", "模型路由调度 ↗": "Model routing scheduling", "推理批次调度 ↗": "Inference batch scheduling", "模型请求 · 任务准入：接纳或拒绝推理请求": "Model request · Admission: accept or reject inference", "接纳或拒绝推理请求": "Accept or reject an inference request", "模型请求 · 执行时序：安排请求及批次推进": "Model request · Order: schedule request and batch progress", "安排请求及批次推进": "Schedule request and batch progress", "模型请求 · 执行分派：选择推理服务副本": "Model request · Assignment: select an inference replica", "选择推理服务副本": "Select an inference-service replica", "模型请求 · 资源分配：配置token与KV预算": "Model request · Allocation: set token and KV budgets", "配置token与KV预算": "Set token and KV budgets", "工具请求": "Tool request", "一次外部工具或API调用": "One external tool or API call", "工具调用调度 ↗": "Tool-call scheduling", "工具请求 · 任务准入：接纳或拒绝工具请求": "Tool request · Admission: accept or reject a call", "接纳或拒绝工具请求": "Accept or reject a tool request", "工具请求 · 执行时序：安排等待调用的顺序": "Tool request · Order: sequence waiting calls", "安排等待调用的顺序": "Sequence waiting calls", "工具请求 · 执行分派：选择兼容工具执行器": "Tool request · Assignment: select a compatible tool executor", "选择兼容工具执行器": "Select a compatible tool executor", "工具请求 · 资源分配：分配并发调用额度": "Tool request · Allocation: assign concurrent-call quotas", "分配并发调用额度": "Assign concurrent-call quotas", "部署作业": "Deployment job", "部署或扩容一个服务副本": "Deploy or scale a service replica", "资源放置调度 ↗": "Resource placement scheduling", "部署作业 · 任务准入：接纳或拒绝部署作业": "Deployment job · Admission: accept or reject deployment", "接纳或拒绝部署作业": "Accept or reject a deployment job", "部署作业 · 执行时序：安排部署作业的时序": "Deployment job · Order: sequence deployment jobs", "安排部署作业的时序": "Sequence deployment jobs", "部署作业 · 执行分派：选择节点与设备位置": "Deployment job · Assignment: choose nodes and devices", "选择节点与设备位置": "Choose nodes and devices", "部署作业 · 资源分配：配置副本资源用量": "Deployment job · Allocation: set replica resource usage", "配置副本资源用量": "Set replica resource usage", "如何区分：": "Distinguish the decisions: ", "接受一个请求＝准入；让它等待后在某时刻启动＝时序；指定实例2＝分派；给它多少token或并发预算＝资源分配。": "Accepting a request is admission; deciding when it starts after waiting is ordering; choosing instance 2 is assignment; granting token or concurrency budgets is allocation.", "运行重调度": "Runtime rescheduling", "根据状态变化重新做上述决策，是贯穿矩阵的反馈过程。": "Revisits these decisions as state changes, forming a feedback process across the matrix.", "查看反馈与恢复 →": "View feedback and recovery", "分类边界与研究条件": "Taxonomy boundaries and research conditions", "这张表按工作层级和决策结果组织阅读，不宣称为行业标准或数学上的独立分解。资源额度影响启动时机，实例选择也影响可用容量，具体算法可以联合求解。": "This table organizes reading by work layer and decision output, not an industry standard or mathematically independent decomposition. Quotas affect start time; instance choice affects available capacity. An algorithm may solve them jointly.", "约束条件": "Constraints", "依赖、期限、容量、缓存亲和、成组要求和授权。": "Dependencies, deadlines, capacity, cache affinity, gang requirements and authorization.", "评价目标": "Evaluation objectives", "任务完成时间、尾延迟、吞吐、成本与公平性。": "Task completion time, tail latency, throughput, cost and fairness.", "求解方法": "Solution methods", "规则与启发式、数学优化、学习方法；它们不与工作对象并列。": "Rules and heuristics, mathematical optimization and learning; these are separate from work-unit categories.", "依赖满足不等于接纳新任务；成组启动与并发许可属于启动或资源条件。令牌桶在不同实现中可用于入口拒绝或已接纳请求的等待，不能一概等同准入。": "Satisfying dependencies is not admission of new work. Gang starts and concurrency permissions constrain starting/resources. Depending on implementation, a token bucket may reject at ingress or delay an accepted request; it is not always admission control.", "统一目标是在质量、安全和资源约束下改善任务完成；各专题按挑战、方法、证据与适用条件展开。": "The shared objective is better task completion under quality, safety and resource constraints. Each topic covers challenges, methods, evidence and applicability.", "架构编排 · 2026-10-23 · 动态证据截至 2026-10-23 · 人工整理与发布 · 尚无云核实测结论": "Architecture orchestration · 2026-10-23 · Evidence through 2026-10-23 · Manually curated and published · No Cloud Core measurements yet", "Agent端到端调度 · 云核研究预览": "End-to-End Agent Scheduling · Cloud Core Research Preview", "跳到正文": "Skip to main content", "显示语言": "Display language", "等待依赖": "Waiting for dependencies", "就绪待排程": "Ready, awaiting scheduling", "执行中": "Running", "等待用户授权": "Awaiting user authorization", "已完成": "Completed", "查看步骤说明": "view step details", "门店已确定，可直接查询菜单。": "The store is fixed; the menu can be queried immediately.", "本例优惠查询不依赖菜单，可与菜单并行。": "Offers do not depend on the menu in this example; both queries can run in parallel.", "汇合点：必须拿到菜单和优惠两份结果。": "Join: both menu and offer results are required.", "等待用户同意方案；等待期间不占执行名额。": "Wait for user approval; this wait occupies no execution slot.", "只有授权已完成，才能发起购买操作。": "Purchasing can start only after authorization.", "读取订单状态，核对商品、金额及订单标识。": "Read order state and verify items, amount and order ID.", "核验通过后，把回执交回原任务 C01。": "After verification, return the receipt to original task C01.", "收到委托 C01：帮我点一杯咖啡。": "Received request C01: order me a coffee.", "S1：委托交给能力与权限匹配的 Agent A（本例固定选择）。": "S1: assign the request to eligible Agent A (fixed choice in this example).", "Agent 将 C01 拆成七个步骤，建立依赖图；规划给出调度输入。": "The Agent decomposes C01 into seven steps and creates dependencies; planning supplies scheduling inputs.", "：等待用户确认，不占执行名额。": ": waiting for user confirmation; no execution slot occupied.", "：依赖已满足，进入就绪集合。": ": dependencies satisfied; enters the ready set.", "完成，结果写回 C01。": " completed; result saved to C01.", "S2：启动 ": "S2: start ", "，占用一个执行名额。": "; occupies one execution slot.", "C01 完成：订单回执已核验；不代表咖啡已经送达。": "C01 complete: order receipt verified; coffee delivery is not simulated.", "演示用户确认方案；下单获授权。": "Simulated user approves the proposal; ordering is authorized.", "个名额占用": "slots occupied", "步就绪待选": "steps ready to schedule", "执行：": "Executing: ", "等待用户授权 · 不占执行名额": "Awaiting user authorization · No slot occupied", "C01 已核验完成": "C01 verified and complete", "等待可执行步骤": "Waiting for runnable steps", "就绪集合：": "Ready set: ", "执行计划尚未生成。": "Execution plan not yet generated.", "暂无可启动步骤。": "no steps can start.", "正在执行 ": "Running ", "无占用": "None occupied", "（授权等待不占名额）": " (authorization waits use no slots)", "Agent A 已接手 C01，下一步先形成执行计划。": "Agent A owns C01; next, create an execution plan.", "计划已生成：两项查询已就绪，比较方案还在等输入。": "Plan created: both queries are ready; comparison is waiting for their results.", "C01 已完成：核验回执后返回用户，未模拟咖啡送达。": "C01 complete: verified receipt returned to the user; delivery is not simulated.", "方案已生成：等待你模拟授权，下单尚未开始。": "Proposal ready: awaiting simulated authorization; ordering has not started.", "菜单已返回，优惠还没回来：比较方案不能提前开始。": "Menu returned; offers are pending. Comparison cannot start yet.", "正在执行：": "Running: ", "；完成后才解锁后续步骤。": "; completion unlocks dependent steps.", "已获得授权，下一个调度拍将安排提交订单。": "Authorized. The next scheduling tick will start order submission.", "演示时钟 T+": "Demo clock T+", " · 完成 ": " · Completed ", " · 非实测时间": " · Illustrative time", "语义路由：示例选模型 R": "Model selection: R in this example", "副本路由：示例选 R1": "Replica routing: R1 in this example", "R1 排批次 → A0/A1 协同执行 → 返回方案": "R1 batch → A0/A1 execution → Return proposal", "发出请求 → 商家 API": "Request → Merchant API", "响应返回 → Agent C01": "Response → Agent C01", "等待商家接口响应": "Waiting for merchant API response", "当前无在途请求": "No requests in flight", " 尚未完成的前置步骤：": " Pending dependencies: ", " 依赖已满足，等待 S2 分配执行名额。": " Dependencies satisfied; awaiting an execution slot from S2.", "暂停演示": "Pause demo", "再看一遍": "Replay", "继续演示": "Resume demo", "收起全景 ×": "Exit expanded view", "恢复宽度": "Fit width", "按宽度阅读": "Fit width", "研究预览 · 截至 2026-11-24": "Research preview · As of 2026-11-24", "研究快照 2026-11-24 · 本期窗口 2026-11-01—2026-11-24 · 累计 34 项论文与官方资料 · 人工精选，云核实验尚待开展。": "Research snapshot 2026-11-24 · Period 2026-11-01–2026-11-24 · 34 papers and official records · Curated selection; Cloud Core experiments remain pending.", "架构编排 · 2026-11-24 · 动态证据截至 2026-11-24 · 人工整理与发布 · 尚无云核实测结论": "Architecture and orchestration · 2026-11-24 · Evidence as of 2026-11-24 · Manually curated and published · No measured Cloud Core results yet"};
+  const storageKey = 'agent-scheduling.map-language';
+  const chinese = /[\u3400-\u9fff]/;
+  const escape = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const phrases = new RegExp(Object.keys(dictionary).sort((a,b) => b.length-a.length).map(escape).join('|'), 'g');
+  const translate = value => {
+    if (!chinese.test(value)) return value;
+    const trim = value.trim();
+    const result = dictionary[trim] ?? trim.replace(phrases, key => dictionary[key]);
+    return value.slice(0, value.indexOf(trim)) + result.replace(/，/g, ', ').replace(/：/g, ': ').replace(/。/g, '.').replace(/；/g, '; ').replace(/、/g, ', ').replace(/（/g, ' (').replace(/）/g, ')') + value.slice(value.indexOf(trim)+trim.length);
+  };
+  let language = 'zh';
+  try { language = localStorage.getItem(storageKey) === 'en' ? 'en' : 'zh'; } catch (_) {}
+  const requested = new URL(location.href).searchParams.get('lang');
+  if (requested === 'en' || requested === 'zh') language = requested;
+  const roots = [map, ...document.querySelectorAll('.rail,#report-top,.reading-flow,footer,.skip-link')];
+  const originals = new WeakMap(), attributes = new WeakMap(), fitted = new WeakMap();
+  const originalTitle = document.title;
+  let queued = false, observer;
+  function updateValue(node, property, memory, english) {
+    const current = node[property];
+    let saved = memory.get(node);
+    if (!saved || (current !== saved.zh && current !== saved.en)) {
+      saved = {zh: current, en: translate(current)};
+      memory.set(node, saved);
+    }
+    const next = english ? saved.en : saved.zh;
+    if (next !== current) node[property] = next;
+  }
+  function fitSvg(english) {
+    for (const svg of map.querySelectorAll('svg')) {
+      if (!svg.getBoundingClientRect().width) continue;
+      const shapeBoxes = [...svg.querySelectorAll('rect,polygon')].filter(s => !s.closest('defs')).map(s => s.getBBox());
+      for (const text of svg.querySelectorAll('text')) {
+        if (!fitted.has(text)) fitted.set(text, {length:text.getAttribute('textLength'),adjust:text.getAttribute('lengthAdjust')});
+        const original = fitted.get(text);
+        for (const [key,value] of [['textLength',original.length],['lengthAdjust',original.adjust]]) {
+          if (value === null) text.removeAttribute(key); else text.setAttribute(key,value);
+        }
+        if (!english || text.querySelector('tspan') || !text.textContent.trim()) continue;
+        const x = Number(text.getAttribute('x')), y = Number(text.getAttribute('y'));
+        if (!Number.isFinite(x+y)) continue;
+        const boxes = shapeBoxes.filter(b=>b.width>40 && x>=b.x+4 && x<b.x+b.width-8 && y>b.y+3 && y<=b.y+b.height);
+        if (!boxes.length) continue;
+        const box = boxes.sort((a,b)=>a.width*a.height-b.width*b.height)[0];
+        const width = Math.max(36, box.x+box.width-x-16);
+        if (text.getComputedTextLength()>width) {text.setAttribute('textLength',String(width));text.setAttribute('lengthAdjust','spacingAndGlyphs');}
+      }
+    }
+  }
+  function apply() {
+    queued = false;
+    observer.disconnect();
+    const active = document.body.dataset.reportView === 'map';
+    const english = active && language === 'en';
+    document.documentElement.lang = english ? 'en' : 'zh-CN';
+    map.dataset.language = english ? 'en' : 'zh';
+    document.body.classList.toggle('map-reading-english',english);
+    document.title = english ? translate(originalTitle) : originalTitle;
+    for (const root of roots) {
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+      let node;
+      while ((node=walker.nextNode())) {
+        if (node.parentElement.closest('[data-language-control],script,style')) continue;
+        updateValue(node,'nodeValue',originals,english);
+      }
+      for (const el of [root,...root.querySelectorAll('[aria-label],[title],[alt]')]) {
+        if (el.closest('[data-language-control]')) continue;
+        let saved = attributes.get(el);
+        if (!saved) {saved={};attributes.set(el,saved);}
+        for (const key of ['aria-label','title','alt']) {
+          const current = el.getAttribute(key);
+          if (current === null) continue;
+          if (!saved[key] || (current!==saved[key].zh && current!==saved[key].en)) saved[key]={zh:current,en:translate(current)};
+          const value = english ? saved[key].en : saved[key].zh;
+          if (value!==current) el.setAttribute(key,value);
+        }
+      }
+    }
+    button.textContent = language === 'en' ? '中文' : 'English';
+    button.setAttribute('lang',language === 'en' ? 'zh-CN' : 'en');
+    button.setAttribute('aria-label',english ? 'Switch technology map to Chinese' : '将技术地图切换为英文');
+    button.setAttribute('aria-pressed',String(language==='en'));
+    document.getElementById('map-language-status').textContent = english ? 'English' : '中文';
+    fitSvg(english);
+    for (const root of roots) observer.observe(root,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['aria-label','title','alt']});
+  }
+  function queue() {if (!queued) {queued=true;requestAnimationFrame(apply);}}
+  observer = new MutationObserver(queue);
+  button.addEventListener('click',()=>{
+    language=language==='en'?'zh':'en';
+    try {localStorage.setItem(storageKey,language);} catch (_) {}
+    const url=new URL(location.href);url.searchParams.set('lang',language);
+    history.replaceState(history.state,'',url);
+    const bounds = map.getBoundingClientRect();
+    let anchor = document.elementFromPoint(Math.min(innerWidth-20,bounds.left+bounds.width/2),Math.min(innerHeight-40,180));
+    if (!anchor || !map.contains(anchor) || anchor.closest('.map-section-top')) anchor = document.getElementById('scheduling-essence');
+    const top = anchor.getBoundingClientRect().top;
+    apply();
+    requestAnimationFrame(()=>{if(anchor.isConnected)window.scrollBy({top:anchor.getBoundingClientRect().top-top,behavior:'instant'});});
+  });
+  document.addEventListener('reportviewchange',queue);
+  window.addEventListener('hashchange',queue);
+  document.addEventListener('toggle',queue,true);
+  window.addEventListener('resize',queue,{passive:true});
+  apply();
+})();
