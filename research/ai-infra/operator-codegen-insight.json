@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-23",
-  "scope": "算子根技术研究中的横向效率技术专题。比较自动生成与调优如何把加速机制转为正确、高效的实现；GPU与昇腾NPU分开陈述。公开实验与研究判断分开，未独立复现。",
-  "summary": "比较编译、搜索、经验检索和模型训练，如何把复用、分块、融合与布局变成高效实现。重点看硬件约束怎样进入生成过程，以及强基线下的有效覆盖率与搜索成本。",
-  "judgment": "生成工具的关键能力是把数学契约、硬件约束、结构变换、参数搜索和独立评估连起来。经验检索与Host–Kernel协同搜索值得吸收；GPU实现与性能结果必须在目标NPU上重建证据。",
+  "updated_at": "2026-11-24",
+  "scope": "本专题是计算与通信根技术之上的横向工程效率研究。主要材料涉及单设备计算内核；通信协议、拓扑及跨卡同步能力需要另外的证据。本文整理一手材料中的机制、作者结果与编辑判断，未进行设备复现。310P、910B、950分别判断，950具体型号尚未确认。",
+  "summary": "研究怎样把算子语义转成正确实现，再用硬件反馈找到更高效的结构与配置，最终形成可集成的算子。按优化对象、决策机制和硬件后端理解技术体系，再查代表工作与适用条件。",
+  "judgment": "更值得建设的是可验证、懂硬件、能复用经验的优化系统。结构生成与受约束调优协同，独立评测决定候选取舍；GPU与昇腾共享研究方法，各自保留硬件实现和性能证据。",
   "hardware_rows": [
     {
       "topic": "执行与调度模型",
@@ -194,25 +194,103 @@
       "source_ids": [
         "cannbench"
       ]
+    },
+    {
+      "id": "npu-atrl",
+      "platform": "昇腾 NPU / 论文未披露确切SKU及工具链版本",
+      "kind": "academic",
+      "work": "ATRL：压缩感知的长轨迹强化学习",
+      "date": "2026-10-09 · arXiv:2610.23950v1",
+      "mechanism": "把上下文压缩后的交互轨迹组织为训练片段，结合终局与片段增量奖励改造GRPO；以Ascend知识检索、编译、正确性和profile反馈训练策略。",
+      "conditions": "Qwen3.6-35B；KernelBench 250题及NPUKernelBench分层20/33/31/11题；torch eager性能锚点；比较GRPO等。实际训练/推理预算、芯片和CANN版本未披露。",
+      "result": "NPUKernelBench L3中，Pass@1为9/11、Fast@1为4/11；GRPO为3/11、1/11。KernelBench L1的Fast@1为23/100，低于GRPO的26/100；L3双方Fast均为0。",
+      "limit": "领域训练存在局部改进，不能写成正确率与速度全面领先。不同基准的L3定义和分母不同；未形成310P、910B或950的确定支持证据。",
+      "source_ids": [
+        "atrl-v1"
+      ]
+    },
+    {
+      "id": "npu-ascendevolve",
+      "platform": "昇腾 NPU / 具体设备与CANN版本未披露",
+      "kind": "academic",
+      "work": "AscendEvolve：平台知识引导的多策略进化",
+      "date": "2026-10-20 · arXiv:2610.27588v1",
+      "mechanism": "从平台文档、头文件和算子仓库按需检索，生成不同机制的策略；以执行反馈修复，并在兼容约束下组合有效机制。",
+      "conditions": "CANN-Bench 53个公开算子、1060 cases；各对照使用GPT-5.5 medium；以torch_npu校准性能锚点。实际调用预算和完整运行栈未披露。",
+      "result": "作者报告复合score71.39；总体正确case覆盖69.25%，Reflexion为69.34%；L4正确case覆盖35%。结果提示性能搜索改善与正确性覆盖仍需分别看。",
+      "limit": "评分允许超过100，不是加速倍数，不能与CAKE官方100分制直接比较；没有证明未知硬件上的支持与收益。",
+      "source_ids": [
+        "ascendevolve-v1"
+      ]
+    },
+    {
+      "id": "npu-cannbot-cake",
+      "platform": "昇腾 NPU / 聚合基准为950PR；优化案例另用910B2/910C",
+      "kind": "academic",
+      "work": "CANNBot-CAKE：面向可交付算子的协同生成与进化",
+      "date": "2026-10-22 · arXiv:2610.31034v1",
+      "mechanism": "多DSL路由，分离Generation与Evolution；完成编译、安装和绑定，利用profile迭代；CAKE Book保存证据并经人工审阅形成可复用知识。",
+      "conditions": "53个CANN-Bench v1.1算子；2026-10-15榜单快照，跨revision1.1.0–1.1.2、按算子和用例集分别选优；聚合无统一预算。",
+      "result": "950PR标准用例1060/1060通过，隐藏用例4167/4240通过；38/53算子通过所有隐藏用例。另一个设备上的EngramGateFusion用20轮、36变体、1037次LLM调用推进优化。",
+      "limit": "跨提交聚合不等于一次生成。案例较首轮耗时下降46.6%不属于950PR聚合实验；知识库独立增益未隔离。950PR不等于用户尚未确认的950，也不能泛化310P。",
+      "source_ids": [
+        "cannbot-cake-v1"
+      ]
+    },
+    {
+      "id": "gpu-kernelseek",
+      "platform": "GPU / H200与B200；覆盖和基线分别计量",
+      "kind": "academic",
+      "work": "KernelSeek：用问题引导深层性能优化",
+      "date": "2026-11-02 · arXiv:2611.03517v1",
+      "mechanism": "在决策点追问瓶颈、测量和所谓性能上限，引导编码Agent换优化层次；验证harness约束目标。当前主要实验证据有人类引导。",
+      "conditions": "Attention前向案例；H200 182个场景；B200 154个可运行场景，其中124个可与FA4配对。Table2的Agent对照仅26配置、每臂一次，前端与人工投入不同。",
+      "result": "作者报告H200为1.16×FA3，B200配对集合为1.46×FA4；改用含cuDNN的最快可用基线后为1.10×与1.07×。较强基线明显收窄优势。",
+      "limit": "保留28个B200不可运行场景；不能将摘要写成两架构均182场景全覆盖。人工介入与小规模对照不足以证明普遍优越或完整自主。",
+      "source_ids": [
+        "kernelseek-v1"
+      ]
+    },
+    {
+      "id": "gpu-bievolve",
+      "platform": "GPU / NVIDIA H100 NVL",
+      "kind": "academic",
+      "work": "BIEvolve：将批次一致性纳入候选接受门槛",
+      "date": "2026-10-27 · arXiv:2610.36623v1",
+      "mechanism": "契约驱动的静态依赖检查，加上同一样本跨批次上下文的逐位一致性验证；通过额外门槛后再做性能评估。",
+      "conditions": "Gemini3.7 Flash；三个Agent框架；各框架对照保持预算，20或25轮；覆盖1180种形状。BI比例在通过普通正确性的最终解上统计。",
+      "result": "三框架聚合BI通过率67.6%→91.9%，保留原几何平均加速比的91.8%。这里91.8%衡量相对速度聚合的保留比例，不是各算子都只损失8.2%。",
+      "limit": "批次一致性适用于具有该要求的独立样本任务。有限上下文测试与契约检查不是全范围形式证明，也不能替代普通数值和模型质量验证。",
+      "source_ids": [
+        "bievolve-v1"
+      ]
     }
   ],
   "conclusions": [
     {
-      "title": "已有实现：结构改写与参数搜索承担不同作用",
-      "text": "AscendOptimizer在910B2上的消融表明，经验辅助的Kernel结构改写贡献大于仅搜索Host参数，两者组合继续改善。它支持把结构变换和参数调优分开建模；不证明其他芯片沿用同一变换就有收益。"
+      "title": "生成、优化与交付需要分别评价",
+      "text": "从参考生成正确实现、改进既有实现、交付完整算子包解决不同问题。用各自的覆盖、性能、预算和集成结果判断系统能力。"
     },
     {
-      "title": "跨平台可借鉴的是知识与反馈组织",
-      "text": "KernelEvolve、KernelBlaster和AVO展示了硬件检索、状态记忆、版本搜索与执行反馈的不同组合。有效经验需要保留变换、适用条件、失败和测量依据；CUDA/NCU代码和GPU最优配置不是昇腾可直接复用的结论。"
+      "title": "结构变化与参数搜索值得协作",
+      "text": "Agent适合提出融合、布局、归约和流水结构；受约束搜索适合在合法空间内选择配置。是否优于单一路线仍需同预算消融。"
     },
     {
-      "title": "后训练提供另一种积累经验的方式",
-      "text": "CUDA Agent与AscendKernelGen将经验写入模型参数，免训练系统则在检索库和上下文中积累经验。路线价值取决于任务重复性、领域数据和评估可信度，以及训练与搜索成本；应保留各自的生成覆盖、正确率和性能分母。"
+      "title": "知识需要有条件、有反例",
+      "text": "文档补足未知的平台机制，经验保存验证过的变换。硬件、版本、形状、采用记录及失败证据一起维护，才可能持续复用。"
+    },
+    {
+      "title": "工具更多，需要更强的优化方向",
+      "text": "KernelSeek提供了问题驱动优化的案例信号，但人工参与和有限对照仍需保留。后续应检验瓶颈假设的质量，不能仅按Agent和工具数量判断能力。"
+    },
+    {
+      "title": "可靠性决定结果能走多远",
+      "text": "公开样例、隐藏范围、数值规则、批次一致性和工程集成是不同要求。GPU和NPU的机制证据分别保留，目标设备上重新验证可行性。"
     }
   ],
   "nextwork": [
-    "维护按精确SoC和软件版本区分的生成约束表；新增接口先通过编译、独立参考与设备用例，再进入候选空间。",
-    "为已采用的变换保存瓶颈、代码差异、有效shape、代价和实测记录；换设备或分布后重新验证，失败轨迹也进入经验库。"
+    "结构改写能否在相同真机测量预算下，稳定优于仅调参，并迁移到保留的算子族与形状？",
+    "文档、验证经验和问题引导各自贡献多少？新增可靠性与工程交付要求会带来什么成本？"
   ],
   "source_additions": [
     {
@@ -241,6 +319,51 @@
       "review_scope": "核对§2问题排除、H200、best-of-5、隐藏分布与TF32对照，以及§3/附录C正确样本几何平均；未复现。",
       "device_scope": "GPU直接实验：NVIDIA H200；不是NPU生成/性能证据。",
       "boundary": "实际活跃题目247，正确率与速度分母不同；单轮5样本不等于多轮Agent搜索。对照数值模式仍需符合任务契约，不重复引用正文有问题的TF32位宽描述。"
+    },
+    {
+      "id": "atrl-v1",
+      "title": "ATRL：Ascend Triton长轨迹强化学习 · v1",
+      "url": "https://arxiv.org/html/2610.23950v1",
+      "kind": "primary_paper",
+      "review_scope": "2026-11-24指定章节核对：§4训练目标；§5.1–5.2 Tables1–2与附录；比较分层Pass/Fast，核对缺失预算。 未独立复现。",
+      "device_scope": "Ascend平台；未披露确切芯片、CANN与Triton版本。",
+      "boundary": "局部Fast指标不领先，不能复述摘要为全面优胜；没有目标设备复现。"
+    },
+    {
+      "id": "ascendevolve-v1",
+      "title": "AscendEvolve：知识引导NPU生成 · v1",
+      "url": "https://arxiv.org/html/2610.27588v1",
+      "kind": "primary_paper",
+      "review_scope": "2026-11-24指定章节核对：§3方法；§4.1–4.4 Tables1–3；§6和附录；核对评分与正确覆盖。 未独立复现。",
+      "device_scope": "Ascend NPU；型号、CANN与torch_npu版本未披露。",
+      "boundary": "自校准score允许>100，不能与其他评分或速度直接横比；实际预算缺失。"
+    },
+    {
+      "id": "cannbot-cake-v1",
+      "title": "CANNBot-CAKE：生成、进化与算子交付 · v1",
+      "url": "https://arxiv.org/html/2610.31034v1",
+      "kind": "primary_paper",
+      "review_scope": "2026-11-24指定章节核对：§1–5方法；§4.4案例；§6–7聚合条件、隐藏用例与范围。 未独立复现。",
+      "device_scope": "聚合950PR；案例开发910B2、官方grading910C，分别保留。",
+      "boundary": "跨提交按算子/用例集择优；知识库独立贡献未隔离，不能泛化310P或未确认SKU的950。"
+    },
+    {
+      "id": "kernelseek-v1",
+      "title": "KernelSeek：问题驱动CUDA优化 · v1",
+      "url": "https://arxiv.org/html/2611.03517v1",
+      "kind": "primary_paper",
+      "review_scope": "2026-11-24指定章节核对：§3–6、Tables1–2；核对配对集合、强基线、人工介入和单次对照。 未独立复现。",
+      "device_scope": "NVIDIA H200/B200的Attention案例；不是NPU证据。",
+      "boundary": "B200可运行154/182且FA4配对124；问题库替代人工尚待验证，不宣称普遍更优。"
+    },
+    {
+      "id": "bievolve-v1",
+      "title": "BIEvolve：批次一致性验证 · v1",
+      "url": "https://arxiv.org/html/2610.36623v1",
+      "kind": "primary_paper",
+      "review_scope": "2026-11-24指定章节核对：§3–4 Table2及附录C；核对BI门槛、分母、预算、速度保留口径。 未独立复现。",
+      "device_scope": "NVIDIA H100 NVL；三框架指定任务集合。",
+      "boundary": "BI是额外契约；有限动态与静态检查不构成全范围证明。"
     }
   ],
   "source_review_updates": [
@@ -338,7 +461,264 @@
       "learn": "分别改变Kernel结构与Host参数，再用真机反馈协同。",
       "limit": "优化已有实现；尚无310P/950复现证据。",
       "evidence_id": "npu-ascendoptimizer"
+    },
+    {
+      "name": "ATRL",
+      "method": "上下文压缩 + 片段奖励的Agent RL",
+      "hardware": "Ascend，SKU/栈未披露",
+      "learn": "训练多轮生成与工具使用策略。",
+      "limit": "分层Fast结果并非全面领先；成本信息不足。",
+      "evidence_id": "npu-atrl"
+    },
+    {
+      "name": "AscendEvolve",
+      "method": "平台知识检索 + 多策略进化",
+      "hardware": "Ascend，SKU/栈未披露",
+      "learn": "从外部知识扩充候选机制，再利用兼容性重组。",
+      "limit": "自校准score与正确覆盖分开看。",
+      "evidence_id": "npu-ascendevolve"
+    },
+    {
+      "name": "CANNBot-CAKE",
+      "method": "多DSL路由 + 生成/进化 + 工程交付",
+      "hardware": "950PR聚合；910B2/910C案例",
+      "learn": "保存完整制品与证据，经审阅回流知识。",
+      "limit": "跨提交聚合与单案例预算分开；知识增益未消融。",
+      "evidence_id": "npu-cannbot-cake"
+    },
+    {
+      "name": "KernelSeek",
+      "method": "问题引导的优化方向选择",
+      "hardware": "H200 / B200",
+      "learn": "检验性能假设和测量边界。",
+      "limit": "人工介入、有限对照；强基线下优势缩小。",
+      "evidence_id": "gpu-kernelseek"
+    },
+    {
+      "name": "BIEvolve",
+      "method": "静态契约 + 动态批次一致性门槛",
+      "hardware": "H100 NVL",
+      "learn": "把服务所需可靠性纳入候选选择。",
+      "limit": "额外约束存在性能权衡，测试不是形式证明。",
+      "evidence_id": "gpu-bievolve"
     }
   ],
-  "update_principle": "新材料只有改变目标覆盖、生成方法、验证强度或有效强基线结果，才进入结论层。每次保留版本和对照条件；名称更新与最好样例进入资料层。"
+  "update_principle": "新材料先去重并固定版本，再判断改变的是生成覆盖、搜索方法、验证强度还是交付能力。作者结果保留原始条件；支持、收窄或推翻已有判断时记录理由，未确认的能力继续作为研究问题。",
+  "reviewed_at": "2026-11-24",
+  "capacity_levels": [
+    {
+      "title": "生成：扩大正确实现覆盖",
+      "input_output": "数学定义或框架参考 → 目标硬件实现",
+      "question": "能否保留完整语义，并支持声明的形状、类型和布局？",
+      "metrics": "编译率、正确率、支持范围、生成成本"
+    },
+    {
+      "title": "优化：寻找更高效的实现",
+      "input_output": "已有正确实现 → 结构或参数改进",
+      "question": "改善来自何种变换，在强基线和相同搜索预算下是否有效？",
+      "metrics": "正确且更快的比例、加速分布、搜索成本"
+    },
+    {
+      "title": "交付：形成可持续使用的算子",
+      "input_output": "内核代码 → 算子包、绑定与回归记录",
+      "question": "能否接入真实软件栈，并在版本和负载变化后维持可靠性？",
+      "metrics": "隐藏用例、集成结果、模型收益、维护成本"
+    }
+  ],
+  "classification_axes": [
+    {
+      "axis": "优化对象",
+      "items": "算法与融合；布局与存储复用；并行切分；搬运与计算流水；指令映射",
+      "question": "具体改变了什么执行过程，性能为何可能改善？"
+    },
+    {
+      "axis": "决策机制",
+      "items": "规则与模板；成本模型和参数搜索；Agent反馈搜索；领域后训练与强化学习",
+      "question": "谁提出候选，怎样选择，多少预算得到有效实现？"
+    },
+    {
+      "axis": "硬件后端",
+      "items": "CUDA / ROCm / AscendC；具有明确目标支持的DSL与编译路径",
+      "question": "在哪个芯片、工具链与接口版本上合法并有效？"
+    }
+  ],
+  "workflow": [
+    {
+      "title": "定义契约",
+      "text": "固定计算语义、输入范围与误差要求"
+    },
+    {
+      "title": "选择实现",
+      "text": "绑定目标设备、后端与可行策略"
+    },
+    {
+      "title": "生成候选",
+      "text": "修改算法结构、代码或调度参数"
+    },
+    {
+      "title": "验证正确",
+      "text": "编译、独立参考与边界用例"
+    },
+    {
+      "title": "测量归因",
+      "text": "隔离计时，检验瓶颈与优化假设"
+    },
+    {
+      "title": "保留与交付",
+      "text": "保留有效版本，集成回归并沉淀经验"
+    }
+  ],
+  "research_challenges": [
+    {
+      "id": "semantic-contract",
+      "title": "语义与数值一致性",
+      "problem": "公开样例通过后，尾块、极端值或批次变化仍可能暴露错误。",
+      "route": "可执行契约、独立Golden、隐藏形状；按服务要求增加批次一致性门槛。",
+      "acceptance": "分别报告普通正确性、额外一致性与覆盖范围；不把有限测试写成形式证明。",
+      "source_ids": [
+        "kernelbench-verified-v1",
+        "bievolve-v1"
+      ]
+    },
+    {
+      "id": "hardware-feasibility",
+      "title": "硬件映射与资源合法性",
+      "problem": "代码、Host分块与资源布局不一致，可能出现编译失败、越界或性能退化。",
+      "route": "按精确设备和工具链检索约束；让Host与Device共享布局、缓冲和切分定义。",
+      "acceptance": "版本、资源占用和失败类别可追溯；新型号必须重新建立执行证据。",
+      "source_ids": [
+        "ascendoptimizer-v2",
+        "cannbot-cake-v1"
+      ]
+    },
+    {
+      "id": "search-direction",
+      "title": "结构探索与搜索效率",
+      "problem": "只在局部参数附近重试，容易重复无效改动；开放式搜索又消耗大量测量预算。",
+      "route": "提出可检验的瓶颈假设，保留不同机制的候选，再作受约束参数搜索。",
+      "acceptance": "固定设备评估预算比较有效覆盖与加速；登记人工介入和失败尝试。",
+      "source_ids": [
+        "avo-paper-named-a",
+        "kernelseek-v1",
+        "ascendoptimizer-v2"
+      ]
+    },
+    {
+      "id": "knowledge-transfer",
+      "title": "专用知识与经验迁移",
+      "problem": "模型先验不覆盖平台机制；历史经验也可能因形状、版本或硬件变化而失效。",
+      "route": "文档与头文件按需检索；经验附带瓶颈、变换、条件、反例和测量依据。",
+      "acceptance": "保留未见算子与形状，检查经验能否迁移；区分检索到、实际采用和产生增益。",
+      "source_ids": [
+        "kernelblaster-paper-named-a",
+        "ascendevolve-v1"
+      ]
+    },
+    {
+      "id": "credible-evaluation",
+      "title": "可靠比较与实际交付",
+      "problem": "弱基线、不同精度、成功样本均值和多次择优会让数字失去可比性。",
+      "route": "冻结参考、精度、计时和聚合方式；保留算子包、版本及集成回归。",
+      "acceptance": "正确率、速度、预算、隐藏集、集成结果分别呈现；算子耗时不换名为TTFT或TPOT。",
+      "source_ids": [
+        "kernelbench-verified-v1",
+        "cannbot-cake-v1"
+      ]
+    }
+  ],
+  "validation_directions": [
+    {
+      "title": "硬件约束驱动的生成",
+      "comparison": "同一模型、同一任务与预算，对比通用提示和加入设备/版本/合法配置的生成。",
+      "why": "减少接口幻觉、资源冲突及不可能成功的候选。",
+      "success": "统计编译、正确性、越界、有效候选数与耗时；收益须在保留任务上出现。",
+      "source_ids": [
+        "ascendevolve-v1",
+        "ascendcraft"
+      ]
+    },
+    {
+      "title": "瓶颈假设驱动的结构改写",
+      "comparison": "自由重写，对比“瓶颈证据—预期变化—反证指标”引导的单机制改写。",
+      "why": "辨认搜索方向是否比增加重复尝试更有价值。",
+      "success": "相同预算下比较找到改进的速度与覆盖；记录人工问题和所有失败，不能只选最好案例。",
+      "source_ids": [
+        "kernelseek-v1",
+        "avo-paper-named-a"
+      ]
+    },
+    {
+      "title": "结构改写与参数搜索协作",
+      "comparison": "分别运行仅调参、仅结构改写、两者协作；使用相同总评估预算。",
+      "why": "判断新结构打开的空间能否被后续调参兑现。",
+      "success": "报告各自的正确且更快比例、加速分布和新增成本，不把组合收益全部归给一个组件。",
+      "source_ids": [
+        "ascendoptimizer-v2"
+      ]
+    },
+    {
+      "title": "有适用条件的经验复用",
+      "comparison": "无记忆、原始历史记录、带条件与证据的经验库；按算子族留出测试。",
+      "why": "检验经验是否迁移到新任务，以及过期规则会否造成退化。",
+      "success": "评估成功/失败经验的采用和效果；同时计算经验构建成本，不把全任务自调优称零样本泛化。",
+      "source_ids": [
+        "kernelblaster-paper-named-a",
+        "ascendevolve-v1",
+        "cannbot-cake-v1"
+      ]
+    }
+  ],
+  "rmsnorm_example": {
+    "title": "RMSNorm：从简单数学式到有适用范围的高效实现",
+    "formula": "r = 1 / √(Σⱼ xⱼ² / H + ε)；yᵢ = xᵢ · r · γᵢ",
+    "intro": "以下是机制分析与待验证方案。固定RMSNorm语义、数据类型、误差和形状范围后，再让生成器选择实现；没有把这些方案写成已测收益。",
+    "rows": [
+      {
+        "technique": "整行驻留 / 分块归约",
+        "reason": "行数据与中间值是否放得下，决定是否需要额外读取。",
+        "verify": "随H和dtype变化检查片上资源、读取次数与时延。",
+        "tradeoff": "减少读取可能提高资源占用，压缩并行空间。"
+      },
+      {
+        "technique": "一核多行 / 多核协作",
+        "reason": "小行宽、大行宽与行数很少时，并行瓶颈不同。",
+        "verify": "比较对应区间的核利用、负载均衡和同步开销。",
+        "tradeoff": "协作归约引入通信与同步；一核多行也可能资源不足。"
+      },
+      {
+        "technique": "缓冲复用与搬运计算重叠",
+        "reason": "数据供给不足时，计算单元可能等待。",
+        "verify": "检查流水等待是否下降，新增缓冲是否迫使tile变小。",
+        "tradeoff": "双缓冲有额外资源和同步代价，需由profile决定。"
+      },
+      {
+        "technique": "Residual Add + RMSNorm融合",
+        "reason": "相邻操作可能重复搬运中间数据并增加启动。",
+        "verify": "单独定义融合契约，检查数值、完整输出及实际流量。",
+        "tradeoff": "融合减少中间流量的同时，可能提高片上驻留压力。"
+      },
+      {
+        "technique": "按形状分派不同实现",
+        "reason": "一个实现未必能在所有形状区间有效。",
+        "verify": "在未参与搜索的形状上测回归与分派成本。",
+        "tradeoff": "扩大覆盖，同时增加代码与维护成本。"
+      }
+    ],
+    "boundary": "此例主要检验归约、存储与调度能力。矩阵乘、Attention、不规则访存及通信算子仍需各自测试；模型服务收益需要在实际模型中重新测量。"
+  },
+  "evaluation_contract": [
+    {
+      "title": "覆盖与速度一起读",
+      "text": "同时登记总任务、编译、正确、正确且更快的数量。仅在正确样本上计算的速度不能当成全任务平均收益。"
+    },
+    {
+      "title": "强基线与预算保持可比",
+      "text": "保留具体库版本、精度、计时方式、搜索/训练成本、择优方式及人工介入；不同协议不做统一性能榜。"
+    },
+    {
+      "title": "算子收益与模型收益分别测",
+      "text": "TTFT、TPOT、吞吐、峰值内存和质量需要模型/服务实验。若算子占原总耗时10%，其耗时减半，仅从该部分估算总耗时下降5%。"
+    }
+  ],
+  "update_note": "2026-11-24专题增补：保留原12条记录，新增5条经指定章节核对的研究；补充能力边界、三维分类、挑战路线、RMSNorm方案和验证方向。为定向一手资料复核，未宣称完成全领域或11月全量检索。"
 }

@@ -185,10 +185,16 @@ def verify():
     unique(codegen_rows, 'id', 'Codegen evidence')
     for row in codegen_rows:
         text_fields(row, ['platform', 'work', 'date', 'mechanism', 'conditions', 'result', 'limit'], 'Codegen evidence ' + row['id'])
-    require(len(codegen_rows) == 12, 'Generation insight must retain its twelve reviewed evidence records')
+    # Preserve the original evidence while allowing reviewed additions.
+    original_codegen_ids = {'kernelevolve-coverage', 'kernelevolve-conv-case', 'kernelblaster-h100',
+                            'avo-b200-attention', 'gpu-cuda-agent', 'npu-ascendoptimizer',
+                            'gpu-kernelbench', 'gpu-kernelagent', 'gpu-kernelbench-verified',
+                            'npu-ascendkernelgen', 'npu-ascendcraft', 'npu-cannbench'}
+    require(original_codegen_ids <= {row['id'] for row in codegen_rows}, 'Generation insight lost original reviewed evidence')
     projects = codegen.get('project_comparisons')
-    require(isinstance(projects, list) and len(projects) == 5, 'Generation insight must retain its five named systems')
-    require({row.get('name') for row in projects} == {'KernelEvolve', 'KernelBlaster', 'AVO', 'CUDA Agent', 'AscendOptimizer'}, 'Generation insight changed its reviewed named-system coverage')
+    require(isinstance(projects, list) and len(projects) >= 5, 'Generation insight must retain its five named systems')
+    require({'KernelEvolve', 'KernelBlaster', 'AVO', 'CUDA Agent', 'AscendOptimizer'} <= {row.get('name') for row in projects}, 'Generation insight lost reviewed named-system coverage')
+    require(len({row['name'] for row in projects}) == len(projects), 'Generation comparisons repeat a system')
     codegen_evidence_ids = {row['id'] for row in codegen_rows}
     for row in projects:
         text_fields(row, ['name', 'method', 'hardware', 'learn', 'limit', 'evidence_id'], 'Generation system comparison')
@@ -198,6 +204,19 @@ def verify():
     require(isinstance(codegen.get('conclusions'), list) and codegen['conclusions'], 'Generation insight missing maintained conclusions')
     for row in codegen['conclusions']:
         text_fields(row, ['title', 'text'], 'Generation conclusion')
+    for field, fields in [
+        ('capacity_levels', ['title', 'input_output', 'question', 'metrics']),
+        ('classification_axes', ['axis', 'items', 'question']),
+        ('workflow', ['title', 'text']),
+        ('research_challenges', ['id', 'title', 'problem', 'route', 'acceptance']),
+        ('validation_directions', ['title', 'comparison', 'why', 'success']),
+        ('evaluation_contract', ['title', 'text']),
+    ]:
+        require(isinstance(codegen.get(field), list) and codegen[field], 'Generation topic lacks structured ' + field)
+        for row in codegen[field]:
+            text_fields(row, fields, 'Generation ' + field)
+    require(len(codegen['capacity_levels']) == 3 and len(codegen['classification_axes']) == 3,
+            'Generation must separate three capability levels and three classification axes')
 
     require(isinstance(routes.get('branches'), list), 'Missing operator branches')
     branch_ids = unique(routes['branches'], 'id', 'operator branches')
@@ -503,6 +522,21 @@ def verify():
     for row in codegen['conclusions']:
         require(normalized(row['title']) in normalized(generation.ids['conclusion'].text) and normalized(row['text']) in normalized(generation.ids['conclusion'].text), 'Generation insight ignores a maintained conclusion')
     require(normalized(codegen['update_principle']) in normalized(generation.ids['conclusion'].text), 'Generation insight lost its maintained update principle')
+    for field, chapter_id in [('capacity_levels', 'background'), ('classification_axes', 'principles'),
+                              ('workflow', 'principles'), ('research_challenges', 'challenges'),
+                              ('validation_directions', 'practice'), ('evaluation_contract', 'comparison')]:
+        for row in codegen[field]:
+            for key, value in row.items():
+                if isinstance(value, str) and key != 'id':
+                    require(normalized(value) in normalized(generation.ids[chapter_id].text),
+                            'Generation topic lost structured ' + field + '.' + key)
+    example = codegen['rmsnorm_example']
+    for field in ['title', 'formula', 'intro', 'boundary']:
+        require(normalized(example[field]) in normalized(generation.ids['practice'].text), 'RMSNorm example lost ' + field)
+    for row in example['rows']:
+        require(all(normalized(value) in normalized(generation.ids['practice'].text) for value in row.values()), 'RMSNorm example lost a candidate or its tradeoff')
+    require(normalized(codegen['update_note']) in normalized(generation.raw), 'Topic update must describe its actual review coverage')
+    require(codegen['reviewed_at'] + ' 核对' in generation.raw, 'Generation review date must reflect its own review')
     require('operators-codegen.html' in {node.attrs.get('href') for node in overview.links}, 'Operator overview lost its direct generation-insight entry')
     require(not any(has_class(node, 'op-codegen-entry') for node in overview.nodes), 'Generation efficiency method must not displace the root-technology overview')
     require('automatic' in overview.ids and has_class(overview.ids['automatic'], 'op-subsection'), 'Generation must remain a subordinate horizontal method')
@@ -536,7 +570,7 @@ def verify():
         require(label in atlas.root.text, 'Existing second-level classification lost: ' + label)
     require(len(visual_signatures) == 9, 'Require nine distinct mechanism explanations with wide/mobile versions')
     require(len(pages) == 13, 'Require thirteen active reading pages, excluding the legacy redirect')
-    print('PASS: 9 operator research JSONs; 13 active research pages and 9 mechanism dossiers; expert mechanism tradeoffs and evidence classifications; horizontal generation efficiency with 5 named systems / 12 evidence records; internal 310P report absent, legacy redirect and taxonomy intact')
+    print('PASS: maintained operator research; 13 active research pages and 9 mechanism dossiers; structured generation topic with ' + str(len(projects)) + ' systems / ' + str(len(codegen_rows)) + ' evidence records; original evidence, expanded reading and taxonomy intact')
 
 
 if __name__ == '__main__':

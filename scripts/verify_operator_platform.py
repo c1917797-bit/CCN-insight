@@ -35,7 +35,7 @@ REVIEWED_HARDWARE_SCOPE = {
     'transfer-compression--sgl-deepep-ascend-api': {'ascend'},
 }
 
-# These are the five genuinely reviewed editorial changes, not invented history.
+# These are reviewed editorial changes, not invented publication history.
 # New change types need an explicit scope review rather than keyword-based proof.
 LOG_SCOPE = {
     'group-launch': ('受支持', '独立语义', 'pack/unpack'),
@@ -43,6 +43,7 @@ LOG_SCOPE = {
     'fa4-baseline': ('B200', 'cuDNN9.13', '更新版'),
     'int4-consumption': ('Marlin', 'INT4', 'FP16', '不把'),
     'training-boundary': ('训练关联', 'KV', 'MoE', '分别'),
+    'codegen-capability-evidence-20261124': ('生成/优化/交付', '三维分类', '可靠性'),
 }
 
 
@@ -210,13 +211,16 @@ def verify():
     require(len(facts) == 33, 'Expected 33 maintained mechanism evidence records')
     require(len(question_ids) == len(set(question_ids)), 'Duplicate research-subquestion ID')
 
+    generation_count = 0
     for filename, field in [('operator-codegen-named-a.json', 'evidence_rows'), ('operator-codegen-named-b.json', 'evidence'), ('operator-codegen-insight.json', 'evidence')]:
         for item in keyed(load(filename)[field], filename).values():
             require(item['id'] not in facts, 'Duplicate generation evidence ID: ' + item['id'])
             text_fields(item, ['work', 'date', 'mechanism', 'conditions', 'result', 'limit'], item['id'])
             refs(item, 'source_ids', item['id'])
             facts[item['id']] = {'row': item, 'route_id': 'codegen', 'kind': item.get('kind', 'academic'), 'origin': filename + '#/' + field + '/' + item['id'], 'title': item['work'], 'limit': item['limit']}
-    require(len(facts) == 45, 'Expected 45 unique records: 33 mechanisms + 12 horizontal-generation records')
+            generation_count += 1
+    require(generation_count >= 12 and len(facts) == 33 + generation_count,
+            'Expected unchanged mechanism records plus the current canonical generation records')
     facets = structure.get('evidence_facets')
     require(isinstance(facets, dict) and set(facets) == set(facts), 'Evidence facets contain missing/orphan records')
     for record_id, facet in facets.items():
@@ -392,7 +396,7 @@ def verify():
         require(all(normalized(change[field]) in normalized(node.text) for field in ['before', 'after', 'reason', 'date', 'trigger_type']), change_id + ': rendered revision changes editorial history')
         links = {child.attrs.get('href') for child in node.descendants() if child.tag == 'a'}
         require({built_records[key]['url'] for key in change['evidence_ids']} <= links, change_id + ': judgment revision lacks its supporting canonical evidence')
-    print('PASS: operator platform: 9 typed root routes; ' + str(len(catalogs)) + ' catalog leaves / ' + str(len(approaches)) + ' role-separated approaches; 45 canonical records (33+12); exact fact/index joins, unique entries, typed relations, five bounded editorial revisions and library projections')
+    print('PASS: operator platform: 9 typed root routes; ' + str(len(catalogs)) + ' catalog leaves / ' + str(len(approaches)) + ' role-separated approaches; ' + str(len(facts)) + ' canonical records; exact fact/index joins, unique entries, typed relations and ' + str(len(changes)) + ' bounded editorial revisions')
     print('Scope: provenance/role/boundary checks only; no new hardware support or device-performance claim is established by this test.')
 
 

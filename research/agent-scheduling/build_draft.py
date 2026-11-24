@@ -1,5 +1,6 @@
 from pathlib import Path
 from hashlib import sha256
+import json
 from literature_view import updates, source_directory, analysis
 from html import escape
 from architecture_map import render as render_map
@@ -34,7 +35,7 @@ def shell(title, body):
 
 def home():
     from report_redesign import report_header
-    body = report_header()+source_directory()+f'<section id="map"><p class="eyebrow">02 / 技术地图</p>{render_research_map()}</section>'+updates()+analysis()+archive()
+    body = report_header()+source_directory()+f'<section id="map"><div class="map-section-top"><p class="eyebrow">02 / 技术地图</p><div class="map-language-control" data-language-control><span id="map-language-status" aria-live="polite">中文</span><button type="button" id="map-language-toggle" lang="en" aria-label="将技术地图切换为英文" aria-pressed="false">English</button></div></div>{render_research_map()}</section>'+updates()+analysis()+archive()
     return shell('Agent端到端调度', body)
 
 if __name__ == '__main__':
@@ -52,6 +53,8 @@ if __name__ == '__main__':
     with js_file.open('a',encoding='utf-8') as js:
         js.write('\n'+(HERE/'report-navigation.js').read_text(encoding='utf-8'))
         js.write('\n'+(HERE/'expert-reading.js').read_text(encoding='utf-8'))
+        translations = json.loads((HERE/'map-en.json').read_text(encoding='utf-8'))
+        js.write('\n'+(HERE/'map-language.js').read_text(encoding='utf-8').replace('__MAP_EN__',json.dumps(translations,ensure_ascii=False)))
     (folder/'index.html').write_text(home(),encoding='utf-8')
     rows,algorithms = directions()
     by_key = {r['key']:r for r in rows}

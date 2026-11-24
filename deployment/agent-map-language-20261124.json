@@ -1,0 +1,55 @@
+{
+  "published_at": "2026-11-24T08:20:40.820461+00:00",
+  "project_id": "appgprj_6acf4d01d4a48191a167ab0a3ff7b192",
+  "url": "https://cloud-core-agent-scheduling-preview.sunshinepmy.chatgpt.site/business_insight/cloud_core/agent_orchestration/?v=38#map",
+  "version_number": 38,
+  "version_id": "appgprj_6acf4d01d4a48191a167ab0a3ff7b192~appgver_c3fcb938040481919dbc690d95971934",
+  "deployment_id": "appgdep_6b0548cdf3808191bbf9177fcbac4be8",
+  "status": "succeeded",
+  "github_content_commit": "8e5f9cc0a1e541dd124af0044a90ae6124081e01",
+  "sites_source_commit": "8144236f05d22371d559b211154fbfae3232cbab",
+  "feature": "Chinese-English switching for the technology map, its shell, SVG figures, collapsed sections and live coffee simulation.",
+  "scope": "Technology map only; other chapters and research subpages retain their existing language.",
+  "translation_entries": 708,
+  "static_strings_checked": 645,
+  "content_cutoff": "2026-10-23",
+  "local_checks": {
+    "bidirectional_switch": true,
+    "language_persists_on_refresh": true,
+    "return_to_map_restores_language": true,
+    "keyboard_enter": true,
+    "mobile_inner_width": 390,
+    "mobile_document_width": 375,
+    "mobile_nav_internal_scroll": true,
+    "simulation_state_preserved": true,
+    "english_simulation_completed": "7/7",
+    "untranslated_map_chinese_excluding_language_control": 0,
+    "reading_position_direct_click": {
+      "before": 190.7890625,
+      "after": 190.640625
+    },
+    "checks": [
+      "build.py",
+      "verify.py",
+      "verify_agent_report.py",
+      "check_agent_map_language.py",
+      "check_coffee_engine.cjs",
+      "check_coffee_scene.cjs"
+    ]
+  },
+  "online_checks": {
+    "english_heading": "Assign pending work to limited execution resources",
+    "chinese_heading": "把待办工作，安排给有限的执行资源",
+    "toggle_text_in_chinese": "English",
+    "console_errors": []
+  },
+  "previous_publication": {
+    "version_number": 37,
+    "version_id": "appgprj_6acf4d01d4a48191a167ab0a3ff7b192~appgver_61dde5078d9c81918e8a2ff360dd378e",
+    "deployment_id": "appgdep_6b0547a910d08191a502da8e49f124ee",
+    "status": "succeeded"
+  },
+  "limits": [
+    "No new research facts or performance results added. Browser language preference is local to the browser."
+  ]
+}

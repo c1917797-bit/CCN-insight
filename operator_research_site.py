@@ -29,6 +29,8 @@ def build(root):
     structure = json.loads((source/'operator-research-structure.json').read_text(encoding='utf-8'))
     changes = json.loads((source/'operator-judgment-log.json').read_text(encoding='utf-8'))
     events = json.loads((source/'operator-events.json').read_text(encoding='utf-8'))
+    monthly_path = source/'operator-monthly-202611.json'
+    monthly = json.loads(monthly_path.read_text(encoding='utf-8')) if monthly_path.exists() else None
     sources = {row['id']: row for row in evidence['sources']}
     branches = {row['id']: row for row in corpus['branches']}
     route_lookup={r['id']:r for b in corpus['branches'] for r in b['routes']}
@@ -56,6 +58,21 @@ def build(root):
 
     def ul(items):
         return '<ul>'+''.join('<li>'+e(str(item))+'</li>' for item in items)+'</ul>'
+
+    def monthly_links(page):
+        """Project monthly source once into relevant long-term topics as links."""
+        rows = [row for row in (monthly or {}).get('events', [])
+                if row['topic'].split('#', 1)[0] == page]
+        if not rows:
+            return ''
+        rows.sort(key=lambda row: row['date'], reverse=True)
+        return ('<aside class="op-topic-monthly" aria-label="11月新增线索">'
+                '<div><span>本期关联</span><h3>11月新增线索</h3>'
+                '<p>事件、条件与来源保留在本期动态。</p></div><ul>'
+                + ''.join('<li><a href="operators.html#nov-event-'+e(row['id'],quote=True)+'">'
+                          +e(row['title'])+'</a><small>'+e(row['date'])+'</small></li>'
+                          for row in rows)
+                + '</ul></aside>')
 
     def citations(ids):
         nonlocal citation_serial
@@ -181,6 +198,7 @@ def build(root):
         outline=[('brief','01 速览与证据'),('background','02 研究背景'),('principles','03 基本原理'),('challenges','04 关键挑战'),('progress','05 技术进展'),('comparison','06 比较判断'),('practice','07 研究结论')]
         topic_records=[r for r in index['records'] if r['route_id']==route['id']]
         body+=section('brief','01','速览与证据',research_brief(reading['insight']['title'],route['judgment'],[a['title'] for a in spec['catalog']],topic_records,spec['unresolved_questions'][:2],sources,'operators-'+route['id']+'.html'))
+        body+=monthly_links('operators-'+route['id']+'.html')
         body+=section('background','02','研究背景',render_scope(spec)+p(expert['bottleneck_signal'],'op-boundary'))
         hook=''
         if branch['id']=='compute':
@@ -211,7 +229,7 @@ def build(root):
         body+=references(used);outline.append(('references','资料依据'))
         return shell(route['title'],body,outline,branch['id'])
 
-    overview=render_overview(corpus,structure,guide,changes,index,citations,hero,section,references,shell,boundaries,sources,events)
+    overview=render_overview(corpus,structure,guide,changes,index,citations,hero,section,references,shell,boundaries,sources,events,monthly)
     (out/'operators.html').write_text(overview,encoding='utf-8')
 
     for key,filename in [('compute','operators-1.html'),('communication','operators-2.html')]:
@@ -248,7 +266,9 @@ def build(root):
             (out/('operators-'+route['id']+'.html')).write_text(detailed_route(branch,route),encoding='utf-8')
 
     codegen_brief=research_brief('生成方法的价值，取决于找到正确且更快实现的效率',codegen['judgment'],[r['title'] for r in codegen['methods']],[r for r in index['records'] if r['route_id']=='codegen'],codegen['nextwork'],sources,'operators-codegen.html')
-    (out/'operators-codegen.html').write_text(render_codegen(codegen,hardware,named_a,named_b,citations,hero,section,references,shell,codegen_brief),encoding='utf-8')
+    codegen_page=render_codegen(codegen,hardware,named_a,named_b,citations,hero,section,references,shell,codegen_brief)
+    codegen_page=codegen_page.replace('<section id="background"',monthly_links('operators-codegen.html')+'<section id="background"',1)
+    (out/'operators-codegen.html').write_text(codegen_page,encoding='utf-8')
 
     # Preserve old local bookmarks without exposing an internal project report.
     legacy='<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="0;url=operators-codegen.html#practice"><title>算子生成研究</title><p>相关研究已整合至<a href="operators-codegen.html#practice">算子自动生成与调优 · 研究启示</a>。</p></html>'

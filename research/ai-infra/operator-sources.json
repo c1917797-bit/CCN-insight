@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "reviewed_at": "2026-10-23",
+  "reviewed_at": "2026-11-24",
   "sources": [
     {
       "id": "flashattention",
@@ -604,6 +604,51 @@
       "review_scope": "2026-10-23核对v1日期2024-08-21；§3.3混合精度挑战、§3.4权重/scale预排、共享存储布局、解包到FP16及Tensor Core流水。本轮只新增机制，不采纳摘要峰值及端到端倍数。",
       "device_scope": "论文此处讨论NVIDIA Ampere类GPU与CUDA Tensor Core执行机制；INT4权重存储、FP16激活及反量化执行。不是昇腾直接证据。",
       "boundary": "INT4存储不等于原生INT4×INT4矩阵指令；预处理、scale和解包成本需一起核算。不给未逐实验条件核对的速度、TTFT、TPOT或模型质量数字。"
+    },
+    {
+      "id": "atrl-v1",
+      "title": "ATRL：Ascend Triton长轨迹强化学习 · v1",
+      "url": "https://arxiv.org/html/2610.23950v1",
+      "kind": "primary_paper",
+      "review_scope": "2026-11-24指定章节核对：§4训练目标；§5.1–5.2 Tables1–2与附录；比较分层Pass/Fast，核对缺失预算。 未独立复现。",
+      "device_scope": "Ascend平台；未披露确切芯片、CANN与Triton版本。",
+      "boundary": "局部Fast指标不领先，不能复述摘要为全面优胜；没有目标设备复现。"
+    },
+    {
+      "id": "ascendevolve-v1",
+      "title": "AscendEvolve：知识引导NPU生成 · v1",
+      "url": "https://arxiv.org/html/2610.27588v1",
+      "kind": "primary_paper",
+      "review_scope": "2026-11-24指定章节核对：§3方法；§4.1–4.4 Tables1–3；§6和附录；核对评分与正确覆盖。 未独立复现。",
+      "device_scope": "Ascend NPU；型号、CANN与torch_npu版本未披露。",
+      "boundary": "自校准score允许>100，不能与其他评分或速度直接横比；实际预算缺失。"
+    },
+    {
+      "id": "cannbot-cake-v1",
+      "title": "CANNBot-CAKE：生成、进化与算子交付 · v1",
+      "url": "https://arxiv.org/html/2610.31034v1",
+      "kind": "primary_paper",
+      "review_scope": "2026-11-24指定章节核对：§1–5方法；§4.4案例；§6–7聚合条件、隐藏用例与范围。 未独立复现。",
+      "device_scope": "聚合950PR；案例开发910B2、官方grading910C，分别保留。",
+      "boundary": "跨提交按算子/用例集择优；知识库独立贡献未隔离，不能泛化310P或未确认SKU的950。"
+    },
+    {
+      "id": "kernelseek-v1",
+      "title": "KernelSeek：问题驱动CUDA优化 · v1",
+      "url": "https://arxiv.org/html/2611.03517v1",
+      "kind": "primary_paper",
+      "review_scope": "2026-11-24指定章节核对：§3–6、Tables1–2；核对配对集合、强基线、人工介入和单次对照。 未独立复现。",
+      "device_scope": "NVIDIA H200/B200的Attention案例；不是NPU证据。",
+      "boundary": "B200可运行154/182且FA4配对124；问题库替代人工尚待验证，不宣称普遍更优。"
+    },
+    {
+      "id": "bievolve-v1",
+      "title": "BIEvolve：批次一致性验证 · v1",
+      "url": "https://arxiv.org/html/2610.36623v1",
+      "kind": "primary_paper",
+      "review_scope": "2026-11-24指定章节核对：§3–4 Table2及附录C；核对BI门槛、分母、预算、速度保留口径。 未独立复现。",
+      "device_scope": "NVIDIA H100 NVL；三框架指定任务集合。",
+      "boundary": "BI是额外契约；有限动态与静态检查不构成全范围证明。"
     }
   ]
 }

@@ -83,6 +83,26 @@
         "transfer-compression--powersgd",
         "transfer-compression--cachegen-v6"
       ]
+    },
+    {
+      "id": "codegen-capability-evidence-20261124",
+      "date": "2026-11-24",
+      "trigger_type": "定向一手论文复核",
+      "change_type": "补充能力边界与研究判断",
+      "title": "把生成覆盖、优化效率和算子交付分别判断",
+      "before": "代表系统已分别保留证据，但能力层次、搜索方向和工程交付的关系仍不够清楚。",
+      "after": "增加生成/优化/交付三层与三维分类；引入ATRL、AscendEvolve、CAKE、KernelSeek、BIEvolve，分别检验策略学习、知识、交付、方向和可靠性。",
+      "reason": "新证据显示聚合正确率、复合评分和局部加速需要不同解释；人工投入与隐藏集缺口影响采用判断。",
+      "route_ids": [
+        "codegen"
+      ],
+      "evidence_ids": [
+        "npu-atrl",
+        "npu-ascendevolve",
+        "npu-cannbot-cake",
+        "gpu-kernelseek",
+        "gpu-bievolve"
+      ]
     }
   ]
 }

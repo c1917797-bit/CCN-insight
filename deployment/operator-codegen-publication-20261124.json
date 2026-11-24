@@ -1,0 +1,25 @@
+{
+  "schema": "ccn.publication-receipt.v1",
+  "published_at": "2026-11-24T08:19:44.071904+00:00",
+  "public_url": "https://ccn-insight-four.sunshinepmy.chatgpt.site",
+  "audience": "public",
+  "github_repository": "https://github.com/c1917797-bit/CCN-insight",
+  "github_content_commit": "32c6d8d0ab8a8afa94f489e17711cae40c74c7c3",
+  "sites_source_commit": "53263217347575d4adae0a5fefc5555074c8f618",
+  "site_project_id": "appgprj_6ad8b74cbb048191b7b6aaf46ad43a89",
+  "site_version_id": "appgprj_6ad8b74cbb048191b7b6aaf46ad43a89~appgver_55ed38f6f6308191ada9e909613da418",
+  "site_version_number": 38,
+  "deployment_id": "appgdep_6b05486e8d5081919c4a440c543cfc00",
+  "status": "succeeded",
+  "summary": "Structured operator generation insight: retained 12 records, added five primary-source reviews; 17 evidence records, ten system comparisons, capability levels, classification axes, challenge routes, RMSNorm and concrete validation directions.",
+  "publication_method": "Official Sites helper pushed source and reopening verified the same commit. Windows archive packaging failed; native save/deploy used repository build fallback, archive_storage is null.",
+  "qa": "docs/operator-codegen-supplement-qa-20261124.json",
+  "verification": {
+    "local_build_and_checks": "passed",
+    "desktop_browser": "1280px structure, CAKE search, evidence/source anchors passed",
+    "mobile_browser": "390px; overflow fixed; scrollWidth375",
+    "native_deployment": "succeeded",
+    "production_browser_click_tested": true
+  },
+  "other_pages": "Preserved concurrent Agent language-switching update bbce695; root taxonomy and existing public audience unchanged."
+}
