@@ -1,7 +1,7 @@
 {
   "schema": "ccn.monthly-local-qa.v1",
   "date": "2026-11-24",
-  "publication_status": "pending",
+  "publication_status": "succeeded",
   "checks_passed": [
     "build",
     "verify",
@@ -29,5 +29,17 @@
   "limits": [
     "Browser checks sampled the new report, archive, one detailed note and responsive layout; not every source destination or every legacy page was clicked.",
     "CSV contents and row counts are checked by the data contract; source collection gaps remain explicit."
-  ]
+  ],
+  "site_version_number": 40,
+  "production_browser": {
+    "verified": [
+      "Six synthesis themes and November 1–24 window",
+      "Selected scope ic-2026-11-reviewed-20261124-v1",
+      "Discovery/review/industry metrics 649/147/21/15",
+      "16 academic story cards and 15 industry source-event cards",
+      "No error logs during observed report/update navigation",
+      "Report left open with absent presentation attachment hidden"
+    ],
+    "limits": "Production sampling does not recheck all outbound sources, all old months or every legacy page."
+  }
 }

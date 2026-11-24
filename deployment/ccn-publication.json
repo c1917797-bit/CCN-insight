@@ -1,23 +1,49 @@
 {
   "schema": "ccn.publication-receipt.v1",
-  "published_at": "2026-11-24T08:55:15.604300+00:00",
+  "published_at": "2026-11-24T09:02:22.799120+00:00",
   "public_url": "https://ccn-insight-four.sunshinepmy.chatgpt.site",
   "audience": "public",
   "github_repository": "https://github.com/c1917797-bit/CCN-insight",
-  "github_content_commit": "d2a53fa397109f0bce0eda16079ad48a9f329b9c",
-  "sites_source_commit": "08f3f2006e3b9dc3f2567144d0c4a4b10ed5d42f",
+  "github_content_commit": "61a3c8d472ea737a95413c0b244e09c57a7a99fc",
+  "sites_source_commit": "a58b01928f7e50a827edb8042911131ecea2f3ef",
   "site_project_id": "appgprj_6ad8b74cbb048191b7b6aaf46ad43a89",
-  "site_version_id": "appgprj_6ad8b74cbb048191b7b6aaf46ad43a89~appgver_c537e0c81b248191a0f2b981f1cd2296",
-  "site_version_number": 39,
-  "deployment_id": "appgdep_6b0550becfc88191adda6b8b87fe4da1",
+  "site_version_id": "appgprj_6ad8b74cbb048191b7b6aaf46ad43a89~appgver_7b9967ab06348191aa770f2e9a8ec025",
+  "site_version_number": 40,
+  "deployment_id": "appgdep_6b05528a06f881918adf253c46fa9896",
   "status": "succeeded",
-  "summary": "11月算子洞察：12条技术动态、4项验证方向，与长期专题及洞察报告互链，保留10月。",
-  "publication_method": "Sites helper pushed source and reopening verified same commit; Windows archive packaging failed, native repository build fallback, archive_storage null.",
-  "qa": "docs/operator-november-qa-20261124.json",
+  "period_id": "2026-11",
+  "scope_id": "ic-2026-11-reviewed-20261124-v1",
+  "window_start": "2026-11-01",
+  "cutoff": "2026-11-24",
+  "content_version": "compression-2cd22a54d5aefdb636f4",
+  "reader_revision": "7325bc9215ba55bd4840d664dcd933130c4b2d6e",
+  "ui_revision": "2d7d5c5e2f9580b015b2",
+  "summary": "11月推理压缩月内综合洞察：六主题、16篇主研读、5篇邻接观察、15个本月产业来源事件；原文版本、筛选CSV和覆盖限制公开，保留10月与并行算子/Agent更新。",
+  "publication_method": "Official Sites helper pushed source; reopening confirmed exact commit. Windows helper packaging failed; a static Git archive from that commit was verified against all 2533 Git blobs and saved successfully with native archive storage before deployment.",
+  "local_archive": {
+    "sha256": "3f466fe18a3d174ad69ec27958658b80d4ab8114f3d647c4e73af38e341a7713",
+    "bytes": 152037426,
+    "files_verified_against_git_blobs": 2533
+  },
+  "archive_storage": {
+    "archive_format": "tar",
+    "sediment_file_id": "file_000000006b4c82108cd31f08ad94593b",
+    "content_hash": "sha256:22a60d4817044cfca4b3c5da8afcf9b66736e6e880406100aaaf2366bca3ba35",
+    "size_bytes": 258242560,
+    "file_count": 2533
+  },
+  "qa": "docs/monthly-insight-local-qa-20261124.json",
+  "evidence_audit": "docs/monthly-acquisition-review-20261124.json",
   "verification": {
     "local_checks": "passed",
-    "local_browser": "feed, report, topic-to-event navigation checked",
-    "production_browser": "12 events and priority-to-event anchor verified",
-    "evidence_scope": "targeted primary-source review through 2026-11-24; no complete scan or independent hardware reproduction"
+    "local_browser": "report, updates, archive, October switch, English, QDA note and 390px layout sampled",
+    "production_browser": "six themes, date window, 649/147/21/15 metrics, 16 academic cards, 15 industry cards and no observed console errors; report left open",
+    "evidence_scope": "Month-to-date source sample through November 24, specific-section and abstract review, no full field census or independent reproduction"
+  },
+  "preservation": {
+    "october": "existing snapshots, scopes and six saved historical report versions retained",
+    "other_pages": "merged concurrent operator and Agent updates before publishing",
+    "original_site": "existing shared compression entry retained; no original TableGit or unrelated repository writes",
+    "excluded_user_change": "research/agent-scheduling/scheduling-points.csv"
   }
 }
