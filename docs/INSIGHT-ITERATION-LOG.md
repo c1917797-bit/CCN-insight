@@ -8,7 +8,9 @@
 | 线上基线 | 实点「AI Infra → 推理压缩 → 本期洞察」，共 3 次点击。「推理压缩」先落到技术地图。已有本期报告、论文原文和筛选记录，回访读者需要经过目录才看得到。 |
 | 已改动 | 在首页首屏放置「查看本期推理压缩洞察」。链接到 `/business_insight/cloud_core/#view-updates`，月份沿用阅读器的默认选择。四板块导航、AI Infra 和 Agent 入口继续承担探索任务。 |
 | 验收 | 首页生成器与 `scripts/verify.py` 均通过。浏览器实点从首页 1 次点击到 11 月「本期洞察」，并看到正确的月度标题。窄屏检查中入口可见，页面无横向溢出。月份更新后沿用同一入口。 |
-| 发布状态 | 本地待审阅。 |
+| 发布状态 | 2026-11-24 已发布到 [CCN 首页](https://ccn-insight-four.sunshinepmy.chatgpt.site/)。Sites v42 上线，源码提交 `a4977b3`。以线上 v41 为基线，只叠加首页链接。线上实点 1 次到 11 月本期洞察，默认显示基础研读版。 |
+
+[AI Infra 11 月总览](https://ccn-insight-four.sunshinepmy.chatgpt.site/ai-infra/november-2026.html)覆盖 6 个根方向和 16 个二级节点。继续细分后，压缩补查版有 10/16 个专题关联本月论文，算子有 7/9 个机制页展示 11 月新证据。采集边界见[信息源覆盖审计](https://ccn-insight-four.sunshinepmy.chatgpt.site/ai-infra/source-audit-20261124.html)。
 
 ## 下一轮的两个读者任务
 
