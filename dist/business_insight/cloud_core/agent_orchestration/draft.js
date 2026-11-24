@@ -643,9 +643,12 @@
     try {localStorage.setItem(storageKey,language);} catch (_) {}
     const url=new URL(location.href);url.searchParams.set('lang',language);
     history.replaceState(history.state,'',url);
-    const top = document.querySelector('.map-section-top').getBoundingClientRect().top;
+    const bounds = map.getBoundingClientRect();
+    let anchor = document.elementFromPoint(Math.min(innerWidth-20,bounds.left+bounds.width/2),Math.min(innerHeight-40,180));
+    if (!anchor || !map.contains(anchor) || anchor.closest('.map-section-top')) anchor = document.getElementById('scheduling-essence');
+    const top = anchor.getBoundingClientRect().top;
     apply();
-    window.scrollBy({top:document.querySelector('.map-section-top').getBoundingClientRect().top-top,behavior:'instant'});
+    requestAnimationFrame(()=>{if(anchor.isConnected)window.scrollBy({top:anchor.getBoundingClientRect().top-top,behavior:'instant'});});
   });
   document.addEventListener('reportviewchange',queue);
   window.addEventListener('hashchange',queue);
