@@ -1,0 +1,40 @@
+{
+  "published_at": "2026-11-24T07:53:54.275417+00:00",
+  "project_id": "appgprj_6acf4d01d4a48191a167ab0a3ff7b192",
+  "url": "https://cloud-core-agent-scheduling-preview.sunshinepmy.chatgpt.site/business_insight/cloud_core/agent_orchestration/#sources",
+  "version_number": 36,
+  "version_id": "appgprj_6acf4d01d4a48191a167ab0a3ff7b192~appgver_c669c5a734d88191947de909dc424a09",
+  "deployment_id": "appgdep_6b054287f0d0819194e21056114c70e0",
+  "status": "succeeded",
+  "sites_source_commit": "aaeff04b621450468db81279e09cd05846194220",
+  "github_module_content_commit": "8e5857e1aaeefc81f14f0b45c2c9943db3d4d237",
+  "github_main_checked": "9387bed",
+  "action": "Redeployed existing saved v36. No module content changes after the saved source commit were found on GitHub main.",
+  "audience": "public; unchanged",
+  "content_cutoff": "2026-10-23",
+  "online_checks": {
+    "chapters_opened": [
+      "sources",
+      "map",
+      "updates",
+      "analysis",
+      "archive"
+    ],
+    "source_categories": {
+      "news": 2,
+      "academic": 9,
+      "industry": 16
+    },
+    "sampled_audit": "audit-techcrunch-20261023 expanded and collapsed successfully",
+    "map_order": [
+      "scheduling-essence",
+      "coffee-task",
+      "research-directions"
+    ],
+    "demo_open": true,
+    "browser_console_errors": []
+  },
+  "limits": [
+    "Hosting-only redeployment; no new technical facts, paper collection or performance measurements."
+  ]
+}
