@@ -1,0 +1,34 @@
+{
+  "date": "2026-11-24",
+  "scope": "Existing operator-codegen topic, canonical research facts and shared operator indexes",
+  "content": {
+    "retained_evidence_records": 12,
+    "added_evidence_records": 5,
+    "current_evidence_records": 17,
+    "system_comparisons": 10,
+    "new_sources": ["atrl-v1", "ascendevolve-v1", "cannbot-cake-v1", "kernelseek-v1", "bievolve-v1"],
+    "review_depth": "Specified primary-source sections and tables; no independent device reproduction; not an exhaustive November scan",
+    "structure": ["generation/optimization/delivery", "object/decision/backend", "workflow", "challenge-to-route matrix", "conditional experiments", "RMSNorm example", "evidence comparison contract"],
+    "root_taxonomy": "Existing compute/communication branches and nine root routes preserved",
+    "corrected_interpretations": ["ATRL Fast metrics are not uniformly better", "CAKE results are selected across submissions and case sets", "KernelSeek has human intervention and incomplete B200 coverage", "AscendOptimizer experience construction is workload-level self-tuning"]
+  },
+  "checks": {
+    "build": "passed",
+    "verify": "passed",
+    "verify_operator_research": "passed",
+    "verify_operator_platform": "passed; 50 canonical records, six reviewed editorial changes",
+    "verify_compression": "passed; 16 dossiers, 216 cards, 499 citations",
+    "verify_original_reader": "passed; 170 source files, 94 tables, 182 report assets",
+    "diff_check": "passed"
+  },
+  "browser": {
+    "url": "http://127.0.0.1:8791/ai-infra/operators-codegen.html",
+    "desktop": {"innerWidth": 1280, "scrollWidth": 1265, "principles_anchor_top": 87.88},
+    "interactions": ["CAKE search returned the canonical case", "case navigation reached evidence-npu-cannbot-cake at top 90.20px", "source citation reached source-cannbot-cake-v1 at top 91.12px", "RMSNorm search returned the research conclusion section"],
+    "mobile_initial": {"innerWidth": 390, "scrollWidth": 437, "issue": "Header navigation flex width overflow"},
+    "mobile_fixed": {"innerWidth": 390, "scrollWidth": 375, "navigation_width": 345, "details_elements": 0},
+    "viewport_reset": true,
+    "production_verified": false
+  },
+  "publication": "Pending. Record exact source commits and native deployment result after publication."
+}

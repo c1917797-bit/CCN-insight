@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "reviewed_at": "2026-10-23",
+  "reviewed_at": "2026-11-24",
   "scope": "长期技术结构与检索元数据；事实正文只在各canonical记录维护。",
   "branch_frames": {
     "compute": {
@@ -1723,6 +1723,61 @@
         "mechanism"
       ],
       "label_basis": "按当前作者评测记录标注，非跨设备支持证明"
+    },
+    "npu-atrl": {
+      "hardware_families": [
+        "ascend"
+      ],
+      "level": "generation",
+      "metrics": [
+        "time",
+        "coverage"
+      ],
+      "label_basis": "2026-11-24按作者指定实验标注，非跨设备支持证明；设备缺口与聚合方式保留。"
+    },
+    "npu-ascendevolve": {
+      "hardware_families": [
+        "ascend"
+      ],
+      "level": "generation",
+      "metrics": [
+        "time",
+        "coverage"
+      ],
+      "label_basis": "2026-11-24按作者指定实验标注，非跨设备支持证明；设备缺口与聚合方式保留。"
+    },
+    "npu-cannbot-cake": {
+      "hardware_families": [
+        "ascend"
+      ],
+      "level": "generation",
+      "metrics": [
+        "time",
+        "coverage"
+      ],
+      "label_basis": "2026-11-24按作者指定实验标注，非跨设备支持证明；设备缺口与聚合方式保留。"
+    },
+    "gpu-kernelseek": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "generation",
+      "metrics": [
+        "time",
+        "coverage"
+      ],
+      "label_basis": "2026-11-24按作者指定实验标注，非跨设备支持证明；设备缺口与聚合方式保留。"
+    },
+    "gpu-bievolve": {
+      "hardware_families": [
+        "gpu"
+      ],
+      "level": "generation",
+      "metrics": [
+        "time",
+        "coverage"
+      ],
+      "label_basis": "2026-11-24按作者指定实验标注，非跨设备支持证明；设备缺口与聚合方式保留。"
     }
   }
 }

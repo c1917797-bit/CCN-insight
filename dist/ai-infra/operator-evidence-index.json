@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "generated_from": "maintained operator research; do not edit this projection",
-  "reviewed_at": "2026-10-23",
+  "reviewed_at": "2026-11-24",
   "routes": [
     {
       "id": "memory-reuse",
@@ -1773,10 +1773,10 @@
       "title": "AscendOptimizer · 经验检索与Host–Kernel协同优化",
       "kind": "academic",
       "date": "2026-05-16 · arXiv:2603.23566v2",
-      "mechanism": "从高效核移除优化，保留实测变慢的改动并反向提炼变换经验；在线先用经验改写Kernel，再以真机反馈搜索Host Tiling，交替推进。无需额外训练模型。",
+      "mechanism": "从高效核移除优化，保留实测变慢的改动并反向提炼变换经验；在线先用经验改写Kernel，再以真机反馈搜索Host Tiling，分阶段推进。无需额外训练模型。",
       "conditions": "筛选出的101个可编译、正确且时延稳定的cann-ops算子；DeepSeek-V3.2。每题230次硬件评估（经验构建20、在线210），失败与超时也占预算；同预算比较BoN与OpenEvolve。",
       "result": "全部101题几何平均1.21×，53.47%（54/101）快于原参考。独立消融：带经验Kernel改写1.16×，去经验1.09×，仅Tiling1.02×；组合1.21×，说明结构改写与参数搜索承担不同作用。",
-      "limit": "这是已有实现优化，不是从零生成通过率；v1的127题/1.19×不能混入v2。基线从可运行稳定样本筛选，非所有算子普遍收益；平均约2分钟/硬件评估的成本也需考虑。没有310P或950复现，也没有整模TTFT/TPOT。",
+      "limit": "这是已有实现优化，不是从零生成通过率；v1的127题/1.19×不能混入v2。基线从可运行稳定样本筛选，非所有算子普遍收益；平均约2分钟/硬件评估的成本也需考虑。没有310P或950复现，也没有整模TTFT/TPOT。 经验库由这101个任务整体构建，属于固定工作负载自调优，不能据此宣称未见算子零样本泛化。",
       "result_type": "生成与调优评测",
       "source_ids": [
         "ascendoptimizer-v2"
@@ -1973,6 +1973,156 @@
       },
       "url": "operators-codegen.html#evidence-npu-cannbench",
       "canonical_origin": "operator-codegen-insight.json#/evidence/npu-cannbench"
+    },
+    {
+      "id": "npu-atrl",
+      "route_id": "codegen",
+      "route_title": "自动生成与调优 · 横向方法",
+      "title": "ATRL：压缩感知的长轨迹强化学习",
+      "kind": "academic",
+      "date": "2026-10-09 · arXiv:2610.23950v1",
+      "mechanism": "把上下文压缩后的交互轨迹组织为训练片段，结合终局与片段增量奖励改造GRPO；以Ascend知识检索、编译、正确性和profile反馈训练策略。",
+      "conditions": "Qwen3.6-35B；KernelBench 250题及NPUKernelBench分层20/33/31/11题；torch eager性能锚点；比较GRPO等。实际训练/推理预算、芯片和CANN版本未披露。",
+      "result": "NPUKernelBench L3中，Pass@1为9/11、Fast@1为4/11；GRPO为3/11、1/11。KernelBench L1的Fast@1为23/100，低于GRPO的26/100；L3双方Fast均为0。",
+      "limit": "领域训练存在局部改进，不能写成正确率与速度全面领先。不同基准的L3定义和分母不同；未形成310P、910B或950的确定支持证据。",
+      "result_type": "生成与调优评测",
+      "source_ids": [
+        "atrl-v1"
+      ],
+      "approach_ids": [],
+      "facets": {
+        "hardware_families": [
+          "ascend"
+        ],
+        "level": "generation",
+        "metrics": [
+          "time",
+          "coverage"
+        ],
+        "label_basis": "2026-11-24按作者指定实验标注，非跨设备支持证明；设备缺口与聚合方式保留。"
+      },
+      "url": "operators-codegen.html#evidence-npu-atrl",
+      "canonical_origin": "operator-codegen-insight.json#/evidence/npu-atrl"
+    },
+    {
+      "id": "npu-ascendevolve",
+      "route_id": "codegen",
+      "route_title": "自动生成与调优 · 横向方法",
+      "title": "AscendEvolve：平台知识引导的多策略进化",
+      "kind": "academic",
+      "date": "2026-10-20 · arXiv:2610.27588v1",
+      "mechanism": "从平台文档、头文件和算子仓库按需检索，生成不同机制的策略；以执行反馈修复，并在兼容约束下组合有效机制。",
+      "conditions": "CANN-Bench 53个公开算子、1060 cases；各对照使用GPT-5.5 medium；以torch_npu校准性能锚点。实际调用预算和完整运行栈未披露。",
+      "result": "作者报告复合score71.39；总体正确case覆盖69.25%，Reflexion为69.34%；L4正确case覆盖35%。结果提示性能搜索改善与正确性覆盖仍需分别看。",
+      "limit": "评分允许超过100，不是加速倍数，不能与CAKE官方100分制直接比较；没有证明未知硬件上的支持与收益。",
+      "result_type": "生成与调优评测",
+      "source_ids": [
+        "ascendevolve-v1"
+      ],
+      "approach_ids": [],
+      "facets": {
+        "hardware_families": [
+          "ascend"
+        ],
+        "level": "generation",
+        "metrics": [
+          "time",
+          "coverage"
+        ],
+        "label_basis": "2026-11-24按作者指定实验标注，非跨设备支持证明；设备缺口与聚合方式保留。"
+      },
+      "url": "operators-codegen.html#evidence-npu-ascendevolve",
+      "canonical_origin": "operator-codegen-insight.json#/evidence/npu-ascendevolve"
+    },
+    {
+      "id": "npu-cannbot-cake",
+      "route_id": "codegen",
+      "route_title": "自动生成与调优 · 横向方法",
+      "title": "CANNBot-CAKE：面向可交付算子的协同生成与进化",
+      "kind": "academic",
+      "date": "2026-10-22 · arXiv:2610.31034v1",
+      "mechanism": "多DSL路由，分离Generation与Evolution；完成编译、安装和绑定，利用profile迭代；CAKE Book保存证据并经人工审阅形成可复用知识。",
+      "conditions": "53个CANN-Bench v1.1算子；2026-10-15榜单快照，跨revision1.1.0–1.1.2、按算子和用例集分别选优；聚合无统一预算。",
+      "result": "950PR标准用例1060/1060通过，隐藏用例4167/4240通过；38/53算子通过所有隐藏用例。另一个设备上的EngramGateFusion用20轮、36变体、1037次LLM调用推进优化。",
+      "limit": "跨提交聚合不等于一次生成。案例较首轮耗时下降46.6%不属于950PR聚合实验；知识库独立增益未隔离。950PR不等于用户尚未确认的950，也不能泛化310P。",
+      "result_type": "生成与调优评测",
+      "source_ids": [
+        "cannbot-cake-v1"
+      ],
+      "approach_ids": [],
+      "facets": {
+        "hardware_families": [
+          "ascend"
+        ],
+        "level": "generation",
+        "metrics": [
+          "time",
+          "coverage"
+        ],
+        "label_basis": "2026-11-24按作者指定实验标注，非跨设备支持证明；设备缺口与聚合方式保留。"
+      },
+      "url": "operators-codegen.html#evidence-npu-cannbot-cake",
+      "canonical_origin": "operator-codegen-insight.json#/evidence/npu-cannbot-cake"
+    },
+    {
+      "id": "gpu-kernelseek",
+      "route_id": "codegen",
+      "route_title": "自动生成与调优 · 横向方法",
+      "title": "KernelSeek：用问题引导深层性能优化",
+      "kind": "academic",
+      "date": "2026-11-02 · arXiv:2611.03517v1",
+      "mechanism": "在决策点追问瓶颈、测量和所谓性能上限，引导编码Agent换优化层次；验证harness约束目标。当前主要实验证据有人类引导。",
+      "conditions": "Attention前向案例；H200 182个场景；B200 154个可运行场景，其中124个可与FA4配对。Table2的Agent对照仅26配置、每臂一次，前端与人工投入不同。",
+      "result": "作者报告H200为1.16×FA3，B200配对集合为1.46×FA4；改用含cuDNN的最快可用基线后为1.10×与1.07×。较强基线明显收窄优势。",
+      "limit": "保留28个B200不可运行场景；不能将摘要写成两架构均182场景全覆盖。人工介入与小规模对照不足以证明普遍优越或完整自主。",
+      "result_type": "生成与调优评测",
+      "source_ids": [
+        "kernelseek-v1"
+      ],
+      "approach_ids": [],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "generation",
+        "metrics": [
+          "time",
+          "coverage"
+        ],
+        "label_basis": "2026-11-24按作者指定实验标注，非跨设备支持证明；设备缺口与聚合方式保留。"
+      },
+      "url": "operators-codegen.html#evidence-gpu-kernelseek",
+      "canonical_origin": "operator-codegen-insight.json#/evidence/gpu-kernelseek"
+    },
+    {
+      "id": "gpu-bievolve",
+      "route_id": "codegen",
+      "route_title": "自动生成与调优 · 横向方法",
+      "title": "BIEvolve：将批次一致性纳入候选接受门槛",
+      "kind": "academic",
+      "date": "2026-10-27 · arXiv:2610.36623v1",
+      "mechanism": "契约驱动的静态依赖检查，加上同一样本跨批次上下文的逐位一致性验证；通过额外门槛后再做性能评估。",
+      "conditions": "Gemini3.7 Flash；三个Agent框架；各框架对照保持预算，20或25轮；覆盖1180种形状。BI比例在通过普通正确性的最终解上统计。",
+      "result": "三框架聚合BI通过率67.6%→91.9%，保留原几何平均加速比的91.8%。这里91.8%衡量相对速度聚合的保留比例，不是各算子都只损失8.2%。",
+      "limit": "批次一致性适用于具有该要求的独立样本任务。有限上下文测试与契约检查不是全范围形式证明，也不能替代普通数值和模型质量验证。",
+      "result_type": "生成与调优评测",
+      "source_ids": [
+        "bievolve-v1"
+      ],
+      "approach_ids": [],
+      "facets": {
+        "hardware_families": [
+          "gpu"
+        ],
+        "level": "generation",
+        "metrics": [
+          "time",
+          "coverage"
+        ],
+        "label_basis": "2026-11-24按作者指定实验标注，非跨设备支持证明；设备缺口与聚合方式保留。"
+      },
+      "url": "operators-codegen.html#evidence-gpu-bievolve",
+      "canonical_origin": "operator-codegen-insight.json#/evidence/gpu-bievolve"
     }
   ],
   "relations": [
@@ -2945,6 +3095,56 @@
       "from": "npu-cannbench",
       "relation": "cites",
       "to": "cannbench"
+    },
+    {
+      "from": "npu-atrl",
+      "relation": "belongs_to",
+      "to": "codegen"
+    },
+    {
+      "from": "npu-atrl",
+      "relation": "cites",
+      "to": "atrl-v1"
+    },
+    {
+      "from": "npu-ascendevolve",
+      "relation": "belongs_to",
+      "to": "codegen"
+    },
+    {
+      "from": "npu-ascendevolve",
+      "relation": "cites",
+      "to": "ascendevolve-v1"
+    },
+    {
+      "from": "npu-cannbot-cake",
+      "relation": "belongs_to",
+      "to": "codegen"
+    },
+    {
+      "from": "npu-cannbot-cake",
+      "relation": "cites",
+      "to": "cannbot-cake-v1"
+    },
+    {
+      "from": "gpu-kernelseek",
+      "relation": "belongs_to",
+      "to": "codegen"
+    },
+    {
+      "from": "gpu-kernelseek",
+      "relation": "cites",
+      "to": "kernelseek-v1"
+    },
+    {
+      "from": "gpu-bievolve",
+      "relation": "belongs_to",
+      "to": "codegen"
+    },
+    {
+      "from": "gpu-bievolve",
+      "relation": "cites",
+      "to": "bievolve-v1"
     }
   ],
   "sources": [
@@ -3325,6 +3525,51 @@
       "review_scope": "追加核对53算子/1060case范围、§3.1精度与可选fresh-input验证、§3.2的910B2六单元HAP以及结论；未运行评测。",
       "device_scope": "直接分析锚点与论文结论针对910B2；不是310P/950性能上限。",
       "boundary": "基准规模不是Agent成功率；HAP为分析锚点，非可保证的实测绝对下界。fresh-input二次验证为可选，默认榜单仍为single-trial，不能追认为默认开启。"
+    },
+    {
+      "id": "atrl-v1",
+      "title": "ATRL：Ascend Triton长轨迹强化学习 · v1",
+      "url": "https://arxiv.org/html/2610.23950v1",
+      "kind": "primary_paper",
+      "review_scope": "2026-11-24指定章节核对：§4训练目标；§5.1–5.2 Tables1–2与附录；比较分层Pass/Fast，核对缺失预算。 未独立复现。",
+      "device_scope": "Ascend平台；未披露确切芯片、CANN与Triton版本。",
+      "boundary": "局部Fast指标不领先，不能复述摘要为全面优胜；没有目标设备复现。"
+    },
+    {
+      "id": "ascendevolve-v1",
+      "title": "AscendEvolve：知识引导NPU生成 · v1",
+      "url": "https://arxiv.org/html/2610.27588v1",
+      "kind": "primary_paper",
+      "review_scope": "2026-11-24指定章节核对：§3方法；§4.1–4.4 Tables1–3；§6和附录；核对评分与正确覆盖。 未独立复现。",
+      "device_scope": "Ascend NPU；型号、CANN与torch_npu版本未披露。",
+      "boundary": "自校准score允许>100，不能与其他评分或速度直接横比；实际预算缺失。"
+    },
+    {
+      "id": "cannbot-cake-v1",
+      "title": "CANNBot-CAKE：生成、进化与算子交付 · v1",
+      "url": "https://arxiv.org/html/2610.31034v1",
+      "kind": "primary_paper",
+      "review_scope": "2026-11-24指定章节核对：§1–5方法；§4.4案例；§6–7聚合条件、隐藏用例与范围。 未独立复现。",
+      "device_scope": "聚合950PR；案例开发910B2、官方grading910C，分别保留。",
+      "boundary": "跨提交按算子/用例集择优；知识库独立贡献未隔离，不能泛化310P或未确认SKU的950。"
+    },
+    {
+      "id": "kernelseek-v1",
+      "title": "KernelSeek：问题驱动CUDA优化 · v1",
+      "url": "https://arxiv.org/html/2611.03517v1",
+      "kind": "primary_paper",
+      "review_scope": "2026-11-24指定章节核对：§3–6、Tables1–2；核对配对集合、强基线、人工介入和单次对照。 未独立复现。",
+      "device_scope": "NVIDIA H200/B200的Attention案例；不是NPU证据。",
+      "boundary": "B200可运行154/182且FA4配对124；问题库替代人工尚待验证，不宣称普遍更优。"
+    },
+    {
+      "id": "bievolve-v1",
+      "title": "BIEvolve：批次一致性验证 · v1",
+      "url": "https://arxiv.org/html/2610.36623v1",
+      "kind": "primary_paper",
+      "review_scope": "2026-11-24指定章节核对：§3–4 Table2及附录C；核对BI门槛、分母、预算、速度保留口径。 未独立复现。",
+      "device_scope": "NVIDIA H100 NVL；三框架指定任务集合。",
+      "boundary": "BI是额外契约；有限动态与静态检查不构成全范围证明。"
     },
     {
       "id": "tvm",
