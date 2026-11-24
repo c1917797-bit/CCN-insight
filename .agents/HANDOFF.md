@@ -1,3 +1,11 @@
+# v38 算子自动生成专题已上线（2026-11-24）
+
+GitHub内容32c6d8d0ab8a8afa94f489e17711cae40c74c7c3已推送，保留同期Agent语言切换bbce695。Sites源码53263217347575d4adae0a5fefc5555074c8f618经官方helper推送并重开确认。v38部署appgdep_6b05486e8d5081919c4a440c543cfc00 succeeded；正式浏览器确认17条证据、10系统、2026-11-24核对日期、CAKE搜索定位，390px无整页溢出。
+
+沿用七章和计算/通信根技术，增加生成/优化/交付、三维分类、挑战路线、四项对照方向及RMSNorm例子。新增ATRL、AscendEvolve、CAKE、KernelSeek、BIEvolve，分别保留分层指标、缺失SKU/预算、跨提交聚合、人工参与与可靠性边界。为指定一手章节复核，不是全网扫描或设备复现。只维护research/ai-infra/operator*.json与现有渲染器。
+
+Windows官方归档步骤失败，使用同一已推送提交的原生仓库构建回退，archive_storage为空；不可宣称归档已上传。回执deployment/operator-codegen-publication-20261124.json，验收docs/operator-codegen-supplement-qa-20261124.json。公开权限和原网址保留。
+
 # v37 论文效果对照已正式上线（2026-11-17）
 
 GitHub内容提交9d6ed8d500515afaa0a09b5ff03f2646c8cfae3d已推送；Sites官方helper推送并重开确认9d3a0ba6a4c29b3e2dc14b349f196506d823681b。v37部署appgdep_6afbec5604ac8191b6e0b9ce38aceac1于2026-11-17T05:56:44.233263+00:00返回succeeded，原网址与public权限保留。正式内容compression-9c04cc6de7156010a5d6，UI ae62743fe7026e3f68b5。

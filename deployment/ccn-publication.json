@@ -1,36 +1,25 @@
 {
   "schema": "ccn.publication-receipt.v1",
-  "published_at": "2026-11-17T05:56:44.233263+00:00",
+  "published_at": "2026-11-24T08:19:44.071904+00:00",
   "public_url": "https://ccn-insight-four.sunshinepmy.chatgpt.site",
   "audience": "public",
   "github_repository": "https://github.com/c1917797-bit/CCN-insight",
-  "github_content_commit": "9d6ed8d500515afaa0a09b5ff03f2646c8cfae3d",
-  "sites_source_commit": "9d3a0ba6a4c29b3e2dc14b349f196506d823681b",
+  "github_content_commit": "32c6d8d0ab8a8afa94f489e17711cae40c74c7c3",
+  "sites_source_commit": "53263217347575d4adae0a5fefc5555074c8f618",
   "site_project_id": "appgprj_6ad8b74cbb048191b7b6aaf46ad43a89",
-  "site_version_id": "appgprj_6ad8b74cbb048191b7b6aaf46ad43a89~appgver_9c446f53bdac81918c69ea2dfc00acf3",
-  "site_version_number": 37,
-  "deployment_id": "appgdep_6afbec5604ac8191b6e0b9ce38aceac1",
+  "site_version_id": "appgprj_6ad8b74cbb048191b7b6aaf46ad43a89~appgver_55ed38f6f6308191ada9e909613da418",
+  "site_version_number": 38,
+  "deployment_id": "appgdep_6b05486e8d5081919c4a440c543cfc00",
   "status": "succeeded",
-  "content_version": "compression-9c04cc6de7156010a5d6",
-  "reader_revision": "fe7db75393048e213fb5a58596668a6c947ab214",
-  "ui_revision": "ae62743fe7026e3f68b5",
-  "summary": "Traceable paper experiment comparison: 7 primary papers, 8 canonical experiments, 13 numeric metrics, 4 explicitly linked topics, shared rendering across 16 topic readers.",
-  "publication_method": "Sites repository build fallback from the exact pushed source commit. Official helper push and reopen verified the commit; native deployment succeeded.",
-  "local_archive": {
-    "sha256": "b9c9a738114673950f91cce08b07e95415358ac4fb184a8c4ff58f30972164e4",
-    "bytes": 151481913,
-    "files": 2525,
-    "git_blob_verification": "all files matched",
-    "uploaded": false,
-    "reason": "Official Windows packaging failed; the verified Git archive upload timed out after 300 seconds. The deployed saved version used the pushed repository source and has no archive_storage."
-  },
-  "qa": "docs/paper-effects-publication-qa-20261117.json",
+  "summary": "Structured operator generation insight: retained 12 records, added five primary-source reviews; 17 evidence records, ten system comparisons, capability levels, classification axes, challenge routes, RMSNorm and concrete validation directions.",
+  "publication_method": "Official Sites helper pushed source and reopening verified the same commit. Windows archive packaging failed; native save/deploy used repository build fallback, archive_storage is null.",
+  "qa": "docs/operator-codegen-supplement-qa-20261124.json",
   "verification": {
     "local_build_and_checks": "passed",
-    "local_browser": "1280x720 table, shortcut, AWQ search and condition expansion passed",
+    "desktop_browser": "1280px structure, CAKE search, evidence/source anchors passed",
+    "mobile_browser": "390px; overflow fixed; scrollWidth375",
     "native_deployment": "succeeded",
-    "production_browser_click_tested": false,
-    "narrow_viewport_tested": false
+    "production_browser_click_tested": true
   },
-  "shared_entries": "Existing original-site compression entry redirects still target this CCN reader. No original-site rewrite or homepage changes in this release."
+  "other_pages": "Preserved concurrent Agent language-switching update bbce695; root taxonomy and existing public audience unchanged."
 }
