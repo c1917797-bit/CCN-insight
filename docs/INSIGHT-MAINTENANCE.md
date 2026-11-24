@@ -1,5 +1,7 @@
 # CCN 可复用洞察与维护经验
 
+页面改进与验收见[平台迭代记录](INSIGHT-ITERATION-LOG.md)。每轮从可观察的读者任务出发，保留线上基线、变更、验证和发布状态。
+
 维护能力随Git仓库保留，不依赖上一段聊天。参照model-tuning-lab的经验入仓、窄skill治理和交接分工，重新实现适合洞察网站的轻量机制，未复制其模型实验/远端主机规则。参考依据见[进化说明](../.agents/skills/ccn-experience-evolve/references/evolution.md)。
 
 ## 三种知识各归其位
