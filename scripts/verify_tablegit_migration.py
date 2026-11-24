@@ -69,6 +69,12 @@ if any(t['name'] == 'ic_paper_experiments' for t in metadata['tables']):
         validate_canonical()
     except (ValueError, TypeError, KeyError) as error:
         errors.append(('ic_paper_experiments', str(error)))
+
+from monthly_digest import validate_canonical as validate_monthly_digests
+try:
+    validate_monthly_digests()
+except (ValueError, TypeError, KeyError) as error:
+    errors.append(('monthly_digest', str(error)))
 deferred = [str(p.relative_to(ROOT)) for p in DATA.rglob('rows.jsonl') if '"content_ref"' in p.read_text(encoding='utf-8')]
 assert not deferred, deferred
 assets = json.loads((DATA / 'assets.json').read_text(encoding='utf-8')) if (DATA / 'assets.json').exists() else {'assets':[]}

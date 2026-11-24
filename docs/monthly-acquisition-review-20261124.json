@@ -1,0 +1,83 @@
+{
+  "schema": "ccn.monthly-acquisition-review.v1",
+  "period_id": "2026-11",
+  "window_start": "2026-11-01",
+  "cutoff": "2026-11-24",
+  "scope_id": "ic-2026-11-reviewed-20261124-v1",
+  "counts": {
+    "registered_core_entrypoints": 75,
+    "fetched_indexes_or_release_lists": 70,
+    "deferred_arxiv_entrypoints": 5,
+    "hf_date_lists": 24,
+    "unique_recommendations": 649,
+    "keyword_candidates": 147,
+    "papers_original_source_checked": 21,
+    "papers_specified_sections_checked": 12,
+    "papers_in_main_review": 16,
+    "main_review_sections": 11,
+    "main_review_abstracts": 5,
+    "adjacent_papers": 5,
+    "unique_november_industry_source_events": 15,
+    "undated_current_capabilities_not_counted_as_new": 2
+  },
+  "reading_scope": "Specific sections and original abstracts, not full-paper reading or independent reproduction.",
+  "raw_storage": "Ignored local .tmp/monthly-2026-11-20261124; acquired full texts and abstracts are not committed or published.",
+  "acquisition_artifacts": [
+    {
+      "relative_local_path": ".tmp/monthly-2026-11-20261124/academic-worker/hf-window-receipt.json",
+      "sha256": "19607a7a8d0ea1022b15ee14671130a9f0df9160434c98074b54099d9ea0ffaf",
+      "bytes": 7304
+    },
+    {
+      "relative_local_path": ".tmp/monthly-2026-11-20261124/academic-worker/hf-unique-papers.json",
+      "sha256": "295850d5705a58f7619c49066f2ad0d8dd893f890765adc95b3edaa70db7ec9b",
+      "bytes": 1466138
+    },
+    {
+      "relative_local_path": ".tmp/monthly-2026-11-20261124/academic-worker/hf-compression-candidates.json",
+      "sha256": "ad375c01cec03df06c4b15de6569a388e7e5813b3447d57c456ead42a6fdecdf",
+      "bytes": 334569
+    },
+    {
+      "relative_local_path": ".tmp/monthly-2026-11-20261124/academic-worker/primary-metadata.json",
+      "sha256": "df60149b9822f32564356301b4c201bcdbf50dad340e2577d04d9427536dca85",
+      "bytes": 72830
+    },
+    {
+      "relative_local_path": ".tmp/monthly-2026-11-20261124/academic-worker/reviewed-evidence.json",
+      "sha256": "b5e02bb1c4870dbf04c372f634fa90b1def45c30304d329c1dc76276e46ec999",
+      "bytes": 31590
+    },
+    {
+      "relative_local_path": ".tmp/monthly-2026-11-20261124/academic-worker/evidence-audit.json",
+      "sha256": "dc849e6e6af8b68ecf3c1f835e5b3dc9a9ae101043b86848c0952bf99504e812",
+      "bytes": 4470
+    },
+    {
+      "relative_local_path": ".tmp/monthly-2026-11-20261124/industry-worker/industry-evidence.json",
+      "sha256": "715b0b02774d98e968151ca98da285e040a3c76a91dee69829384b5848f4b4c7",
+      "bytes": 55209
+    },
+    {
+      "relative_local_path": ".tmp/monthly-2026-11-20261124/industry-worker/academic-supplement.json",
+      "sha256": "b6cfb9ba272eb46f10f32cd6f0a334bf14e7308562dfe435e3b01bec57b84bbb",
+      "bytes": 16589
+    },
+    {
+      "relative_local_path": ".tmp/monthly-2026-11-20261124/registered-sources/source-coverage.json",
+      "sha256": "a2b2b8d19783eb389f8cf19dfdbfbdb6dce2d30901282dc2485f55ec0c7c2494",
+      "bytes": 72923
+    }
+  ],
+  "public_ledgers": [
+    "/business_insight/cloud_core/local-content/monthly-digests/2026-11-materials.csv",
+    "/business_insight/cloud_core/local-content/monthly-digests/2026-11-coverage.csv"
+  ],
+  "coverage_limits": [
+    "HF recommendations are a discovery sample, not a field-wide census or proof of first-publication date.",
+    "The arXiv batch API returned 429; five entrypoints have no completed monthly paging.",
+    "llama.cpp release first page reaches November 23 only; conference and news indexes do not establish complete monthly recall.",
+    "Weight low-rank factorization has no verified new November record in this review; this is a coverage gap, not absence of field activity.",
+    "All numeric results remain author-reported with the recorded model, format, hardware and workload."
+  ]
+}

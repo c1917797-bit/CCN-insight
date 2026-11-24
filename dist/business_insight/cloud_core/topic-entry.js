@@ -1567,7 +1567,9 @@ async function read(context){
  for(const r of g.monthly_route_evidence)check(stories.has(r.story_id)&&topicIds.has(r.compression_topic_id)&&r.scope_id===context.scope&&r.period_id===context.period,'Invalid judgment evidence/map relation');
  for(const r of g.current_signals)check(r.period_id===context.period&&r.claim_status==='primary_text_checked'&&r.publication_date.startsWith(context.period)&&r.locator,'Unreviewed current signal');
  for(const r of g.signal_topics)check(topicIds.has(r.compression_topic_id)&&['research_context','implementation_example'].includes(r.relation_kind),'Invalid signal/map relation');
- const ids=[...new Set([...g.monthly_route_evidence.map(r=>r.source_id),...g.current_signals.flatMap(r=>[r.source_id,r.discovery_source_id])])];
+ const digest=context.digest?JSON.parse(context.digest):null;
+ if(digest)check(digest.schema==='ccn.monthly-digest.v1'&&digest.period_id===context.period&&digest.scope_id===context.scope&&Array.isArray(digest.source_ids),'Invalid monthly digest scope');
+ const ids=[...new Set([...g.monthly_route_evidence.map(r=>r.source_id),...g.current_signals.flatMap(r=>[r.source_id,r.discovery_source_id]),...(digest?.source_ids||[])])];
  const summaryIds=[...new Set(g.monthly_route_evidence.map(r=>r.summary_id))];
  const [s,summaries]=await Promise.all([LRITableGit.loadRowsByKeys('cloud_core_sources',ids,context.revision,['source_id','business_id','title','canonical_url']),LRITableGit.loadRowsByKeys('ic_paper_summaries',summaryIds,context.revision,['summary_id','source_id','business_id','topic_id','observed_version','evidence_url','one_sentence_zh','one_sentence_en','innovation_zh','innovation_en','results_zh','results_en','review_status','evidence_locator','reviewed_at'])]);
  check(s.revision===context.revision&&s.records.length===ids.length&&s.records.every(r=>r.business_id==='cloud-core'),'Incomplete exact insight sources');s.records.forEach(r=>url(r.canonical_url));
@@ -1591,7 +1593,76 @@ async function read(context){
    if(extraIds.length){const extra=await LRITableGit.loadRowsByKeys('cloud_core_sources',extraIds,context.revision,['source_id','business_id','title','canonical_url']);check(extra.revision===context.revision&&extra.records.length===extraIds.length&&extra.records.every(r=>r.business_id==='cloud-core'),'Incomplete fallback report sources');extra.records.forEach(r=>url(r.canonical_url));sourceRows.push(...extra.records);}
   }
  }
- return {...g,reportScope,reportFallback,sources:new Map(sourceRows.map(r=>[r.source_id,r])),paperSummaries:new Map(summaries.records.map(r=>[r.summary_id,r])),stories};
+ return {...g,digest,reportScope,reportFallback,sources:new Map(sourceRows.map(r=>[r.source_id,r])),paperSummaries:new Map(summaries.records.map(r=>[r.summary_id,r])),stories};
+}
+function renderMonthlyDigest(model){
+ const ids=['monthly-digest-overview','monthly-digest-report','monthly-digest-archive'];
+ for(const id of ids)document.getElementById(id)?.remove();
+ const d=model.digest;
+ const presentation=document.getElementById('insight-report-presentation');
+ if(presentation)presentation.hidden=!!d&&!model.insight_reports.some(r=>r.status==='published');
+ const presentationLink=document.querySelector('.analysis-reading-navigation a[href="#insight-report-presentation"]');
+ if(presentationLink)presentationLink.hidden=!!d&&!model.insight_reports.some(r=>r.status==='published');
+ if(!d)return;
+ const focusParams=new URL(location.href).searchParams;
+ if(location.pathname.endsWith('/monthly.html')&&(focusParams.has('paper')||focusParams.has('route')))return;
+ check(d.period_id===current.period&&d.scope_id===current.scope&&d.cutoff===current.windowEnd,'Monthly digest date drift');
+ const word=(zh,en)=>current.locale==='en'?en:zh;
+ const target=hash=>{const u=new URL('index.html',location.href);u.searchParams.set('month',current.period);u.searchParams.set('scope',current.scope);u.hash=hash;return u.pathname+u.search+u.hash;};
+ const referenceLinks=(parent,sourceIds)=>{
+  const links=el('div','','monthly-digest-sources');
+  for(const id of [...new Set(sourceIds||[])]){const source=model.sources.get(id),citation=d.citations.find(r=>r.source_id===id);check(source&&citation,'Missing monthly digest source');const label=source.title.includes(citation.observed_version)?source.title:source.title+' · '+citation.observed_version;const a=el('a',label);a.href=url(citation.evidence_url);a.title=citation.locator;a.target='_blank';a.rel='noopener noreferrer';links.append(a);}
+  parent.append(links);
+ };
+ const metrics=()=>{
+  const row=el('dl','','monthly-digest-metrics');
+  for(const m of d.metrics){check(Number.isSafeInteger(m.count)&&m.count>=0,'Invalid digest count');const block=el('div');block.append(el('dt',pick(m,'label')),el('dd',String(m.count)));row.append(block);}
+  return row;
+ };
+ const downloads=parent=>{
+  const actions=el('div','','monthly-digest-actions');
+  for(const [name,label] of [['materials',word('下载发现与筛选清单','Download discovery and review ledger')],['coverage',word('下载信息源核查记录','Download source coverage')]]){
+   const a=el('a',label);a.href='local-content/monthly-digests/'+d.period_id+'-'+name+'.csv';a.download=d.period_id+'-'+name+'.csv';actions.append(a);
+  }parent.append(actions);
+ };
+ if(current.view==='reports'){
+  const root=document.getElementById('insight-deck-archive');if(!root)return;
+  const card=el('article','','monthly-digest-archive analysis-archive-version');card.id=ids[2];card.dataset.reportId=d.scope_id;card.dataset.reportStatus='web-synthesis';
+  card.append(el('p',word('持续更新的网页月报','Living web report'),'monthly-digest-date'),el('h3',pick(d,'title')),el('p',pick(d,'thesis')),el('p',word('统计窗口：','Window: ')+d.window_start+' — '+d.cutoff));
+  const a=el('a',word('阅读本月完整洞察','Read the monthly insight report'),'btn');a.href=target('view-home');card.append(a);downloads(card);
+  if(!model.insight_reports.length)root.replaceChildren(card);else root.prepend(card);
+  notify();return;
+ }
+ const home=current.view==='home',root=el('section','','monthly-digest'+(home?' monthly-digest-full':''));root.id=home?ids[1]:ids[0];root.dataset.sectionLabel=home?'本月综合洞察':'本月重点判断';root.dataset.sectionLabelEn=home?'Monthly synthesis':'Key monthly judgments';root.dataset.sectionLevel='3';
+ const header=el('header','','monthly-digest-hero');
+ header.append(el('p',word('推理压缩 · 月度洞察','Inference compression · Monthly insight'),'monthly-digest-eyebrow'),el(home?'h3':'h2',home?word('核心判断','Central assessment'):pick(d,'title')),el('p',pick(d,'thesis'),'monthly-digest-thesis'),el('p',word('证据窗口：','Evidence window: ')+d.window_start+' — '+d.cutoff+word(' · 月内更新版',' · Month-to-date edition'),'monthly-digest-date'));
+ root.append(header,metrics());
+ root.append(el('p',pick(d,'coverage'),'monthly-digest-coverage'));
+ if(!home){
+  const bullets=el('ul','','monthly-digest-key-points');
+  for(const theme of d.themes){const li=el('li');li.append(el('strong',pick(theme,'title')+'：'),document.createTextNode(pick(theme,'judgment')));bullets.append(li);}root.append(bullets);
+  const a=el('a',word('阅读完整判断、路线对照与证据','Read the full analysis and evidence'),'btn');a.href=target('view-home');root.append(a);
+ }else{
+  const heading=document.getElementById('home-judgement');if(heading)heading.textContent=pick(d,'title');
+  const grid=el('div','','monthly-digest-themes');
+  for(const theme of d.themes){
+   const card=el('article','','monthly-digest-theme');card.id='monthly-digest-'+theme.id;card.dataset.sectionOutline='false';card.dataset.evidenceStatus=theme.status;
+   card.append(el('h4',pick(theme,'title')));
+   for(const [key,zh,en] of [['change','本月新增了什么','What changed'],['judgment','如何改变判断','Assessment'],['boundary','结论到哪里为止','Evidence boundary'],['next_check','下一步比较什么','Next comparison']]){
+    const section=el('section');section.dataset.sectionOutline='false';section.append(el('h5',word(zh,en)),el('p',pick(theme,key)));card.append(section);
+   }
+   referenceLinks(card,theme.source_ids);topics(card,theme.topic_ids||[]);grid.append(card);
+  }root.append(grid);
+  const comparisons=el('section','','monthly-digest-comparisons');comparisons.dataset.sectionOutline='false';comparisons.append(el('h4',word('跨路线取舍：同一问题，先分清比较条件','Cross-route decisions and comparison conditions')));
+  const list=el('dl');for(const item of d.comparisons){const block=el('div');block.append(el('dt',pick(item,'question')),el('dd',pick(item,'answer')));referenceLinks(block,item.source_ids);list.append(block);}comparisons.append(list);root.append(comparisons);
+  if(d.adjacent?.length){const adjacent=el('details','','monthly-digest-audit');adjacent.append(el('summary',word('邻接观察：保留线索，不强行归图','Adjacent observations outside the maintained map')));for(const item of d.adjacent){const note=el('article');note.dataset.sectionOutline='false';note.append(el('h4',pick(item,'title')),el('p',pick(item,'summary')));referenceLinks(note,item.source_ids);adjacent.append(note);}root.append(adjacent);}
+ }
+ const coverage=el('details','','monthly-digest-audit');coverage.append(el('summary',word('如何采集、筛选与更新','Acquisition, selection and update policy')),el('p',pick(d,'method')),el('p',pick(d,'limits')));
+ const steps=el('ol');for(const item of d.follow_up)steps.append(el('li',pick(item,'text')));coverage.append(steps);downloads(coverage);root.append(coverage);
+ const mount=home?document.getElementById('insight-overview'):document.getElementById('monthly');
+ const before=home?document.getElementById('analysis-summary'):document.getElementById('monthly-paper-matrix');
+ if(mount&&before)mount.insertBefore(root,before);else mount?.append(root);
+ globalThis.LRICloudFirstRetire?.();notify();
 }
 function selected(model,story){return !current.topicId||model.monthly_route_evidence.some(r=>r.story_id===story&&r.compression_topic_id===current.topicId);}
 function routePriority(row){return row.priority_zh==='优先穿刺'?ui('analysis_priority_research'):pick(row,'priority');}
@@ -1906,12 +1977,12 @@ function renderReports(m){
  notify();
 }
 
-function renderMonthlyFrame(){
+function renderMonthlyFrame(m){
  const word=(zh,en)=>current.locale==='en'?en:zh;
  const set=(selector,zh,en)=>{const n=document.querySelector(selector);if(n)n.textContent=word(zh,en);};
  set('#monthly>h3',current.period+' · 本期动态',current.period+' · Current updates');
  set('.monthly-overview-intro','先看新方法与实验结果，再看实现条件和需求变化。论文按首投或修订日期归入本月；既有产业能力另列。','Read new methods and results, implementation conditions, then demand signals. Papers follow submission or revision dates; existing capabilities are listed separately.');
- const labels=[['既有研读论文','Previously reviewed papers'],['已收录的本月产业发布','Monthly releases included'],['热点信号','Market signals']];
+ const labels=[[m.digest?'本期研读论文':'既有研读论文',m.digest?'Papers reviewed this edition':'Previously reviewed papers'],['已收录的本月产业发布','Monthly releases included'],['热点信号','Market signals']];
  document.querySelectorAll('.monthly-stream-metrics>a>span').forEach((n,i)=>{n.textContent=word(...labels[i]);});
  set('.current-updates-navigation a[href="#current-streams"]','本月速览','Month at a glance');
  set('.current-updates-navigation a[href="#monthly-appendix"]','补充资料','Further reading');
@@ -1920,7 +1991,7 @@ function renderMonthlyFrame(){
  set('#monthly-appendix>.reader-note','补充研读与候选目录保留在这里，不与本月已核实进展混计。','Supplemental reviews and candidates are kept separate from verified monthly developments.');
 }
 function renderSignals(m){
- renderMonthlyFrame();
+ renderMonthlyFrame(m);
  const root=document.getElementById('current-hotspot-cards');if(!root)return;root.replaceChildren();
  const rows=m.current_signals.filter(r=>(!current.windowStart||r.publication_date>=current.windowStart)&&(!current.windowEnd||r.publication_date<=current.windowEnd)&&(!current.topicId||m.signal_topics.some(l=>l.signal_id===r.signal_id&&l.compression_topic_id===current.topicId))).sort((a,b)=>a.position-b.position);
  const metric=document.getElementById('monthly-signal-metric');if(metric)metric.textContent=String(rows.length);root.append(el('p',current.locale==='en'?'Events that change deployment requirements; these are not compression benchmarks.':'影响部署需求的事件；与压缩算法的实测效果分开阅读。','reader-note'));
@@ -1933,7 +2004,7 @@ function renderIndustry(reader){
  root.replaceChildren();const {snapshot,directory}=reader;
  const verified=new Set(snapshot.assessments.filter(r=>r.review_status==='verified').map(r=>r.link_id));
  const links=snapshot.links.filter(r=>verified.has(r.link_id)&&(!current.topicId||r.compression_topic_id===current.topicId)),ids=new Set(links.map(r=>r.update_id));
- const rows=snapshot.updates.filter(r=>ids.has(r.update_id)&&r.release_date.startsWith(current.period)&&(!current.windowStart||r.release_date>=current.windowStart)&&(!current.windowEnd||r.release_date<=current.windowEnd)).sort((a,b)=>b.release_date.localeCompare(a.release_date)||a.update_id.localeCompare(b.update_id));
+ const rows=snapshot.updates.filter(r=>(ids.has(r.update_id)||(!current.topicId&&r.review_status==='primary_text_checked'))&&r.release_date.startsWith(current.period)&&(!current.windowStart||r.release_date>=current.windowStart)&&(!current.windowEnd||r.release_date<=current.windowEnd)).sort((a,b)=>b.release_date.localeCompare(a.release_date)||a.update_id.localeCompare(b.update_id));
  const published=rows.filter(r=>r.release_date.startsWith(current.period)),existing=rows.filter(r=>!r.release_date.startsWith(current.period));
  const metric=document.getElementById('monthly-release-metric');if(metric)metric.textContent=String(published.length);
  const word=(zh,en)=>current.locale==='en'?en:zh;
@@ -1947,7 +2018,7 @@ function renderIndustry(reader){
    const card=el('article','','current-industry-entry monthly-industry-brief');card.dataset.industryKey=r.update_id;card.dataset.releaseBucket=isNew?'published':'reviewed-existing';
    card.append(el('p',pick(family,'title')+' · '+r.version_label,'eyebrow'),el('h4',pick(r,'title')),el('p',pick(r,'summary')));
    card.append(el('p',word('发布：','Published: ')+(r.release_date||word('未确认','unconfirmed'))+' · '+word('核对：','Reviewed: ')+r.checked_at,'meta'));
-   const changes=snapshot.changes.filter(c=>c.update_id===r.update_id&&links.some(l=>l.change_id===c.change_id)).sort((a,b)=>a.position-b.position);
+   const changes=snapshot.changes.filter(c=>c.update_id===r.update_id&&(!current.topicId||links.some(l=>l.change_id===c.change_id))).sort((a,b)=>a.position-b.position);
    const facts=el('dl','','monthly-industry-facts');
    for(const c of changes){const item=el('div');item.dataset.industryChange=c.change_id;item.append(el('dt',pick(c,'title')),el('dd',pick(c,'fact')));facts.append(item);}
    card.append(facts);field(card,'implementation_conditions',pick(r,'scope'));field(card,'implementation_dependencies',pick(r,'dependencies'));field(card,'decision_boundary',pick(r,'boundary'));
@@ -1966,7 +2037,7 @@ function refresh(context,force=false){
  const key=[context.revision,context.scope,context.period].join('|');current={...context,key};
  if(force)cache.delete(key);let e=cache.get(key);
  if(!e){e={promise:read(context),model:null,industry:null,industryPending:null};cache.set(key,e);if(cache.size>3)cache.delete(cache.keys().next().value);e.promise.then(m=>{e.model=m;if(current.key===key)render();}).catch(error=>{if(cache.get(key)===e)cache.delete(key);if(current?.key===key){failure('ascend-cards',error);failure('analysis-focus-cards',error);failure('analysis-summary',error);failure('current-hotspot-cards',error);failure('insight-deck-content',error);failure('insight-deck-archive',error);}});}
- const render=()=>{if(e.model){if(current.view==='home'){renderAnalysis(e.model);renderReports(e.model);restoreReportAnchor(e.model);}else if(current.view==='reports')renderReports(e.model);else renderSignals(e.model);}else{for(const id of current.view==='home'?['analysis-focus-cards','analysis-summary','ascend-cards','insight-deck-content']:current.view==='reports'?['insight-deck-archive']:['current-hotspot-cards'])document.getElementById(id)?.replaceChildren(el('p',ui('loading')));}
+ const render=()=>{if(e.model){if(current.view==='home'){renderAnalysis(e.model);renderReports(e.model);restoreReportAnchor(e.model);}else if(current.view==='reports')renderReports(e.model);else renderSignals(e.model);renderMonthlyDigest(e.model);}else{for(const id of current.view==='home'?['analysis-focus-cards','analysis-summary','ascend-cards','insight-deck-content']:current.view==='reports'?['insight-deck-archive']:['current-hotspot-cards'])document.getElementById(id)?.replaceChildren(el('p',ui('loading')));}
  if(current.view==='updates'){if(e.industry)renderIndustry(e.industry);else if(!e.industryPending){document.getElementById('current-industry-cards')?.replaceChildren(el('p',ui('loading')));e.industryPending=context.loadIndustry().then(reader=>{e.industry=reader;if(current?.key===key)renderIndustry(reader);}).catch(error=>{if(current?.key===key)failure('current-industry-cards',error);}).finally(()=>{e.industryPending=null;});}}};
  render();
 }
@@ -2859,7 +2930,7 @@ function refreshSynthesis() {
  else globalThis.LRICompressionMonthlyCorpus?.reset();
  if(topicPage()||!state.scopeReady||!state.revision||!['updates','home','reports'].includes(state.view))return;
  const revision=state.revision,epoch=state.epoch;
- globalThis.LRICompressionSynthesis?.refresh({revision,period:state.period,scope:state.scope,windowStart:currentScope()?.window_start||'',windowEnd:currentScope()?.window_end||'',locale:state.locale,strings:state.packs[state.locale].strings,topics:state.data.compression_topics,topicId:state.focusTarget?compressionTopicId():'',view:state.view,loadIndustry:async()=>{
+ globalThis.LRICompressionSynthesis?.refresh({revision,period:state.period,scope:state.scope,windowStart:currentScope()?.window_start||'',windowEnd:currentScope()?.window_end||'',digest:currentScope()?.digest_json||'',locale:state.locale,strings:state.packs[state.locale].strings,topics:state.data.compression_topics,topicId:state.focusTarget?compressionTopicId():'',view:state.view,loadIndustry:async()=>{
  const reader=await LRIIndustryUpdates.loadReader(revision);must(state.revision===revision&&state.epoch===epoch,'Industry context changed');return reader;
  }});
 }

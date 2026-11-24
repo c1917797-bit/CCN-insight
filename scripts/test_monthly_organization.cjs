@@ -18,6 +18,13 @@ for(const id of ['old','unknown'])assert(!cards.some(n=>n.dataset.industryKey===
 assert.equal(elements.get('monthly-release-metric').textContent,'1');
 sandbox.current.topicId='b';render();cards=flatten(elements.get('current-industry-cards')).filter(n=>n.dataset.industryKey);assert.deepEqual(cards.map(n=>n.dataset.industryKey),['new']);
 sandbox.current.topicId='missing';render();assert.equal(elements.get('monthly-release-metric').textContent,'0','Filtering must reset summary counts');
+snapshot.updates.push({...updates[0],update_id:'reviewed-pool',review_status:'primary_text_checked'});
+snapshot.changes.push({...snapshot.changes[0],update_id:'reviewed-pool',change_id:'c-reviewed-pool'});
+sandbox.current.topicId='';render();cards=flatten(elements.get('current-industry-cards')).filter(n=>n.dataset.industryKey);
+assert(cards.some(n=>n.dataset.industryKey==='reviewed-pool'),'A reviewed deployment-adjacent event remains in the global stream without a forced GQA/MQA assignment');
+assert(!cards.some(n=>n.dataset.industryKey==='unreviewed'),'Removing a forced topic must not weaken source-review gating');
+sandbox.current.topicId='b';render();cards=flatten(elements.get('current-industry-cards')).filter(n=>n.dataset.industryKey);
+assert.deepEqual(cards.map(n=>n.dataset.industryKey),['new'],'An unmapped event does not enter an unrelated topic-filtered stream');
 const html=fs.readFileSync(path.join(base,'index.html'),'utf8');
 const order=['id="current-streams"','id="monthly-route-report"','id="current-industry"','id="current-hotspots"','id="monthly-appendix"'].map(id=>html.indexOf('<section '+(id==='id="current-streams"'?'class="section current-month-overview" ':'')+id));
 assert(order.every(n=>n>=0)&&order.every((n,i)=>!i||n>order[i-1]),'Keep one stable reading path');

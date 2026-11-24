@@ -701,7 +701,7 @@ function refreshSynthesis() {
  else globalThis.LRICompressionMonthlyCorpus?.reset();
  if(topicPage()||!state.scopeReady||!state.revision||!['updates','home','reports'].includes(state.view))return;
  const revision=state.revision,epoch=state.epoch;
- globalThis.LRICompressionSynthesis?.refresh({revision,period:state.period,scope:state.scope,windowStart:currentScope()?.window_start||'',windowEnd:currentScope()?.window_end||'',locale:state.locale,strings:state.packs[state.locale].strings,topics:state.data.compression_topics,topicId:state.focusTarget?compressionTopicId():'',view:state.view,loadIndustry:async()=>{
+ globalThis.LRICompressionSynthesis?.refresh({revision,period:state.period,scope:state.scope,windowStart:currentScope()?.window_start||'',windowEnd:currentScope()?.window_end||'',digest:currentScope()?.digest_json||'',locale:state.locale,strings:state.packs[state.locale].strings,topics:state.data.compression_topics,topicId:state.focusTarget?compressionTopicId():'',view:state.view,loadIndustry:async()=>{
  const reader=await LRIIndustryUpdates.loadReader(revision);must(state.revision===revision&&state.epoch===epoch,'Industry context changed');return reader;
  }});
 }

@@ -2010,6 +2010,18 @@
       "import_sha256": "3f7b666d4892f90e652beb6ea65e8143c508a6e628d0f891a69dfa7a46e93b54",
       "key_field": "experiment_id",
       "provenance_kind": "local_primary_paper_section_review"
+    },
+    {
+      "name": "ic_monthly_materials",
+      "path": "data/tables/ic_monthly_materials",
+      "revision": "local-monthly-materials-v1",
+      "source_row_count": 649,
+      "exported_rows": 649,
+      "filters": [],
+      "rows_file": "data/compression/tables/ic_monthly_materials/rows.jsonl",
+      "import_sha256": "93ae5ffebf310ae387e2597e8e629345c9af6bf8c68251a873676585285dcaf7",
+      "key_field": "material_id",
+      "provenance_kind": "local_registered_source_discovery_ledger"
     }
   ],
   "errors": [],

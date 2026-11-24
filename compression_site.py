@@ -33,7 +33,7 @@ def build(root):
     def tile(t):
         key=t['compression_topic_id']; rr=[r for r in routes if r['compression_topic_id']==key]
         route_names=' · '.join(r['title_zh'].split('：')[0] for r in rr[:3])
-        return '<a class="compression-tile" href="/business_insight/cloud_core/topic.html?topic='+e(key,quote=True)+'&amp;month=2026-10"><h3>'+e(t['title_zh'])+'</h3><p>'+e(t['question_zh'])+'</p>'+('<small>'+e(route_names)+'</small>' if route_names else '')+'<span>原理 · 路线 · 依据 →</span></a>'
+        return '<a class="compression-tile" href="/business_insight/cloud_core/topic.html?topic='+e(key,quote=True)+'"><h3>'+e(t['title_zh'])+'</h3><p>'+e(t['question_zh'])+'</p>'+('<small>'+e(route_names)+'</small>' if route_names else '')+'<span>原理 · 路线 · 依据 →</span></a>'
     intro='<div class="compression-heading"><p class="eyebrow">AI INFRA / 推理压缩</p><h1>更少的资源，保留有用的能力。</h1><p>沿四条研究主线了解原理、进展与证据，再按权重、激活和 KV Cache 深入具体专题。</p><div class="corpus-count"><span><b>'+str(len(route_terms))+'</b> 研究主线</span><span><b>'+str(len(groups))+'</b> 压缩对象</span><span><b>'+str(len(topics))+'</b> 研究专题</span><a href="compression-foundations.html">基础原理与动画 ↗</a></div></div>'
     body=intro+'<section id="compression-routes"><h2>按研究主线进入</h2><div class="grid">'+main_routes+'</div></section>'
     body+='<section id="compression-map"><h2>按压缩对象查看专题</h2><div class="object-map">'

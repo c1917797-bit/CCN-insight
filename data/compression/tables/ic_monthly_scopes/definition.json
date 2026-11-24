@@ -119,6 +119,13 @@
       "role": "value",
       "source": null,
       "type": "string"
+    },
+    "digest_json": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "text"
     }
   },
   "indexes": [

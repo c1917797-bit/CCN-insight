@@ -1,6 +1,6 @@
 {
   "revision": "a3bc462ac420682111533e6877cb600f6d727b1a",
-  "content_version": "compression-9c04cc6de7156010a5d6",
+  "content_version": "compression-14e73b539e4aad6017e5",
   "changed_since_import": [
     "ic_ascend_route_assessments",
     "cloud_core_documents",
@@ -90,8 +90,8 @@
     "ic_monthly_paper_corpus",
     "ic_monthly_corpus_snapshots"
   ],
-  "tables": 94,
-  "rows": 66824,
+  "tables": 95,
+  "rows": 67882,
   "checked_relationships": 24,
   "errors": [],
   "deferred_content": [],

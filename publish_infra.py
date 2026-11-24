@@ -46,7 +46,7 @@ def compression_route_terms(root):
 def compression_route_cards(terms, local_reader):
     return ''.join(
         '<a class="card" data-compression-route="'+escape(term['term_id'], quote=True)+
-        '" href="'+escape(local_reader+'?month=2026-10#route-'+term['term_id'], quote=True)+
+        '" href="'+escape(local_reader+'#route-'+term['term_id'], quote=True)+
         '"><span class="tag">推理压缩研究路线</span><h3>'+escape(term['name_zh'])+
         '</h3><p>'+escape(term['description_zh'])+
         '</p><span class="more">查看研究路线 <i>→</i></span></a>'

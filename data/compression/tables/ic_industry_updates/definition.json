@@ -161,6 +161,13 @@
       "role": "value",
       "source": null,
       "type": "string"
+    },
+    "review_status": {
+      "projection": "default",
+      "required": false,
+      "role": "value",
+      "source": null,
+      "type": "string"
     }
   },
   "indexes": [

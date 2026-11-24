@@ -1,0 +1,183 @@
+{
+  "schema": "mcpgit.table.v2",
+  "description": "Dated discovery metadata and explicit review decisions; recommendations are not first-publication or relevance decisions.",
+  "key_field": "material_id",
+  "fields": {
+    "business_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "topic_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "material_id": {
+      "projection": "default",
+      "required": true,
+      "role": "key",
+      "source": null,
+      "type": "text"
+    },
+    "scope_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "run_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "period_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "paper_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "title": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "discovery_dates_json": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "discovery_url": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "canonical_url": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "mirror_first_published": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "verified_first_published": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "source_id": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "observed_version": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "keyword_candidate": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "boolean"
+    },
+    "review_status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "selection_status": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "decision_zh": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    },
+    "review_locator": {
+      "projection": "default",
+      "required": true,
+      "role": "value",
+      "source": null,
+      "type": "text"
+    }
+  },
+  "required_fields": [
+    "business_id",
+    "topic_id",
+    "material_id",
+    "scope_id",
+    "run_id",
+    "period_id",
+    "paper_id",
+    "title",
+    "discovery_dates_json",
+    "discovery_url",
+    "canonical_url",
+    "mirror_first_published",
+    "verified_first_published",
+    "source_id",
+    "observed_version",
+    "keyword_candidate",
+    "review_status",
+    "selection_status",
+    "decision_zh",
+    "review_locator"
+  ],
+  "indexes": [
+    {
+      "field": "period_id",
+      "name": "idx_period_id"
+    },
+    {
+      "field": "scope_id",
+      "name": "idx_scope_id"
+    },
+    {
+      "field": "run_id",
+      "name": "idx_run_id"
+    }
+  ]
+}

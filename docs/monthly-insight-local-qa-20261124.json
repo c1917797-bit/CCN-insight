@@ -1,0 +1,33 @@
+{
+  "schema": "ccn.monthly-local-qa.v1",
+  "date": "2026-11-24",
+  "publication_status": "pending",
+  "checks_passed": [
+    "build",
+    "verify",
+    "verify_compression",
+    "verify_original_reader",
+    "verify_tablegit_migration",
+    "test_monthly_digest (8 contracts)",
+    "test_current_report_synthesis",
+    "test_monthly_organization",
+    "test_monthly_paper_corpus",
+    "test_monthly_funnel",
+    "test_reader_journey",
+    "test_paper_effects (13 contracts)"
+  ],
+  "browser_observations": [
+    "Default no-month URL selects November scope.",
+    "November updates render 16 papers, 8 key / 7 watch / 1 boundary; 11 section and 5 abstract checks.",
+    "Six-theme full report has pinned source versions and no absent presentation attachment link.",
+    "November web report appears in archive; changing to October restores its six historical report versions.",
+    "Chinese and English synthesis render.",
+    "Full report -> QDA facts opens one version-bound monthly note with method, results, precise format and locators.",
+    "390px viewport has no whole-page horizontal overflow (document scrollWidth 375px).",
+    "No browser error logs in observed local navigation."
+  ],
+  "limits": [
+    "Browser checks sampled the new report, archive, one detailed note and responsive layout; not every source destination or every legacy page was clicked.",
+    "CSV contents and row counts are checked by the data contract; source collection gaps remain explicit."
+  ]
+}

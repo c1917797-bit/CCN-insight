@@ -503,3 +503,42 @@ body[data-compression-view="updates"] #monthly{margin-top:12px;padding-top:0}
 .paper-effect-table tr[id]{scroll-margin-top:100px}
 @media(max-width:900px){.paper-effect-controls{grid-template-columns:repeat(2,minmax(0,1fr))}.paper-effect-controls label:first-child{grid-column:1/-1}}
 @media(max-width:600px){.paper-effect-section{padding:14px;border-radius:9px}.paper-effect-controls{grid-template-columns:minmax(0,1fr)}.paper-effect-controls label:first-child{grid-column:auto}.paper-effect-section h3{font-size:18px!important}}
+
+/* The month-to-date report and its evidence ledger share one maintained digest. */
+.monthly-digest{margin:1.5rem 0 2rem;max-width:1120px;color:#183248}
+.monthly-digest-hero{padding:1.75rem 2rem;border-radius:1.2rem;background:linear-gradient(120deg,#10283c,#12485c);color:#fff;border:1px solid #245970}
+.monthly-digest-hero h2,.monthly-digest-hero h3{color:#fff!important;margin:.55rem 0 1rem!important;font-size:clamp(1.4rem,2.2vw,2rem)!important;line-height:1.4}
+.monthly-digest-hero p{color:#edf7fa!important;max-width:68rem!important;margin:.6rem 0!important;font-size:1rem!important;line-height:1.8}
+.monthly-digest-hero .monthly-digest-eyebrow{font-size:.875rem!important;letter-spacing:.09em;color:#b9e5e8!important}
+.monthly-digest-hero .monthly-digest-thesis{font-size:1.08rem!important;font-weight:500}
+.monthly-digest-date{font-size:1rem!important;line-height:1.7}
+.monthly-digest-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;border:1px solid #d8e6ed;border-radius:.9rem;overflow:hidden;margin:1rem 0;background:#d8e6ed}
+.monthly-digest-metrics>div{display:flex;flex-direction:column-reverse;justify-content:flex-end;gap:.35rem;background:#fff;padding:1rem 1.2rem}
+.monthly-digest-metrics dt{font-size:.875rem;line-height:1.6;color:#476171}
+.monthly-digest-metrics dd{font-size:1.8rem;font-weight:750;line-height:1.2;color:#116f7b;margin:0}
+.monthly-digest-coverage{font-size:.9375rem!important;line-height:1.8!important;color:#4b6576!important;border-left:3px solid #3195a1;padding:.6rem 1rem;margin:1rem 0!important}
+.monthly-digest-key-points{padding-left:1.35rem;margin:1rem 0 1.3rem!important}
+.monthly-digest-key-points li{font-size:1rem;line-height:1.8;margin:.65rem 0;color:#294858}
+.monthly-digest-themes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.2rem;margin:1.5rem 0}
+.monthly-digest-theme{padding:1.5rem;border:1px solid #cbdde7;border-top:3px solid #278791;border-radius:.8rem;background:#fff;min-width:0}
+.monthly-digest-theme[data-evidence-status="coverage_gap"]{border-top-color:#bd8d35}
+.monthly-digest-theme h4{font-size:1.22rem!important;color:#102e43!important;margin:0 0 1.1rem!important;line-height:1.5}
+.monthly-digest-theme section{margin:1rem 0;padding:0;border:0;background:none;box-shadow:none}
+.monthly-digest-theme h5{font-size:.9375rem!important;color:#106675!important;margin:0 0 .4rem!important}
+.monthly-digest-theme p{font-size:1rem!important;line-height:1.8!important;max-width:none!important;margin:0!important;color:#334e60!important}
+.monthly-digest-sources{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin:.8rem 0;font-size:.875rem;line-height:1.6;overflow-wrap:anywhere}
+.monthly-digest-sources a,.monthly-digest-actions a{color:#076f83;text-underline-offset:.2em}
+.monthly-digest-comparisons{padding:1.4rem 1.5rem;border:1px solid #cbdde7;border-radius:.8rem;background:#f5f9fc}
+.monthly-digest-comparisons h4{font-size:1.15rem!important;margin:0 0 1rem!important;color:#16394f}
+.monthly-digest-comparisons dl{margin:0}.monthly-digest-comparisons dl>div{padding:.9rem 0;border-top:1px solid #d8e4ed}
+.monthly-digest-comparisons dt{font-size:1rem;font-weight:700;color:#16394f}.monthly-digest-comparisons dd{font-size:1rem;line-height:1.8;margin:.5rem 0 0;color:#334e60}
+.monthly-digest-audit{padding:1rem 1.2rem;border:1px solid #d8e4ed;border-radius:.65rem;margin:1.2rem 0;background:#fff}
+.monthly-digest-audit summary{font-size:1rem;font-weight:650;color:#234b5e;cursor:pointer}
+.monthly-digest-audit p,.monthly-digest-audit li{font-size:.9375rem!important;line-height:1.8!important;color:#435d70!important}
+.monthly-digest-actions{display:flex;flex-wrap:wrap;gap:.8rem 1.4rem;margin-top:1rem;font-size:.9375rem;line-height:1.8}
+.monthly-digest-archive{padding:1.5rem;border:1px solid #b9d4e2;border-left:4px solid #17838d;border-radius:.8rem;margin:1rem 0 1.5rem}
+.monthly-digest-archive h3{font-size:1.3rem!important}.monthly-digest-archive p{font-size:1rem!important;line-height:1.8!important}
+.monthly-digest a:focus-visible,.monthly-digest summary:focus-visible{outline:3px solid #29909c;outline-offset:4px}
+.monthly-paper-fields dd{white-space:pre-line}
+@media(max-width:900px){.monthly-digest-themes{grid-template-columns:minmax(0,1fr)}.monthly-digest-hero{padding:1.5rem}.monthly-digest-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.monthly-digest-hero{padding:1.15rem;border-radius:.8rem}.monthly-digest-theme{padding:1rem}.monthly-digest-metrics>div{padding:.8rem}.monthly-digest-comparisons{padding:1rem}}
